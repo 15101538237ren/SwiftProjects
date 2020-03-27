@@ -11,6 +11,8 @@
 		A5143CEC242DC51F00B2247B /* RestaurantDetailIconTextCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5143CEB242DC51F00B2247B /* RestaurantDetailIconTextCell.swift */; };
 		A5143CEE242DC62000B2247B /* RestaurantDetailTextCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5143CED242DC62000B2247B /* RestaurantDetailTextCell.swift */; };
 		A52B5FB4242C6F1E0040258C /* Restaurant.swift in Sources */ = {isa = PBXBuildFile; fileRef = A52B5FB3242C6F1E0040258C /* Restaurant.swift */; };
+		A56A8810242E74480054DA77 /* UIColor+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = A56A880F242E74480054DA77 /* UIColor+Ext.swift */; };
+		A56A8812242E848F0054DA77 /* UINavigationController+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = A56A8811242E848F0054DA77 /* UINavigationController+Ext.swift */; };
 		A57621EF24281A0800371721 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A57621EE24281A0800371721 /* AppDelegate.swift */; };
 		A57621F124281A0800371721 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A57621F024281A0800371721 /* SceneDelegate.swift */; };
 		A57621F624281A0800371721 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A57621F424281A0800371721 /* Main.storyboard */; };
@@ -36,6 +38,8 @@
 		A5143CEB242DC51F00B2247B /* RestaurantDetailIconTextCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantDetailIconTextCell.swift; sourceTree = "<group>"; };
 		A5143CED242DC62000B2247B /* RestaurantDetailTextCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantDetailTextCell.swift; sourceTree = "<group>"; };
 		A52B5FB3242C6F1E0040258C /* Restaurant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Restaurant.swift; sourceTree = "<group>"; };
+		A56A880F242E74480054DA77 /* UIColor+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Ext.swift"; sourceTree = "<group>"; };
+		A56A8811242E848F0054DA77 /* UINavigationController+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationController+Ext.swift"; sourceTree = "<group>"; };
 		A57621EB24281A0800371721 /* FoodPin.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FoodPin.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A57621EE24281A0800371721 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A57621F024281A0800371721 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -112,6 +116,15 @@
 			path = Controller;
 			sourceTree = "<group>";
 		};
+		A56A880E242E74280054DA77 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				A56A880F242E74480054DA77 /* UIColor+Ext.swift */,
+				A56A8811242E848F0054DA77 /* UINavigationController+Ext.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		A57621E224281A0800371721 = {
 			isa = PBXGroup;
 			children = (
@@ -131,6 +144,7 @@
 		A57621ED24281A0800371721 /* FoodPin */ = {
 			isa = PBXGroup;
 			children = (
+				A56A880E242E74280054DA77 /* Extensions */,
 				A5143CE8242DBDED00B2247B /* Controller */,
 				A5143CE7242DBDE800B2247B /* View */,
 				A5143CE6242DBDD600B2247B /* Model */,
@@ -216,6 +230,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A56A8812242E848F0054DA77 /* UINavigationController+Ext.swift in Sources */,
 				A52B5FB4242C6F1E0040258C /* Restaurant.swift in Sources */,
 				A5143CEE242DC62000B2247B /* RestaurantDetailTextCell.swift in Sources */,
 				A576220524281F1500371721 /* RestaurantTableViewCell.swift in Sources */,
@@ -223,6 +238,7 @@
 				A5143CEC242DC51F00B2247B /* RestaurantDetailIconTextCell.swift in Sources */,
 				A5143CEA242DBE2000B2247B /* RestaurantDetailHeaderView.swift in Sources */,
 				A57621F124281A0800371721 /* SceneDelegate.swift in Sources */,
+				A56A8810242E74480054DA77 /* UIColor+Ext.swift in Sources */,
 				A5DA4FB9242C8122006A0593 /* RestaurantDetailViewController.swift in Sources */,
 				A576220324281AB300371721 /* RestaurantTableViewController.swift in Sources */,
 			);
