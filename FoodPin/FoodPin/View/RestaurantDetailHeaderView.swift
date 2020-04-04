@@ -28,5 +28,5 @@ class RestaurantDetailHeaderView: UIView {
             headerImageView.tintColor = .white
         }
     }
-
+    @IBOutlet var ratingImageView: UIImageView!
 }

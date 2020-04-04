@@ -11,7 +11,8 @@ import MapKit
 
 class MapViewController: UIViewController, MKMapViewDelegate {
     @IBOutlet var mapView: MKMapView!
-    var restaurant = Restaurant()
+    
+    var restaurant:RestaurantMO!
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -26,6 +27,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         mapView.showsTraffic = true
         mapView.showsScale = true
         mapView.showsCompass = true
+        
         navigationItem.largeTitleDisplayMode = .never
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         navigationController?.navigationBar.shadowImage = UIImage()
@@ -34,7 +36,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
 
         // Convert address to coordinate and annotate it on map
         let geoCoder = CLGeocoder()
-        geoCoder.geocodeAddressString(restaurant.location, completionHandler: { placemarks, error in
+        geoCoder.geocodeAddressString(restaurant.location ?? "", completionHandler: { placemarks, error in
             if let error = error {
                 print(error)
                 return
