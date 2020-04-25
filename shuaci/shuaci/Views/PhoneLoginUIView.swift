@@ -11,17 +11,16 @@ import UIKit
 class PhoneLoginUIView: UIView {
     @IBOutlet var phoneTextField: UITextField!
     @IBOutlet var verificationCodeTextField: UITextField!
-    @IBOutlet var getVerificationCodeBtn: UIButton!
-    @IBOutlet var phoneLoginBtn: UIButton!{
+    @IBOutlet var getVerificationCodeBtn: UIButton!{
         didSet {
-            emailLoginBtn.layer.cornerRadius = 9.0
-            emailLoginBtn.layer.masksToBounds = true
+            getVerificationCodeBtn.layer.cornerRadius = 15.0
+            getVerificationCodeBtn.layer.masksToBounds = true
         }
     }
-    @IBOutlet var emailLoginBtn: UIButton!{
+    @IBOutlet var phoneLoginBtn: UIButton!{
         didSet {
-            emailLoginBtn.layer.cornerRadius = 9.0
-            emailLoginBtn.layer.masksToBounds = true
+            phoneLoginBtn.layer.cornerRadius = 15.0
+            phoneLoginBtn.layer.masksToBounds = true
         }
     }
 }

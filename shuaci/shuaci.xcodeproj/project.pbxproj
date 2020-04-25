@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		A58E071224535E5E00C4D914 /* youyuan.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A58E071124535E5E00C4D914 /* youyuan.ttf */; };
 		A59A0B17245488EC000845F2 /* MainPanelUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59A0B16245488EC000845F2 /* MainPanelUIView.swift */; };
+		A59A0B1A2454C04E000845F2 /* UIColor+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59A0B192454C04E000845F2 /* UIColor+Ext.swift */; };
+		A59A0B1C2454D48C000845F2 /* MainPanelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59A0B1B2454D48C000845F2 /* MainPanelViewController.swift */; };
 		A59EB1D32452A12900F300E1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59EB1D22452A12900F300E1 /* AppDelegate.swift */; };
 		A59EB1D52452A12900F300E1 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59EB1D42452A12900F300E1 /* SceneDelegate.swift */; };
 		A59EB1D72452A12900F300E1 /* MainScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59EB1D62452A12900F300E1 /* MainScreenViewController.swift */; };
@@ -23,10 +25,8 @@
 		A5F59F482453DD3A00D6D717 /* EmailLoginUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F59F472453DD3A00D6D717 /* EmailLoginUIView.swift */; };
 		A5F59F4A2453DDD000D6D717 /* EmailLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F59F492453DDD000D6D717 /* EmailLoginViewController.swift */; };
 		A5F59F4C2453DDDB00D6D717 /* PhoneLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F59F4B2453DDDB00D6D717 /* PhoneLoginViewController.swift */; };
-		A5F59F4E2453E37400D6D717 /* PhoneRegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F59F4D2453E37400D6D717 /* PhoneRegisterViewController.swift */; };
 		A5F59F502453E38F00D6D717 /* EmailRegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F59F4F2453E38F00D6D717 /* EmailRegisterViewController.swift */; };
 		A5F59F542453E3BB00D6D717 /* EmailRegisterUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F59F532453E3BB00D6D717 /* EmailRegisterUIView.swift */; };
-		A5F59F562453E3C900D6D717 /* PhoneRegisterUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F59F552453E3C900D6D717 /* PhoneRegisterUIView.swift */; };
 		BBA41A7442A9D5542E445471 /* Pods_shuaci.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7904B907E4DC4D8D3DC6FC8C /* Pods_shuaci.framework */; };
 /* End PBXBuildFile section */
 
@@ -36,6 +36,8 @@
 		A175FCA5411DABB0C4A1A6DE /* Pods-shuaci.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-shuaci.debug.xcconfig"; path = "Target Support Files/Pods-shuaci/Pods-shuaci.debug.xcconfig"; sourceTree = "<group>"; };
 		A58E071124535E5E00C4D914 /* youyuan.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = youyuan.ttf; sourceTree = "<group>"; };
 		A59A0B16245488EC000845F2 /* MainPanelUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPanelUIView.swift; sourceTree = "<group>"; };
+		A59A0B192454C04E000845F2 /* UIColor+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Ext.swift"; sourceTree = "<group>"; };
+		A59A0B1B2454D48C000845F2 /* MainPanelViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPanelViewController.swift; sourceTree = "<group>"; };
 		A59EB1CF2452A12900F300E1 /* 刷词.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "刷词.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A59EB1D22452A12900F300E1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A59EB1D42452A12900F300E1 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -53,10 +55,8 @@
 		A5F59F472453DD3A00D6D717 /* EmailLoginUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailLoginUIView.swift; sourceTree = "<group>"; };
 		A5F59F492453DDD000D6D717 /* EmailLoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailLoginViewController.swift; sourceTree = "<group>"; };
 		A5F59F4B2453DDDB00D6D717 /* PhoneLoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneLoginViewController.swift; sourceTree = "<group>"; };
-		A5F59F4D2453E37400D6D717 /* PhoneRegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneRegisterViewController.swift; sourceTree = "<group>"; };
 		A5F59F4F2453E38F00D6D717 /* EmailRegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailRegisterViewController.swift; sourceTree = "<group>"; };
 		A5F59F532453E3BB00D6D717 /* EmailRegisterUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailRegisterUIView.swift; sourceTree = "<group>"; };
-		A5F59F552453E3C900D6D717 /* PhoneRegisterUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneRegisterUIView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,6 +107,14 @@
 			path = Fonts;
 			sourceTree = "<group>";
 		};
+		A59A0B182454C02E000845F2 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				A59A0B192454C04E000845F2 /* UIColor+Ext.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		A59EB1C62452A12900F300E1 = {
 			isa = PBXGroup;
 			children = (
@@ -128,6 +136,7 @@
 		A59EB1D12452A12900F300E1 /* shuaci */ = {
 			isa = PBXGroup;
 			children = (
+				A59A0B182454C02E000845F2 /* Extensions */,
 				A5F59F442453DC0800D6D717 /* Controllers */,
 				A5B821752453698D00963FEC /* Views */,
 				A58E070F24535E4600C4D914 /* Resources */,
@@ -149,7 +158,6 @@
 				A5F59F452453DC6900D6D717 /* PhoneLoginUIView.swift */,
 				A5F59F472453DD3A00D6D717 /* EmailLoginUIView.swift */,
 				A5F59F532453E3BB00D6D717 /* EmailRegisterUIView.swift */,
-				A5F59F552453E3C900D6D717 /* PhoneRegisterUIView.swift */,
 				A59A0B16245488EC000845F2 /* MainPanelUIView.swift */,
 			);
 			path = Views;
@@ -159,10 +167,10 @@
 			isa = PBXGroup;
 			children = (
 				A5F59F4F2453E38F00D6D717 /* EmailRegisterViewController.swift */,
-				A5F59F4D2453E37400D6D717 /* PhoneRegisterViewController.swift */,
 				A59EB1D62452A12900F300E1 /* MainScreenViewController.swift */,
 				A5F59F492453DDD000D6D717 /* EmailLoginViewController.swift */,
 				A5F59F4B2453DDDB00D6D717 /* PhoneLoginViewController.swift */,
+				A59A0B1B2454D48C000845F2 /* MainPanelViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -288,14 +296,14 @@
 				A59A0B17245488EC000845F2 /* MainPanelUIView.swift in Sources */,
 				A5F59F482453DD3A00D6D717 /* EmailLoginUIView.swift in Sources */,
 				A5F59F4A2453DDD000D6D717 /* EmailLoginViewController.swift in Sources */,
-				A5F59F4E2453E37400D6D717 /* PhoneRegisterViewController.swift in Sources */,
-				A5F59F562453E3C900D6D717 /* PhoneRegisterUIView.swift in Sources */,
 				A5B821792453747C00963FEC /* MainScreenUIView.swift in Sources */,
 				A59EB1D72452A12900F300E1 /* MainScreenViewController.swift in Sources */,
 				A59EB1D32452A12900F300E1 /* AppDelegate.swift in Sources */,
+				A59A0B1A2454C04E000845F2 /* UIColor+Ext.swift in Sources */,
 				A5F59F462453DC6900D6D717 /* PhoneLoginUIView.swift in Sources */,
 				A5F59F502453E38F00D6D717 /* EmailRegisterViewController.swift in Sources */,
 				A5F59F4C2453DDDB00D6D717 /* PhoneLoginViewController.swift in Sources */,
+				A59A0B1C2454D48C000845F2 /* MainPanelViewController.swift in Sources */,
 				A5B821732453669B00963FEC /* CardUIView.swift in Sources */,
 				A5F59F542453E3BB00D6D717 /* EmailRegisterUIView.swift in Sources */,
 				A59EB1D52452A12900F300E1 /* SceneDelegate.swift in Sources */,
