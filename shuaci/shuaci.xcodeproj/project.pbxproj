@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		A58E071224535E5E00C4D914 /* youyuan.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A58E071124535E5E00C4D914 /* youyuan.ttf */; };
+		A59A0B17245488EC000845F2 /* MainPanelUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59A0B16245488EC000845F2 /* MainPanelUIView.swift */; };
 		A59EB1D32452A12900F300E1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59EB1D22452A12900F300E1 /* AppDelegate.swift */; };
 		A59EB1D52452A12900F300E1 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59EB1D42452A12900F300E1 /* SceneDelegate.swift */; };
 		A59EB1D72452A12900F300E1 /* MainScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59EB1D62452A12900F300E1 /* MainScreenViewController.swift */; };
@@ -34,6 +35,7 @@
 		7904B907E4DC4D8D3DC6FC8C /* Pods_shuaci.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_shuaci.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A175FCA5411DABB0C4A1A6DE /* Pods-shuaci.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-shuaci.debug.xcconfig"; path = "Target Support Files/Pods-shuaci/Pods-shuaci.debug.xcconfig"; sourceTree = "<group>"; };
 		A58E071124535E5E00C4D914 /* youyuan.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = youyuan.ttf; sourceTree = "<group>"; };
+		A59A0B16245488EC000845F2 /* MainPanelUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPanelUIView.swift; sourceTree = "<group>"; };
 		A59EB1CF2452A12900F300E1 /* 刷词.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "刷词.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A59EB1D22452A12900F300E1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A59EB1D42452A12900F300E1 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -148,6 +150,7 @@
 				A5F59F472453DD3A00D6D717 /* EmailLoginUIView.swift */,
 				A5F59F532453E3BB00D6D717 /* EmailRegisterUIView.swift */,
 				A5F59F552453E3C900D6D717 /* PhoneRegisterUIView.swift */,
+				A59A0B16245488EC000845F2 /* MainPanelUIView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -282,6 +285,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A59A0B17245488EC000845F2 /* MainPanelUIView.swift in Sources */,
 				A5F59F482453DD3A00D6D717 /* EmailLoginUIView.swift in Sources */,
 				A5F59F4A2453DDD000D6D717 /* EmailLoginViewController.swift in Sources */,
 				A5F59F4E2453E37400D6D717 /* PhoneRegisterViewController.swift in Sources */,

@@ -10,7 +10,11 @@ import UIKit
 import LeanCloud
 
 class MainScreenViewController: UIViewController {
-
+    
+    @IBAction func close(segue:UIStoryboardSegue) {
+        dismiss(animated: true, completion: nil)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
