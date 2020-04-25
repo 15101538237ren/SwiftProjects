@@ -8,12 +8,48 @@
 
 import UIKit
 import CoreData
+import CloudKit
 
 class NewRestaurantControllerTableViewController: UITableViewController, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     var restaurant:RestaurantMO!
     
     @IBAction func close(segue:UIStoryboardSegue) {
         dismiss(animated: true, completion: nil)
+    }
+    
+    func saveRecordToCloud(restaurant:RestaurantMO!) -> Void {
+
+        // Prepare the record to save
+        let record = CKRecord(recordType: "Restaurant")
+        record.setValue(restaurant.name, forKey: "name")
+        record.setValue(restaurant.type, forKey: "type")
+        record.setValue(restaurant.location, forKey: "location")
+        record.setValue(restaurant.phone, forKey: "phone")
+            record.setValue(restaurant.summary, forKey: "description")
+
+            let imageData = restaurant.image! as Data
+
+            // Resize the image
+            let originalImage = UIImage(data: imageData)!
+            let scalingFactor = (originalImage.size.width > 1024) ? 1024 / originalImage.size.width : 1.0
+            let scaledImage = UIImage(data: imageData, scale: scalingFactor)!
+
+            // Write the image to local file for temporary use
+            let imageFilePath = NSTemporaryDirectory() + restaurant.name!
+            let imageFileURL = URL(fileURLWithPath: imageFilePath)
+            try? scaledImage.jpegData(compressionQuality: 0.8)?.write(to: imageFileURL)
+
+            // Create image asset for upload
+            let imageAsset = CKAsset(fileURL: imageFileURL)
+            record.setValue(imageAsset, forKey: "image")
+
+            // Get the Public iCloud Database
+            let cloudContainer = CKContainer.init(identifier: "iCloud.iClould.com.Honglei.FoodPinDB")
+            let publicDatabase = cloudContainer.publicCloudDatabase
+            publicDatabase.save(record, completionHandler: { (record, error) -> Void  in
+                // Remove temp file
+                try? FileManager.default.removeItem(at: imageFileURL)
+            })
     }
     
     @IBAction func saveButtonTapped(segue: UIStoryboardSegue){
@@ -49,8 +85,8 @@ class NewRestaurantControllerTableViewController: UITableViewController, UITextF
         if invalid{
             let emptyString:String = emptyFields.joined(separator: ", ")
             
-            let alertMessage = UIAlertController(title: "Invalid Fields", message: "Please input: \(emptyString)", preferredStyle: .alert)
-            alertMessage.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            let alertMessage = UIAlertController(title: NSLocalizedString("Invalid Fields", comment: "Invalid Fields") , message: NSLocalizedString("Please input: ", comment: "Please input: ") + "\(emptyString)" , preferredStyle: .alert)
+            alertMessage.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "OK") , style: .default, handler: nil))
             present(alertMessage, animated: true, completion: nil)
         }
         else{
@@ -70,7 +106,7 @@ class NewRestaurantControllerTableViewController: UITableViewController, UITextF
                 print("Saving data to context")
                 appDelegate.saveContext()
             }
-            
+            saveRecordToCloud(restaurant: restaurant)
             dismiss(animated: true, completion: nil)
         }
         
@@ -131,8 +167,8 @@ class NewRestaurantControllerTableViewController: UITableViewController, UITextF
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row == 0{
-            let photoSourceController = UIAlertController(title: "", message: "Choose your photo source", preferredStyle: .actionSheet)
-            let cameraAction = UIAlertAction(title: "Camera", style: .default, handler: {
+            let photoSourceController = UIAlertController(title: "", message: NSLocalizedString("Choose your photo source", comment: "Choose your photo source") , preferredStyle: .actionSheet)
+            let cameraAction = UIAlertAction(title: NSLocalizedString("Camera", comment: "Camera") , style: .default, handler: {
                 (action) in
                 if UIImagePickerController.isSourceTypeAvailable(.camera){
                     let imagePicker = UIImagePickerController()
@@ -142,7 +178,7 @@ class NewRestaurantControllerTableViewController: UITableViewController, UITextF
                     self.present(imagePicker, animated: true, completion: nil)
                 }
             })
-            let photoLibraryAction = UIAlertAction(title: "Photo Library", style: .default, handler: {
+            let photoLibraryAction = UIAlertAction(title: NSLocalizedString("Photo Library", comment: "Photo Library") , style: .default, handler: {
                 (action) in
                 if UIImagePickerController.isSourceTypeAvailable(.photoLibrary){
                     let imagePicker = UIImagePickerController()

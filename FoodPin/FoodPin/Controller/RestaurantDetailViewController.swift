@@ -114,7 +114,7 @@ class RestaurantDetailViewController: UIViewController, UITableViewDataSource, U
             return cell
         case 3:
             let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: RestaurantDetailSeparatorCell.self), for: indexPath) as! RestaurantDetailSeparatorCell
-            cell.titleLabel.text = "HOW TO GET HERE"
+            cell.titleLabel.text = NSLocalizedString("HOW TO GET HERE", comment: "HOW TO GET HERE") 
             cell.selectionStyle = .none
             return cell
         case 4:

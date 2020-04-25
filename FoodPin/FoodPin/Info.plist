@@ -18,10 +18,21 @@
 	<string>1.0</string>
 	<key>CFBundleVersion</key>
 	<string>1</string>
+	<key>LSApplicationCategoryType</key>
+	<string>public.app-category.entertainment</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>MKDirectionsApplicationSupportedModes</key>
 	<array/>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
+	<key>NSCameraUsageDescription</key>
+	<string>You need to grant the app access to your camera in order to take photos</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>You need to grant the app access to your photo library so you can pick your favorite restaurant photo</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
@@ -55,12 +66,6 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>You need to grant the app access to your photo library so you can pick your favorite restaurant photo</string>
-	<key>LSApplicationCategoryType</key>
-	<string>public.app-category.entertainment</string>
-	<key>NSCameraUsageDescription</key>
-	<string>You need to grant the app access to your camera in order to take photos</string>
 	<key>UISupportedInterfaceOrientations~ipad</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>

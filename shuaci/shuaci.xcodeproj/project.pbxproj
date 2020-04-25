@@ -1,0 +1,501 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 51;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		A58E071224535E5E00C4D914 /* youyuan.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A58E071124535E5E00C4D914 /* youyuan.ttf */; };
+		A59EB1D32452A12900F300E1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59EB1D22452A12900F300E1 /* AppDelegate.swift */; };
+		A59EB1D52452A12900F300E1 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59EB1D42452A12900F300E1 /* SceneDelegate.swift */; };
+		A59EB1D72452A12900F300E1 /* MainScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59EB1D62452A12900F300E1 /* MainScreenViewController.swift */; };
+		A59EB1DA2452A12900F300E1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A59EB1D82452A12900F300E1 /* Main.storyboard */; };
+		A59EB1DC2452A12A00F300E1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A59EB1DB2452A12A00F300E1 /* Assets.xcassets */; };
+		A59EB1DF2452A12A00F300E1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A59EB1DD2452A12A00F300E1 /* LaunchScreen.storyboard */; };
+		A5B82171245360F700963FEC /* PingFang SC Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A5B82170245360F700963FEC /* PingFang SC Regular.ttf */; };
+		A5B821732453669B00963FEC /* CardUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B821722453669B00963FEC /* CardUIView.swift */; };
+		A5B82177245370CD00963FEC /* Songti SC Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A5B82176245370CD00963FEC /* Songti SC Regular.ttf */; };
+		A5B821792453747C00963FEC /* MainScreenUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B821782453747C00963FEC /* MainScreenUIView.swift */; };
+		A5F59F462453DC6900D6D717 /* PhoneLoginUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F59F452453DC6900D6D717 /* PhoneLoginUIView.swift */; };
+		A5F59F482453DD3A00D6D717 /* EmailLoginUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F59F472453DD3A00D6D717 /* EmailLoginUIView.swift */; };
+		A5F59F4A2453DDD000D6D717 /* EmailLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F59F492453DDD000D6D717 /* EmailLoginViewController.swift */; };
+		A5F59F4C2453DDDB00D6D717 /* PhoneLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F59F4B2453DDDB00D6D717 /* PhoneLoginViewController.swift */; };
+		A5F59F4E2453E37400D6D717 /* PhoneRegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F59F4D2453E37400D6D717 /* PhoneRegisterViewController.swift */; };
+		A5F59F502453E38F00D6D717 /* EmailRegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F59F4F2453E38F00D6D717 /* EmailRegisterViewController.swift */; };
+		A5F59F542453E3BB00D6D717 /* EmailRegisterUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F59F532453E3BB00D6D717 /* EmailRegisterUIView.swift */; };
+		A5F59F562453E3C900D6D717 /* PhoneRegisterUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F59F552453E3C900D6D717 /* PhoneRegisterUIView.swift */; };
+		BBA41A7442A9D5542E445471 /* Pods_shuaci.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7904B907E4DC4D8D3DC6FC8C /* Pods_shuaci.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		4D669C4BDB3B8EFCB078D706 /* Pods-shuaci.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-shuaci.release.xcconfig"; path = "Target Support Files/Pods-shuaci/Pods-shuaci.release.xcconfig"; sourceTree = "<group>"; };
+		7904B907E4DC4D8D3DC6FC8C /* Pods_shuaci.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_shuaci.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A175FCA5411DABB0C4A1A6DE /* Pods-shuaci.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-shuaci.debug.xcconfig"; path = "Target Support Files/Pods-shuaci/Pods-shuaci.debug.xcconfig"; sourceTree = "<group>"; };
+		A58E071124535E5E00C4D914 /* youyuan.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = youyuan.ttf; sourceTree = "<group>"; };
+		A59EB1CF2452A12900F300E1 /* 刷词.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "刷词.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		A59EB1D22452A12900F300E1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		A59EB1D42452A12900F300E1 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		A59EB1D62452A12900F300E1 /* MainScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScreenViewController.swift; sourceTree = "<group>"; };
+		A59EB1D92452A12900F300E1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		A59EB1DB2452A12A00F300E1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		A59EB1DE2452A12A00F300E1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		A59EB1E02452A12A00F300E1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A5B82170245360F700963FEC /* PingFang SC Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "PingFang SC Regular.ttf"; sourceTree = "<group>"; };
+		A5B821722453669B00963FEC /* CardUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardUIView.swift; sourceTree = "<group>"; };
+		A5B82174245366F600963FEC /* Geneva Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Geneva Regular.ttf"; sourceTree = "<group>"; };
+		A5B82176245370CD00963FEC /* Songti SC Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Songti SC Regular.ttf"; sourceTree = "<group>"; };
+		A5B821782453747C00963FEC /* MainScreenUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScreenUIView.swift; sourceTree = "<group>"; };
+		A5F59F452453DC6900D6D717 /* PhoneLoginUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneLoginUIView.swift; sourceTree = "<group>"; };
+		A5F59F472453DD3A00D6D717 /* EmailLoginUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailLoginUIView.swift; sourceTree = "<group>"; };
+		A5F59F492453DDD000D6D717 /* EmailLoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailLoginViewController.swift; sourceTree = "<group>"; };
+		A5F59F4B2453DDDB00D6D717 /* PhoneLoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneLoginViewController.swift; sourceTree = "<group>"; };
+		A5F59F4D2453E37400D6D717 /* PhoneRegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneRegisterViewController.swift; sourceTree = "<group>"; };
+		A5F59F4F2453E38F00D6D717 /* EmailRegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailRegisterViewController.swift; sourceTree = "<group>"; };
+		A5F59F532453E3BB00D6D717 /* EmailRegisterUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailRegisterUIView.swift; sourceTree = "<group>"; };
+		A5F59F552453E3C900D6D717 /* PhoneRegisterUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneRegisterUIView.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		A59EB1CC2452A12900F300E1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BBA41A7442A9D5542E445471 /* Pods_shuaci.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		63288F2924A6CD515AC3EF15 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				7904B907E4DC4D8D3DC6FC8C /* Pods_shuaci.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		6DC5BECC39548C616A0EDCC1 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				A175FCA5411DABB0C4A1A6DE /* Pods-shuaci.debug.xcconfig */,
+				4D669C4BDB3B8EFCB078D706 /* Pods-shuaci.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		A58E070F24535E4600C4D914 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				A58E071024535E4E00C4D914 /* Fonts */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		A58E071024535E4E00C4D914 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				A5B82174245366F600963FEC /* Geneva Regular.ttf */,
+				A5B82176245370CD00963FEC /* Songti SC Regular.ttf */,
+				A5B82170245360F700963FEC /* PingFang SC Regular.ttf */,
+				A58E071124535E5E00C4D914 /* youyuan.ttf */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
+		A59EB1C62452A12900F300E1 = {
+			isa = PBXGroup;
+			children = (
+				A59EB1D12452A12900F300E1 /* shuaci */,
+				A59EB1D02452A12900F300E1 /* Products */,
+				6DC5BECC39548C616A0EDCC1 /* Pods */,
+				63288F2924A6CD515AC3EF15 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		A59EB1D02452A12900F300E1 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A59EB1CF2452A12900F300E1 /* 刷词.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		A59EB1D12452A12900F300E1 /* shuaci */ = {
+			isa = PBXGroup;
+			children = (
+				A5F59F442453DC0800D6D717 /* Controllers */,
+				A5B821752453698D00963FEC /* Views */,
+				A58E070F24535E4600C4D914 /* Resources */,
+				A59EB1D22452A12900F300E1 /* AppDelegate.swift */,
+				A59EB1D42452A12900F300E1 /* SceneDelegate.swift */,
+				A59EB1D82452A12900F300E1 /* Main.storyboard */,
+				A59EB1DB2452A12A00F300E1 /* Assets.xcassets */,
+				A59EB1DD2452A12A00F300E1 /* LaunchScreen.storyboard */,
+				A59EB1E02452A12A00F300E1 /* Info.plist */,
+			);
+			path = shuaci;
+			sourceTree = "<group>";
+		};
+		A5B821752453698D00963FEC /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				A5B821722453669B00963FEC /* CardUIView.swift */,
+				A5B821782453747C00963FEC /* MainScreenUIView.swift */,
+				A5F59F452453DC6900D6D717 /* PhoneLoginUIView.swift */,
+				A5F59F472453DD3A00D6D717 /* EmailLoginUIView.swift */,
+				A5F59F532453E3BB00D6D717 /* EmailRegisterUIView.swift */,
+				A5F59F552453E3C900D6D717 /* PhoneRegisterUIView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		A5F59F442453DC0800D6D717 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				A5F59F4F2453E38F00D6D717 /* EmailRegisterViewController.swift */,
+				A5F59F4D2453E37400D6D717 /* PhoneRegisterViewController.swift */,
+				A59EB1D62452A12900F300E1 /* MainScreenViewController.swift */,
+				A5F59F492453DDD000D6D717 /* EmailLoginViewController.swift */,
+				A5F59F4B2453DDDB00D6D717 /* PhoneLoginViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		A59EB1CE2452A12900F300E1 /* shuaci */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A59EB1E32452A12A00F300E1 /* Build configuration list for PBXNativeTarget "shuaci" */;
+			buildPhases = (
+				72E9DF034DB89BB0BF174C59 /* [CP] Check Pods Manifest.lock */,
+				A59EB1CB2452A12900F300E1 /* Sources */,
+				A59EB1CC2452A12900F300E1 /* Frameworks */,
+				A59EB1CD2452A12900F300E1 /* Resources */,
+				6290192100B04080AF2DFD38 /* [CP] Embed Pods Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = shuaci;
+			productName = shuaci;
+			productReference = A59EB1CF2452A12900F300E1 /* 刷词.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		A59EB1C72452A12900F300E1 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1130;
+				LastUpgradeCheck = 1130;
+				ORGANIZATIONNAME = "Honglei Ren";
+				TargetAttributes = {
+					A59EB1CE2452A12900F300E1 = {
+						CreatedOnToolsVersion = 11.3.1;
+					};
+				};
+			};
+			buildConfigurationList = A59EB1CA2452A12900F300E1 /* Build configuration list for PBXProject "shuaci" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = A59EB1C62452A12900F300E1;
+			productRefGroup = A59EB1D02452A12900F300E1 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				A59EB1CE2452A12900F300E1 /* shuaci */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		A59EB1CD2452A12900F300E1 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A59EB1DF2452A12A00F300E1 /* LaunchScreen.storyboard in Resources */,
+				A58E071224535E5E00C4D914 /* youyuan.ttf in Resources */,
+				A59EB1DC2452A12A00F300E1 /* Assets.xcassets in Resources */,
+				A59EB1DA2452A12900F300E1 /* Main.storyboard in Resources */,
+				A5B82171245360F700963FEC /* PingFang SC Regular.ttf in Resources */,
+				A5B82177245370CD00963FEC /* Songti SC Regular.ttf in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		6290192100B04080AF2DFD38 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-shuaci/Pods-shuaci-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-shuaci/Pods-shuaci-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-shuaci/Pods-shuaci-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		72E9DF034DB89BB0BF174C59 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-shuaci-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		A59EB1CB2452A12900F300E1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A5F59F482453DD3A00D6D717 /* EmailLoginUIView.swift in Sources */,
+				A5F59F4A2453DDD000D6D717 /* EmailLoginViewController.swift in Sources */,
+				A5F59F4E2453E37400D6D717 /* PhoneRegisterViewController.swift in Sources */,
+				A5F59F562453E3C900D6D717 /* PhoneRegisterUIView.swift in Sources */,
+				A5B821792453747C00963FEC /* MainScreenUIView.swift in Sources */,
+				A59EB1D72452A12900F300E1 /* MainScreenViewController.swift in Sources */,
+				A59EB1D32452A12900F300E1 /* AppDelegate.swift in Sources */,
+				A5F59F462453DC6900D6D717 /* PhoneLoginUIView.swift in Sources */,
+				A5F59F502453E38F00D6D717 /* EmailRegisterViewController.swift in Sources */,
+				A5F59F4C2453DDDB00D6D717 /* PhoneLoginViewController.swift in Sources */,
+				A5B821732453669B00963FEC /* CardUIView.swift in Sources */,
+				A5F59F542453E3BB00D6D717 /* EmailRegisterUIView.swift in Sources */,
+				A59EB1D52452A12900F300E1 /* SceneDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		A59EB1D82452A12900F300E1 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A59EB1D92452A12900F300E1 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		A59EB1DD2452A12A00F300E1 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A59EB1DE2452A12A00F300E1 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		A59EB1E12452A12A00F300E1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		A59EB1E22452A12A00F300E1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		A59EB1E42452A12A00F300E1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = A175FCA5411DABB0C4A1A6DE /* Pods-shuaci.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = WDA59C4558;
+				INFOPLIST_FILE = shuaci/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.honglei.shuaci;
+				PRODUCT_NAME = "刷词";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		A59EB1E52452A12A00F300E1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4D669C4BDB3B8EFCB078D706 /* Pods-shuaci.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = WDA59C4558;
+				INFOPLIST_FILE = shuaci/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.honglei.shuaci;
+				PRODUCT_NAME = "刷词";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		A59EB1CA2452A12900F300E1 /* Build configuration list for PBXProject "shuaci" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A59EB1E12452A12A00F300E1 /* Debug */,
+				A59EB1E22452A12A00F300E1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A59EB1E32452A12A00F300E1 /* Build configuration list for PBXNativeTarget "shuaci" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A59EB1E42452A12A00F300E1 /* Debug */,
+				A59EB1E52452A12A00F300E1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = A59EB1C72452A12900F300E1 /* Project object */;
+}

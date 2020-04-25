@@ -55,7 +55,7 @@ class RestaurantTableViewController: UITableViewController, NSFetchedResultsCont
         self.navigationItem.searchController = searchController
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
-        searchController.searchBar.placeholder = "Search restaurants..."
+        searchController.searchBar.placeholder = NSLocalizedString("Search restaurants...", comment: "Search restaurants...")
         searchController.searchBar.barTintColor = .white
         searchController.searchBar.tintColor = UIColor(red: 231, green: 76, blue: 60, alpha: 1.0)
         searchController.searchBar.backgroundImage = UIImage()
@@ -182,7 +182,7 @@ class RestaurantTableViewController: UITableViewController, NSFetchedResultsCont
     // MARK: - Table view delegate
     
     override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let deleteAction = UIContextualAction(style: .destructive, title: "delete") { (action, sourceView, completionHandler) in
+        let deleteAction = UIContextualAction(style: .destructive, title: NSLocalizedString("delete", comment: "delete") ) { (action, sourceView, completionHandler) in
             if let appDelegate = (UIApplication.shared.delegate as? AppDelegate){
                 let context = appDelegate.persistentContainer.viewContext
                 let restaurantToDelete = self.fetchResultController.object(at: indexPath)
@@ -195,8 +195,8 @@ class RestaurantTableViewController: UITableViewController, NSFetchedResultsCont
         deleteAction.backgroundColor = UIColor(red: 231.0/255.0, green: 76.0/255.0, blue: 60.0/255.0, alpha: 1.0)
         deleteAction.image = UIImage(systemName: "trash")
         
-        let shareAction = UIContextualAction(style: .normal, title: "Share") { (action, sourceView, completionHandler) in
-            let defaultText = "Just checking in at " + self.restaurants[indexPath.row].name!
+        let shareAction = UIContextualAction(style: .normal, title: NSLocalizedString("Share", comment: "Share") ) { (action, sourceView, completionHandler) in
+            let defaultText = NSLocalizedString("Just checking in at ", comment: "Just checking in at ")  + self.restaurants[indexPath.row].name!
             let activityController: UIActivityViewController
             if let restaurantImage = self.restaurants[indexPath.row].image{
                 let imageToShare = UIImage(data: restaurantImage as Data)
@@ -252,4 +252,5 @@ class RestaurantTableViewController: UITableViewController, NSFetchedResultsCont
         }
     }
 }
+
 
