@@ -15,7 +15,7 @@ class PhoneLoginViewController: UIViewController {
     @IBOutlet var phoneLoginBtn: UIButton!
     var register = false
     var verificationCodeSent = false
-    let regex = try! NSRegularExpression(pattern: "1[0-9]{10}")
+    let regex = try! NSRegularExpression(pattern: "^1[0-9]{10}$")
     func presentAlert(title: String, message: String, okText: String){
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let okayAction = UIAlertAction(title: okText, style: .cancel, handler: nil)
@@ -26,7 +26,6 @@ class PhoneLoginViewController: UIViewController {
     @IBAction func loginOrRegister(sender: UIButton){
          let phoneNumber:String = phoneTextField.text!
          let verificationCode:String = verificationCodeTextField.text!
-         
 //        _ = LCUser.signUpOrLogIn(mobilePhoneNumber: "+86\(phoneNumber)", verificationCode: verificationCode, completion: { (result) in
 //            switch result {
 //            case .success(object: let user):
@@ -45,6 +44,8 @@ class PhoneLoginViewController: UIViewController {
     }
     
     @IBAction func sendVerificationCode(sender: UIButton){
+        
+        self.view.endEditing(true)
         
         let phoneNumber:String = phoneTextField.text!
         _ = LCUser.requestLoginVerificationCode(mobilePhoneNumber: "+86\(phoneNumber)") { result in
@@ -123,45 +124,14 @@ class PhoneLoginViewController: UIViewController {
                 self.enableVerificationBtn()
             }
         }
+        else{
+            DispatchQueue.main.async {
+                self.disableVerificationBtn()
+            }
+        }
     }
     
-    @IBAction func login(sender: UIButton){
-        // Validate the input
-        
-        let phoneNumber:String = phoneTextField.text!
-        
-        guard let match = regex.firstMatch(in: phoneNumber, options: [], range: NSRange(location: 0, length: phoneNumber.count))
-            else {
-
-            let alertController = UIAlertController(title: "手机号错误", message: "请输入正确的手机号!", preferredStyle: .alert)
-                        let okayAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
-                        alertController.addAction(okayAction)
-                        present(alertController, animated: true, completion: nil)
-
-                        return
-                }
-//
-//        guard let phoneNumber = phoneTextField.text, phoneNumber != "" && phoneNumber.starts(with: "1"),
-//                let verificationCode = verificationCodeTextField.text, verificationCode != "" else {
-//
-//                    let alertController = UIAlertController(title: "Login Error", message: "Both fields must not be blank.", preferredStyle: .alert)
-//                                let okayAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
-//                                alertController.addAction(okayAction)
-//                                present(alertController, animated: true, completion: nil)
-//
-//                                return
-//                        }
-//        _ = LCUser.logIn(mobilePhoneNumber: "+86\()", password: "cat!@#123") { result in
-//            switch result {
-//            case .success(object: let user):
-//                print(user)
-//            case .failure(error: let error):
-//                print(error)
-//            }
-//        }
-        // Dismiss keyboard
-        self.view.endEditing(true)
-    }
+  
     @objc func disableVerificationBtn(first:Bool = false)
     {
         getVerificationCodeBtn.isEnabled = false
@@ -211,5 +181,10 @@ class PhoneLoginViewController: UIViewController {
         verificationCodeTextField.addTarget(self, action: #selector(enableLoginBtn), for: UIControl.Event.editingChanged)
         phoneTextField.addTarget(self, action: #selector(enableLoginBtn), for: UIControl.Event.editingChanged)
         getVerificationCodeBtn.addTarget(self, action: #selector(verificationBtnTimeChange), for: .touchUpInside)
+        
+        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        navigationController?.navigationBar.shadowImage = UIImage()
+        
+        navigationController?.navigationBar.tintColor = .white
     }
 }

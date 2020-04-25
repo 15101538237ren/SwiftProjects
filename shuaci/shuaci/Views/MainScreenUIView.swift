@@ -13,21 +13,18 @@ class MainScreenUIView: UIView {
     @IBOutlet var introLabel: UILabel!
     @IBOutlet var cardView: CardUIView!
     
-    @IBOutlet var loginButton: UIButton!{
+    @IBOutlet var wechatLoginBtn: UIButton!{
         didSet {
-            loginButton.layer.cornerRadius = 9.0
-            loginButton.layer.masksToBounds = true
+            wechatLoginBtn.layer.cornerRadius = 9.0
+            wechatLoginBtn.layer.masksToBounds = true
         }
     }
-    @IBOutlet var registerButton: UIButton!{
+    @IBOutlet var mobileLoginBtn: UIButton!{
         didSet {
-            registerButton.layer.cornerRadius = 9.0
-            registerButton.layer.masksToBounds = true
+            mobileLoginBtn.layer.cornerRadius = 9.0
+            mobileLoginBtn.layer.masksToBounds = true
         }
     }
-    @IBOutlet var fastLoginLabel: UILabel!
-    @IBOutlet var wechatLoginButton: UIButton!
-    @IBOutlet var qqLoginButton: UIButton!
-    @IBOutlet var weiboLoginButton: UIButton!
+    @IBOutlet var fastLoginBtn: UIButton!
 
 }
