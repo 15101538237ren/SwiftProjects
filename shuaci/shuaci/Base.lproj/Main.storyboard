@@ -67,9 +67,6 @@
                                     </button>
                                 </subviews>
                             </stackView>
-                            <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" axis="vertical" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Bf7-D7-got">
-                                <rect key="frame" x="156" y="841" width="102" height="24"/>
-                            </stackView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZQA-hc-pGv" customClass="CardUIView" customModule="刷词" customModuleProvider="target">
                                 <rect key="frame" x="59" y="238" width="296" height="420"/>
                                 <subviews>
@@ -144,26 +141,55 @@
                                     <outlet property="wordLabel" destination="Z2Q-jJ-5pV" id="d4A-NO-EqL"/>
                                 </connections>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dMD-Rk-1mA">
+                            <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dMD-Rk-1mA">
                                 <rect key="frame" x="156" y="771" width="102" height="36"/>
                                 <fontDescription key="fontDescription" name="STSongti-SC-Regular" family="Songti SC" pointSize="17"/>
                                 <state key="normal" title="其他方式登录">
                                     <color key="titleColor" red="0.4359526038" green="0.43601924180000001" blue="0.43593806029999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                             </button>
+                            <stackView opaque="NO" contentMode="scaleToFill" spacing="25" translatesAutoresizingMaskIntoConstraints="NO" id="6XI-UF-e3h">
+                                <rect key="frame" x="137" y="822" width="140" height="30"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="s9H-Pk-CzF">
+                                        <rect key="frame" x="0.0" y="0.0" width="30" height="30"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="30" id="9Vm-gj-PMu"/>
+                                            <constraint firstAttribute="width" constant="30" id="i2U-Cs-eTt"/>
+                                        </constraints>
+                                        <state key="normal" image="wechat"/>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UrQ-2a-AkD">
+                                        <rect key="frame" x="55" y="0.0" width="30" height="30"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="30" id="kFl-SC-9aJ"/>
+                                            <constraint firstAttribute="height" constant="30" id="obx-ME-yfY"/>
+                                        </constraints>
+                                        <state key="normal" image="qq"/>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="T26-K5-npb">
+                                        <rect key="frame" x="110" y="0.0" width="30" height="30"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="30" id="ZW5-Nv-gkP"/>
+                                            <constraint firstAttribute="width" constant="30" id="daP-9T-UBs"/>
+                                        </constraints>
+                                        <state key="normal" image="weibo"/>
+                                    </button>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="dMD-Rk-1mA" firstAttribute="top" secondItem="yYk-O4-VsC" secondAttribute="bottom" constant="25" id="6fw-p8-qA3"/>
+                            <constraint firstItem="6XI-UF-e3h" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="83S-nA-dC5"/>
                             <constraint firstItem="dMD-Rk-1mA" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="C0p-Tu-qEp"/>
                             <constraint firstItem="yYk-O4-VsC" firstAttribute="top" secondItem="ZQA-hc-pGv" secondAttribute="bottom" constant="40" id="CRn-O6-FOj"/>
+                            <constraint firstItem="6XI-UF-e3h" firstAttribute="top" secondItem="dMD-Rk-1mA" secondAttribute="bottom" constant="15" id="EQ8-TE-5Co"/>
                             <constraint firstItem="4IN-su-9pm" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Kpa-Ob-qeh"/>
-                            <constraint firstItem="Bf7-D7-got" firstAttribute="top" secondItem="yYk-O4-VsC" secondAttribute="bottom" constant="32" id="QyQ-Zq-7M4"/>
                             <constraint firstItem="ZQA-hc-pGv" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="XBz-sz-fZL"/>
                             <constraint firstItem="yYk-O4-VsC" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Ymh-1g-NvT"/>
                             <constraint firstItem="ZQA-hc-pGv" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="b2Z-pD-Gln"/>
                             <constraint firstItem="4IN-su-9pm" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="60" id="fDi-Ji-xEB"/>
-                            <constraint firstItem="Bf7-D7-got" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="tQn-pT-C8O"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <connections>
@@ -1093,8 +1119,11 @@
         <image name="mobile_login" width="140" height="48"/>
         <image name="person.circle" catalog="system" width="128" height="121"/>
         <image name="phone" width="28" height="28"/>
+        <image name="qq" width="480" height="480"/>
         <image name="sea" width="640" height="1136"/>
         <image name="speaker.2" catalog="system" width="128" height="97"/>
         <image name="star" catalog="system" width="128" height="116"/>
+        <image name="wechat" width="512" height="512"/>
+        <image name="weibo" width="480" height="480"/>
     </resources>
 </document>
