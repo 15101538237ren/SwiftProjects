@@ -250,14 +250,14 @@
                                             <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="MCF-gx-K1A">
                                                 <rect key="frame" x="0.0" y="0.0" width="318" height="28"/>
                                                 <subviews>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="c7D-lg-fkc">
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nJv-LK-Sil">
                                                         <rect key="frame" x="0.0" y="0.0" width="28" height="28"/>
                                                         <constraints>
-                                                            <constraint firstAttribute="height" constant="28" id="R6A-Xu-d0n"/>
-                                                            <constraint firstAttribute="width" constant="28" id="x5N-TZ-Kyr"/>
+                                                            <constraint firstAttribute="width" constant="28" id="4mG-Ko-57J"/>
+                                                            <constraint firstAttribute="height" constant="28" id="7RQ-MC-APz"/>
                                                         </constraints>
-                                                        <color key="tintColor" red="0.4451704506894637" green="0.51932244742378886" blue="0.86753517390000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                        <state key="normal" image="mail"/>
+                                                        <color key="tintColor" red="0.96724241970000002" green="0.25544369220000002" blue="0.17590713499999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                        <state key="normal" image="gmail"/>
                                                     </button>
                                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请输入邮箱" textAlignment="natural" minimumFontSize="15" translatesAutoresizingMaskIntoConstraints="NO" id="igl-Sj-5zf">
                                                         <rect key="frame" x="38" y="0.0" width="280" height="28"/>
@@ -303,7 +303,7 @@
                                                                     <constraint firstAttribute="height" constant="28" id="Oso-8M-and"/>
                                                                     <constraint firstAttribute="width" constant="28" id="UQM-tQ-3x0"/>
                                                                 </constraints>
-                                                                <color key="tintColor" red="0.39301005010000001" green="0.4662415385" blue="0.78846877810000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                <color key="tintColor" red="0.77306681870000005" green="0.20625013110000001" blue="0.14112451670000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                 <state key="normal" image="lock"/>
                                                             </button>
                                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请输入密码" textAlignment="natural" minimumFontSize="15" translatesAutoresizingMaskIntoConstraints="NO" id="JVQ-hQ-2S6">
@@ -1000,14 +1000,14 @@
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="aCb-bK-Xnt">
                                         <rect key="frame" x="0.0" y="0.0" width="334" height="28"/>
                                         <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="886-ul-vzy">
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zH1-Ea-hog">
                                                 <rect key="frame" x="0.0" y="0.0" width="28" height="28"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="width" constant="28" id="3f2-ub-mhT"/>
-                                                    <constraint firstAttribute="height" constant="28" id="Dkm-jj-l5T"/>
+                                                    <constraint firstAttribute="width" constant="28" id="YcL-8X-64Z"/>
+                                                    <constraint firstAttribute="height" constant="28" id="re6-ss-xNi"/>
                                                 </constraints>
-                                                <color key="tintColor" red="0.4451704507" green="0.5193224474" blue="0.86753517390000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                <state key="normal" image="mail"/>
+                                                <color key="tintColor" red="0.96724241970000002" green="0.25544369220000002" blue="0.17590713499999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <state key="normal" image="gmail"/>
                                             </button>
                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请输入邮箱" textAlignment="natural" minimumFontSize="15" translatesAutoresizingMaskIntoConstraints="NO" id="5Ye-2P-VBl">
                                                 <rect key="frame" x="38" y="0.0" width="296" height="28"/>
@@ -1110,12 +1110,12 @@
         <image name="chevron.left" catalog="system" width="96" height="128"/>
         <image name="email_login" width="140" height="48"/>
         <image name="gear" catalog="system" width="128" height="119"/>
+        <image name="gmail" width="512" height="512"/>
         <image name="house.fill" catalog="system" width="128" height="106"/>
         <image name="list.number" catalog="system" width="128" height="97"/>
         <image name="lock" width="150" height="150"/>
         <image name="logo" width="80" height="47"/>
         <image name="magnifyingglass" catalog="system" width="128" height="115"/>
-        <image name="mail" width="512" height="512"/>
         <image name="mobile_login" width="140" height="48"/>
         <image name="person.circle" catalog="system" width="128" height="121"/>
         <image name="phone" width="28" height="28"/>
