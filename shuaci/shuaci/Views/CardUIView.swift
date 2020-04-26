@@ -22,6 +22,7 @@ class CardUIView: UIView {
             meaningLabel.numberOfLines = 0
         }
     }
+    @IBOutlet var rememberImageView: UIImageView!
     @IBOutlet var accentLabel: UILabel!
     @IBOutlet var phoneticLabel: UILabel!
     @IBOutlet var audioButton: UIButton!
