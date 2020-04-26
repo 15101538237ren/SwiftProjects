@@ -132,14 +132,6 @@
                                 </subviews>
                                 <variation key="heightClass=compact" spacing="10"/>
                             </stackView>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="e4W-YN-v8V">
-                                <rect key="frame" x="192" y="180" width="31" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="重置"/>
-                                <connections>
-                                    <action selector="reset:" destination="BYZ-38-t0r" eventType="touchUpInside" id="bAf-1o-LZZ"/>
-                                </connections>
-                            </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZQA-hc-pGv" customClass="CardUIView" customModule="刷词" customModuleProvider="target">
                                 <rect key="frame" x="59" y="238" width="296" height="420"/>
                                 <subviews>
@@ -265,7 +257,6 @@
                                     <outlet property="phoneticLabel" destination="VUt-os-FFM" id="td2-kU-ayR"/>
                                     <outlet property="rememberImageView" destination="DiF-yx-tfv" id="6It-Xy-u4l"/>
                                     <outlet property="wordLabel" destination="Z2Q-jJ-5pV" id="d4A-NO-EqL"/>
-                                    <outletCollection property="gestureRecognizers" destination="FdJ-UC-gmM" appends="YES" id="O3g-Dk-vv0"/>
                                 </connections>
                             </view>
                         </subviews>
@@ -303,11 +294,6 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
-                <panGestureRecognizer minimumNumberOfTouches="1" id="FdJ-UC-gmM">
-                    <connections>
-                        <action selector="panCard:" destination="BYZ-38-t0r" id="eUU-zG-S8z"/>
-                    </connections>
-                </panGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="-623.1884057971015" y="225"/>
         </scene>
