@@ -19,5 +19,16 @@ class MainScreenViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
     }
+    override func viewDidAppear(_ animated: Bool) {
+//        if let user = LCApplication.default.currentUser {
+//            // 跳到首页
+//            let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+//            let mainPanelViewController = storyBoard.instantiateViewController(withIdentifier: "mainPanelViewController") as! MainPanelViewController
+//
+//            DispatchQueue.main.async {
+//                self.present(mainPanelViewController, animated: true, completion: nil)
+//            }
+//        }
+    }
 }
 

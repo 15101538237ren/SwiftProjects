@@ -13,10 +13,10 @@ class MainScreenUIView: UIView {
     @IBOutlet var introLabel: UILabel!
     @IBOutlet var cardView: CardUIView!
     
-    @IBOutlet var wechatLoginBtn: UIButton!{
+    @IBOutlet var emailLoginBtn: UIButton!{
         didSet {
-            wechatLoginBtn.layer.cornerRadius = 9.0
-            wechatLoginBtn.layer.masksToBounds = true
+            emailLoginBtn.layer.cornerRadius = 9.0
+            emailLoginBtn.layer.masksToBounds = true
         }
     }
     @IBOutlet var mobileLoginBtn: UIButton!{
