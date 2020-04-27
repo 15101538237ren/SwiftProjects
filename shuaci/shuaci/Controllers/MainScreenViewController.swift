@@ -22,7 +22,7 @@ class MainScreenViewController: UIViewController {
     }
     
     var audioPlayer: AVAudioPlayer?
-    
+    var scaleOfSecondCard:CGFloat = 0.9
     var currentIndex:Int = 0
     let animationDuration = 0.3
     var words: [Word] = [
@@ -54,8 +54,15 @@ class MainScreenViewController: UIViewController {
             card.meaningLabel?.text = word.trans[0]["tranCn"]!
             card.accentLabel?.text = "美"
             card.phoneticLabel?.text = word.usphone
-            card.rememberImageView?.image = UIImage(named: "bushou")
+            card.rememberImageView?.backgroundColor = UIColor.systemGreen
+            card.rememberImageView?.alpha = 0
+            card.rememberLabel?.text = "会了"
+            card.rememberLabel?.alpha = 0
             card.speech? = word.usspeech
+            if index == 1
+            {
+                card.transform = CGAffineTransform(scaleX: scaleOfSecondCard, y: scaleOfSecondCard)
+            }
         }
     }
     @objc func moveCard() {
@@ -67,11 +74,13 @@ class MainScreenViewController: UIViewController {
         card.meaningLabel?.text = word.trans[0]["tranCn"]!
         card.accentLabel?.text = "美"
         card.phoneticLabel?.text = word.usphone
-        card.rememberImageView?.image = UIImage(named: "bushou")
+        card.rememberImageView?.backgroundColor = UIColor.white
         card.rememberImageView?.alpha = 0
+        card.rememberLabel?.text = ""
+        card.rememberLabel?.alpha = 0
         card.speech? = word.usspeech
         card.layer.removeAllAnimations()
-        card.transform = .identity
+        card.transform = CGAffineTransform.identity.scaledBy(x: scaleOfSecondCard, y: scaleOfSecondCard)
         card.center = CGPoint(x: view.center.x, y: view.center.y)
         mainScreenUIView.bringSubviewToFront(cards[currentIndex % 2])
         card.alpha = 1
@@ -84,21 +93,25 @@ class MainScreenViewController: UIViewController {
         let xFromCenter = card.center.x - view.center.x
         card.center = CGPoint(x: view.center.x + point.x, y: view.center.y + point.y)
         
-        let alpha = max(1.5 * (abs(xFromCenter) / view.center.x), 1.0)
+//        let alpha = min(1.5 * (abs(xFromCenter) / view.center.x) + 0.6, 1.0)
         
         let scale = min(0.35 * view.frame.width / abs(xFromCenter), 1.0)
-        card.transform = CGAffineTransform(rotationAngle: 0.61 * xFromCenter / view.center.x).scaledBy(x: scale, y: scale)
         if xFromCenter > 0
         {
-            card.rememberImageView?.image = UIImage(named: "bushou")
+            card.rememberImageView?.backgroundColor = UIColor.systemPink
+            card.rememberLabel?.text = "不熟"
         }
         else
         {
-            card.rememberImageView?.image = UIImage(named: "huile")
+            card.rememberImageView?.backgroundColor = UIColor.systemGreen
+            card.rememberLabel?.text = "会了"
         }
-        card.rememberImageView?.alpha = alpha
-        
-        
+        card.rememberImageView?.alpha = 0.3 + (abs(xFromCenter) / view.center.x) * 0.6
+        card.rememberLabel?.alpha = 1.0
+        card.transform = CGAffineTransform(rotationAngle: 0.61 * xFromCenter / view.center.x).scaledBy(x: scale, y: scale)
+        let nextCard = cards[(currentIndex + 1) % 2]
+        let relScale = scaleOfSecondCard + (abs(xFromCenter) / view.center.x) * (1.0 - scaleOfSecondCard)
+        nextCard.transform = CGAffineTransform(scaleX: relScale, y: relScale)
         if sender.state == UIGestureRecognizer.State.ended
         {
             if card.center.x < (0.4 * view.frame.width)
@@ -107,6 +120,9 @@ class MainScreenViewController: UIViewController {
                 {
                     card.center = CGPoint(x: card.center.x - 200, y: card.center.y + 75)
                     card.alpha = 0
+                })
+                UIView.animate(withDuration: animationDuration, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 5, options: .curveEaseInOut, animations: {
+                    nextCard.transform = .identity
                 })
                 self.currentIndex += 1
                 perform(#selector(moveCard), with: nil, afterDelay: animationDuration)
@@ -134,6 +150,7 @@ class MainScreenViewController: UIViewController {
             card.alpha = 1
         })
         card.rememberImageView?.alpha = 0
+        card.rememberLabel?.alpha = 0.0
         card.transform = .identity
     }
     
