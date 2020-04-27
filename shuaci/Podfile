@@ -7,4 +7,5 @@ target 'shuaci' do
 
   # Pods for shuaci
   pod 'LeanCloud'
+  pod 'Koloda'
 end

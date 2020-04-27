@@ -3,6 +3,8 @@ PODS:
   - GRDB.swift (4.14.0):
     - GRDB.swift/standard (= 4.14.0)
   - GRDB.swift/standard (4.14.0)
+  - Koloda (5.0.1):
+    - pop (~> 1.0)
   - LeanCloud (17.5.2):
     - LeanCloud/RTM (= 17.5.2)
   - LeanCloud/Foundation (17.5.2):
@@ -12,27 +14,33 @@ PODS:
     - LeanCloud/Foundation (= 17.5.2)
     - Starscream (~> 3.1)
     - SwiftProtobuf (~> 1.8)
+  - pop (1.0.12)
   - Starscream (3.1.1)
   - SwiftProtobuf (1.8.0)
 
 DEPENDENCIES:
+  - Koloda
   - LeanCloud
 
 SPEC REPOS:
   trunk:
     - Alamofire
     - GRDB.swift
+    - Koloda
     - LeanCloud
+    - pop
     - Starscream
     - SwiftProtobuf
 
 SPEC CHECKSUMS:
   Alamofire: 9d5c5f602928e512395b30950c5984eca840093c
   GRDB.swift: 8cc3ab7c8b8b4ac1761deb8dca4b51c1c9d429f8
+  Koloda: d07b9199a383abc5898b62aa945a599f5e7c0c4b
   LeanCloud: cbb1c70dbc9a858992e69510d17ba716695e69f5
+  pop: d582054913807fd11fd50bfe6a539d91c7e1a55a
   Starscream: 4bb2f9942274833f7b4d296a55504dcfc7edb7b0
   SwiftProtobuf: 2cbd9409689b7df170d82a92a33443c8e3e14a70
 
-PODFILE CHECKSUM: 7900610405bb6cc6b500e8d8dfd3a1c75198cade
+PODFILE CHECKSUM: 43609601b6fcb9b13dcb0a0a29cf0cd84273382d
 
 COCOAPODS: 1.9.1
