@@ -11,7 +11,7 @@ import UIKit
 class MainScreenUIView: UIView {
     @IBOutlet var logoImageView: UIImageView!
     @IBOutlet var introLabel: UILabel!
-    @IBOutlet var cardView: CardUIView!
+    @IBOutlet var cardView: CustomKolodaView!
     
     @IBOutlet var emailLoginBtn: UIButton!{
         didSet {

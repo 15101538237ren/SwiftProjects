@@ -8,6 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		A508564024564DD600D48367 /* Word.swift in Sources */ = {isa = PBXBuildFile; fileRef = A508563F24564DD600D48367 /* Word.swift */; };
+		A50856442456635F00D48367 /* BackgroundKolodaAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A50856432456635F00D48367 /* BackgroundKolodaAnimator.swift */; };
+		A50856472456644C00D48367 /* CustomOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A50856462456644C00D48367 /* CustomOverlayView.swift */; };
+		A50856492456657400D48367 /* CustomKolodaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A50856482456657400D48367 /* CustomKolodaView.swift */; };
+		A508564D24566EA800D48367 /* CustomOverlayView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A508564C24566EA800D48367 /* CustomOverlayView.xib */; };
+		A50856512456741100D48367 /* OverlayView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A50856502456741100D48367 /* OverlayView.xib */; };
+		A5085653245674A100D48367 /* ExampleOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5085652245674A100D48367 /* ExampleOverlayView.swift */; };
 		A523A717245542F100976574 /* ResetPwdUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A523A716245542F100976574 /* ResetPwdUIView.swift */; };
 		A523A7192455435C00976574 /* ResetPwdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A523A7182455435C00976574 /* ResetPwdViewController.swift */; };
 		A58E071224535E5E00C4D914 /* youyuan.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A58E071124535E5E00C4D914 /* youyuan.ttf */; };
@@ -21,7 +27,6 @@
 		A59EB1DC2452A12A00F300E1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A59EB1DB2452A12A00F300E1 /* Assets.xcassets */; };
 		A59EB1DF2452A12A00F300E1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A59EB1DD2452A12A00F300E1 /* LaunchScreen.storyboard */; };
 		A5B82171245360F700963FEC /* PingFang SC Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A5B82170245360F700963FEC /* PingFang SC Regular.ttf */; };
-		A5B821732453669B00963FEC /* CardUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B821722453669B00963FEC /* CardUIView.swift */; };
 		A5B82177245370CD00963FEC /* Songti SC Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A5B82176245370CD00963FEC /* Songti SC Regular.ttf */; };
 		A5B821792453747C00963FEC /* MainScreenUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B821782453747C00963FEC /* MainScreenUIView.swift */; };
 		A5F59F462453DC6900D6D717 /* PhoneLoginUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F59F452453DC6900D6D717 /* PhoneLoginUIView.swift */; };
@@ -36,6 +41,12 @@
 		7904B907E4DC4D8D3DC6FC8C /* Pods_shuaci.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_shuaci.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A175FCA5411DABB0C4A1A6DE /* Pods-shuaci.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-shuaci.debug.xcconfig"; path = "Target Support Files/Pods-shuaci/Pods-shuaci.debug.xcconfig"; sourceTree = "<group>"; };
 		A508563F24564DD600D48367 /* Word.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Word.swift; sourceTree = "<group>"; };
+		A50856432456635F00D48367 /* BackgroundKolodaAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundKolodaAnimator.swift; sourceTree = "<group>"; };
+		A50856462456644C00D48367 /* CustomOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomOverlayView.swift; sourceTree = "<group>"; };
+		A50856482456657400D48367 /* CustomKolodaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomKolodaView.swift; sourceTree = "<group>"; };
+		A508564C24566EA800D48367 /* CustomOverlayView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CustomOverlayView.xib; sourceTree = "<group>"; };
+		A50856502456741100D48367 /* OverlayView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OverlayView.xib; sourceTree = "<group>"; };
+		A5085652245674A100D48367 /* ExampleOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleOverlayView.swift; sourceTree = "<group>"; };
 		A523A716245542F100976574 /* ResetPwdUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPwdUIView.swift; sourceTree = "<group>"; };
 		A523A7182455435C00976574 /* ResetPwdViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPwdViewController.swift; sourceTree = "<group>"; };
 		A58E071124535E5E00C4D914 /* youyuan.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = youyuan.ttf; sourceTree = "<group>"; };
@@ -51,7 +62,6 @@
 		A59EB1DE2452A12A00F300E1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A59EB1E02452A12A00F300E1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A5B82170245360F700963FEC /* PingFang SC Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "PingFang SC Regular.ttf"; sourceTree = "<group>"; };
-		A5B821722453669B00963FEC /* CardUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardUIView.swift; sourceTree = "<group>"; };
 		A5B82174245366F600963FEC /* Geneva Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Geneva Regular.ttf"; sourceTree = "<group>"; };
 		A5B82176245370CD00963FEC /* Songti SC Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Songti SC Regular.ttf"; sourceTree = "<group>"; };
 		A5B821782453747C00963FEC /* MainScreenUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScreenUIView.swift; sourceTree = "<group>"; };
@@ -88,6 +98,31 @@
 				4D669C4BDB3B8EFCB078D706 /* Pods-shuaci.release.xcconfig */,
 			);
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		A50856452456637000D48367 /* Animator */ = {
+			isa = PBXGroup;
+			children = (
+				A50856432456635F00D48367 /* BackgroundKolodaAnimator.swift */,
+			);
+			path = Animator;
+			sourceTree = "<group>";
+		};
+		A508564A245668B500D48367 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				A508563F24564DD600D48367 /* Word.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		A508564B24566E9B00D48367 /* Bundle */ = {
+			isa = PBXGroup;
+			children = (
+				A50856502456741100D48367 /* OverlayView.xib */,
+				A508564C24566EA800D48367 /* CustomOverlayView.xib */,
+			);
+			path = Bundle;
 			sourceTree = "<group>";
 		};
 		A58E070F24535E4600C4D914 /* Resources */ = {
@@ -138,6 +173,9 @@
 		A59EB1D12452A12900F300E1 /* shuaci */ = {
 			isa = PBXGroup;
 			children = (
+				A508564B24566E9B00D48367 /* Bundle */,
+				A508564A245668B500D48367 /* Model */,
+				A50856452456637000D48367 /* Animator */,
 				A59A0B182454C02E000845F2 /* Extensions */,
 				A5F59F442453DC0800D6D717 /* Controllers */,
 				A5B821752453698D00963FEC /* Views */,
@@ -148,7 +186,6 @@
 				A59EB1DB2452A12A00F300E1 /* Assets.xcassets */,
 				A59EB1DD2452A12A00F300E1 /* LaunchScreen.storyboard */,
 				A59EB1E02452A12A00F300E1 /* Info.plist */,
-				A508563F24564DD600D48367 /* Word.swift */,
 			);
 			path = shuaci;
 			sourceTree = "<group>";
@@ -156,12 +193,14 @@
 		A5B821752453698D00963FEC /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				A5B821722453669B00963FEC /* CardUIView.swift */,
 				A5B821782453747C00963FEC /* MainScreenUIView.swift */,
 				A5F59F452453DC6900D6D717 /* PhoneLoginUIView.swift */,
 				A5F59F472453DD3A00D6D717 /* EmailLoginUIView.swift */,
 				A59A0B16245488EC000845F2 /* MainPanelUIView.swift */,
 				A523A716245542F100976574 /* ResetPwdUIView.swift */,
+				A50856462456644C00D48367 /* CustomOverlayView.swift */,
+				A50856482456657400D48367 /* CustomKolodaView.swift */,
+				A5085652245674A100D48367 /* ExampleOverlayView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -238,10 +277,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A508564D24566EA800D48367 /* CustomOverlayView.xib in Resources */,
 				A59EB1DF2452A12A00F300E1 /* LaunchScreen.storyboard in Resources */,
 				A58E071224535E5E00C4D914 /* youyuan.ttf in Resources */,
 				A59EB1DC2452A12A00F300E1 /* Assets.xcassets in Resources */,
 				A59EB1DA2452A12900F300E1 /* Main.storyboard in Resources */,
+				A50856512456741100D48367 /* OverlayView.xib in Resources */,
 				A5B82171245360F700963FEC /* PingFang SC Regular.ttf in Resources */,
 				A5B82177245370CD00963FEC /* Songti SC Regular.ttf in Resources */,
 			);
@@ -297,19 +338,22 @@
 			buildActionMask = 2147483647;
 			files = (
 				A59A0B17245488EC000845F2 /* MainPanelUIView.swift in Sources */,
+				A50856472456644C00D48367 /* CustomOverlayView.swift in Sources */,
 				A5F59F482453DD3A00D6D717 /* EmailLoginUIView.swift in Sources */,
 				A508564024564DD600D48367 /* Word.swift in Sources */,
 				A5F59F4A2453DDD000D6D717 /* EmailLoginViewController.swift in Sources */,
 				A5B821792453747C00963FEC /* MainScreenUIView.swift in Sources */,
 				A523A7192455435C00976574 /* ResetPwdViewController.swift in Sources */,
+				A50856442456635F00D48367 /* BackgroundKolodaAnimator.swift in Sources */,
 				A523A717245542F100976574 /* ResetPwdUIView.swift in Sources */,
 				A59EB1D72452A12900F300E1 /* MainScreenViewController.swift in Sources */,
 				A59EB1D32452A12900F300E1 /* AppDelegate.swift in Sources */,
+				A50856492456657400D48367 /* CustomKolodaView.swift in Sources */,
 				A59A0B1A2454C04E000845F2 /* UIColor+Ext.swift in Sources */,
 				A5F59F462453DC6900D6D717 /* PhoneLoginUIView.swift in Sources */,
+				A5085653245674A100D48367 /* ExampleOverlayView.swift in Sources */,
 				A5F59F4C2453DDDB00D6D717 /* PhoneLoginViewController.swift in Sources */,
 				A59A0B1C2454D48C000845F2 /* MainPanelViewController.swift in Sources */,
-				A5B821732453669B00963FEC /* CardUIView.swift in Sources */,
 				A59EB1D52452A12900F300E1 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

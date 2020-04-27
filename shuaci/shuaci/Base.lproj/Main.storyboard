@@ -132,21 +132,13 @@
                                 </subviews>
                                 <variation key="heightClass=compact" spacing="10"/>
                             </stackView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZQA-hc-pGv" customClass="CardUIView" customModule="刷词" customModuleProvider="target">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZQA-hc-pGv">
                                 <rect key="frame" x="59" y="238" width="296" height="420"/>
                                 <subviews>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="sea" translatesAutoresizingMaskIntoConstraints="NO" id="gRl-eN-e6b">
-                                        <rect key="frame" x="0.0" y="0.0" width="296" height="420"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="420" id="AEj-C0-COV">
-                                                <variation key="heightClass=compact" constant="157.5"/>
-                                            </constraint>
-                                            <constraint firstAttribute="width" secondItem="gRl-eN-e6b" secondAttribute="height" multiplier="74:105" id="ZFx-Ya-6Kq"/>
-                                            <constraint firstAttribute="width" constant="296" id="xGU-IK-UWa">
-                                                <variation key="heightClass=compact" constant="111"/>
-                                            </constraint>
-                                        </constraints>
-                                    </imageView>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fp4-Wz-iQb" customClass="CustomKolodaView" customModule="刷词" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="91.5" width="296" height="328.5"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                    </view>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sea" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Z2Q-jJ-5pV">
                                         <rect key="frame" x="109" y="140" width="78.5" height="46.5"/>
                                         <fontDescription key="fontDescription" name="Geneva" family="Geneva" pointSize="45"/>
@@ -227,13 +219,13 @@
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <gestureRecognizers/>
                                 <constraints>
-                                    <constraint firstItem="gRl-eN-e6b" firstAttribute="centerX" secondItem="ZQA-hc-pGv" secondAttribute="centerX" id="6l3-vl-MID"/>
                                     <constraint firstItem="DiF-yx-tfv" firstAttribute="centerX" secondItem="ZQA-hc-pGv" secondAttribute="centerX" id="7eW-wf-c2n"/>
                                     <constraint firstItem="DiF-yx-tfv" firstAttribute="top" secondItem="ZQA-hc-pGv" secondAttribute="top" constant="30" id="9B0-Tg-Utk">
                                         <variation key="heightClass=compact" constant="10"/>
                                     </constraint>
                                     <constraint firstItem="Z2Q-jJ-5pV" firstAttribute="centerX" secondItem="ZQA-hc-pGv" secondAttribute="centerX" id="AQF-YV-kSE"/>
                                     <constraint firstAttribute="width" secondItem="ZQA-hc-pGv" secondAttribute="height" multiplier="74:105" id="LBw-mP-7Ab"/>
+                                    <constraint firstItem="fp4-Wz-iQb" firstAttribute="leading" secondItem="ZQA-hc-pGv" secondAttribute="leading" id="QHc-Vj-C46"/>
                                     <constraint firstItem="LqJ-0o-IaF" firstAttribute="top" secondItem="Z2Q-jJ-5pV" secondAttribute="bottom" constant="36" id="VTg-5q-MTa">
                                         <variation key="heightClass=compact" constant="10"/>
                                     </constraint>
@@ -241,23 +233,16 @@
                                         <variation key="heightClass=compact" constant="111"/>
                                     </constraint>
                                     <constraint firstItem="LqJ-0o-IaF" firstAttribute="centerX" secondItem="ZQA-hc-pGv" secondAttribute="centerX" id="aIv-ZF-cdj"/>
+                                    <constraint firstAttribute="bottom" secondItem="fp4-Wz-iQb" secondAttribute="bottom" id="aai-PO-ZP2"/>
+                                    <constraint firstAttribute="trailing" secondItem="fp4-Wz-iQb" secondAttribute="trailing" id="dRF-Bl-kL1"/>
                                     <constraint firstAttribute="height" constant="420" id="kbx-ee-mUZ">
                                         <variation key="heightClass=compact" constant="157.5"/>
                                     </constraint>
-                                    <constraint firstItem="gRl-eN-e6b" firstAttribute="centerY" secondItem="ZQA-hc-pGv" secondAttribute="centerY" id="nyS-di-Rsr"/>
                                     <constraint firstItem="Z2Q-jJ-5pV" firstAttribute="top" secondItem="ZQA-hc-pGv" secondAttribute="top" constant="140" id="rcU-op-Fej">
                                         <variation key="heightClass=compact" constant="40"/>
                                     </constraint>
+                                    <constraint firstItem="fp4-Wz-iQb" firstAttribute="top" secondItem="DiF-yx-tfv" secondAttribute="bottom" id="rh1-fg-0t2"/>
                                 </constraints>
-                                <connections>
-                                    <outlet property="accentLabel" destination="cJr-GQ-4PG" id="oVU-bD-IiZ"/>
-                                    <outlet property="audioButton" destination="5Xv-w2-CqE" id="zw1-3r-1ZP"/>
-                                    <outlet property="cardImageView" destination="gRl-eN-e6b" id="rwY-Iy-2KU"/>
-                                    <outlet property="meaningLabel" destination="Va0-mj-m7z" id="IGt-ox-8ov"/>
-                                    <outlet property="phoneticLabel" destination="VUt-os-FFM" id="td2-kU-ayR"/>
-                                    <outlet property="rememberImageView" destination="DiF-yx-tfv" id="6It-Xy-u4l"/>
-                                    <outlet property="wordLabel" destination="Z2Q-jJ-5pV" id="d4A-NO-EqL"/>
-                                </connections>
                             </view>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
@@ -281,7 +266,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <connections>
-                            <outlet property="cardView" destination="ZQA-hc-pGv" id="gds-0g-ZDl"/>
+                            <outlet property="cardView" destination="ZQA-hc-pGv" id="7QI-vJ-5EL"/>
                             <outlet property="emailLoginBtn" destination="uhf-JJ-jSV" id="pps-wx-JMJ"/>
                             <outlet property="fastLoginBtn" destination="dMD-Rk-1mA" id="pA3-fr-I6L"/>
                             <outlet property="introLabel" destination="uBm-mh-9t9" id="P2A-cv-I5M"/>
@@ -290,7 +275,12 @@
                         </connections>
                     </view>
                     <connections>
-                        <outlet property="card" destination="ZQA-hc-pGv" id="L7d-NK-tDl"/>
+                        <outlet property="accentLabel" destination="cJr-GQ-4PG" id="OSW-GS-Njt"/>
+                        <outlet property="audioButton" destination="5Xv-w2-CqE" id="15z-4S-hFS"/>
+                        <outlet property="kolodaView" destination="fp4-Wz-iQb" id="ih7-mY-wZJ"/>
+                        <outlet property="meaningLabel" destination="Va0-mj-m7z" id="kJ4-wf-7I7"/>
+                        <outlet property="phoneticLabel" destination="VUt-os-FFM" id="ORh-Fa-Hll"/>
+                        <outlet property="wordLabel" destination="Z2Q-jJ-5pV" id="fEa-DN-jAr"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -433,13 +423,13 @@
                                 </connections>
                             </button>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="HQT-GJ-FJx">
-                                <rect key="frame" x="147.5" y="156" width="119" height="79"/>
+                                <rect key="frame" x="147.5" y="153" width="119" height="82"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo" translatesAutoresizingMaskIntoConstraints="NO" id="p4S-7p-Ian">
                                         <rect key="frame" x="19.5" y="0.0" width="80" height="47"/>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="你的背单词神器" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rmM-ti-Lrd">
-                                        <rect key="frame" x="0.0" y="62" width="119" height="17"/>
+                                        <rect key="frame" x="0.0" y="62" width="119" height="20"/>
                                         <fontDescription key="fontDescription" name="YouYuan" family="YouYuan" pointSize="17"/>
                                         <color key="textColor" red="0.2551480532" green="0.25519019370000001" blue="0.25513890389999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
@@ -515,13 +505,13 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="Qua-gu-Qv1">
-                                <rect key="frame" x="147.5" y="156" width="119" height="79"/>
+                                <rect key="frame" x="147.5" y="153" width="119" height="82"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo" translatesAutoresizingMaskIntoConstraints="NO" id="Ucp-Rp-UAq">
                                         <rect key="frame" x="19.5" y="0.0" width="80" height="47"/>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="你的背单词神器" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gk0-LS-thR">
-                                        <rect key="frame" x="0.0" y="62" width="119" height="17"/>
+                                        <rect key="frame" x="0.0" y="62" width="119" height="20"/>
                                         <fontDescription key="fontDescription" name="YouYuan" family="YouYuan" pointSize="17"/>
                                         <color key="textColor" red="0.2551480532" green="0.25519019370000001" blue="0.25513890389999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
@@ -720,13 +710,13 @@
                                         <rect key="frame" x="0.0" y="0.0" width="350" height="487"/>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sea" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LvX-Ff-kXW">
-                                        <rect key="frame" x="136" y="220.5" width="78.5" height="46.5"/>
+                                        <rect key="frame" x="136.5" y="217.5" width="77.5" height="52.5"/>
                                         <fontDescription key="fontDescription" name="Geneva" family="Geneva" pointSize="45"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="VVp-Yp-lVS">
-                                        <rect key="frame" x="125.5" y="303" width="99.5" height="62.5"/>
+                                        <rect key="frame" x="125.5" y="306" width="99.5" height="62.5"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="n. 海; 海洋" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JaA-31-ubU">
                                                 <rect key="frame" x="0.0" y="0.0" width="99.5" height="26.5"/>
@@ -792,7 +782,7 @@
                                 </connections>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="生活原本沉闷，但跑起来会有风。" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="O6F-3l-2QP">
-                                <rect key="frame" x="20" y="144" width="240" height="16"/>
+                                <rect key="frame" x="20" y="144" width="240" height="19"/>
                                 <fontDescription key="fontDescription" name="YouYuan" family="YouYuan" pointSize="16"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -1126,13 +1116,13 @@
                                 </connections>
                             </button>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="NA9-jm-DBt">
-                                <rect key="frame" x="147.5" y="217" width="119" height="79"/>
+                                <rect key="frame" x="147.5" y="214" width="119" height="82"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo" translatesAutoresizingMaskIntoConstraints="NO" id="eRu-72-Giz">
                                         <rect key="frame" x="19.5" y="0.0" width="80" height="47"/>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="你的背单词神器" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WuS-Bg-Qya">
-                                        <rect key="frame" x="0.0" y="62" width="119" height="17"/>
+                                        <rect key="frame" x="0.0" y="62" width="119" height="20"/>
                                         <fontDescription key="fontDescription" name="YouYuan" family="YouYuan" pointSize="17"/>
                                         <color key="textColor" red="0.2551480532" green="0.25519019370000001" blue="0.25513890389999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
