@@ -12,7 +12,14 @@ import AVFoundation
 
 class MainScreenViewController: UIViewController {
     @IBOutlet var mainScreenUIView: MainScreenUIView!
-    @IBOutlet var cards: [CardUIView]!
+    @IBOutlet var cards: [CardUIView]!{
+        didSet {
+            for card in cards{
+                card.layer.cornerRadius = 20.0
+                card.layer.masksToBounds = true
+            }
+        }
+    }
     
     var audioPlayer: AVAudioPlayer?
     
@@ -63,15 +70,11 @@ class MainScreenViewController: UIViewController {
         card.rememberImageView?.image = UIImage(named: "bushou")
         card.rememberImageView?.alpha = 0
         card.speech? = word.usspeech
+        card.layer.removeAllAnimations()
         card.transform = .identity
-        card.alpha = 1
         card.center = CGPoint(x: view.center.x, y: view.center.y)
-        card.layer.zPosition = 20
         mainScreenUIView.bringSubviewToFront(cards[currentIndex % 2])
-        mainScreenUIView.sendSubviewToBack(card)
-//        let card1 = cards[1]
-//        card1.layer.zPosition = 0
-        //cards.append(card)
+        card.alpha = 1
     }
     
     @IBAction func panCard(_ sender: UIPanGestureRecognizer) {
