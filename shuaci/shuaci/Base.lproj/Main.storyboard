@@ -217,6 +217,9 @@
                                                 </constraints>
                                                 <color key="tintColor" red="0.8993865848" green="0.62407978019999999" blue="0.093372721610000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <state key="normal" backgroundImage="speaker.2" catalog="system"/>
+                                                <connections>
+                                                    <action selector="playAudio:" destination="BYZ-38-t0r" eventType="touchUpInside" id="PfW-Xi-1Ih"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                         <constraints>
@@ -321,6 +324,9 @@
                                                 </constraints>
                                                 <color key="tintColor" red="0.8993865848" green="0.62407978016750676" blue="0.093372721610277001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <state key="normal" backgroundImage="speaker.2" catalog="system"/>
+                                                <connections>
+                                                    <action selector="playAudio:" destination="BYZ-38-t0r" eventType="touchUpInside" id="WVD-xC-Dp3"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                         <constraints>
@@ -572,13 +578,13 @@
                                 </connections>
                             </button>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="HQT-GJ-FJx">
-                                <rect key="frame" x="147.5" y="156" width="119" height="79"/>
+                                <rect key="frame" x="147.5" y="153" width="119" height="82"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo" translatesAutoresizingMaskIntoConstraints="NO" id="p4S-7p-Ian">
                                         <rect key="frame" x="19.5" y="0.0" width="80" height="47"/>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="你的背单词神器" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rmM-ti-Lrd">
-                                        <rect key="frame" x="0.0" y="62" width="119" height="17"/>
+                                        <rect key="frame" x="0.0" y="62" width="119" height="20"/>
                                         <fontDescription key="fontDescription" name="YouYuan" family="YouYuan" pointSize="17"/>
                                         <color key="textColor" red="0.2551480532" green="0.25519019370000001" blue="0.25513890389999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>

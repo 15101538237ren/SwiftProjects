@@ -25,8 +25,8 @@ class CardUIView: UIView {
     @IBOutlet var accentLabel: UILabel?
     @IBOutlet var phoneticLabel: UILabel?
     @IBOutlet var rememberImageView: UIImageView?
-    
-    init(cardImage: String, word: String, meaning: String, accent:String, phone: String){
+    var speech:String?
+    init(cardImage: String, word: String, meaning: String, accent:String, phone: String, speech: String){
         super.init(frame: CGRect(x: 0, y: 0, width: 296, height: 420))
         self.cardImageView?.image = UIImage(named: cardImage)
         self.wordLabel?.text = word
@@ -34,6 +34,7 @@ class CardUIView: UIView {
         self.accentLabel?.text = accent
         self.phoneticLabel?.text = phone
         self.rememberImageView?.image = UIImage(named: "bushou")
+        self.speech? = speech
     }
     
     required init?(coder aDecoder: NSCoder) {

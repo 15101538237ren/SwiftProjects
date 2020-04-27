@@ -8,11 +8,16 @@
 
 import UIKit
 import LeanCloud
+import AVFoundation
 
 class MainScreenViewController: UIViewController {
     @IBOutlet var mainScreenUIView: MainScreenUIView!
     @IBOutlet var cards: [CardUIView]!
+    
+    var audioPlayer: AVAudioPlayer?
+    
     var currentIndex:Int = 0
+    
     var words: [Word] = [
         Word(wordHead: "sea", trans: [["tranCn":"n. 海；海洋", "pos": "n"]], usphone: "siː", ukphone: "siː", usspeech: "sea_0", ukspeech: "sea_1", remMethod: "", relWords: [], phrases: [["pContent":"china sea", "pCn": "中国海"]], synoWords: [["pos": ["n"], "tran":["n. [海洋][地理]海；海洋；许多；大量"], "hwds":["ocean", "lots of", "wealth"]]], sentences: [["sContent": "Sea and sky seemed to blend.", "sCn": "大海和蓝天似乎相融合。"]]),
         Word(wordHead: "beach", trans: [["tranCn":"海滩，沙滩", "tranOther":"an area of sand or small stones at the edge of the sea or a lake", "pos":"n"]], usphone: "bitʃ", ukphone: "biːtʃ", usspeech: "beach_0", ukspeech: "beach_1", remMethod: "pharma (药) + cy (学科) → 药剂学", relWords: [], phrases:  [["pContent":"china sea", "pCn": "中国海"]], synoWords: [["pos": ["n"], "tran":["n. [海洋][地理]海；海洋；许多；大量"], "hwds":["ocean", "lots of", "wealth"]]], sentences: [["sContent": "Sea and sky seemed to blend.", "sCn": "大海和蓝天似乎相融合。"]]),
@@ -43,6 +48,7 @@ class MainScreenViewController: UIViewController {
             card.accentLabel?.text = "美"
             card.phoneticLabel?.text = word.usphone
             card.rememberImageView?.image = UIImage(named: "bushou")
+            card.speech? = word.usspeech
         }
     }
     func moveCard() {
@@ -56,6 +62,7 @@ class MainScreenViewController: UIViewController {
         card.phoneticLabel?.text = word.usphone
         card.rememberImageView?.image = UIImage(named: "bushou")
         card.rememberImageView?.alpha = 0
+        card.speech? = word.usspeech
         card.transform = .identity
         card.alpha = 1
         card.center = CGPoint(x: view.center.x, y: view.center.y)
@@ -126,5 +133,19 @@ class MainScreenViewController: UIViewController {
         card.rememberImageView?.alpha = 0
         card.transform = .identity
     }
+    
+    
+    @IBAction func playAudio(_ sender: UIButton) {
+        guard let url = Bundle.main.url(forResource: words[currentIndex % words.count].usspeech, withExtension: "mp3") else { return }
+
+        do {
+            audioPlayer = try AVAudioPlayer(contentsOf: url)
+            audioPlayer?.play()
+        } catch {
+            print("couldn't load file :( \(url)")
+            //
+        }
+    }
+    
 }
 
