@@ -116,11 +116,13 @@ class MainScreenViewController: UIViewController {
         {
             if card.center.x < (0.4 * view.frame.width)
             {
+                
                 UIView.animate(withDuration: animationDuration, animations:
                 {
                     card.center = CGPoint(x: card.center.x - 200, y: card.center.y + 75)
                     card.alpha = 0
                 })
+                playMp3(filename: "Ninja_Jump_1")
                 UIView.animate(withDuration: animationDuration, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 5, options: .curveEaseInOut, animations: {
                     nextCard.transform = .identity
                 })
@@ -135,6 +137,8 @@ class MainScreenViewController: UIViewController {
                     card.center = CGPoint(x: card.center.x + 200, y: card.center.y + 75)
                     card.alpha = 0
                 })
+                
+                playMp3(filename: "incorrect")
                 self.currentIndex += 1
                 perform(#selector(moveCard), with: nil, afterDelay: animationDuration)
                 return
@@ -154,6 +158,16 @@ class MainScreenViewController: UIViewController {
         card.transform = .identity
     }
     
+    func playMp3(filename: String)
+    {
+        guard let url = Bundle.main.url(forResource: filename, withExtension: "mp3") else { return }
+        do {
+            audioPlayer = try AVAudioPlayer(contentsOf: url)
+            audioPlayer?.play()
+        } catch {
+            print("couldn't load file :( \(url)")
+        }
+    }
     
     @IBAction func playAudio(_ sender: UIButton) {
         guard let url = Bundle.main.url(forResource: words[currentIndex % words.count].usspeech, withExtension: "mp3") else { return }
