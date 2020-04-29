@@ -22,6 +22,7 @@ class MainScreenViewController: UIViewController {
     }
     
     var audioPlayer: AVAudioPlayer?
+    var mp3Player: AVAudioPlayer?
     var scaleOfSecondCard:CGFloat = 0.9
     var currentIndex:Int = 0
     let animationDuration = 0.1
@@ -162,8 +163,8 @@ class MainScreenViewController: UIViewController {
     {
         guard let url = Bundle.main.url(forResource: filename, withExtension: "mp3") else { return }
         do {
-            audioPlayer = try AVAudioPlayer(contentsOf: url)
-            audioPlayer?.play()
+            mp3Player = try AVAudioPlayer(contentsOf: url)
+            mp3Player?.play()
         } catch {
             print("couldn't load file :( \(url)")
         }
