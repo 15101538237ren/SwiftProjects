@@ -26,6 +26,7 @@ class CardUIView: UIView {
     @IBOutlet var phoneticLabel: UILabel?
     @IBOutlet var rememberImageView: UIImageView?
     @IBOutlet var rememberLabel: UILabel?
+    
     var speech:String?
     init(cardImage: String, word: String, meaning: String, accent:String, phone: String, speech: String){
         super.init(frame: CGRect(x: 0, y: 0, width: 296, height: 420))

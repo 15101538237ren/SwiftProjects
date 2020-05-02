@@ -13,7 +13,6 @@ class MainPanelUIView: UIView {
     @IBOutlet var photoImageView: UIImageView!
     @IBOutlet var greetingLabel: UILabel!
     @IBOutlet var sentenceOfDayLabel: UILabel!
-    @IBOutlet var cardView: CardUIView!
     @IBOutlet var learnBtn: UIButton!{
         didSet {
             learnBtn.layer.cornerRadius = 9.0

@@ -79,6 +79,9 @@ class EmailLoginViewController: UIViewController {
                                     user.username = LCString(email!)
                                     user.password = LCString(pwd!)
                                     user.email = LCString(email!)
+                                    // 设置其他属性的方法跟 LCObject 一样
+//                                    try user.set("avatar", value: "")
+//                                    try user.set("nickname", value: "")
 
                                     _ = user.signUp { (result) in
                                         switch result {
