@@ -11,8 +11,8 @@ import UIKit
 class MainPanelUIView: UIView {
     
     @IBOutlet var photoImageView: UIImageView!
-    @IBOutlet var greetingLabel: UILabel!
-    @IBOutlet var sentenceOfDayLabel: UILabel!
+    @IBOutlet var wordLabel: UILabel!
+    @IBOutlet var meaningLabel: UILabel!
     @IBOutlet var learnBtn: UIButton!{
         didSet {
             learnBtn.layer.cornerRadius = 9.0
