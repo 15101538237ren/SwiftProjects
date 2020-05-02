@@ -907,8 +907,7 @@
                                     <color key="titleColor" red="0.30754840369999997" green="0.30759757760000001" blue="0.30753764509999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
-                                    <action selector="loginOrRegisterWithSender:" destination="FDF-zB-E2R" eventType="touchUpInside" id="6i2-1x-rA2"/>
-                                    <action selector="loginOrRegisterWithSender:" destination="cJQ-vX-7a2" eventType="touchUpInside" id="lh6-eC-Zu9"/>
+                                    <action selector="resetPwdWithSender:" destination="cJQ-vX-7a2" eventType="touchUpInside" id="aIT-f0-8BQ"/>
                                 </connections>
                             </button>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="NA9-jm-DBt">
@@ -946,7 +945,6 @@
                         <viewLayoutGuide key="safeArea" id="4vP-3H-dvT"/>
                         <connections>
                             <outlet property="emailTextField" destination="5Ye-2P-VBl" id="3Zk-0o-e9U"/>
-                            <outlet property="resetPwdBtn" destination="zPv-Mb-xqj" id="0Om-tO-WjF"/>
                         </connections>
                     </view>
                     <navigationItem key="navigationItem" id="vb6-Iz-WNe">
@@ -959,7 +957,6 @@
                     </navigationItem>
                     <connections>
                         <outlet property="emailTextField" destination="5Ye-2P-VBl" id="HUi-yM-89G"/>
-                        <outlet property="resetPwdBtn" destination="zPv-Mb-xqj" id="2Yu-mj-djW"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OIW-Gz-Hmq" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

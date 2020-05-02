@@ -37,6 +37,11 @@ class MainPanelViewController: UIViewController {
             showLoginScreen()
         }
     }
+    
+    @IBAction func logOut(_ sender: UIButton) {
+        LCUser.logOut()
+        showLoginScreen()
+    }
     func showLoginScreen() {
         let LoginRegStoryBoard : UIStoryboard = UIStoryboard(name: "LoginReg", bundle:nil)
         let mainScreenViewController = LoginRegStoryBoard.instantiateViewController(withIdentifier: "StartScreen") as! MainScreenViewController

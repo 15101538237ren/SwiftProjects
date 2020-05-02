@@ -13,6 +13,7 @@ class ResetPwdViewController: UIViewController {
     
     @IBOutlet var emailTextField: UITextField!
     @IBOutlet var resetPwdBtn: UIButton!
+    let selfController = self
     let regex = try! NSRegularExpression(pattern: "^([a-zA-Z0-9_\\-\\.]+)@([a-zA-Z0-9_\\-\\.]+)\\.([a-zA-Z]{2,5})$")
     
     @IBAction func unwind(segue: UIStoryboardSegue) {
@@ -26,7 +27,7 @@ class ResetPwdViewController: UIViewController {
         self.present(alertController, animated: true, completion: nil)
     }
     
-    @IBAction func loginOrRegister(sender: UIButton){
+    @IBAction func resetPwd(sender: UIButton){
         self.view.endEditing(true)
         let email:String? = emailTextField.text
         

@@ -20,7 +20,7 @@
                             </imageView>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="user_profile" translatesAutoresizingMaskIntoConstraints="NO" id="Tt4-an-Wb4">
                                 <rect key="frame" x="15" y="59" width="38" height="38"/>
-                                <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="38" id="9Wb-cU-KSF"/>
                                     <constraint firstAttribute="width" constant="38" id="lW6-Yv-aqf"/>
@@ -108,6 +108,19 @@
                                     </button>
                                 </subviews>
                             </stackView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CLz-HQ-JFq">
+                                <rect key="frame" x="334" y="67" width="60" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="60" id="mpH-6R-OHb"/>
+                                    <constraint firstAttribute="height" constant="30" id="yv3-ga-D2o"/>
+                                </constraints>
+                                <state key="normal" title="Logout">
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="logOut:" destination="868-VL-FJO" eventType="touchUpInside" id="eWP-40-b2k"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <color key="tintColor" red="0.63994079829999995" green="0.64003509280000004" blue="0.63992011550000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -115,9 +128,11 @@
                         <constraints>
                             <constraint firstItem="JjA-19-Rdx" firstAttribute="centerX" secondItem="mqx-1T-aw1" secondAttribute="centerX" id="182-Mi-K7L"/>
                             <constraint firstItem="Tt4-an-Wb4" firstAttribute="top" secondItem="Wlh-Rs-nbo" secondAttribute="top" constant="15" id="3vB-F8-cE1"/>
+                            <constraint firstItem="Wlh-Rs-nbo" firstAttribute="trailing" secondItem="CLz-HQ-JFq" secondAttribute="trailing" constant="20" id="6yc-A8-r02"/>
                             <constraint firstAttribute="bottom" secondItem="aLL-Cm-mtq" secondAttribute="bottom" id="CFR-QS-pjI"/>
                             <constraint firstItem="aLL-Cm-mtq" firstAttribute="leading" secondItem="Wlh-Rs-nbo" secondAttribute="leading" id="H1O-Tj-GLt"/>
                             <constraint firstItem="nEc-yZ-Be3" firstAttribute="top" secondItem="Wlh-Rs-nbo" secondAttribute="top" constant="200" id="UGj-nm-Bwj"/>
+                            <constraint firstItem="33A-bh-nwx" firstAttribute="top" secondItem="CLz-HQ-JFq" secondAttribute="bottom" constant="605" id="Wsb-fJ-SG0"/>
                             <constraint firstItem="Tt4-an-Wb4" firstAttribute="leading" secondItem="Wlh-Rs-nbo" secondAttribute="leading" constant="15" id="aAw-Eu-Ri8"/>
                             <constraint firstItem="Wlh-Rs-nbo" firstAttribute="bottom" secondItem="JjA-19-Rdx" secondAttribute="bottom" constant="4" id="akP-Kb-6PU"/>
                             <constraint firstItem="Wlh-Rs-nbo" firstAttribute="bottom" secondItem="33A-bh-nwx" secondAttribute="bottom" constant="100" id="cr2-2K-Sjw"/>

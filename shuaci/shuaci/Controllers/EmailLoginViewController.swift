@@ -67,8 +67,7 @@ class EmailLoginViewController: UIViewController {
                 _ = LCUser.logIn(email: email!, password: pwd!) { result in
                     switch result {
                     case .success(object: let user):
-                        print(user)
-                        self.performSegue(withIdentifier: "showMainPanelFromEmail", sender: self)
+                        self.showMainPanel()
                     case .failure(error: let error):
                         switch error.code {
                         case 211:
@@ -83,14 +82,14 @@ class EmailLoginViewController: UIViewController {
                                     user.username = LCString(email!)
                                     user.password = LCString(pwd!)
                                     user.email = LCString(email!)
-                                    // 设置其他属性的方法跟 LCObject 一样
-//                                    try user.set("avatar", value: "")
-//                                    try user.set("nickname", value: "")
 
                                     _ = user.signUp { (result) in
                                         switch result {
                                         case .success:
                                             self.presentAlert(title: "请验证邮件", message: "已发送验证邮件到\(email!)。请您单击邮件中的链接，完成验证后登录!", okText: "好")
+                                            DispatchQueue.main.async {
+                                                self.emailLoginBtn.setTitle("登录", for: .normal)
+                                            }
                                         case .failure(error: let error):
                                             switch error.code {
                                             case 202 :
@@ -121,7 +120,14 @@ class EmailLoginViewController: UIViewController {
             }
             
         }
-    
+    func showMainPanel() {
+        let LoginRegStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+        let mainPanelViewController = LoginRegStoryBoard.instantiateViewController(withIdentifier: "mainPanelViewController") as! MainPanelViewController
+        mainPanelViewController.modalPresentationStyle = .fullScreen
+        DispatchQueue.main.async {
+            self.present(mainPanelViewController, animated: true, completion: nil)
+        }
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)

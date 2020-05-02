@@ -37,8 +37,7 @@ class PhoneLoginViewController: UIViewController {
                 print(user)
                 let alertController = UIAlertController(title: "注册成功!", message: "注册成功!", preferredStyle: .alert)
                 let okayAction = UIAlertAction(title: "好", style: .default, handler: { action in
-                    
-                    self.performSegue(withIdentifier: "showMainPanel", sender: self)
+                    self.showMainPanel()
                     
                 })
                 alertController.addAction(okayAction)
@@ -49,6 +48,15 @@ class PhoneLoginViewController: UIViewController {
             }
          })
         
+    }
+    
+    func showMainPanel() {
+        let LoginRegStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+        let mainPanelViewController = LoginRegStoryBoard.instantiateViewController(withIdentifier: "mainPanelViewController") as! MainPanelViewController
+        mainPanelViewController.modalPresentationStyle = .fullScreen
+        DispatchQueue.main.async {
+            self.present(mainPanelViewController, animated: true, completion: nil)
+        }
     }
     
     @IBAction func sendVerificationCode(sender: UIButton){
@@ -126,7 +134,7 @@ class PhoneLoginViewController: UIViewController {
     @objc func phoneTextFieldChange() {
         // Validate the input
         let phoneNumber:String = phoneTextField.text!
-        if let match = regex.firstMatch(in: phoneNumber, options: [], range: NSRange(location: 0, length: phoneNumber.count)) {
+        if regex.firstMatch(in: phoneNumber, options: [], range: NSRange(location: 0, length: phoneNumber.count)) != nil {
             DispatchQueue.main.async {
                 self.enableVerificationBtn()
             }
@@ -165,17 +173,15 @@ class PhoneLoginViewController: UIViewController {
     {
         let verficationCode = verificationCodeTextField.text!
         let phoneNumber = phoneTextField.text!
-        if verficationCode != nil && phoneNumber != nil {
-            let match = regex.firstMatch(in: phoneNumber, options: [], range: NSRange(location: 0, length: phoneNumber.count))
-            if verficationCode != "" && match != nil && verificationCodeSent
-            {
-                phoneLoginBtn.isEnabled = true
-                phoneLoginBtn.backgroundColor = UIColor(red: 67, green: 161, blue: 65, alpha: 1.0)
-                phoneLoginBtn.setTitleColor(UIColor(red: 255, green: 255, blue: 255, alpha: 1.0), for: .normal)
-            }
-            else{
-                disableLoginBtn()
-            }
+        let match = regex.firstMatch(in: phoneNumber, options: [], range: NSRange(location: 0, length: phoneNumber.count))
+        if verficationCode.count == 6 && match != nil
+        {
+            phoneLoginBtn.isEnabled = true
+            phoneLoginBtn.backgroundColor = UIColor(red: 67, green: 161, blue: 65, alpha: 1.0)
+            phoneLoginBtn.setTitleColor(UIColor(red: 255, green: 255, blue: 255, alpha: 1.0), for: .normal)
+        }
+        else{
+            disableLoginBtn()
         }
     }
     
