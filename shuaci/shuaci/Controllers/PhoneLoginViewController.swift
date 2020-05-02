@@ -35,13 +35,7 @@ class PhoneLoginViewController: UIViewController {
             switch result {
             case .success(object: let user):
                 print(user)
-                let alertController = UIAlertController(title: "注册成功!", message: "注册成功!", preferredStyle: .alert)
-                let okayAction = UIAlertAction(title: "好", style: .default, handler: { action in
-                    self.showMainPanel()
-                    
-                })
-                alertController.addAction(okayAction)
-                self.present(alertController, animated: true, completion: nil)
+                self.showMainPanel()
                 
             case .failure(error: let error):
                 print(error)

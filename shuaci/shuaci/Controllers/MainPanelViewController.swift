@@ -15,6 +15,12 @@ class MainPanelViewController: UIViewController {
     @IBOutlet var wordLabel: UILabel!
     @IBOutlet var meaningLabel: UILabel!
     @IBOutlet var todayImageView: UIImageView!
+    @IBOutlet var userPhotoBtn: UIButton!{
+        didSet {
+            userPhotoBtn.layer.cornerRadius = userPhotoBtn.layer.frame.width/2.0
+            userPhotoBtn.layer.masksToBounds = true
+        }
+    }
     
     var words = [["wordHead":"flower", "trans": "花"], ["wordHead":"Lilac", "trans": "紫丁香"]]
     
@@ -50,5 +56,13 @@ class MainPanelViewController: UIViewController {
             self.present(mainScreenViewController, animated: false, completion: nil)
         }
     }
+    
+//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//        if segue.identifier == "userProfileSegue" {
+//            if let userProfileViewController = segue.destination as? UserProfileViewController {
+////                userProfileViewController.modalPresentationStyle = .overCurrentContext
+//            }
+//        }
+//    }
 
 }

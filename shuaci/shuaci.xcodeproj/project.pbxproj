@@ -36,9 +36,9 @@
 		A5B821732453669B00963FEC /* CardUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B821722453669B00963FEC /* CardUIView.swift */; };
 		A5B82177245370CD00963FEC /* Songti SC Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A5B82176245370CD00963FEC /* Songti SC Regular.ttf */; };
 		A5B821792453747C00963FEC /* MainScreenUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B821782453747C00963FEC /* MainScreenUIView.swift */; };
-		A5E764CF245D210C00367C2A /* MainTabBarControllerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5E764CE245D210C00367C2A /* MainTabBarControllerViewController.swift */; };
 		A5E764D1245D269300367C2A /* ShengciViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5E764D0245D269300367C2A /* ShengciViewController.swift */; };
 		A5E764D2245DEB8600367C2A /* LoginReg.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A5A83E20245D1D1300075BB4 /* LoginReg.storyboard */; };
+		A5E764D4245E0AD000367C2A /* UserProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5E764D3245E0AD000367C2A /* UserProfileViewController.swift */; };
 		A5F03E252459F42400615375 /* paper_flip.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A5F03E232459F42400615375 /* paper_flip.mp3 */; };
 		A5F03E262459F42400615375 /* incorrect.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A5F03E242459F42400615375 /* incorrect.mp3 */; };
 		A5F03E2A2459F75B00615375 /* Ninja_Jump_1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A5F03E292459F75B00615375 /* Ninja_Jump_1.mp3 */; };
@@ -86,8 +86,8 @@
 		A5B82174245366F600963FEC /* Geneva Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Geneva Regular.ttf"; sourceTree = "<group>"; };
 		A5B82176245370CD00963FEC /* Songti SC Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Songti SC Regular.ttf"; sourceTree = "<group>"; };
 		A5B821782453747C00963FEC /* MainScreenUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScreenUIView.swift; sourceTree = "<group>"; };
-		A5E764CE245D210C00367C2A /* MainTabBarControllerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarControllerViewController.swift; sourceTree = "<group>"; };
 		A5E764D0245D269300367C2A /* ShengciViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShengciViewController.swift; sourceTree = "<group>"; };
+		A5E764D3245E0AD000367C2A /* UserProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileViewController.swift; sourceTree = "<group>"; };
 		A5F03E232459F42400615375 /* paper_flip.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = paper_flip.mp3; sourceTree = "<group>"; };
 		A5F03E242459F42400615375 /* incorrect.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = incorrect.mp3; sourceTree = "<group>"; };
 		A5F03E292459F75B00615375 /* Ninja_Jump_1.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Ninja_Jump_1.mp3; sourceTree = "<group>"; };
@@ -250,8 +250,8 @@
 				A5F59F4B2453DDDB00D6D717 /* PhoneLoginViewController.swift */,
 				A59A0B1B2454D48C000845F2 /* MainPanelViewController.swift */,
 				A523A7182455435C00976574 /* ResetPwdViewController.swift */,
-				A5E764CE245D210C00367C2A /* MainTabBarControllerViewController.swift */,
 				A5E764D0245D269300367C2A /* ShengciViewController.swift */,
+				A5E764D3245E0AD000367C2A /* UserProfileViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -397,7 +397,7 @@
 				A5B821792453747C00963FEC /* MainScreenUIView.swift in Sources */,
 				A523A7192455435C00976574 /* ResetPwdViewController.swift in Sources */,
 				A523A717245542F100976574 /* ResetPwdUIView.swift in Sources */,
-				A5E764CF245D210C00367C2A /* MainTabBarControllerViewController.swift in Sources */,
+				A5E764D4245E0AD000367C2A /* UserProfileViewController.swift in Sources */,
 				A59EB1D72452A12900F300E1 /* MainScreenViewController.swift in Sources */,
 				A59EB1D32452A12900F300E1 /* AppDelegate.swift in Sources */,
 				A59A0B1A2454C04E000845F2 /* UIColor+Ext.swift in Sources */,
