@@ -15,6 +15,10 @@ class ResetPwdViewController: UIViewController {
     @IBOutlet var resetPwdBtn: UIButton!
     let regex = try! NSRegularExpression(pattern: "^([a-zA-Z0-9_\\-\\.]+)@([a-zA-Z0-9_\\-\\.]+)\\.([a-zA-Z]{2,5})$")
     
+    @IBAction func unwind(segue: UIStoryboardSegue) {
+        self.dismiss(animated: true, completion: nil)
+    }
+    
     func presentAlert(title: String, message: String, okText: String){
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let okayAction = UIAlertAction(title: okText, style: .cancel, handler: nil)

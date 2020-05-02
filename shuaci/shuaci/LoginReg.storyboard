@@ -464,7 +464,7 @@
                                     <color key="titleColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                                 <connections>
-                                    <segue destination="Ua7-od-ID6" kind="show" id="KWY-5X-Pfw"/>
+                                    <segue destination="Ua7-od-ID6" kind="show" identifier="presentResetPwd" id="dIe-3E-V2d"/>
                                 </connections>
                             </button>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="1yp-lf-j7w">
@@ -620,7 +620,7 @@
                         <barButtonItem key="rightBarButtonItem" title="取消" id="Tqf-hg-TsB">
                             <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <connections>
-                                <segue destination="nr2-7f-k14" kind="unwind" unwindAction="closeWithSegue:" id="wMA-eI-huf"/>
+                                <action selector="unwindWithSegue:" destination="hUP-fn-MBZ" id="0hG-Z7-Gra"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -631,7 +631,6 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fRW-mQ-3sS" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-                <exit id="nr2-7f-k14" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="-26" y="-627"/>
         </scene>
@@ -817,7 +816,7 @@
                         <barButtonItem key="rightBarButtonItem" title="取消" id="WKH-ZS-5yL">
                             <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <connections>
-                                <segue destination="fC7-0f-otq" kind="unwind" unwindAction="closeWithSegue:" id="2jd-Xo-gx2"/>
+                                <action selector="unwindWithSegue:" destination="FDF-zB-E2R" id="H2m-nG-tDi"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -829,7 +828,6 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Wlr-rh-puV" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-                <exit id="fC7-0f-otq" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="1808.6956521739132" y="-627.45535714285711"/>
         </scene>
@@ -955,7 +953,7 @@
                         <barButtonItem key="rightBarButtonItem" title="取消" id="kKQ-bC-i7N">
                             <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <connections>
-                                <segue destination="yYJ-wC-NRg" kind="unwind" unwindAction="closeWithSegue:" id="Wgq-ss-v9W"/>
+                                <action selector="unwindWithSegue:" destination="cJQ-vX-7a2" id="eeg-af-fp1"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -965,7 +963,6 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OIW-Gz-Hmq" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-                <exit id="yYJ-wC-NRg" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="-26" y="-1356"/>
         </scene>

@@ -40,8 +40,9 @@ class MainPanelViewController: UIViewController {
     func showLoginScreen() {
         let LoginRegStoryBoard : UIStoryboard = UIStoryboard(name: "LoginReg", bundle:nil)
         let mainScreenViewController = LoginRegStoryBoard.instantiateViewController(withIdentifier: "StartScreen") as! MainScreenViewController
+        mainScreenViewController.modalPresentationStyle = .fullScreen
         DispatchQueue.main.async {
-            self.present(mainScreenViewController, animated: true, completion: nil)
+            self.present(mainScreenViewController, animated: false, completion: nil)
         }
     }
 

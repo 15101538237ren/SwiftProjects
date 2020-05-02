@@ -15,6 +15,10 @@ class PhoneLoginViewController: UIViewController {
     @IBOutlet var phoneLoginBtn: UIButton!
     var verificationCodeSent = false
     
+    @IBAction func unwind(segue: UIStoryboardSegue) {
+        self.dismiss(animated: true, completion: nil)
+    }
+    
     let regex = try! NSRegularExpression(pattern: "^1[0-9]{10}$")
     func presentAlert(title: String, message: String, okText: String){
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
