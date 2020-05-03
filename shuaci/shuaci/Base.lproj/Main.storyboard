@@ -122,7 +122,7 @@
                                 <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <state key="normal" image="honglei"/>
                                 <connections>
-                                    <segue destination="fzF-Pv-BNh" kind="presentation" identifier="userProfileSegue" modalPresentationStyle="overCurrentContext" modalTransitionStyle="coverVertical" id="T9M-Bg-570"/>
+                                    <segue destination="fIo-7D-rHo" kind="show" identifier="userProfileSegue" id="y0c-J0-SmP"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -171,25 +171,59 @@
         <!--账号管理-->
         <scene sceneID="Z2r-l7-ggg">
             <objects>
-                <viewController id="fIo-7D-rHo" customClass="UserProfileViewController" customModule="刷词" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController modalPresentationStyle="fullScreen" id="fIo-7D-rHo" customClass="UserProfileViewController" customModule="刷词" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="FKa-ic-A48">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PMR-c1-71Z">
-                                <rect key="frame" x="157" y="138" width="100" height="100"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="RjZ-Pt-3aX">
+                                <rect key="frame" x="157" y="94" width="100" height="120"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PMR-c1-71Z">
+                                        <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="100" id="n9E-5U-hbu"/>
+                                            <constraint firstAttribute="width" constant="100" id="xuK-Yv-xM8"/>
+                                        </constraints>
+                                        <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <state key="normal" image="honglei"/>
+                                        <connections>
+                                            <action selector="selectImage:" destination="fIo-7D-rHo" eventType="touchUpInside" id="SSp-q8-r0J"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xgU-dS-aoX">
+                                        <rect key="frame" x="40" y="100" width="20" height="20"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="20" id="71p-vs-FZy"/>
+                                            <constraint firstAttribute="height" constant="20" id="VON-WX-yWg"/>
+                                        </constraints>
+                                        <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <state key="normal" image="camera"/>
+                                        <connections>
+                                            <action selector="selectImage:" destination="fIo-7D-rHo" eventType="touchUpInside" id="r8H-jw-5Iq"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Agh-jn-UNO">
+                                <rect key="frame" x="20" y="64" width="26" height="26"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="100" id="n9E-5U-hbu"/>
-                                    <constraint firstAttribute="width" constant="100" id="xuK-Yv-xM8"/>
+                                    <constraint firstAttribute="height" constant="26" id="1A4-2U-RyL"/>
+                                    <constraint firstAttribute="width" constant="26" id="WV3-On-IMb"/>
                                 </constraints>
                                 <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <state key="normal" image="honglei"/>
+                                <state key="normal" image="chevron.left" catalog="system"/>
+                                <connections>
+                                    <action selector="unwindWithSegue:" destination="fIo-7D-rHo" eventType="touchUpInside" id="RX3-Lj-niN"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
-                            <constraint firstItem="PMR-c1-71Z" firstAttribute="top" secondItem="Jka-6J-Yzs" secondAttribute="top" constant="50" id="5DR-wz-WPZ"/>
-                            <constraint firstItem="PMR-c1-71Z" firstAttribute="centerX" secondItem="FKa-ic-A48" secondAttribute="centerX" id="zKL-nY-ge0"/>
+                            <constraint firstItem="RjZ-Pt-3aX" firstAttribute="top" secondItem="Jka-6J-Yzs" secondAttribute="top" constant="50" id="Dqa-Ix-9KQ"/>
+                            <constraint firstItem="Agh-jn-UNO" firstAttribute="top" secondItem="Jka-6J-Yzs" secondAttribute="top" constant="20" id="R02-gJ-4uY"/>
+                            <constraint firstItem="Agh-jn-UNO" firstAttribute="leading" secondItem="Jka-6J-Yzs" secondAttribute="leading" constant="20" id="UD0-UD-jqz"/>
+                            <constraint firstItem="RjZ-Pt-3aX" firstAttribute="centerX" secondItem="FKa-ic-A48" secondAttribute="centerX" id="glm-Qb-mCi"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Jka-6J-Yzs"/>
                     </view>
@@ -377,30 +411,13 @@
             </objects>
             <point key="canvasLocation" x="1809" y="2292"/>
         </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="6PK-jq-tjv">
-            <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" modalPresentationStyle="fullScreen" id="fzF-Pv-BNh" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="iab-Vk-BL4">
-                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="fIo-7D-rHo" kind="relationship" relationship="rootViewController" id="pZk-3O-KjO"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="E7h-Fw-SoA" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2398.5507246376815" y="827.67857142857144"/>
-        </scene>
     </scenes>
     <resources>
+        <image name="camera" width="512" height="512"/>
         <image name="chevron.left" catalog="system" width="96" height="128"/>
         <image name="colors" width="512" height="512"/>
         <image name="gear" catalog="system" width="128" height="119"/>
-        <image name="honglei" width="2288" height="2288"/>
+        <image name="honglei" width="2149" height="2149"/>
         <image name="house.fill" catalog="system" width="128" height="106"/>
         <image name="list.number" catalog="system" width="128" height="97"/>
         <image name="magnifyingglass" catalog="system" width="128" height="115"/>

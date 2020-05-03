@@ -96,6 +96,8 @@ class EmailLoginViewController: UIViewController {
                                                 self.presentAlert(title: "邮箱已注册", message: "该邮箱已注册!", okText: "好")
                                             case 214:
                                                 self.presentAlert(title: "邮箱已注册", message: "该邮箱已注册!", okText: "好")
+                                            case 210:
+                                                self.presentAlert(title: "密码不正确", message: "密码不正确册!", okText: "好")
                                             default:
                                                 self.presentAlert(title: "错误", message: error.description, okText: "好")
                                             }

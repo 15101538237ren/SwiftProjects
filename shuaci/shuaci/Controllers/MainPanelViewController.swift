@@ -23,14 +23,17 @@ class MainPanelViewController: UIViewController {
     }
     
     var words = [["wordHead":"flower", "trans": "花"], ["wordHead":"Lilac", "trans": "紫丁香"]]
-    
+    func updateUserPhoto() {
+        if let userImage = loadUserPhoto() {
+            self.userPhotoBtn.setImage(userImage, for: [])
+        }
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         navigationController?.navigationBar.shadowImage = UIImage()
         
         navigationController?.navigationBar.tintColor = .white
-        // Do any additional setup after loading the view.
         
         if let user = LCApplication.default.currentUser {
             // 跳到首页
@@ -38,6 +41,27 @@ class MainPanelViewController: UIViewController {
             wordLabel.text = word["wordHead"]
             meaningLabel.text = word["trans"]
             todayImageView?.image = UIImage(named: word["wordHead"]!)
+            if let userImage = loadUserPhoto() {
+                self.userPhotoBtn.setImage(userImage, for: [])
+            }
+            else {
+                do {
+                    if let photoData = user.get("avatar") as? LCFile {
+                        //let imgData = photoData.value as! LCData
+                        let url = URL(string: photoData.url?.value as! String)!
+                        let data = try? Data(contentsOf: url)
+                        print(url)
+                        if let imageData = data {
+                            let image = UIImage(data: imageData)
+                            let imageFileURL = getDocumentsDirectory().appendingPathComponent("user_avatar.jpg")
+                            try? image!.jpegData(compressionQuality: 0.8)?.write(to: imageFileURL)
+                            self.userPhotoBtn.setImage(image, for: [])
+                        }
+                    }
+                } catch {
+                    print(error)
+                }
+            }
         } else {
             // 显示注册或登录页面
             showLoginScreen()
@@ -56,13 +80,13 @@ class MainPanelViewController: UIViewController {
             self.present(mainScreenViewController, animated: false, completion: nil)
         }
     }
-    
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        if segue.identifier == "userProfileSegue" {
-//            if let userProfileViewController = segue.destination as? UserProfileViewController {
-////                userProfileViewController.modalPresentationStyle = .overCurrentContext
-//            }
-//        }
-//    }
+//    
+//    // MARK: - Navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "userProfileSegue"{
+            let destinationController = segue.destination as! UserProfileViewController
+            destinationController.mainPanelViewController = self
+        }
+    }
 
 }

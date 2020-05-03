@@ -1,5 +1,6 @@
 PODS:
   - Alamofire (5.1.0)
+  - CropViewController (2.5.2)
   - GRDB.swift (4.14.0):
     - GRDB.swift/standard (= 4.14.0)
   - GRDB.swift/standard (4.14.0)
@@ -16,11 +17,13 @@ PODS:
   - SwiftProtobuf (1.8.0)
 
 DEPENDENCIES:
+  - CropViewController
   - LeanCloud
 
 SPEC REPOS:
   trunk:
     - Alamofire
+    - CropViewController
     - GRDB.swift
     - LeanCloud
     - Starscream
@@ -28,11 +31,12 @@ SPEC REPOS:
 
 SPEC CHECKSUMS:
   Alamofire: 9d5c5f602928e512395b30950c5984eca840093c
+  CropViewController: 1aac40093c5739e60d992b04724a55d12a689a4c
   GRDB.swift: 8cc3ab7c8b8b4ac1761deb8dca4b51c1c9d429f8
   LeanCloud: cbb1c70dbc9a858992e69510d17ba716695e69f5
   Starscream: 4bb2f9942274833f7b4d296a55504dcfc7edb7b0
   SwiftProtobuf: 2cbd9409689b7df170d82a92a33443c8e3e14a70
 
-PODFILE CHECKSUM: 7900610405bb6cc6b500e8d8dfd3a1c75198cade
+PODFILE CHECKSUM: c54fefe3ea873e3bc0ccd0f412679a563b35ff88
 
 COCOAPODS: 1.9.1

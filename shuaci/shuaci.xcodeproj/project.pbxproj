@@ -22,6 +22,7 @@
 		A5613E1B2457470A00C8FAC6 /* Paris_1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A5613E112457470A00C8FAC6 /* Paris_1.mp3 */; };
 		A56375BC2457745500BA5293 /* HuaKangFangYuan.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A56375BB2457745500BA5293 /* HuaKangFangYuan.ttf */; };
 		A57229C024568C13001C121C /* Word.swift in Sources */ = {isa = PBXBuildFile; fileRef = A57229BF24568C13001C121C /* Word.swift */; };
+		A574D663245E430D0002A07C /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = A574D662245E430D0002A07C /* Util.swift */; };
 		A58E071224535E5E00C4D914 /* youyuan.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A58E071124535E5E00C4D914 /* youyuan.ttf */; };
 		A59A0B17245488EC000845F2 /* MainPanelUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59A0B16245488EC000845F2 /* MainPanelUIView.swift */; };
 		A59A0B1A2454C04E000845F2 /* UIColor+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59A0B192454C04E000845F2 /* UIColor+Ext.swift */; };
@@ -68,6 +69,7 @@
 		A5613E112457470A00C8FAC6 /* Paris_1.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Paris_1.mp3; sourceTree = "<group>"; };
 		A56375BB2457745500BA5293 /* HuaKangFangYuan.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = HuaKangFangYuan.ttf; sourceTree = "<group>"; };
 		A57229BF24568C13001C121C /* Word.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Word.swift; sourceTree = "<group>"; };
+		A574D662245E430D0002A07C /* Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
 		A58E071124535E5E00C4D914 /* youyuan.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = youyuan.ttf; sourceTree = "<group>"; };
 		A59A0B16245488EC000845F2 /* MainPanelUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPanelUIView.swift; sourceTree = "<group>"; };
 		A59A0B192454C04E000845F2 /* UIColor+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Ext.swift"; sourceTree = "<group>"; };
@@ -154,6 +156,14 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		A574D661245E43030002A07C /* Util */ = {
+			isa = PBXGroup;
+			children = (
+				A574D662245E430D0002A07C /* Util.swift */,
+			);
+			path = Util;
+			sourceTree = "<group>";
+		};
 		A58E070F24535E4600C4D914 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -204,6 +214,7 @@
 		A59EB1D12452A12900F300E1 /* shuaci */ = {
 			isa = PBXGroup;
 			children = (
+				A574D661245E43030002A07C /* Util */,
 				A5A83E21245D1D1D00075BB4 /* StoryBoard */,
 				A5613E07245746E900C8FAC6 /* Audios */,
 				A57229BE24568C03001C121C /* Model */,
@@ -391,6 +402,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A59A0B17245488EC000845F2 /* MainPanelUIView.swift in Sources */,
+				A574D663245E430D0002A07C /* Util.swift in Sources */,
 				A5F59F482453DD3A00D6D717 /* EmailLoginUIView.swift in Sources */,
 				A57229C024568C13001C121C /* Word.swift in Sources */,
 				A5F59F4A2453DDD000D6D717 /* EmailLoginViewController.swift in Sources */,
