@@ -23,7 +23,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             print(error)
         }
         LCApplication.logLevel = .all
-        
         return true
     }
 

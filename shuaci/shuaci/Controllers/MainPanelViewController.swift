@@ -28,6 +28,9 @@ class MainPanelViewController: UIViewController {
             self.userPhotoBtn.setImage(userImage, for: [])
         }
     }
+    func isKeyPresentInUserDefaults(key: String) -> Bool {
+        return UserDefaults.standard.object(forKey: key) != nil
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
@@ -37,10 +40,20 @@ class MainPanelViewController: UIViewController {
         
         if let user = LCApplication.default.currentUser {
             // 跳到首页
-            let word = words[1]
-            wordLabel.text = word["wordHead"]
-            meaningLabel.text = word["trans"]
-            todayImageView?.image = UIImage(named: word["wordHead"]!)
+            let defaults = UserDefaults.standard
+            let theme_category_string = "theme_category"
+            let theme_category_exist = isKeyPresentInUserDefaults(key: theme_category_string)
+            var theme_category  = 6
+            if theme_category_exist{
+                theme_category = defaults.integer(forKey: theme_category_string)
+            }
+            let wallpaper = default_wallpapers[theme_category - 1]
+            wordLabel.text = wallpaper.word
+            wordLabel.textColor = textColors[theme_category]
+            meaningLabel.text = wallpaper.trans
+            meaningLabel.textColor = textColors[theme_category]
+            todayImageView?.image = UIImage(named: "theme_\(theme_category)")
+            
             if let userImage = loadUserPhoto() {
                 self.userPhotoBtn.setImage(userImage, for: [])
             }

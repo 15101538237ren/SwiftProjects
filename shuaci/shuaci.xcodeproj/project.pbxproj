@@ -43,6 +43,10 @@
 		A5F03E252459F42400615375 /* paper_flip.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A5F03E232459F42400615375 /* paper_flip.mp3 */; };
 		A5F03E262459F42400615375 /* incorrect.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A5F03E242459F42400615375 /* incorrect.mp3 */; };
 		A5F03E2A2459F75B00615375 /* Ninja_Jump_1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A5F03E292459F75B00615375 /* Ninja_Jump_1.mp3 */; };
+		A5F5154B245F56BF00F06610 /* ThemeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F5154A245F56BF00F06610 /* ThemeCollectionViewCell.swift */; };
+		A5F5154D245F56DF00F06610 /* ThemeCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F5154C245F56DF00F06610 /* ThemeCollectionViewController.swift */; };
+		A5F5154F245F578900F06610 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F5154E245F578900F06610 /* Theme.swift */; };
+		A5F51551245F5E9300F06610 /* Wallpaper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F51550245F5E9300F06610 /* Wallpaper.swift */; };
 		A5F59F462453DC6900D6D717 /* PhoneLoginUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F59F452453DC6900D6D717 /* PhoneLoginUIView.swift */; };
 		A5F59F482453DD3A00D6D717 /* EmailLoginUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F59F472453DD3A00D6D717 /* EmailLoginUIView.swift */; };
 		A5F59F4A2453DDD000D6D717 /* EmailLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F59F492453DDD000D6D717 /* EmailLoginViewController.swift */; };
@@ -93,6 +97,10 @@
 		A5F03E232459F42400615375 /* paper_flip.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = paper_flip.mp3; sourceTree = "<group>"; };
 		A5F03E242459F42400615375 /* incorrect.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = incorrect.mp3; sourceTree = "<group>"; };
 		A5F03E292459F75B00615375 /* Ninja_Jump_1.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Ninja_Jump_1.mp3; sourceTree = "<group>"; };
+		A5F5154A245F56BF00F06610 /* ThemeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeCollectionViewCell.swift; sourceTree = "<group>"; };
+		A5F5154C245F56DF00F06610 /* ThemeCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeCollectionViewController.swift; sourceTree = "<group>"; };
+		A5F5154E245F578900F06610 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
+		A5F51550245F5E9300F06610 /* Wallpaper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Wallpaper.swift; sourceTree = "<group>"; };
 		A5F59F452453DC6900D6D717 /* PhoneLoginUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneLoginUIView.swift; sourceTree = "<group>"; };
 		A5F59F472453DD3A00D6D717 /* EmailLoginUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailLoginUIView.swift; sourceTree = "<group>"; };
 		A5F59F492453DDD000D6D717 /* EmailLoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailLoginViewController.swift; sourceTree = "<group>"; };
@@ -152,6 +160,8 @@
 			isa = PBXGroup;
 			children = (
 				A57229BF24568C13001C121C /* Word.swift */,
+				A5F5154E245F578900F06610 /* Theme.swift */,
+				A5F51550245F5E9300F06610 /* Wallpaper.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -249,6 +259,7 @@
 				A5F59F472453DD3A00D6D717 /* EmailLoginUIView.swift */,
 				A59A0B16245488EC000845F2 /* MainPanelUIView.swift */,
 				A523A716245542F100976574 /* ResetPwdUIView.swift */,
+				A5F5154A245F56BF00F06610 /* ThemeCollectionViewCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -263,6 +274,7 @@
 				A523A7182455435C00976574 /* ResetPwdViewController.swift */,
 				A5E764D0245D269300367C2A /* ShengciViewController.swift */,
 				A5E764D3245E0AD000367C2A /* UserProfileViewController.swift */,
+				A5F5154C245F56DF00F06610 /* ThemeCollectionViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -407,15 +419,19 @@
 				A57229C024568C13001C121C /* Word.swift in Sources */,
 				A5F59F4A2453DDD000D6D717 /* EmailLoginViewController.swift in Sources */,
 				A5B821792453747C00963FEC /* MainScreenUIView.swift in Sources */,
+				A5F51551245F5E9300F06610 /* Wallpaper.swift in Sources */,
+				A5F5154F245F578900F06610 /* Theme.swift in Sources */,
 				A523A7192455435C00976574 /* ResetPwdViewController.swift in Sources */,
 				A523A717245542F100976574 /* ResetPwdUIView.swift in Sources */,
 				A5E764D4245E0AD000367C2A /* UserProfileViewController.swift in Sources */,
 				A59EB1D72452A12900F300E1 /* MainScreenViewController.swift in Sources */,
 				A59EB1D32452A12900F300E1 /* AppDelegate.swift in Sources */,
 				A59A0B1A2454C04E000845F2 /* UIColor+Ext.swift in Sources */,
+				A5F5154B245F56BF00F06610 /* ThemeCollectionViewCell.swift in Sources */,
 				A5F59F462453DC6900D6D717 /* PhoneLoginUIView.swift in Sources */,
 				A5F59F4C2453DDDB00D6D717 /* PhoneLoginViewController.swift in Sources */,
 				A59A0B1C2454D48C000845F2 /* MainPanelViewController.swift in Sources */,
+				A5F5154D245F56DF00F06610 /* ThemeCollectionViewController.swift in Sources */,
 				A5B821732453669B00963FEC /* CardUIView.swift in Sources */,
 				A5E764D1245D269300367C2A /* ShengciViewController.swift in Sources */,
 				A59EB1D52452A12900F300E1 /* SceneDelegate.swift in Sources */,
