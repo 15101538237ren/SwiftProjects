@@ -43,8 +43,17 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
     
     
     @IBAction func logOut(_ sender: UIButton) {
-        LCUser.logOut()
-        dismiss(animated: false, completion: nil)
+        let alertController = UIAlertController(title: "注销", message: "确定注销?", preferredStyle: .alert)
+        let okayAction = UIAlertAction(title: "确定", style: .default, handler: { action in
+            LCUser.logOut()
+            self.dismiss(animated: false, completion: nil)
+        })
+        let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
+        alertController.addAction(okayAction)
+        alertController.addAction(cancelAction)
+        self.present(alertController, animated: true, completion: nil)
+        
+        
     }
     
     @IBAction func selectImage(_ sender: UIButton) {
