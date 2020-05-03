@@ -40,20 +40,6 @@ class MainPanelViewController: UIViewController {
         
         if let user = LCApplication.default.currentUser {
             // 跳到首页
-            let defaults = UserDefaults.standard
-            let theme_category_string = "theme_category"
-            let theme_category_exist = isKeyPresentInUserDefaults(key: theme_category_string)
-            var theme_category  = 6
-            if theme_category_exist{
-                theme_category = defaults.integer(forKey: theme_category_string)
-            }
-            let wallpaper = default_wallpapers[theme_category - 1]
-            wordLabel.text = wallpaper.word
-            wordLabel.textColor = textColors[theme_category]
-            meaningLabel.text = wallpaper.trans
-            meaningLabel.textColor = textColors[theme_category]
-            todayImageView?.image = UIImage(named: "theme_\(theme_category)")
-            
             if let userImage = loadUserPhoto() {
                 self.userPhotoBtn.setImage(userImage, for: [])
             }
@@ -82,7 +68,18 @@ class MainPanelViewController: UIViewController {
     }
     override func viewWillAppear(_ animated: Bool){
         if let user = LCApplication.default.currentUser {
-            
+            let defaults = UserDefaults.standard
+            let theme_category_exist = isKeyPresentInUserDefaults(key: theme_category_string)
+            var theme_category  = 6
+            if theme_category_exist{
+                theme_category = defaults.integer(forKey: theme_category_string)
+            }
+            let wallpaper = default_wallpapers[theme_category - 1]
+            wordLabel.text = wallpaper.word
+            wordLabel.textColor = textColors[theme_category]
+            meaningLabel.text = wallpaper.trans
+            meaningLabel.textColor = textColors[theme_category]
+            todayImageView?.image = UIImage(named: "theme_\(theme_category)")
             }
         else {
             // 显示注册或登录页面
