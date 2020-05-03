@@ -67,17 +67,21 @@ class MainPanelViewController: UIViewController {
             showLoginScreen()
         }
     }
-    
-    @IBAction func logOut(_ sender: UIButton) {
-        LCUser.logOut()
-        showLoginScreen()
+    override func viewWillAppear(_ animated: Bool){
+        if let user = LCApplication.default.currentUser {
+            
+            }
+        else {
+            // 显示注册或登录页面
+            showLoginScreen()
+        }
     }
     func showLoginScreen() {
         let LoginRegStoryBoard : UIStoryboard = UIStoryboard(name: "LoginReg", bundle:nil)
         let mainScreenViewController = LoginRegStoryBoard.instantiateViewController(withIdentifier: "StartScreen") as! MainScreenViewController
         mainScreenViewController.modalPresentationStyle = .fullScreen
         DispatchQueue.main.async {
-            self.present(mainScreenViewController, animated: false, completion: nil)
+            self.present(mainScreenViewController, animated: true, completion: nil)
         }
     }
 //    

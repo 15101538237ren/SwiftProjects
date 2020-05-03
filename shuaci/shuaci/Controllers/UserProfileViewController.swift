@@ -41,6 +41,12 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
         // Do any additional setup after loading the view.
     }
     
+    
+    @IBAction func logOut(_ sender: UIButton) {
+        LCUser.logOut()
+        dismiss(animated: false, completion: nil)
+    }
+    
     @IBAction func selectImage(_ sender: UIButton) {
         
         let photoSourceController = UIAlertController(title: "", message: NSLocalizedString("选择您的头像", comment: "选择您的头像") , preferredStyle: .actionSheet)
@@ -72,6 +78,8 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
         
         present(photoSourceController, animated: true, completion: nil)
     }
+    
+    
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         

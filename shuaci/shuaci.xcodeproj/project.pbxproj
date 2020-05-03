@@ -224,7 +224,6 @@
 				A58E070F24535E4600C4D914 /* Resources */,
 				A59EB1D22452A12900F300E1 /* AppDelegate.swift */,
 				A59EB1D42452A12900F300E1 /* SceneDelegate.swift */,
-				A59EB1D82452A12900F300E1 /* Main.storyboard */,
 				A59EB1DB2452A12A00F300E1 /* Assets.xcassets */,
 				A59EB1DD2452A12A00F300E1 /* LaunchScreen.storyboard */,
 				A59EB1E02452A12A00F300E1 /* Info.plist */,
@@ -235,6 +234,7 @@
 		A5A83E21245D1D1D00075BB4 /* StoryBoard */ = {
 			isa = PBXGroup;
 			children = (
+				A59EB1D82452A12900F300E1 /* Main.storyboard */,
 				A5A83E20245D1D1300075BB4 /* LoginReg.storyboard */,
 			);
 			path = StoryBoard;
