@@ -22,11 +22,23 @@ class MainPanelViewController: UIViewController {
         }
     }
     
+    @IBOutlet var themeBtn: UIButton!
+    @IBOutlet var collectBtn: UIButton!
+    @IBOutlet var statBtn: UIButton!
+    @IBOutlet var settingBtn: UIButton!
+    
     var words = [["wordHead":"flower", "trans": "花"], ["wordHead":"Lilac", "trans": "紫丁香"]]
     func updateUserPhoto() {
         if let userImage = loadUserPhoto() {
             self.userPhotoBtn.setImage(userImage, for: [])
         }
+    }
+    
+    func setButtonsColor(color: UIColor) {
+        themeBtn.tintColor = color
+        collectBtn.tintColor = color
+        statBtn.tintColor = color
+        settingBtn.tintColor = color
     }
     func isKeyPresentInUserDefaults(key: String) -> Bool {
         return UserDefaults.standard.object(forKey: key) != nil
@@ -80,6 +92,8 @@ class MainPanelViewController: UIViewController {
             meaningLabel.text = wallpaper.trans
             meaningLabel.textColor = textColors[theme_category]
             todayImageView?.image = UIImage(named: "theme_\(theme_category)")
+            setButtonsColor(color: textColors[theme_category] ?? UIColor.darkGray)
+            
             }
         else {
             // 显示注册或登录页面

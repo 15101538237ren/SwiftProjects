@@ -146,8 +146,12 @@
                     <tabBarItem key="tabBarItem" title="主页" image="house.fill" catalog="system" id="sqx-Hz-drS"/>
                     <navigationItem key="navigationItem" id="biO-ZC-zos"/>
                     <connections>
+                        <outlet property="collectBtn" destination="Zyc-si-HQQ" id="SUt-ig-crL"/>
                         <outlet property="mainPanelUIView" destination="mqx-1T-aw1" id="rP2-Mi-KSq"/>
                         <outlet property="meaningLabel" destination="xSv-kj-v8W" id="zjt-3R-bPA"/>
+                        <outlet property="settingBtn" destination="osM-iq-H3S" id="jFs-r9-TAX"/>
+                        <outlet property="statBtn" destination="sB0-eI-RRR" id="AAZ-TQ-guL"/>
+                        <outlet property="themeBtn" destination="GjT-Nl-SNK" id="mFV-Pe-sPl"/>
                         <outlet property="todayImageView" destination="aLL-Cm-mtq" id="u69-sQ-0LX"/>
                         <outlet property="userPhotoBtn" destination="G93-mr-xkk" id="yzQ-0d-s4H"/>
                         <outlet property="wordLabel" destination="nEc-yZ-Be3" id="DVD-0G-vEs"/>
