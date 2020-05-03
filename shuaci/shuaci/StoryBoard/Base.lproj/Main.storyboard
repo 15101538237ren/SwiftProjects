@@ -162,7 +162,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="RjZ-Pt-3aX">
-                                <rect key="frame" x="157" y="94" width="100" height="120"/>
+                                <rect key="frame" x="157" y="95" width="100" height="120"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PMR-c1-71Z">
                                         <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
@@ -191,14 +191,25 @@
                                 </subviews>
                             </stackView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="pSb-Wp-d1D">
-                                <rect key="frame" x="0.0" y="224" width="414" height="438"/>
+                                <rect key="frame" x="0.0" y="225" width="414" height="437"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                             </tableView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="账号管理" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gb7-Wa-3gm">
+                                <rect key="frame" x="172.5" y="44" width="69.5" height="26"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="26" id="6sI-6u-IGz"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Agh-jn-UNO">
-                                <rect key="frame" x="20" y="64" width="26" height="26"/>
+                                <rect key="frame" x="10" y="44" width="26" height="26"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="26" id="1A4-2U-RyL"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="26" id="LSP-jF-qit"/>
                                     <constraint firstAttribute="width" constant="26" id="WV3-On-IMb"/>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="25" id="yfz-HT-seD"/>
                                 </constraints>
                                 <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <state key="normal" image="chevron.left" catalog="system"/>
@@ -221,14 +232,16 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="Jka-6J-Yzs" firstAttribute="bottom" secondItem="pSb-Wp-d1D" secondAttribute="bottom" constant="200" id="Bxz-He-qZ9"/>
-                            <constraint firstItem="RjZ-Pt-3aX" firstAttribute="top" secondItem="Jka-6J-Yzs" secondAttribute="top" constant="50" id="Dqa-Ix-9KQ"/>
                             <constraint firstItem="QeT-z8-m5t" firstAttribute="centerX" secondItem="FKa-ic-A48" secondAttribute="centerX" id="GWo-i4-Z4w"/>
                             <constraint firstItem="pSb-Wp-d1D" firstAttribute="top" secondItem="RjZ-Pt-3aX" secondAttribute="bottom" constant="10" id="Koy-Zz-pCq"/>
-                            <constraint firstItem="Agh-jn-UNO" firstAttribute="top" secondItem="Jka-6J-Yzs" secondAttribute="top" constant="20" id="R02-gJ-4uY"/>
-                            <constraint firstItem="Agh-jn-UNO" firstAttribute="leading" secondItem="Jka-6J-Yzs" secondAttribute="leading" constant="20" id="UD0-UD-jqz"/>
+                            <constraint firstItem="RjZ-Pt-3aX" firstAttribute="top" secondItem="gb7-Wa-3gm" secondAttribute="bottom" constant="25" id="Lzf-x6-grq"/>
+                            <constraint firstItem="Agh-jn-UNO" firstAttribute="top" secondItem="Jka-6J-Yzs" secondAttribute="top" id="QHV-mY-bXy"/>
                             <constraint firstItem="QeT-z8-m5t" firstAttribute="top" secondItem="pSb-Wp-d1D" secondAttribute="bottom" constant="20" id="a6r-uZ-D4W"/>
+                            <constraint firstItem="gb7-Wa-3gm" firstAttribute="centerX" secondItem="FKa-ic-A48" secondAttribute="centerX" id="b4M-Z8-PvI"/>
                             <constraint firstItem="Jka-6J-Yzs" firstAttribute="trailing" secondItem="pSb-Wp-d1D" secondAttribute="trailing" id="cVn-sI-9Jk"/>
                             <constraint firstItem="RjZ-Pt-3aX" firstAttribute="centerX" secondItem="FKa-ic-A48" secondAttribute="centerX" id="glm-Qb-mCi"/>
+                            <constraint firstItem="Agh-jn-UNO" firstAttribute="leading" secondItem="Jka-6J-Yzs" secondAttribute="leading" constant="10" id="iJL-fR-Wpb"/>
+                            <constraint firstItem="gb7-Wa-3gm" firstAttribute="top" secondItem="Jka-6J-Yzs" secondAttribute="top" id="mbJ-3K-kZR"/>
                             <constraint firstItem="pSb-Wp-d1D" firstAttribute="leading" secondItem="Jka-6J-Yzs" secondAttribute="leading" id="uSt-zc-fIK"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Jka-6J-Yzs"/>
