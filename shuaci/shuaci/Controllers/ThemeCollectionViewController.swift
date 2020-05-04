@@ -56,16 +56,9 @@ class ThemeCollectionViewController: UICollectionViewController {
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let theme = themes[indexPath.row]
-        let alertController = UIAlertController(title: "更改主题", message: "确定设置为[\(theme.name)]主题?", preferredStyle: .alert)
-        let okayAction = UIAlertAction(title: "确定", style: .default, handler: { action in
-            let defaults = UserDefaults.standard
-            defaults.set(theme.category, forKey: theme_category_string)
-            self.dismiss(animated: false, completion: nil)
-        })
-        let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
-        alertController.addAction(okayAction)
-        alertController.addAction(cancelAction)
-        self.present(alertController, animated: true, completion: nil)
+        let defaults = UserDefaults.standard
+        defaults.set(theme.category, forKey: theme_category_string)
+        self.dismiss(animated: true, completion: nil)
     }
 
     // MARK: UICollectionViewDelegate
