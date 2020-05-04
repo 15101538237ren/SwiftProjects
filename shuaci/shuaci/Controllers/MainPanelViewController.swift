@@ -48,10 +48,11 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
     }
     
     func animationDidStop(_ anim: CAAnimation, finished flag: Bool) {
-        if self.shouldStopRotating == false {
-            self.userPhotoBtn.rotate360Degrees(completionDelegate: self)
-        } else {
+        if self.syncLabel.alpha < 0.9 {
             self.reset()
+        }
+        else{
+            self.userPhotoBtn.rotate360Degrees(completionDelegate: self)
         }
     }
     
