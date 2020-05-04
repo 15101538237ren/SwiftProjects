@@ -116,12 +116,24 @@
                                     <segue destination="fIo-7D-rHo" kind="show" identifier="userProfileSegue" id="y0c-J0-SmP"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="数据同步中..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fms-UY-stY">
+                                <rect key="frame" x="66" y="68" width="101" height="21"/>
+                                <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="uOe-bf-LeM"/>
+                                    <constraint firstAttribute="width" constant="101" id="vQ0-9g-xi1"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <color key="tintColor" red="0.63994079829999995" green="0.64003509280000004" blue="0.63992011550000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="JjA-19-Rdx" firstAttribute="centerX" secondItem="mqx-1T-aw1" secondAttribute="centerX" id="182-Mi-K7L"/>
+                            <constraint firstItem="fms-UY-stY" firstAttribute="top" secondItem="Wlh-Rs-nbo" secondAttribute="top" constant="24" id="4vy-s8-rkU"/>
                             <constraint firstAttribute="bottom" secondItem="aLL-Cm-mtq" secondAttribute="bottom" id="CFR-QS-pjI"/>
                             <constraint firstItem="aLL-Cm-mtq" firstAttribute="leading" secondItem="Wlh-Rs-nbo" secondAttribute="leading" id="H1O-Tj-GLt"/>
                             <constraint firstItem="nEc-yZ-Be3" firstAttribute="top" secondItem="Wlh-Rs-nbo" secondAttribute="top" constant="200" id="UGj-nm-Bwj"/>
@@ -131,6 +143,7 @@
                             <constraint firstItem="33A-bh-nwx" firstAttribute="centerX" secondItem="mqx-1T-aw1" secondAttribute="centerX" id="eCF-bd-dtg"/>
                             <constraint firstItem="xSv-kj-v8W" firstAttribute="top" secondItem="nEc-yZ-Be3" secondAttribute="bottom" constant="60" id="f72-JW-G92"/>
                             <constraint firstItem="aLL-Cm-mtq" firstAttribute="top" secondItem="mqx-1T-aw1" secondAttribute="top" id="gFu-4q-Sgc"/>
+                            <constraint firstItem="fms-UY-stY" firstAttribute="leading" secondItem="G93-mr-xkk" secondAttribute="trailing" constant="8" id="k1q-Fl-kWh"/>
                             <constraint firstItem="nEc-yZ-Be3" firstAttribute="centerX" secondItem="mqx-1T-aw1" secondAttribute="centerX" id="oqH-sw-oNo"/>
                             <constraint firstItem="G93-mr-xkk" firstAttribute="top" secondItem="Wlh-Rs-nbo" secondAttribute="top" constant="15" id="r8N-qZ-yNC"/>
                             <constraint firstItem="xSv-kj-v8W" firstAttribute="centerX" secondItem="mqx-1T-aw1" secondAttribute="centerX" id="sae-AK-v0G"/>
@@ -151,6 +164,7 @@
                         <outlet property="meaningLabel" destination="xSv-kj-v8W" id="zjt-3R-bPA"/>
                         <outlet property="settingBtn" destination="osM-iq-H3S" id="jFs-r9-TAX"/>
                         <outlet property="statBtn" destination="sB0-eI-RRR" id="AAZ-TQ-guL"/>
+                        <outlet property="syncLabel" destination="fms-UY-stY" id="xux-oa-rpT"/>
                         <outlet property="themeBtn" destination="GjT-Nl-SNK" id="mFV-Pe-sPl"/>
                         <outlet property="todayImageView" destination="aLL-Cm-mtq" id="u69-sQ-0LX"/>
                         <outlet property="userPhotoBtn" destination="G93-mr-xkk" id="yzQ-0d-s4H"/>

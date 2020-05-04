@@ -10,6 +10,9 @@ import Foundation
 import UIKit
 
 let theme_category_string = "theme_category"
+let last_theme_category_string = "last_theme_category"
+let trans_string = "trans"
+let word_string = "word"
 var default_wallpapers:[Wallpaper] = [
     Wallpaper(word: "lilac", trans: "紫丁香", category: 1),
     Wallpaper(word: "astronaut", trans: "宇航员", category: 2),
@@ -21,6 +24,7 @@ var default_wallpapers:[Wallpaper] = [
     Wallpaper(word: "peony", trans: "牡丹", category: 8),
     Wallpaper(word: "latte", trans: "拿铁", category: 9)
 ]
+var current_wallpaper: Wallpaper = default_wallpapers[0]
 
 var themes:[Theme] = [
     Theme(name: "明亮", background: "1_light", category: 1),
