@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>NSCameraUsageDescription</key>
-	<string>您需要授权本应用使用相机来设置您的头像或上传图片</string>
+	<string>本应用需要使用相机来设置您的头像或上传图片</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>您需要授权本应用使用相片库来设置您的头像或上传图片</string>
+	<string>本应用需要使用相片库来设置您的头像或上传图片</string>
 	<key>CFBundleDisplayName</key>
 	<string></string>
 	<key>CFBundleDevelopmentRegion</key>
@@ -64,6 +64,8 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>本应用需要访问您的照片库来保存您喜爱的壁纸</string>
 	<key>UISupportedInterfaceOrientations~ipad</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>

@@ -26,10 +26,17 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
     
     @IBOutlet var syncLabel: UILabel!
     
+    @IBOutlet var searchBtn: UIButton!
+    @IBOutlet var downloadWallpaperBtn: UIButton!
+    @IBOutlet var searchBar: UISearchBar!
+    
+    
     @IBOutlet var themeBtn: UIButton!
     @IBOutlet var collectBtn: UIButton!
     @IBOutlet var statBtn: UIButton!
     @IBOutlet var settingBtn: UIButton!
+    
+    
     
     func updateUserPhoto() {
         if let userImage = loadUserPhoto() {
@@ -37,22 +44,46 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
         }
     }
     
-    func setButtonsColor(color: UIColor) {
+    @IBAction func saveWallpaperToLibray(_ sender: UIButton) {
+        print(current_wallpaper_image)
+        UIImageWriteToSavedPhotosAlbum(current_wallpaper_image, self, #selector(image(_:didFinishSavingWithError:contextInfo:)), nil)
+        
+    }
+    
+    @objc func image(_ image:UIImage, didFinishSavingWithError error: Error?, contextInfo: UnsafeRawPointer){
+        if let error = error {
+            let ac = UIAlertController(title: "保存出错", message: error.localizedDescription, preferredStyle: .alert)
+            ac.addAction(UIAlertAction(title: "好的", style: .default, handler: nil))
+            present(ac, animated: true, completion: nil)
+        }
+        else{
+            let ac = UIAlertController(title: "保存成功!", message: "图片保存成功!", preferredStyle: .alert)
+            ac.addAction(UIAlertAction(title: "好的", style: .default, handler: nil))
+            present(ac, animated: true, completion: nil)
+        }
+    }
+    
+    func setTextOrButtonsColor(color: UIColor) {
+        syncLabel.textColor = color
+        wordLabel.textColor = color
+        meaningLabel.textColor = color
         themeBtn.tintColor = color
         collectBtn.tintColor = color
         statBtn.tintColor = color
         settingBtn.tintColor = color
+        downloadWallpaperBtn.tintColor = color
+        searchBtn.tintColor = color
     }
     func isKeyPresentInUserDefaults(key: String) -> Bool {
         return UserDefaults.standard.object(forKey: key) != nil
     }
     
     func animationDidStop(_ anim: CAAnimation, finished flag: Bool) {
-        if self.syncLabel.alpha < 0.9 {
-            self.reset()
+        if shouldStopRotating == false {
+            self.userPhotoBtn.rotate360Degrees(completionDelegate: self)
         }
         else{
-            self.userPhotoBtn.rotate360Degrees(completionDelegate: self)
+            self.reset()
         }
     }
     
@@ -112,7 +143,7 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
     }
     
     func getTodayWallpaper(category: Int){
-        DispatchQueue.global(qos: .background).async {
+        do{ //DispatchQueue.global(qos: .background).async
             do {
                 
                 let query = LCQuery(className: "Wallpaper")
@@ -137,6 +168,7 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
                                 let trans = wallpaper?.trans as! LCString
                                 
                                 current_wallpaper = Wallpaper(word: word.value as! String, trans: trans.value as! String, category: category)
+                                current_wallpaper_image = image ?? UIImage()
                                 
                                 UserDefaults.standard.set(current_wallpaper.word, forKey: word_string)
                                 UserDefaults.standard.set(current_wallpaper.trans, forKey: trans_string)
@@ -144,11 +176,8 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
                                 
                                 DispatchQueue.main.async {
                                     self.wordLabel.text = current_wallpaper.word
-                                    self.syncLabel.textColor = textColors[category]
-                                    self.wordLabel.textColor = textColors[category]
                                     self.meaningLabel.text = current_wallpaper.trans
-                                    self.meaningLabel.textColor = textColors[category]
-                                    self.setButtonsColor(color: textColors[category] ?? UIColor.darkGray)
+                                    self.setTextOrButtonsColor(color: textColors[category] ?? UIColor.darkGray)
                                     self.todayImageView?.image = image
                                     self.shouldStopRotating = true
                                     self.syncLabel.alpha = 0.0
@@ -179,15 +208,14 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
                 theme_category = defaults.integer(forKey: theme_category_string)
                 let last_theme_category = defaults.integer(forKey: last_theme_category_string)
                 if theme_category != last_theme_category{
-                    todayImageView?.image = UIImage(named: "theme_\(theme_category)")
+                    let image = UIImage(named: "theme_\(theme_category)")
+                    todayImageView?.image = image
+                    current_wallpaper_image = image ?? UIImage()
                     let wallpaper = default_wallpapers[theme_category - 1]
                     wordLabel.text = wallpaper.word
                     meaningLabel.text = wallpaper.trans
                     
-                    syncLabel.textColor = textColors[theme_category]
-                    wordLabel.textColor = textColors[theme_category]
-                    meaningLabel.textColor = textColors[theme_category]
-                    setButtonsColor(color: textColors[theme_category] ?? UIColor.darkGray)
+                    setTextOrButtonsColor(color: textColors[theme_category] ?? UIColor.darkGray)
                     
                     self.userPhotoBtn.rotate360Degrees(completionDelegate: self)
                     self.isRotating = true
@@ -198,34 +226,36 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
                     let imageFileURL = getDocumentsDirectory().appendingPathComponent("theme_download.jpg")
                     do {
                         let imageData = try Data(contentsOf: imageFileURL)
-                        todayImageView?.image = UIImage(data: imageData)
+                        let image = UIImage(data: imageData)
+                        todayImageView?.image = image
+                        current_wallpaper_image = image ?? UIImage()
                     } catch {
                         print("Error loading image : \(error)")
                     }
-
+                    let word = defaults.string(forKey: word_string)
+                    let trans = defaults.string(forKey: trans_string)
+                    wordLabel.text = word
+                    meaningLabel.text = trans
+                    current_wallpaper = Wallpaper(word: word!, trans: trans!, category: theme_category)
                     
-                    wordLabel.text = defaults.string(forKey: word_string)
-                    meaningLabel.text = defaults.string(forKey: trans_string)
-                    
-                    syncLabel.textColor = textColors[theme_category]
-                    wordLabel.textColor = textColors[theme_category]
-                    meaningLabel.textColor = textColors[theme_category]
-                    setButtonsColor(color: textColors[theme_category] ?? UIColor.darkGray)
+                    setTextOrButtonsColor(color: textColors[theme_category] ?? UIColor.darkGray)
                 }
             }
             else{
                 defaults.set(theme_category, forKey: last_theme_category_string)
                 current_wallpaper = default_wallpapers[theme_category - 1]
+                
                 defaults.set(current_wallpaper.word, forKey: word_string)
                 defaults.set(current_wallpaper.trans, forKey: trans_string)
+                
+                let image = UIImage(named: "theme_\(theme_category)")
+                todayImageView?.image = image
+                current_wallpaper_image = image ?? UIImage()
                 
                 wordLabel.text = current_wallpaper.word
                 meaningLabel.text = current_wallpaper.trans
                 
-                syncLabel.textColor = textColors[theme_category]
-                wordLabel.textColor = textColors[theme_category]
-                meaningLabel.textColor = textColors[theme_category]
-                setButtonsColor(color: textColors[theme_category] ?? UIColor.darkGray)
+                setTextOrButtonsColor(color: textColors[theme_category] ?? UIColor.darkGray)
             }
             
             

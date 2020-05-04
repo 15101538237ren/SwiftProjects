@@ -127,6 +127,33 @@
                                 <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <searchBar alpha="0.0" contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="1SZ-Uu-Q0K">
+                                <rect key="frame" x="60" y="56" width="295" height="44"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="295" id="1DP-Wq-l4h"/>
+                                    <constraint firstAttribute="height" constant="44" id="Ywn-yi-zqp"/>
+                                </constraints>
+                                <textInputTraits key="textInputTraits"/>
+                            </searchBar>
+                            <stackView opaque="NO" contentMode="scaleToFill" spacing="23" translatesAutoresizingMaskIntoConstraints="NO" id="pgK-hz-tuD">
+                                <rect key="frame" x="327" y="69" width="62" height="22"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZyA-q1-g0i">
+                                        <rect key="frame" x="0.0" y="0.0" width="20" height="22"/>
+                                        <state key="normal" image="magnifyingglass" catalog="system"/>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kgy-XQ-p2c">
+                                        <rect key="frame" x="43" y="0.0" width="19" height="22"/>
+                                        <state key="normal" image="square.and.arrow.down" catalog="system"/>
+                                        <connections>
+                                            <action selector="saveWallpaperToLibray:" destination="868-VL-FJO" eventType="touchUpInside" id="jah-uI-Z9e"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="22" id="EQX-iM-edD"/>
+                                </constraints>
+                            </stackView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <color key="tintColor" red="0.63994079829999995" green="0.64003509280000004" blue="0.63992011550000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -136,8 +163,12 @@
                             <constraint firstItem="fms-UY-stY" firstAttribute="top" secondItem="Wlh-Rs-nbo" secondAttribute="top" constant="24" id="4vy-s8-rkU"/>
                             <constraint firstAttribute="bottom" secondItem="aLL-Cm-mtq" secondAttribute="bottom" id="CFR-QS-pjI"/>
                             <constraint firstItem="aLL-Cm-mtq" firstAttribute="leading" secondItem="Wlh-Rs-nbo" secondAttribute="leading" id="H1O-Tj-GLt"/>
+                            <constraint firstItem="1SZ-Uu-Q0K" firstAttribute="centerX" secondItem="mqx-1T-aw1" secondAttribute="centerX" id="SGB-H3-lMP"/>
+                            <constraint firstItem="Wlh-Rs-nbo" firstAttribute="trailing" secondItem="pgK-hz-tuD" secondAttribute="trailing" constant="25" id="Sut-V2-Gzz"/>
                             <constraint firstItem="nEc-yZ-Be3" firstAttribute="top" secondItem="Wlh-Rs-nbo" secondAttribute="top" constant="200" id="UGj-nm-Bwj"/>
+                            <constraint firstItem="1SZ-Uu-Q0K" firstAttribute="top" secondItem="Wlh-Rs-nbo" secondAttribute="top" constant="12" id="VIe-dS-ZaE"/>
                             <constraint firstItem="G93-mr-xkk" firstAttribute="leading" secondItem="Wlh-Rs-nbo" secondAttribute="leading" constant="20" id="WRb-wf-sIL"/>
+                            <constraint firstItem="pgK-hz-tuD" firstAttribute="top" secondItem="Wlh-Rs-nbo" secondAttribute="top" constant="25" id="Yji-Mm-HeU"/>
                             <constraint firstItem="Wlh-Rs-nbo" firstAttribute="bottom" secondItem="JjA-19-Rdx" secondAttribute="bottom" constant="4" id="akP-Kb-6PU"/>
                             <constraint firstItem="Wlh-Rs-nbo" firstAttribute="bottom" secondItem="33A-bh-nwx" secondAttribute="bottom" constant="100" id="cr2-2K-Sjw"/>
                             <constraint firstItem="33A-bh-nwx" firstAttribute="centerX" secondItem="mqx-1T-aw1" secondAttribute="centerX" id="eCF-bd-dtg"/>
@@ -160,8 +191,11 @@
                     <navigationItem key="navigationItem" id="biO-ZC-zos"/>
                     <connections>
                         <outlet property="collectBtn" destination="Zyc-si-HQQ" id="SUt-ig-crL"/>
+                        <outlet property="downloadWallpaperBtn" destination="kgy-XQ-p2c" id="JAl-aF-aZQ"/>
                         <outlet property="mainPanelUIView" destination="mqx-1T-aw1" id="rP2-Mi-KSq"/>
                         <outlet property="meaningLabel" destination="xSv-kj-v8W" id="zjt-3R-bPA"/>
+                        <outlet property="searchBar" destination="1SZ-Uu-Q0K" id="dLB-or-dYe"/>
+                        <outlet property="searchBtn" destination="ZyA-q1-g0i" id="Hjk-du-7Kk"/>
                         <outlet property="settingBtn" destination="osM-iq-H3S" id="jFs-r9-TAX"/>
                         <outlet property="statBtn" destination="sB0-eI-RRR" id="AAZ-TQ-guL"/>
                         <outlet property="syncLabel" destination="fms-UY-stY" id="xux-oa-rpT"/>
@@ -375,8 +409,10 @@
         <image name="honglei" width="2149" height="2149"/>
         <image name="house.fill" catalog="system" width="128" height="106"/>
         <image name="logout" width="133" height="41"/>
+        <image name="magnifyingglass" catalog="system" width="128" height="115"/>
         <image name="rate" width="512" height="512"/>
         <image name="seo" width="512" height="512"/>
         <image name="settings" width="512" height="512"/>
+        <image name="square.and.arrow.down" catalog="system" width="121" height="128"/>
     </resources>
 </document>

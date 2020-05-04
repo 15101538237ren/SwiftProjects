@@ -25,6 +25,7 @@ var default_wallpapers:[Wallpaper] = [
     Wallpaper(word: "latte", trans: "拿铁", category: 9)
 ]
 var current_wallpaper: Wallpaper = default_wallpapers[0]
+var current_wallpaper_image: UIImage = UIImage()
 
 var themes:[Theme] = [
     Theme(name: "明亮", background: "1_light", category: 1),
