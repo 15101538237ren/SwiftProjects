@@ -50,6 +50,11 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
         
     }
     
+    @IBAction func searchBtnTouched(_ sender: UIButton) {
+        searchBar.alpha = 1
+        searchBtn.alpha = 0
+    }
+    
     @objc func image(_ image:UIImage, didFinishSavingWithError error: Error?, contextInfo: UnsafeRawPointer){
         if let error = error {
             let ac = UIAlertController(title: "保存出错", message: error.localizedDescription, preferredStyle: .alert)
@@ -97,7 +102,7 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
         navigationController?.navigationBar.shadowImage = UIImage()
         
         navigationController?.navigationBar.tintColor = .white
-        
+        searchBar.backgroundColor = UIColor.clear
         if let user = LCApplication.default.currentUser {
             syncLabel.alpha = 0
             // 跳到首页
@@ -265,6 +270,21 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
             showLoginScreen()
         }
     }
+    
+    
+    @IBAction func ReciteNewWords(_ sender: UIButton) {
+        let defaults = UserDefaults.standard
+        let current_book_exist = isKeyPresentInUserDefaults(key: "current_book")
+        if !current_book_exist{
+            let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+            let booksVC = mainStoryBoard.instantiateViewController(withIdentifier: "booksController") as! BooksViewController
+            booksVC.modalPresentationStyle = .fullScreen
+            DispatchQueue.main.async {
+                self.present(booksVC, animated: true, completion: nil)
+            }
+        }
+    }
+    
     func showLoginScreen() {
         let LoginRegStoryBoard : UIStoryboard = UIStoryboard(name: "LoginReg", bundle:nil)
         let mainScreenViewController = LoginRegStoryBoard.instantiateViewController(withIdentifier: "StartScreen") as! MainScreenViewController

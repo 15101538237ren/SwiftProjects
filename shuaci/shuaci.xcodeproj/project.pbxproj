@@ -37,6 +37,8 @@
 		A5B821732453669B00963FEC /* CardUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B821722453669B00963FEC /* CardUIView.swift */; };
 		A5B82177245370CD00963FEC /* Songti SC Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A5B82176245370CD00963FEC /* Songti SC Regular.ttf */; };
 		A5B821792453747C00963FEC /* MainScreenUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B821782453747C00963FEC /* MainScreenUIView.swift */; };
+		A5BE9C2D2462242500302F38 /* Book.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5BE9C2C2462242500302F38 /* Book.swift */; };
+		A5BE9C2F246229DC00302F38 /* BooksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5BE9C2E246229DC00302F38 /* BooksViewController.swift */; };
 		A5D8B2DF245FD1BC00786F7C /* UIViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D8B2DE245FD1BC00786F7C /* UIViewExtensions.swift */; };
 		A5E764D1245D269300367C2A /* ShengciViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5E764D0245D269300367C2A /* ShengciViewController.swift */; };
 		A5E764D2245DEB8600367C2A /* LoginReg.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A5A83E20245D1D1300075BB4 /* LoginReg.storyboard */; };
@@ -93,6 +95,8 @@
 		A5B82174245366F600963FEC /* Geneva Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Geneva Regular.ttf"; sourceTree = "<group>"; };
 		A5B82176245370CD00963FEC /* Songti SC Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Songti SC Regular.ttf"; sourceTree = "<group>"; };
 		A5B821782453747C00963FEC /* MainScreenUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScreenUIView.swift; sourceTree = "<group>"; };
+		A5BE9C2C2462242500302F38 /* Book.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Book.swift; sourceTree = "<group>"; };
+		A5BE9C2E246229DC00302F38 /* BooksViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BooksViewController.swift; sourceTree = "<group>"; };
 		A5D8B2DE245FD1BC00786F7C /* UIViewExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtensions.swift; sourceTree = "<group>"; };
 		A5E764D0245D269300367C2A /* ShengciViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShengciViewController.swift; sourceTree = "<group>"; };
 		A5E764D3245E0AD000367C2A /* UserProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileViewController.swift; sourceTree = "<group>"; };
@@ -164,6 +168,7 @@
 				A57229BF24568C13001C121C /* Word.swift */,
 				A5F5154E245F578900F06610 /* Theme.swift */,
 				A5F51550245F5E9300F06610 /* Wallpaper.swift */,
+				A5BE9C2C2462242500302F38 /* Book.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -278,6 +283,7 @@
 				A5E764D0245D269300367C2A /* ShengciViewController.swift */,
 				A5E764D3245E0AD000367C2A /* UserProfileViewController.swift */,
 				A5F5154C245F56DF00F06610 /* ThemeCollectionViewController.swift */,
+				A5BE9C2E246229DC00302F38 /* BooksViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -424,7 +430,9 @@
 				A5F59F4A2453DDD000D6D717 /* EmailLoginViewController.swift in Sources */,
 				A5B821792453747C00963FEC /* MainScreenUIView.swift in Sources */,
 				A5F51551245F5E9300F06610 /* Wallpaper.swift in Sources */,
+				A5BE9C2D2462242500302F38 /* Book.swift in Sources */,
 				A5F5154F245F578900F06610 /* Theme.swift in Sources */,
+				A5BE9C2F246229DC00302F38 /* BooksViewController.swift in Sources */,
 				A523A7192455435C00976574 /* ResetPwdViewController.swift in Sources */,
 				A523A717245542F100976574 /* ResetPwdUIView.swift in Sources */,
 				A5E764D4245E0AD000367C2A /* UserProfileViewController.swift in Sources */,

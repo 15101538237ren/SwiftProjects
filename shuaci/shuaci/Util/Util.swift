@@ -12,6 +12,7 @@ import UIKit
 let theme_category_string = "theme_category"
 let last_theme_category_string = "last_theme_category"
 let trans_string = "trans"
+
 let word_string = "word"
 var default_wallpapers:[Wallpaper] = [
     Wallpaper(word: "lilac", trans: "紫丁香", category: 1),
