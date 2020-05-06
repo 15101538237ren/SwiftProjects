@@ -10,32 +10,20 @@ import UIKit
 
 class Level1CategoryTableViewCell: UITableViewCell, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
-    @IBOutlet weak var level1_collectionView: UICollectionView!
-    
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 1
-    }
-    
+    @IBOutlet weak var collectionView: UICollectionView!
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return categories.count
+        categories.count
     }
-    
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        if let cell: Level1CollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: "level1_collection_cell", for: indexPath) as? Level1CollectionViewCell
-        {
-            cell.level1_category_label.text = categories[indexPath.row]?["category"] as? String
-            return cell
-        }
-        return UICollectionViewCell()
+        let cell: Level1CollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: "level1_collection_cell", for: indexPath) as! Level1CollectionViewCell
+        cell.level1_category_label.text = categories[indexPath.row + 1]?["category"] as! String
+        return cell
     }
     
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        
-        self.level1_collectionView.delegate = self
-        self.level1_collectionView.dataSource = self
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
