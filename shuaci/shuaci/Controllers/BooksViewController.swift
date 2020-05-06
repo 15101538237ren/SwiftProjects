@@ -38,7 +38,11 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
         tableView.dataSource = self
         
         tableView.tableFooterView = UIView()
-
+        
+        activityIndicator()
+        indicator.startAnimating()
+        indicator.backgroundColor = .white
+        getBooks()
         // Do any additional setup after loading the view.
     }
     
@@ -48,61 +52,6 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
         navigationController?.hidesBarsOnSwipe = false
         navigationController?.setNavigationBarHidden(false, animated: true)
         
-        activityIndicator()
-        indicator.startAnimating()
-        indicator.backgroundColor = .white
-        getBooks()
-        getbookImages()
-    }
-    
-    func getbookImages() {
-        DispatchQueue.global(qos: .background).async {
-        do {
-            for (index, book) in self.books.enumerated(){
-            let imageFileURL = getDocumentsDirectory().appendingPathComponent("\(book.identifier).jpg")
-            if !FileManager.default.fileExists(atPath: imageFileURL.path) {
-                let imageData = try Data(contentsOf: imageFileURL)
-                if let image = UIImage(data: imageData){
-                    self.books[index].cover_image = image
-                }
-            } else {
-                let query = LCQuery(className: "Book")
-                _ = query.find { result in
-                    switch result {
-                    case .success(objects: let results):
-                        // Books 是包含满足条件的 (className: "Book") 对象的数组
-                        
-                        for (index, item) in results.enumerated(){
-                            if let cover_image = item.get("cover") as? LCFile {
-                                //let imgData = photoData.value as! LCData
-                                let url = URL(string: cover_image.url?.stringValue as! String)!
-                                let data = try? Data(contentsOf: url)
-                                print(url)
-                                if let imageData = data {
-                                    let image = UIImage(data: imageData)
-
-                                    try? image!.jpegData(compressionQuality: 1.0)?.write(to: imageFileURL)
-                                    self.books[index].cover_image = image ?? UIImage()
-                                }
-                            }
-                        }
-                        break
-                    case .failure(error: let error):
-                        print(error)
-                    }
-                }
-                
-            }
-        }
-        DispatchQueue.main.async {
-            self.tableView.reloadData()
-            self.indicator.stopAnimating()
-            self.indicator.hidesWhenStopped = true
-        }
-        } catch {
-                print(error)
-            }
-        }
     }
     
     func getBooks(){
@@ -123,12 +72,29 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
                         let word_num = item.get("word_num")?.intValue
                         let recite_user_num = item.get("recite_user_num")?.intValue
                         
+                        
+                        
                         var book:Book = Book(identifier: identifier ?? "", level1_category: level1_category ?? 0, level2_category: level2_category ?? 0, name: name ?? "", description: desc ?? "", word_num: word_num ?? 0, recite_user_num: recite_user_num ?? 0, cover_image:UIImage() , data: NSData())
+                        let imageFileURL = getDocumentsDirectory().appendingPathComponent("\(book.identifier).jpg")
                         self.books.append(book)
+                        if let cover_image = item.get("cover") as? LCFile {
+                            //let imgData = photoData.value as! LCData
+                            let url = URL(string: cover_image.url?.stringValue as! String)!
+                            let data = try? Data(contentsOf: url)
+                            print(url)
+                            if let imageData = data {
+                                let image = UIImage(data: imageData)
+
+                                try? image!.jpegData(compressionQuality: 1.0)?.write(to: imageFileURL)
+                                self.books[index].cover_image = image ?? UIImage()
+                            }
+                        }
 
                     }
                     DispatchQueue.main.async {
                         self.tableView.reloadData()
+                        self.indicator.stopAnimating()
+                        self.indicator.hidesWhenStopped = true
                     }
                     break
                 case .failure(error: let error):
@@ -158,12 +124,15 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
         default:
             let cell = tableView.dequeueReusableCell(withIdentifier: "bookItemCell", for: indexPath) as! BookItemTableViewCell
             cell.selectionStyle = .none
-            let book = books[indexPath.row - 2]
-            cell.name.text = book.name
-            cell.introduce.text = book.description
-            cell.num_word.text = "\(book.word_num)"
-            cell.num_recite.text = "\(Int(Float(book.recite_user_num) / 10000.0))"
-            cell.cover.image = book.cover_image
+            
+            if books.count > 0{
+                let book = books[indexPath.row - 2]
+                cell.name.text = book.name
+                cell.introduce.text = book.description
+                cell.num_word.text = "\(book.word_num)"
+                cell.num_recite.text = "\(Int(Float(book.recite_user_num) / 10000.0))"
+                cell.cover.image = book.cover_image
+            }
             return cell
         }
     }
