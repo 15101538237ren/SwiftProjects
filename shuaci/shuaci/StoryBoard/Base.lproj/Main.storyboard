@@ -284,7 +284,7 @@
                                                         <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                                     </collectionViewFlowLayout>
                                                     <cells>
-                                                        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="Zvw-jJ-nOV">
+                                                        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="level1_collection_cell" id="Zvw-jJ-nOV" customClass="Level1CollectionViewCell" customModule="刷词" customModuleProvider="target">
                                                             <rect key="frame" x="0.0" y="2" width="65" height="40"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                             <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="hEg-mz-hTo">
@@ -307,6 +307,9 @@
                                                                     <constraint firstItem="U8X-n6-Jz5" firstAttribute="centerX" secondItem="hEg-mz-hTo" secondAttribute="centerX" id="zdy-UV-zmk"/>
                                                                 </constraints>
                                                             </collectionViewCellContentView>
+                                                            <connections>
+                                                                <outlet property="level1_category_label" destination="U8X-n6-Jz5" id="2UT-Vt-DIe"/>
+                                                            </connections>
                                                         </collectionViewCell>
                                                     </cells>
                                                 </collectionView>
@@ -331,7 +334,7 @@
                                                         <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                                     </collectionViewFlowLayout>
                                                     <cells>
-                                                        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="Our-qq-hv0">
+                                                        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="level2_collection_cell" id="Our-qq-hv0">
                                                             <rect key="frame" x="0.0" y="2" width="65" height="40"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                             <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="SQz-xl-Obm">
@@ -360,13 +363,111 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="P2w-j5-GgK">
-                                        <rect key="frame" x="0.0" y="115" width="414" height="43.5"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="111" id="P2w-j5-GgK" customClass="BookItemTableViewCell" customModule="刷词" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="115" width="414" height="111"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="P2w-j5-GgK" id="EJA-1y-AGh">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="111"/>
                                             <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="SiU-dw-g5O">
+                                                    <rect key="frame" x="15" y="9" width="69" height="93"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="93" id="Jd4-gX-6wi"/>
+                                                        <constraint firstAttribute="width" secondItem="SiU-dw-g5O" secondAttribute="height" multiplier="251:338" id="RZO-Ci-3Xw"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="GRE词汇精选" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X7N-zk-sDn">
+                                                    <rect key="frame" x="104" y="11" width="270" height="20"/>
+                                                    <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="14"/>
+                                                    <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="GRE词汇精选是一本很棒的书" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DNK-b4-HaI">
+                                                    <rect key="frame" x="104" y="35" width="270" height="17"/>
+                                                    <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="12"/>
+                                                    <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" spacing="7" translatesAutoresizingMaskIntoConstraints="NO" id="iNZ-we-l33">
+                                                    <rect key="frame" x="104" y="82" width="64.5" height="13"/>
+                                                    <subviews>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="单词量" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VEE-Zj-a4X">
+                                                            <rect key="frame" x="0.0" y="0.0" width="27.5" height="13"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="height" constant="13" id="TN5-Mi-IPs"/>
+                                                                <constraint firstAttribute="width" constant="27.5" id="sD1-y8-Mze"/>
+                                                            </constraints>
+                                                            <fontDescription key="fontDescription" name="PingFangSC-Medium" family="PingFang SC" pointSize="9"/>
+                                                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="3278" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IEd-u5-QOx">
+                                                            <rect key="frame" x="34.5" y="0.0" width="30" height="13"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="height" constant="13" id="DdR-GT-I82"/>
+                                                                <constraint firstAttribute="width" constant="30" id="fIT-D7-rFo"/>
+                                                            </constraints>
+                                                            <fontDescription key="fontDescription" name="PingFangSC-Medium" family="PingFang SC" pointSize="9"/>
+                                                            <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                    </subviews>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="13" id="zOh-im-Rsu"/>
+                                                    </constraints>
+                                                </stackView>
+                                                <stackView opaque="NO" contentMode="scaleToFill" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="10g-Ya-BdO">
+                                                    <rect key="frame" x="198.5" y="82" width="175.5" height="13"/>
+                                                    <subviews>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="107.5" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="k0o-FD-gW2">
+                                                            <rect key="frame" x="0.0" y="0.0" width="35" height="13"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="width" constant="35" id="Yot-Jn-fa0"/>
+                                                                <constraint firstAttribute="height" constant="13" id="mtP-l2-Ngg"/>
+                                                            </constraints>
+                                                            <fontDescription key="fontDescription" name="PingFangSC-Medium" family="PingFang SC" pointSize="9"/>
+                                                            <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="万人在背" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="k14-zl-y6q">
+                                                            <rect key="frame" x="37" y="0.0" width="138.5" height="13"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="height" constant="13" id="1er-cb-424"/>
+                                                                <constraint firstAttribute="width" constant="35" id="fzW-BI-U9F"/>
+                                                            </constraints>
+                                                            <fontDescription key="fontDescription" name="PingFangSC-Medium" family="PingFang SC" pointSize="9"/>
+                                                            <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                    </subviews>
+                                                </stackView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="SiU-dw-g5O" firstAttribute="leading" secondItem="EJA-1y-AGh" secondAttribute="leading" constant="15" id="32N-i7-Vgr"/>
+                                                <constraint firstItem="DNK-b4-HaI" firstAttribute="leading" secondItem="SiU-dw-g5O" secondAttribute="trailing" constant="20" id="9hD-RY-qcC"/>
+                                                <constraint firstItem="10g-Ya-BdO" firstAttribute="leading" secondItem="iNZ-we-l33" secondAttribute="trailing" constant="30" id="Aj4-Gu-cQq"/>
+                                                <constraint firstItem="DNK-b4-HaI" firstAttribute="top" secondItem="X7N-zk-sDn" secondAttribute="bottom" constant="4" id="G05-Ut-h7W"/>
+                                                <constraint firstItem="iNZ-we-l33" firstAttribute="leading" secondItem="SiU-dw-g5O" secondAttribute="trailing" constant="20" id="GCa-1U-wuR"/>
+                                                <constraint firstAttribute="bottom" secondItem="SiU-dw-g5O" secondAttribute="bottom" constant="9" id="Ljh-Tw-XTS"/>
+                                                <constraint firstItem="10g-Ya-BdO" firstAttribute="top" relation="greaterThanOrEqual" secondItem="DNK-b4-HaI" secondAttribute="bottom" constant="30" id="NQg-dz-k6W"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="X7N-zk-sDn" secondAttribute="trailing" constant="20" id="Nl2-M4-Mho"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="10g-Ya-BdO" secondAttribute="bottom" constant="5" id="PKl-Jo-5jQ"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="10g-Ya-BdO" secondAttribute="trailing" constant="20" id="WU1-ku-Tcj"/>
+                                                <constraint firstItem="SiU-dw-g5O" firstAttribute="top" secondItem="EJA-1y-AGh" secondAttribute="top" constant="9" id="lRO-na-IIL"/>
+                                                <constraint firstItem="X7N-zk-sDn" firstAttribute="top" secondItem="EJA-1y-AGh" secondAttribute="topMargin" id="m7t-hB-mbW"/>
+                                                <constraint firstItem="X7N-zk-sDn" firstAttribute="leading" secondItem="SiU-dw-g5O" secondAttribute="trailing" constant="20" id="rvb-PK-TTS"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="DNK-b4-HaI" secondAttribute="trailing" constant="20" id="vXB-oL-PrI"/>
+                                                <constraint firstItem="iNZ-we-l33" firstAttribute="top" relation="greaterThanOrEqual" secondItem="DNK-b4-HaI" secondAttribute="bottom" constant="30" id="wd3-oS-3d8"/>
+                                            </constraints>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="cover" destination="SiU-dw-g5O" id="uJN-PL-DON"/>
+                                            <outlet property="introduce" destination="DNK-b4-HaI" id="3Wv-pS-x7t"/>
+                                            <outlet property="name" destination="X7N-zk-sDn" id="SyF-gM-80i"/>
+                                            <outlet property="num_recite" destination="k0o-FD-gW2" id="6Pp-db-L5s"/>
+                                            <outlet property="num_word" destination="IEd-u5-QOx" id="Wve-ul-eEX"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
