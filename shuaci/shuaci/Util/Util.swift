@@ -8,6 +8,8 @@
 
 import Foundation
 import UIKit
+import LeanCloud
+import SwiftyJSON
 
 let theme_category_string = "theme_category"
 let last_theme_category_string = "last_theme_category"
@@ -16,7 +18,11 @@ let word_string = "word"
 var selected_category:Int = 1
 var selected_subcategory: Int = 0
 var imageCache = NSCache<NSString, NSURL>()
-var bookCache = NSCache<NSString, Book>()
+var books: [Book] = []
+var resultsItems: [LCObject] = []
+//var book_json_path = getDocumentsDirectory().appendingPathComponent("books.json")
+//let fileM = FileManager.default
+
 let categories:[Int: [String: [Int: String]]] = [
     1 : ["category":  [0:"出国"], "subcategory": [1: "雅思", 2: "托福", 3: "GRE", 4: "SAT", 5: "GMAT", 6: "MBA", 7: "其他"]],
     2: ["category": [0:"高中"], "subcategory": [1: "考纲核心", 2: "人教版", 3: "外研社版", 4: "北师大版", 5: "牛津译林版", 6: "牛津上海版", 7: "其他"]],
@@ -112,6 +118,7 @@ let book_info_dict = [
     "WaiYanSheChuZhong_6": ["level1_category": 6, "level2_category": 3]
 ]
 
+
 var default_wallpapers:[Wallpaper] = [
     Wallpaper(word: "lilac", trans: "紫丁香", category: 1),
     Wallpaper(word: "astronaut", trans: "宇航员", category: 2),
@@ -151,4 +158,41 @@ func loadUserPhoto() -> UIImage?{
         print("Error loading image : \(error)")
     }
     return nil
+}
+
+func fetchBooks(){
+    DispatchQueue.global(qos: .background).async {
+    do {
+        let query = LCQuery(className: "Book")
+        _ = query.find { result in
+            switch result {
+            case .success(objects: let results):
+                // Books 是包含满足条件的 (className: "Book") 对象的数组
+                for item in results{
+                    let identifier = item.get("identifier")?.stringValue
+                    let level1_category = item.get("level1_category")?.intValue
+                    let level2_category = item.get("level2_category")?.intValue
+                    let name = item.get("name")?.stringValue
+                    let desc = item.get("description")?.stringValue
+                    let word_num = item.get("word_num")?.intValue
+                    let recite_user_num = item.get("recite_user_num")?.intValue
+                    
+                    let book:Book = Book(identifier: identifier ?? "", level1_category: level1_category ?? 0, level2_category: level2_category ?? 0, name: name ?? "", description: desc ?? "", word_num: word_num ?? 0, recite_user_num: recite_user_num ?? 0)
+                    books.append(book)
+                    resultsItems.append(item)
+                }
+//                let book_json_data = JSON(books).description.data(using: .utf8)!
+//                do{
+//                    try book_json_data.write(to: book_json_path)
+//                }
+//                catch let error as NSError{
+//                    print(error)
+//                }
+                break
+            case .failure(error: let error):
+                print(error)
+            }
+        }
+    }
+    }
 }

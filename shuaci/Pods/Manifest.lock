@@ -15,10 +15,12 @@ PODS:
     - SwiftProtobuf (~> 1.8)
   - Starscream (3.1.1)
   - SwiftProtobuf (1.8.0)
+  - SwiftyJSON (4.3.0)
 
 DEPENDENCIES:
   - CropViewController
   - LeanCloud
+  - SwiftyJSON (~> 4.0)
 
 SPEC REPOS:
   trunk:
@@ -28,6 +30,7 @@ SPEC REPOS:
     - LeanCloud
     - Starscream
     - SwiftProtobuf
+    - SwiftyJSON
 
 SPEC CHECKSUMS:
   Alamofire: 9d5c5f602928e512395b30950c5984eca840093c
@@ -36,7 +39,8 @@ SPEC CHECKSUMS:
   LeanCloud: cbb1c70dbc9a858992e69510d17ba716695e69f5
   Starscream: 4bb2f9942274833f7b4d296a55504dcfc7edb7b0
   SwiftProtobuf: 2cbd9409689b7df170d82a92a33443c8e3e14a70
+  SwiftyJSON: 6faa0040f8b59dead0ee07436cbf76b73c08fd08
 
-PODFILE CHECKSUM: c54fefe3ea873e3bc0ccd0f412679a563b35ff88
+PODFILE CHECKSUM: 5da71689864258821c100cf382869be51ebbc653
 
 COCOAPODS: 1.9.1

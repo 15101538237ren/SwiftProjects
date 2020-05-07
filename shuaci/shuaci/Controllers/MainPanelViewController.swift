@@ -9,6 +9,7 @@
 import UIKit
 import LeanCloud
 import AVFoundation
+import SwiftyJSON
 
 class MainPanelViewController: UIViewController, CAAnimationDelegate {
     @IBOutlet var mainPanelUIView: MainPanelUIView!
@@ -106,6 +107,7 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
         if let user = LCApplication.default.currentUser {
             syncLabel.alpha = 0
             // 跳到首页
+            fetchBooks()
             if let userImage = loadUserPhoto() {
                 self.userPhotoBtn.setImage(userImage, for: [])
             }
@@ -197,8 +199,6 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
             } catch {
                 print(error)
             }
-
-            
         }
 
     }

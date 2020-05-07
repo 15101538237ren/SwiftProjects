@@ -8,11 +8,9 @@
 
 import UIKit
 import LeanCloud
+import SwiftyJSON
 
 class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-    var books: [Book] = []
-    var resultsItems: [LCObject] = []
-    
     var indicator = UIActivityIndicatorView()
     var strLabel = UILabel()
     let effectView = UIVisualEffectView(effect: UIBlurEffect(style: .regular))
@@ -58,48 +56,39 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
         tableView.delegate = self
         tableView.dataSource = self
         tableView.tableFooterView = UIView()
-        
         initActivityIndicator()
-        fetchBooks()
     }
     
-    
-    func fetchBooks(){
-        DispatchQueue.global(qos: .background).async {
-        do {
-            let query = LCQuery(className: "Book")
-            _ = query.find { result in
-                switch result {
-                case .success(objects: let results):
-                    // Books 是包含满足条件的 (className: "Book") 对象的数组
-                    for item in results{
-                        let identifier = item.get("identifier")?.stringValue
-                        let level1_category = item.get("level1_category")?.intValue
-                        let level2_category = item.get("level2_category")?.intValue
-                        let name = item.get("name")?.stringValue
-                        let desc = item.get("description")?.stringValue
-                        let word_num = item.get("word_num")?.intValue
-                        let recite_user_num = item.get("recite_user_num")?.intValue
-                        
-                        let book:Book = Book(identifier: identifier ?? "", level1_category: level1_category ?? 0, level2_category: level2_category ?? 0, name: name ?? "", description: desc ?? "", word_num: word_num ?? 0, recite_user_num: recite_user_num ?? 0, cover_image:UIImage() , data: NSData())
-                        self.books.append(book)
-                        self.resultsItems.append(item)
-                    }
-                    DispatchQueue.main.async {
-                        self.tableView.reloadData()
-                        self.indicator.stopAnimating()
-                        self.indicator.hidesWhenStopped = true
-                        self.effectView.alpha = 0
-                        self.strLabel.alpha = 0
-                    }
-                    break
-                case .failure(error: let error):
-                    print(error)
-                }
+    func loadBooks()
+    {
+//        if fileM.fileExists(atPath: book_json_path.path) {
+//            do{
+//                let data = try Data(contentsOf: book_json_path, options: .alwaysMapped)
+//                let books = try JSON(data: data)
+//                for book in books{
+//
+//                }
+//            }catch let error as Error{
+//                print(error)
+//            }
+//
+//        } else {
+//            print("FILE NOT AVAILABLE")
+//        }
+        if books.count > 0{
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+                self.indicator.stopAnimating()
+                self.indicator.hidesWhenStopped = true
+                self.effectView.alpha = 0
+                self.strLabel.alpha = 0
             }
         }
+        else{
+            fetchBooks()
         }
     }
+    
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -149,7 +138,7 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
                 } else {
                     DispatchQueue.global(qos: .background).async {
                     do {
-                        if let cover_image = self.resultsItems[index].get("cover") as? LCFile {
+                        if let cover_image = resultsItems[index].get("cover") as? LCFile {
                             //let imgData = photoData.value as! LCData
                             let url = URL(string: cover_image.url?.stringValue as! String)!
                             let data = try? Data(contentsOf: url)
@@ -160,7 +149,7 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
                                 try? image!.jpegData(compressionQuality: 1.0)?.write(to: imageFileURL)
                                 imageCache.setObject(imageFileURL as! NSURL, forKey: cell.identifier as! NSString)
                                 DispatchQueue.main.async {
-                                    self.books[index].cover_image = image!
+                                    cell.cover.image = image!
                                     cell.setNeedsLayout()
                                 }
                             }

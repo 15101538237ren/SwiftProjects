@@ -18,10 +18,8 @@ class Book
     var description: String
     var word_num: Int
     var recite_user_num: Int
-    var cover_image: UIImage
-    var data: NSData
     
-    init(identifier: String, level1_category: Int, level2_category:Int, name:String, description:String, word_num:Int, recite_user_num:Int, cover_image:UIImage , data: NSData){
+    init(identifier: String, level1_category: Int, level2_category:Int, name:String, description:String, word_num:Int, recite_user_num:Int){
       self.identifier = identifier
       self.level1_category = level1_category
       self.level2_category = level2_category
@@ -29,7 +27,5 @@ class Book
       self.description = description
       self.word_num = word_num
       self.recite_user_num = recite_user_num
-      self.cover_image = cover_image
-      self.data = data
     }
 }
