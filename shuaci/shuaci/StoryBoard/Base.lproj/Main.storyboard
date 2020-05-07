@@ -266,7 +266,7 @@
                                 <rect key="frame" x="0.0" y="96" width="414" height="766"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="level1_tableview_cell" id="8X9-wf-mIo" customClass="CategoryTableViewCell" customModule="刷词" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="level1_tableview_cell" id="8X9-wf-mIo" customClass="Level1CategoryTableViewCell" customModule="刷词" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="414" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="8X9-wf-mIo" id="04K-UM-uVW">
@@ -319,7 +319,7 @@
                                             <outlet property="collectionView" destination="7e0-oO-BCz" id="YbH-rN-MgE"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="level2_tableview_cell" id="pe0-iR-u00" customClass="CategoryTableViewCell" customModule="刷词" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="level2_tableview_cell" id="pe0-iR-u00" customClass="Level2CategoryTableViewCell" customModule="刷词" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="71.5" width="414" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="pe0-iR-u00" id="f1D-Sq-GMT">
@@ -381,27 +381,27 @@
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="111"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="SiU-dw-g5O">
-                                                    <rect key="frame" x="15" y="9" width="69" height="93"/>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="english_book" translatesAutoresizingMaskIntoConstraints="NO" id="SiU-dw-g5O">
+                                                    <rect key="frame" x="15" y="9" width="67.5" height="93"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="93" id="Jd4-gX-6wi"/>
-                                                        <constraint firstAttribute="width" secondItem="SiU-dw-g5O" secondAttribute="height" multiplier="251:338" id="RZO-Ci-3Xw"/>
+                                                        <constraint firstAttribute="width" secondItem="SiU-dw-g5O" secondAttribute="height" multiplier="128:176" id="RZO-Ci-3Xw"/>
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="GRE词汇精选" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X7N-zk-sDn">
-                                                    <rect key="frame" x="104" y="11" width="270" height="20"/>
+                                                    <rect key="frame" x="102.5" y="11" width="271.5" height="20"/>
                                                     <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="14"/>
                                                     <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="GRE词汇精选是一本很棒的书" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DNK-b4-HaI">
-                                                    <rect key="frame" x="104" y="35" width="270" height="17"/>
+                                                    <rect key="frame" x="102.5" y="35" width="271.5" height="17"/>
                                                     <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="12"/>
                                                     <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" spacing="7" translatesAutoresizingMaskIntoConstraints="NO" id="iNZ-we-l33">
-                                                    <rect key="frame" x="104" y="82" width="64.5" height="13"/>
+                                                <stackView opaque="NO" contentMode="scaleToFill" spacing="7" translatesAutoresizingMaskIntoConstraints="NO" id="iNZ-we-l33">
+                                                    <rect key="frame" x="102.5" y="82" width="64.5" height="13"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="单词量" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VEE-Zj-a4X">
                                                             <rect key="frame" x="0.0" y="0.0" width="27.5" height="13"/>
@@ -429,9 +429,9 @@
                                                     </constraints>
                                                 </stackView>
                                                 <stackView opaque="NO" contentMode="scaleToFill" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="10g-Ya-BdO">
-                                                    <rect key="frame" x="198.5" y="82" width="175.5" height="13"/>
+                                                    <rect key="frame" x="197" y="82" width="177" height="13"/>
                                                     <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="107.5" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="k0o-FD-gW2">
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="107.5万" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="k0o-FD-gW2">
                                                             <rect key="frame" x="0.0" y="0.0" width="35" height="13"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="35" id="Yot-Jn-fa0"/>
@@ -441,8 +441,8 @@
                                                             <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="万人在背" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="k14-zl-y6q">
-                                                            <rect key="frame" x="37" y="0.0" width="138.5" height="13"/>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="人在背" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="k14-zl-y6q">
+                                                            <rect key="frame" x="37" y="0.0" width="140" height="13"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="13" id="1er-cb-424"/>
                                                                 <constraint firstAttribute="width" constant="35" id="fzW-BI-U9F"/>
@@ -461,7 +461,7 @@
                                                 <constraint firstItem="DNK-b4-HaI" firstAttribute="top" secondItem="X7N-zk-sDn" secondAttribute="bottom" constant="4" id="G05-Ut-h7W"/>
                                                 <constraint firstItem="iNZ-we-l33" firstAttribute="leading" secondItem="SiU-dw-g5O" secondAttribute="trailing" constant="20" id="GCa-1U-wuR"/>
                                                 <constraint firstAttribute="bottom" secondItem="SiU-dw-g5O" secondAttribute="bottom" constant="9" id="Ljh-Tw-XTS"/>
-                                                <constraint firstItem="10g-Ya-BdO" firstAttribute="top" relation="greaterThanOrEqual" secondItem="DNK-b4-HaI" secondAttribute="bottom" constant="30" id="NQg-dz-k6W"/>
+                                                <constraint firstItem="10g-Ya-BdO" firstAttribute="top" secondItem="DNK-b4-HaI" secondAttribute="bottom" constant="30" id="NQg-dz-k6W"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="X7N-zk-sDn" secondAttribute="trailing" constant="20" id="Nl2-M4-Mho"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="10g-Ya-BdO" secondAttribute="bottom" constant="5" id="PKl-Jo-5jQ"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="10g-Ya-BdO" secondAttribute="trailing" constant="20" id="WU1-ku-Tcj"/>
@@ -469,7 +469,7 @@
                                                 <constraint firstItem="X7N-zk-sDn" firstAttribute="top" secondItem="EJA-1y-AGh" secondAttribute="topMargin" id="m7t-hB-mbW"/>
                                                 <constraint firstItem="X7N-zk-sDn" firstAttribute="leading" secondItem="SiU-dw-g5O" secondAttribute="trailing" constant="20" id="rvb-PK-TTS"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="DNK-b4-HaI" secondAttribute="trailing" constant="20" id="vXB-oL-PrI"/>
-                                                <constraint firstItem="iNZ-we-l33" firstAttribute="top" relation="greaterThanOrEqual" secondItem="DNK-b4-HaI" secondAttribute="bottom" constant="30" id="wd3-oS-3d8"/>
+                                                <constraint firstItem="iNZ-we-l33" firstAttribute="top" secondItem="DNK-b4-HaI" secondAttribute="bottom" constant="30" id="wd3-oS-3d8"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
@@ -709,6 +709,7 @@
         <image name="camera" width="512" height="512"/>
         <image name="chevron.left" catalog="system" width="96" height="128"/>
         <image name="colors" width="512" height="512"/>
+        <image name="english_book" width="128" height="176"/>
         <image name="honglei" width="2149" height="2149"/>
         <image name="house.fill" catalog="system" width="128" height="106"/>
         <image name="logout" width="133" height="41"/>

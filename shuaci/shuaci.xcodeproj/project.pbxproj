@@ -42,7 +42,6 @@
 		A5D8B2DF245FD1BC00786F7C /* UIViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D8B2DE245FD1BC00786F7C /* UIViewExtensions.swift */; };
 		A5DD06DE2462343F0051B3E5 /* Level1CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5DD06DD2462343F0051B3E5 /* Level1CollectionViewCell.swift */; };
 		A5DD06E0246267A60051B3E5 /* BookItemTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5DD06DF246267A60051B3E5 /* BookItemTableViewCell.swift */; };
-		A5DD06E224626A510051B3E5 /* CategoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5DD06E124626A510051B3E5 /* CategoryTableViewCell.swift */; };
 		A5DD06E424626CAA0051B3E5 /* Level2CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5DD06E324626CAA0051B3E5 /* Level2CollectionViewCell.swift */; };
 		A5DD06E624626D080051B3E5 /* Level2CategoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5DD06E524626D080051B3E5 /* Level2CategoryTableViewCell.swift */; };
 		A5DD06E824626D4C0051B3E5 /* Level1CategoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5DD06E724626D4C0051B3E5 /* Level1CategoryTableViewCell.swift */; };
@@ -106,7 +105,6 @@
 		A5D8B2DE245FD1BC00786F7C /* UIViewExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtensions.swift; sourceTree = "<group>"; };
 		A5DD06DD2462343F0051B3E5 /* Level1CollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Level1CollectionViewCell.swift; sourceTree = "<group>"; };
 		A5DD06DF246267A60051B3E5 /* BookItemTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookItemTableViewCell.swift; sourceTree = "<group>"; };
-		A5DD06E124626A510051B3E5 /* CategoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryTableViewCell.swift; sourceTree = "<group>"; };
 		A5DD06E324626CAA0051B3E5 /* Level2CollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Level2CollectionViewCell.swift; sourceTree = "<group>"; };
 		A5DD06E524626D080051B3E5 /* Level2CategoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Level2CategoryTableViewCell.swift; sourceTree = "<group>"; };
 		A5DD06E724626D4C0051B3E5 /* Level1CategoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Level1CategoryTableViewCell.swift; sourceTree = "<group>"; };
@@ -282,7 +280,6 @@
 				A5F5154A245F56BF00F06610 /* ThemeCollectionViewCell.swift */,
 				A5DD06DD2462343F0051B3E5 /* Level1CollectionViewCell.swift */,
 				A5DD06DF246267A60051B3E5 /* BookItemTableViewCell.swift */,
-				A5DD06E124626A510051B3E5 /* CategoryTableViewCell.swift */,
 				A5DD06E324626CAA0051B3E5 /* Level2CollectionViewCell.swift */,
 				A5DD06E524626D080051B3E5 /* Level2CategoryTableViewCell.swift */,
 				A5DD06E724626D4C0051B3E5 /* Level1CategoryTableViewCell.swift */,
@@ -459,7 +456,6 @@
 				A523A717245542F100976574 /* ResetPwdUIView.swift in Sources */,
 				A5E764D4245E0AD000367C2A /* UserProfileViewController.swift in Sources */,
 				A59EB1D72452A12900F300E1 /* MainScreenViewController.swift in Sources */,
-				A5DD06E224626A510051B3E5 /* CategoryTableViewCell.swift in Sources */,
 				A59EB1D32452A12900F300E1 /* AppDelegate.swift in Sources */,
 				A59A0B1A2454C04E000845F2 /* UIColor+Ext.swift in Sources */,
 				A5DD06E0246267A60051B3E5 /* BookItemTableViewCell.swift in Sources */,

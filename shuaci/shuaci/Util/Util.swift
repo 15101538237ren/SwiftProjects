@@ -15,6 +15,8 @@ let trans_string = "trans"
 let word_string = "word"
 var selected_category:Int = 1
 var selected_subcategory: Int = 0
+var imageCache = NSCache<NSString, NSURL>()
+var bookCache = NSCache<NSString, Book>()
 let categories:[Int: [String: [Int: String]]] = [
     1 : ["category":  [0:"出国"], "subcategory": [1: "雅思", 2: "托福", 3: "GRE", 4: "SAT", 5: "GMAT", 6: "MBA", 7: "其他"]],
     2: ["category": [0:"高中"], "subcategory": [1: "考纲核心", 2: "人教版", 3: "外研社版", 4: "北师大版", 5: "牛津译林版", 6: "牛津上海版", 7: "其他"]],
