@@ -20,8 +20,6 @@ var selected_subcategory: Int = 0
 var imageCache = NSCache<NSString, NSURL>()
 var books: [Book] = []
 var resultsItems: [LCObject] = []
-//var book_json_path = getDocumentsDirectory().appendingPathComponent("books.json")
-//let fileM = FileManager.default
 
 let categories:[Int: [String: [Int: String]]] = [
     1 : ["category":  [0:"出国"], "subcategory": [1: "雅思", 2: "托福", 3: "GRE", 4: "SAT", 5: "GMAT", 6: "MBA", 7: "其他"]],
@@ -181,13 +179,6 @@ func fetchBooks(){
                     books.append(book)
                     resultsItems.append(item)
                 }
-//                let book_json_data = JSON(books).description.data(using: .utf8)!
-//                do{
-//                    try book_json_data.write(to: book_json_path)
-//                }
-//                catch let error as NSError{
-//                    print(error)
-//                }
                 break
             case .failure(error: let error):
                 print(error)

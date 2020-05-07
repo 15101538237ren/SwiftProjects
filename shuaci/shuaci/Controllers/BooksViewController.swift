@@ -14,6 +14,8 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
     var indicator = UIActivityIndicatorView()
     var strLabel = UILabel()
     let effectView = UIVisualEffectView(effect: UIBlurEffect(style: .regular))
+    var tempBooks:[Book] = []
+    var tempItems:[LCObject] = []
     
     func initActivityIndicator() {
         strLabel.removeFromSuperview()
@@ -57,35 +59,90 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
         tableView.dataSource = self
         tableView.tableFooterView = UIView()
         initActivityIndicator()
+        loadBooks()
     }
     
     func loadBooks()
     {
-//        if fileM.fileExists(atPath: book_json_path.path) {
-//            do{
-//                let data = try Data(contentsOf: book_json_path, options: .alwaysMapped)
-//                let books = try JSON(data: data)
-//                for book in books{
-//
-//                }
-//            }catch let error as Error{
-//                print(error)
-//            }
-//
-//        } else {
-//            print("FILE NOT AVAILABLE")
-//        }
         if books.count > 0{
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
-                self.indicator.stopAnimating()
-                self.indicator.hidesWhenStopped = true
-                self.effectView.alpha = 0
-                self.strLabel.alpha = 0
+            self.indicator.stopAnimating()
+            self.indicator.hidesWhenStopped = true
+            self.effectView.alpha = 0
+            self.strLabel.alpha = 0
+            
+            DispatchQueue.global(qos: .background).async {
+            do {
+                let query = LCQuery(className: "Book")
+                _ = query.find { result in
+                    switch result {
+                    case .success(objects: let results):
+                        // Books 是包含满足条件的 (className: "Book") 对象的数组
+                        for item in results{
+                            let identifier = item.get("identifier")?.stringValue
+                            let level1_category = item.get("level1_category")?.intValue
+                            let level2_category = item.get("level2_category")?.intValue
+                            let name = item.get("name")?.stringValue
+                            let desc = item.get("description")?.stringValue
+                            let word_num = item.get("word_num")?.intValue
+                            let recite_user_num = item.get("recite_user_num")?.intValue
+                            
+                            let book:Book = Book(identifier: identifier ?? "", level1_category: level1_category ?? 0, level2_category: level2_category ?? 0, name: name ?? "", description: desc ?? "", word_num: word_num ?? 0, recite_user_num: recite_user_num ?? 0)
+                            self.tempBooks.append(book)
+                            self.tempItems.append(item)
+                        }
+                        if self.tempBooks.count != books.count{
+                            books = self.tempBooks
+                            resultsItems = self.tempItems
+                            
+                            DispatchQueue.main.async {
+                                self.tableView.reloadData()
+                                
+                            }
+                        }
+                        break
+                    case .failure(error: let error):
+                        print(error)
+                    }
+                }
             }
-        }
-        else{
-            fetchBooks()
+            }
+        }else{
+            DispatchQueue.global(qos: .background).async {
+            do {
+                let query = LCQuery(className: "Book")
+                _ = query.find { result in
+                    switch result {
+                    case .success(objects: let results):
+                        // Books 是包含满足条件的 (className: "Book") 对象的数组
+                        for item in results{
+                            let identifier = item.get("identifier")?.stringValue
+                            let level1_category = item.get("level1_category")?.intValue
+                            let level2_category = item.get("level2_category")?.intValue
+                            let name = item.get("name")?.stringValue
+                            let desc = item.get("description")?.stringValue
+                            let word_num = item.get("word_num")?.intValue
+                            let recite_user_num = item.get("recite_user_num")?.intValue
+                            
+                            let book:Book = Book(identifier: identifier ?? "", level1_category: level1_category ?? 0, level2_category: level2_category ?? 0, name: name ?? "", description: desc ?? "", word_num: word_num ?? 0, recite_user_num: recite_user_num ?? 0)
+                            books.append(book)
+                            self.tempItems.append(item)
+                        }
+                        books = self.tempBooks
+                        resultsItems = self.tempItems
+                        DispatchQueue.main.async {
+                            self.tableView.reloadData()
+                            self.indicator.stopAnimating()
+                            self.indicator.hidesWhenStopped = true
+                            self.effectView.alpha = 0
+                            self.strLabel.alpha = 0
+                        }
+                        break
+                    case .failure(error: let error):
+                        print(error)
+                    }
+                }
+            }
+            }
         }
     }
     
