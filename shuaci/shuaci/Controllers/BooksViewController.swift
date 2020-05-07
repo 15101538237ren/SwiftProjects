@@ -10,16 +10,35 @@ import UIKit
 import LeanCloud
 
 class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-    var indicator = UIActivityIndicatorView()
     var books: [Book] = []
     var resultsItems: [LCObject] = []
+    
+    var indicator = UIActivityIndicatorView()
+    var strLabel = UILabel()
+    let effectView = UIVisualEffectView(effect: UIBlurEffect(style: .regular))
+    
     func initActivityIndicator() {
-        indicator = UIActivityIndicatorView(frame: CGRect(x: CGFloat(0), y: CGFloat(0), width: tableView.bounds.width, height: CGFloat(44)))
-        indicator.style = .medium
-        indicator.center = self.view.center
-        self.view.addSubview(indicator)
+        strLabel.removeFromSuperview()
+        indicator.removeFromSuperview()
+        effectView.removeFromSuperview()
+
+        strLabel = UILabel(frame: CGRect(x: 50, y: 0, width: 160, height: 46))
+        strLabel.text = "加载数据中"
+        strLabel.font = .systemFont(ofSize: 14, weight: .medium)
+        strLabel.textColor = .darkGray
+
+        effectView.frame = CGRect(x: view.frame.midX - strLabel.frame.width/2, y: view.frame.midY - strLabel.frame.height/2 , width: 160, height: 46)
+        effectView.layer.cornerRadius = 15
+        effectView.layer.masksToBounds = true
+        effectView.backgroundColor = UIColor(red: 244, green: 244, blue: 245, alpha: 1.0)
+
+        indicator = .init(style: .medium)
+        indicator.frame = CGRect(x: 0, y: 0, width: 46, height: 46)
         indicator.startAnimating()
-        indicator.backgroundColor = .white
+
+        effectView.contentView.addSubview(indicator)
+        effectView.contentView.addSubview(strLabel)
+        view.addSubview(effectView)
     }
     
     @IBOutlet weak var tableView: UITableView!
@@ -70,6 +89,8 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
                         self.tableView.reloadData()
                         self.indicator.stopAnimating()
                         self.indicator.hidesWhenStopped = true
+                        self.effectView.alpha = 0
+                        self.strLabel.alpha = 0
                     }
                     break
                 case .failure(error: let error):
