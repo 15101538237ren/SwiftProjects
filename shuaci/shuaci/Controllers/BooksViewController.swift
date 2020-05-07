@@ -73,35 +73,38 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
             DispatchQueue.global(qos: .background).async {
             do {
                 let query = LCQuery(className: "Book")
-                _ = query.find { result in
-                    switch result {
-                    case .success(objects: let results):
-                        // Books 是包含满足条件的 (className: "Book") 对象的数组
-                        for item in results{
-                            let identifier = item.get("identifier")?.stringValue
-                            let level1_category = item.get("level1_category")?.intValue
-                            let level2_category = item.get("level2_category")?.intValue
-                            let name = item.get("name")?.stringValue
-                            let desc = item.get("description")?.stringValue
-                            let word_num = item.get("word_num")?.intValue
-                            let recite_user_num = item.get("recite_user_num")?.intValue
-                            
-                            let book:Book = Book(identifier: identifier ?? "", level1_category: level1_category ?? 0, level2_category: level2_category ?? 0, name: name ?? "", description: desc ?? "", word_num: word_num ?? 0, recite_user_num: recite_user_num ?? 0)
-                            self.tempBooks.append(book)
-                            self.tempItems.append(item)
-                        }
-                        if self.tempBooks.count != books.count{
-                            books = self.tempBooks
-                            resultsItems = self.tempItems
-                            
-                            DispatchQueue.main.async {
-                                self.tableView.reloadData()
+                let updated_count = query.count()
+                if books.count != updated_count.intValue {
+                    _ = query.find { result in
+                        switch result {
+                        case .success(objects: let results):
+                            // Books 是包含满足条件的 (className: "Book") 对象的数组
+                            for item in results{
+                                let identifier = item.get("identifier")?.stringValue
+                                let level1_category = item.get("level1_category")?.intValue
+                                let level2_category = item.get("level2_category")?.intValue
+                                let name = item.get("name")?.stringValue
+                                let desc = item.get("description")?.stringValue
+                                let word_num = item.get("word_num")?.intValue
+                                let recite_user_num = item.get("recite_user_num")?.intValue
                                 
+                                let book:Book = Book(identifier: identifier ?? "", level1_category: level1_category ?? 0, level2_category: level2_category ?? 0, name: name ?? "", description: desc ?? "", word_num: word_num ?? 0, recite_user_num: recite_user_num ?? 0)
+                                self.tempBooks.append(book)
+                                self.tempItems.append(item)
                             }
+                            if self.tempBooks.count != books.count{
+                                books = self.tempBooks
+                                resultsItems = self.tempItems
+                                
+                                DispatchQueue.main.async {
+                                    self.tableView.reloadData()
+                                    
+                                }
+                            }
+                            break
+                        case .failure(error: let error):
+                            print(error)
                         }
-                        break
-                    case .failure(error: let error):
-                        print(error)
                     }
                 }
             }
@@ -124,7 +127,7 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
                             let recite_user_num = item.get("recite_user_num")?.intValue
                             
                             let book:Book = Book(identifier: identifier ?? "", level1_category: level1_category ?? 0, level2_category: level2_category ?? 0, name: name ?? "", description: desc ?? "", word_num: word_num ?? 0, recite_user_num: recite_user_num ?? 0)
-                            books.append(book)
+                            self.tempBooks.append(book)
                             self.tempItems.append(item)
                         }
                         books = self.tempBooks
