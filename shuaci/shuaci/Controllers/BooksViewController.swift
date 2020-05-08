@@ -73,6 +73,7 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
                     }
                 }
                 DispatchQueue.main.async {
+                    collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
                     self.tableView.reloadData()
                 }
             }
@@ -117,6 +118,7 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
                 currentSelectedSubCategory = indexPath.row
                 let cell = collectionView.cellForItem(at: indexPath) as! Level2CollectionViewCell
                 DispatchQueue.main.async {
+                    collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
                     cell.level2_category_button.backgroundColor = .orange
                     cell.level2_category_button.setTitleColor(.white, for: .normal)
                 }
