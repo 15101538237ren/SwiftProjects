@@ -222,6 +222,9 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        category_items = [0:"全部"]
+        currentSelectedCategory = 0
+        currentSelectedSubCategory = 0
         tableView.delegate = self
         tableView.dataSource = self
         tableView.tableFooterView = UIView()
