@@ -19,19 +19,23 @@ var selected_category:Int = 1
 var selected_subcategory: Int = 0
 var imageCache = NSCache<NSString, NSURL>()
 var books: [Book] = []
+var global_total_books: [Book] = []
+var global_total_items: [LCObject] = []
 var resultsItems: [LCObject] = []
 
-let categories:[Int: [String: [Int: String]]] = [
-    1 : ["category":  [0:"出国"], "subcategory": [1: "雅思", 2: "托福", 3: "GRE", 4: "SAT", 5: "GMAT", 6: "MBA", 7: "其他"]],
-    2: ["category": [0:"高中"], "subcategory": [1: "考纲核心", 2: "人教版", 3: "外研社版", 4: "北师大版", 5: "牛津译林版", 6: "牛津上海版", 7: "其他"]],
-    3: ["category": [0:"考研"]],
-    4: ["category": [0:"四六级"], "subcategory": [1: "四级", 2: "六级"]],
-    5: ["category": [0:"英专"], "subcategory": [1: "专四", 2: "专八"]],
-    6: ["category": [0:"初中"], "subcategory": [1: "考纲核心", 2: "人教版", 3: "外研社版", 4: "沪教牛津版", 5: "苏教牛津版", 6: "仁爱版", 7: "鲁教版", 8: "牛津译林版", 9: "其他"]],
-    7: ["category": [0:"词组"]],
-    8: ["category": [0:"小学"], "subcategory": [1: "人教版"]],
-    9: ["category": [0:"实用"], "subcategory": [1: "职场商务", 2: "日常交流", 3: "旅游英语"]]]
-
+var currentSelectedCategory:Int = 0
+var currentSelectedSubCategory:Int = 0
+let categories:[Int: [String: [Int: String]]] = [ 0: ["category": [0:"全部"], "subcategory": [0:"全部"]], 
+    1 : ["category":  [0:"出国"], "subcategory": [0:"全部", 1: "雅思", 2: "托福", 3: "GRE", 4: "SAT", 5: "GMAT", 6: "MBA", 7: "其他"]],
+    2: ["category": [0:"高中"], "subcategory": [0:"全部", 1: "考纲核心", 2: "人教版", 3: "外研社版", 4: "北师大版", 5: "牛津译林版", 6: "牛津上海版", 7: "其他"]],
+    3: ["category": [0:"考研"], "subcategory": [0:"全部"]],
+    4: ["category": [0:"四六级"], "subcategory": [0:"全部", 1: "四级", 2: "六级"]],
+    5: ["category": [0:"英专"], "subcategory": [0:"全部", 1: "专四", 2: "专八"]],
+    6: ["category": [0:"初中"], "subcategory": [0:"全部", 1: "考纲核心", 2: "人教版", 3: "外研社版", 4: "沪教牛津版", 5: "苏教牛津版", 6: "仁爱版", 7: "鲁教版", 8: "牛津译林版", 9: "其他"]],
+    7: ["category": [0:"词组"], "subcategory": [0:"全部"]],
+    8: ["category": [0:"小学"], "subcategory": [0:"全部", 1: "人教版"]],
+    9: ["category": [0:"实用"], "subcategory": [0:"全部", 1: "职场商务", 2: "日常交流", 3: "旅游英语"]]]
+var category_items:[Int: String] = [0:"全部"]
 let book_info_dict = [
     "BEC_2": ["level1_category": 9, "level2_category": 1],
     "BEC_3": ["level1_category": 9, "level2_category": 1],
@@ -178,6 +182,10 @@ func fetchBooks(){
                     let book:Book = Book(identifier: identifier ?? "", level1_category: level1_category ?? 0, level2_category: level2_category ?? 0, name: name ?? "", description: desc ?? "", word_num: word_num ?? 0, recite_user_num: recite_user_num ?? 0)
                     books.append(book)
                     resultsItems.append(item)
+                }
+                if global_total_books.count == 0 && books.count != 0{
+                    global_total_books = books
+                    global_total_items = resultsItems
                 }
                 break
             case .failure(error: let error):

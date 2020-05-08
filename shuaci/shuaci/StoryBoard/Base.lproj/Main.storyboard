@@ -433,10 +433,10 @@
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="29P-1k-FHE">
-                                                    <rect key="frame" x="12.5" y="5.5" width="40" height="29"/>
+                                                    <rect key="frame" x="7.5" y="5.5" width="50" height="29"/>
                                                     <color key="backgroundColor" red="1" green="0.50965378120000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="40" id="5Y3-Km-TVp"/>
+                                                        <constraint firstAttribute="width" constant="50" id="5Y3-Km-TVp"/>
                                                         <constraint firstAttribute="height" constant="29" id="pvH-fo-3ge"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="12"/>
@@ -482,6 +482,8 @@
                     <connections>
                         <outlet property="tableView" destination="jZ3-tb-2gT" id="Twx-ad-uxs"/>
                         <outlet property="userPhotoBtn" destination="wKL-ng-u6a" id="VOX-kL-gme"/>
+                        <outletCollection property="collectionViews" destination="7e0-oO-BCz" collectionClass="NSMutableArray" id="WTm-7v-BxH"/>
+                        <outletCollection property="collectionViews" destination="E4C-0q-HyU" collectionClass="NSMutableArray" id="vWm-i1-wxi"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="09U-hV-J56" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
