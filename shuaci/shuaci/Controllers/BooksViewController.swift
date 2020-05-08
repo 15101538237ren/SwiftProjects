@@ -13,6 +13,7 @@ import SwiftyJSON
 class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UICollectionViewDelegate, UICollectionViewDataSource{
     
     @IBOutlet private var collectionViews: [UICollectionView]!
+    
     var indicator = UIActivityIndicatorView()
     var strLabel = UILabel()
     let effectView = UIVisualEffectView(effect: UIBlurEffect(style: .regular))
@@ -22,6 +23,7 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
     var storedOffsets = [Int: CGFloat]()
     @IBOutlet var tableView: UITableView!
  
+    
     func setCollectionViewDataSourceDelegate() {
         for collectionView in collectionViews{
             collectionView.delegate = self
@@ -30,18 +32,21 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
         }
     }
     
+    
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
         if collectionView.tag == 1{
             let cell = collectionView.cellForItem(at: indexPath) as! Level1CollectionViewCell
             
             DispatchQueue.main.async {
-                cell.level1_category_label.backgroundColor = .clear
+                cell.level1_category_label.textColor = .lightGray
+                cell.indicatorBtn.alpha = 0
             }
         }
         else{
             let cell = collectionView.cellForItem(at: indexPath) as! Level2CollectionViewCell
             DispatchQueue.main.async {
-                cell.level2_category_button.backgroundColor = .clear
+                cell.level2_category_button.backgroundColor = .lightGray
+                cell.level2_category_button.setTitleColor(.darkGray, for: .normal)
             }
         }
     }
@@ -53,7 +58,8 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
             let cell = collectionView.cellForItem(at: indexPath) as! Level1CollectionViewCell
             
             DispatchQueue.main.async {
-                cell.level1_category_label.backgroundColor = .orange
+                cell.level1_category_label.textColor = .black
+                cell.indicatorBtn.alpha = 1
                 self.collectionViews[1].reloadData()
             }
             
@@ -71,26 +77,20 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
                 }
             }
         }
-        else{
-            currentSelectedSubCategory = indexPath.row
-            let cell = collectionView.cellForItem(at: indexPath) as! Level2CollectionViewCell
-            DispatchQueue.main.async {
-                cell.level2_category_button.backgroundColor = .orange
-            }
-            if global_total_books.count != 0 && currentSelectedSubCategory > 0{
-                books = []
-                resultsItems = []
-                for (index, book) in global_total_books.enumerated(){
-                    if (book.level1_category == currentSelectedCategory) && (book.level2_category == currentSelectedSubCategory){
-                        books.append(book)
-                        resultsItems.append(global_total_items[index])
-                    }
-                }
-                DispatchQueue.main.async {
-                    self.tableView.reloadData()
-                }
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+       let indexPath:IndexPath = IndexPath(row: 0, section: 0)
+        for collectionView in collectionViews{
+            if collectionView.tag == 1{
+                collectionView.selectItem(at: indexPath, animated: false, scrollPosition: .left)
+                let cell = collectionView.cellForItem(at: indexPath) as! Level1CollectionViewCell
+                cell.level1_category_label.textColor = .black
+                cell.indicatorBtn.alpha = 1
             }
         }
+       
+        
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -110,6 +110,43 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
         }
         else{
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "level2_collection_cell", for: indexPath) as! Level2CollectionViewCell
+            cell.level2_category_button.layer.cornerRadius = 15
+            cell.level2_category_button.layer.masksToBounds = true
+            cell.btnTapAction = {
+                () in
+                currentSelectedSubCategory = indexPath.row
+                let cell = collectionView.cellForItem(at: indexPath) as! Level2CollectionViewCell
+                DispatchQueue.main.async {
+                    cell.level2_category_button.backgroundColor = .orange
+                    cell.level2_category_button.setTitleColor(.white, for: .normal)
+                }
+                if global_total_books.count != 0 && currentSelectedSubCategory > 0{
+                    books = []
+                    resultsItems = []
+                    for (index, book) in global_total_books.enumerated(){
+                        if (book.level1_category == currentSelectedCategory) && (book.level2_category == currentSelectedSubCategory){
+                            books.append(book)
+                            resultsItems.append(global_total_items[index])
+                        }
+                    }
+                    DispatchQueue.main.async {
+                        self.tableView.reloadData()
+                    }
+                }
+                else if global_total_books.count != 0 && currentSelectedCategory > 0{
+                    books = []
+                    resultsItems = []
+                    for (index, book) in global_total_books.enumerated(){
+                        if book.level1_category == currentSelectedCategory{
+                            books.append(book)
+                            resultsItems.append(global_total_items[index])
+                        }
+                    }
+                    DispatchQueue.main.async {
+                        self.tableView.reloadData()
+                    }
+                }
+            }
             if let item_title = category_items[indexPath.row] {
                 cell.level2_category_button.setTitle(item_title, for: .normal)
             }

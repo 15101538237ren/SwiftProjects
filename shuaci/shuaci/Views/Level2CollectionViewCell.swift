@@ -9,5 +9,16 @@
 import UIKit
 
 class Level2CollectionViewCell: UICollectionViewCell {
-    @IBOutlet var level2_category_button: UIButton!
+    // this will be our "call back" action
+    var btnTapAction : (()->())?
+    
+    @objc func btnTapped() {
+        btnTapAction?()
+    }
+    
+    @IBOutlet var level2_category_button: UIButton!{
+        didSet{
+            level2_category_button.addTarget(self, action: #selector(btnTapped), for: .touchUpInside)
+        }
+    }
 }

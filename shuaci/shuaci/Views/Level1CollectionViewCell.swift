@@ -10,4 +10,9 @@ import UIKit
 
 class Level1CollectionViewCell: UICollectionViewCell {
     @IBOutlet var level1_category_label: UILabel!
+    @IBOutlet var indicatorBtn: UIButton!{
+        didSet{
+            indicatorBtn.alpha = 0
+        }
+    }
 }
