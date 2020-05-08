@@ -262,120 +262,52 @@
                                     <action selector="unwindWithSegue:" destination="Sci-Ak-MJ2" eventType="touchUpInside" id="jEi-cj-JG7"/>
                                 </connections>
                             </button>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" tag="1" contentMode="scaleToFill" dataMode="prototypes" id="7e0-oO-BCz">
+                                <rect key="frame" x="0.0" y="97" width="414" height="44"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="9Gj-G0-6MR">
+                                    <size key="itemSize" width="65" height="40"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="level1_collection_cell" id="Zvw-jJ-nOV" customClass="Level1CollectionViewCell" customModule="刷词" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="2" width="65" height="40"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="hEg-mz-hTo">
+                                            <rect key="frame" x="0.0" y="0.0" width="65" height="40"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="全部" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="U8X-n6-Jz5">
+                                                    <rect key="frame" x="2.5" y="5" width="60" height="30"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="30" id="Idl-be-gId"/>
+                                                        <constraint firstAttribute="width" constant="60" id="Qhp-lk-Xcn"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="13"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="U8X-n6-Jz5" firstAttribute="centerY" secondItem="hEg-mz-hTo" secondAttribute="centerY" id="cOv-GT-y84"/>
+                                                <constraint firstItem="U8X-n6-Jz5" firstAttribute="centerX" secondItem="hEg-mz-hTo" secondAttribute="centerX" id="zdy-UV-zmk"/>
+                                            </constraints>
+                                        </collectionViewCellContentView>
+                                        <connections>
+                                            <outlet property="level1_category_label" destination="U8X-n6-Jz5" id="2UT-Vt-DIe"/>
+                                        </connections>
+                                    </collectionViewCell>
+                                </cells>
+                            </collectionView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="jZ3-tb-2gT">
-                                <rect key="frame" x="0.0" y="96" width="414" height="766"/>
+                                <rect key="frame" x="0.0" y="255" width="414" height="607"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="level1_tableview_cell" id="8X9-wf-mIo" customClass="Level1CategoryTableViewCell" customModule="刷词" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="414" height="43.5"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="8X9-wf-mIo" id="04K-UM-uVW">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="7e0-oO-BCz">
-                                                    <rect key="frame" x="0.0" y="-1" width="414" height="44"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                                                    <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="9Gj-G0-6MR">
-                                                        <size key="itemSize" width="65" height="40"/>
-                                                        <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                                                        <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                                                        <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                                    </collectionViewFlowLayout>
-                                                    <cells>
-                                                        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="level1_collection_cell" id="Zvw-jJ-nOV" customClass="Level1CollectionViewCell" customModule="刷词" customModuleProvider="target">
-                                                            <rect key="frame" x="0.0" y="2" width="65" height="40"/>
-                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                            <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="hEg-mz-hTo">
-                                                                <rect key="frame" x="0.0" y="0.0" width="65" height="40"/>
-                                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                                <subviews>
-                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="全部" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="U8X-n6-Jz5">
-                                                                        <rect key="frame" x="2.5" y="5" width="60" height="30"/>
-                                                                        <constraints>
-                                                                            <constraint firstAttribute="height" constant="30" id="Idl-be-gId"/>
-                                                                            <constraint firstAttribute="width" constant="60" id="Qhp-lk-Xcn"/>
-                                                                        </constraints>
-                                                                        <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="13"/>
-                                                                        <nil key="textColor"/>
-                                                                        <nil key="highlightedColor"/>
-                                                                    </label>
-                                                                </subviews>
-                                                                <constraints>
-                                                                    <constraint firstItem="U8X-n6-Jz5" firstAttribute="centerY" secondItem="hEg-mz-hTo" secondAttribute="centerY" id="cOv-GT-y84"/>
-                                                                    <constraint firstItem="U8X-n6-Jz5" firstAttribute="centerX" secondItem="hEg-mz-hTo" secondAttribute="centerX" id="zdy-UV-zmk"/>
-                                                                </constraints>
-                                                            </collectionViewCellContentView>
-                                                            <connections>
-                                                                <outlet property="level1_category_label" destination="U8X-n6-Jz5" id="2UT-Vt-DIe"/>
-                                                            </connections>
-                                                        </collectionViewCell>
-                                                    </cells>
-                                                </collectionView>
-                                            </subviews>
-                                        </tableViewCellContentView>
-                                        <connections>
-                                            <outlet property="collectionView" destination="7e0-oO-BCz" id="YbH-rN-MgE"/>
-                                        </connections>
-                                    </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="level2_tableview_cell" id="pe0-iR-u00" customClass="Level2CategoryTableViewCell" customModule="刷词" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="71.5" width="414" height="43.5"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="pe0-iR-u00" id="f1D-Sq-GMT">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="E4C-0q-HyU">
-                                                    <rect key="frame" x="0.0" y="-0.5" width="414" height="44"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                                                    <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="ST9-AD-oUN">
-                                                        <size key="itemSize" width="65" height="40"/>
-                                                        <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                                                        <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                                                        <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                                    </collectionViewFlowLayout>
-                                                    <cells>
-                                                        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="level2_collection_cell" id="Our-qq-hv0" customClass="Level2CollectionViewCell" customModule="刷词" customModuleProvider="target">
-                                                            <rect key="frame" x="0.0" y="2" width="65" height="40"/>
-                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                            <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="SQz-xl-Obm">
-                                                                <rect key="frame" x="0.0" y="0.0" width="65" height="40"/>
-                                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                                <subviews>
-                                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="29P-1k-FHE">
-                                                                        <rect key="frame" x="12.5" y="5.5" width="40" height="29"/>
-                                                                        <color key="backgroundColor" red="1" green="0.50965378120000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                                        <constraints>
-                                                                            <constraint firstAttribute="width" constant="40" id="5Y3-Km-TVp"/>
-                                                                            <constraint firstAttribute="height" constant="29" id="pvH-fo-3ge"/>
-                                                                        </constraints>
-                                                                        <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="12"/>
-                                                                        <state key="normal" title="全部">
-                                                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                                        </state>
-                                                                    </button>
-                                                                </subviews>
-                                                                <constraints>
-                                                                    <constraint firstItem="29P-1k-FHE" firstAttribute="centerX" secondItem="SQz-xl-Obm" secondAttribute="centerX" id="OIS-MK-KlX"/>
-                                                                    <constraint firstItem="29P-1k-FHE" firstAttribute="centerY" secondItem="SQz-xl-Obm" secondAttribute="centerY" id="s8r-TE-zg4"/>
-                                                                </constraints>
-                                                            </collectionViewCellContentView>
-                                                            <connections>
-                                                                <outlet property="level2_category_button" destination="29P-1k-FHE" id="Bu6-eX-u3t"/>
-                                                            </connections>
-                                                        </collectionViewCell>
-                                                    </cells>
-                                                </collectionView>
-                                            </subviews>
-                                        </tableViewCellContentView>
-                                        <connections>
-                                            <outlet property="collectionView" destination="E4C-0q-HyU" id="xal-1b-AeO"/>
-                                        </connections>
-                                    </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="bookItemCell" rowHeight="111" id="P2w-j5-GgK" customClass="BookItemTableViewCell" customModule="刷词" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="115" width="414" height="111"/>
+                                        <rect key="frame" x="0.0" y="28" width="414" height="111"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="P2w-j5-GgK" id="EJA-1y-AGh">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="111"/>
@@ -482,15 +414,59 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" tag="2" contentMode="scaleToFill" dataMode="prototypes" id="E4C-0q-HyU">
+                                <rect key="frame" x="0.0" y="149" width="414" height="101"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="ST9-AD-oUN">
+                                    <size key="itemSize" width="65" height="40"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="level2_collection_cell" id="Our-qq-hv0" customClass="Level2CollectionViewCell" customModule="刷词" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="65" height="40"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="SQz-xl-Obm">
+                                            <rect key="frame" x="0.0" y="0.0" width="65" height="40"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <subviews>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="29P-1k-FHE">
+                                                    <rect key="frame" x="12.5" y="5.5" width="40" height="29"/>
+                                                    <color key="backgroundColor" red="1" green="0.50965378120000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="40" id="5Y3-Km-TVp"/>
+                                                        <constraint firstAttribute="height" constant="29" id="pvH-fo-3ge"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="12"/>
+                                                    <state key="normal" title="全部">
+                                                        <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    </state>
+                                                </button>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="29P-1k-FHE" firstAttribute="centerX" secondItem="SQz-xl-Obm" secondAttribute="centerX" id="OIS-MK-KlX"/>
+                                                <constraint firstItem="29P-1k-FHE" firstAttribute="centerY" secondItem="SQz-xl-Obm" secondAttribute="centerY" id="s8r-TE-zg4"/>
+                                            </constraints>
+                                        </collectionViewCellContentView>
+                                        <connections>
+                                            <outlet property="level2_category_button" destination="29P-1k-FHE" id="Bu6-eX-u3t"/>
+                                        </connections>
+                                    </collectionViewCell>
+                                </cells>
+                            </collectionView>
                         </subviews>
                         <color key="backgroundColor" red="0.95673447850000004" green="0.95677596330000003" blue="0.96491199729999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="TSQ-wf-wmG" firstAttribute="centerX" secondItem="a7D-8z-wks" secondAttribute="centerX" id="4Ac-vY-5ii"/>
                             <constraint firstItem="3w0-Xh-g4i" firstAttribute="top" secondItem="VDV-Yb-eGZ" secondAttribute="top" constant="15" id="74g-ue-mbe"/>
-                            <constraint firstItem="jZ3-tb-2gT" firstAttribute="top" secondItem="wKL-ng-u6a" secondAttribute="bottom" constant="7" id="7Tg-Mn-3dx"/>
+                            <constraint firstItem="7e0-oO-BCz" firstAttribute="top" secondItem="wKL-ng-u6a" secondAttribute="bottom" constant="8" id="Adv-qN-oWF"/>
                             <constraint firstItem="VDV-Yb-eGZ" firstAttribute="trailing" secondItem="wKL-ng-u6a" secondAttribute="trailing" constant="30" id="FaU-4z-HMX"/>
                             <constraint firstItem="TSQ-wf-wmG" firstAttribute="top" secondItem="VDV-Yb-eGZ" secondAttribute="top" constant="15" id="LCw-PS-mHm"/>
+                            <constraint firstItem="jZ3-tb-2gT" firstAttribute="top" secondItem="E4C-0q-HyU" secondAttribute="bottom" constant="5" id="OF3-4F-7qf"/>
                             <constraint firstItem="3w0-Xh-g4i" firstAttribute="leading" secondItem="VDV-Yb-eGZ" secondAttribute="leading" constant="10" id="Pvp-9I-OJG"/>
+                            <constraint firstItem="jZ3-tb-2gT" firstAttribute="top" secondItem="E4C-0q-HyU" secondAttribute="bottom" constant="5" id="R31-wI-eHH"/>
                             <constraint firstItem="wKL-ng-u6a" firstAttribute="top" secondItem="VDV-Yb-eGZ" secondAttribute="top" constant="7" id="V6d-uH-j84"/>
                             <constraint firstItem="jZ3-tb-2gT" firstAttribute="leading" secondItem="VDV-Yb-eGZ" secondAttribute="leading" id="ajP-Mn-8zm"/>
                             <constraint firstItem="VDV-Yb-eGZ" firstAttribute="trailing" secondItem="jZ3-tb-2gT" secondAttribute="trailing" id="bDl-lb-FMH"/>
@@ -504,7 +480,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="tableView" destination="jZ3-tb-2gT" id="YR6-pO-pTZ"/>
+                        <outlet property="tableView" destination="jZ3-tb-2gT" id="Twx-ad-uxs"/>
                         <outlet property="userPhotoBtn" destination="wKL-ng-u6a" id="VOX-kL-gme"/>
                     </connections>
                 </viewController>

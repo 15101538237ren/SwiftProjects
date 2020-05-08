@@ -15,6 +15,7 @@ class BookItemTableViewCell: UITableViewCell {
     @IBOutlet var num_word: UILabel!
     @IBOutlet var num_recite: UILabel!
     var identifier: String!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
