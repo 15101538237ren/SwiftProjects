@@ -77,6 +77,15 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
                     self.tableView.reloadData()
                 }
             }
+            else if currentSelectedCategory == 0{
+                books = global_total_books
+                resultsItems = global_total_items
+                
+                DispatchQueue.main.async {
+                    collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
+                    self.tableView.reloadData()
+                }
+            }
         }
     }
     
@@ -103,6 +112,8 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
         }
     }
     
+    var width_constraint: [Int: NSLayoutConstraint] = [:]
+    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if collectionView.tag == 1{
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "level1_collection_cell", for: indexPath) as! Level1CollectionViewCell
@@ -111,6 +122,11 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
         }
         else{
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "level2_collection_cell", for: indexPath) as! Level2CollectionViewCell
+            let char_number:Int = category_items[indexPath.row]?.count ?? 0
+            if let width_cons = width_constraint[indexPath.row]{
+                width_cons.isActive = false
+            }
+            
             cell.level2_category_button.layer.cornerRadius = 9.0
             cell.level2_category_button.layer.masksToBounds = true
             cell.btnTapAction = {
@@ -153,8 +169,15 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
                 cell.level2_category_button.setTitle(item_title, for: .normal)
 
                 if item_title.count > 2{
-                    let new_width = 50.0 * Float(item_title.count) / 3.0
-                    cell.level2_category_button.widthAnchor.constraint(greaterThanOrEqualToConstant: CGFloat(new_width)).isActive = true
+                    let new_width = 50 + (char_number - 2) * 10
+                    let new_constraint = cell.level2_category_button.widthAnchor.constraint(greaterThanOrEqualToConstant: CGFloat(new_width))
+                    width_constraint[indexPath.row] = new_constraint
+                    new_constraint.isActive = true
+                }
+                else{
+                    let fixed_cons = cell.level2_category_button.widthAnchor.constraint(equalToConstant: 50.0)
+                    width_constraint[indexPath.row] = fixed_cons
+                    fixed_cons.isActive = true
                 }
             }
             return cell
