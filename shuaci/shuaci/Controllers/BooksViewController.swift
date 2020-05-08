@@ -111,7 +111,7 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
         }
         else{
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "level2_collection_cell", for: indexPath) as! Level2CollectionViewCell
-            cell.level2_category_button.layer.cornerRadius = 15
+            cell.level2_category_button.layer.cornerRadius = 9.0
             cell.level2_category_button.layer.masksToBounds = true
             cell.btnTapAction = {
                 () in
@@ -151,6 +151,11 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
             }
             if let item_title = category_items[indexPath.row] {
                 cell.level2_category_button.setTitle(item_title, for: .normal)
+
+                if item_title.count > 2{
+                    let new_width = 50.0 * Float(item_title.count) / 3.0
+                    cell.level2_category_button.widthAnchor.constraint(greaterThanOrEqualToConstant: CGFloat(new_width)).isActive = true
+                }
             }
             return cell
         }
@@ -366,5 +371,22 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return  books.count
+    }
+}
+
+extension BooksViewController: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        var label = ""
+        if collectionView.tag == 1{
+            label = categories[indexPath.row]?["category"]?[0] as! String
+            return label.size(withAttributes: [
+                NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 14)])
+        }
+        else{
+            label = category_items[indexPath.row]!
+            let label_size = label.size(withAttributes: [
+            NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 14)])
+            return label_size
+        }
     }
 }
