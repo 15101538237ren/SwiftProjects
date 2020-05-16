@@ -27,6 +27,7 @@ var currentSelectedCategory:Int = 0
 var currentSelectedSubCategory:Int = 0
 var category_items:[Int: String] = [0:"全部"]
 var current_book_id:String = "Level4_1"
+var npw_key = "number_of_word_per_day"
 let categories:[Int: [String: [Int: String]]] = [ 0: ["category": [0:"全部"], "subcategory": [0:"全部"]], 
     1 : ["category":  [0:"出国"], "subcategory": [0:"全部", 1: "雅思", 2: "托福", 3: "GRE", 4: "SAT", 5: "GMAT", 6: "MBA", 7: "其他"]],
     2: ["category": [0:"高中"], "subcategory": [0:"全部", 1: "考纲核心", 2: "人教版", 3: "外研社版", 4: "北师大版", 5: "牛津译林版", 6: "牛津上海版", 7: "其他"]],
@@ -91,15 +92,17 @@ func savejson(fileName: String, jsonData: Data){
     }
 }
 
-func load_json(book_id: String) -> JSON{
-    if let path = Bundle.main.path(forResource: book_id, ofType: "json") {
-        do {
-              let data = try Data(contentsOf: URL(fileURLWithPath: path), options: .mappedIfSafe)
-              let json = try JSON(data: data) as! JSON
-              return json
-          } catch {
-               // handle error
-          }
+func load_json(fileName: String) -> JSON{
+    do {
+        let fileURL = try FileManager.default
+            .url(for: .applicationSupportDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
+            .appendingPathComponent("\(fileName).json")
+
+       let data = try Data(contentsOf: fileURL, options: .mappedIfSafe)
+       let json = try JSON(data: data) as! JSON
+       return json
+    } catch {
+        print(error.localizedDescription)
     }
     let json: JSON =  []
     return json

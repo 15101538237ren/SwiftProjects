@@ -367,6 +367,7 @@
                         </connections>
                     </view>
                     <connections>
+                        <outlet property="learnUIView" destination="rCf-uu-dMt" id="o2J-CF-Y0X"/>
                         <outletCollection property="cards" destination="4Lf-nj-uqS" collectionClass="NSMutableArray" id="rmg-P2-MRi"/>
                         <outletCollection property="cards" destination="5f4-VB-fee" collectionClass="NSMutableArray" id="4Ky-yo-dvR"/>
                     </connections>

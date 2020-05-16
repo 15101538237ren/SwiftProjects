@@ -13,7 +13,7 @@ import SwiftyJSON
 class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UICollectionViewDelegate, UICollectionViewDataSource{
     
     @IBOutlet private var collectionViews: [UICollectionView]!
-    
+    @IBOutlet var mainPanelViewController: MainPanelViewController!
     var indicator = UIActivityIndicatorView()
     var strLabel = UILabel()
     let effectView = UIVisualEffectView(effect: UIBlurEffect(style: .regular))
@@ -417,19 +417,20 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
                     savejson(fileName: "current_book", jsonData: jsonData)
                     DispatchQueue.main.async {
                         self.stopIndicator()
-                        let ac = UIAlertController(title: "下载成功!", message: "数据下载成功!", preferredStyle: .alert)
-                        ac.addAction(UIAlertAction(title: "好的", style: .default, handler: nil))
-                        self.present(ac, animated: true, completion: nil)
+                        self.dismiss(animated: true, completion: nil)
+                        self.mainPanelViewController.loadLearnController()
                     }
                 }
             }
             }
         }
     }
+    
     func downloadAlert(index: Int, bookName: String){
         let alertController = UIAlertController(title: "选择词书", message: "学习\(bookName)?", preferredStyle: .alert)
         let okayAction = UIAlertAction(title: "确定", style: .default, handler: { action in
             self.downloadBookJson(index: index)
+            UserDefaults.standard.set(books[index].identifier, forKey: "current_book")
         })
         let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
         alertController.addAction(okayAction)

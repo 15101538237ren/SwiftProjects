@@ -270,28 +270,31 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
         }
     }
     
+    func loadLearnController(){
+        current_book_id = UserDefaults.standard.object(forKey: "current_book") as! String
+        let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Learning", bundle:nil)
+        let learnVC = mainStoryBoard.instantiateViewController(withIdentifier: "learnWordController") as! LearnWordViewController
+        learnVC.modalPresentationStyle = .fullScreen
+        
+        DispatchQueue.main.async {
+            self.present(learnVC, animated: true, completion: nil)
+        }
+    }
     
     @IBAction func ReciteNewWords(_ sender: UIButton) {
-        let defaults = UserDefaults.standard
         let current_book_key = "current_book"
-//        defaults.set("Level4_1", forKey: current_book_key)
         let current_book_exist = isKeyPresentInUserDefaults(key: current_book_key)
         if !current_book_exist{
             let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
             let booksVC = mainStoryBoard.instantiateViewController(withIdentifier: "booksController") as! BooksViewController
             booksVC.modalPresentationStyle = .fullScreen
+            booksVC.mainPanelViewController = self
             DispatchQueue.main.async {
                 self.present(booksVC, animated: true, completion: nil)
             }
-        }else{
-            current_book_id = UserDefaults.standard.object(forKey: current_book_key) as! String
-            
-            let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Learning", bundle:nil)
-            let learnVC = mainStoryBoard.instantiateViewController(withIdentifier: "learnWordController") as! LearnWordViewController
-            learnVC.modalPresentationStyle = .fullScreen
-            DispatchQueue.main.async {
-                self.present(learnVC, animated: true, completion: nil)
-            }
+        }
+        else{
+            loadLearnController()
         }
     }
     

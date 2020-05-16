@@ -20,18 +20,21 @@ class LearnWordViewController: UIViewController {
             }
         }
     }
-    var json: JSON = load_json(book_id: current_book_id)
+    var json: JSON = load_json(fileName: "current_book")
     var audioPlayer: AVAudioPlayer?
     var mp3Player: AVAudioPlayer?
     var scaleOfSecondCard:CGFloat = 0.9
     var currentIndex:Int = 0
     let animationDuration = 0.1
     var words:[JSON] = []
+    
     func setCardBackground(){
         let theme_category_exist = isKeyPresentInUserDefaults(key: theme_category_string)
         var theme_category  = 1
         if theme_category_exist{
             theme_category = UserDefaults.standard.integer(forKey: theme_category_string)
+        }else{
+            UserDefaults.standard.set(theme_category, forKey: theme_category_string)
         }
             
         for card in cards{
@@ -54,18 +57,21 @@ class LearnWordViewController: UIViewController {
     }
     
     func get_words(json_obj:JSON){
-        let number_of_word_per_day_exist = isKeyPresentInUserDefaults(key: "number_of_word_per_day")
-        var number_of_word_per_day  = 100
+        let number_of_word_per_day_exist = isKeyPresentInUserDefaults(key: npw_key)
+        var number_of_word_per_day = 100
         if number_of_word_per_day_exist{
-            number_of_word_per_day = UserDefaults.standard.integer(forKey: "number_of_word_per_day")
+            number_of_word_per_day = UserDefaults.standard.integer(forKey: npw_key)
         }
-        let number_of_words_in_json:Int = json_obj.count
+        else{
+            UserDefaults.standard.set(number_of_word_per_day, forKey: npw_key)
+        }
+        let word_list = json_obj["data"]
+        let number_of_words_in_json:Int = word_list.count
         let sampling_number:Int = min(number_of_word_per_day, number_of_words_in_json)
         let word_ids = Array(0...number_of_words_in_json)
         let sampled_ids = word_ids.choose(sampling_number)
-        print(json_obj["data"])
-        for i in 0...sampling_number{
-            words.append(json_obj["data"][sampled_ids[i]])
+        for i in 0..<sampling_number{
+            words.append(word_list[sampled_ids[i]])
         }
     }
     
@@ -75,19 +81,21 @@ class LearnWordViewController: UIViewController {
         {
             let card = cards[index]
             let word = words[index % words.count]
-            let wordRank: Int = word["wordRank"] as! Int
-            card.wordLabel?.text = word["headWord"] as! String
-            let content = word["content"]["word"]["content"]
-            let trans:[[String:String]] = content["trans"] as! [[String:String]]
-            
-            var stringArr:[String] = []
-            for tran in trans{
-                let current_meaning = tran["tranCn"] as! String
-                stringArr.append(current_meaning)
+            let wordRank: Int = word["wordRank"].intValue
+            card.wordLabel?.text = word["headWord"].stringValue
+            let content = word["content"]["word"]["content"].dictionaryValue
+            if let trans = content["trans"]?.arrayValue
+            {
+                var stringArr:[String] = []
+                for tran in trans{
+                    let current_meaning = tran["tranCn"].stringValue
+                    stringArr.append(current_meaning)
+                }
+                card.meaningLabel?.text = stringArr.joined(separator: "\n")
             }
-            card.meaningLabel?.text = stringArr.joined(separator: "\n")
+            
             card.accentLabel?.text = "美"
-            card.phoneticLabel?.text = content["usphone"] as! String
+            card.phoneticLabel?.text = content["usphone"]?.stringValue
             card.rememberImageView?.backgroundColor = UIColor.systemGreen
             card.rememberImageView?.alpha = 0
             card.rememberLabel?.text = "会了"
@@ -104,20 +112,21 @@ class LearnWordViewController: UIViewController {
         let card = cards[(currentIndex + 1) % 2]
         let word = words[(currentIndex + 1) % words.count]
         
-        let wordRank: Int = word["wordRank"] as! Int
-        card.wordLabel?.text = word["headWord"] as! String
-        let content = word["content"]["word"]["content"]
-        let trans:[[String:String]] = content["trans"] as! [[String:String]]
-        
-        var stringArr:[String] = []
-        for tran in trans{
-            let current_meaning = tran["tranCn"] as! String
-            stringArr.append(current_meaning)
+        let wordRank: Int = word["wordRank"].intValue
+        card.wordLabel?.text = word["headWord"].stringValue
+        let content = word["content"]["word"]["content"].dictionaryValue
+        if let trans = content["trans"]?.arrayValue
+        {
+            var stringArr:[String] = []
+            for tran in trans{
+                let current_meaning = tran["tranCn"].stringValue
+                stringArr.append(current_meaning)
+            }
+            card.meaningLabel?.text = stringArr.joined(separator: "\n")
         }
         
-        card.meaningLabel?.text = stringArr.joined(separator: "\n")
         card.speech? = "\(current_book_id)__\(wordRank)_0"
-        card.phoneticLabel?.text = content["usphone"] as! String
+        card.phoneticLabel?.text = content["usphone"]?.stringValue
         card.accentLabel?.text = "美"
         card.rememberImageView?.backgroundColor = UIColor.white
         card.rememberImageView?.alpha = 0
