@@ -78,6 +78,19 @@ func getDocumentsDirectory() -> URL {
     return paths[0]
 }
 
+func savejson(fileName: String, jsonData: Data){
+    do {
+        let fileURL = try FileManager.default
+            .url(for: .applicationSupportDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
+            .appendingPathComponent("\(fileName).json")
+
+        try jsonData.write(to: fileURL)
+        print("write \(fileName).json successful!")
+    } catch {
+        print(error.localizedDescription)
+    }
+}
+
 func load_json(book_id: String) -> JSON{
     if let path = Bundle.main.path(forResource: book_id, ofType: "json") {
         do {

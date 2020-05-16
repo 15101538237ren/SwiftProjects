@@ -185,23 +185,25 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
     }
     
     
-    func initActivityIndicator() {
+    func initActivityIndicator(text: String) {
         strLabel.removeFromSuperview()
         indicator.removeFromSuperview()
         effectView.removeFromSuperview()
-
-        strLabel = UILabel(frame: CGRect(x: 50, y: 0, width: 160, height: 46))
-        strLabel.text = "加载数据中"
+        let height:CGFloat = 46.0
+        strLabel = UILabel(frame: CGRect(x: 50, y: 0, width: 180, height: height))
+        strLabel.text = text
         strLabel.font = .systemFont(ofSize: 14, weight: .medium)
         strLabel.textColor = .darkGray
-
-        effectView.frame = CGRect(x: view.frame.midX - strLabel.frame.width/2, y: view.frame.midY - strLabel.frame.height/2 , width: 160, height: 46)
+        strLabel.alpha = 1.0
+        effectView.frame = CGRect(x: view.frame.midX - strLabel.frame.width/2, y: view.frame.midY - strLabel.frame.height/2 , width: 160, height: height)
         effectView.layer.cornerRadius = 15
         effectView.layer.masksToBounds = true
         effectView.backgroundColor = UIColor(red: 244, green: 244, blue: 245, alpha: 1.0)
-
+        
+        effectView.alpha = 1.0
         indicator = .init(style: .medium)
-        indicator.frame = CGRect(x: 0, y: 0, width: 46, height: 46)
+        indicator.frame = CGRect(x: 0, y: 0, width: height, height: height)
+        indicator.alpha = 1.0
         indicator.startAnimating()
 
         effectView.contentView.addSubview(indicator)
@@ -228,19 +230,22 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
         tableView.delegate = self
         tableView.dataSource = self
         tableView.tableFooterView = UIView()
-        initActivityIndicator()
+        initActivityIndicator(text: "数据加载中")
         setCollectionViewDataSourceDelegate()
         loadBooks()
+    }
+    
+    func stopIndicator(){
+        self.indicator.stopAnimating()
+        self.indicator.hidesWhenStopped = true
+        self.effectView.alpha = 0
+        self.strLabel.alpha = 0
     }
     
     func loadBooks()
     {
         if books.count > 0{
-            self.indicator.stopAnimating()
-            self.indicator.hidesWhenStopped = true
-            self.effectView.alpha = 0
-            self.strLabel.alpha = 0
-            
+            stopIndicator()
             DispatchQueue.global(qos: .background).async {
             do {
                 let query = LCQuery(className: "Book")
@@ -309,10 +314,7 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
                         resultsItems = self.tempItems
                         DispatchQueue.main.async {
                             self.tableView.reloadData()
-                            self.indicator.stopAnimating()
-                            self.indicator.hidesWhenStopped = true
-                            self.effectView.alpha = 0
-                            self.strLabel.alpha = 0
+                            self.stopIndicator()
                         }
                         break
                     case .failure(error: let error):
@@ -366,7 +368,6 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
                         let data = try? Data(contentsOf: url)
                         print(url)
                         
-                        
                         if let imageData = data {
                             if let image_name = cover_image.name?.stringValue
                             {
@@ -400,13 +401,46 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
         return  books.count
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "bookItemCell", for: indexPath) as! BookItemTableViewCell
-        let ac = UIAlertController(title: "选择事件", message: "\(books[indexPath.row].identifier)", preferredStyle: .alert)
-                    ac.addAction(UIAlertAction(title: "好的", style: .default, handler: nil))
-        DispatchQueue.main.async {
-            self.present(ac, animated: true, completion: nil)
+    func downloadBookJson(index: Int){
+        
+        DispatchQueue.global(qos: .background).async {
+        do {
+            DispatchQueue.main.async {
+                self.initActivityIndicator(text: "数据下载中")
+            }
+            if let bookJson = resultsItems[index].get("data") as? LCFile {
+                let url = URL(string: bookJson.url?.stringValue ?? "")!
+                let data = try? Data(contentsOf: url)
+                print(url)
+                
+                if let jsonData = data {
+                    savejson(fileName: "current_book", jsonData: jsonData)
+                    DispatchQueue.main.async {
+                        self.stopIndicator()
+                        let ac = UIAlertController(title: "下载成功!", message: "数据下载成功!", preferredStyle: .alert)
+                        ac.addAction(UIAlertAction(title: "好的", style: .default, handler: nil))
+                        self.present(ac, animated: true, completion: nil)
+                    }
+                }
+            }
+            }
         }
+    }
+    func downloadAlert(index: Int, bookName: String){
+        let alertController = UIAlertController(title: "选择词书", message: "学习\(bookName)?", preferredStyle: .alert)
+        let okayAction = UIAlertAction(title: "确定", style: .default, handler: { action in
+            self.downloadBookJson(index: index)
+        })
+        let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
+        alertController.addAction(okayAction)
+        alertController.addAction(cancelAction)
+        DispatchQueue.main.async {
+            self.present(alertController, animated: true, completion: nil)
+        }
+    }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        downloadAlert(index: indexPath.row, bookName: books[indexPath.row].name)
     }
     
 }
