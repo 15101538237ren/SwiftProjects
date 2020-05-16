@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A5134E322467719C008B116D /* Learning.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A5134E312467719C008B116D /* Learning.storyboard */; };
+		A5134E34246772B4008B116D /* LearnWordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5134E33246772B4008B116D /* LearnWordViewController.swift */; };
+		A5134E3624677BF3008B116D /* LearnUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5134E3524677BF3008B116D /* LearnUIView.swift */; };
+		A5134E3A24678C32008B116D /* Collection+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5134E3924678C32008B116D /* Collection+Ext.swift */; };
 		A523A717245542F100976574 /* ResetPwdUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A523A716245542F100976574 /* ResetPwdUIView.swift */; };
 		A523A7192455435C00976574 /* ResetPwdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A523A7182455435C00976574 /* ResetPwdViewController.swift */; };
 		A554B24724576F8A00DC8358 /* Yuanti-SC-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A554B24624576F8A00DC8358 /* Yuanti-SC-Regular.ttf */; };
@@ -64,6 +68,10 @@
 		4D669C4BDB3B8EFCB078D706 /* Pods-shuaci.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-shuaci.release.xcconfig"; path = "Target Support Files/Pods-shuaci/Pods-shuaci.release.xcconfig"; sourceTree = "<group>"; };
 		7904B907E4DC4D8D3DC6FC8C /* Pods_shuaci.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_shuaci.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A175FCA5411DABB0C4A1A6DE /* Pods-shuaci.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-shuaci.debug.xcconfig"; path = "Target Support Files/Pods-shuaci/Pods-shuaci.debug.xcconfig"; sourceTree = "<group>"; };
+		A5134E312467719C008B116D /* Learning.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Learning.storyboard; sourceTree = "<group>"; };
+		A5134E33246772B4008B116D /* LearnWordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearnWordViewController.swift; sourceTree = "<group>"; };
+		A5134E3524677BF3008B116D /* LearnUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearnUIView.swift; sourceTree = "<group>"; };
+		A5134E3924678C32008B116D /* Collection+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Collection+Ext.swift"; sourceTree = "<group>"; };
 		A523A716245542F100976574 /* ResetPwdUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPwdUIView.swift; sourceTree = "<group>"; };
 		A523A7182455435C00976574 /* ResetPwdViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPwdViewController.swift; sourceTree = "<group>"; };
 		A554B24624576F8A00DC8358 /* Yuanti-SC-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Yuanti-SC-Regular.ttf"; sourceTree = "<group>"; };
@@ -213,6 +221,7 @@
 			children = (
 				A59A0B192454C04E000845F2 /* UIColor+Ext.swift */,
 				A5D8B2DE245FD1BC00786F7C /* UIViewExtensions.swift */,
+				A5134E3924678C32008B116D /* Collection+Ext.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -260,6 +269,7 @@
 			children = (
 				A59EB1D82452A12900F300E1 /* Main.storyboard */,
 				A5A83E20245D1D1300075BB4 /* LoginReg.storyboard */,
+				A5134E312467719C008B116D /* Learning.storyboard */,
 			);
 			path = StoryBoard;
 			sourceTree = "<group>";
@@ -277,6 +287,7 @@
 				A5DD06DD2462343F0051B3E5 /* Level1CollectionViewCell.swift */,
 				A5DD06DF246267A60051B3E5 /* BookItemTableViewCell.swift */,
 				A5DD06E324626CAA0051B3E5 /* Level2CollectionViewCell.swift */,
+				A5134E3524677BF3008B116D /* LearnUIView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -286,13 +297,14 @@
 			children = (
 				A59EB1D62452A12900F300E1 /* MainScreenViewController.swift */,
 				A5F59F492453DDD000D6D717 /* EmailLoginViewController.swift */,
-				A5F59F4B2453DDDB00D6D717 /* PhoneLoginViewController.swift */,
 				A59A0B1B2454D48C000845F2 /* MainPanelViewController.swift */,
+				A5F59F4B2453DDDB00D6D717 /* PhoneLoginViewController.swift */,
 				A523A7182455435C00976574 /* ResetPwdViewController.swift */,
 				A5E764D0245D269300367C2A /* ShengciViewController.swift */,
 				A5E764D3245E0AD000367C2A /* UserProfileViewController.swift */,
 				A5F5154C245F56DF00F06610 /* ThemeCollectionViewController.swift */,
 				A5BE9C2E246229DC00302F38 /* BooksViewController.swift */,
+				A5134E33246772B4008B116D /* LearnWordViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -362,6 +374,7 @@
 				A5613E162457470A00C8FAC6 /* pharmacy_0.mp3 in Resources */,
 				A5613E1A2457470A00C8FAC6 /* aurora_0.mp3 in Resources */,
 				A59EB1DF2452A12A00F300E1 /* LaunchScreen.storyboard in Resources */,
+				A5134E322467719C008B116D /* Learning.storyboard in Resources */,
 				A5613E142457470A00C8FAC6 /* sea_0.mp3 in Resources */,
 				A5F03E2A2459F75B00615375 /* Ninja_Jump_1.mp3 in Resources */,
 				A5613E132457470A00C8FAC6 /* pharmacy_1.mp3 in Resources */,
@@ -434,6 +447,7 @@
 				A59A0B17245488EC000845F2 /* MainPanelUIView.swift in Sources */,
 				A574D663245E430D0002A07C /* Util.swift in Sources */,
 				A5F59F482453DD3A00D6D717 /* EmailLoginUIView.swift in Sources */,
+				A5134E3624677BF3008B116D /* LearnUIView.swift in Sources */,
 				A57229C024568C13001C121C /* Word.swift in Sources */,
 				A5DD06DE2462343F0051B3E5 /* Level1CollectionViewCell.swift in Sources */,
 				A5D8B2DF245FD1BC00786F7C /* UIViewExtensions.swift in Sources */,
@@ -454,7 +468,9 @@
 				A5F5154B245F56BF00F06610 /* ThemeCollectionViewCell.swift in Sources */,
 				A5F59F462453DC6900D6D717 /* PhoneLoginUIView.swift in Sources */,
 				A5F59F4C2453DDDB00D6D717 /* PhoneLoginViewController.swift in Sources */,
+				A5134E34246772B4008B116D /* LearnWordViewController.swift in Sources */,
 				A59A0B1C2454D48C000845F2 /* MainPanelViewController.swift in Sources */,
+				A5134E3A24678C32008B116D /* Collection+Ext.swift in Sources */,
 				A5F5154D245F56DF00F06610 /* ThemeCollectionViewController.swift in Sources */,
 				A5B821732453669B00963FEC /* CardUIView.swift in Sources */,
 				A5E764D1245D269300367C2A /* ShengciViewController.swift in Sources */,

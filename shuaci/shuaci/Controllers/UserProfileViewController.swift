@@ -33,7 +33,7 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
         
         navigationController?.navigationBar.tintColor = .white
 
-        if let userImage = loadUserPhoto() {
+        if let userImage = loadPhoto(name_of_photo: "user_avatar.jpg") {
             self.userPhotoBtn.setImage(userImage, for: [])
         }
         super.viewDidLoad()

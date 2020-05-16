@@ -336,6 +336,7 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
             cell.cover.image = UIImage(named: "english_book")
             cell.selectionStyle = .none
             let index: Int = indexPath.row
+            print(books.count)
             if index < books.count{
                 let book = books[index]
                 cell.identifier = book.identifier
@@ -348,14 +349,12 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
                 // Check if the image is stored in cache
             }
             
-        if let imageFileURL = imageCache.object(forKey: books[indexPath.row].identifier as! NSString) {
+        if let image = loadPhoto(name_of_photo: "\(books[indexPath.row].identifier as! NSString).jpg"){
                 // Fetch image from cache
-                print("Get image from cache")
-                if let imageData = try? Data.init(contentsOf: imageFileURL as URL) {
-                    DispatchQueue.main.async {
-                        cell.cover.image = UIImage(data: imageData)
-                        cell.setNeedsLayout()
-                    }
+                print("Get image from file")
+                DispatchQueue.main.async {
+                    cell.cover.image = image
+                    cell.setNeedsLayout()
                 }
 
             } else {
@@ -366,20 +365,22 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
                         let url = URL(string: cover_image.url?.stringValue ?? "")!
                         let data = try? Data(contentsOf: url)
                         print(url)
+                        
+                        
                         if let imageData = data {
-                            let image = UIImage(data: imageData)
                             if let image_name = cover_image.name?.stringValue
                             {
                                 var components = image_name.components(separatedBy: ".")
                                 if components.count > 1 { // If there is a file extension
                                     components.removeLast()
                                     let image_filename = components.joined(separator: ".")
-                                    let imageFileURL = getDocumentsDirectory().appendingPathComponent("\(image_filename).jpg")
-                                    try? image!.jpegData(compressionQuality: 1.0)?.write(to: imageFileURL)
-                                    imageCache.setObject(imageFileURL as NSURL, forKey: image_filename as NSString)
-                                    DispatchQueue.main.async {
-                                        cell.cover.image = image!
-                                        cell.setNeedsLayout()
+                                    if let image = UIImage(data: imageData)
+                                    {
+                                        savePhoto(image: image, name_of_photo: "\(image_filename).jpg")
+                                        DispatchQueue.main.async {
+                                            cell.cover.image = image
+                                            cell.setNeedsLayout()
+                                        }
                                     }
                                 }
                             }
@@ -398,6 +399,16 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return  books.count
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "bookItemCell", for: indexPath) as! BookItemTableViewCell
+        let ac = UIAlertController(title: "选择事件", message: "\(books[indexPath.row].identifier)", preferredStyle: .alert)
+                    ac.addAction(UIAlertAction(title: "好的", style: .default, handler: nil))
+        DispatchQueue.main.async {
+            self.present(ac, animated: true, completion: nil)
+        }
+    }
+    
 }
 
 extension BooksViewController: UICollectionViewDelegateFlowLayout {

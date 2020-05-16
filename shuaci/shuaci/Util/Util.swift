@@ -26,7 +26,7 @@ var resultsItems: [LCObject] = []
 var currentSelectedCategory:Int = 0
 var currentSelectedSubCategory:Int = 0
 var category_items:[Int: String] = [0:"全部"]
-
+var current_book_id:String = "Level4_1"
 let categories:[Int: [String: [Int: String]]] = [ 0: ["category": [0:"全部"], "subcategory": [0:"全部"]], 
     1 : ["category":  [0:"出国"], "subcategory": [0:"全部", 1: "雅思", 2: "托福", 3: "GRE", 4: "SAT", 5: "GMAT", 6: "MBA", 7: "其他"]],
     2: ["category": [0:"高中"], "subcategory": [0:"全部", 1: "考纲核心", 2: "人教版", 3: "外研社版", 4: "北师大版", 5: "牛津译林版", 6: "牛津上海版", 7: "其他"]],
@@ -49,6 +49,16 @@ var default_wallpapers:[Wallpaper] = [
     Wallpaper(word: "peony", trans: "牡丹", category: 8),
     Wallpaper(word: "latte", trans: "拿铁", category: 9)
 ]
+
+var cardBackgrounds: [Int: String] = [
+    1 : "light-blue",
+    5 : "red",
+    6 : "orange",
+    4 : "green",
+    7 : "blue",
+    2 : "dark_blue"
+]
+
 var current_wallpaper: Wallpaper = default_wallpapers[0]
 var current_wallpaper_image: UIImage = UIImage()
 
@@ -68,8 +78,34 @@ func getDocumentsDirectory() -> URL {
     return paths[0]
 }
 
-func loadUserPhoto() -> UIImage?{
-    let imageFileURL = getDocumentsDirectory().appendingPathComponent("user_avatar.jpg")
+func load_json(book_id: String) -> JSON{
+    if let path = Bundle.main.path(forResource: book_id, ofType: "json") {
+        do {
+              let data = try Data(contentsOf: URL(fileURLWithPath: path), options: .mappedIfSafe)
+              let json = try JSON(data: data) as! JSON
+              return json
+          } catch {
+               // handle error
+          }
+    }
+    let json: JSON =  []
+    return json
+}
+
+func savePhoto(image: UIImage, name_of_photo: String) -> UIImage?{
+    do {
+        let imageFileURL = getDocumentsDirectory().appendingPathComponent(name_of_photo)
+        try? image.jpegData(compressionQuality: 0.8)?.write(to: imageFileURL)
+        return image
+    } catch {
+        print("Error loading image : \(error)")
+    }
+    return nil
+    
+}
+
+func loadPhoto(name_of_photo: String) -> UIImage?{
+    let imageFileURL = getDocumentsDirectory().appendingPathComponent(name_of_photo)
     do {
         let imageData = try Data(contentsOf: imageFileURL)
         return UIImage(data: imageData)
@@ -77,6 +113,10 @@ func loadUserPhoto() -> UIImage?{
         print("Error loading image : \(error)")
     }
     return nil
+}
+
+func isKeyPresentInUserDefaults(key: String) -> Bool {
+    return UserDefaults.standard.object(forKey: key) != nil
 }
 
 func fetchBooks(){

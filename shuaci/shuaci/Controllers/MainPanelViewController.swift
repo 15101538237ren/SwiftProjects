@@ -40,7 +40,7 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
     
     
     func updateUserPhoto() {
-        if let userImage = loadUserPhoto() {
+        if let userImage = loadPhoto(name_of_photo: "user_avatar.jpg") {
             self.userPhotoBtn.setImage(userImage, for: [])
         }
     }
@@ -80,9 +80,6 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
         downloadWallpaperBtn.tintColor = color
         searchBtn.tintColor = color
     }
-    func isKeyPresentInUserDefaults(key: String) -> Bool {
-        return UserDefaults.standard.object(forKey: key) != nil
-    }
     
     func animationDidStop(_ anim: CAAnimation, finished flag: Bool) {
         if shouldStopRotating == false {
@@ -108,7 +105,7 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
             syncLabel.alpha = 0
             // 跳到首页
             fetchBooks()
-            if let userImage = loadUserPhoto() {
+            if let userImage = loadPhoto(name_of_photo: "user_avatar.jpg") {
                 self.userPhotoBtn.setImage(userImage, for: [])
             }
             else {
@@ -130,13 +127,12 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
                     let data = try? Data(contentsOf: url)
                     print(url)
                     if let imageData = data {
-                        let image = UIImage(data: imageData)
-                        let imageFileURL = getDocumentsDirectory().appendingPathComponent("user_avatar.jpg")
-                        try? image!.jpegData(compressionQuality: 0.8)?.write(to: imageFileURL)
-                        
-                        DispatchQueue.main.async {
-                            // qos' default value is ´DispatchQoS.QoSClass.default`
-                            self.userPhotoBtn.setImage(image, for: [])
+                        if let image = UIImage(data: imageData){
+                            savePhoto(image: image, name_of_photo: "user_avatar.jpg")
+                            DispatchQueue.main.async {
+                                // qos' default value is ´DispatchQoS.QoSClass.default`
+                                self.userPhotoBtn.setImage(image, for: [])
+                            }
                         }
                     }
                 }
@@ -168,14 +164,18 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
                             let data = try? Data(contentsOf: url)
                             print(url)
                             if let imageData = data {
-                                let image = UIImage(data: imageData)
-                                let imageFileURL = getDocumentsDirectory().appendingPathComponent("theme_download.jpg")
-                                try? image!.jpegData(compressionQuality: 0.8)?.write(to: imageFileURL)
+                                if let image = UIImage(data: imageData){
+                                    savePhoto(image: image, name_of_photo: "theme_download.jpg")
+                                    current_wallpaper_image = image ?? UIImage()
+                                    DispatchQueue.main.async {
+                                        self.todayImageView?.image = image
+                                    }
+                                }
+                                
                                 let word = wallpaper?.word as! LCString
                                 let trans = wallpaper?.trans as! LCString
                                 
                                 current_wallpaper = Wallpaper(word: word.value as! String, trans: trans.value as! String, category: category)
-                                current_wallpaper_image = image ?? UIImage()
                                 
                                 UserDefaults.standard.set(current_wallpaper.word, forKey: word_string)
                                 UserDefaults.standard.set(current_wallpaper.trans, forKey: trans_string)
@@ -185,7 +185,6 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
                                     self.wordLabel.text = current_wallpaper.word
                                     self.meaningLabel.text = current_wallpaper.trans
                                     self.setTextOrButtonsColor(color: textColors[category] ?? UIColor.darkGray)
-                                    self.todayImageView?.image = image
                                     self.shouldStopRotating = true
                                     self.syncLabel.alpha = 0.0
                                 }
@@ -274,13 +273,24 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
     
     @IBAction func ReciteNewWords(_ sender: UIButton) {
         let defaults = UserDefaults.standard
-        let current_book_exist = isKeyPresentInUserDefaults(key: "current_book")
+        let current_book_key = "current_book"
+//        defaults.set("Level4_1", forKey: current_book_key)
+        let current_book_exist = isKeyPresentInUserDefaults(key: current_book_key)
         if !current_book_exist{
             let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
             let booksVC = mainStoryBoard.instantiateViewController(withIdentifier: "booksController") as! BooksViewController
             booksVC.modalPresentationStyle = .fullScreen
             DispatchQueue.main.async {
                 self.present(booksVC, animated: true, completion: nil)
+            }
+        }else{
+            current_book_id = UserDefaults.standard.object(forKey: current_book_key) as! String
+            
+            let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Learning", bundle:nil)
+            let learnVC = mainStoryBoard.instantiateViewController(withIdentifier: "learnWordController") as! LearnWordViewController
+            learnVC.modalPresentationStyle = .fullScreen
+            DispatchQueue.main.async {
+                self.present(learnVC, animated: true, completion: nil)
             }
         }
     }
