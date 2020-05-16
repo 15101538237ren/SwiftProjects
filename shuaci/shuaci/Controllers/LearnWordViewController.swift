@@ -76,6 +76,7 @@ class LearnWordViewController: UIViewController {
     }
     
     
+    
     func initCards() {
         for index in 0..<cards.count
         {
@@ -88,8 +89,10 @@ class LearnWordViewController: UIViewController {
             {
                 var stringArr:[String] = []
                 for tran in trans{
+                    let pos = tran["pos"].stringValue
                     let current_meaning = tran["tranCn"].stringValue
-                    stringArr.append(current_meaning)
+                    let current_meaning_replaced = current_meaning.replacingOccurrences(of: "；", with: "\n")
+                    stringArr.append("\(pos).\(current_meaning_replaced)")
                 }
                 card.meaningLabel?.text = stringArr.joined(separator: "\n")
             }
@@ -119,8 +122,10 @@ class LearnWordViewController: UIViewController {
         {
             var stringArr:[String] = []
             for tran in trans{
+                let pos = tran["pos"].stringValue
                 let current_meaning = tran["tranCn"].stringValue
-                stringArr.append(current_meaning)
+                let current_meaning_replaced = current_meaning.replacingOccurrences(of: "；", with: "\n")
+                stringArr.append("\(pos).\(current_meaning_replaced)")
             }
             card.meaningLabel?.text = stringArr.joined(separator: "\n")
         }
