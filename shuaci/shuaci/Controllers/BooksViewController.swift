@@ -211,13 +211,6 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
         view.addSubview(effectView)
     }
     
-    @IBOutlet var userPhotoBtn: UIButton!{
-        didSet {
-            userPhotoBtn.layer.cornerRadius = userPhotoBtn.layer.frame.width/2.0
-            userPhotoBtn.layer.masksToBounds = true
-        }
-    }
-    
     @IBAction func unwind(segue: UIStoryboardSegue) {
         self.dismiss(animated: true, completion: nil)
     }

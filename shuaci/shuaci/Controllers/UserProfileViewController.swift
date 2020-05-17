@@ -32,13 +32,19 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
         navigationController?.navigationBar.shadowImage = UIImage()
         
         navigationController?.navigationBar.tintColor = .white
-
-        if let userImage = loadPhoto(name_of_photo: "user_avatar.jpg") {
-            self.userPhotoBtn.setImage(userImage, for: [])
-        }
         super.viewDidLoad()
         
         // Do any additional setup after loading the view.
+    }
+    
+    override func viewWillAppear(_ animated: Bool){
+        self.updateUserPhoto()
+    }
+    
+    func updateUserPhoto() {
+        if let userImage = loadPhoto(name_of_photo: "user_avatar.jpg") {
+            self.userPhotoBtn.setImage(userImage, for: [])
+        }
     }
     
     
@@ -63,7 +69,7 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
             (action) in
             if UIImagePickerController.isSourceTypeAvailable(.camera){
                 let imagePicker = UIImagePickerController()
-                imagePicker.allowsEditing = true
+//                imagePicker.allowsEditing = true
                 imagePicker.sourceType = .camera
                 imagePicker.delegate = self
                 self.present(imagePicker, animated: true, completion: nil)
@@ -73,7 +79,7 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
             (action) in
             if UIImagePickerController.isSourceTypeAvailable(.photoLibrary){
                 let imagePicker = UIImagePickerController()
-                imagePicker.allowsEditing = true
+//                imagePicker.allowsEditing = true
                 imagePicker.sourceType = .photoLibrary
                 imagePicker.delegate = self
                 self.present(imagePicker, animated: true, completion: nil)
@@ -88,7 +94,17 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
         present(photoSourceController, animated: true, completion: nil)
     }
     
-    
+    func resizeImage(image: UIImage, newWidth: CGFloat) -> UIImage {
+
+        let scale = newWidth / image.size.width
+        let newHeight = image.size.height * scale
+        UIGraphicsBeginImageContext(CGSize(width: newWidth, height: newWidth))
+        image.draw(in: CGRect(x: 0, y: 0, width: newWidth, height: newHeight))
+        guard let newImage = UIGraphicsGetImageFromCurrentImageContext() else { return image }
+        UIGraphicsEndImageContext()
+
+        return newImage
+    }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         
@@ -104,50 +120,60 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
         }
     }
     
+    
     func cropViewController(_ cropViewController: CropViewController, didCropToImage image: UIImage, withRect cropRect: CGRect, angle: Int) {
         // Write the image to local file for temporary use
         let imageFileURL = getDocumentsDirectory().appendingPathComponent("user_avatar.jpg")
-        try? image.jpegData(compressionQuality: 0.8)?.write(to: imageFileURL)
-        self.userPhotoBtn.setImage(image, for: [])
+        let cropped_img = resizeImage(image: image, newWidth: 300.0)
+        try? cropped_img.jpegData(compressionQuality: 0.8)?.write(to: imageFileURL)
+        self.updateUserPhoto()
         self.mainPanelViewController.updateUserPhoto()
-        
         dismiss(animated: true, completion: nil)
         
-        let file = LCFile(payload: .fileURL(fileURL: imageFileURL))
-        _ = file.save { result in
-            switch result {
-            case .success:
-                if let value = file.objectId?.value {
-                    print("文件保存完成。objectId: \(value)")
-                    self.update_user_photo(file: file)
+        DispatchQueue.global(qos: .background).async {
+        do {
+            let file = LCFile(payload: .fileURL(fileURL: imageFileURL))
+            _ = file.save { result in
+                    switch result {
+                    case .success:
+                        if let objectId:String = file.objectId?.value {
+                            print("文件保存完成。objectId: \(objectId)")
+                            self.update_user_photo(file: file)
+                        }
+                    case .failure(error: let error):
+                        // 保存失败，可能是文件无法被读取，或者上传过程中出现问题
+                        print(error)
+                    }
                 }
-            case .failure(error: let error):
-                // 保存失败，可能是文件无法被读取，或者上传过程中出现问题
-                print(error)
             }
         }
     }
     
     func update_user_photo(file: LCFile){
-        let user = LCApplication.default.currentUser!
+        DispatchQueue.global(qos: .background).async {
         do {
-            if let old_photo = user.get("avatar") as? LCFile {
-                old_photo.delete()
-                old_photo.save()
-            }
-            
-            try user.set("avatar", value: file)
-            user.save { (result) in
-                switch result {
-                case .success:
-                    break
-                case .failure(error: let error):
+            let user = LCApplication.default.currentUser!
+                do {
+                    
+                    if let old_photo = user.get("avatar"){
+                        let file = old_photo as! LCFile
+                        let old_photo_file = LCObject(className: "_File", objectId: file.objectId?.value as! LCStringConvertible)
+                        old_photo_file.delete()
+                    }
+                    
+                    try user.set("avatar", value: file)
+                    user.save { (result) in
+                        switch result {
+                        case .success:
+                            break
+                        case .failure(error: let error):
+                            print(error)
+                        }
+                    }
+                } catch {
                     print(error)
                 }
             }
-        } catch {
-            print(error)
         }
     }
-
 }

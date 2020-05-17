@@ -28,7 +28,6 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
     @IBOutlet var syncLabel: UILabel!
     
     @IBOutlet var searchBtn: UIButton!
-    @IBOutlet var downloadWallpaperBtn: UIButton!
     @IBOutlet var searchBar: UISearchBar!
     
     
@@ -37,11 +36,12 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
     @IBOutlet var statBtn: UIButton!
     @IBOutlet var settingBtn: UIButton!
     
-    
-    
     func updateUserPhoto() {
         if let userImage = loadPhoto(name_of_photo: "user_avatar.jpg") {
             self.userPhotoBtn.setImage(userImage, for: [])
+        }
+        else{
+            self.getUserPhoto()
         }
     }
     
@@ -77,7 +77,6 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
         collectBtn.tintColor = color
         statBtn.tintColor = color
         settingBtn.tintColor = color
-        downloadWallpaperBtn.tintColor = color
         searchBtn.tintColor = color
     }
     
@@ -202,67 +201,69 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
 
     }
     
-    
-    override func viewWillAppear(_ animated: Bool){
-        if let user = LCApplication.default.currentUser {
-            let defaults = UserDefaults.standard
-            let theme_category_exist = isKeyPresentInUserDefaults(key: theme_category_string)
-            var theme_category  = 1
-            if theme_category_exist{
-                theme_category = defaults.integer(forKey: theme_category_string)
-                let last_theme_category = defaults.integer(forKey: last_theme_category_string)
-                if theme_category != last_theme_category{
-                    let image = UIImage(named: "theme_\(theme_category)")
-                    todayImageView?.image = image
-                    current_wallpaper_image = image ?? UIImage()
-                    let wallpaper = default_wallpapers[theme_category - 1]
-                    wordLabel.text = wallpaper.word
-                    meaningLabel.text = wallpaper.trans
-                    
-                    setTextOrButtonsColor(color: textColors[theme_category] ?? UIColor.darkGray)
-                    
-                    self.userPhotoBtn.rotate360Degrees(completionDelegate: self)
-                    self.isRotating = true
-                    self.syncLabel.alpha = 1.0
-                    self.getTodayWallpaper(category: theme_category)
-                }
-                else{
-                    let imageFileURL = getDocumentsDirectory().appendingPathComponent("theme_download.jpg")
-                    do {
-                        let imageData = try Data(contentsOf: imageFileURL)
-                        let image = UIImage(data: imageData)
-                        todayImageView?.image = image
-                        current_wallpaper_image = image ?? UIImage()
-                    } catch {
-                        print("Error loading image : \(error)")
-                    }
-                    let word = defaults.string(forKey: word_string)
-                    let trans = defaults.string(forKey: trans_string)
-                    wordLabel.text = word
-                    meaningLabel.text = trans
-                    current_wallpaper = Wallpaper(word: word!, trans: trans!, category: theme_category)
-                    
-                    setTextOrButtonsColor(color: textColors[theme_category] ?? UIColor.darkGray)
-                }
-            }
-            else{
-                defaults.set(theme_category, forKey: last_theme_category_string)
-                current_wallpaper = default_wallpapers[theme_category - 1]
-                
-                defaults.set(current_wallpaper.word, forKey: word_string)
-                defaults.set(current_wallpaper.trans, forKey: trans_string)
-                
+    func setWallpaper(){
+        let defaults = UserDefaults.standard
+        let theme_category_exist = isKeyPresentInUserDefaults(key: theme_category_string)
+        var theme_category  = 1
+        if theme_category_exist{
+            theme_category = defaults.integer(forKey: theme_category_string)
+            let last_theme_category = defaults.integer(forKey: last_theme_category_string)
+            if theme_category != last_theme_category{
                 let image = UIImage(named: "theme_\(theme_category)")
                 todayImageView?.image = image
                 current_wallpaper_image = image ?? UIImage()
+                let wallpaper = default_wallpapers[theme_category - 1]
+                wordLabel.text = wallpaper.word
+                meaningLabel.text = wallpaper.trans
                 
-                wordLabel.text = current_wallpaper.word
-                meaningLabel.text = current_wallpaper.trans
+                setTextOrButtonsColor(color: textColors[theme_category] ?? UIColor.darkGray)
+                
+                self.userPhotoBtn.rotate360Degrees(completionDelegate: self)
+                self.isRotating = true
+                self.syncLabel.alpha = 1.0
+                self.getTodayWallpaper(category: theme_category)
+            }
+            else{
+                let imageFileURL = getDocumentsDirectory().appendingPathComponent("theme_download.jpg")
+                do {
+                    let imageData = try Data(contentsOf: imageFileURL)
+                    let image = UIImage(data: imageData)
+                    todayImageView?.image = image
+                    current_wallpaper_image = image ?? UIImage()
+                } catch {
+                    print("Error loading image : \(error)")
+                }
+                let word = defaults.string(forKey: word_string)
+                let trans = defaults.string(forKey: trans_string)
+                wordLabel.text = word
+                meaningLabel.text = trans
+                current_wallpaper = Wallpaper(word: word!, trans: trans!, category: theme_category)
                 
                 setTextOrButtonsColor(color: textColors[theme_category] ?? UIColor.darkGray)
             }
+        }
+        else{
+            defaults.set(theme_category, forKey: last_theme_category_string)
+            current_wallpaper = default_wallpapers[theme_category - 1]
             
+            defaults.set(current_wallpaper.word, forKey: word_string)
+            defaults.set(current_wallpaper.trans, forKey: trans_string)
             
+            let image = UIImage(named: "theme_\(theme_category)")
+            todayImageView?.image = image
+            current_wallpaper_image = image ?? UIImage()
+            
+            wordLabel.text = current_wallpaper.word
+            meaningLabel.text = current_wallpaper.trans
+            
+            setTextOrButtonsColor(color: textColors[theme_category] ?? UIColor.darkGray)
+        }
+    }
+    
+    override func viewWillAppear(_ animated: Bool){
+        if let user = LCApplication.default.currentUser {
+            self.setWallpaper()
+            self.updateUserPhoto()
             }
         else {
             // 显示注册或登录页面
