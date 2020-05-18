@@ -27,6 +27,7 @@ var currentSelectedCategory:Int = 0
 var currentSelectedSubCategory:Int = 0
 var category_items:[Int: String] = [0:"全部"]
 var current_book_id:String = "Level4_1"
+
 var npw_key = "number_of_word_per_day"
 let categories:[Int: [String: [Int: String]]] = [ 0: ["category": [0:"全部"], "subcategory": [0:"全部"]], 
     1 : ["category":  [0:"出国"], "subcategory": [0:"全部", 1: "雅思", 2: "托福", 3: "GRE", 4: "SAT", 5: "GMAT", 6: "MBA", 7: "其他"]],
@@ -161,6 +162,30 @@ func uploadRecordsIfNeeded(){
         uploadRecordsIfNeeded()
     }
     
+}
+
+
+func getCurrentBookId() -> String{
+    let current_bookKey = "current_book"
+    if isKeyPresentInUserDefaults(key: current_bookKey){
+        let book_id:String = UserDefaults.standard.string(forKey: current_bookKey) ?? current_book_id
+        return book_id
+    }
+    else{
+        return current_book_id
+    }
+}
+
+func learntVocabRanks() -> [Int]{
+    var vocabRanks:[Int] = []
+    let book_id:String = getCurrentBookId()
+    let vocabRecords: [VocabularyRecord] = loadVocabRecords()
+    for vocabRec in vocabRecords{
+        if vocabRec.BookId == book_id{
+            vocabRanks.append(vocabRec.WordRank)
+        }
+    }
+    return vocabRanks
 }
 
 func fetchBooks(){
