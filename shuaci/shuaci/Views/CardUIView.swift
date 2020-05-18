@@ -22,6 +22,11 @@ class CardUIView: UIView {
             meaningLabel?.numberOfLines = 0
         }
     }
+    
+    
+    @IBOutlet var X_Constraint: NSLayoutConstraint!
+    @IBOutlet var Y_Constraint: NSLayoutConstraint!
+    
     @IBOutlet var accentLabel: UILabel?
     @IBOutlet var phoneticLabel: UILabel?
     @IBOutlet var rememberImageView: UIImageView?

@@ -197,6 +197,24 @@ func timeString(time: Int) -> String {
     return String(format: "%02i:%02i:%02i", hour, minute, second)
 }
 
+func getUSPhone() -> Bool{
+    let usphoneKey = "usphone"
+    if isKeyPresentInUserDefaults(key: usphoneKey){
+        let usphone:Bool = UserDefaults.standard.bool(forKey: usphoneKey)
+        return usphone
+    }
+    else{
+        let usphone:Bool = true
+        UserDefaults.standard.set(usphone, forKey: usphoneKey)
+        return usphone
+    }
+}
+
+func setUSPhone(usphone: Bool){
+    let usphoneKey = "usphone"
+    UserDefaults.standard.set(usphone, forKey: usphoneKey)
+}
+
 func fetchBooks(){
     DispatchQueue.global(qos: .background).async {
     do {

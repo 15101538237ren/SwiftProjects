@@ -119,7 +119,7 @@ class MainScreenViewController: UIViewController {
                     card.center = CGPoint(x: card.center.x - 200, y: card.center.y + 75)
                     card.alpha = 0
                 })
-                playMp3(filename: "Ninja_Jump_1")
+                playMp3(filename: words[(currentIndex + 1) % words.count].usspeech)
                 UIView.animate(withDuration: animationDuration, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 5, options: .curveEaseInOut, animations: {
                     nextCard.transform = .identity
                 })
@@ -135,7 +135,7 @@ class MainScreenViewController: UIViewController {
                     card.alpha = 0
                 })
                 
-                playMp3(filename: "incorrect")
+                playMp3(filename: words[(currentIndex + 1) % words.count].usspeech)
                 self.currentIndex += 1
                 perform(#selector(moveCard), with: nil, afterDelay: animationDuration)
                 return

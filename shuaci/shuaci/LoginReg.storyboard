@@ -256,6 +256,8 @@
                                     <constraint firstItem="BEL-4t-aZa" firstAttribute="top" secondItem="AQJ-RA-cCJ" secondAttribute="bottom" constant="30" id="qAU-rE-sMk"/>
                                 </constraints>
                                 <connections>
+                                    <outlet property="X_Constraint" destination="OpH-YF-R31" id="Mni-8w-jPp"/>
+                                    <outlet property="Y_Constraint" destination="FMU-hc-CBD" id="Dxe-y5-eHC"/>
                                     <outlet property="accentLabel" destination="MLf-1o-JHw" id="xRv-dI-lCi"/>
                                     <outlet property="cardImageView" destination="sf0-Pf-lH5" id="2lq-ag-lNR"/>
                                     <outlet property="meaningLabel" destination="BEL-4t-aZa" id="Jyy-ao-AKi"/>
@@ -387,6 +389,8 @@
                                     <constraint firstItem="Iiy-I0-Uq7" firstAttribute="centerX" secondItem="cIQ-Rr-mpO" secondAttribute="centerX" id="xQT-lx-AVI"/>
                                 </constraints>
                                 <connections>
+                                    <outlet property="X_Constraint" destination="Hnk-Jb-s6H" id="7js-Tu-Gtd"/>
+                                    <outlet property="Y_Constraint" destination="Svj-Fz-pD1" id="6wy-gG-72z"/>
                                     <outlet property="accentLabel" destination="SeA-6M-ONB" id="CWW-mE-dMc"/>
                                     <outlet property="cardImageView" destination="Iiy-I0-Uq7" id="SxN-BY-VzK"/>
                                     <outlet property="meaningLabel" destination="f6O-Bc-TKO" id="ZJ6-lB-NPP"/>
