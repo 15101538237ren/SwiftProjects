@@ -188,6 +188,15 @@ func learntVocabRanks() -> [Int]{
     return vocabRanks
 }
 
+func timeString(time: Int) -> String {
+    let hour = time / 3600
+    let minute = time / 60 % 60
+    let second = time % 60
+
+    // return formated string
+    return String(format: "%02i:%02i:%02i", hour, minute, second)
+}
+
 func fetchBooks(){
     DispatchQueue.global(qos: .background).async {
     do {
@@ -257,110 +266,114 @@ let reviewRecordJsonFp = "reviewRecord.json"
 let vocabRecordJsonFp = "vocabRecord.json"
 let learningRecordJsonFp = "learningRecord.json"
 
-func syncRecords(for userName: String){
-    if let collectedRecordpath = getDefaultFilePath(fileName: collectedRecordJsonFp)
-    {
-        if !FileManager.default.fileExists(atPath: collectedRecordpath) {
-            DispatchQueue.global(qos: .background).async {
-            do {
-                let collectedQuery = LCQuery(className: "CollectedRecord")
-                collectedQuery.whereKey("username", .equalTo(userName))
-                _ = collectedQuery.find { result in
-                            switch result {
-                            case .success(objects: let collectedRecords):
-                                if collectedRecords.count > 0
-                                {
-                                    if let jsonStr = collectedRecords[0].get("jsonStr")?.stringValue{
-                                        saveStringTo(fileName: collectedRecordJsonFp, jsonStr: jsonStr)
-                                        GlobalCollectedRecords = loadCollectedRecords()
-                                    }
+func syncRecords(){
+    if let user = LCApplication.default.currentUser {
+        if let userName = user.get("username"){
+            if let collectedRecordpath = getDefaultFilePath(fileName: collectedRecordJsonFp)
+            {
+                if !FileManager.default.fileExists(atPath: collectedRecordpath) {
+                    DispatchQueue.global(qos: .background).async {
+                    do {
+                        let collectedQuery = LCQuery(className: "CollectedRecord")
+                        collectedQuery.whereKey("username", .equalTo(userName))
+                        _ = collectedQuery.find { result in
+                                    switch result {
+                                    case .success(objects: let collectedRecords):
+                                        if collectedRecords.count > 0
+                                        {
+                                            if let jsonStr = collectedRecords[0].get("jsonStr")?.stringValue{
+                                                saveStringTo(fileName: collectedRecordJsonFp, jsonStr: jsonStr)
+                                                GlobalCollectedRecords = loadCollectedRecords()
+                                            }
+                                        }
+                                        
+                                        break
+                                    case .failure(error: let error):
+                                        print(error)
                                 }
-                                
-                                break
-                            case .failure(error: let error):
-                                print(error)
                         }
+                    }
+                   }
                 }
             }
-           }
-        }
-    }
-    if let reviewRecordpath = getDefaultFilePath(fileName: reviewRecordJsonFp)
-    {
-        if !FileManager.default.fileExists(atPath: reviewRecordpath) {
-        DispatchQueue.global(qos: .background).async {
-        do {
-            let reviewRecordQuery = LCQuery(className: "ReviewRecord")
-            reviewRecordQuery.whereKey("username", .equalTo(userName))
-            _ = reviewRecordQuery.find { result in
-                        switch result {
-                        case .success(objects: let reviewRecords):
-                            if reviewRecords.count > 0
-                            {
-                                if let jsonStr = reviewRecords[0].get("jsonStr")?.stringValue{
-                                    saveStringTo(fileName: reviewRecordJsonFp, jsonStr: jsonStr)
-                                    GlobalReviewRecords = loadReviewRecords()
-                                }
+            if let reviewRecordpath = getDefaultFilePath(fileName: reviewRecordJsonFp)
+            {
+                if !FileManager.default.fileExists(atPath: reviewRecordpath) {
+                DispatchQueue.global(qos: .background).async {
+                do {
+                    let reviewRecordQuery = LCQuery(className: "ReviewRecord")
+                    reviewRecordQuery.whereKey("username", .equalTo(userName))
+                    _ = reviewRecordQuery.find { result in
+                                switch result {
+                                case .success(objects: let reviewRecords):
+                                    if reviewRecords.count > 0
+                                    {
+                                        if let jsonStr = reviewRecords[0].get("jsonStr")?.stringValue{
+                                            saveStringTo(fileName: reviewRecordJsonFp, jsonStr: jsonStr)
+                                            GlobalReviewRecords = loadReviewRecords()
+                                        }
+                                    }
+                                    
+                                    break
+                                case .failure(error: let error):
+                                    print(error)
                             }
-                            
-                            break
-                        case .failure(error: let error):
-                            print(error)
                     }
+                    }}
+                }
             }
-            }}
-        }
-    }
-    if let vocabRecordPath = getDefaultFilePath(fileName: vocabRecordJsonFp)
-    {
-        if !FileManager.default.fileExists(atPath: vocabRecordPath) {
-        DispatchQueue.global(qos: .background).async {
-        do {
-            let vocabRecordsQuery = LCQuery(className: "VocabRecord")
-            vocabRecordsQuery.whereKey("username", .equalTo(userName))
-            _ = vocabRecordsQuery.find { result in
-                        switch result {
-                        case .success(objects: let vocabRecords):
-                            if vocabRecords.count > 0
-                            {
-                                if let jsonStr = vocabRecords[0].get("jsonStr")?.stringValue{
-                                    saveStringTo(fileName: vocabRecordJsonFp, jsonStr: jsonStr)
-                                    GlobalVocabRecords = loadVocabRecords()
-                                }
+            if let vocabRecordPath = getDefaultFilePath(fileName: vocabRecordJsonFp)
+            {
+                if !FileManager.default.fileExists(atPath: vocabRecordPath) {
+                DispatchQueue.global(qos: .background).async {
+                do {
+                    let vocabRecordsQuery = LCQuery(className: "VocabRecord")
+                    vocabRecordsQuery.whereKey("username", .equalTo(userName))
+                    _ = vocabRecordsQuery.find { result in
+                                switch result {
+                                case .success(objects: let vocabRecords):
+                                    if vocabRecords.count > 0
+                                    {
+                                        if let jsonStr = vocabRecords[0].get("jsonStr")?.stringValue{
+                                            saveStringTo(fileName: vocabRecordJsonFp, jsonStr: jsonStr)
+                                            GlobalVocabRecords = loadVocabRecords()
+                                        }
+                                    }
+                                    
+                                    break
+                                case .failure(error: let error):
+                                    print(error)
                             }
-                            
-                            break
-                        case .failure(error: let error):
-                            print(error)
                     }
+                    }}
+                }
             }
-            }}
-        }
-    }
-    if let learningRecordPath = getDefaultFilePath(fileName: learningRecordJsonFp)
-    {
-        if !FileManager.default.fileExists(atPath: learningRecordPath) {
-        DispatchQueue.global(qos: .background).async {
-        do {
-            let learningRecordsQuery = LCQuery(className: "LearningRecord")
-            learningRecordsQuery.whereKey("username", .equalTo(userName))
-            _ = learningRecordsQuery.find { result in
-                        switch result {
-                        case .success(objects: let learningRecords):
-                            if learningRecords.count > 0
-                            {
-                                if let jsonStr = learningRecords[0].get("jsonStr")?.stringValue{
-                                    saveStringTo(fileName: learningRecordJsonFp, jsonStr: jsonStr)
-                                    GlobalLearningRecords = loadLearningRecords()
-                                }
+            if let learningRecordPath = getDefaultFilePath(fileName: learningRecordJsonFp)
+            {
+                if !FileManager.default.fileExists(atPath: learningRecordPath) {
+                DispatchQueue.global(qos: .background).async {
+                do {
+                    let learningRecordsQuery = LCQuery(className: "LearningRecord")
+                    learningRecordsQuery.whereKey("username", .equalTo(userName))
+                    _ = learningRecordsQuery.find { result in
+                                switch result {
+                                case .success(objects: let learningRecords):
+                                    if learningRecords.count > 0
+                                    {
+                                        if let jsonStr = learningRecords[0].get("jsonStr")?.stringValue{
+                                            saveStringTo(fileName: learningRecordJsonFp, jsonStr: jsonStr)
+                                            GlobalLearningRecords = loadLearningRecords()
+                                        }
+                                    }
+                                    
+                                    break
+                                case .failure(error: let error):
+                                    print(error)
                             }
-                            
-                            break
-                        case .failure(error: let error):
-                            print(error)
                     }
+                    }}
+                }
             }
-            }}
         }
     }
 }
@@ -394,6 +407,7 @@ func saveCollectedRecordsLocally(){
 }
 
 func saveCollectedRecordsToCloud(collectedRecords: [CollectedRecord], username: String){
+    DispatchQueue.global(qos: .background).async {
     do {
         let jsonData = try! JSONEncoder().encode(collectedRecords)
         let jsonString = String(data: jsonData, encoding: .utf8)!
@@ -418,7 +432,7 @@ func saveCollectedRecordsToCloud(collectedRecords: [CollectedRecord], username: 
         }
     } catch {
         print(error.localizedDescription)
-    }
+        }}
 }
 
 func loadReviewRecords() -> [ReviewRecord]{
@@ -450,6 +464,7 @@ func saveReviewRecordsLocally(){
 }
 
 func saveReviewRecordsToClould(reviewRecord: [ReviewRecord], username: String){
+    DispatchQueue.global(qos: .background).async {
     do {
         let jsonData = try! JSONEncoder().encode(reviewRecord)
         let jsonString = String(data: jsonData, encoding: .utf8)!
@@ -474,7 +489,7 @@ func saveReviewRecordsToClould(reviewRecord: [ReviewRecord], username: String){
         }
     } catch {
         print(error.localizedDescription)
-    }
+        }}
 }
 
 let decoder = JSONDecoder()
@@ -507,6 +522,7 @@ func saveVocabRecordsLocally(){
 }
 
 func saveVocabRecordsToClould(vocabRecords: [VocabularyRecord], username: String){
+    DispatchQueue.global(qos: .background).async {
     do {
         let jsonData = try! JSONEncoder().encode(vocabRecords)
         let jsonString = String(data: jsonData, encoding: .utf8)!
@@ -531,7 +547,7 @@ func saveVocabRecordsToClould(vocabRecords: [VocabularyRecord], username: String
         }
     } catch {
         print(error.localizedDescription)
-    }
+        }}
 }
 
 

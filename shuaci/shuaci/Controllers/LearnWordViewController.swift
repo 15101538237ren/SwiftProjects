@@ -20,7 +20,10 @@ class LearnWordViewController: UIViewController {
             }
         }
     }
-    var json: JSON = load_json(fileName: "current_book")
+    var secondsPST:Int = 0 // number of seconds past after load
+    @IBOutlet var timeLabel: UILabel!
+    @IBOutlet var progressLabel: UILabel!
+    var json_obj: JSON = load_json(fileName: "current_book")
     var audioPlayer: AVAudioPlayer?
     var mp3Player: AVAudioPlayer?
     var scaleOfSecondCard:CGFloat = 0.9
@@ -44,19 +47,36 @@ class LearnWordViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        get_words(json_obj: json)
+        get_words()
         setCardBackground()
         initCards()
         let card = cards[0]
         let xshift:CGFloat = card.frame.size.width/8.0
         card.transform = CGAffineTransform(translationX: -xshift, y:0.0).rotated(by: -xshift*0.61/card.center.x)
+        DispatchQueue.main.async {
+            self.timeLabel.text = timeString(time: self.secondsPST)
+        }
+        startTimer()
     }
     
     @IBAction func unwind(segue: UIStoryboardSegue) {
         self.dismiss(animated: true, completion: nil)
     }
     
-    func get_words(json_obj:JSON){
+    
+    
+    func startTimer()
+    {
+        Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
+            self.secondsPST += 1
+            DispatchQueue.main.async {
+                self.timeLabel.text = timeString(time: self.secondsPST)
+            }
+        }
+    }
+    
+    func get_words(){
+        let vocabRanks:[Int] = learntVocabRanks()
         let number_of_word_per_day_exist = isKeyPresentInUserDefaults(key: npw_key)
         var number_of_word_per_day = 100
         if number_of_word_per_day_exist{
@@ -67,15 +87,23 @@ class LearnWordViewController: UIViewController {
         }
         let word_list = json_obj["data"]
         let number_of_words_in_json:Int = word_list.count
-        let sampling_number:Int = min(number_of_word_per_day, number_of_words_in_json)
         let word_ids = Array(0...number_of_words_in_json)
-        let sampled_ids = word_ids.choose(sampling_number)
+        let diff_ids:[Int] = word_ids.difference(from: vocabRanks)
+        print(word_ids.count)
+        print(diff_ids.count)
+        let sampling_number:Int = min(number_of_word_per_day, diff_ids.count)
+        let sampled_ids = diff_ids.choose(sampling_number)
         for i in 0..<sampling_number{
             words.append(word_list[sampled_ids[i]])
         }
+        self.updateProgressLabel()
     }
     
-    
+    func updateProgressLabel(){
+        DispatchQueue.main.async {
+            self.progressLabel.text = "\(self.currentIndex + 1)/\(self.words.count)"
+        }
+    }
     
     func initCards() {
         for index in 0..<cards.count
@@ -112,6 +140,7 @@ class LearnWordViewController: UIViewController {
     }
     
     @objc func moveCard() {
+        self.updateProgressLabel()
         let card = cards[(currentIndex + 1) % 2]
         let word = words[(currentIndex + 1) % words.count]
         
@@ -180,7 +209,6 @@ class LearnWordViewController: UIViewController {
                         card.center = CGPoint(x: card.center.x - 200, y: card.center.y + 75)
                         card.alpha = 0
                     })
-                    playMp3(filename: "Ninja_Jump_1")
                     UIView.animate(withDuration: animationDuration, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 5, options: .curveEaseInOut, animations: {
                         nextCard.transform = .identity
                     })
@@ -195,8 +223,6 @@ class LearnWordViewController: UIViewController {
                         card.center = CGPoint(x: card.center.x + 200, y: card.center.y + 75)
                         card.alpha = 0
                     })
-                    
-                    playMp3(filename: "incorrect")
                     self.currentIndex += 1
                     perform(#selector(moveCard), with: nil, afterDelay: animationDuration)
                     return

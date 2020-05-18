@@ -264,6 +264,8 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
         if let user = LCApplication.default.currentUser {
             self.setWallpaper()
             self.updateUserPhoto()
+            uploadRecordsIfNeeded()
+            syncRecords()
             }
         else {
             // 显示注册或登录页面
