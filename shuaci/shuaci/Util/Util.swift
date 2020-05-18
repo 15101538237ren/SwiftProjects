@@ -135,6 +135,34 @@ func isKeyPresentInUserDefaults(key: String) -> Bool {
     return UserDefaults.standard.object(forKey: key) != nil
 }
 
+
+func uploadRecordsIfNeeded(){
+    let uploadFailedKey = "uploadFailed"
+    if let user = LCApplication.default.currentUser {
+        if let username = user.get("username"){
+            
+            if isKeyPresentInUserDefaults(key: uploadFailedKey){
+                let uploadfailed:Bool = UserDefaults.standard.bool(forKey: uploadFailedKey)
+                if uploadfailed == true{
+                    let collectedRecords = loadCollectedRecords()
+                    saveCollectedRecordsToCloud(collectedRecords: collectedRecords, username: username.stringValue!)
+                    let reviewRecords = loadReviewRecords()
+                    saveReviewRecordsToClould(reviewRecord: reviewRecords, username: username.stringValue!)
+                    let vocabRecords = loadVocabRecords()
+                    saveVocabRecordsToClould(vocabRecords: vocabRecords, username: username.stringValue!)
+                    let learningRecords = loadLearningRecords()
+                    saveLearningRecordsToClould(learningRecord: learningRecords, username: username.stringValue!)
+                }
+            }
+        }
+    }
+    else{
+        UserDefaults.standard.set(true, forKey: uploadFailedKey)
+        uploadRecordsIfNeeded()
+    }
+    
+}
+
 func fetchBooks(){
     DispatchQueue.global(qos: .background).async {
     do {
@@ -330,12 +358,20 @@ func loadCollectedRecords() -> [CollectedRecord]{
     let collectedRecords: [CollectedRecord] =  []
     return collectedRecords
 }
+func saveCollectedRecordsLocally(){
+    do {
+        let jsonData = try! JSONEncoder().encode(GlobalCollectedRecords)
+        let jsonString = String(data: jsonData, encoding: .utf8)!
+        saveStringTo(fileName: collectedRecordJsonFp, jsonStr: jsonString)
+    } catch {
+        print(error.localizedDescription)
+    }
+}
 
-func saveCollectedRecords(collectedRecords: [CollectedRecord], username: String){
+func saveCollectedRecordsToCloud(collectedRecords: [CollectedRecord], username: String){
     do {
         let jsonData = try! JSONEncoder().encode(collectedRecords)
         let jsonString = String(data: jsonData, encoding: .utf8)!
-        saveStringTo(fileName: collectedRecordJsonFp, jsonStr: jsonString)
         // 构建对象
         let collectedRecordsObj = LCObject(className: "CollectedRecord")
 
@@ -359,6 +395,7 @@ func saveCollectedRecords(collectedRecords: [CollectedRecord], username: String)
         print(error.localizedDescription)
     }
 }
+
 func loadReviewRecords() -> [ReviewRecord]{
     do {
         let fileURL = try FileManager.default
@@ -376,11 +413,21 @@ func loadReviewRecords() -> [ReviewRecord]{
     return reviewRecords
 }
 
-func saveReviewRecords(reviewRecord: [ReviewRecord], username: String){
+
+func saveReviewRecordsLocally(){
+    do {
+        let jsonData = try! JSONEncoder().encode(GlobalReviewRecords)
+        let jsonString = String(data: jsonData, encoding: .utf8)!
+        saveStringTo(fileName: reviewRecordJsonFp, jsonStr: jsonString)
+    } catch {
+        print(error.localizedDescription)
+    }
+}
+
+func saveReviewRecordsToClould(reviewRecord: [ReviewRecord], username: String){
     do {
         let jsonData = try! JSONEncoder().encode(reviewRecord)
         let jsonString = String(data: jsonData, encoding: .utf8)!
-        saveStringTo(fileName: reviewRecordJsonFp, jsonStr: jsonString)
         // 构建对象
         let reviewRecordObj = LCObject(className: "ReviewRecord")
 
@@ -424,11 +471,20 @@ func loadVocabRecords() -> [VocabularyRecord] {
     return vocabRecords
 }
 
-func saveVocabRecords(vocabRecords: [VocabularyRecord], username: String){
+func saveVocabRecordsLocally(){
+    do {
+        let jsonData = try! JSONEncoder().encode(GlobalVocabRecords)
+        let jsonString = String(data: jsonData, encoding: .utf8)!
+        saveStringTo(fileName: vocabRecordJsonFp, jsonStr: jsonString)
+    } catch {
+        print(error.localizedDescription)
+    }
+}
+
+func saveVocabRecordsToClould(vocabRecords: [VocabularyRecord], username: String){
     do {
         let jsonData = try! JSONEncoder().encode(vocabRecords)
         let jsonString = String(data: jsonData, encoding: .utf8)!
-        saveStringTo(fileName: vocabRecordJsonFp, jsonStr: jsonString)
         // 构建对象
         let vocabRecordObj = LCObject(className: "VocabRecord")
 
@@ -453,6 +509,7 @@ func saveVocabRecords(vocabRecords: [VocabularyRecord], username: String){
     }
 }
 
+
 func loadLearningRecords() -> [LearningRecord]{
     do {
         let fileURL = try FileManager.default
@@ -470,12 +527,21 @@ func loadLearningRecords() -> [LearningRecord]{
     return learningRecord
 }
 
+func saveLearningRecordsLocally(){
+    do {
+        let jsonData = try! JSONEncoder().encode(GlobalLearningRecords)
+        let jsonString = String(data: jsonData, encoding: .utf8)!
+        saveStringTo(fileName: learningRecordJsonFp, jsonStr: jsonString)
+    } catch {
+        print(error.localizedDescription)
+    }
+}
 
-func saveLearningRecords(learningRecord: [LearningRecord], username: String){
+func saveLearningRecordsToClould(learningRecord: [LearningRecord], username: String){
+    DispatchQueue.global(qos: .background).async {
     do {
         let jsonData = try! JSONEncoder().encode(learningRecord)
         let jsonString = String(data: jsonData, encoding: .utf8)!
-        saveStringTo(fileName: learningRecordJsonFp, jsonStr: jsonString)
         // 构建对象
         let learningRecordObj = LCObject(className: "LearningRecord")
 
@@ -497,5 +563,5 @@ func saveLearningRecords(learningRecord: [LearningRecord], username: String){
         }
     } catch {
         print(error.localizedDescription)
-    }
+        }}
 }
