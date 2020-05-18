@@ -75,6 +75,8 @@ class MainScreenViewController: UIViewController {
         card.rememberImageView?.alpha = 0
         card.rememberLabel?.text = ""
         card.rememberLabel?.alpha = 0
+        card.X_Constraint.constant = 0
+        card.Y_Constraint.constant = 0
         card.speech? = word.usspeech
         card.layer.removeAllAnimations()
         card.transform = CGAffineTransform.identity.scaledBy(x: scaleOfSecondCard, y: scaleOfSecondCard)
@@ -90,7 +92,9 @@ class MainScreenViewController: UIViewController {
         let xFromCenter = card.center.x - view.center.x
         card.center = CGPoint(x: view.center.x + point.x, y: view.center.y + point.y)
         
-//        let alpha = min(1.5 * (abs(xFromCenter) / view.center.x) + 0.6, 1.0)
+        card.X_Constraint.constant = point.x
+        card.Y_Constraint.constant = point.y
+        sender.view!.frame = card.frame
         
         let scale = min(0.35 * view.frame.width / abs(xFromCenter), 1.0)
         if xFromCenter > 0
@@ -117,8 +121,12 @@ class MainScreenViewController: UIViewController {
                 UIView.animate(withDuration: animationDuration, animations:
                 {
                     card.center = CGPoint(x: card.center.x - 200, y: card.center.y + 75)
+                    card.X_Constraint.constant = card.center.x - self.view.center.x
+                    card.Y_Constraint.constant = card.center.y - self.view.center.y
                     card.alpha = 0
+                    
                 })
+                sender.view!.frame = card.frame
                 playMp3(filename: words[(currentIndex + 1) % words.count].usspeech)
                 UIView.animate(withDuration: animationDuration, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 5, options: .curveEaseInOut, animations: {
                     nextCard.transform = .identity
@@ -132,9 +140,11 @@ class MainScreenViewController: UIViewController {
                 UIView.animate(withDuration: animationDuration, animations:
                 {
                     card.center = CGPoint(x: card.center.x + 200, y: card.center.y + 75)
+                    card.X_Constraint.constant = card.center.x - self.view.center.x
+                    card.Y_Constraint.constant = card.center.y - self.view.center.y
                     card.alpha = 0
                 })
-                
+                sender.view!.frame = card.frame
                 playMp3(filename: words[(currentIndex + 1) % words.count].usspeech)
                 self.currentIndex += 1
                 perform(#selector(moveCard), with: nil, afterDelay: animationDuration)
@@ -150,6 +160,8 @@ class MainScreenViewController: UIViewController {
             card.center = self.view.center
             card.alpha = 1
         })
+        card.X_Constraint.constant = 0
+        card.Y_Constraint.constant = 0
         card.rememberImageView?.alpha = 0
         card.rememberLabel?.alpha = 0.0
         card.transform = .identity

@@ -411,15 +411,15 @@
                             <constraint firstItem="dMD-Rk-1mA" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="C0p-Tu-qEp"/>
                             <constraint firstItem="6XI-UF-e3h" firstAttribute="top" secondItem="dMD-Rk-1mA" secondAttribute="bottom" constant="15" id="EQ8-TE-5Co"/>
                             <constraint firstItem="rUM-pK-Jea" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="FMU-hc-CBD"/>
-                            <constraint firstItem="yYk-O4-VsC" firstAttribute="top" secondItem="rUM-pK-Jea" secondAttribute="bottom" constant="30" id="GAw-G1-AgZ"/>
                             <constraint firstItem="cIQ-Rr-mpO" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Hnk-Jb-s6H"/>
                             <constraint firstItem="4IN-su-9pm" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Kpa-Ob-qeh"/>
                             <constraint firstItem="rUM-pK-Jea" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="OpH-YF-R31"/>
                             <constraint firstItem="cIQ-Rr-mpO" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="Svj-Fz-pD1"/>
-                            <constraint firstItem="rUM-pK-Jea" firstAttribute="top" secondItem="4IN-su-9pm" secondAttribute="bottom" constant="90" id="WbF-XM-HXZ"/>
+                            <constraint firstItem="4IN-su-9pm" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="25" id="WOS-8y-hat"/>
                             <constraint firstItem="cIQ-Rr-mpO" firstAttribute="width" secondItem="cIQ-Rr-mpO" secondAttribute="height" multiplier="74:105" id="Yfe-Vl-NkJ"/>
                             <constraint firstItem="yYk-O4-VsC" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Ymh-1g-NvT"/>
                             <constraint firstItem="rUM-pK-Jea" firstAttribute="width" secondItem="rUM-pK-Jea" secondAttribute="height" multiplier="74:105" id="ogh-1j-lez"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="6XI-UF-e3h" secondAttribute="bottom" constant="20" id="tmQ-TY-Nlv"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <connections>
