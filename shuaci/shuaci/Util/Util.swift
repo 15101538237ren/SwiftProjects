@@ -168,3 +168,334 @@ func fetchBooks(){
     }
     }
 }
+
+func saveStringTo(fileName: String, jsonStr: String){
+    do {
+        let fileURL = try FileManager.default
+            .url(for: .applicationSupportDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
+            .appendingPathComponent("\(fileName)")
+
+        try jsonStr.write(to: fileURL, atomically: true, encoding: String.Encoding.utf8)
+        print("write \(fileName) successful!")
+    } catch {
+        print(error.localizedDescription)
+    }
+}
+
+var GlobalCollectedRecords:[CollectedRecord] = []
+var GlobalReviewRecords:[ReviewRecord] = []
+var GlobalVocabRecords:[VocabularyRecord] = []
+var GlobalLearningRecords:[LearningRecord] = []
+
+func getDefaultFilePath(fileName: String) -> String?{
+    do {
+        let fileURL = try FileManager.default
+        .url(for: .applicationSupportDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
+        .appendingPathComponent(fileName)
+        return fileURL.path
+    } catch {
+        print(error.localizedDescription)
+    }
+    return nil
+}
+
+let collectedRecordJsonFp = "collectedRecord.json"
+let reviewRecordJsonFp = "reviewRecord.json"
+let vocabRecordJsonFp = "vocabRecord.json"
+let learningRecordJsonFp = "learningRecord.json"
+
+func syncRecords(for userName: String){
+    if let collectedRecordpath = getDefaultFilePath(fileName: collectedRecordJsonFp)
+    {
+        if !FileManager.default.fileExists(atPath: collectedRecordpath) {
+            DispatchQueue.global(qos: .background).async {
+            do {
+                let collectedQuery = LCQuery(className: "CollectedRecord")
+                collectedQuery.whereKey("username", .equalTo(userName))
+                _ = collectedQuery.find { result in
+                            switch result {
+                            case .success(objects: let collectedRecords):
+                                if collectedRecords.count > 0
+                                {
+                                    if let jsonStr = collectedRecords[0].get("jsonStr")?.stringValue{
+                                        saveStringTo(fileName: collectedRecordJsonFp, jsonStr: jsonStr)
+                                        GlobalCollectedRecords = loadCollectedRecords()
+                                    }
+                                }
+                                
+                                break
+                            case .failure(error: let error):
+                                print(error)
+                        }
+                }
+            }
+           }
+        }
+    }
+    if let reviewRecordpath = getDefaultFilePath(fileName: reviewRecordJsonFp)
+    {
+        if !FileManager.default.fileExists(atPath: reviewRecordpath) {
+        DispatchQueue.global(qos: .background).async {
+        do {
+            let reviewRecordQuery = LCQuery(className: "ReviewRecord")
+            reviewRecordQuery.whereKey("username", .equalTo(userName))
+            _ = reviewRecordQuery.find { result in
+                        switch result {
+                        case .success(objects: let reviewRecords):
+                            if reviewRecords.count > 0
+                            {
+                                if let jsonStr = reviewRecords[0].get("jsonStr")?.stringValue{
+                                    saveStringTo(fileName: reviewRecordJsonFp, jsonStr: jsonStr)
+                                    GlobalReviewRecords = loadReviewRecords()
+                                }
+                            }
+                            
+                            break
+                        case .failure(error: let error):
+                            print(error)
+                    }
+            }
+            }}
+        }
+    }
+    if let vocabRecordPath = getDefaultFilePath(fileName: vocabRecordJsonFp)
+    {
+        if !FileManager.default.fileExists(atPath: vocabRecordPath) {
+        DispatchQueue.global(qos: .background).async {
+        do {
+            let vocabRecordsQuery = LCQuery(className: "VocabRecord")
+            vocabRecordsQuery.whereKey("username", .equalTo(userName))
+            _ = vocabRecordsQuery.find { result in
+                        switch result {
+                        case .success(objects: let vocabRecords):
+                            if vocabRecords.count > 0
+                            {
+                                if let jsonStr = vocabRecords[0].get("jsonStr")?.stringValue{
+                                    saveStringTo(fileName: vocabRecordJsonFp, jsonStr: jsonStr)
+                                    GlobalVocabRecords = loadVocabRecords()
+                                }
+                            }
+                            
+                            break
+                        case .failure(error: let error):
+                            print(error)
+                    }
+            }
+            }}
+        }
+    }
+    if let learningRecordPath = getDefaultFilePath(fileName: learningRecordJsonFp)
+    {
+        if !FileManager.default.fileExists(atPath: learningRecordPath) {
+        DispatchQueue.global(qos: .background).async {
+        do {
+            let learningRecordsQuery = LCQuery(className: "LearningRecord")
+            learningRecordsQuery.whereKey("username", .equalTo(userName))
+            _ = learningRecordsQuery.find { result in
+                        switch result {
+                        case .success(objects: let learningRecords):
+                            if learningRecords.count > 0
+                            {
+                                if let jsonStr = learningRecords[0].get("jsonStr")?.stringValue{
+                                    saveStringTo(fileName: learningRecordJsonFp, jsonStr: jsonStr)
+                                    GlobalLearningRecords = loadLearningRecords()
+                                }
+                            }
+                            
+                            break
+                        case .failure(error: let error):
+                            print(error)
+                    }
+            }
+            }}
+        }
+    }
+}
+
+func loadCollectedRecords() -> [CollectedRecord]{
+    do {
+        let fileURL = try FileManager.default
+            .url(for: .applicationSupportDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
+            .appendingPathComponent(collectedRecordJsonFp)
+        let fileManager = FileManager.default
+        if fileManager.fileExists(atPath: fileURL.path) {
+            let data = try Data(contentsOf: fileURL, options: .mappedIfSafe)
+            let collectedRecords = try decoder.decode([CollectedRecord].self, from: data)
+            return collectedRecords
+        }
+    } catch {
+        print(error.localizedDescription)
+    }
+    
+    let collectedRecords: [CollectedRecord] =  []
+    return collectedRecords
+}
+
+func saveCollectedRecords(collectedRecords: [CollectedRecord], username: String){
+    do {
+        let jsonData = try! JSONEncoder().encode(collectedRecords)
+        let jsonString = String(data: jsonData, encoding: .utf8)!
+        saveStringTo(fileName: collectedRecordJsonFp, jsonStr: jsonString)
+        // 构建对象
+        let collectedRecordsObj = LCObject(className: "CollectedRecord")
+
+        // 为属性赋值
+        try collectedRecordsObj.set("username", value: username)
+        try collectedRecordsObj.set("jsonStr", value: jsonString)
+
+        // 将对象保存到云端
+        _ = collectedRecordsObj.save { result in
+            switch result {
+            case .success:
+                // 成功保存之后，执行其他逻辑
+                print("CollectedRecord saved successfully ")
+                break
+            case .failure(error: let error):
+                // 异常处理
+                print(error)
+            }
+        }
+    } catch {
+        print(error.localizedDescription)
+    }
+}
+func loadReviewRecords() -> [ReviewRecord]{
+    do {
+        let fileURL = try FileManager.default
+            .url(for: .applicationSupportDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
+            .appendingPathComponent(reviewRecordJsonFp)
+       if FileManager.default.fileExists(atPath: fileURL.path) {
+           let data = try Data(contentsOf: fileURL, options: .mappedIfSafe)
+           let reviewRecords = try decoder.decode([ReviewRecord].self, from: data)
+            return reviewRecords
+        }
+    } catch {
+        print(error.localizedDescription)
+    }
+    let reviewRecords: [ReviewRecord] =  []
+    return reviewRecords
+}
+
+func saveReviewRecords(reviewRecord: [ReviewRecord], username: String){
+    do {
+        let jsonData = try! JSONEncoder().encode(reviewRecord)
+        let jsonString = String(data: jsonData, encoding: .utf8)!
+        saveStringTo(fileName: reviewRecordJsonFp, jsonStr: jsonString)
+        // 构建对象
+        let reviewRecordObj = LCObject(className: "ReviewRecord")
+
+        // 为属性赋值
+        try reviewRecordObj.set("username", value: username)
+        try reviewRecordObj.set("jsonStr", value: jsonString)
+
+        // 将对象保存到云端
+        _ = reviewRecordObj.save { result in
+            switch result {
+            case .success:
+                // 成功保存之后，执行其他逻辑
+                print("ReviewRecordObj saved successfully ")
+                break
+            case .failure(error: let error):
+                // 异常处理
+                print(error)
+            }
+        }
+    } catch {
+        print(error.localizedDescription)
+    }
+}
+
+let decoder = JSONDecoder()
+
+func loadVocabRecords() -> [VocabularyRecord] {
+    do {
+        let fileURL = try FileManager.default
+            .url(for: .applicationSupportDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
+            .appendingPathComponent(vocabRecordJsonFp)
+        if FileManager.default.fileExists(atPath: fileURL.path) {
+           let data = try Data(contentsOf: fileURL, options: .mappedIfSafe)
+           let vocabRecords = try decoder.decode([VocabularyRecord].self, from: data)
+            return vocabRecords
+        }
+    } catch {
+        print(error.localizedDescription)
+    }
+    let vocabRecords: [VocabularyRecord] =  []
+    return vocabRecords
+}
+
+func saveVocabRecords(vocabRecords: [VocabularyRecord], username: String){
+    do {
+        let jsonData = try! JSONEncoder().encode(vocabRecords)
+        let jsonString = String(data: jsonData, encoding: .utf8)!
+        saveStringTo(fileName: vocabRecordJsonFp, jsonStr: jsonString)
+        // 构建对象
+        let vocabRecordObj = LCObject(className: "VocabRecord")
+
+        // 为属性赋值
+        try vocabRecordObj.set("username", value: username)
+        try vocabRecordObj.set("jsonStr", value: jsonString)
+
+        // 将对象保存到云端
+        _ = vocabRecordObj.save { result in
+            switch result {
+            case .success:
+                // 成功保存之后，执行其他逻辑
+                print("VocabRecord saved successfully ")
+                break
+            case .failure(error: let error):
+                // 异常处理
+                print(error)
+            }
+        }
+    } catch {
+        print(error.localizedDescription)
+    }
+}
+
+func loadLearningRecords() -> [LearningRecord]{
+    do {
+        let fileURL = try FileManager.default
+            .url(for: .applicationSupportDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
+            .appendingPathComponent(learningRecordJsonFp)
+        if FileManager.default.fileExists(atPath: fileURL.path) {
+           let data = try Data(contentsOf: fileURL, options: .mappedIfSafe)
+           let learningRecord = try decoder.decode([LearningRecord].self, from: data)
+            return learningRecord
+        }
+    } catch {
+        print(error.localizedDescription)
+    }
+    let learningRecord: [LearningRecord] =  []
+    return learningRecord
+}
+
+
+func saveLearningRecords(learningRecord: [LearningRecord], username: String){
+    do {
+        let jsonData = try! JSONEncoder().encode(learningRecord)
+        let jsonString = String(data: jsonData, encoding: .utf8)!
+        saveStringTo(fileName: learningRecordJsonFp, jsonStr: jsonString)
+        // 构建对象
+        let learningRecordObj = LCObject(className: "LearningRecord")
+
+        // 为属性赋值
+        try learningRecordObj.set("username", value: username)
+        try learningRecordObj.set("jsonStr", value: jsonString)
+
+        // 将对象保存到云端
+        _ = learningRecordObj.save { result in
+            switch result {
+            case .success:
+                // 成功保存之后，执行其他逻辑
+                print("LearningRecord saved successfully ")
+                break
+            case .failure(error: let error):
+                // 异常处理
+                print(error)
+            }
+        }
+    } catch {
+        print(error.localizedDescription)
+    }
+}

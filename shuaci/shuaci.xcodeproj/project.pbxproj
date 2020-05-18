@@ -13,6 +13,10 @@
 		A5134E3A24678C32008B116D /* Collection+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5134E3924678C32008B116D /* Collection+Ext.swift */; };
 		A523A717245542F100976574 /* ResetPwdUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A523A716245542F100976574 /* ResetPwdUIView.swift */; };
 		A523A7192455435C00976574 /* ResetPwdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A523A7182455435C00976574 /* ResetPwdViewController.swift */; };
+		A52B84DA2471EE3700A002C6 /* LearningRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = A52B84D92471EE3600A002C6 /* LearningRecord.swift */; };
+		A52B84DC2471EE4500A002C6 /* ReviewRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = A52B84DB2471EE4500A002C6 /* ReviewRecord.swift */; };
+		A52B84DE2471F00D00A002C6 /* VocabularyRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = A52B84DD2471F00D00A002C6 /* VocabularyRecord.swift */; };
+		A52B84E02471F01800A002C6 /* CollectedRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = A52B84DF2471F01800A002C6 /* CollectedRecord.swift */; };
 		A554B24724576F8A00DC8358 /* Yuanti-SC-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A554B24624576F8A00DC8358 /* Yuanti-SC-Regular.ttf */; };
 		A5613E122457470A00C8FAC6 /* aurora_1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A5613E082457470900C8FAC6 /* aurora_1.mp3 */; };
 		A5613E132457470A00C8FAC6 /* pharmacy_1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A5613E092457470900C8FAC6 /* pharmacy_1.mp3 */; };
@@ -74,6 +78,10 @@
 		A5134E3924678C32008B116D /* Collection+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Collection+Ext.swift"; sourceTree = "<group>"; };
 		A523A716245542F100976574 /* ResetPwdUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPwdUIView.swift; sourceTree = "<group>"; };
 		A523A7182455435C00976574 /* ResetPwdViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPwdViewController.swift; sourceTree = "<group>"; };
+		A52B84D92471EE3600A002C6 /* LearningRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearningRecord.swift; sourceTree = "<group>"; };
+		A52B84DB2471EE4500A002C6 /* ReviewRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewRecord.swift; sourceTree = "<group>"; };
+		A52B84DD2471F00D00A002C6 /* VocabularyRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VocabularyRecord.swift; sourceTree = "<group>"; };
+		A52B84DF2471F01800A002C6 /* CollectedRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectedRecord.swift; sourceTree = "<group>"; };
 		A554B24624576F8A00DC8358 /* Yuanti-SC-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Yuanti-SC-Regular.ttf"; sourceTree = "<group>"; };
 		A5613E082457470900C8FAC6 /* aurora_1.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = aurora_1.mp3; sourceTree = "<group>"; };
 		A5613E092457470900C8FAC6 /* pharmacy_1.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = pharmacy_1.mp3; sourceTree = "<group>"; };
@@ -183,6 +191,10 @@
 				A5F5154E245F578900F06610 /* Theme.swift */,
 				A5F51550245F5E9300F06610 /* Wallpaper.swift */,
 				A5BE9C2C2462242500302F38 /* Book.swift */,
+				A52B84D92471EE3600A002C6 /* LearningRecord.swift */,
+				A52B84DB2471EE4500A002C6 /* ReviewRecord.swift */,
+				A52B84DD2471F00D00A002C6 /* VocabularyRecord.swift */,
+				A52B84DF2471F01800A002C6 /* CollectedRecord.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -458,6 +470,7 @@
 				A5F5154F245F578900F06610 /* Theme.swift in Sources */,
 				A5BE9C2F246229DC00302F38 /* BooksViewController.swift in Sources */,
 				A523A7192455435C00976574 /* ResetPwdViewController.swift in Sources */,
+				A52B84DE2471F00D00A002C6 /* VocabularyRecord.swift in Sources */,
 				A5DD06E424626CAA0051B3E5 /* Level2CollectionViewCell.swift in Sources */,
 				A523A717245542F100976574 /* ResetPwdUIView.swift in Sources */,
 				A5E764D4245E0AD000367C2A /* UserProfileViewController.swift in Sources */,
@@ -470,10 +483,13 @@
 				A5F59F4C2453DDDB00D6D717 /* PhoneLoginViewController.swift in Sources */,
 				A5134E34246772B4008B116D /* LearnWordViewController.swift in Sources */,
 				A59A0B1C2454D48C000845F2 /* MainPanelViewController.swift in Sources */,
+				A52B84E02471F01800A002C6 /* CollectedRecord.swift in Sources */,
 				A5134E3A24678C32008B116D /* Collection+Ext.swift in Sources */,
 				A5F5154D245F56DF00F06610 /* ThemeCollectionViewController.swift in Sources */,
+				A52B84DC2471EE4500A002C6 /* ReviewRecord.swift in Sources */,
 				A5B821732453669B00963FEC /* CardUIView.swift in Sources */,
 				A5E764D1245D269300367C2A /* ShengciViewController.swift in Sources */,
+				A52B84DA2471EE3700A002C6 /* LearningRecord.swift in Sources */,
 				A59EB1D52452A12900F300E1 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
