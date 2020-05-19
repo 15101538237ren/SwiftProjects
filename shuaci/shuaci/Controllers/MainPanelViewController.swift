@@ -266,6 +266,7 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
             self.updateUserPhoto()
             uploadRecordsIfNeeded()
             syncRecords()
+            get_words()
             }
         else {
             // 显示注册或登录页面

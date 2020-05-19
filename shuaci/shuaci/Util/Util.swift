@@ -105,7 +105,7 @@ func load_json(fileName: String) -> JSON{
     } catch {
         print(error.localizedDescription)
     }
-    let json: JSON =  []
+    let json: JSON = []
     return json
 }
 
@@ -283,6 +283,106 @@ let collectedRecordJsonFp = "collectedRecord.json"
 let reviewRecordJsonFp = "reviewRecord.json"
 let vocabRecordJsonFp = "vocabRecord.json"
 let learningRecordJsonFp = "learningRecord.json"
+
+var currentbook_json_obj: JSON = load_json(fileName: "current_book")
+var words:[JSON] = []
+
+func get_number_of_word_per_day() -> Int{
+    let number_of_word_per_day_exist = isKeyPresentInUserDefaults(key: npw_key)
+    var number_of_word_per_day: Int = 20
+    if number_of_word_per_day_exist{
+        number_of_word_per_day = UserDefaults.standard.integer(forKey: npw_key)
+    }
+    else{
+        UserDefaults.standard.set(number_of_word_per_day, forKey: npw_key)
+    }
+    return number_of_word_per_day
+}
+
+
+func getFeildsOfWord(word: JSON, usphone: Bool) -> CardWord{
+    let wordRank: Int = word["wordRank"].intValue
+    let headWord: String = word["headWord"].stringValue
+    let content = word["content"]["word"]["content"].dictionaryValue
+    var meaning = ""
+    if let trans = content["trans"]?.arrayValue
+    {
+        var stringArr:[String] = []
+        for tran in trans{
+            let pos = tran["pos"].stringValue
+            let current_meaning = tran["tranCn"].stringValue
+            let current_meaning_replaced = current_meaning.replacingOccurrences(of: "；", with: "\n")
+            stringArr.append("\(pos).\(current_meaning_replaced)")
+            meaning = stringArr.joined(separator: "\n")
+        }
+    }
+    let speech = "\(current_book_id)__\(wordRank)_0"
+    let phoneType = (usphone == true)  ? "usphone" : "ukphone"
+    let phone = content[phoneType]?.stringValue ?? ""
+    let accent = (usphone == true)  ? "美" : "英"
+    let cardWord = CardWord(wordRank: wordRank, headWord: headWord, meaning: meaning, phone: phone, speech: speech, accent: accent)
+    return cardWord
+}
+
+func update_words(){
+    let vocabRanks:[Int] = learntVocabRanks()
+    let number_of_word_per_day = get_number_of_word_per_day()
+    let word_list = currentbook_json_obj["data"]
+    let word_ids = Array(0...word_list.count)
+    
+    let diff_ids:[Int] = word_ids.difference(from: vocabRanks)
+    let sampling_number:Int = min(number_of_word_per_day, diff_ids.count)
+    
+    let sampled_ids = diff_ids.choose(sampling_number)
+    
+    saveStringTo(fileName: "words.json", jsonStr: sampled_ids.map { String($0) }.joined(separator: ","))
+}
+
+func loadIntArrayFromFile(filename: String) -> [Int] {
+    do {
+        let fileURL = try FileManager.default
+            .url(for: .applicationSupportDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
+            .appendingPathComponent("\(filename)")
+
+       let intStr = try String(contentsOf: fileURL, encoding: .utf8)
+        let stringArr: [String] = intStr.components(separatedBy: ",")
+       return stringArr.map { Int($0)!}
+    } catch {
+        print(error.localizedDescription)
+    }
+    return []
+}
+
+func get_words(){
+    do {
+        let wordJsonURL = try FileManager.default
+        .url(for: .applicationSupportDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
+        .appendingPathComponent("words.json")
+        if words.count == 0{
+            let word_list = currentbook_json_obj["data"]
+            if !FileManager.default.fileExists(atPath: wordJsonURL.path) {
+                update_words()
+            }
+            let sampled_ids:[Int] = loadIntArrayFromFile(filename: "words.json")
+            
+            for i in 0..<sampled_ids.count{
+                words.append(word_list[sampled_ids[i]])
+            }
+        }
+    } catch {
+        print(error.localizedDescription)
+    }
+}
+
+func getWordPronounceURL(word: String) -> URL?{
+    let usphone = getUSPhone() == true ? 0 : 1
+    if word != ""{
+        let url_string: String = "http://dict.youdao.com/dictvoice?type=\(usphone)&audio=\(word)"
+        let mp3_url:URL = URL(string: url_string)!
+        return mp3_url
+    }
+    return nil
+}
 
 func syncRecords(){
     if let user = LCApplication.default.currentUser {

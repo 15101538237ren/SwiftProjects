@@ -24,13 +24,12 @@ class LearnWordViewController: UIViewController {
     var secondsPST:Int = 0 // number of seconds past after load
     @IBOutlet var timeLabel: UILabel!
     @IBOutlet var progressLabel: UILabel!
-    var json_obj: JSON = load_json(fileName: "current_book")
+    
     var audioPlayer: AVAudioPlayer?
     var mp3Player: AVAudioPlayer?
     var scaleOfSecondCard:CGFloat = 0.9
     var currentIndex:Int = 0
     let animationDuration = 0.15
-    var words:[JSON] = []
     
     func setCardBackground(){
         let theme_category_exist = isKeyPresentInUserDefaults(key: theme_category_string)
@@ -48,7 +47,6 @@ class LearnWordViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        get_words()
         setCardBackground()
         initCards()
         let card = cards[0]
@@ -58,12 +56,13 @@ class LearnWordViewController: UIViewController {
             self.timeLabel.text = timeString(time: self.secondsPST)
         }
         startTimer()
+        self.updateProgressLabel(index: self.currentIndex)
+        
     }
     
     @IBAction func unwind(segue: UIStoryboardSegue) {
         self.dismiss(animated: true, completion: nil)
     }
-    
     
     
     func startTimer()
@@ -76,31 +75,11 @@ class LearnWordViewController: UIViewController {
         }
     }
     
-    func get_words(){
-        let vocabRanks:[Int] = learntVocabRanks()
-        let number_of_word_per_day_exist = isKeyPresentInUserDefaults(key: npw_key)
-        var number_of_word_per_day = 100
-        if number_of_word_per_day_exist{
-            number_of_word_per_day = UserDefaults.standard.integer(forKey: npw_key)
-        }
-        else{
-            UserDefaults.standard.set(number_of_word_per_day, forKey: npw_key)
-        }
-        let word_list = json_obj["data"]
-        let number_of_words_in_json:Int = word_list.count
-        let word_ids = Array(0...number_of_words_in_json)
-        let diff_ids:[Int] = word_ids.difference(from: vocabRanks)
-        let sampling_number:Int = min(number_of_word_per_day, diff_ids.count)
-        let sampled_ids = diff_ids.choose(sampling_number)
-        for i in 0..<sampling_number{
-            words.append(word_list[sampled_ids[i]])
-        }
-        self.updateProgressLabel(index: self.currentIndex)
-    }
+    
     
     func updateProgressLabel(index: Int){
         DispatchQueue.main.async {
-            self.progressLabel.text = "\(index + 1)/\(self.words.count)"
+            self.progressLabel.text = "\(index + 1)/\(words.count)"
         }
     }
     
@@ -110,59 +89,21 @@ class LearnWordViewController: UIViewController {
             let card = cards[index]
             card.center = CGPoint(x: view.center.x, y: view.center.y)
             let word = words[index % words.count]
-            let wordRank: Int = word["wordRank"].intValue
-            card.wordLabel?.text = word["headWord"].stringValue
-            let content = word["content"]["word"]["content"].dictionaryValue
-            if let trans = content["trans"]?.arrayValue
-            {
-                var stringArr:[String] = []
-                for tran in trans{
-                    let pos = tran["pos"].stringValue
-                    let current_meaning = tran["tranCn"].stringValue
-                    let current_meaning_replaced = current_meaning.replacingOccurrences(of: "；", with: "\n")
-                    stringArr.append("\(pos).\(current_meaning_replaced)")
-                }
-                card.meaningLabel?.text = stringArr.joined(separator: "\n")
-            }
-            
-            card.accentLabel?.text = "美"
-            card.phoneticLabel?.text = content["usphone"]?.stringValue
-            card.rememberImageView?.backgroundColor = UIColor.systemGreen
-            card.rememberImageView?.alpha = 0
-            card.rememberLabel?.text = "会了"
-            card.rememberLabel?.alpha = 0
-            card.speech? = "\(current_book_id)__\(wordRank)_0"
-            
+            let cardWord = getFeildsOfWord(word: word, usphone: getUSPhone())
+            setFieldsOfCard(card: card, cardWord: cardWord)
             if index == 1
             {
                 card.transform = CGAffineTransform(scaleX: scaleOfSecondCard, y: scaleOfSecondCard)
+            }else{
+                let word: String = card.wordLabel?.text ?? ""
+                if let mp3_url = getWordPronounceURL(word: word){
+                    playMp3(url: mp3_url)
+                }
             }
         }
     }
     
-    func getFeildsOfWord(word: JSON, usphone: Bool) -> CardWord{
-        let wordRank: Int = word["wordRank"].intValue
-        let headWord: String = word["headWord"].stringValue
-        let content = word["content"]["word"]["content"].dictionaryValue
-        var meaning = ""
-        if let trans = content["trans"]?.arrayValue
-        {
-            var stringArr:[String] = []
-            for tran in trans{
-                let pos = tran["pos"].stringValue
-                let current_meaning = tran["tranCn"].stringValue
-                let current_meaning_replaced = current_meaning.replacingOccurrences(of: "；", with: "\n")
-                stringArr.append("\(pos).\(current_meaning_replaced)")
-                meaning = stringArr.joined(separator: "\n")
-            }
-        }
-        let speech = "\(current_book_id)__\(wordRank)_0"
-        let phoneType = (usphone == true)  ? "usphone" : "ukphone"
-        let phone = content[phoneType]?.stringValue ?? ""
-        let accent = (usphone == true)  ? "美" : "英"
-        let cardWord = CardWord(wordRank: wordRank, headWord: headWord, meaning: meaning, phone: phone, speech: speech, accent: accent)
-        return cardWord
-    }
+    
     
     func setFieldsOfCard(card: CardUIView, cardWord: CardWord){
         card.wordLabel?.text = cardWord.headWord
@@ -176,7 +117,7 @@ class LearnWordViewController: UIViewController {
         self.updateProgressLabel(index: self.currentIndex)
         let card = cards[(currentIndex + 1) % 2]
         let word = words[(currentIndex + 1) % words.count]
-        let cardWord = self.getFeildsOfWord(word: word, usphone: getUSPhone())
+        let cardWord = getFeildsOfWord(word: word, usphone: getUSPhone())
         setFieldsOfCard(card: card, cardWord: cardWord)
         learnUIView.bringSubviewToFront(cards[currentIndex % 2])
         resetCard(card: card)
@@ -211,7 +152,7 @@ class LearnWordViewController: UIViewController {
             let nextCard = cards[(currentIndex + 1) % 2]
             let relScale = scaleOfSecondCard + (abs(xFromCenter) / view.center.x) * (1.0 - scaleOfSecondCard)
             nextCard.transform = CGAffineTransform(scaleX: relScale, y: relScale)
-            
+        
         if sender.state == UIGestureRecognizer.State.ended
             {
                 if card.center.x < (0.4 * view.frame.width)
@@ -224,11 +165,16 @@ class LearnWordViewController: UIViewController {
                         card.X_Constraint.constant = card.center.x - self.view.center.x
                         card.Y_Constraint.constant = card.center.y - self.view.center.y
                     })
-                    
                     sender.view!.frame = card.frame
                     UIView.animate(withDuration: animationDuration, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 5, options: .curveEaseInOut, animations: {
                         nextCard.transform = .identity
                     })
+
+                    let word: String = nextCard.wordLabel?.text ?? ""
+                    if let mp3_url = getWordPronounceURL(word: word){
+                        playMp3(url: mp3_url)
+                    }
+                    
                     self.currentIndex += 1
                     perform(#selector(moveCard), with: nil, afterDelay: animationDuration)
                     return
@@ -242,6 +188,15 @@ class LearnWordViewController: UIViewController {
                         card.Y_Constraint.constant = card.center.y - self.view.center.y
                         card.alpha = 0
                     })
+                    
+                    UIView.animate(withDuration: animationDuration, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 5, options: .curveEaseInOut, animations: {
+                        nextCard.transform = .identity
+                    })
+                    
+                    let word: String = nextCard.wordLabel?.text ?? ""
+                    if let mp3_url = getWordPronounceURL(word: word){
+                        playMp3(url: mp3_url)
+                    }
 
                     sender.view!.frame = card.frame
                     self.currentIndex += 1
@@ -280,15 +235,19 @@ class LearnWordViewController: UIViewController {
             card.alpha = 1
         }
         
-        func playMp3(filename: String)
+        func playMp3(url: URL)
         {
-            guard let url = Bundle.main.url(forResource: filename, withExtension: "mp3") else { return }
-            do {
-                mp3Player = try AVAudioPlayer(contentsOf: url)
-                mp3Player?.play()
-            } catch {
-                print("couldn't load file :( \(url)")
-            }
+            var downloadTask: URLSessionDownloadTask
+            downloadTask = URLSession.shared.downloadTask(with: url, completionHandler: { (urlhere, response, error) -> Void in
+                do {
+                    self.mp3Player = try AVAudioPlayer(contentsOf: urlhere!)
+                    self.mp3Player?.play()
+                } catch {
+                    print("couldn't load file :( \(urlhere)")
+                }
+            })
+            downloadTask.resume()
+            
         }
         
         @IBAction func playAudio(_ sender: UIButton) {
@@ -320,7 +279,7 @@ class LearnWordViewController: UIViewController {
                     lastCard.layer.removeAllAnimations()
                     lastCard.transform = CGAffineTransform.identity.scaledBy(x: 1.0, y: 1.0)
                     let word = words[currentIndex % words.count]
-                    let cardWord = self.getFeildsOfWord(word: word, usphone: getUSPhone())
+                    let cardWord = getFeildsOfWord(word: word, usphone: getUSPhone())
                     setFieldsOfCard(card: lastCard, cardWord: cardWord)
                     
                     lastCard.center = CGPoint(x:  self.view.center.x + 400, y: self.view.center.y + 75)

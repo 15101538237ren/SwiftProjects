@@ -424,6 +424,8 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
         let okayAction = UIAlertAction(title: "确定", style: .default, handler: { action in
             self.downloadBookJson(index: index)
             UserDefaults.standard.set(books[index].identifier, forKey: "current_book")
+            currentbook_json_obj = load_json(fileName: "current_book")
+            update_words()
         })
         let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
         alertController.addAction(okayAction)
