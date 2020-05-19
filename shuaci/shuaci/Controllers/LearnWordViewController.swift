@@ -237,8 +237,10 @@ class LearnWordViewController: UIViewController {
         
         func playMp3(url: URL)
         {
-            var downloadTask: URLSessionDownloadTask
-            downloadTask = URLSession.shared.downloadTask(with: url, completionHandler: { (urlhere, response, error) -> Void in
+            DispatchQueue.global(qos: .background).async {
+            do {
+                var downloadTask: URLSessionDownloadTask
+                downloadTask = URLSession.shared.downloadTask(with: url, completionHandler: { (urlhere, response, error) -> Void in
                 do {
                     self.mp3Player = try AVAudioPlayer(contentsOf: urlhere!)
                     self.mp3Player?.play()
@@ -246,8 +248,8 @@ class LearnWordViewController: UIViewController {
                     print("couldn't load file :( \(urlhere)")
                 }
             })
-            downloadTask.resume()
-            
+                downloadTask.resume()
+            }}
         }
         
         @IBAction func playAudio(_ sender: UIButton) {
@@ -272,31 +274,35 @@ class LearnWordViewController: UIViewController {
         if self.currentIndex > 0
         {
             self.currentIndex -= 1
-                    self.updateProgressLabel(index: self.currentIndex)
-                    let thisCard = cards[(currentIndex + 1) % 2]
-                    thisCard.transform = CGAffineTransform(scaleX: scaleOfSecondCard, y: scaleOfSecondCard)
-                    let lastCard = cards[currentIndex % 2]
-                    lastCard.layer.removeAllAnimations()
-                    lastCard.transform = CGAffineTransform.identity.scaledBy(x: 1.0, y: 1.0)
-                    let word = words[currentIndex % words.count]
-                    let cardWord = getFeildsOfWord(word: word, usphone: getUSPhone())
-                    setFieldsOfCard(card: lastCard, cardWord: cardWord)
-                    
-                    lastCard.center = CGPoint(x:  self.view.center.x + 400, y: self.view.center.y + 75)
-                    lastCard.X_Constraint.constant = lastCard.center.x - self.view.center.x
-                    lastCard.Y_Constraint.constant = lastCard.center.y - self.view.center.y
-                    learnUIView.bringSubviewToFront(cards[currentIndex % 2])
-                    lastCard.alpha = 0
-                    UIView.animate(withDuration: animationDuration, animations:
-                    {
-                        lastCard.center = CGPoint(x: self.view.center.x, y: self.view.center.y)
-                        lastCard.X_Constraint.constant = lastCard.center.x - self.view.center.x
-                        lastCard.Y_Constraint.constant = lastCard.center.y - self.view.center.y
-                        lastCard.alpha = 1
-                    })
-                    let gestureRecognizer = self.gestureRecognizers[currentIndex % 2]
-                    gestureRecognizer.view!.frame = lastCard.frame
+            self.updateProgressLabel(index: self.currentIndex)
+            let thisCard = cards[(currentIndex + 1) % 2]
+            thisCard.transform = CGAffineTransform(scaleX: scaleOfSecondCard, y: scaleOfSecondCard)
+            let lastCard = cards[currentIndex % 2]
+            lastCard.layer.removeAllAnimations()
+            lastCard.transform = CGAffineTransform.identity.scaledBy(x: 1.0, y: 1.0)
+            let word = words[currentIndex % words.count]
+            let cardWord = getFeildsOfWord(word: word, usphone: getUSPhone())
+            setFieldsOfCard(card: lastCard, cardWord: cardWord)
             
+            let wordStr: String = lastCard.wordLabel?.text ?? ""
+            if let mp3_url = getWordPronounceURL(word: wordStr){
+                playMp3(url: mp3_url)
+            }
+            
+            lastCard.center = CGPoint(x:  self.view.center.x + 400, y: self.view.center.y + 75)
+            lastCard.X_Constraint.constant = lastCard.center.x - self.view.center.x
+            lastCard.Y_Constraint.constant = lastCard.center.y - self.view.center.y
+            learnUIView.bringSubviewToFront(cards[currentIndex % 2])
+            lastCard.alpha = 0
+            UIView.animate(withDuration: animationDuration, animations:
+            {
+                lastCard.center = CGPoint(x: self.view.center.x, y: self.view.center.y)
+                lastCard.X_Constraint.constant = lastCard.center.x - self.view.center.x
+                lastCard.Y_Constraint.constant = lastCard.center.y - self.view.center.y
+                lastCard.alpha = 1
+            })
+            let gestureRecognizer = self.gestureRecognizers[currentIndex % 2]
+            gestureRecognizer.view!.frame = lastCard.frame
         }
     }
     
