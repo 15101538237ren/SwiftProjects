@@ -20,7 +20,7 @@ class LearnWordViewController: UIViewController {
             }
         }
     }
-    
+    @IBOutlet var gestureRecognizers:[UIPanGestureRecognizer]!
     var secondsPST:Int = 0 // number of seconds past after load
     @IBOutlet var timeLabel: UILabel!
     @IBOutlet var progressLabel: UILabel!
@@ -132,6 +132,7 @@ class LearnWordViewController: UIViewController {
             card.rememberLabel?.text = "会了"
             card.rememberLabel?.alpha = 0
             card.speech? = "\(current_book_id)__\(wordRank)_0"
+            
             if index == 1
             {
                 card.transform = CGAffineTransform(scaleX: scaleOfSecondCard, y: scaleOfSecondCard)
@@ -309,9 +310,35 @@ class LearnWordViewController: UIViewController {
     
     
     @IBAction func backOneCard(_ sender: UIButton) {
-        self.currentIndex -= 1
-        self.updateProgressLabel(index: self.currentIndex)
-        let lastCard = cards[currentIndex % 2]
+        if self.currentIndex > 0
+        {
+            self.currentIndex -= 1
+                    self.updateProgressLabel(index: self.currentIndex)
+                    let thisCard = cards[(currentIndex + 1) % 2]
+                    thisCard.transform = CGAffineTransform(scaleX: scaleOfSecondCard, y: scaleOfSecondCard)
+                    let lastCard = cards[currentIndex % 2]
+                    lastCard.layer.removeAllAnimations()
+                    lastCard.transform = CGAffineTransform.identity.scaledBy(x: 1.0, y: 1.0)
+                    let word = words[currentIndex % words.count]
+                    let cardWord = self.getFeildsOfWord(word: word, usphone: getUSPhone())
+                    setFieldsOfCard(card: lastCard, cardWord: cardWord)
+                    
+                    lastCard.center = CGPoint(x:  self.view.center.x + 400, y: self.view.center.y + 75)
+                    lastCard.X_Constraint.constant = lastCard.center.x - self.view.center.x
+                    lastCard.Y_Constraint.constant = lastCard.center.y - self.view.center.y
+                    learnUIView.bringSubviewToFront(cards[currentIndex % 2])
+                    lastCard.alpha = 0
+                    UIView.animate(withDuration: animationDuration, animations:
+                    {
+                        lastCard.center = CGPoint(x: self.view.center.x, y: self.view.center.y)
+                        lastCard.X_Constraint.constant = lastCard.center.x - self.view.center.x
+                        lastCard.Y_Constraint.constant = lastCard.center.y - self.view.center.y
+                        lastCard.alpha = 1
+                    })
+                    let gestureRecognizer = self.gestureRecognizers[currentIndex % 2]
+                    gestureRecognizer.view!.frame = lastCard.frame
+            
+        }
     }
     
     @IBAction func masterThisCard(_ sender: UIButton) {

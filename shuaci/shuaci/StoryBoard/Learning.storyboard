@@ -436,6 +436,8 @@
                         <outlet property="timeLabel" destination="nnH-ND-BXq" id="L8t-ZF-07x"/>
                         <outletCollection property="cards" destination="4Lf-nj-uqS" collectionClass="NSMutableArray" id="rmg-P2-MRi"/>
                         <outletCollection property="cards" destination="5f4-VB-fee" collectionClass="NSMutableArray" id="4Ky-yo-dvR"/>
+                        <outletCollection property="gestureRecognizers" destination="2ab-kG-nMs" collectionClass="NSMutableArray" id="taP-bj-UfH"/>
+                        <outletCollection property="gestureRecognizers" destination="37i-go-1xq" collectionClass="NSMutableArray" id="aZ2-aU-xii"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5iC-3Y-BDF" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
