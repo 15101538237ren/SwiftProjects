@@ -109,6 +109,12 @@ class LearnWordViewController: UIViewController {
     
     func setFieldsOfCard(card: CardUIView, cardWord: CardWord){
         card.wordLabel?.text = cardWord.headWord
+        if cardWord.headWord.count >= 12{
+            card.wordLabel?.font = card.wordLabel?.font.withSize(40.0)
+        }else{
+            card.wordLabel?.font = card.wordLabel?.font.withSize(45.0)
+        }
+        
         card.meaningLabel?.text = cardWord.meaning
         card.phoneticLabel?.text = cardWord.phone
         card.speech? = cardWord.speech
@@ -256,18 +262,10 @@ class LearnWordViewController: UIViewController {
         
         @IBAction func playAudio(_ sender: UIButton) {
             let word = words[currentIndex % words.count]
-            let content = word["content"]["word"]["content"]
-            let wordRank: Int = word["wordRank"] as! Int
-            
-            guard let url = Bundle.main.url(forResource: "\(current_book_id)__\(wordRank)_0", withExtension: "mp3") else { return }
-            do {
-                try AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category.playback)
-                try AVAudioSession.sharedInstance().setActive(true)
-                audioPlayer = try AVAudioPlayer(contentsOf: url)
-                audioPlayer?.play()
-            } catch {
-                print("couldn't load file :( \(url)")
-                //
+            let cardWord = getFeildsOfWord(word: word, usphone: getUSPhone())
+            let wordStr: String = cardWord.headWord
+            if let mp3_url = getWordPronounceURL(word: wordStr){
+                playMp3(url: mp3_url)
             }
         }
     

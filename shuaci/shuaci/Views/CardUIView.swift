@@ -15,7 +15,11 @@ class CardUIView: UIView {
             cardImageView?.layer.masksToBounds = true
         }
     }
-    @IBOutlet var wordLabel: UILabel?
+    @IBOutlet var wordLabel: UILabel?{
+        didSet {
+            wordLabel?.numberOfLines = 0
+        }
+    }
     
     @IBOutlet var meaningLabel: UILabel?{
         didSet {
