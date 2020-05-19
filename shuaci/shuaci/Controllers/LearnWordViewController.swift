@@ -47,6 +47,9 @@ class LearnWordViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+    }
+    
+    override func viewWillAppear(_ animated: Bool){
         setCardBackground()
         initCards()
         let card = cards[0]
@@ -54,10 +57,9 @@ class LearnWordViewController: UIViewController {
         card.transform = CGAffineTransform(translationX: -xshift, y:0.0).rotated(by: -xshift*0.61/card.center.x)
         DispatchQueue.main.async {
             self.timeLabel.text = timeString(time: self.secondsPST)
-        }
-        startTimer()
-        self.updateProgressLabel(index: self.currentIndex)
-        
+    }
+    startTimer()
+    self.updateProgressLabel(index: self.currentIndex)
     }
     
     @IBAction func unwind(segue: UIStoryboardSegue) {

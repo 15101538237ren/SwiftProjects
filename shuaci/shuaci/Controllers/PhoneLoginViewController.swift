@@ -37,8 +37,9 @@ class PhoneLoginViewController: UIViewController {
                 print(user)
                 self.showMainPanel()
                 
-            case .failure(error: let error):
-                print(error)
+            case .failure(error: let error as LCError):
+                print(error.reason?.stringValue)
+                self.presentAlert(title: "错误", message: error.reason?.stringValue ?? "登录失败，请稍后重试", okText: "好")
             }
          })
         
@@ -62,7 +63,7 @@ class PhoneLoginViewController: UIViewController {
             switch result {
             case .success:
                 self.presentAlert(title: "验证码", message: "验证码已发送!", okText: "好")
-            case .failure(error: let error):
+            case .failure(error: let error as LCError):
                 switch error.code {
                 case 213:
                     let alertController = UIAlertController(title: "该手机号尚未注册", message: "该手机号尚未注册,是否注册?", preferredStyle: .alert)
@@ -87,7 +88,8 @@ class PhoneLoginViewController: UIViewController {
                     alertController.addAction(cancelAction)
                     self.present(alertController, animated: true, completion: nil)
                 default:
-                    print(error)
+                    print(error.reason?.stringValue)
+                    self.presentAlert(title: "错误", message: error.reason?.stringValue ?? "登录失败，请稍后重试", okText: "好")
                 }
             }
         }

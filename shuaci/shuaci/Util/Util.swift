@@ -328,7 +328,7 @@ func update_words(){
     let vocabRanks:[Int] = learntVocabRanks()
     let number_of_word_per_day = get_number_of_word_per_day()
     let word_list = currentbook_json_obj["data"]
-    let word_ids = Array(0...word_list.count)
+    let word_ids = word_list.count == 0 ? [] : Array(0...word_list.count)
     
     let diff_ids:[Int] = word_ids.difference(from: vocabRanks)
     let sampling_number:Int = min(number_of_word_per_day, diff_ids.count)
@@ -345,8 +345,14 @@ func loadIntArrayFromFile(filename: String) -> [Int] {
             .appendingPathComponent("\(filename)")
 
        let intStr = try String(contentsOf: fileURL, encoding: .utf8)
-        let stringArr: [String] = intStr.components(separatedBy: ",")
-       return stringArr.map { Int($0)!}
+        if intStr == ""{
+            return []
+        }
+        else{
+            let stringArr: [String] = intStr.components(separatedBy: ",")
+            return stringArr.map { Int($0)!}
+        }
+        
     } catch {
         print(error.localizedDescription)
     }

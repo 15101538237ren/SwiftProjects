@@ -73,8 +73,7 @@ class EmailLoginViewController: UIViewController {
                         case 211:
                             let alertController = UIAlertController(title: "该邮箱尚未注册", message: "该邮箱尚未注册,是否注册?", preferredStyle: .alert)
                             let okayAction = UIAlertAction(title: "是", style: .default, handler: { action in
-                                
-                                do {
+                                 do {
                                     // 创建实例
                                     let user = LCUser()
 
@@ -96,8 +95,6 @@ class EmailLoginViewController: UIViewController {
                                                 self.presentAlert(title: "邮箱已注册", message: "该邮箱已注册!", okText: "好")
                                             case 214:
                                                 self.presentAlert(title: "邮箱已注册", message: "该邮箱已注册!", okText: "好")
-                                            case 210:
-                                                self.presentAlert(title: "密码不正确", message: "密码不正确册!", okText: "好")
                                             default:
                                                 self.presentAlert(title: "错误", message: error.description, okText: "好")
                                             }
@@ -114,8 +111,10 @@ class EmailLoginViewController: UIViewController {
                             alertController.addAction(okayAction)
                             alertController.addAction(cancelAction)
                             self.present(alertController, animated: true, completion: nil)
-                            default:
-                                print(error)
+                        case 210:
+                            self.presentAlert(title: "密码不正确", message: "密码不正确!", okText: "好")
+                        default:
+                            print(error)
                         }
                     }
                 }

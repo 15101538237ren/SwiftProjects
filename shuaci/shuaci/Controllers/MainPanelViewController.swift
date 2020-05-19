@@ -275,7 +275,6 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
     }
     
     func loadLearnController(){
-        current_book_id = UserDefaults.standard.object(forKey: "current_book") as! String
         let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Learning", bundle:nil)
         let learnVC = mainStoryBoard.instantiateViewController(withIdentifier: "learnWordController") as! LearnWordViewController
         learnVC.modalPresentationStyle = .fullScreen
