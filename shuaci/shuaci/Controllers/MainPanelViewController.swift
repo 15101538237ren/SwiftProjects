@@ -232,6 +232,9 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
                     current_wallpaper_image = image ?? UIImage()
                 } catch {
                     print("Error loading image : \(error)")
+                    let image = UIImage(named: "theme_\(theme_category)")
+                    todayImageView?.image = image
+                    current_wallpaper_image = image ?? UIImage()
                 }
                 let word = defaults.string(forKey: word_string)
                 let trans = defaults.string(forKey: trans_string)
