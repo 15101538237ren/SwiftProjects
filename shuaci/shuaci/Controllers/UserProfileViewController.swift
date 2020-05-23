@@ -49,17 +49,20 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
     
     
     @IBAction func logOut(_ sender: UIButton) {
-        let alertController = UIAlertController(title: "注销", message: "确定注销?", preferredStyle: .alert)
-        let okayAction = UIAlertAction(title: "确定", style: .default, handler: { action in
-            LCUser.logOut()
-            self.dismiss(animated: false, completion: nil)
-        })
-        let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
-        alertController.addAction(okayAction)
-        alertController.addAction(cancelAction)
-        self.present(alertController, animated: true, completion: nil)
-        
-        
+        if Reachability.isConnectedToNetwork(){
+           let alertController = UIAlertController(title: "注销", message: "确定注销?", preferredStyle: .alert)
+           let okayAction = UIAlertAction(title: "确定", style: .default, handler: { action in
+               LCUser.logOut()
+               self.dismiss(animated: false, completion: nil)
+           })
+           let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
+           alertController.addAction(okayAction)
+           alertController.addAction(cancelAction)
+           self.present(alertController, animated: true, completion: nil)
+        }else{
+            let alertCtl = presentNoNetworkAlert()
+            self.present(alertCtl, animated: true, completion: nil)
+        }
     }
     
     @IBAction func selectImage(_ sender: UIButton) {
@@ -129,51 +132,62 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
         self.updateUserPhoto()
         self.mainPanelViewController.updateUserPhoto()
         dismiss(animated: true, completion: nil)
-        
-        DispatchQueue.global(qos: .background).async {
-        do {
-            let file = LCFile(payload: .fileURL(fileURL: imageFileURL))
-            _ = file.save { result in
-                    switch result {
-                    case .success:
-                        if let objectId:String = file.objectId?.value {
-                            print("文件保存完成。objectId: \(objectId)")
-                            self.update_user_photo(file: file)
-                        }
-                    case .failure(error: let error):
-                        // 保存失败，可能是文件无法被读取，或者上传过程中出现问题
-                        print(error)
-                    }
-                }
-            }
-        }
-    }
-    
-    func update_user_photo(file: LCFile){
-        DispatchQueue.global(qos: .background).async {
-        do {
-            let user = LCApplication.default.currentUser!
-                do {
-                    
-                    if let old_photo = user.get("avatar"){
-                        let file = old_photo as! LCFile
-                        let old_photo_file = LCObject(className: "_File", objectId: file.objectId?.value as! LCStringConvertible)
-                        old_photo_file.delete()
-                    }
-                    
-                    try user.set("avatar", value: file)
-                    user.save { (result) in
+        if Reachability.isConnectedToNetwork(){
+            DispatchQueue.global(qos: .background).async {
+            do {
+                let file = LCFile(payload: .fileURL(fileURL: imageFileURL))
+                _ = file.save { result in
                         switch result {
                         case .success:
-                            break
+                            if let objectId:String = file.objectId?.value {
+                                print("文件保存完成。objectId: \(objectId)")
+                                self.update_user_photo(file: file)
+                            }
                         case .failure(error: let error):
+                            // 保存失败，可能是文件无法被读取，或者上传过程中出现问题
                             print(error)
                         }
                     }
-                } catch {
-                    print(error)
                 }
             }
+        }else{
+            let alertCtl = presentNoNetworkAlert()
+            self.present(alertCtl, animated: true, completion: nil)
         }
+        
+    }
+    
+    func update_user_photo(file: LCFile){
+        if Reachability.isConnectedToNetwork(){
+           DispatchQueue.global(qos: .background).async {
+           do {
+               let user = LCApplication.default.currentUser!
+                   do {
+                       
+                       if let old_photo = user.get("avatar"){
+                           let file = old_photo as! LCFile
+                           let old_photo_file = LCObject(className: "_File", objectId: file.objectId?.value as! LCStringConvertible)
+                           old_photo_file.delete()
+                       }
+                       
+                       try user.set("avatar", value: file)
+                       user.save { (result) in
+                           switch result {
+                           case .success:
+                               break
+                           case .failure(error: let error):
+                               print(error)
+                           }
+                       }
+                   } catch {
+                       print(error)
+                   }
+               }
+           }
+        }else{
+            let alertCtl = presentNoNetworkAlert()
+            self.present(alertCtl, animated: true, completion: nil)
+        }
+        
     }
 }

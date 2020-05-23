@@ -239,49 +239,55 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
     {
         if books.count > 0{
             stopIndicator()
-            DispatchQueue.global(qos: .background).async {
-            do {
-                let query = LCQuery(className: "Book")
-                let updated_count = query.count()
-                if books.count != updated_count.intValue {
-                    _ = query.find { result in
-                        switch result {
-                        case .success(objects: let results):
-                            // Books 是包含满足条件的 (className: "Book") 对象的数组
-                            for item in results{
-                                let identifier = item.get("identifier")?.stringValue
-                                let level1_category = item.get("level1_category")?.intValue
-                                let level2_category = item.get("level2_category")?.intValue
-                                let name = item.get("name")?.stringValue
-                                let desc = item.get("description")?.stringValue
-                                let word_num = item.get("word_num")?.intValue
-                                let recite_user_num = item.get("recite_user_num")?.intValue
-                                
-                                let book:Book = Book(identifier: identifier ?? "", level1_category: level1_category ?? 0, level2_category: level2_category ?? 0, name: name ?? "", description: desc ?? "", word_num: word_num ?? 0, recite_user_num: recite_user_num ?? 0)
-                                self.tempBooks.append(book)
-                                self.tempItems.append(item)
-                            }
-                            if self.tempBooks.count != books.count{
-                                books = self.tempBooks
-                                resultsItems = self.tempItems
-                                
-                                DispatchQueue.main.async {
-                                    self.tableView.reloadData()
+            if Reachability.isConnectedToNetwork(){
+                DispatchQueue.global(qos: .background).async {
+                do {
+                    let query = LCQuery(className: "Book")
+                    let updated_count = query.count()
+                    if books.count != updated_count.intValue {
+                        _ = query.find { result in
+                            switch result {
+                            case .success(objects: let results):
+                                // Books 是包含满足条件的 (className: "Book") 对象的数组
+                                for item in results{
+                                    let identifier = item.get("identifier")?.stringValue
+                                    let level1_category = item.get("level1_category")?.intValue
+                                    let level2_category = item.get("level2_category")?.intValue
+                                    let name = item.get("name")?.stringValue
+                                    let desc = item.get("description")?.stringValue
+                                    let word_num = item.get("word_num")?.intValue
+                                    let recite_user_num = item.get("recite_user_num")?.intValue
+                                    
+                                    let book:Book = Book(identifier: identifier ?? "", level1_category: level1_category ?? 0, level2_category: level2_category ?? 0, name: name ?? "", description: desc ?? "", word_num: word_num ?? 0, recite_user_num: recite_user_num ?? 0)
+                                    self.tempBooks.append(book)
+                                    self.tempItems.append(item)
                                 }
-                                
-                                if global_total_books.count == 0 && books.count != 0{
-                                    global_total_books = books
-                                    global_total_items = resultsItems
+                                if self.tempBooks.count != books.count{
+                                    books = self.tempBooks
+                                    resultsItems = self.tempItems
+                                    
+                                    DispatchQueue.main.async {
+                                        self.tableView.reloadData()
+                                    }
+                                    
+                                    if global_total_books.count == 0 && books.count != 0{
+                                        global_total_books = books
+                                        global_total_items = resultsItems
+                                    }
                                 }
+                                break
+                            case .failure(error: let error):
+                                print(error)
                             }
-                            break
-                        case .failure(error: let error):
-                            print(error)
                         }
                     }
                 }
+                }
+            }else{
+                let alertCtl = presentNoNetworkAlert()
+                self.present(alertCtl, animated: true, completion: nil)
             }
-            }
+            
         }else{
             DispatchQueue.global(qos: .background).async {
             do {
@@ -353,34 +359,39 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
                 }
 
             } else {
-                DispatchQueue.global(qos: .background).async {
-                do {
-                    if let cover_image = resultsItems[index].get("cover") as? LCFile {
-                        //let imgData = photoData.value as! LCData
-                        let url = URL(string: cover_image.url?.stringValue ?? "")!
-                        let data = try? Data(contentsOf: url)
-                        print(url)
-                        
-                        if let imageData = data {
-                            if let image_name = cover_image.name?.stringValue
-                            {
-                                var components = image_name.components(separatedBy: ".")
-                                if components.count > 1 { // If there is a file extension
-                                    components.removeLast()
-                                    let image_filename = components.joined(separator: ".")
-                                    if let image = UIImage(data: imageData)
-                                    {
-                                        savePhoto(image: image, name_of_photo: "\(image_filename).jpg")
-                                        DispatchQueue.main.async {
-                                            cell.cover.image = image
-                                            cell.setNeedsLayout()
+                if Reachability.isConnectedToNetwork(){
+                    DispatchQueue.global(qos: .background).async {
+                    do {
+                        if let cover_image = resultsItems[index].get("cover") as? LCFile {
+                            //let imgData = photoData.value as! LCData
+                            let url = URL(string: cover_image.url?.stringValue ?? "")!
+                            let data = try? Data(contentsOf: url)
+                            print(url)
+                            
+                            if let imageData = data {
+                                if let image_name = cover_image.name?.stringValue
+                                {
+                                    var components = image_name.components(separatedBy: ".")
+                                    if components.count > 1 { // If there is a file extension
+                                        components.removeLast()
+                                        let image_filename = components.joined(separator: ".")
+                                        if let image = UIImage(data: imageData)
+                                        {
+                                            savePhoto(image: image, name_of_photo: "\(image_filename).jpg")
+                                            DispatchQueue.main.async {
+                                                cell.cover.image = image
+                                                cell.setNeedsLayout()
+                                            }
                                         }
                                     }
                                 }
                             }
                         }
+                        }
                     }
-                    }
+                }else{
+                    let alertCtl = presentNoNetworkAlert()
+                    self.present(alertCtl, animated: true, completion: nil)
                 }
             }
         return cell
@@ -395,33 +406,38 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
     }
     
     func downloadBookJson(index: Int){
-        
-        DispatchQueue.global(qos: .background).async {
-        do {
-            DispatchQueue.main.async {
-                self.initActivityIndicator(text: "数据下载中")
-            }
-            if let bookJson = resultsItems[index].get("data") as? LCFile {
-                let url = URL(string: bookJson.url?.stringValue ?? "")!
-                let data = try? Data(contentsOf: url)
-                print(url)
-                
-                if let jsonData = data {
-                    savejson(fileName: "current_book", jsonData: jsonData)
+        if Reachability.isConnectedToNetwork(){
+            DispatchQueue.global(qos: .background).async {
+            do {
+                DispatchQueue.main.async {
+                    self.initActivityIndicator(text: "数据下载中")
+                }
+                if let bookJson = resultsItems[index].get("data") as? LCFile {
+                    let url = URL(string: bookJson.url?.stringValue ?? "")!
+                    let data = try? Data(contentsOf: url)
+                    print(url)
+                    
+                    if let jsonData = data {
+                        savejson(fileName: "current_book", jsonData: jsonData)
 
-                    UserDefaults.standard.set(books[index].identifier, forKey: "current_book")
-                    currentbook_json_obj = load_json(fileName: "current_book")
-                    update_words()
-                    get_words()
-                    DispatchQueue.main.async {
-                        self.stopIndicator()
-                        self.dismiss(animated: true, completion: nil)
-                        self.mainPanelViewController.loadLearnController()
+                        UserDefaults.standard.set(books[index].identifier, forKey: "current_book")
+                        currentbook_json_obj = load_json(fileName: "current_book")
+                        update_words()
+                        get_words()
+                        DispatchQueue.main.async {
+                            self.stopIndicator()
+                            self.dismiss(animated: true, completion: nil)
+                            self.mainPanelViewController.loadLearnController()
+                        }
                     }
                 }
+                }
             }
-            }
+        }else{
+            let alertCtl = presentNoNetworkAlert()
+            self.present(alertCtl, animated: true, completion: nil)
         }
+        
     }
     
     func downloadAlert(index: Int, bookName: String){

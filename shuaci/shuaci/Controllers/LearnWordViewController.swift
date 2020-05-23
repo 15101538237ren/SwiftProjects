@@ -245,28 +245,40 @@ class LearnWordViewController: UIViewController {
         
         func playMp3(url: URL)
         {
-            DispatchQueue.global(qos: .background).async {
-            do {
-                var downloadTask: URLSessionDownloadTask
-                downloadTask = URLSession.shared.downloadTask(with: url, completionHandler: { (urlhere, response, error) -> Void in
+            if Reachability.isConnectedToNetwork(){
+                DispatchQueue.global(qos: .background).async {
                 do {
-                    self.mp3Player = try AVAudioPlayer(contentsOf: urlhere!)
-                    self.mp3Player?.play()
-                } catch {
-                    print("couldn't load file :( \(urlhere)")
-                }
-            })
-                downloadTask.resume()
-            }}
+                    var downloadTask: URLSessionDownloadTask
+                    downloadTask = URLSession.shared.downloadTask(with: url, completionHandler: { (urlhere, response, error) -> Void in
+                    do {
+                        self.mp3Player = try AVAudioPlayer(contentsOf: urlhere!)
+                        self.mp3Player?.play()
+                    } catch {
+                        print("couldn't load file :( \(urlhere)")
+                    }
+                })
+                    downloadTask.resume()
+                }}
+            }else{
+                let alertCtl = presentNoNetworkAlert()
+                self.present(alertCtl, animated: true, completion: nil)
+            }
+            
         }
         
         @IBAction func playAudio(_ sender: UIButton) {
-            let word = words[currentIndex % words.count]
-            let cardWord = getFeildsOfWord(word: word, usphone: getUSPhone())
-            let wordStr: String = cardWord.headWord
-            if let mp3_url = getWordPronounceURL(word: wordStr){
-                playMp3(url: mp3_url)
+            if Reachability.isConnectedToNetwork(){
+                let word = words[currentIndex % words.count]
+                let cardWord = getFeildsOfWord(word: word, usphone: getUSPhone())
+                let wordStr: String = cardWord.headWord
+                if let mp3_url = getWordPronounceURL(word: wordStr){
+                    playMp3(url: mp3_url)
+                }
+            }else{
+                let alertCtl = presentNoNetworkAlert()
+                self.present(alertCtl, animated: true, completion: nil)
             }
+            
         }
     
     

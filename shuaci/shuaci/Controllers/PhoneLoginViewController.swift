@@ -30,19 +30,22 @@ class PhoneLoginViewController: UIViewController {
     @IBAction func loginOrRegister(sender: UIButton){
          let phoneNumber:String = phoneTextField.text!
          let verificationCode:String = verificationCodeTextField.text!
-        
-         _ = LCUser.signUpOrLogIn(mobilePhoneNumber: "+86\(phoneNumber)", verificationCode: verificationCode, completion: { (result) in
-            switch result {
-            case .success(object: let user):
-                print(user)
-                self.showMainPanel()
-                
-            case .failure(error: let error as LCError):
-                print(error.reason?.stringValue)
-                self.presentAlert(title: "错误", message: error.reason?.stringValue ?? "登录失败，请稍后重试", okText: "好")
-            }
-         })
-        
+         if Reachability.isConnectedToNetwork(){
+             _ = LCUser.signUpOrLogIn(mobilePhoneNumber: "+86\(phoneNumber)", verificationCode: verificationCode, completion: { (result) in
+                switch result {
+                case .success(object: let user):
+                    print(user)
+                    self.showMainPanel()
+                    
+                case .failure(error: let error as LCError):
+                    print(error.reason?.stringValue)
+                    self.presentAlert(title: "错误", message: error.reason?.stringValue ?? "登录失败，请稍后重试", okText: "好")
+                }
+             })
+         }else{
+             let alertCtl = presentNoNetworkAlert()
+             self.present(alertCtl, animated: true, completion: nil)
+         }
     }
     
     func showMainPanel() {
@@ -59,39 +62,45 @@ class PhoneLoginViewController: UIViewController {
         self.view.endEditing(true)
         
         let phoneNumber:String = phoneTextField.text!
-        _ = LCUser.requestLoginVerificationCode(mobilePhoneNumber: "+86\(phoneNumber)") { result in
-            switch result {
-            case .success:
-                self.presentAlert(title: "验证码", message: "验证码已发送!", okText: "好")
-            case .failure(error: let error as LCError):
-                switch error.code {
-                case 213:
-                    let alertController = UIAlertController(title: "该手机号尚未注册", message: "该手机号尚未注册,是否注册?", preferredStyle: .alert)
-                    let okayAction = UIAlertAction(title: "是", style: .default, handler: { action in
-                        self.verificationCodeSent = true
-                        DispatchQueue.main.async {
-                            self.phoneLoginBtn.setTitle("注册", for: .normal)
-                        }
-                        //templateName 是短信模版名称，signatureName 是短信签名名称。可以在控制台 > 消息 > 短信 >设置中查看。
-                        _ = LCSMSClient.requestShortMessage(mobilePhoneNumber: "+86\(phoneNumber)", templateName: "shuaci_verification", signatureName: "shuaci") { (result) in
-                            switch result {
-                            case .success:
-                                self.presentAlert(title: "验证码", message: "验证码已发送!", okText: "好")
-                            case .failure(error: let error):
-                                print(error)
+        
+        if Reachability.isConnectedToNetwork(){
+            _ = LCUser.requestLoginVerificationCode(mobilePhoneNumber: "+86\(phoneNumber)") { result in
+                switch result {
+                case .success:
+                    self.presentAlert(title: "验证码", message: "验证码已发送!", okText: "好")
+                case .failure(error: let error as LCError):
+                    switch error.code {
+                    case 213:
+                        let alertController = UIAlertController(title: "该手机号尚未注册", message: "该手机号尚未注册,是否注册?", preferredStyle: .alert)
+                        let okayAction = UIAlertAction(title: "是", style: .default, handler: { action in
+                            self.verificationCodeSent = true
+                            DispatchQueue.main.async {
+                                self.phoneLoginBtn.setTitle("注册", for: .normal)
                             }
-                        }
-                        
-                    })
-                    let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
-                    alertController.addAction(okayAction)
-                    alertController.addAction(cancelAction)
-                    self.present(alertController, animated: true, completion: nil)
-                default:
-                    print(error.reason?.stringValue)
-                    self.presentAlert(title: "错误", message: error.reason?.stringValue ?? "登录失败，请稍后重试", okText: "好")
+                            //templateName 是短信模版名称，signatureName 是短信签名名称。可以在控制台 > 消息 > 短信 >设置中查看。
+                            _ = LCSMSClient.requestShortMessage(mobilePhoneNumber: "+86\(phoneNumber)", templateName: "shuaci_verification", signatureName: "shuaci") { (result) in
+                                switch result {
+                                case .success:
+                                    self.presentAlert(title: "验证码", message: "验证码已发送!", okText: "好")
+                                case .failure(error: let error):
+                                    print(error)
+                                }
+                            }
+                            
+                        })
+                        let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
+                        alertController.addAction(okayAction)
+                        alertController.addAction(cancelAction)
+                        self.present(alertController, animated: true, completion: nil)
+                    default:
+                        print(error.reason?.stringValue)
+                        self.presentAlert(title: "错误", message: error.reason?.stringValue ?? "登录失败，请稍后重试", okText: "好")
+                    }
                 }
             }
+        }else{
+            let alertCtl = presentNoNetworkAlert()
+            self.present(alertCtl, animated: true, completion: nil)
         }
     }
     

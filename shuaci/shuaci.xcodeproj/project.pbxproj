@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5507D9072479935C0090DD37 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5507D9062479935C0090DD37 /* Reachability.swift */; };
 		A5134E322467719C008B116D /* Learning.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A5134E312467719C008B116D /* Learning.storyboard */; };
 		A5134E34246772B4008B116D /* LearnWordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5134E33246772B4008B116D /* LearnWordViewController.swift */; };
 		A5134E3624677BF3008B116D /* LearnUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5134E3524677BF3008B116D /* LearnUIView.swift */; };
@@ -72,6 +73,7 @@
 
 /* Begin PBXFileReference section */
 		4D669C4BDB3B8EFCB078D706 /* Pods-shuaci.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-shuaci.release.xcconfig"; path = "Target Support Files/Pods-shuaci/Pods-shuaci.release.xcconfig"; sourceTree = "<group>"; };
+		5507D9062479935C0090DD37 /* Reachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		7904B907E4DC4D8D3DC6FC8C /* Pods_shuaci.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_shuaci.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A175FCA5411DABB0C4A1A6DE /* Pods-shuaci.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-shuaci.debug.xcconfig"; path = "Target Support Files/Pods-shuaci/Pods-shuaci.debug.xcconfig"; sourceTree = "<group>"; };
 		A5134E312467719C008B116D /* Learning.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Learning.storyboard; sourceTree = "<group>"; };
@@ -110,7 +112,7 @@
 		A59EB1DB2452A12A00F300E1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A59EB1DE2452A12A00F300E1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A59EB1E02452A12A00F300E1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		A5A83E20245D1D1300075BB4 /* LoginReg.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = LoginReg.storyboard; path = /Users/Ren/SwiftProject/shuaci/shuaci/LoginReg.storyboard; sourceTree = "<absolute>"; };
+		A5A83E20245D1D1300075BB4 /* LoginReg.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = LoginReg.storyboard; path = shuaci/LoginReg.storyboard; sourceTree = SOURCE_ROOT; };
 		A5B82170245360F700963FEC /* PingFang SC Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "PingFang SC Regular.ttf"; sourceTree = "<group>"; };
 		A5B821722453669B00963FEC /* CardUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardUIView.swift; sourceTree = "<group>"; };
 		A5B82174245366F600963FEC /* Geneva Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Geneva Regular.ttf"; sourceTree = "<group>"; };
@@ -208,6 +210,7 @@
 			isa = PBXGroup;
 			children = (
 				A574D662245E430D0002A07C /* Util.swift */,
+				5507D9062479935C0090DD37 /* Reachability.swift */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -464,6 +467,7 @@
 			files = (
 				A59A0B17245488EC000845F2 /* MainPanelUIView.swift in Sources */,
 				A574D663245E430D0002A07C /* Util.swift in Sources */,
+				5507D9072479935C0090DD37 /* Reachability.swift in Sources */,
 				A5F59F482453DD3A00D6D717 /* EmailLoginUIView.swift in Sources */,
 				A5134E3624677BF3008B116D /* LearnUIView.swift in Sources */,
 				A57229C024568C13001C121C /* Word.swift in Sources */,

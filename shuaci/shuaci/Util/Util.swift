@@ -93,6 +93,17 @@ func savejson(fileName: String, jsonData: Data){
     }
 }
 
+func presentAlert(title: String, message: String, okText: String) -> UIAlertController{
+    let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+    let okayAction = UIAlertAction(title: okText, style: .cancel, handler: nil)
+    alertController.addAction(okayAction)
+    return alertController
+}
+
+func presentNoNetworkAlert() -> UIAlertController{
+    return presentAlert(title: "没有网络", message: "没有网络,请检查网络连接", okText: "好的")
+}
+
 func load_json(fileName: String) -> JSON{
     do {
         let fileURL = try FileManager.default
@@ -216,37 +227,40 @@ func setUSPhone(usphone: Bool){
 }
 
 func fetchBooks(){
-    DispatchQueue.global(qos: .background).async {
-    do {
-        let query = LCQuery(className: "Book")
-        _ = query.find { result in
-            switch result {
-            case .success(objects: let results):
-                // Books 是包含满足条件的 (className: "Book") 对象的数组
-                for item in results{
-                    let identifier = item.get("identifier")?.stringValue
-                    let level1_category = item.get("level1_category")?.intValue
-                    let level2_category = item.get("level2_category")?.intValue
-                    let name = item.get("name")?.stringValue
-                    let desc = item.get("description")?.stringValue
-                    let word_num = item.get("word_num")?.intValue
-                    let recite_user_num = item.get("recite_user_num")?.intValue
-                    
-                    let book:Book = Book(identifier: identifier ?? "", level1_category: level1_category ?? 0, level2_category: level2_category ?? 0, name: name ?? "", description: desc ?? "", word_num: word_num ?? 0, recite_user_num: recite_user_num ?? 0)
-                    books.append(book)
-                    resultsItems.append(item)
+    if Reachability.isConnectedToNetwork(){
+        DispatchQueue.global(qos: .background).async {
+        do {
+            let query = LCQuery(className: "Book")
+            _ = query.find { result in
+                switch result {
+                case .success(objects: let results):
+                    // Books 是包含满足条件的 (className: "Book") 对象的数组
+                    for item in results{
+                        let identifier = item.get("identifier")?.stringValue
+                        let level1_category = item.get("level1_category")?.intValue
+                        let level2_category = item.get("level2_category")?.intValue
+                        let name = item.get("name")?.stringValue
+                        let desc = item.get("description")?.stringValue
+                        let word_num = item.get("word_num")?.intValue
+                        let recite_user_num = item.get("recite_user_num")?.intValue
+                        
+                        let book:Book = Book(identifier: identifier ?? "", level1_category: level1_category ?? 0, level2_category: level2_category ?? 0, name: name ?? "", description: desc ?? "", word_num: word_num ?? 0, recite_user_num: recite_user_num ?? 0)
+                        books.append(book)
+                        resultsItems.append(item)
+                    }
+                    if global_total_books.count == 0 && books.count != 0{
+                        global_total_books = books
+                        global_total_items = resultsItems
+                    }
+                    break
+                case .failure(error: let error):
+                    print(error)
                 }
-                if global_total_books.count == 0 && books.count != 0{
-                    global_total_books = books
-                    global_total_items = resultsItems
-                }
-                break
-            case .failure(error: let error):
-                print(error)
             }
         }
+        }
     }
-    }
+    
 }
 
 func saveStringTo(fileName: String, jsonStr: String){
@@ -396,18 +410,49 @@ func syncRecords(){
             if let collectedRecordpath = getDefaultFilePath(fileName: collectedRecordJsonFp)
             {
                 if !FileManager.default.fileExists(atPath: collectedRecordpath) {
-                    DispatchQueue.global(qos: .background).async {
+                    if Reachability.isConnectedToNetwork(){
+                        DispatchQueue.global(qos: .background).async {
+                         do {
+                             let collectedQuery = LCQuery(className: "CollectedRecord")
+                             collectedQuery.whereKey("username", .equalTo(userName))
+                             _ = collectedQuery.find { result in
+                                         switch result {
+                                         case .success(objects: let collectedRecords):
+                                             if collectedRecords.count > 0
+                                             {
+                                                 if let jsonStr = collectedRecords[0].get("jsonStr")?.stringValue{
+                                                     saveStringTo(fileName: collectedRecordJsonFp, jsonStr: jsonStr)
+                                                     GlobalCollectedRecords = loadCollectedRecords()
+                                                 }
+                                             }
+                                             
+                                             break
+                                         case .failure(error: let error):
+                                             print(error)
+                                     }
+                             }
+                         }
+                        }
+                    }
+                    
+                }
+            }
+            if let reviewRecordpath = getDefaultFilePath(fileName: reviewRecordJsonFp)
+            {
+                if !FileManager.default.fileExists(atPath: reviewRecordpath) {
+                if Reachability.isConnectedToNetwork(){
+                   DispatchQueue.global(qos: .background).async {
                     do {
-                        let collectedQuery = LCQuery(className: "CollectedRecord")
-                        collectedQuery.whereKey("username", .equalTo(userName))
-                        _ = collectedQuery.find { result in
+                        let reviewRecordQuery = LCQuery(className: "ReviewRecord")
+                        reviewRecordQuery.whereKey("username", .equalTo(userName))
+                        _ = reviewRecordQuery.find { result in
                                     switch result {
-                                    case .success(objects: let collectedRecords):
-                                        if collectedRecords.count > 0
+                                    case .success(objects: let reviewRecords):
+                                        if reviewRecords.count > 0
                                         {
-                                            if let jsonStr = collectedRecords[0].get("jsonStr")?.stringValue{
-                                                saveStringTo(fileName: collectedRecordJsonFp, jsonStr: jsonStr)
-                                                GlobalCollectedRecords = loadCollectedRecords()
+                                            if let jsonStr = reviewRecords[0].get("jsonStr")?.stringValue{
+                                                saveStringTo(fileName: reviewRecordJsonFp, jsonStr: jsonStr)
+                                                GlobalReviewRecords = loadReviewRecords()
                                             }
                                         }
                                         
@@ -416,86 +461,67 @@ func syncRecords(){
                                         print(error)
                                 }
                         }
-                    }
-                   }
+                        }}
                 }
-            }
-            if let reviewRecordpath = getDefaultFilePath(fileName: reviewRecordJsonFp)
-            {
-                if !FileManager.default.fileExists(atPath: reviewRecordpath) {
-                DispatchQueue.global(qos: .background).async {
-                do {
-                    let reviewRecordQuery = LCQuery(className: "ReviewRecord")
-                    reviewRecordQuery.whereKey("username", .equalTo(userName))
-                    _ = reviewRecordQuery.find { result in
-                                switch result {
-                                case .success(objects: let reviewRecords):
-                                    if reviewRecords.count > 0
-                                    {
-                                        if let jsonStr = reviewRecords[0].get("jsonStr")?.stringValue{
-                                            saveStringTo(fileName: reviewRecordJsonFp, jsonStr: jsonStr)
-                                            GlobalReviewRecords = loadReviewRecords()
-                                        }
-                                    }
-                                    
-                                    break
-                                case .failure(error: let error):
-                                    print(error)
-                            }
-                    }
-                    }}
+                
                 }
             }
             if let vocabRecordPath = getDefaultFilePath(fileName: vocabRecordJsonFp)
             {
                 if !FileManager.default.fileExists(atPath: vocabRecordPath) {
-                DispatchQueue.global(qos: .background).async {
-                do {
-                    let vocabRecordsQuery = LCQuery(className: "VocabRecord")
-                    vocabRecordsQuery.whereKey("username", .equalTo(userName))
-                    _ = vocabRecordsQuery.find { result in
-                                switch result {
-                                case .success(objects: let vocabRecords):
-                                    if vocabRecords.count > 0
-                                    {
-                                        if let jsonStr = vocabRecords[0].get("jsonStr")?.stringValue{
-                                            saveStringTo(fileName: vocabRecordJsonFp, jsonStr: jsonStr)
-                                            GlobalVocabRecords = loadVocabRecords()
-                                        }
-                                    }
-                                    
-                                    break
-                                case .failure(error: let error):
-                                    print(error)
-                            }
-                    }
-                    }}
+                if Reachability.isConnectedToNetwork(){
+                   DispatchQueue.global(qos: .background).async {
+                   do {
+                       let vocabRecordsQuery = LCQuery(className: "VocabRecord")
+                       vocabRecordsQuery.whereKey("username", .equalTo(userName))
+                       _ = vocabRecordsQuery.find { result in
+                                   switch result {
+                                   case .success(objects: let vocabRecords):
+                                       if vocabRecords.count > 0
+                                       {
+                                           if let jsonStr = vocabRecords[0].get("jsonStr")?.stringValue{
+                                               saveStringTo(fileName: vocabRecordJsonFp, jsonStr: jsonStr)
+                                               GlobalVocabRecords = loadVocabRecords()
+                                           }
+                                       }
+                                       
+                                       break
+                                   case .failure(error: let error):
+                                       print(error)
+                               }
+                       }
+                       }}
+                }
+                
                 }
             }
             if let learningRecordPath = getDefaultFilePath(fileName: learningRecordJsonFp)
             {
                 if !FileManager.default.fileExists(atPath: learningRecordPath) {
-                DispatchQueue.global(qos: .background).async {
-                do {
-                    let learningRecordsQuery = LCQuery(className: "LearningRecord")
-                    learningRecordsQuery.whereKey("username", .equalTo(userName))
-                    _ = learningRecordsQuery.find { result in
-                                switch result {
-                                case .success(objects: let learningRecords):
-                                    if learningRecords.count > 0
-                                    {
-                                        if let jsonStr = learningRecords[0].get("jsonStr")?.stringValue{
-                                            saveStringTo(fileName: learningRecordJsonFp, jsonStr: jsonStr)
-                                            GlobalLearningRecords = loadLearningRecords()
-                                        }
-                                    }
-                                    
-                                    break
-                                case .failure(error: let error):
-                                    print(error)
-                            }
-                    }
-                    }}
+                if Reachability.isConnectedToNetwork(){
+                   DispatchQueue.global(qos: .background).async {
+                   do {
+                       let learningRecordsQuery = LCQuery(className: "LearningRecord")
+                       learningRecordsQuery.whereKey("username", .equalTo(userName))
+                       _ = learningRecordsQuery.find { result in
+                                   switch result {
+                                   case .success(objects: let learningRecords):
+                                       if learningRecords.count > 0
+                                       {
+                                           if let jsonStr = learningRecords[0].get("jsonStr")?.stringValue{
+                                               saveStringTo(fileName: learningRecordJsonFp, jsonStr: jsonStr)
+                                               GlobalLearningRecords = loadLearningRecords()
+                                           }
+                                       }
+                                       
+                                       break
+                                   case .failure(error: let error):
+                                       print(error)
+                               }
+                       }
+                       }}
+                }
+                
                 }
             }
         }
@@ -531,32 +557,35 @@ func saveCollectedRecordsLocally(){
 }
 
 func saveCollectedRecordsToCloud(collectedRecords: [CollectedRecord], username: String){
-    DispatchQueue.global(qos: .background).async {
-    do {
-        let jsonData = try! JSONEncoder().encode(collectedRecords)
-        let jsonString = String(data: jsonData, encoding: .utf8)!
-        // 构建对象
-        let collectedRecordsObj = LCObject(className: "CollectedRecord")
+    if Reachability.isConnectedToNetwork(){
+       DispatchQueue.global(qos: .background).async {
+       do {
+           let jsonData = try! JSONEncoder().encode(collectedRecords)
+           let jsonString = String(data: jsonData, encoding: .utf8)!
+           // 构建对象
+           let collectedRecordsObj = LCObject(className: "CollectedRecord")
 
-        // 为属性赋值
-        try collectedRecordsObj.set("username", value: username)
-        try collectedRecordsObj.set("jsonStr", value: jsonString)
+           // 为属性赋值
+           try collectedRecordsObj.set("username", value: username)
+           try collectedRecordsObj.set("jsonStr", value: jsonString)
 
-        // 将对象保存到云端
-        _ = collectedRecordsObj.save { result in
-            switch result {
-            case .success:
-                // 成功保存之后，执行其他逻辑
-                print("CollectedRecord saved successfully ")
-                break
-            case .failure(error: let error):
-                // 异常处理
-                print(error)
-            }
-        }
-    } catch {
-        print(error.localizedDescription)
-        }}
+           // 将对象保存到云端
+           _ = collectedRecordsObj.save { result in
+               switch result {
+               case .success:
+                   // 成功保存之后，执行其他逻辑
+                   print("CollectedRecord saved successfully ")
+                   break
+               case .failure(error: let error):
+                   // 异常处理
+                   print(error)
+               }
+           }
+       } catch {
+           print(error.localizedDescription)
+           }}
+    }
+    
 }
 
 func loadReviewRecords() -> [ReviewRecord]{
@@ -588,32 +617,35 @@ func saveReviewRecordsLocally(){
 }
 
 func saveReviewRecordsToClould(reviewRecord: [ReviewRecord], username: String){
-    DispatchQueue.global(qos: .background).async {
-    do {
-        let jsonData = try! JSONEncoder().encode(reviewRecord)
-        let jsonString = String(data: jsonData, encoding: .utf8)!
-        // 构建对象
-        let reviewRecordObj = LCObject(className: "ReviewRecord")
+    if Reachability.isConnectedToNetwork(){
+       DispatchQueue.global(qos: .background).async {
+       do {
+           let jsonData = try! JSONEncoder().encode(reviewRecord)
+           let jsonString = String(data: jsonData, encoding: .utf8)!
+           // 构建对象
+           let reviewRecordObj = LCObject(className: "ReviewRecord")
 
-        // 为属性赋值
-        try reviewRecordObj.set("username", value: username)
-        try reviewRecordObj.set("jsonStr", value: jsonString)
+           // 为属性赋值
+           try reviewRecordObj.set("username", value: username)
+           try reviewRecordObj.set("jsonStr", value: jsonString)
 
-        // 将对象保存到云端
-        _ = reviewRecordObj.save { result in
-            switch result {
-            case .success:
-                // 成功保存之后，执行其他逻辑
-                print("ReviewRecordObj saved successfully ")
-                break
-            case .failure(error: let error):
-                // 异常处理
-                print(error)
-            }
-        }
-    } catch {
-        print(error.localizedDescription)
-        }}
+           // 将对象保存到云端
+           _ = reviewRecordObj.save { result in
+               switch result {
+               case .success:
+                   // 成功保存之后，执行其他逻辑
+                   print("ReviewRecordObj saved successfully ")
+                   break
+               case .failure(error: let error):
+                   // 异常处理
+                   print(error)
+               }
+           }
+       } catch {
+           print(error.localizedDescription)
+           }}
+    }
+    
 }
 
 let decoder = JSONDecoder()
@@ -646,32 +678,35 @@ func saveVocabRecordsLocally(){
 }
 
 func saveVocabRecordsToClould(vocabRecords: [VocabularyRecord], username: String){
-    DispatchQueue.global(qos: .background).async {
-    do {
-        let jsonData = try! JSONEncoder().encode(vocabRecords)
-        let jsonString = String(data: jsonData, encoding: .utf8)!
-        // 构建对象
-        let vocabRecordObj = LCObject(className: "VocabRecord")
+    if Reachability.isConnectedToNetwork(){
+       DispatchQueue.global(qos: .background).async {
+       do {
+           let jsonData = try! JSONEncoder().encode(vocabRecords)
+           let jsonString = String(data: jsonData, encoding: .utf8)!
+           // 构建对象
+           let vocabRecordObj = LCObject(className: "VocabRecord")
 
-        // 为属性赋值
-        try vocabRecordObj.set("username", value: username)
-        try vocabRecordObj.set("jsonStr", value: jsonString)
+           // 为属性赋值
+           try vocabRecordObj.set("username", value: username)
+           try vocabRecordObj.set("jsonStr", value: jsonString)
 
-        // 将对象保存到云端
-        _ = vocabRecordObj.save { result in
-            switch result {
-            case .success:
-                // 成功保存之后，执行其他逻辑
-                print("VocabRecord saved successfully ")
-                break
-            case .failure(error: let error):
-                // 异常处理
-                print(error)
-            }
-        }
-    } catch {
-        print(error.localizedDescription)
-        }}
+           // 将对象保存到云端
+           _ = vocabRecordObj.save { result in
+               switch result {
+               case .success:
+                   // 成功保存之后，执行其他逻辑
+                   print("VocabRecord saved successfully ")
+                   break
+               case .failure(error: let error):
+                   // 异常处理
+                   print(error)
+               }
+           }
+       } catch {
+           print(error.localizedDescription)
+           }}
+    }
+    
 }
 
 
@@ -703,30 +738,33 @@ func saveLearningRecordsLocally(){
 }
 
 func saveLearningRecordsToClould(learningRecord: [LearningRecord], username: String){
-    DispatchQueue.global(qos: .background).async {
-    do {
-        let jsonData = try! JSONEncoder().encode(learningRecord)
-        let jsonString = String(data: jsonData, encoding: .utf8)!
-        // 构建对象
-        let learningRecordObj = LCObject(className: "LearningRecord")
+    
+    if Reachability.isConnectedToNetwork(){
+       DispatchQueue.global(qos: .background).async {
+       do {
+           let jsonData = try! JSONEncoder().encode(learningRecord)
+           let jsonString = String(data: jsonData, encoding: .utf8)!
+           // 构建对象
+           let learningRecordObj = LCObject(className: "LearningRecord")
 
-        // 为属性赋值
-        try learningRecordObj.set("username", value: username)
-        try learningRecordObj.set("jsonStr", value: jsonString)
+           // 为属性赋值
+           try learningRecordObj.set("username", value: username)
+           try learningRecordObj.set("jsonStr", value: jsonString)
 
-        // 将对象保存到云端
-        _ = learningRecordObj.save { result in
-            switch result {
-            case .success:
-                // 成功保存之后，执行其他逻辑
-                print("LearningRecord saved successfully ")
-                break
-            case .failure(error: let error):
-                // 异常处理
-                print(error)
-            }
-        }
-    } catch {
-        print(error.localizedDescription)
-        }}
+           // 将对象保存到云端
+           _ = learningRecordObj.save { result in
+               switch result {
+               case .success:
+                   // 成功保存之后，执行其他逻辑
+                   print("LearningRecord saved successfully ")
+                   break
+               case .failure(error: let error):
+                   // 异常处理
+                   print(error)
+               }
+           }
+       } catch {
+           print(error.localizedDescription)
+           }}
+    }
 }

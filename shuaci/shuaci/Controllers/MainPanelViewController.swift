@@ -70,14 +70,16 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
     }
     
     func setTextOrButtonsColor(color: UIColor) {
-        syncLabel.textColor = color
-        wordLabel.textColor = color
-        meaningLabel.textColor = color
-        themeBtn.tintColor = color
-        collectBtn.tintColor = color
-        statBtn.tintColor = color
-        settingBtn.tintColor = color
-        searchBtn.tintColor = color
+        DispatchQueue.main.async {
+            self.syncLabel.textColor = color
+            self.wordLabel.textColor = color
+            self.meaningLabel.textColor = color
+            self.themeBtn.tintColor = color
+            self.collectBtn.tintColor = color
+            self.statBtn.tintColor = color
+            self.settingBtn.tintColor = color
+            self.searchBtn.tintColor = color
+        }
     }
     
     func animationDidStop(_ anim: CAAnimation, finished flag: Bool) {
@@ -117,88 +119,96 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
     }
     
     func getUserPhoto(){
-        DispatchQueue.global(qos: .background).async {
-            do {
-                let user = LCApplication.default.currentUser
-                if let photoData = user?.get("avatar") as? LCFile {
-                    //let imgData = photoData.value as! LCData
-                    let url = URL(string: photoData.url?.value as! String)!
-                    let data = try? Data(contentsOf: url)
-                    print(url)
-                    if let imageData = data {
-                        if let image = UIImage(data: imageData){
-                            savePhoto(image: image, name_of_photo: "user_avatar.jpg")
-                            DispatchQueue.main.async {
-                                // qos' default value is ´DispatchQoS.QoSClass.default`
-                                self.userPhotoBtn.setImage(image, for: [])
+        if Reachability.isConnectedToNetwork(){
+            DispatchQueue.global(qos: .background).async {
+                do {
+                    let user = LCApplication.default.currentUser
+                    if let photoData = user?.get("avatar") as? LCFile {
+                        //let imgData = photoData.value as! LCData
+                        let url = URL(string: photoData.url?.value as! String)!
+                        let data = try? Data(contentsOf: url)
+                        print(url)
+                        if let imageData = data {
+                            if let image = UIImage(data: imageData){
+                                savePhoto(image: image, name_of_photo: "user_avatar.jpg")
+                                DispatchQueue.main.async {
+                                    // qos' default value is ´DispatchQoS.QoSClass.default`
+                                    self.userPhotoBtn.setImage(image, for: [])
+                                }
                             }
                         }
                     }
+                } catch {
+                    print(error)
                 }
-            } catch {
-                print(error)
             }
-
-            
+        }else{
+            let alertCtl = presentNoNetworkAlert()
+            self.present(alertCtl, animated: true, completion: nil)
         }
 
     }
     
     func getTodayWallpaper(category: Int){
-        do{ //DispatchQueue.global(qos: .background).async
-            do {
-                
-                let query = LCQuery(className: "Wallpaper")
-                query.whereKey("theme_category", .equalTo(category))
-                _ = query.find { result in
-                    switch result {
-                    case .success(objects: let wallpapers):
-                        // wallpapers 是包含满足条件的 (className: "Wallpaper") 对象的数组
-                        
-                        let wallpaper = wallpapers.randomElement()
-                        
-                        if let wallpaper_image = wallpaper?.get("image") as? LCFile {
-                            //let imgData = photoData.value as! LCData
-                            let url = URL(string: wallpaper_image.url?.value as! String)!
-                            let data = try? Data(contentsOf: url)
-                            print(url)
-                            if let imageData = data {
-                                if let image = UIImage(data: imageData){
-                                    savePhoto(image: image, name_of_photo: "theme_download.jpg")
-                                    current_wallpaper_image = image ?? UIImage()
-                                    DispatchQueue.main.async {
-                                        self.todayImageView?.image = image
+        if Reachability.isConnectedToNetwork(){
+            DispatchQueue.global(qos: .background).async{
+            do{ //
+                do {
+                    
+                    let query = LCQuery(className: "Wallpaper")
+                    query.whereKey("theme_category", .equalTo(category))
+                    _ = query.find { result in
+                        switch result {
+                        case .success(objects: let wallpapers):
+                            // wallpapers 是包含满足条件的 (className: "Wallpaper") 对象的数组
+                            
+                            let wallpaper = wallpapers.randomElement()
+                            
+                            if let wallpaper_image = wallpaper?.get("image") as? LCFile {
+                                //let imgData = photoData.value as! LCData
+                                let url = URL(string: wallpaper_image.url?.value as! String)!
+                                let data = try? Data(contentsOf: url)
+                                print(url)
+                                if let imageData = data {
+                                    if let image = UIImage(data: imageData){
+                                        savePhoto(image: image, name_of_photo: "theme_download.jpg")
+                                        current_wallpaper_image = image ?? UIImage()
+                                        DispatchQueue.main.async {
+                                            self.todayImageView?.image = image
+                                        }
                                     }
-                                }
-                                
-                                let word = wallpaper?.word as! LCString
-                                let trans = wallpaper?.trans as! LCString
-                                
-                                current_wallpaper = Wallpaper(word: word.value as! String, trans: trans.value as! String, category: category)
-                                
-                                UserDefaults.standard.set(current_wallpaper.word, forKey: word_string)
-                                UserDefaults.standard.set(current_wallpaper.trans, forKey: trans_string)
-                                UserDefaults.standard.set(category, forKey: last_theme_category_string)
-                                
-                                DispatchQueue.main.async {
-                                    self.wordLabel.text = current_wallpaper.word
-                                    self.meaningLabel.text = current_wallpaper.trans
+                                    
+                                    let word = wallpaper?.word as! LCString
+                                    let trans = wallpaper?.trans as! LCString
+                                    
+                                    current_wallpaper = Wallpaper(word: word.value as! String, trans: trans.value as! String, category: category)
+                                    
+                                    UserDefaults.standard.set(current_wallpaper.word, forKey: word_string)
+                                    UserDefaults.standard.set(current_wallpaper.trans, forKey: trans_string)
+                                    UserDefaults.standard.set(category, forKey: last_theme_category_string)
+                                    
+                                    DispatchQueue.main.async {
+                                        self.wordLabel.text = current_wallpaper.word
+                                        self.meaningLabel.text = current_wallpaper.trans
+                                        self.shouldStopRotating = true
+                                        self.syncLabel.alpha = 0.0
+                                    }
                                     self.setTextOrButtonsColor(color: textColors[category] ?? UIColor.darkGray)
-                                    self.shouldStopRotating = true
-                                    self.syncLabel.alpha = 0.0
                                 }
                             }
+                            break
+                        case .failure(error: let error):
+                            print(error)
                         }
-                        break
-                    case .failure(error: let error):
-                        print(error)
                     }
+                } catch {
+                    print(error)
                 }
-            } catch {
-                print(error)
-            }
+                }}
+        }else{
+            let alertCtl = presentNoNetworkAlert()
+            self.present(alertCtl, animated: true, completion: nil)
         }
-
     }
     
     func setWallpaper(){
@@ -210,17 +220,19 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
             let last_theme_category = defaults.integer(forKey: last_theme_category_string)
             if theme_category != last_theme_category{
                 let image = UIImage(named: "theme_\(theme_category)")
-                todayImageView?.image = image
-                current_wallpaper_image = image ?? UIImage()
                 let wallpaper = default_wallpapers[theme_category - 1]
-                wordLabel.text = wallpaper.word
-                meaningLabel.text = wallpaper.trans
+                current_wallpaper_image = image ?? UIImage()
+                DispatchQueue.main.async {
+                    self.todayImageView?.image = image
+                    self.wordLabel.text = wallpaper.word
+                    self.meaningLabel.text = wallpaper.trans
+                    self.userPhotoBtn.rotate360Degrees(completionDelegate: self)
+                    self.isRotating = true
+                    self.syncLabel.alpha = 1.0
+                }
                 
                 setTextOrButtonsColor(color: textColors[theme_category] ?? UIColor.darkGray)
                 
-                self.userPhotoBtn.rotate360Degrees(completionDelegate: self)
-                self.isRotating = true
-                self.syncLabel.alpha = 1.0
                 self.getTodayWallpaper(category: theme_category)
             }
             else{
@@ -228,18 +240,24 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
                 do {
                     let imageData = try Data(contentsOf: imageFileURL)
                     let image = UIImage(data: imageData)
-                    todayImageView?.image = image
+                    DispatchQueue.main.async {
+                        self.todayImageView?.image = image
+                    }
                     current_wallpaper_image = image ?? UIImage()
                 } catch {
                     print("Error loading image : \(error)")
                     let image = UIImage(named: "theme_\(theme_category)")
-                    todayImageView?.image = image
+                    DispatchQueue.main.async {
+                        self.todayImageView?.image = image
+                    }
                     current_wallpaper_image = image ?? UIImage()
                 }
                 let word = defaults.string(forKey: word_string)
                 let trans = defaults.string(forKey: trans_string)
-                wordLabel.text = word
-                meaningLabel.text = trans
+                DispatchQueue.main.async {
+                    self.wordLabel.text = word
+                    self.meaningLabel.text = trans
+                }
                 current_wallpaper = Wallpaper(word: word!, trans: trans!, category: theme_category)
                 
                 setTextOrButtonsColor(color: textColors[theme_category] ?? UIColor.darkGray)
@@ -253,12 +271,12 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
             defaults.set(current_wallpaper.trans, forKey: trans_string)
             
             let image = UIImage(named: "theme_\(theme_category)")
-            todayImageView?.image = image
+            DispatchQueue.main.async {
+                self.todayImageView?.image = image
+                self.wordLabel.text = current_wallpaper.word
+                self.meaningLabel.text = current_wallpaper.trans
+            }
             current_wallpaper_image = image ?? UIImage()
-            
-            wordLabel.text = current_wallpaper.word
-            meaningLabel.text = current_wallpaper.trans
-            
             setTextOrButtonsColor(color: textColors[theme_category] ?? UIColor.darkGray)
         }
     }

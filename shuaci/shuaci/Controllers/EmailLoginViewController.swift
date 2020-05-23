@@ -21,12 +21,6 @@ class EmailLoginViewController: UIViewController {
         self.dismiss(animated: true, completion: nil)
     }
     
-    func presentAlert(title: String, message: String, okText: String){
-        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let okayAction = UIAlertAction(title: okText, style: .cancel, handler: nil)
-        alertController.addAction(okayAction)
-        self.present(alertController, animated: true, completion: nil)
-    }
     
     
     @IBAction func loginOrRegister(sender: UIButton){
@@ -64,60 +58,66 @@ class EmailLoginViewController: UIViewController {
                 presentAlert(title: "密码为空", message: "密码不能为空!", okText: "好")
             }
             else{
-                _ = LCUser.logIn(email: email!, password: pwd!) { result in
-                    switch result {
-                    case .success(object: let user):
-                        self.showMainPanel()
-                    case .failure(error: let error):
-                        switch error.code {
-                        case 211:
-                            let alertController = UIAlertController(title: "该邮箱尚未注册", message: "该邮箱尚未注册,是否注册?", preferredStyle: .alert)
-                            let okayAction = UIAlertAction(title: "是", style: .default, handler: { action in
-                                 do {
-                                    // 创建实例
-                                    let user = LCUser()
+                if Reachability.isConnectedToNetwork(){
+                    _ = LCUser.logIn(email: email!, password: pwd!) { result in
+                        switch result {
+                        case .success(object: let user):
+                            self.showMainPanel()
+                        case .failure(error: let error):
+                            switch error.code {
+                            case 211:
+                                let alertController = UIAlertController(title: "该邮箱尚未注册", message: "该邮箱尚未注册,是否注册?", preferredStyle: .alert)
+                                let okayAction = UIAlertAction(title: "是", style: .default, handler: { action in
+                                     do {
+                                        // 创建实例
+                                        let user = LCUser()
 
-                                    // 等同于 user.set("username", value: "Tom")
-                                    user.username = LCString(email!)
-                                    user.password = LCString(pwd!)
-                                    user.email = LCString(email!)
+                                        // 等同于 user.set("username", value: "Tom")
+                                        user.username = LCString(email!)
+                                        user.password = LCString(pwd!)
+                                        user.email = LCString(email!)
 
-                                    _ = user.signUp { (result) in
-                                        switch result {
-                                        case .success:
-                                            self.presentAlert(title: "请验证邮件", message: "已发送验证邮件到\(email!)。请您单击邮件中的链接，完成验证后登录!", okText: "好")
-                                            DispatchQueue.main.async {
-                                                self.emailLoginBtn.setTitle("登录", for: .normal)
-                                            }
-                                        case .failure(error: let error):
-                                            switch error.code {
-                                            case 202 :
-                                                self.presentAlert(title: "邮箱已注册", message: "该邮箱已注册!", okText: "好")
-                                            case 214:
-                                                self.presentAlert(title: "邮箱已注册", message: "该邮箱已注册!", okText: "好")
-                                            default:
-                                                self.presentAlert(title: "错误", message: error.description, okText: "好")
+                                        _ = user.signUp { (result) in
+                                            switch result {
+                                            case .success:
+                                                presentAlert(title: "请验证邮件", message: "已发送验证邮件到\(email!)。请您单击邮件中的链接，完成验证后登录!", okText: "好")
+                                                DispatchQueue.main.async {
+                                                    self.emailLoginBtn.setTitle("登录", for: .normal)
+                                                }
+                                            case .failure(error: let error):
+                                                switch error.code {
+                                                case 202 :
+                                                    presentAlert(title: "邮箱已注册", message: "该邮箱已注册!", okText: "好")
+                                                case 214:
+                                                    presentAlert(title: "邮箱已注册", message: "该邮箱已注册!", okText: "好")
+                                                default:
+                                                    presentAlert(title: "错误", message: error.description, okText: "好")
+                                                }
                                             }
                                         }
+                                    } catch {
+                                        print(error)
                                     }
-                                } catch {
-                                    print(error)
-                                }
-                                
-                                DispatchQueue.main.async {
-                                    self.emailLoginBtn.setTitle("注册", for: .normal)
-                                }})
-                            let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
-                            alertController.addAction(okayAction)
-                            alertController.addAction(cancelAction)
-                            self.present(alertController, animated: true, completion: nil)
-                        case 210:
-                            self.presentAlert(title: "密码不正确", message: "密码不正确!", okText: "好")
-                        default:
-                            print(error)
+                                    
+                                    DispatchQueue.main.async {
+                                        self.emailLoginBtn.setTitle("注册", for: .normal)
+                                    }})
+                                let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
+                                alertController.addAction(okayAction)
+                                alertController.addAction(cancelAction)
+                                self.present(alertController, animated: true, completion: nil)
+                            case 210:
+                                presentAlert(title: "密码不正确", message: "密码不正确!", okText: "好")
+                            default:
+                                print(error)
+                            }
                         }
                     }
+                }else{
+                    let alertCtl = presentNoNetworkAlert()
+                    self.present(alertCtl, animated: true, completion: nil)
                 }
+                
             }
             
         }

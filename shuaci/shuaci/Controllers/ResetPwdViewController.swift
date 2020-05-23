@@ -32,14 +32,20 @@ class ResetPwdViewController: UIViewController {
         let email:String? = emailTextField.text
         
         if let email = email, let match = regex.firstMatch(in: email, options: [], range: NSRange(location: 0, length: email.count)), email != "" {
-            _ = LCUser.requestPasswordReset(email: email) { (result) in
-                switch result {
-                case .success:
-                    self.presentAlert(title: "密码重置邮件已发送!", message: "密码重置邮件已发送至\(email)!请查看邮件", okText: "好")
-                case .failure(error: let error):
-                    print(error)
+            if Reachability.isConnectedToNetwork(){
+                _ = LCUser.requestPasswordReset(email: email) { (result) in
+                    switch result {
+                    case .success:
+                        self.presentAlert(title: "密码重置邮件已发送!", message: "密码重置邮件已发送至\(email)!请查看邮件", okText: "好")
+                    case .failure(error: let error):
+                        print(error)
+                    }
                 }
+            }else{
+                let alertCtl = presentNoNetworkAlert()
+                self.present(alertCtl, animated: true, completion: nil)
             }
+            
         }
         else{
             presentAlert(title: "邮箱格式错误", message: "请输入正确的邮箱!", okText: "好")
