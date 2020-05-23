@@ -261,7 +261,10 @@ class LearnWordViewController: UIViewController {
                 }}
             }else{
                 let alertCtl = presentNoNetworkAlert()
-                self.present(alertCtl, animated: true, completion: nil)
+                if non_network_preseted == false{
+                    self.present(alertCtl, animated: true, completion: nil)
+                    non_network_preseted = true
+                }
             }
             
         }
@@ -276,7 +279,10 @@ class LearnWordViewController: UIViewController {
                 }
             }else{
                 let alertCtl = presentNoNetworkAlert()
-                self.present(alertCtl, animated: true, completion: nil)
+                if non_network_preseted == false{
+                    self.present(alertCtl, animated: true, completion: nil)
+                    non_network_preseted = true
+                }
             }
             
         }

@@ -28,7 +28,6 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
     @IBOutlet var syncLabel: UILabel!
     
     @IBOutlet var searchBtn: UIButton!
-    @IBOutlet var searchBar: UISearchBar!
     
     
     @IBOutlet var themeBtn: UIButton!
@@ -52,8 +51,7 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
     }
     
     @IBAction func searchBtnTouched(_ sender: UIButton) {
-        searchBar.alpha = 1
-        searchBtn.alpha = 0
+        
     }
     
     @objc func image(_ image:UIImage, didFinishSavingWithError error: Error?, contextInfo: UnsafeRawPointer){
@@ -101,7 +99,6 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
         navigationController?.navigationBar.shadowImage = UIImage()
         
         navigationController?.navigationBar.tintColor = .white
-        searchBar.backgroundColor = UIColor.clear
         if let user = LCApplication.default.currentUser {
             syncLabel.alpha = 0
             // 跳到首页
@@ -208,6 +205,10 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
         }else{
             let alertCtl = presentNoNetworkAlert()
             self.present(alertCtl, animated: true, completion: nil)
+            DispatchQueue.main.async {
+                self.shouldStopRotating = true
+                self.syncLabel.alpha = 0.0
+            }
         }
     }
     

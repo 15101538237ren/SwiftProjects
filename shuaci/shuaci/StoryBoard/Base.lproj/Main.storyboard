@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="868-VL-FJO">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="868-VL-FJO">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
@@ -126,18 +126,10 @@
                                     <constraint firstAttribute="height" constant="21" id="uOe-bf-LeM"/>
                                     <constraint firstAttribute="width" constant="101" id="vQ0-9g-xi1"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                 <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <searchBar opaque="NO" alpha="0.0" contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="1SZ-Uu-Q0K">
-                                <rect key="frame" x="59.5" y="56" width="295" height="44"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="295" id="1DP-Wq-l4h"/>
-                                    <constraint firstAttribute="height" constant="44" id="Ywn-yi-zqp"/>
-                                </constraints>
-                                <textInputTraits key="textInputTraits"/>
-                            </searchBar>
                             <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="pgK-hz-tuD">
                                 <rect key="frame" x="363" y="69" width="26" height="26"/>
                                 <subviews>
@@ -166,10 +158,8 @@
                             <constraint firstItem="fms-UY-stY" firstAttribute="top" secondItem="Wlh-Rs-nbo" secondAttribute="top" constant="24" id="4vy-s8-rkU"/>
                             <constraint firstAttribute="bottom" secondItem="aLL-Cm-mtq" secondAttribute="bottom" id="CFR-QS-pjI"/>
                             <constraint firstItem="aLL-Cm-mtq" firstAttribute="leading" secondItem="Wlh-Rs-nbo" secondAttribute="leading" id="H1O-Tj-GLt"/>
-                            <constraint firstItem="1SZ-Uu-Q0K" firstAttribute="centerX" secondItem="mqx-1T-aw1" secondAttribute="centerX" id="SGB-H3-lMP"/>
                             <constraint firstItem="Wlh-Rs-nbo" firstAttribute="trailing" secondItem="pgK-hz-tuD" secondAttribute="trailing" constant="25" id="Sut-V2-Gzz"/>
                             <constraint firstItem="nEc-yZ-Be3" firstAttribute="top" secondItem="Wlh-Rs-nbo" secondAttribute="top" constant="200" id="UGj-nm-Bwj"/>
-                            <constraint firstItem="1SZ-Uu-Q0K" firstAttribute="top" secondItem="Wlh-Rs-nbo" secondAttribute="top" constant="12" id="VIe-dS-ZaE"/>
                             <constraint firstItem="G93-mr-xkk" firstAttribute="leading" secondItem="Wlh-Rs-nbo" secondAttribute="leading" constant="20" id="WRb-wf-sIL"/>
                             <constraint firstItem="pgK-hz-tuD" firstAttribute="top" secondItem="Wlh-Rs-nbo" secondAttribute="top" constant="25" id="Yji-Mm-HeU"/>
                             <constraint firstItem="Wlh-Rs-nbo" firstAttribute="bottom" secondItem="JjA-19-Rdx" secondAttribute="bottom" constant="4" id="akP-Kb-6PU"/>
@@ -196,7 +186,6 @@
                         <outlet property="collectBtn" destination="Zyc-si-HQQ" id="SUt-ig-crL"/>
                         <outlet property="mainPanelUIView" destination="mqx-1T-aw1" id="rP2-Mi-KSq"/>
                         <outlet property="meaningLabel" destination="xSv-kj-v8W" id="zjt-3R-bPA"/>
-                        <outlet property="searchBar" destination="1SZ-Uu-Q0K" id="dLB-or-dYe"/>
                         <outlet property="searchBtn" destination="ZyA-q1-g0i" id="Hjk-du-7Kk"/>
                         <outlet property="settingBtn" destination="osM-iq-H3S" id="jFs-r9-TAX"/>
                         <outlet property="statBtn" destination="sB0-eI-RRR" id="AAZ-TQ-guL"/>

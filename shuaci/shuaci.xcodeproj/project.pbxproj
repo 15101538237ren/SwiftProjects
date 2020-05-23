@@ -692,7 +692,7 @@
 				A59EB1E22452A12A00F300E1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 		A59EB1E32452A12A00F300E1 /* Build configuration list for PBXNativeTarget "shuaci" */ = {
 			isa = XCConfigurationList;
@@ -701,7 +701,7 @@
 				A59EB1E52452A12A00F300E1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
 	};

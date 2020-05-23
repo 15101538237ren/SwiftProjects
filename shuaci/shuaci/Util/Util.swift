@@ -27,7 +27,7 @@ var currentSelectedCategory:Int = 0
 var currentSelectedSubCategory:Int = 0
 var category_items:[Int: String] = [0:"全部"]
 var current_book_id:String = "Level4_1"
-
+var non_network_preseted = false
 var npw_key = "number_of_word_per_day"
 let categories:[Int: [String: [Int: String]]] = [ 0: ["category": [0:"全部"], "subcategory": [0:"全部"]], 
     1 : ["category":  [0:"出国"], "subcategory": [0:"全部", 1: "雅思", 2: "托福", 3: "GRE", 4: "SAT", 5: "GMAT", 6: "MBA", 7: "其他"]],
@@ -42,9 +42,9 @@ let categories:[Int: [String: [Int: String]]] = [ 0: ["category": [0:"全部"], 
 
 var default_wallpapers:[Wallpaper] = [
     Wallpaper(word: "lilac", trans: "紫丁香", category: 1),
-    Wallpaper(word: "astronaut", trans: "宇航员", category: 2),
+    Wallpaper(word: "firework", trans: "烟花", category: 2),
     Wallpaper(word: "rocket", trans: "火箭", category: 3),
-    Wallpaper(word: "pineapple", trans: "菠萝", category: 4),
+    Wallpaper(word: "forest", trans: "森林", category: 4),
     Wallpaper(word: "rose", trans: "玫瑰", category: 5),
     Wallpaper(word: "pawpaw", trans: "木瓜", category: 6),
     Wallpaper(word: "ocean", trans: "海洋", category: 7),
@@ -73,7 +73,7 @@ var themes:[Theme] = [
     Theme(name: "夜空", background: "6_dark_night", category: 2)
 ]
 
-var textColors:[Int:UIColor] = [ 1: UIColor.black, 2: UIColor.white, 3: UIColor.gray, 4: UIColor.white, 5: UIColor.white, 6: UIColor.white, 7: UIColor.white, 8: UIColor.white, 9: UIColor.white]
+var textColors:[Int:UIColor] = [ 1: UIColor.white, 2: UIColor.white, 3: UIColor.gray, 4: UIColor.white, 5: UIColor.white, 6: UIColor.white, 7: UIColor.white, 8: UIColor.white, 9: UIColor.white]
 
 func getDocumentsDirectory() -> URL {
     let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
