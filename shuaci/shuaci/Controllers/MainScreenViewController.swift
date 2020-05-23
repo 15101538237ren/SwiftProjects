@@ -49,8 +49,6 @@ class MainScreenViewController: UIViewController {
             card.cardImageView?.image = UIImage(named: word.wordHead)
             card.wordLabel?.text = word.wordHead
             card.meaningLabel?.text = word.trans[0]["tranCn"]!
-            card.accentLabel?.text = "美"
-            card.phoneticLabel?.text = word.usphone
             card.rememberImageView?.backgroundColor = UIColor.systemGreen
             card.rememberImageView?.alpha = 0
             card.rememberLabel?.text = "会了"
@@ -69,8 +67,6 @@ class MainScreenViewController: UIViewController {
         card.cardImageView?.image = UIImage(named: word.wordHead)
         card.wordLabel?.text = word.wordHead
         card.meaningLabel?.text = word.trans[0]["tranCn"]!
-        card.accentLabel?.text = "美"
-        card.phoneticLabel?.text = word.usphone
         card.rememberImageView?.backgroundColor = UIColor.white
         card.rememberImageView?.alpha = 0
         card.rememberLabel?.text = ""

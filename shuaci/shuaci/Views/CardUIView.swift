@@ -27,12 +27,17 @@ class CardUIView: UIView {
         }
     }
     
+    @IBOutlet var memMethodLabel: UILabel?{
+        didSet {
+            memMethodLabel?.numberOfLines = 0
+        }
+    }
+    
+    
     
     @IBOutlet var X_Constraint: NSLayoutConstraint!
     @IBOutlet var Y_Constraint: NSLayoutConstraint!
-    
-    @IBOutlet var accentLabel: UILabel?
-    @IBOutlet var phoneticLabel: UILabel?
+    @IBOutlet var wordLabel_Top_Space_Constraint: NSLayoutConstraint!
     @IBOutlet var rememberImageView: UIImageView?
     @IBOutlet var rememberLabel: UILabel?
     
@@ -42,8 +47,6 @@ class CardUIView: UIView {
         self.cardImageView?.image = UIImage(named: cardImage)
         self.wordLabel?.text = word
         self.meaningLabel?.text = meaning
-        self.accentLabel?.text = accent
-        self.phoneticLabel?.text = phone
         self.rememberImageView?.backgroundColor = .white
         self.rememberImageView?.alpha = 0.0
         self.rememberLabel?.text = ""

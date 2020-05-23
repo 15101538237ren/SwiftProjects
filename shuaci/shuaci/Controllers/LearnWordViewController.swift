@@ -57,7 +57,7 @@ class LearnWordViewController: UIViewController {
         card.transform = CGAffineTransform(translationX: -xshift, y:0.0).rotated(by: -xshift*0.61/card.center.x)
         DispatchQueue.main.async {
             self.timeLabel.text = timeString(time: self.secondsPST)
-    }
+        }
     startTimer()
     self.updateProgressLabel(index: self.currentIndex)
     }
@@ -109,16 +109,25 @@ class LearnWordViewController: UIViewController {
     
     func setFieldsOfCard(card: CardUIView, cardWord: CardWord){
         card.wordLabel?.text = cardWord.headWord
-        if cardWord.headWord.count >= 12{
-            card.wordLabel?.font = card.wordLabel?.font.withSize(40.0)
-        }else{
-            card.wordLabel?.font = card.wordLabel?.font.withSize(45.0)
+        DispatchQueue.main.async {
+            if cardWord.headWord.count >= 12{
+                card.wordLabel?.font = card.wordLabel?.font.withSize(40.0)
+            }else{
+                card.wordLabel?.font = card.wordLabel?.font.withSize(45.0)
+            }
+            
+            card.meaningLabel?.text = cardWord.meaning
+            card.speech? = cardWord.speech
+            if cardWord.memMethod != ""{
+                card.wordLabel_Top_Space_Constraint.constant = 130
+                card.memMethodLabel?.alpha = 1
+                card.memMethodLabel?.text = "记: \(cardWord.memMethod)"
+            }
+            else{
+                card.wordLabel_Top_Space_Constraint.constant = 180
+                card.memMethodLabel?.alpha = 0
+            }
         }
-        
-        card.meaningLabel?.text = cardWord.meaning
-        card.phoneticLabel?.text = cardWord.phone
-        card.speech? = cardWord.speech
-        card.accentLabel?.text = cardWord.accent
     }
     
     @objc func moveCard() {

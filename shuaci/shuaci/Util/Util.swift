@@ -334,7 +334,12 @@ func getFeildsOfWord(word: JSON, usphone: Bool) -> CardWord{
     let phoneType = (usphone == true)  ? "usphone" : "ukphone"
     let phone = content[phoneType]?.stringValue ?? ""
     let accent = (usphone == true)  ? "美" : "英"
-    let cardWord = CardWord(wordRank: wordRank, headWord: headWord, meaning: meaning, phone: phone, speech: speech, accent: accent)
+    var memMethod = ""
+    if let memDict = content["remMethod"] {
+        memMethod = memDict["val"].stringValue
+    }
+    
+    let cardWord = CardWord(wordRank: wordRank, headWord: headWord, meaning: meaning, phone: phone, speech: speech, accent: accent, memMethod: memMethod)
     return cardWord
 }
 
