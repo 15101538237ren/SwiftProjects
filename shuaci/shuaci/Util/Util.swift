@@ -29,7 +29,9 @@ var category_items:[Int: String] = [0:"全部"]
 var current_book_id:String = "Level4_1"
 var non_network_preseted = false
 var npw_key = "number_of_word_per_day"
-let categories:[Int: [String: [Int: String]]] = [ 0: ["category": [0:"全部"], "subcategory": [0:"全部"]], 
+var vocabRecordsOfCurrentLearning:[VocabularyRecord] = []
+
+let categories:[Int: [String: [Int: String]]] = [ 0: ["category": [0:"全部"], "subcategory": [0:"全部"]],
     1 : ["category":  [0:"出国"], "subcategory": [0:"全部", 1: "雅思", 2: "托福", 3: "GRE", 4: "SAT", 5: "GMAT", 6: "MBA", 7: "其他"]],
     2: ["category": [0:"高中"], "subcategory": [0:"全部", 1: "考纲核心", 2: "人教版", 3: "外研社版", 4: "北师大版", 5: "牛津译林版", 6: "牛津上海版", 7: "其他"]],
     3: ["category": [0:"考研"], "subcategory": [0:"全部"]],
@@ -61,6 +63,17 @@ var cardBackgrounds: [Int: String] = [
     2 : "dark_blue"
 ]
 
+enum CardBehavior {
+    case forget
+    case remember
+    case trash
+}
+
+enum CardCollectBehavior {
+    case no
+    case yes
+}
+
 var current_wallpaper: Wallpaper = default_wallpapers[0]
 var current_wallpaper_image: UIImage = UIImage()
 
@@ -78,6 +91,13 @@ var textColors:[Int:UIColor] = [ 1: UIColor.white, 2: UIColor.white, 3: UIColor.
 func getDocumentsDirectory() -> URL {
     let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
     return paths[0]
+}
+
+func initDateByString(dateString: String) -> Date{
+    let formatter = DateFormatter()
+    formatter.dateFormat = "yyyy/MM/dd HH:mm"
+    guard let dateTime = formatter.date(from: dateString) else { return formatter.date(from: "3030/01/01 00:00")! }
+    return dateTime
 }
 
 func savejson(fileName: String, jsonData: Data){

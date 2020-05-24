@@ -40,6 +40,7 @@ class CardUIView: UIView {
     @IBOutlet var wordLabel_Top_Space_Constraint: NSLayoutConstraint!
     @IBOutlet var rememberImageView: UIImageView?
     @IBOutlet var rememberLabel: UILabel?
+    @IBOutlet var collectImageView: UIImageView!
     
     var speech:String?
     init(cardImage: String, word: String, meaning: String, accent:String, phone: String, speech: String){

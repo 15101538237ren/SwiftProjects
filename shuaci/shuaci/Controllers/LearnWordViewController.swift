@@ -20,6 +20,8 @@ class LearnWordViewController: UIViewController {
             }
         }
     }
+    var card_behaviors:[CardBehavior] = [] //forget: 0, remember: 1, trash: 2
+    var card_collect_behaviors: [CardCollectBehavior] = [] //collect: 1, else 0
     @IBOutlet var gestureRecognizers:[UIPanGestureRecognizer]!
     var secondsPST:Int = 0 // number of seconds past after load
     @IBOutlet var timeLabel: UILabel!
@@ -52,6 +54,7 @@ class LearnWordViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool){
         setCardBackground()
         initCards()
+        initVocabRecords()
         let card = cards[0]
         let xshift:CGFloat = card.frame.size.width/8.0
         card.transform = CGAffineTransform(translationX: -xshift, y:0.0).rotated(by: -xshift*0.61/card.center.x)
@@ -85,6 +88,7 @@ class LearnWordViewController: UIViewController {
         }
     }
     
+    
     func initCards() {
         for index in 0..<cards.count
         {
@@ -92,7 +96,7 @@ class LearnWordViewController: UIViewController {
             card.center = CGPoint(x: view.center.x, y: view.center.y)
             let word = words[index % words.count]
             let cardWord = getFeildsOfWord(word: word, usphone: getUSPhone())
-            setFieldsOfCard(card: card, cardWord: cardWord)
+            setFieldsOfCard(card: card, cardWord: cardWord, collected: false)
             if index == 1
             {
                 card.transform = CGAffineTransform(scaleX: scaleOfSecondCard, y: scaleOfSecondCard)
@@ -107,7 +111,7 @@ class LearnWordViewController: UIViewController {
     
     
     
-    func setFieldsOfCard(card: CardUIView, cardWord: CardWord){
+    func setFieldsOfCard(card: CardUIView, cardWord: CardWord, collected: Bool){
         card.wordLabel?.text = cardWord.headWord
         DispatchQueue.main.async {
             if cardWord.headWord.count >= 12{
@@ -127,6 +131,23 @@ class LearnWordViewController: UIViewController {
                 card.wordLabel_Top_Space_Constraint.constant = 180
                 card.memMethodLabel?.alpha = 0
             }
+            if collected{
+                card.collectImageView.alpha = 1
+            }else{
+                card.collectImageView.alpha = 0
+            }
+        }
+    }
+    
+    func initVocabRecords(){
+        vocabRecordsOfCurrentLearning = []
+        for index in 0..<words.count
+        {
+            let word = words[index % words.count]
+            let cardWord = getFeildsOfWord(word: word, usphone: getUSPhone())
+            var vocabRecord: VocabularyRecord = VocabularyRecord.init(VocabRecId: "\(current_book_id)_\(cardWord.wordRank)", BookId: current_book_id, WordRank: cardWord.wordRank, LearnDates: [], ReviewDates: [], MasteredDate: initDateByString(dateString: "3030/01/01 00:00"), RememberDates: [], ForgetDates: [], CollectDates: [])
+            vocabRecordsOfCurrentLearning.append(vocabRecord)
+            card_collect_behaviors.append(.no)
         }
     }
     
@@ -135,9 +156,11 @@ class LearnWordViewController: UIViewController {
         let card = cards[(currentIndex + 1) % 2]
         let word = words[(currentIndex + 1) % words.count]
         let cardWord = getFeildsOfWord(word: word, usphone: getUSPhone())
-        setFieldsOfCard(card: card, cardWord: cardWord)
+        let collected = card_collect_behaviors[currentIndex + 1] == .yes ? true : false
+        setFieldsOfCard(card: card, cardWord: cardWord, collected: collected)
         learnUIView.bringSubviewToFront(cards[currentIndex % 2])
         resetCard(card: card)
+        enableBtns()
     }
     
     @IBAction func panCard(_ sender: UIPanGestureRecognizer) {
@@ -152,7 +175,6 @@ class LearnWordViewController: UIViewController {
             card.Y_Constraint.constant = point.y
             sender.view!.frame = card.frame
             
-            let scale = min(0.35 * view.frame.width / abs(xFromCenter), 1.0)
             if xFromCenter > 0
             {
                 card.rememberImageView?.backgroundColor = UIColor.systemPink
@@ -165,6 +187,7 @@ class LearnWordViewController: UIViewController {
             }
             card.rememberImageView?.alpha = 0.3 + (abs(xFromCenter) / view.center.x) * 0.6
             card.rememberLabel?.alpha = 1.0
+            let scale = min(0.35 * view.frame.width / abs(xFromCenter), 1.0)
             card.transform = CGAffineTransform(rotationAngle: 0.61 * xFromCenter / view.center.x).scaledBy(x: scale, y: scale)
             let nextCard = cards[(currentIndex + 1) % 2]
             let relScale = scaleOfSecondCard + (abs(xFromCenter) / view.center.x) * (1.0 - scaleOfSecondCard)
@@ -174,7 +197,7 @@ class LearnWordViewController: UIViewController {
             {
                 if card.center.x < (0.4 * view.frame.width)
                 {
-                    
+                    disableBtns()
                     UIView.animate(withDuration: animationDuration, animations:
                     {
                         card.center = CGPoint(x: card.center.x - 200, y: card.center.y + 75)
@@ -186,7 +209,10 @@ class LearnWordViewController: UIViewController {
                     UIView.animate(withDuration: animationDuration, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 5, options: .curveEaseInOut, animations: {
                         nextCard.transform = .identity
                     })
-
+                    vocabRecordsOfCurrentLearning[currentIndex].RememberDates.append(Date())
+                    card_behaviors.append(.remember)
+                    print(card_behaviors)
+                    
                     let word: String = nextCard.wordLabel?.text ?? ""
                     if let mp3_url = getWordPronounceURL(word: word){
                         playMp3(url: mp3_url)
@@ -198,6 +224,7 @@ class LearnWordViewController: UIViewController {
                 }
                 else if card.center.x > (0.6 * view.frame.width)
                 {
+                    disableBtns()
                     UIView.animate(withDuration: animationDuration, animations:
                     {
                         card.center = CGPoint(x: card.center.x + 200, y: card.center.y + 75)
@@ -209,6 +236,9 @@ class LearnWordViewController: UIViewController {
                     UIView.animate(withDuration: animationDuration, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 5, options: .curveEaseInOut, animations: {
                         nextCard.transform = .identity
                     })
+                    vocabRecordsOfCurrentLearning[currentIndex].ForgetDates.append(Date())
+                    card_behaviors.append(.forget)
+                    print(card_behaviors)
                     
                     let word: String = nextCard.wordLabel?.text ?? ""
                     if let mp3_url = getWordPronounceURL(word: word){
@@ -296,10 +326,24 @@ class LearnWordViewController: UIViewController {
             
         }
     
+    func removeLastVocabRecord(index: Int, cardBehavior: CardBehavior){
+        var vocabRec:VocabularyRecord = vocabRecordsOfCurrentLearning[index]
+        switch cardBehavior {
+        case .forget:
+            vocabRec.ForgetDates.removeLast()
+        case .remember:
+            vocabRec.RememberDates.removeLast()
+        case .trash:
+            vocabRec.MasteredDate = initDateByString(dateString: "3030/01/01 00:00")
+        default:
+            return
+        }
+    }
     
     @IBAction func backOneCard(_ sender: UIButton) {
         if self.currentIndex > 0
         {
+            disableBtns()
             self.currentIndex -= 1
             self.updateProgressLabel(index: self.currentIndex)
             let thisCard = cards[(currentIndex + 1) % 2]
@@ -309,14 +353,16 @@ class LearnWordViewController: UIViewController {
             lastCard.transform = CGAffineTransform.identity.scaledBy(x: 1.0, y: 1.0)
             let word = words[currentIndex % words.count]
             let cardWord = getFeildsOfWord(word: word, usphone: getUSPhone())
-            setFieldsOfCard(card: lastCard, cardWord: cardWord)
+            let collect = card_collect_behaviors[currentIndex] == .yes ? true: false
+            setFieldsOfCard(card: lastCard, cardWord: cardWord, collected: collect)
+            removeLastVocabRecord(index: currentIndex, cardBehavior: card_behaviors[currentIndex])
             
             let wordStr: String = lastCard.wordLabel?.text ?? ""
             if let mp3_url = getWordPronounceURL(word: wordStr){
                 playMp3(url: mp3_url)
             }
-            
-            lastCard.center = CGPoint(x:  self.view.center.x + 400, y: self.view.center.y + 75)
+            let direction:CGFloat = card_behaviors[currentIndex] == CardBehavior.forget ? 1 : -1
+            lastCard.center = CGPoint(x:  self.view.center.x + 400 * (direction), y: self.view.center.y + 75)
             lastCard.X_Constraint.constant = lastCard.center.x - self.view.center.x
             lastCard.Y_Constraint.constant = lastCard.center.y - self.view.center.y
             learnUIView.bringSubviewToFront(cards[currentIndex % 2])
@@ -330,6 +376,14 @@ class LearnWordViewController: UIViewController {
             })
             let gestureRecognizer = self.gestureRecognizers[currentIndex % 2]
             gestureRecognizer.view!.frame = lastCard.frame
+            
+            card_behaviors.removeLast()
+            print(card_behaviors)
+            enableBtns()
+        }
+        else{
+            let alertCtl = presentAlert(title: "已达首张", message: "已经是第一张啦!", okText: "好的")
+            self.present(alertCtl, animated: true, completion: nil)
         }
     }
     
@@ -338,11 +392,134 @@ class LearnWordViewController: UIViewController {
     
     
     @IBAction func learntTheCard(_ sender: UIButton) {
+        disableBtns()
+        let card = self.cards[self.currentIndex % 2]
+        let nextCard = self.cards[(self.currentIndex + 1) % 2]
+        card.rememberLabel?.text = "会了"
+        card.rememberImageView?.backgroundColor = UIColor.systemGreen
+        let firstAnimationDuration = 0.2
+        UIView.animate(withDuration: firstAnimationDuration, animations: {
+            card.center.x = (0.35 * self.view.frame.width)
+            card.rememberImageView?.alpha = 1
+            card.rememberLabel?.alpha = 1
+            let xFromCenter = card.center.x - self.view.center.x
+            let scale = min(0.35 * self.view.frame.width / abs(xFromCenter), 1.0)
+            card.transform = CGAffineTransform(rotationAngle: 0.61 * xFromCenter / self.view.center.x).scaledBy(x: scale, y: scale)
+        }) { (completed) in
+            UIView.animate(withDuration: self.animationDuration, delay: 0, animations:{
+               card.center = CGPoint(x: card.center.x - 200, y: card.center.y + 75)
+               card.alpha = 0
+               card.X_Constraint.constant = card.center.x - self.view.center.x
+               card.Y_Constraint.constant = card.center.y - self.view.center.y
+            }){ (completed) in
+                UIView.animate(withDuration: 0.01, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 5, options: .curveEaseInOut, animations: {
+                    nextCard.transform = .identity
+                }){ (completed) in
+                    self.gestureRecognizers[self.currentIndex % 2].view!.frame = card.frame
+                    vocabRecordsOfCurrentLearning[self.currentIndex].RememberDates.append(Date())
+                    self.card_behaviors.append(.remember)
+                    print(self.card_behaviors)
+
+                    let word: String = nextCard.wordLabel?.text ?? ""
+                    if let mp3_url = getWordPronounceURL(word: word){
+                        self.playMp3(url: mp3_url)
+                    }
+
+                    self.currentIndex += 1
+                    self.perform(#selector(self.moveCard), with: nil, afterDelay: self.animationDuration)
+                }
+            }
+        }
+        
+        
+    }
+    func disableBtns(){
+        DispatchQueue.main.async {
+            self.learnUIView.collectBtn.isEnabled = false
+            self.learnUIView.undoBtn.isEnabled = false
+            self.learnUIView.yesBtn.isEnabled = false
+            self.learnUIView.noBtn.isEnabled = false
+            self.learnUIView.trashBtn.isEnabled = false
+        }
+    }
+    
+    func enableBtns(){
+        DispatchQueue.main.async {
+            self.learnUIView.collectBtn.isEnabled = true
+            self.learnUIView.undoBtn.isEnabled = true
+            self.learnUIView.yesBtn.isEnabled = true
+            self.learnUIView.noBtn.isEnabled = true
+            self.learnUIView.trashBtn.isEnabled = true
+        }
     }
     
     @IBAction func cardDifficultToLearn(_ sender: UIButton) {
+        disableBtns()
+        let card = cards[currentIndex % 2]
+        let nextCard = self.cards[(self.currentIndex + 1) % 2]
+        card.rememberLabel?.text = "不熟"
+        card.rememberImageView?.backgroundColor = UIColor.systemPink
+        
+        let firstAnimationDuration = 0.2
+        UIView.animate(withDuration: firstAnimationDuration, animations: {
+            card.center.x = (0.65 * self.view.frame.width)
+            card.rememberImageView?.alpha = 1
+            card.rememberLabel?.alpha = 1
+            let xFromCenter = card.center.x - self.view.center.x
+            let scale = min(0.35 * self.view.frame.width / abs(xFromCenter), 1.0)
+            card.transform = CGAffineTransform(rotationAngle: 0.61 * xFromCenter / self.view.center.x).scaledBy(x: scale, y: scale)
+        }) { (completed) in
+            UIView.animate(withDuration: self.animationDuration, delay: 0, animations:{
+               card.center = CGPoint(x: card.center.x + 200, y: card.center.y + 75)
+               card.alpha = 0
+               card.X_Constraint.constant = card.center.x - self.view.center.x
+               card.Y_Constraint.constant = card.center.y - self.view.center.y
+            }){ (completed) in
+                
+                UIView.animate(withDuration: 0.01, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 5, options: .curveEaseInOut, animations: {
+                    nextCard.transform = .identity
+                })
+                { (completed) in
+                    
+                    self.gestureRecognizers[self.currentIndex % 2].view!.frame = card.frame
+                    
+                    self.card_behaviors.append(.forget)
+                    vocabRecordsOfCurrentLearning[self.currentIndex].ForgetDates.append(Date())
+                    
+                    print(self.card_behaviors)
+                    
+                    let word: String = nextCard.wordLabel?.text ?? ""
+                    if let mp3_url = getWordPronounceURL(word: word){
+                        self.playMp3(url: mp3_url)
+                    }
+                    
+                    self.currentIndex += 1
+                    self.perform(#selector(self.moveCard), with: nil, afterDelay: self.animationDuration)
+                }
+            }
+        }
     }
     
     @IBAction func addWordToCollection(_ sender: UIButton) {
+        disableBtns()
+        let card = cards[currentIndex % 2]
+        let cardCollectedBehaviorPrevious: CardCollectBehavior = card_collect_behaviors[currentIndex]
+        if cardCollectedBehaviorPrevious == .no{
+            card_collect_behaviors[currentIndex] = .yes
+            vocabRecordsOfCurrentLearning[currentIndex].CollectDates.append(Date())
+            DispatchQueue.main.async {
+                card.collectImageView.alpha = 1
+                self.enableBtns()
+            }
+            
+        }
+        else{
+            card_collect_behaviors[currentIndex] = .no
+            vocabRecordsOfCurrentLearning[currentIndex].CollectDates.removeLast()
+            DispatchQueue.main.async {
+                card.collectImageView.alpha = 0
+                self.enableBtns()
+            }
+        }
     }
 }

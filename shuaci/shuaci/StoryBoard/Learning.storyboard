@@ -95,6 +95,14 @@
                                             <action selector="playAudio:" destination="Zsp-9s-jM2" eventType="touchUpInside" id="nZ5-AP-7MR"/>
                                         </connections>
                                     </button>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="star" translatesAutoresizingMaskIntoConstraints="NO" id="qLD-aS-Ej2">
+                                        <rect key="frame" x="283" y="15" width="22" height="22"/>
+                                        <color key="tintColor" systemColor="systemYellowColor" red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="22" id="Eri-KZ-ofR"/>
+                                            <constraint firstAttribute="width" constant="22" id="zgd-hP-1Xt"/>
+                                        </constraints>
+                                    </imageView>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <gestureRecognizers/>
@@ -114,10 +122,12 @@
                                     <constraint firstItem="3A7-tH-1cO" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="5f4-VB-fee" secondAttribute="leading" constant="20" id="JqG-nx-nbB"/>
                                     <constraint firstItem="3A7-tH-1cO" firstAttribute="centerX" secondItem="5f4-VB-fee" secondAttribute="centerX" id="Lqo-cm-Dzh"/>
                                     <constraint firstItem="pp4-e5-7lg" firstAttribute="centerX" secondItem="5f4-VB-fee" secondAttribute="centerX" id="O3o-Xr-EeV"/>
+                                    <constraint firstItem="qLD-aS-Ej2" firstAttribute="top" secondItem="5f4-VB-fee" secondAttribute="top" constant="15" id="P96-Su-bRA"/>
                                     <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="XRw-jS-BIz" secondAttribute="trailing" constant="20" id="TdL-xD-kVZ"/>
                                     <constraint firstAttribute="height" constant="500" id="YQI-xd-EkA">
                                         <variation key="heightClass=compact" constant="157.5"/>
                                     </constraint>
+                                    <constraint firstAttribute="trailing" secondItem="qLD-aS-Ej2" secondAttribute="trailing" constant="15" id="ZQL-1e-5Zc"/>
                                     <constraint firstItem="sBX-Fn-uZu" firstAttribute="leading" secondItem="5f4-VB-fee" secondAttribute="leading" id="f5M-eC-X5w"/>
                                     <constraint firstAttribute="trailing" secondItem="CLD-EC-mBS" secondAttribute="trailing" constant="15" id="fMt-Ym-ydQ"/>
                                     <constraint firstItem="XRw-jS-BIz" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="5f4-VB-fee" secondAttribute="leading" constant="20" id="fle-vJ-ewx"/>
@@ -139,6 +149,7 @@
                                     <outlet property="X_Constraint" destination="gAf-3k-EgY" id="glz-AW-azI"/>
                                     <outlet property="Y_Constraint" destination="DWj-hR-QBy" id="nEU-40-pZr"/>
                                     <outlet property="cardImageView" destination="goi-gK-VMq" id="oYh-0C-STY"/>
+                                    <outlet property="collectImageView" destination="qLD-aS-Ej2" id="SdI-vj-0O4"/>
                                     <outlet property="meaningLabel" destination="pp4-e5-7lg" id="4fz-PH-KQf"/>
                                     <outlet property="memMethodLabel" destination="3A7-tH-1cO" id="sp4-K3-bJR"/>
                                     <outlet property="rememberImageView" destination="sBX-Fn-uZu" id="Qda-zW-JPe"/>
@@ -208,6 +219,14 @@
                                             <action selector="playAudio:" destination="Zsp-9s-jM2" eventType="touchUpInside" id="evL-Yv-gNq"/>
                                         </connections>
                                     </button>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="star" translatesAutoresizingMaskIntoConstraints="NO" id="M8f-KU-3FJ">
+                                        <rect key="frame" x="283" y="15" width="22" height="22"/>
+                                        <color key="tintColor" systemColor="systemYellowColor" red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="22" id="ji9-sK-c42"/>
+                                            <constraint firstAttribute="width" constant="22" id="uPJ-DI-7d2"/>
+                                        </constraints>
+                                    </imageView>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <gestureRecognizers/>
@@ -215,6 +234,7 @@
                                     <constraint firstItem="ZXg-26-Ir8" firstAttribute="top" secondItem="ang-Vi-cIz" secondAttribute="bottom" constant="50" id="1kh-Q7-POt"/>
                                     <constraint firstItem="ZXg-26-Ir8" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="4Lf-nj-uqS" secondAttribute="leading" constant="20" id="1qN-Kl-TFz"/>
                                     <constraint firstItem="86b-WZ-yMf" firstAttribute="centerX" secondItem="4Lf-nj-uqS" secondAttribute="centerX" id="2dU-kY-ZTD"/>
+                                    <constraint firstAttribute="trailing" secondItem="M8f-KU-3FJ" secondAttribute="trailing" constant="15" id="3O3-hm-BQJ"/>
                                     <constraint firstItem="ang-Vi-cIz" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="4Lf-nj-uqS" secondAttribute="leading" constant="20" id="49g-uA-WRx"/>
                                     <constraint firstAttribute="trailing" secondItem="MbE-dI-KRO" secondAttribute="trailing" id="9XY-8m-Mpk"/>
                                     <constraint firstItem="7bE-xG-5Jq" firstAttribute="top" secondItem="4Lf-nj-uqS" secondAttribute="top" id="BOZ-dQ-XMe"/>
@@ -226,6 +246,7 @@
                                     <constraint firstItem="uOp-nh-aq8" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="4Lf-nj-uqS" secondAttribute="leading" constant="20" id="Lfd-gc-zRp"/>
                                     <constraint firstAttribute="width" secondItem="4Lf-nj-uqS" secondAttribute="height" multiplier="16:25" id="ML3-hd-KWK"/>
                                     <constraint firstAttribute="bottom" secondItem="bu7-kc-oYl" secondAttribute="bottom" constant="15" id="PwW-rC-6du"/>
+                                    <constraint firstItem="M8f-KU-3FJ" firstAttribute="top" secondItem="4Lf-nj-uqS" secondAttribute="top" constant="15" id="Qq3-5U-eYZ"/>
                                     <constraint firstItem="MbE-dI-KRO" firstAttribute="centerX" secondItem="4Lf-nj-uqS" secondAttribute="centerX" id="R2i-sX-H3h"/>
                                     <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="ZXg-26-Ir8" secondAttribute="trailing" constant="20" id="T9l-ZE-6OG"/>
                                     <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="uOp-nh-aq8" secondAttribute="trailing" constant="20" id="TWm-LG-jVQ"/>
@@ -252,6 +273,7 @@
                                     <outlet property="X_Constraint" destination="J6X-Ff-BDS" id="awD-sa-gQo"/>
                                     <outlet property="Y_Constraint" destination="npG-fb-cTV" id="K0f-pa-o0K"/>
                                     <outlet property="cardImageView" destination="MbE-dI-KRO" id="mHx-Ws-NQn"/>
+                                    <outlet property="collectImageView" destination="M8f-KU-3FJ" id="iTN-oQ-Ult"/>
                                     <outlet property="meaningLabel" destination="ZXg-26-Ir8" id="wJP-vj-0SP"/>
                                     <outlet property="memMethodLabel" destination="uOp-nh-aq8" id="LlP-Ia-KKZ"/>
                                     <outlet property="rememberImageView" destination="7bE-xG-5Jq" id="w1i-po-2f6"/>
@@ -427,6 +449,7 @@
         <image name="pass" width="334" height="332"/>
         <image name="sea" width="640" height="1136"/>
         <image name="speaker.2" catalog="system" width="128" height="97"/>
+        <image name="star" width="510" height="510"/>
         <image name="undo" width="288" height="286"/>
         <image name="wrong" width="242" height="242"/>
     </resources>
