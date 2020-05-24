@@ -451,16 +451,15 @@ class LearnWordViewController: UIViewController {
                 }){ (completed) in
                     
                     self.gestureRecognizers[self.currentIndex % 2].view!.frame = card.frame
-                    var vocabRec:VocabularyRecord = vocabRecordsOfCurrentLearning[self.currentIndex]
                     switch cardBehavior{
                     case .remember:
-                        vocabRec.RememberDates.append(Date())
+                        vocabRecordsOfCurrentLearning[self.currentIndex].RememberDates.append(Date())
                         self.card_behaviors.append(.remember)
                     case .forget:
-                        vocabRec.ForgetDates.append(Date())
+                        vocabRecordsOfCurrentLearning[self.currentIndex].ForgetDates.append(Date())
                         self.card_behaviors.append(.forget)
                     case .trash:
-                        vocabRec.MasteredDate = Date()
+                        vocabRecordsOfCurrentLearning[self.currentIndex].MasteredDate = Date()
                         self.card_behaviors.append(.trash)
                     }
                     
