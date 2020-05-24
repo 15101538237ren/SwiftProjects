@@ -74,6 +74,15 @@ enum CardCollectBehavior {
     case yes
 }
 
+enum DurationType{
+    case second
+    case minute
+    case hour
+    case day
+    case month
+    case year
+}
+
 var current_wallpaper: Wallpaper = default_wallpapers[0]
 var current_wallpaper_image: UIImage = UIImage()
 

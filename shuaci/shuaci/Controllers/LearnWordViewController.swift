@@ -169,7 +169,7 @@ class LearnWordViewController: UIViewController {
         {
             let word = words[index % words.count]
             let cardWord = getFeildsOfWord(word: word, usphone: getUSPhone())
-            var vocabRecord: VocabularyRecord = VocabularyRecord.init(VocabRecId: "\(current_book_id)_\(cardWord.wordRank)", BookId: current_book_id, WordRank: cardWord.wordRank, LearnDates: [], ReviewDates: [], MasteredDate: initDateByString(dateString: "3030/01/01 00:00"), RememberDates: [], ForgetDates: [], CollectDates: [])
+            var vocabRecord: VocabularyRecord = VocabularyRecord.init(VocabRecId: "\(current_book_id)_\(cardWord.wordRank)", BookId: current_book_id, WordRank: cardWord.wordRank, LearnDates: [], ReviewDates: [], MasteredDate: initDateByString(dateString: "3030/01/01 00:00"), RememberDates: [], ForgetDates: [], CollectDates: [], ReviewDUEDates: [])
             vocabRecordsOfCurrentLearning.append(vocabRecord)
             card_collect_behaviors.append(.no)
         }
@@ -266,6 +266,7 @@ class LearnWordViewController: UIViewController {
                         nextCard.transform = .identity
                     })
                     vocabRecordsOfCurrentLearning[currentIndex].RememberDates.append(Date())
+                    self.addReviewDueDatesForVocabRecords(index: currentIndex, cardBehavior: .remember)
                     card_behaviors.append(.remember)
                     print(card_behaviors)
                     
@@ -293,6 +294,7 @@ class LearnWordViewController: UIViewController {
                         nextCard.transform = .identity
                     })
                     vocabRecordsOfCurrentLearning[currentIndex].ForgetDates.append(Date())
+                    self.addReviewDueDatesForVocabRecords(index: currentIndex, cardBehavior: .forget)
                     card_behaviors.append(.forget)
                     print(card_behaviors)
                     
@@ -383,14 +385,15 @@ class LearnWordViewController: UIViewController {
         }
     
     func removeLastVocabRecord(index: Int, cardBehavior: CardBehavior){
-        var vocabRec:VocabularyRecord = vocabRecordsOfCurrentLearning[index]
+        vocabRecordsOfCurrentLearning[index].ReviewDUEDates = []
+        print(vocabRecordsOfCurrentLearning[index].ReviewDUEDates)
         switch cardBehavior {
         case .forget:
-            vocabRec.ForgetDates.removeLast()
+            vocabRecordsOfCurrentLearning[index].ForgetDates.removeLast()
         case .remember:
-            vocabRec.RememberDates.removeLast()
+            vocabRecordsOfCurrentLearning[index].RememberDates.removeLast()
         case .trash:
-            vocabRec.MasteredDate = initDateByString(dateString: "3030/01/01 00:00")
+            vocabRecordsOfCurrentLearning[index].MasteredDate = initDateByString(dateString: "3030/01/01 00:00")
         default:
             return
         }
@@ -447,6 +450,21 @@ class LearnWordViewController: UIViewController {
         cardAnimation(rememberLabelText: "掌握", backgroundColor: .systemBlue, cardBehavior: .trash)
     }
     
+    func addReviewDueDatesForVocabRecords(index: Int, cardBehavior: CardBehavior){
+        let currentDate:Date = Date()
+        switch cardBehavior {
+        case .forget:
+            let reviewDates = [currentDate.adding(durationVal: 5, durationType: .minute), currentDate.adding(durationVal: 30, durationType: .minute), currentDate.adding(durationVal: 12, durationType: .hour), currentDate.adding(durationVal: 1, durationType: .day), currentDate.adding(durationVal: 2, durationType: .day), currentDate.adding(durationVal: 4, durationType: .day), currentDate.adding(durationVal: 7, durationType: .day), currentDate.adding(durationVal: 15, durationType: .day)]
+            vocabRecordsOfCurrentLearning[self.currentIndex].ReviewDUEDates = reviewDates
+        case .remember:
+            let reviewDates = [currentDate.adding(durationVal: 30, durationType: .minute), currentDate.adding(durationVal: 1, durationType: .day), currentDate.adding(durationVal: 4, durationType: .day), currentDate.adding(durationVal: 7, durationType: .day)]
+            vocabRecordsOfCurrentLearning[self.currentIndex].ReviewDUEDates = reviewDates
+        default:
+            return
+        }
+        print(vocabRecordsOfCurrentLearning[self.currentIndex].ReviewDUEDates)
+    }
+    
     func cardAnimation(rememberLabelText: String, backgroundColor: UIColor, cardBehavior: CardBehavior){
         disableBtns()
         let card = self.cards[self.currentIndex % 2]
@@ -474,12 +492,15 @@ class LearnWordViewController: UIViewController {
                 }){ (completed) in
                     
                     self.gestureRecognizers[self.currentIndex % 2].view!.frame = card.frame
+                    
                     switch cardBehavior{
                     case .remember:
                         vocabRecordsOfCurrentLearning[self.currentIndex].RememberDates.append(Date())
+                        self.addReviewDueDatesForVocabRecords(index: self.currentIndex, cardBehavior: .remember)
                         self.card_behaviors.append(.remember)
                     case .forget:
                         vocabRecordsOfCurrentLearning[self.currentIndex].ForgetDates.append(Date())
+                        self.addReviewDueDatesForVocabRecords(index: self.currentIndex, cardBehavior: .forget)
                         self.card_behaviors.append(.forget)
                     case .trash:
                         vocabRecordsOfCurrentLearning[self.currentIndex].MasteredDate = Date()

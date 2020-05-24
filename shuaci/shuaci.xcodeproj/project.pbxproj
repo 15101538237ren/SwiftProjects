@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		5507D9072479935C0090DD37 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5507D9062479935C0090DD37 /* Reachability.swift */; };
 		5518B9B8247A2E7600BC8DA4 /* LearnFinishViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5518B9B7247A2E7600BC8DA4 /* LearnFinishViewController.swift */; };
+		55F2B5A0247B053500758113 /* Date+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55F2B59F247B053500758113 /* Date+Ext.swift */; };
 		A5134E322467719C008B116D /* Learning.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A5134E312467719C008B116D /* Learning.storyboard */; };
 		A5134E34246772B4008B116D /* LearnWordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5134E33246772B4008B116D /* LearnWordViewController.swift */; };
 		A5134E3624677BF3008B116D /* LearnUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5134E3524677BF3008B116D /* LearnUIView.swift */; };
@@ -76,6 +77,7 @@
 		4D669C4BDB3B8EFCB078D706 /* Pods-shuaci.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-shuaci.release.xcconfig"; path = "Target Support Files/Pods-shuaci/Pods-shuaci.release.xcconfig"; sourceTree = "<group>"; };
 		5507D9062479935C0090DD37 /* Reachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		5518B9B7247A2E7600BC8DA4 /* LearnFinishViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearnFinishViewController.swift; sourceTree = "<group>"; };
+		55F2B59F247B053500758113 /* Date+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Ext.swift"; sourceTree = "<group>"; };
 		7904B907E4DC4D8D3DC6FC8C /* Pods_shuaci.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_shuaci.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A175FCA5411DABB0C4A1A6DE /* Pods-shuaci.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-shuaci.debug.xcconfig"; path = "Target Support Files/Pods-shuaci/Pods-shuaci.debug.xcconfig"; sourceTree = "<group>"; };
 		A5134E312467719C008B116D /* Learning.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Learning.storyboard; sourceTree = "<group>"; };
@@ -245,6 +247,7 @@
 				A5D8B2DE245FD1BC00786F7C /* UIViewExtensions.swift */,
 				A5134E3924678C32008B116D /* Collection+Ext.swift */,
 				A5E697392473359F004CFA70 /* Array+Ext.swift */,
+				55F2B59F247B053500758113 /* Date+Ext.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -487,6 +490,7 @@
 				A52B84DE2471F00D00A002C6 /* VocabularyRecord.swift in Sources */,
 				A5DD06E424626CAA0051B3E5 /* Level2CollectionViewCell.swift in Sources */,
 				A523A717245542F100976574 /* ResetPwdUIView.swift in Sources */,
+				55F2B5A0247B053500758113 /* Date+Ext.swift in Sources */,
 				A5E764D4245E0AD000367C2A /* UserProfileViewController.swift in Sources */,
 				A59EB1D72452A12900F300E1 /* MainScreenViewController.swift in Sources */,
 				A59EB1D32452A12900F300E1 /* AppDelegate.swift in Sources */,
