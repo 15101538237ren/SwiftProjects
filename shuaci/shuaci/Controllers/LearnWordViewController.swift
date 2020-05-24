@@ -169,7 +169,7 @@ class LearnWordViewController: UIViewController {
         {
             let word = words[index % words.count]
             let cardWord = getFeildsOfWord(word: word, usphone: getUSPhone())
-            var vocabRecord: VocabularyRecord = VocabularyRecord.init(VocabRecId: "\(current_book_id)_\(cardWord.wordRank)", BookId: current_book_id, WordRank: cardWord.wordRank, LearnDates: [], ReviewDates: [], MasteredDate: initDateByString(dateString: "3030/01/01 00:00"), RememberDates: [], ForgetDates: [], CollectDates: [], ReviewDUEDates: [])
+            var vocabRecord: VocabularyRecord = VocabularyRecord.init(VocabRecId: "\(current_book_id)_\(cardWord.wordRank)", BookId: current_book_id, WordRank: cardWord.wordRank, LearnDates: [], ReviewDates: [], MasteredDate: initDateByString(dateString: "3030/01/01 00:00"), RememberDates: [], ForgetDates: [], CollectDate: nil, ReviewDUEDates: [])
             vocabRecordsOfCurrentLearning.append(vocabRecord)
             card_collect_behaviors.append(.no)
         }
@@ -177,29 +177,10 @@ class LearnWordViewController: UIViewController {
     
     @objc func moveCard() {
         if currentIndex >= words.count{
-            print(currentIndex)
-            let timeTxt: String = "用时:\(timeString(time: self.secondsPST))"
-            var rememberCnt:Int = 0
-            var trashCnt:Int = 0
-            var forgetCnt: Int = 0
-            
-            for cardBehavior in card_behaviors{
-                switch cardBehavior {
-                    case .forget:
-                        forgetCnt += 1
-                    case .remember:
-                        rememberCnt += 1
-                    case .trash:
-                        trashCnt += 1
-                    default:
-                        continue
-                }
-            }
-            
-            let learnSummaryTxt: String = "完全掌握:\(trashCnt)\n会了:\(rememberCnt)\n不熟:\(forgetCnt)"
+            saveLearningRecordsFromLearning()
             DispatchQueue.main.async {
                 self.dismiss(animated: true, completion: nil)
-                self.mainPanelViewController.loadLearnFinishController(timeTxt: timeTxt, summaryTxt: learnSummaryTxt)
+                self.mainPanelViewController.loadLearnFinishController()
             }
         }
         else if currentIndex < words.count - 1{
@@ -555,7 +536,7 @@ class LearnWordViewController: UIViewController {
         let cardCollectedBehaviorPrevious: CardCollectBehavior = card_collect_behaviors[currentIndex]
         if cardCollectedBehaviorPrevious == .no{
             card_collect_behaviors[currentIndex] = .yes
-            vocabRecordsOfCurrentLearning[currentIndex].CollectDates.append(Date())
+            vocabRecordsOfCurrentLearning[currentIndex].CollectDate = Date()
             DispatchQueue.main.async {
                 card.collectImageView.alpha = 1
                 self.enableBtns()
@@ -564,7 +545,7 @@ class LearnWordViewController: UIViewController {
         }
         else{
             card_collect_behaviors[currentIndex] = .no
-            vocabRecordsOfCurrentLearning[currentIndex].CollectDates.removeLast()
+            vocabRecordsOfCurrentLearning[currentIndex].CollectDate = nil
             DispatchQueue.main.async {
                 card.collectImageView.alpha = 0
                 self.enableBtns()

@@ -27,9 +27,9 @@ class LearnFinishViewController: UIViewController {
     @IBOutlet var goToReviewBtn: UIButton?
     override func viewDidLoad() {
         super.viewDidLoad()
-
         // Do any additional setup after loading the view.
     }
+    
     func setLabels(greeting: String, time: String, summary: String){
         DispatchQueue.main.async {
             self.greetingLabel?.text = greeting

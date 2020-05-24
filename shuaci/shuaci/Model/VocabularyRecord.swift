@@ -17,9 +17,9 @@ struct VocabularyRecord: Codable {
     var MasteredDate: Date
     var RememberDates: [Date]
     var ForgetDates: [Date]
-    var CollectDates: [Date]
+    var CollectDate: Date?
     var ReviewDUEDates: [Date]
-    init(VocabRecId: String, BookId: String, WordRank: Int, LearnDates: [Date], ReviewDates: [Date], MasteredDate: Date, RememberDates: [Date], ForgetDates: [Date], CollectDates: [Date], ReviewDUEDates :[Date] ) {
+    init(VocabRecId: String, BookId: String, WordRank: Int, LearnDates: [Date], ReviewDates: [Date], MasteredDate: Date, RememberDates: [Date], ForgetDates: [Date], CollectDate: Date?, ReviewDUEDates :[Date] ) {
         
         self.VocabRecId = VocabRecId
         self.BookId = BookId
@@ -29,7 +29,7 @@ struct VocabularyRecord: Codable {
         self.MasteredDate = MasteredDate
         self.RememberDates  = RememberDates
         self.ForgetDates = ForgetDates
-        self.CollectDates = CollectDates
+        self.CollectDate = CollectDate
         self.ReviewDUEDates = ReviewDUEDates
     }
 }

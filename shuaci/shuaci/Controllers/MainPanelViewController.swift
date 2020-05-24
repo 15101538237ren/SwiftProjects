@@ -306,12 +306,10 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
         }
     }
     
-    func loadLearnFinishController(timeTxt: String, summaryTxt: String){
+    func loadLearnFinishController(){
         let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Learning", bundle:nil)
         let learnFinishVC = mainStoryBoard.instantiateViewController(withIdentifier: "learnFinishController") as! LearnFinishViewController
         learnFinishVC.modalPresentationStyle = .fullScreen
-        learnFinishVC.setLabels(greeting: "恭喜你🎉，完成学习!", time: timeTxt, summary: summaryTxt)
-        
         DispatchQueue.main.async {
             self.present(learnFinishVC, animated: true, completion: nil)
         }

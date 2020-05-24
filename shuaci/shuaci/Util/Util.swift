@@ -175,7 +175,31 @@ func loadPhoto(name_of_photo: String) -> UIImage?{
 func isKeyPresentInUserDefaults(key: String) -> Bool {
     return UserDefaults.standard.object(forKey: key) != nil
 }
+func initNewLearningRec() -> LearningRecord{
+    return LearningRecord.init(StartDate: Date(), EndDate: Date(), VocabRecIds: [])
+}
+var currentLearningRec: LearningRecord = initNewLearningRec()
 
+
+
+func saveLearningRecordsFromLearning() {
+    //Save learnt records
+    GlobalVocabRecords.append(contentsOf: vocabRecordsOfCurrentLearning)
+    saveVocabRecordsLocally()
+    GlobalLearningRecords.append(currentLearningRec)
+    saveLearningRecordsLocally()
+    UserDefaults.standard.set(true, forKey: "uploadFailed")
+}
+
+func clearVocabRecordsOfCurrentLearning(){
+    vocabRecordsOfCurrentLearning = []
+}
+
+func saveRecordsLocally(){
+    saveVocabRecordsLocally()
+    saveReviewRecordsLocally()
+    saveLearningRecordsLocally()
+}
 
 func uploadRecordsIfNeeded(){
     let uploadFailedKey = "uploadFailed"
@@ -185,8 +209,6 @@ func uploadRecordsIfNeeded(){
             if isKeyPresentInUserDefaults(key: uploadFailedKey){
                 let uploadfailed:Bool = UserDefaults.standard.bool(forKey: uploadFailedKey)
                 if uploadfailed == true{
-                    let collectedRecords = loadCollectedRecords()
-                    saveCollectedRecordsToCloud(collectedRecords: collectedRecords, username: username.stringValue!)
                     let reviewRecords = loadReviewRecords()
                     saveReviewRecordsToClould(reviewRecord: reviewRecords, username: username.stringValue!)
                     let vocabRecords = loadVocabRecords()
@@ -305,7 +327,6 @@ func saveStringTo(fileName: String, jsonStr: String){
     }
 }
 
-var GlobalCollectedRecords:[CollectedRecord] = []
 var GlobalReviewRecords:[ReviewRecord] = []
 var GlobalVocabRecords:[VocabularyRecord] = []
 var GlobalLearningRecords:[LearningRecord] = []
@@ -322,7 +343,6 @@ func getDefaultFilePath(fileName: String) -> String?{
     return nil
 }
 
-let collectedRecordJsonFp = "collectedRecord.json"
 let reviewRecordJsonFp = "reviewRecord.json"
 let vocabRecordJsonFp = "vocabRecord.json"
 let learningRecordJsonFp = "learningRecord.json"
@@ -441,36 +461,6 @@ func getWordPronounceURL(word: String) -> URL?{
 func syncRecords(){
     if let user = LCApplication.default.currentUser {
         if let userName = user.get("username"){
-            if let collectedRecordpath = getDefaultFilePath(fileName: collectedRecordJsonFp)
-            {
-                if !FileManager.default.fileExists(atPath: collectedRecordpath) {
-                    if Reachability.isConnectedToNetwork(){
-                        DispatchQueue.global(qos: .background).async {
-                         do {
-                             let collectedQuery = LCQuery(className: "CollectedRecord")
-                             collectedQuery.whereKey("username", .equalTo(userName))
-                             _ = collectedQuery.find { result in
-                                         switch result {
-                                         case .success(objects: let collectedRecords):
-                                             if collectedRecords.count > 0
-                                             {
-                                                 if let jsonStr = collectedRecords[0].get("jsonStr")?.stringValue{
-                                                     saveStringTo(fileName: collectedRecordJsonFp, jsonStr: jsonStr)
-                                                     GlobalCollectedRecords = loadCollectedRecords()
-                                                 }
-                                             }
-                                             
-                                             break
-                                         case .failure(error: let error):
-                                             print(error)
-                                     }
-                             }
-                         }
-                        }
-                    }
-                    
-                }
-            }
             if let reviewRecordpath = getDefaultFilePath(fileName: reviewRecordJsonFp)
             {
                 if !FileManager.default.fileExists(atPath: reviewRecordpath) {
@@ -560,66 +550,6 @@ func syncRecords(){
             }
         }
     }
-}
-
-func loadCollectedRecords() -> [CollectedRecord]{
-    do {
-        let fileURL = try FileManager.default
-            .url(for: .applicationSupportDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
-            .appendingPathComponent(collectedRecordJsonFp)
-        let fileManager = FileManager.default
-        if fileManager.fileExists(atPath: fileURL.path) {
-            let data = try Data(contentsOf: fileURL, options: .mappedIfSafe)
-            let collectedRecords = try decoder.decode([CollectedRecord].self, from: data)
-            return collectedRecords
-        }
-    } catch {
-        print(error.localizedDescription)
-    }
-    
-    let collectedRecords: [CollectedRecord] =  []
-    return collectedRecords
-}
-func saveCollectedRecordsLocally(){
-    do {
-        let jsonData = try! JSONEncoder().encode(GlobalCollectedRecords)
-        let jsonString = String(data: jsonData, encoding: .utf8)!
-        saveStringTo(fileName: collectedRecordJsonFp, jsonStr: jsonString)
-    } catch {
-        print(error.localizedDescription)
-    }
-}
-
-func saveCollectedRecordsToCloud(collectedRecords: [CollectedRecord], username: String){
-    if Reachability.isConnectedToNetwork(){
-       DispatchQueue.global(qos: .background).async {
-       do {
-           let jsonData = try! JSONEncoder().encode(collectedRecords)
-           let jsonString = String(data: jsonData, encoding: .utf8)!
-           // 构建对象
-           let collectedRecordsObj = LCObject(className: "CollectedRecord")
-
-           // 为属性赋值
-           try collectedRecordsObj.set("username", value: username)
-           try collectedRecordsObj.set("jsonStr", value: jsonString)
-
-           // 将对象保存到云端
-           _ = collectedRecordsObj.save { result in
-               switch result {
-               case .success:
-                   // 成功保存之后，执行其他逻辑
-                   print("CollectedRecord saved successfully ")
-                   break
-               case .failure(error: let error):
-                   // 异常处理
-                   print(error)
-               }
-           }
-       } catch {
-           print(error.localizedDescription)
-           }}
-    }
-    
 }
 
 func loadReviewRecords() -> [ReviewRecord]{
@@ -791,6 +721,7 @@ func saveLearningRecordsToClould(learningRecord: [LearningRecord], username: Str
                case .success:
                    // 成功保存之后，执行其他逻辑
                    print("LearningRecord saved successfully ")
+                   UserDefaults.standard.set(false, forKey: "uploadFailed")
                    break
                case .failure(error: let error):
                    // 异常处理
