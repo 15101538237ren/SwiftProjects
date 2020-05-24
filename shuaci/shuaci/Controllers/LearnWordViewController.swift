@@ -53,19 +53,22 @@ class LearnWordViewController: UIViewController {
     }
     
     @objc func relayout(){
-        let word = words[currentIndex % words.count]
-        let cardWord = getFeildsOfWord(word: word, usphone: getUSPhone())
-        let card: CardUIView = cards[currentIndex % 2]
-        DispatchQueue.main.async {
-            if cardWord.memMethod != ""{
-                card.wordLabel_Top_Space_Constraint.constant = 130
-                card.memMethodLabel?.alpha = 1
-            }
-            else{
-                card.wordLabel_Top_Space_Constraint.constant = 180
-                card.memMethodLabel?.alpha = 0
+        for index in [currentIndex, currentIndex+1]{
+            let word = words[index % words.count]
+            let cardWord = getFeildsOfWord(word: word, usphone: getUSPhone())
+            let card: CardUIView = cards[index % 2]
+            DispatchQueue.main.async {
+                if cardWord.memMethod != ""{
+                    card.wordLabel_Top_Space_Constraint.constant = 130
+                    card.memMethodLabel?.alpha = 1
+                }
+                else{
+                    card.wordLabel_Top_Space_Constraint.constant = 180
+                    card.memMethodLabel?.alpha = 0
+                }
             }
         }
+        
     }
     
     override func viewWillAppear(_ animated: Bool){
