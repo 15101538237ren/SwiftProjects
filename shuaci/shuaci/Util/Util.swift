@@ -30,7 +30,7 @@ var current_book_id:String = "Level4_1"
 var non_network_preseted = false
 var npw_key = "number_of_word_per_day"
 var vocabRecordsOfCurrentLearning:[VocabularyRecord] = []
-
+var emojiListForLearnFinished:[String] = ["😎", "🤗", "😁", "🥳", "🎉", "✌️"]
 let categories:[Int: [String: [Int: String]]] = [ 0: ["category": [0:"全部"], "subcategory": [0:"全部"]],
     1 : ["category":  [0:"出国"], "subcategory": [0:"全部", 1: "雅思", 2: "托福", 3: "GRE", 4: "SAT", 5: "GMAT", 6: "MBA", 7: "其他"]],
     2: ["category": [0:"高中"], "subcategory": [0:"全部", 1: "考纲核心", 2: "人教版", 3: "外研社版", 4: "北师大版", 5: "牛津译林版", 6: "牛津上海版", 7: "其他"]],
@@ -180,6 +180,13 @@ func initNewLearningRec() -> LearningRecord{
 }
 var currentLearningRec: LearningRecord = initNewLearningRec()
 
+func getVocabIdsFromVocabRecords(VocabRecords: [VocabularyRecord]) -> [String]{
+    var VocabIds:[String] = []
+    for VocabRecord in VocabRecords{
+        VocabIds.append(VocabRecord.VocabRecId)
+    }
+    return VocabIds
+}
 
 
 func saveLearningRecordsFromLearning() {
@@ -189,6 +196,7 @@ func saveLearningRecordsFromLearning() {
     GlobalLearningRecords.append(currentLearningRec)
     saveLearningRecordsLocally()
     UserDefaults.standard.set(true, forKey: "uploadFailed")
+    uploadRecordsIfNeeded()
 }
 
 func clearVocabRecordsOfCurrentLearning(){
@@ -327,9 +335,6 @@ func saveStringTo(fileName: String, jsonStr: String){
     }
 }
 
-var GlobalReviewRecords:[ReviewRecord] = []
-var GlobalVocabRecords:[VocabularyRecord] = []
-var GlobalLearningRecords:[LearningRecord] = []
 
 func getDefaultFilePath(fileName: String) -> String?{
     do {
@@ -569,7 +574,7 @@ func loadReviewRecords() -> [ReviewRecord]{
     return reviewRecords
 }
 
-
+var GlobalReviewRecords:[ReviewRecord] = loadReviewRecords()
 func saveReviewRecordsLocally(){
     do {
         let jsonData = try! JSONEncoder().encode(GlobalReviewRecords)
@@ -631,6 +636,7 @@ func loadVocabRecords() -> [VocabularyRecord] {
     return vocabRecords
 }
 
+var GlobalVocabRecords:[VocabularyRecord] = loadVocabRecords()
 func saveVocabRecordsLocally(){
     do {
         let jsonData = try! JSONEncoder().encode(GlobalVocabRecords)
@@ -690,6 +696,8 @@ func loadLearningRecords() -> [LearningRecord]{
     let learningRecord: [LearningRecord] =  []
     return learningRecord
 }
+
+var GlobalLearningRecords:[LearningRecord] = loadLearningRecords()
 
 func saveLearningRecordsLocally(){
     do {

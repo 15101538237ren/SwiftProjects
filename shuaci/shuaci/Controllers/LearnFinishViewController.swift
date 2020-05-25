@@ -9,34 +9,26 @@
 import UIKit
 
 class LearnFinishViewController: UIViewController {
-    @IBOutlet var greetingLabel: UILabel?{
-        didSet {
-            greetingLabel?.numberOfLines = 0
-        }
-    }
-    @IBOutlet var learnTimeLabel: UILabel?{
-        didSet {
-            learnTimeLabel?.numberOfLines = 0
-        }
-    }
-    @IBOutlet var learnSummaryLabel: UILabel?{
-        didSet {
-            learnSummaryLabel?.numberOfLines = 0
-        }
-    }
-    @IBOutlet var goToReviewBtn: UIButton?
+    
+    @IBOutlet var emojiImageView: UIImageView!
+    @IBOutlet var greetingLabel: UILabel!
+    @IBOutlet var tableView: UITableView!
+    @IBOutlet var goReviewBtn: UIButton!
+    @IBOutlet var learnMoreBtn: UIButton!
+    
     override func viewDidLoad() {
+        view.backgroundColor = UIColor(red: 238, green: 241, blue: 245, alpha: 1.0)
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        setUpView()
     }
     
-    func setLabels(greeting: String, time: String, summary: String){
+    func setUpView(){
         DispatchQueue.main.async {
-            self.greetingLabel?.text = greeting
-            self.learnTimeLabel?.text = time
-            self.learnSummaryLabel?.text = summary
+            self.emojiImageView.image = emojiListForLearnFinished[Int.random(in: 0..<emojiListForLearnFinished.count)].image(width: 72.0, height: 72.0)
+            self.greetingLabel.text = "真棒，你又学习了\(vocabRecordsOfCurrentLearning.count)个单词!"
         }
     }
+    
     @IBAction func unwind(segue: UIStoryboardSegue) {
         self.dismiss(animated: true, completion: nil)
     }

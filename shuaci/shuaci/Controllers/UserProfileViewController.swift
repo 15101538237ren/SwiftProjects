@@ -26,7 +26,7 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
     
     override func viewDidLoad() {
        self.modalPresentationStyle = .overCurrentContext
-        view.backgroundColor = UIColor.init(red: 255, green: 255, blue: 255, alpha: 1.0)
+       view.backgroundColor = UIColor(red: 238, green: 241, blue: 245, alpha: 1.0)
         view.isOpaque = false
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         navigationController?.navigationBar.shadowImage = UIImage()

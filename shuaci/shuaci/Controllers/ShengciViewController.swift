@@ -11,6 +11,7 @@ import UIKit
 class ShengciViewController: UIViewController {
 
     override func viewDidLoad() {
+        view.backgroundColor = UIColor(red: 238, green: 241, blue: 245, alpha: 1.0)
         super.viewDidLoad()
         // Do any additional setup after loading the view.
     }

@@ -26,37 +26,58 @@ class MainScreenViewController: UIViewController {
     var scaleOfSecondCard:CGFloat = 0.9
     var currentIndex:Int = 0
     let animationDuration = 0.1
-    var words: [Word] = [
-        Word(wordHead: "sea", trans: [["tranCn":"n.海；海洋", "pos": "n"]], usphone: "siː", ukphone: "siː", usspeech: "sea_0", ukspeech: "sea_1", remMethod: "", relWords: [], phrases: [["pContent":"china sea", "pCn": "中国海"]], synoWords: [["pos": ["n"], "tran":["n.海；海洋；许多；大量"], "hwds":["ocean", "lots of", "wealth"]]], sentences: [["sContent": "Sea and sky seemed to blend.", "sCn": "大海和蓝天似乎相融合。"]]),
-        Word(wordHead: "beach", trans: [["tranCn":"n.海滩，沙滩", "tranOther":"an area of sand or small stones at the edge of the sea or a lake", "pos":"n"]], usphone: "bitʃ", ukphone: "biːtʃ", usspeech: "beach_0", ukspeech: "beach_1", remMethod: "pharma (药) + cy (学科) → 药剂学", relWords: [], phrases:  [["pContent":"china sea", "pCn": "中国海"]], synoWords: [["pos": ["n"], "tran":["n. [海洋][地理]海；海洋；许多；大量"], "hwds":["ocean", "lots of", "wealth"]]], sentences: [["sContent": "Sea and sky seemed to blend.", "sCn": "大海和蓝天似乎相融合。"]]),
-        Word(wordHead: "Paris", trans: [["tranCn":"n.巴黎","pos":"n"]], usphone: "'pærɪs", ukphone: "'pærɪs", usspeech: "Paris_0", ukspeech: "Paris_1", remMethod: "pharma (药) + cy (学科) → 药剂学", relWords: [], phrases:  [["pContent":"china sea", "pCn": "中国海"]], synoWords: [["pos": ["n"], "tran":["n. [海洋][地理]海；海洋；许多；大量"], "hwds":["ocean", "lots of", "wealth"]]], sentences: [["sContent": "Sea and sky seemed to blend.", "sCn": "大海和蓝天似乎相融合。"]]),
-        Word(wordHead: "aurora", trans: [["tranCn":"n.极光；曙光","pos":"n"]], usphone: "ɔ:'rɔ:rə", ukphone: "ɔ:'rɔ:rə", usspeech: "aurora_0", ukspeech: "aurora_1", remMethod: "pharma (药) + cy (学科) → 药剂学", relWords: [], phrases:  [["pContent":"china sea", "pCn": "中国海"]], synoWords: [["pos": ["n"], "tran":["n. [海洋][地理]海；海洋；许多；大量"], "hwds":["ocean", "lots of", "wealth"]]], sentences: [["sContent": "Sea and sky seemed to blend.", "sCn": "大海和蓝天似乎相融合。"]]),
-        Word(wordHead: "pharmacy", trans: [["tranCn":"n.药房；药学；制药业", "tranOther":"a shop or a part of a shop where medicines are prepared and sold", "pos":"n"]], usphone: "'fɑrməsi", ukphone: "'fɑːməsɪ", usspeech: "pharmacy_0", ukspeech: "pharmacy_1", remMethod: "pharma (药) + cy (学科) → 药剂学", relWords: [], phrases:  [["pContent":"china sea", "pCn": "中国海"]], synoWords: [["pos": ["n"], "tran":["n. [海洋][地理]海；海洋；许多；大量"], "hwds":["ocean", "lots of", "wealth"]]], sentences: [["sContent": "Sea and sky seemed to blend.", "sCn": "大海和蓝天似乎相融合。"]])]
     
-    
+    var cardWords:[CardWord] = [CardWord.init(wordRank: 1, headWord: "sea", meaning: "n.海；海洋", phone: "siː", speech: "sea_0", accent: "美", memMethod: ""),
+                                CardWord.init(wordRank: 2, headWord: "beach", meaning: "n.海滩，沙滩", phone: "bitʃ", speech: "beach_0", accent: "美", memMethod: ""),
+                                CardWord.init(wordRank: 3, headWord: "Paris", meaning: "n.巴黎", phone: "'pærɪs", speech: "Paris_0", accent: "美", memMethod: ""),
+                                CardWord.init(wordRank: 4, headWord: "aurora", meaning: "n.极光；曙光", phone: "ɔ:'rɔ:rə", speech: "aurora_0", accent: "美", memMethod: "")]
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = UIColor(red: 238, green: 241, blue: 245, alpha: 1.0)
         initCards()
         let card = cards[0]
         let xshift:CGFloat = card.frame.size.width/8.0
         card.transform = CGAffineTransform(translationX: -xshift, y:0.0).rotated(by: -xshift*0.61/card.center.x)
     }
+    
+    func setFieldsOfCard(card: CardUIView, cardWord: CardWord){
+        card.wordLabel?.text = cardWord.headWord
+        DispatchQueue.main.async {
+            if cardWord.headWord.count >= 12{
+                card.wordLabel?.font = card.wordLabel?.font.withSize(40.0)
+            }else{
+                card.wordLabel?.font = card.wordLabel?.font.withSize(45.0)
+            }
+            
+            card.meaningLabel?.text = cardWord.meaning
+            card.speech? = cardWord.speech
+            if cardWord.memMethod != ""{
+                card.wordLabel_Top_Space_Constraint.constant = 130
+                card.memMethodLabel?.alpha = 1
+                card.memMethodLabel?.text = "记: \(cardWord.memMethod)"
+            }
+            else{
+                card.wordLabel_Top_Space_Constraint.constant = 180
+                card.memMethodLabel?.alpha = 0
+            }
+        }
+    }
+    
     func initCards() {
         for index in 0..<cards.count
         {
-            let card = cards[index]
-            let word = words[index % words.count]
-            card.cardImageView?.image = UIImage(named: word.wordHead)
-            card.wordLabel?.text = word.wordHead
-            card.meaningLabel?.text = word.trans[0]["tranCn"]!
-            card.rememberImageView?.backgroundColor = UIColor.systemGreen
-            card.rememberImageView?.alpha = 0
-            card.rememberLabel?.text = "会了"
-            card.rememberLabel?.alpha = 0
-            card.speech? = word.usspeech
+            let card = cards[index % cards.count]
+            card.center = CGPoint(x: view.center.x, y: view.center.y)
+            let cardWord = cardWords[index % cardWords.count]
+            setFieldsOfCard(card: card, cardWord: cardWord)
             if index == 1
             {
                 card.transform = CGAffineTransform(scaleX: scaleOfSecondCard, y: scaleOfSecondCard)
+            }else{
+                let word: String = card.wordLabel?.text ?? ""
+                if let mp3_url = getWordPronounceURL(word: word){
+                    playMp3(url: mp3_url)
+                }
             }
         }
     }
@@ -163,15 +184,30 @@ class MainScreenViewController: UIViewController {
         card.transform = .identity
     }
     
-    func playMp3(filename: String)
+    func playMp3(url: URL)
     {
-        guard let url = Bundle.main.url(forResource: filename, withExtension: "mp3") else { return }
-        do {
-            mp3Player = try AVAudioPlayer(contentsOf: url)
-            mp3Player?.play()
-        } catch {
-            print("couldn't load file :( \(url)")
+        if Reachability.isConnectedToNetwork(){
+            DispatchQueue.global(qos: .background).async {
+            do {
+                var downloadTask: URLSessionDownloadTask
+                downloadTask = URLSession.shared.downloadTask(with: url, completionHandler: { (urlhere, response, error) -> Void in
+                do {
+                    self.mp3Player = try AVAudioPlayer(contentsOf: urlhere!)
+                    self.mp3Player?.play()
+                } catch {
+                    print("couldn't load file :( \(urlhere)")
+                }
+            })
+                downloadTask.resume()
+            }}
+        }else{
+            let alertCtl = presentNoNetworkAlert()
+            if non_network_preseted == false{
+                self.present(alertCtl, animated: true, completion: nil)
+                non_network_preseted = true
+            }
         }
+        
     }
     
     @IBAction func playAudio(_ sender: UIButton) {

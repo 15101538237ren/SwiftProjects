@@ -49,7 +49,9 @@ class LearnWordViewController: UIViewController {
     }
     
     override func viewDidLoad() {
+        view.backgroundColor = UIColor(red: 238, green: 241, blue: 245, alpha: 1.0)
         super.viewDidLoad()
+        currentLearningRec.StartDate = Date()
     }
     
     @objc func relayout(){
@@ -175,8 +177,11 @@ class LearnWordViewController: UIViewController {
         }
     }
     
+    
     @objc func moveCard() {
         if currentIndex >= words.count{
+            currentLearningRec.EndDate = Date()
+            currentLearningRec.VocabRecIds = getVocabIdsFromVocabRecords(VocabRecords: vocabRecordsOfCurrentLearning)
             saveLearningRecordsFromLearning()
             DispatchQueue.main.async {
                 self.dismiss(animated: true, completion: nil)

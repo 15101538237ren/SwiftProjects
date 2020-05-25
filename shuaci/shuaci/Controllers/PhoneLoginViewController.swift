@@ -192,6 +192,7 @@ class PhoneLoginViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = UIColor(red: 238, green: 241, blue: 245, alpha: 1.0)
         disableLoginBtn()
         disableVerificationBtn(first: true)
         

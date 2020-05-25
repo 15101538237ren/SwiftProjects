@@ -217,6 +217,7 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = UIColor(red: 238, green: 241, blue: 245, alpha: 1.0)
         category_items = [0:"全部"]
         currentSelectedCategory = 0
         currentSelectedSubCategory = 0
