@@ -33,7 +33,6 @@ class MainScreenViewController: UIViewController {
                                 CardWord.init(wordRank: 4, headWord: "aurora", meaning: "n.极光；曙光", phone: "ɔ:'rɔ:rə", speech: "aurora_0", accent: "美", memMethod: "")]
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor(red: 238, green: 241, blue: 245, alpha: 1.0)
         initCards()
         let card = cards[0]
         let xshift:CGFloat = card.frame.size.width/8.0
@@ -41,8 +40,8 @@ class MainScreenViewController: UIViewController {
     }
     
     func setFieldsOfCard(card: CardUIView, cardWord: CardWord){
-        card.wordLabel?.text = cardWord.headWord
         DispatchQueue.main.async {
+            card.wordLabel?.text = cardWord.headWord
             if cardWord.headWord.count >= 12{
                 card.wordLabel?.font = card.wordLabel?.font.withSize(40.0)
             }else{
@@ -57,7 +56,7 @@ class MainScreenViewController: UIViewController {
                 card.memMethodLabel?.text = "记: \(cardWord.memMethod)"
             }
             else{
-                card.wordLabel_Top_Space_Constraint.constant = 180
+                card.wordLabel_Top_Space_Constraint.constant = 150
                 card.memMethodLabel?.alpha = 0
             }
             card.cardImageView?.image = UIImage(named: cardWord.headWord)
@@ -73,6 +72,8 @@ class MainScreenViewController: UIViewController {
         card.rememberImageView?.alpha = 0
         card.rememberLabel?.text = ""
         card.rememberLabel?.alpha = 0
+        card.memMethodLabel?.text = ""
+        card.memMethodLabel?.alpha = 0
         card.layer.removeAllAnimations()
         card.transform = CGAffineTransform.identity.scaledBy(x: scaleOfSecondCard, y: scaleOfSecondCard)
         card.center = CGPoint(x: view.center.x, y: view.center.y)
@@ -210,8 +211,7 @@ class MainScreenViewController: UIViewController {
     
     @IBAction func playAudio(_ sender: UIButton) {
         if Reachability.isConnectedToNetwork(){
-            let word = words[currentIndex % words.count]
-            let cardWord = getFeildsOfWord(word: word, usphone: getUSPhone())
+            let cardWord = cardWords[currentIndex % cardWords.count]
             let wordStr: String = cardWord.headWord
             if let mp3_url = getWordPronounceURL(word: wordStr){
                 playMp3(url: mp3_url)

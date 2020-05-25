@@ -24,7 +24,6 @@ class LearnFinishViewController: UIViewController {
     
     func setUpView(){
         DispatchQueue.main.async {
-            self.emojiImageView.image = emojiListForLearnFinished[Int.random(in: 0..<emojiListForLearnFinished.count)].image(width: 72.0, height: 72.0)
             self.greetingLabel.text = "真棒，你又学习了\(vocabRecordsOfCurrentLearning.count)个单词!"
         }
     }
