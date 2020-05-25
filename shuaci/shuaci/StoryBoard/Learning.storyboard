@@ -475,25 +475,28 @@
                                 </constraints>
                             </imageView>
                             <stackView opaque="NO" contentMode="scaleToFill" spacing="50" translatesAutoresizingMaskIntoConstraints="NO" id="gBE-9D-jJl">
-                                <rect key="frame" x="32" y="815" width="350" height="55"/>
+                                <rect key="frame" x="62" y="815" width="290" height="55"/>
                                 <subviews>
                                     <button opaque="NO" alpha="0.80000001192092896" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="66w-X7-t98">
-                                        <rect key="frame" x="0.0" y="0.0" width="150" height="55"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="120" height="55"/>
                                         <color key="backgroundColor" systemColor="systemBlueColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="150" id="2ea-w1-Fan"/>
+                                            <constraint firstAttribute="width" constant="120" id="2ea-w1-Fan"/>
                                             <constraint firstAttribute="height" constant="55" id="At3-lq-Z83"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" name="PingFangSC-Medium" family="PingFang SC" pointSize="19"/>
                                         <state key="normal" title="再学一组">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
+                                        <connections>
+                                            <action selector="learnOneMoreGroup:" destination="H5L-u1-NXO" eventType="touchUpInside" id="9of-CD-mt6"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" alpha="0.80000001192092896" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AQR-z1-VHT">
-                                        <rect key="frame" x="200" y="0.0" width="150" height="55"/>
+                                        <rect key="frame" x="170" y="0.0" width="120" height="55"/>
                                         <color key="backgroundColor" systemColor="systemOrangeColor" red="1" green="0.58431372550000005" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="150" id="fxy-Jz-8o5"/>
+                                            <constraint firstAttribute="width" constant="120" id="fxy-Jz-8o5"/>
                                             <constraint firstAttribute="height" constant="55" id="pxn-kQ-hOQ"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" name="PingFangSC-Medium" family="PingFang SC" pointSize="19"/>

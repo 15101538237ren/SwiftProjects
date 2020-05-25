@@ -201,7 +201,8 @@ class LearnWordViewController: UIViewController {
             enableBtns()
         }
         else{
-            return
+            self.updateProgressLabel(index: self.currentIndex)
+            enableBtns()
         }
     }
     

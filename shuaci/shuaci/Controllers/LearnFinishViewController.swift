@@ -10,6 +10,7 @@ import UIKit
 
 class LearnFinishViewController: UIViewController {
     
+    @IBOutlet var mainPanelViewController: MainPanelViewController!
     @IBOutlet var emojiImageView: UIImageView!
     @IBOutlet var greetingLabel: UILabel!
     @IBOutlet var tableView: UITableView!
@@ -17,7 +18,6 @@ class LearnFinishViewController: UIViewController {
     @IBOutlet var learnMoreBtn: UIButton!
     
     override func viewDidLoad() {
-        view.backgroundColor = UIColor(red: 238, green: 241, blue: 245, alpha: 1.0)
         super.viewDidLoad()
         setUpView()
     }
@@ -30,6 +30,13 @@ class LearnFinishViewController: UIViewController {
     
     @IBAction func unwind(segue: UIStoryboardSegue) {
         self.dismiss(animated: true, completion: nil)
+        
     }
-
+    @IBAction func learnOneMoreGroup(_ sender: UIButton) {
+        DispatchQueue.main.async {
+            self.dismiss(animated: false, completion: nil)
+            self.mainPanelViewController.loadLearnController()
+        }
+    }
+    
 }

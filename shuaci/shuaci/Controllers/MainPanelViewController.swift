@@ -311,6 +311,7 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
     func loadLearnFinishController(){
         let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Learning", bundle:nil)
         let learnFinishVC = mainStoryBoard.instantiateViewController(withIdentifier: "learnFinishController") as! LearnFinishViewController
+        learnFinishVC.mainPanelViewController = self
         learnFinishVC.modalPresentationStyle = .fullScreen
         DispatchQueue.main.async {
             self.present(learnFinishVC, animated: true, completion: nil)
