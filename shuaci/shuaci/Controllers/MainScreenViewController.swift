@@ -60,7 +60,23 @@ class MainScreenViewController: UIViewController {
                 card.wordLabel_Top_Space_Constraint.constant = 180
                 card.memMethodLabel?.alpha = 0
             }
+            card.cardImageView?.image = UIImage(named: cardWord.headWord)
         }
+    }
+    
+    func resetCard(card: CardUIView)
+    {
+        card.X_Constraint.constant = 0
+        card.Y_Constraint.constant = 0
+        card.rememberImageView?.backgroundColor = UIColor.white
+        card.cardImageView?.image = UIImage()
+        card.rememberImageView?.alpha = 0
+        card.rememberLabel?.text = ""
+        card.rememberLabel?.alpha = 0
+        card.layer.removeAllAnimations()
+        card.transform = CGAffineTransform.identity.scaledBy(x: scaleOfSecondCard, y: scaleOfSecondCard)
+        card.center = CGPoint(x: view.center.x, y: view.center.y)
+        card.alpha = 1
     }
     
     func initCards() {
@@ -81,25 +97,13 @@ class MainScreenViewController: UIViewController {
             }
         }
     }
+    
     @objc func moveCard() {
         let card = cards[(currentIndex + 1) % 2]
-        let word = words[(currentIndex + 1) % words.count]
-        
-        card.cardImageView?.image = UIImage(named: word.wordHead)
-        card.wordLabel?.text = word.wordHead
-        card.meaningLabel?.text = word.trans[0]["tranCn"]!
-        card.rememberImageView?.backgroundColor = UIColor.white
-        card.rememberImageView?.alpha = 0
-        card.rememberLabel?.text = ""
-        card.rememberLabel?.alpha = 0
-        card.X_Constraint.constant = 0
-        card.Y_Constraint.constant = 0
-        card.speech? = word.usspeech
-        card.layer.removeAllAnimations()
-        card.transform = CGAffineTransform.identity.scaledBy(x: scaleOfSecondCard, y: scaleOfSecondCard)
-        card.center = CGPoint(x: view.center.x, y: view.center.y)
+        let cardWord = cardWords[(currentIndex + 1) % cardWords.count]
+        setFieldsOfCard(card: card, cardWord: cardWord)
         mainScreenUIView.bringSubviewToFront(cards[currentIndex % 2])
-        card.alpha = 1
+        resetCard(card: card)
     }
     
     @IBAction func panCard(_ sender: UIPanGestureRecognizer) {
@@ -124,7 +128,7 @@ class MainScreenViewController: UIViewController {
             card.rememberImageView?.backgroundColor = UIColor.systemGreen
             card.rememberLabel?.text = "会了"
         }
-        card.rememberImageView?.alpha = 0.3 + (abs(xFromCenter) / view.center.x) * 0.6
+        card.rememberImageView?.alpha = 0.6 + (abs(xFromCenter) / view.center.x) * 0.4
         card.rememberLabel?.alpha = 1.0
         card.transform = CGAffineTransform(rotationAngle: 0.61 * xFromCenter / view.center.x).scaledBy(x: scale, y: scale)
         let nextCard = cards[(currentIndex + 1) % 2]
@@ -144,7 +148,10 @@ class MainScreenViewController: UIViewController {
                     
                 })
                 sender.view!.frame = card.frame
-                playMp3(filename: words[(currentIndex + 1) % words.count].usspeech)
+                let word: String = nextCard.wordLabel?.text ?? ""
+                if let mp3_url = getWordPronounceURL(word: word){
+                    playMp3(url: mp3_url)
+                }
                 UIView.animate(withDuration: animationDuration, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 5, options: .curveEaseInOut, animations: {
                     nextCard.transform = .identity
                 })
@@ -162,7 +169,10 @@ class MainScreenViewController: UIViewController {
                     card.alpha = 0
                 })
                 sender.view!.frame = card.frame
-                playMp3(filename: words[(currentIndex + 1) % words.count].usspeech)
+                let word: String = nextCard.wordLabel?.text ?? ""
+                if let mp3_url = getWordPronounceURL(word: word){
+                    playMp3(url: mp3_url)
+                }
                 self.currentIndex += 1
                 perform(#selector(moveCard), with: nil, afterDelay: animationDuration)
                 return
@@ -170,19 +180,7 @@ class MainScreenViewController: UIViewController {
             resetCard(card: card)
         }
     }
-    func resetCard(card: CardUIView)
-    {
-        UIView.animate(withDuration: 0.2, animations:
-        {
-            card.center = self.view.center
-            card.alpha = 1
-        })
-        card.X_Constraint.constant = 0
-        card.Y_Constraint.constant = 0
-        card.rememberImageView?.alpha = 0
-        card.rememberLabel?.alpha = 0.0
-        card.transform = .identity
-    }
+    
     
     func playMp3(url: URL)
     {
@@ -211,16 +209,21 @@ class MainScreenViewController: UIViewController {
     }
     
     @IBAction func playAudio(_ sender: UIButton) {
-        guard let url = Bundle.main.url(forResource: words[currentIndex % words.count].usspeech, withExtension: "mp3") else { return }
-        do {
-            try AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category.playback)
-            try AVAudioSession.sharedInstance().setActive(true)
-            audioPlayer = try AVAudioPlayer(contentsOf: url)
-            audioPlayer?.play()
-        } catch {
-            print("couldn't load file :( \(url)")
-            //
+        if Reachability.isConnectedToNetwork(){
+            let word = words[currentIndex % words.count]
+            let cardWord = getFeildsOfWord(word: word, usphone: getUSPhone())
+            let wordStr: String = cardWord.headWord
+            if let mp3_url = getWordPronounceURL(word: wordStr){
+                playMp3(url: mp3_url)
+            }
+        }else{
+            let alertCtl = presentNoNetworkAlert()
+            if non_network_preseted == false{
+                self.present(alertCtl, animated: true, completion: nil)
+                non_network_preseted = true
+            }
         }
+        
     }
     
 }
