@@ -27,7 +27,7 @@ class LearnWordViewController: UIViewController {
     var secondsPST:Int = 0 // number of seconds past after load
     @IBOutlet var timeLabel: UILabel!
     @IBOutlet var progressLabel: UILabel!
-    
+    var isCardBack: Bool = false //whether the card is front or back end
     var audioPlayer: AVAudioPlayer?
     var mp3Player: AVAudioPlayer?
     var scaleOfSecondCard:CGFloat = 0.9
@@ -106,7 +106,25 @@ class LearnWordViewController: UIViewController {
         }
     }
     
-    
+    @IBAction func flipCard(_ sender: Any) {
+        let card = cards[currentIndex % 2]
+        if isCardBack {
+            isCardBack = false
+            var theme_category  = 1
+            if isKeyPresentInUserDefaults(key: theme_category_string){
+                theme_category = UserDefaults.standard.integer(forKey: theme_category_string)
+            }else{
+                UserDefaults.standard.set(theme_category, forKey: theme_category_string)
+            }
+            card.cardImageView?.image = UIImage(named: cardBackgrounds[theme_category]!)
+            UIView.transition(with: card, duration: 0.3, options: .transitionFlipFromRight, animations: nil, completion: nil)
+        }else{
+            isCardBack = true
+            card.cardImageView?.image = UIImage(named: "card_back")
+            UIView.transition(with: card, duration: 0.3, options: .transitionFlipFromLeft, animations: nil, completion: nil)
+            
+        }
+    }
     
     func updateProgressLabel(index: Int){
         DispatchQueue.main.async {

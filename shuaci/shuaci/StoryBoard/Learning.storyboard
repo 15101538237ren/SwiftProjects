@@ -38,8 +38,12 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5f4-VB-fee" userLabel="Card 2" customClass="CardUIView" customModule="刷词" customModuleProvider="target">
                                 <rect key="frame" x="47" y="198" width="320" height="500"/>
                                 <subviews>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="beach" translatesAutoresizingMaskIntoConstraints="NO" id="goi-gK-VMq">
+                                    <imageView clipsSubviews="YES" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="beach" translatesAutoresizingMaskIntoConstraints="NO" id="goi-gK-VMq">
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="500"/>
+                                        <gestureRecognizers/>
+                                        <connections>
+                                            <outletCollection property="gestureRecognizers" destination="eao-lg-xmf" appends="YES" id="fbi-4G-82g"/>
+                                        </connections>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Beach" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XRw-jS-BIz">
                                         <rect key="frame" x="95" y="130" width="130.5" height="46.5"/>
@@ -162,8 +166,12 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4Lf-nj-uqS" userLabel="Card 1" customClass="CardUIView" customModule="刷词" customModuleProvider="target">
                                 <rect key="frame" x="47" y="198" width="320" height="500"/>
                                 <subviews>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="sea" translatesAutoresizingMaskIntoConstraints="NO" id="MbE-dI-KRO">
+                                    <imageView clipsSubviews="YES" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="sea" translatesAutoresizingMaskIntoConstraints="NO" id="MbE-dI-KRO">
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="500"/>
+                                        <gestureRecognizers/>
+                                        <connections>
+                                            <outletCollection property="gestureRecognizers" destination="8zk-Sg-V98" appends="YES" id="cCu-7f-vxm"/>
+                                        </connections>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Beach" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ang-Vi-cIz">
                                         <rect key="frame" x="95" y="130" width="130.5" height="46.5"/>
@@ -192,7 +200,7 @@
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.0" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="7bE-xG-5Jq">
+                                    <imageView clipsSubviews="YES" alpha="0.0" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="7bE-xG-5Jq">
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="500"/>
                                         <color key="backgroundColor" systemColor="systemPinkColor" red="1" green="0.1764705882" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </imageView>
@@ -437,6 +445,16 @@
                         <action selector="panCard:" destination="Zsp-9s-jM2" id="I7A-2V-VWp"/>
                     </connections>
                 </panGestureRecognizer>
+                <tapGestureRecognizer id="8zk-Sg-V98">
+                    <connections>
+                        <action selector="flipCard:" destination="Zsp-9s-jM2" id="fNB-Zh-GJ0"/>
+                    </connections>
+                </tapGestureRecognizer>
+                <tapGestureRecognizer id="eao-lg-xmf">
+                    <connections>
+                        <action selector="flipCard:" destination="Zsp-9s-jM2" id="c5y-en-cMa"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="-97.101449275362327" y="107.8125"/>
         </scene>
