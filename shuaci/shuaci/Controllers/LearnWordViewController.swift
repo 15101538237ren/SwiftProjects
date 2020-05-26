@@ -147,7 +147,6 @@ class LearnWordViewController: UIViewController {
             }
             
             card.meaningLabel?.text = cardWord.meaning
-            card.speech? = cardWord.speech
             if cardWord.memMethod != ""{
                 card.wordLabel_Top_Space_Constraint.constant = 130
                 card.memMethodLabel?.alpha = 1
@@ -228,7 +227,7 @@ class LearnWordViewController: UIViewController {
                 card.rememberImageView?.backgroundColor = UIColor.systemGreen
                 card.rememberLabel?.text = "会了"
             }
-            card.rememberImageView?.alpha = 0.3 + (abs(xFromCenter) / view.center.x) * 0.6
+            card.rememberImageView?.alpha = 0.7 + (abs(xFromCenter) / view.center.x) * 0.3
             card.rememberLabel?.alpha = 1.0
             let scale = min(0.35 * view.frame.width / abs(xFromCenter), 1.0)
             card.transform = CGAffineTransform(rotationAngle: 0.61 * xFromCenter / view.center.x).scaledBy(x: scale, y: scale)

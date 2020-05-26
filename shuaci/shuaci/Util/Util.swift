@@ -390,7 +390,6 @@ func getFeildsOfWord(word: JSON, usphone: Bool) -> CardWord{
             meaning = stringArr.joined(separator: "\n")
         }
     }
-    let speech = "\(current_book_id)__\(wordRank)_0"
     let phoneType = (usphone == true)  ? "usphone" : "ukphone"
     let phone = content[phoneType]?.stringValue ?? ""
     let accent = (usphone == true)  ? "美" : "英"
@@ -399,7 +398,7 @@ func getFeildsOfWord(word: JSON, usphone: Bool) -> CardWord{
         memMethod = memDict["val"].stringValue
     }
     
-    let cardWord = CardWord(wordRank: wordRank, headWord: headWord, meaning: meaning, phone: phone, speech: speech, accent: accent, memMethod: memMethod)
+    let cardWord = CardWord(wordRank: wordRank, headWord: headWord, meaning: meaning, phone: phone, accent: accent, memMethod: memMethod)
     return cardWord
 }
 

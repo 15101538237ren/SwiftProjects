@@ -186,10 +186,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="n. 海滩，沙滩" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BEL-4t-aZa">
-                                        <rect key="frame" x="73" y="216.5" width="150" height="26.5"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="150" id="g3l-iJ-fgO"/>
-                                        </constraints>
+                                        <rect key="frame" x="81.5" y="216.5" width="133.5" height="26.5"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="22"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
@@ -214,6 +211,7 @@
                                     <constraint firstItem="AQJ-RA-cCJ" firstAttribute="top" secondItem="rUM-pK-Jea" secondAttribute="top" constant="140" id="0bG-Kq-CTG">
                                         <variation key="heightClass=compact" constant="40"/>
                                     </constraint>
+                                    <constraint firstItem="BEL-4t-aZa" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="rUM-pK-Jea" secondAttribute="leading" constant="15" id="87v-Pr-DjZ"/>
                                     <constraint firstItem="aMz-BT-cpv" firstAttribute="leading" secondItem="rUM-pK-Jea" secondAttribute="leading" id="9Kt-SE-6zp"/>
                                     <constraint firstAttribute="width" constant="296" id="BAl-Kg-eoT">
                                         <variation key="heightClass=compact" constant="111"/>
@@ -228,6 +226,7 @@
                                     <constraint firstItem="sf0-Pf-lH5" firstAttribute="centerY" secondItem="rUM-pK-Jea" secondAttribute="centerY" id="KO8-Q1-yve"/>
                                     <constraint firstItem="AQJ-RA-cCJ" firstAttribute="centerX" secondItem="rUM-pK-Jea" secondAttribute="centerX" id="MMx-0f-VlW"/>
                                     <constraint firstItem="irI-Va-Vtc" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="rUM-pK-Jea" secondAttribute="leading" constant="20" id="RWC-C0-5D5"/>
+                                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="BEL-4t-aZa" secondAttribute="trailing" constant="15" id="SYY-we-vop"/>
                                     <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="irI-Va-Vtc" secondAttribute="trailing" constant="20" id="Xwo-Vv-czZ"/>
                                     <constraint firstAttribute="bottom" secondItem="uQv-rL-mir" secondAttribute="bottom" constant="20" id="cUB-TE-0ef"/>
                                     <constraint firstItem="r5i-P9-4LR" firstAttribute="centerY" secondItem="rUM-pK-Jea" secondAttribute="centerY" id="f5V-ri-sv4"/>
@@ -285,10 +284,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="n. 大海, 海洋" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f6O-Bc-TKO">
-                                        <rect key="frame" x="73" y="216.5" width="150" height="26.5"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="150" id="IMu-Yo-N5m"/>
-                                        </constraints>
+                                        <rect key="frame" x="87.5" y="216.5" width="121" height="26.5"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="22"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
@@ -330,10 +326,12 @@
                                     <constraint firstItem="j2l-hl-86Y" firstAttribute="top" secondItem="cIQ-Rr-mpO" secondAttribute="top" id="5ZS-9A-ky9"/>
                                     <constraint firstItem="Iiy-I0-Uq7" firstAttribute="centerY" secondItem="cIQ-Rr-mpO" secondAttribute="centerY" id="6HJ-Uj-Xbo"/>
                                     <constraint firstItem="1rZ-jJ-AfY" firstAttribute="top" secondItem="f6O-Bc-TKO" secondAttribute="bottom" constant="30" id="6Nr-bD-miA"/>
+                                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="f6O-Bc-TKO" secondAttribute="trailing" constant="15" id="75O-9z-mHp"/>
                                     <constraint firstItem="cZa-fY-OeI" firstAttribute="centerX" secondItem="cIQ-Rr-mpO" secondAttribute="centerX" id="894-na-wwT"/>
                                     <constraint firstItem="1rZ-jJ-AfY" firstAttribute="centerX" secondItem="cIQ-Rr-mpO" secondAttribute="centerX" id="8Es-Jj-XdT"/>
                                     <constraint firstItem="j2l-hl-86Y" firstAttribute="leading" secondItem="cIQ-Rr-mpO" secondAttribute="leading" id="9R4-M7-FPm"/>
                                     <constraint firstAttribute="trailing" secondItem="j2l-hl-86Y" secondAttribute="trailing" id="Hhu-vF-KwE"/>
+                                    <constraint firstItem="f6O-Bc-TKO" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="cIQ-Rr-mpO" secondAttribute="leading" constant="15" id="Ht4-s1-dwz"/>
                                     <constraint firstAttribute="height" constant="420" id="LCZ-zc-9PA">
                                         <variation key="heightClass=compact" constant="157.5"/>
                                     </constraint>
