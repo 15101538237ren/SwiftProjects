@@ -32,7 +32,7 @@ class MainScreenViewController: UIViewController {
                                 CardWord.init(wordRank: 2, headWord: "sea", meaning: "n.海；海洋", phone: "siː"),
                                 CardWord.init(wordRank: 3, headWord: "canyon", meaning: "n. 峡谷", phone: "ˈkænjən"),
                                 CardWord.init(wordRank: 4, headWord: "aurora", meaning: "n.极光；曙光", phone: "ɔ:'rɔ:rə"),
-                                CardWord.init(wordRank: 5, headWord: "coastline", meaning: "n. 海岸线", phone: "ˈkoʊstlaɪn"),
+                                CardWord.init(wordRank: 5, headWord: "coast", meaning: "n. 海岸", phone: "koʊst"),
                                 CardWord.init(wordRank: 6, headWord: "bonfire", meaning: "n. 篝火", phone: "ˈbɑːnfaɪər"),
                                 CardWord.init(wordRank: 7, headWord: "glacier", meaning: "n. 冰河，冰川", phone: "ˈɡleɪʃər"),
                                 CardWord.init(wordRank: 8, headWord: "marriage", meaning: "n. 结婚；婚姻", phone: "ˈmærɪdʒ"),
@@ -48,7 +48,9 @@ class MainScreenViewController: UIViewController {
                                 CardWord.init(wordRank: 18, headWord: "bridge", meaning: "n. 桥", phone: "brɪdʒ"),
                                 CardWord.init(wordRank: 19, headWord: "portrait", meaning: "n. 人像", phone: "ˈpɔːrtrət"),
                                 CardWord.init(wordRank: 20, headWord: "beach", meaning: "n.海滩，沙滩", phone: "bitʃ"),
-                                CardWord.init(wordRank: 21, headWord: "robot", meaning: "n. 机器人", phone: "ˈroʊbɑːt")]
+                                CardWord.init(wordRank: 21, headWord: "robot", meaning: "n. 机器人", phone: "ˈroʊbɑːt"),
+                                CardWord.init(wordRank: 22, headWord: "penguin", meaning: "n. 企鹅", phone: "ˈpeŋɡwɪn"),
+                                CardWord.init(wordRank: 23, headWord: "smile", meaning: "n.微笑", phone: "smaɪl")]
     override func viewDidLoad() {
         super.viewDidLoad()
         initCards()
