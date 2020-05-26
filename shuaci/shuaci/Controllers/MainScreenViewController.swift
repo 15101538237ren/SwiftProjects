@@ -27,20 +27,21 @@ class MainScreenViewController: UIViewController {
     var currentIndex:Int = 0
     let animationDuration = 0.1
     
-    var cardWords:[CardWord] = [CardWord.init(wordRank: 1, headWord: "sea", meaning: "n.海；海洋", phone: "siː"),
-                                CardWord.init(wordRank: 2, headWord: "Paris", meaning: "n.巴黎", phone: "'pærɪs"),
-                                CardWord.init(wordRank: 3, headWord: "character", meaning: "n. 角色；特性", phone: "ˈkærəktər"),
+    var cardWords:[CardWord] = [
+                                CardWord.init(wordRank: 1, headWord: "forest", meaning: "n. 森林", phone: "ˈfɔːrɪst"),
+                                CardWord.init(wordRank: 2, headWord: "sea", meaning: "n.海；海洋", phone: "siː"),
+                                CardWord.init(wordRank: 3, headWord: "canyon", meaning: "n. 峡谷", phone: "ˈkænjən"),
                                 CardWord.init(wordRank: 4, headWord: "aurora", meaning: "n.极光；曙光", phone: "ɔ:'rɔ:rə"),
                                 CardWord.init(wordRank: 5, headWord: "coastline", meaning: "n. 海岸线", phone: "ˈkoʊstlaɪn"),
                                 CardWord.init(wordRank: 6, headWord: "bonfire", meaning: "n. 篝火", phone: "ˈbɑːnfaɪər"),
                                 CardWord.init(wordRank: 7, headWord: "glacier", meaning: "n. 冰河，冰川", phone: "ˈɡleɪʃər"),
                                 CardWord.init(wordRank: 8, headWord: "marriage", meaning: "n. 结婚；婚姻", phone: "ˈmærɪdʒ"),
                                 CardWord.init(wordRank: 9, headWord: "metropolis", meaning: "n. 大都市", phone: "məˈtrɑːpəlɪs"),
-                                CardWord.init(wordRank: 10, headWord: "canyon", meaning: "n. 峡谷", phone: "ˈkænjən"),
+                                CardWord.init(wordRank: 10, headWord: "Paris", meaning: "n.巴黎", phone: "'pærɪs"),
                                 CardWord.init(wordRank: 11, headWord: "Cappuccino", meaning: "n. 卡布奇诺咖啡", phone: "ˌkæpuˈtʃiːnoʊ"),
                                 CardWord.init(wordRank: 12, headWord: "strawberry", meaning: "n. 草莓", phone: "ˈstrɔːberi"),
                                 CardWord.init(wordRank: 13, headWord: "galaxy", meaning: "n.星系；银河系", phone: "ˈɡæləksi"),
-                                CardWord.init(wordRank: 14, headWord: "forest", meaning: "n. 森林", phone: "ˈfɔːrɪst"),
+                                CardWord.init(wordRank: 14, headWord: "character", meaning: "n. 角色；特性", phone: "ˈkærəktər"),
                                 CardWord.init(wordRank: 15, headWord: "cliff", meaning: "n. 悬崖", phone: "klɪf"),
                                 CardWord.init(wordRank: 16, headWord: "hiking", meaning: "n. 徒步旅行", phone: "ˈhaɪkɪŋ"),
                                 CardWord.init(wordRank: 17, headWord: "avocado", meaning: "n. 牛油果；鳄梨", phone: "ˌævəˈkɑːdoʊ"),
