@@ -10,15 +10,22 @@ import Foundation
 import UIKit
 
 extension String {
-    func image(width: CGFloat, height: CGFloat) -> UIImage? {
-        let size = CGSize(width: width, height: height)
-        UIGraphicsBeginImageContextWithOptions(size, false, 0)
-        UIColor.white.set()
-        let rect = CGRect(origin: .zero, size: size)
-        UIRectFill(CGRect(origin: .zero, size: size))
-        (self as AnyObject).draw(in: rect, withAttributes: [.font: UIFont.systemFont(ofSize: 40)])
-        let image = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        return image
+    func replace(_ pattern: String, options: NSRegularExpression.Options = [], collector: ([String]) -> String) -> String {
+        guard let regex = try? NSRegularExpression(pattern: pattern, options: options) else { return self }
+        let matches = regex.matches(in: self, options: NSRegularExpression.MatchingOptions(rawValue: 0), range: NSMakeRange(0, (self as NSString).length))
+        guard matches.count > 0 else { return self }
+        var splitStart = startIndex
+        return matches.map { (match) -> (String, [String]) in
+            let range = Range(match.range, in: self)!
+            let split = String(self[splitStart ..< range.lowerBound])
+            splitStart = range.upperBound
+            return (split, (0 ..< match.numberOfRanges)
+                .compactMap { Range(match.range(at: $0), in: self) }
+                .map { String(self[$0]) }
+            )
+        }.reduce("") { "\($0)\($1.0)\(collector($1.1))" } + self[Range(matches.last!.range, in: self)!.upperBound ..< endIndex]
+    }
+    func replace(_ regexPattern: String, options: NSRegularExpression.Options = [], collector: @escaping () -> String) -> String {
+        return replace(regexPattern, options: options) { (_: [String]) in collector() }
     }
 }

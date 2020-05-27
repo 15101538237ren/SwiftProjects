@@ -156,6 +156,21 @@ class LearnWordViewController: UIViewController {
     
     
     func setFieldsOfCard(card: CardUIView, cardWord: CardWord, collected: Bool){
+        let numberOfNewlines:Int = cardWord.meaning.components(separatedBy: "\n").count - 1
+        var meaningLabelTxt:String = cardWord.meaning
+        if numberOfNewlines > 3{
+            var finalStringArr:[String] = []
+            let meaningArr:[String] = meaningLabelTxt.components(separatedBy: "\n")
+            for mi in 0..<meaningArr.count - 1{
+                let firstChr = meaningArr[mi + 1].unicodeScalars.first
+                if firstChr!.isASCII{
+                    finalStringArr.append("\(meaningArr[mi])\n")
+                }else{
+                    finalStringArr.append("\(meaningArr[mi])；")
+                }
+            }
+            meaningLabelTxt = finalStringArr.joined(separator: "")
+        }
         card.wordLabel?.text = cardWord.headWord
         DispatchQueue.main.async {
             if cardWord.headWord.count >= 12{
@@ -164,7 +179,7 @@ class LearnWordViewController: UIViewController {
                 card.wordLabel?.font = card.wordLabel?.font.withSize(45.0)
             }
             
-            card.meaningLabel?.text = cardWord.meaning
+            card.meaningLabel?.text = meaningLabelTxt
             if cardWord.memMethod != ""{
                 card.wordLabel_Top_Space_Constraint.constant = 130
                 card.memMethodLabel?.alpha = 1
