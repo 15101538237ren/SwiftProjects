@@ -107,6 +107,8 @@ class EmailLoginViewController: UIViewController {
                                 alertController.addAction(cancelAction)
                                 self.present(alertController, animated: true, completion: nil)
                             case 210:
+                                 presentAlert(title: "密码不正确", message: "密码不正确!", okText: "好")
+                            case 400:
                                 presentAlert(title: "密码不正确", message: "密码不正确!", okText: "好")
                             default:
                                 print(error)

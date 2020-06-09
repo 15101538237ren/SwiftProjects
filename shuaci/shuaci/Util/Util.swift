@@ -43,15 +43,16 @@ let categories:[Int: [String: [Int: String]]] = [ 0: ["category": [0:"全部"], 
     9: ["category": [0:"实用"], "subcategory": [0:"全部", 1: "职场商务", 2: "日常交流", 3: "旅游英语"]]]
 
 var default_wallpapers:[Wallpaper] = [
-    Wallpaper(word: "lilac", trans: "紫丁香", category: 1),
-    Wallpaper(word: "firework", trans: "烟花", category: 2),
-    Wallpaper(word: "rocket", trans: "火箭", category: 3),
-    Wallpaper(word: "forest", trans: "森林", category: 4),
-    Wallpaper(word: "rose", trans: "玫瑰", category: 5),
-    Wallpaper(word: "pawpaw", trans: "木瓜", category: 6),
-    Wallpaper(word: "ocean", trans: "海洋", category: 7),
-    Wallpaper(word: "peony", trans: "牡丹", category: 8),
-    Wallpaper(word: "latte", trans: "拿铁", category: 9)
+    Wallpaper(word: "peony", trans: "牡丹", category: 1), //Light
+    Wallpaper(word: "firework", trans: "烟花", category: 2), //Dark
+    Wallpaper(word: "moon", trans: "月球", category: 3), //Black
+    Wallpaper(word: "leaf", trans: "叶子", category: 4), // Green
+    Wallpaper(word: "canyon", trans: "峡谷", category: 5), // Red
+    Wallpaper(word: "pawpaw", trans: "木瓜", category: 6), //Yellow
+    Wallpaper(word: "santorini", trans: "[希腊]圣托里尼", category: 7), //Blue
+    Wallpaper(word: "blossom", trans: "花开", category: 8), //Pink
+    Wallpaper(word: "latte", trans: "拿铁", category: 9), // Brown
+    Wallpaper(word: "lavender", trans: "薰衣草", category: 10), // Purple
 ]
 
 var cardBackgrounds: [Int: String] = [
@@ -87,15 +88,19 @@ var current_wallpaper: Wallpaper = default_wallpapers[0]
 var current_wallpaper_image: UIImage = UIImage()
 
 var themes:[Theme] = [
-    Theme(name: "明亮", background: "1_light", category: 1),
-    Theme(name: "热情", background: "2_passionate", category: 5),
-    Theme(name: "暖秋", background: "3_fall", category: 6),
-    Theme(name: "盛夏", background: "4_summer", category: 4),
-    Theme(name: "海洋", background: "5_sea_blue", category: 7),
-    Theme(name: "夜空", background: "6_dark_night", category: 2)
+    Theme(name: "明", background: "1_Light", category: 1),
+    Theme(name: "暗", background: "2_Dark", category: 2),
+    Theme(name: "粉", background: "8_Pink", category: 8),
+    Theme(name: "红", background: "5_Red", category: 5),
+    Theme(name: "橙", background: "6_Orange", category: 6),
+    Theme(name: "绿", background: "4_Green", category: 4),
+    Theme(name: "蓝", background: "7_Blue", category: 7),
+    Theme(name: "紫", background: "10_Purple", category: 10),
+    Theme(name: "棕", background: "9_Brown", category: 9),
+    Theme(name: "夜", background: "3_Night", category: 3)
 ]
 
-var textColors:[Int:UIColor] = [ 1: UIColor.white, 2: UIColor.white, 3: UIColor.gray, 4: UIColor.white, 5: UIColor.white, 6: UIColor.white, 7: UIColor.white, 8: UIColor.white, 9: UIColor.white]
+var textColors:[Int:UIColor] = [ 1: UIColor.white, 2: UIColor.lightGray, 3: UIColor.gray, 4: UIColor.white, 5: UIColor.white, 6: UIColor.white, 7: UIColor.white, 8: UIColor.white, 9: UIColor.white, 10: UIColor.white]
 
 func getDocumentsDirectory() -> URL {
     let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)

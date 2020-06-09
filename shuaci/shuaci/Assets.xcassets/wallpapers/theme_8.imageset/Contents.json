@@ -1,7 +1,7 @@
 {
   "images" : [
     {
-      "filename" : "flower.jpg",
+      "filename" : "theme_1.jpg",
       "idiom" : "universal",
       "scale" : "1x"
     },
@@ -19,6 +19,7 @@
     "version" : 1
   },
   "properties" : {
-    "compression-type" : "lossless"
+    "compression-type" : "lossless",
+    "template-rendering-intent" : "original"
   }
 }

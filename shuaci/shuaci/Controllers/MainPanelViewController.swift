@@ -154,52 +154,60 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
             do{ //
                 do {
                     
-                    let query = LCQuery(className: "Wallpaper")
-                    query.whereKey("theme_category", .equalTo(category))
-                    _ = query.find { result in
-                        switch result {
-                        case .success(objects: let wallpapers):
-                            // wallpapers 是包含满足条件的 (className: "Wallpaper") 对象的数组
-                            
-                            let wallpaper = wallpapers.randomElement()
-                            
-                            if let wallpaper_image = wallpaper?.get("image") as? LCFile {
-                                //let imgData = photoData.value as! LCData
-                                let url = URL(string: wallpaper_image.url?.value as! String)!
-                                let data = try? Data(contentsOf: url)
-                                print(url)
-                                if let imageData = data {
-                                    if let image = UIImage(data: imageData){
-                                        savePhoto(image: image, name_of_photo: "theme_download.jpg")
-                                        current_wallpaper_image = image ?? UIImage()
-                                        DispatchQueue.main.async {
-                                            self.todayImageView?.image = image
+                    let count_query = LCQuery(className: "Wallpaper")
+                    count_query.whereKey("theme_category", .equalTo(category))
+                    count_query.count{ count in
+                        let count = count.intValue
+                        let rand_index = Int.random(in: 0 ... count - 1)
+                        print("rand_index: \(rand_index)")
+                        let query = LCQuery(className: "Wallpaper")
+                        query.whereKey("theme_category", .equalTo(category))
+                        query.limit = 1
+                        query.skip = rand_index
+                        _ = query.getFirst { result in
+                            switch result {
+                            case .success(object: let wallpaper):
+                                // wallpapers 是包含满足条件的 (className: "Wallpaper") 对象的数组
+                                
+                                if let wallpaper_image = wallpaper.get("image") as? LCFile {
+                                    //let imgData = photoData.value as! LCData
+                                    let url = URL(string: wallpaper_image.url?.value as! String)!
+                                    let data = try? Data(contentsOf: url)
+                                    print(url)
+                                    if let imageData = data {
+                                        if let image = UIImage(data: imageData){
+                                            savePhoto(image: image, name_of_photo: "theme_download.jpg")
+                                            current_wallpaper_image = image ?? UIImage()
+                                            DispatchQueue.main.async {
+                                                self.todayImageView?.image = image
+                                            }
                                         }
+                                        
+                                        let word = wallpaper.word as! LCString
+                                        let trans = wallpaper.trans as! LCString
+                                        
+                                        current_wallpaper = Wallpaper(word: word.value as! String, trans: trans.value as! String, category: category)
+                                        
+                                        UserDefaults.standard.set(current_wallpaper.word, forKey: word_string)
+                                        UserDefaults.standard.set(current_wallpaper.trans, forKey: trans_string)
+                                        UserDefaults.standard.set(category, forKey: last_theme_category_string)
+                                        
+                                        DispatchQueue.main.async {
+                                            self.wordLabel.text = current_wallpaper.word
+                                            self.meaningLabel.text = current_wallpaper.trans
+                                            self.shouldStopRotating = true
+                                            self.syncLabel.alpha = 0.0
+                                        }
+                                        self.setTextOrButtonsColor(color: textColors[category] ?? UIColor.darkGray)
                                     }
-                                    
-                                    let word = wallpaper?.word as! LCString
-                                    let trans = wallpaper?.trans as! LCString
-                                    
-                                    current_wallpaper = Wallpaper(word: word.value as! String, trans: trans.value as! String, category: category)
-                                    
-                                    UserDefaults.standard.set(current_wallpaper.word, forKey: word_string)
-                                    UserDefaults.standard.set(current_wallpaper.trans, forKey: trans_string)
-                                    UserDefaults.standard.set(category, forKey: last_theme_category_string)
-                                    
-                                    DispatchQueue.main.async {
-                                        self.wordLabel.text = current_wallpaper.word
-                                        self.meaningLabel.text = current_wallpaper.trans
-                                        self.shouldStopRotating = true
-                                        self.syncLabel.alpha = 0.0
-                                    }
-                                    self.setTextOrButtonsColor(color: textColors[category] ?? UIColor.darkGray)
                                 }
+                                break
+                            case .failure(error: let error):
+                                print(error)
                             }
-                            break
-                        case .failure(error: let error):
-                            print(error)
                         }
                     }
+                    
                 } catch {
                     print(error)
                 }
