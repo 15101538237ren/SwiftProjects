@@ -16,6 +16,7 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
     @IBOutlet var wordLabel: UILabel!
     @IBOutlet var meaningLabel: UILabel!
     @IBOutlet var todayImageView: UIImageView!
+    var mp3Player: AVAudioPlayer?
     @IBOutlet var userPhotoBtn: UIButton!{
         didSet {
             userPhotoBtn.layer.cornerRadius = userPhotoBtn.layer.frame.width/2.0
@@ -340,6 +341,32 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
         }
         else{
             loadLearnController()
+        }
+    }
+    
+    @IBAction func pernounce_word(_ sender: UITapGestureRecognizer) {
+        print("touched")
+        if Reachability.isConnectedToNetwork(){
+            let usphone = getUSPhone() == true ? 0 : 1
+            let word:String = wordLabel.text ?? ""
+            if word != ""{
+                let url_string: String = "http://dict.youdao.com/dictvoice?type=\(usphone)&audio=\(word)"
+                let mp3_url:URL = URL(string: url_string)!
+                DispatchQueue.global(qos: .background).async {
+                do {
+                    var downloadTask: URLSessionDownloadTask
+                    downloadTask = URLSession.shared.downloadTask(with: mp3_url, completionHandler: { (urlhere, response, error) -> Void in
+                    do {
+                        self.mp3Player = try AVAudioPlayer(contentsOf: urlhere!)
+                        self.mp3Player?.play()
+                    } catch {
+                        print("couldn't load file :( \(urlhere)")
+                    }
+                })
+                    downloadTask.resume()
+                }}
+            }
+            
         }
     }
     
