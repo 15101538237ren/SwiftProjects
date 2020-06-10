@@ -86,7 +86,6 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
         }
     }
     
-    
     @IBAction func logOut(_ sender: UIButton) {
         if Reachability.isConnectedToNetwork(){
            let alertController = UIAlertController(title: "注销", message: "确定注销?", preferredStyle: .alert)

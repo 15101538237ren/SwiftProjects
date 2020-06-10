@@ -108,6 +108,15 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
+//    @IBAction func swipeDetected(_ sender: UISwipeGestureRecognizer) {
+//        switch sender.direction {
+//        case .right:
+//            dismiss(animated: true, completion: nil)
+//        default:
+//            print("swiped")
+//        }
+//    }
+    
     func showFeedBackMailComposer(){
         guard MFMailComposeViewController.canSendMail() else{
             let ac = UIAlertController(title: "无法发送邮件", message: "无法发送邮件，请检查网络或设置", preferredStyle: .alert)
