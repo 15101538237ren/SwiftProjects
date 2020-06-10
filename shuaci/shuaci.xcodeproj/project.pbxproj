@@ -9,6 +9,10 @@
 /* Begin PBXBuildFile section */
 		5507D9072479935C0090DD37 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5507D9062479935C0090DD37 /* Reachability.swift */; };
 		5518B9B8247A2E7600BC8DA4 /* LearnFinishViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5518B9B7247A2E7600BC8DA4 /* LearnFinishViewController.swift */; };
+		55C7819C24901AFA00C9F33E /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55C7819B24901AFA00C9F33E /* SettingViewController.swift */; };
+		55C7819E24902BAE00C9F33E /* SettingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55C7819D24902BAE00C9F33E /* SettingTableViewCell.swift */; };
+		55C781A024902C4F00C9F33E /* SettingToggleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55C7819F24902C4F00C9F33E /* SettingToggleTableViewCell.swift */; };
+		55C781A224902F1600C9F33E /* SettingItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55C781A124902F1600C9F33E /* SettingItem.swift */; };
 		55F2B5A0247B053500758113 /* Date+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55F2B59F247B053500758113 /* Date+Ext.swift */; };
 		55F2B5A2247B4A0F00758113 /* LearnFinishUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55F2B5A1247B4A0F00758113 /* LearnFinishUIView.swift */; };
 		55F2B5A4247B4B3700758113 /* String+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55F2B5A3247B4B3700758113 /* String+Ext.swift */; };
@@ -64,6 +68,10 @@
 		4D669C4BDB3B8EFCB078D706 /* Pods-shuaci.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-shuaci.release.xcconfig"; path = "Target Support Files/Pods-shuaci/Pods-shuaci.release.xcconfig"; sourceTree = "<group>"; };
 		5507D9062479935C0090DD37 /* Reachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		5518B9B7247A2E7600BC8DA4 /* LearnFinishViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearnFinishViewController.swift; sourceTree = "<group>"; };
+		55C7819B24901AFA00C9F33E /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
+		55C7819D24902BAE00C9F33E /* SettingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingTableViewCell.swift; sourceTree = "<group>"; };
+		55C7819F24902C4F00C9F33E /* SettingToggleTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingToggleTableViewCell.swift; sourceTree = "<group>"; };
+		55C781A124902F1600C9F33E /* SettingItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingItem.swift; sourceTree = "<group>"; };
 		55F2B59F247B053500758113 /* Date+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Ext.swift"; sourceTree = "<group>"; };
 		55F2B5A1247B4A0F00758113 /* LearnFinishUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearnFinishUIView.swift; sourceTree = "<group>"; };
 		55F2B5A3247B4B3700758113 /* String+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Ext.swift"; sourceTree = "<group>"; };
@@ -158,6 +166,7 @@
 				A52B84DB2471EE4500A002C6 /* ReviewRecord.swift */,
 				A52B84DD2471F00D00A002C6 /* VocabularyRecord.swift */,
 				A5E6973D2473404A004CFA70 /* CardWord.swift */,
+				55C781A124902F1600C9F33E /* SettingItem.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -267,6 +276,8 @@
 				A5DD06E324626CAA0051B3E5 /* Level2CollectionViewCell.swift */,
 				A5134E3524677BF3008B116D /* LearnUIView.swift */,
 				55F2B5A1247B4A0F00758113 /* LearnFinishUIView.swift */,
+				55C7819D24902BAE00C9F33E /* SettingTableViewCell.swift */,
+				55C7819F24902C4F00C9F33E /* SettingToggleTableViewCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -285,6 +296,7 @@
 				A5BE9C2E246229DC00302F38 /* BooksViewController.swift */,
 				A5134E33246772B4008B116D /* LearnWordViewController.swift */,
 				5518B9B7247A2E7600BC8DA4 /* LearnFinishViewController.swift */,
+				55C7819B24901AFA00C9F33E /* SettingViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -414,6 +426,7 @@
 				A59A0B17245488EC000845F2 /* MainPanelUIView.swift in Sources */,
 				A574D663245E430D0002A07C /* Util.swift in Sources */,
 				5507D9072479935C0090DD37 /* Reachability.swift in Sources */,
+				55C781A024902C4F00C9F33E /* SettingToggleTableViewCell.swift in Sources */,
 				A5F59F482453DD3A00D6D717 /* EmailLoginUIView.swift in Sources */,
 				5518B9B8247A2E7600BC8DA4 /* LearnFinishViewController.swift in Sources */,
 				A5134E3624677BF3008B116D /* LearnUIView.swift in Sources */,
@@ -423,6 +436,7 @@
 				A5B821792453747C00963FEC /* MainScreenUIView.swift in Sources */,
 				A5F51551245F5E9300F06610 /* Wallpaper.swift in Sources */,
 				A5BE9C2D2462242500302F38 /* Book.swift in Sources */,
+				55C781A224902F1600C9F33E /* SettingItem.swift in Sources */,
 				A5F5154F245F578900F06610 /* Theme.swift in Sources */,
 				A5BE9C2F246229DC00302F38 /* BooksViewController.swift in Sources */,
 				A523A7192455435C00976574 /* ResetPwdViewController.swift in Sources */,
@@ -441,6 +455,7 @@
 				A5F59F4C2453DDDB00D6D717 /* PhoneLoginViewController.swift in Sources */,
 				A5134E34246772B4008B116D /* LearnWordViewController.swift in Sources */,
 				A59A0B1C2454D48C000845F2 /* MainPanelViewController.swift in Sources */,
+				55C7819E24902BAE00C9F33E /* SettingTableViewCell.swift in Sources */,
 				A5134E3A24678C32008B116D /* Collection+Ext.swift in Sources */,
 				A5F5154D245F56DF00F06610 /* ThemeCollectionViewController.swift in Sources */,
 				A52B84DC2471EE4500A002C6 /* ReviewRecord.swift in Sources */,
@@ -449,6 +464,7 @@
 				A5E6973A2473359F004CFA70 /* Array+Ext.swift in Sources */,
 				A52B84DA2471EE3700A002C6 /* LearningRecord.swift in Sources */,
 				A59EB1D52452A12900F300E1 /* SceneDelegate.swift in Sources */,
+				55C7819C24901AFA00C9F33E /* SettingViewController.swift in Sources */,
 				55F2B5A2247B4A0F00758113 /* LearnFinishUIView.swift in Sources */,
 				A5E6973E2473404A004CFA70 /* CardWord.swift in Sources */,
 			);
