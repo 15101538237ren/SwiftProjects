@@ -92,6 +92,14 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
         case 0:
             let cell = tableView.cellForRow(at: indexPath) as! SettingToggleTableViewCell
             cell.toggleSwitch.isOn = !cell.toggleSwitch.isOn
+            if cell.toggleSwitch.isOn == true{
+                cell.leftValueLabel.textColor = .darkGray
+                cell.rightValueLabel.textColor = self.redColor
+            }
+            else{
+                cell.leftValueLabel.textColor = self.redColor
+                cell.rightValueLabel.textColor = .darkGray
+            }
         case 2:
             let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
             let booksVC = mainStoryBoard.instantiateViewController(withIdentifier: "booksController") as! BooksViewController
