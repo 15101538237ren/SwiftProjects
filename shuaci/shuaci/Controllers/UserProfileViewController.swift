@@ -12,14 +12,14 @@ import CropViewController
 
 class UserProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, CropViewControllerDelegate , UITableViewDataSource, UITableViewDelegate {
     let redColor:UIColor = UIColor(red: 168, green: 0, blue: 0, alpha: 1)
-    let settingItems:[[SettingItem]] = [
-        [SettingItem(icon: UIImage(named: "nickname") ?? UIImage(), name: "昵 称", value: "未设置"),
+    let settingItems:[SettingItem] = [
+        SettingItem(icon: UIImage(named: "nickname") ?? UIImage(), name: "昵 称", value: "未设置"),
         SettingItem(icon: UIImage(named: "email") ?? UIImage(), name: "邮 箱", value: "未绑定"),
-        SettingItem(icon: UIImage(named: "change_password") ?? UIImage(), name: "修改密码", value: "")],
-        [SettingItem(icon: UIImage(named: "cell_phone") ?? UIImage(), name: "手 机", value: "未绑定"),
+        SettingItem(icon: UIImage(named: "change_password") ?? UIImage(), name: "修改密码", value: ""),
+        SettingItem(icon: UIImage(named: "cell_phone") ?? UIImage(), name: "手 机", value: "未绑定"),
         SettingItem(icon: UIImage(named: "wechat") ?? UIImage(), name: "微 信", value: "未绑定"),
         SettingItem(icon: UIImage(named: "qq_setting") ?? UIImage(), name: "QQ", value: "未绑定"),
-        SettingItem(icon: UIImage(named: "weibo") ?? UIImage(), name: "新浪微博", value: "未绑定")]
+        SettingItem(icon: UIImage(named: "weibo") ?? UIImage(), name: "新浪微博", value: "未绑定")
     ]
     @IBOutlet var tableView: UITableView!
     @IBOutlet var userPhotoBtn: UIButton!{
@@ -52,20 +52,18 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
     
     func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return settingItems.count
+        return 1
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return settingItems[section].count
+        return settingItems.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let section = indexPath.section
         let row = indexPath.row
-        
         let cell = tableView.dequeueReusableCell(withIdentifier: "ProfileSettingCell", for: indexPath) as! SettingTableViewCell
         cell.separatorInset = UIEdgeInsets(top: 0, left: cell.bounds.size.width, bottom: 0, right: 0);
-        let settingItem:SettingItem = settingItems[section][row]
+        let settingItem:SettingItem = settingItems[row]
         cell.iconView?.image = settingItem.icon
         cell.nameLabel?.text = settingItem.name
         cell.valueLabel?.text = settingItem.value

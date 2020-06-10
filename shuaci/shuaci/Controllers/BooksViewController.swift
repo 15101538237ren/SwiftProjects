@@ -13,7 +13,7 @@ import SwiftyJSON
 class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UICollectionViewDelegate, UICollectionViewDataSource{
     
     @IBOutlet private var collectionViews: [UICollectionView]!
-    @IBOutlet var mainPanelViewController: MainPanelViewController!
+    @IBOutlet var mainPanelViewController: MainPanelViewController?
     var indicator = UIActivityIndicatorView()
     var strLabel = UILabel()
     let effectView = UIVisualEffectView(effect: UIBlurEffect(style: .regular))
@@ -427,7 +427,9 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
                         DispatchQueue.main.async {
                             self.stopIndicator()
                             self.dismiss(animated: true, completion: nil)
-                            self.mainPanelViewController.loadLearnController()
+                            if let mainPanelViewController = self.mainPanelViewController{
+                                mainPanelViewController.loadLearnController()
+                            }
                         }
                     }
                 }
