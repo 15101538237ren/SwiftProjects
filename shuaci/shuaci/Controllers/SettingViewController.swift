@@ -8,6 +8,7 @@
 
 import UIKit
 import LeanCloud
+import MessageUI
 
 class SettingViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     let redColor:UIColor = UIColor(red: 168, green: 0, blue: 0, alpha: 1)
@@ -88,6 +89,9 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch indexPath.row {
+        case 0:
+            let cell = tableView.cellForRow(at: indexPath) as! SettingToggleTableViewCell
+            cell.toggleSwitch.isOn = !cell.toggleSwitch.isOn
         case 2:
             let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
             let booksVC = mainStoryBoard.instantiateViewController(withIdentifier: "booksController") as! BooksViewController
@@ -96,12 +100,28 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
             DispatchQueue.main.async {
                 self.present(booksVC, animated: true, completion: nil)
             }
+        case 8:
+            showFeedBackMailComposer()
         default:
             break
         }
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
+    func showFeedBackMailComposer(){
+        guard MFMailComposeViewController.canSendMail() else{
+            let ac = UIAlertController(title: "无法发送邮件", message: "无法发送邮件，请检查网络或设置", preferredStyle: .alert)
+            ac.addAction(UIAlertAction(title: "好的", style: .default, handler: nil))
+            present(ac, animated: true, completion: nil)
+            return 
+        }
+        let composer = MFMailComposeViewController()
+        composer.mailComposeDelegate = self
+        composer.setToRecipients(["shuaci@outlook.com"])
+        composer.setSubject("「刷词」意见反馈")
+        composer.setMessageBody("", isHTML: false)
+        present(composer, animated: true)
+    }
     
     @IBAction func logOut(_ sender: UIButton) {
         if Reachability.isConnectedToNetwork(){
@@ -120,14 +140,33 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
         }
     }
 
-    /*
-    // MARK: - Navigation
+}
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+extension SettingViewController : MFMailComposeViewControllerDelegate{
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+        if let _ = error {
+            controller.dismiss(animated: true, completion: nil)
+        }
+        var feedback_sent = false
+        switch result {
+        case .cancelled:
+            print("用户取消")
+        case .failed:
+            print("发送失败")
+        case .saved:
+            print("草稿已保存")
+        case .sent:
+            print("发送成功")
+            feedback_sent = true
+        default:
+            print("")
+        }
+        controller.dismiss(animated: true, completion: {
+            if feedback_sent == true{
+                let ac = UIAlertController(title: "反馈已发送", message: "感谢您的反馈！我们会认真阅读您的意见,并在1-3天内给您回复", preferredStyle: .alert)
+                ac.addAction(UIAlertAction(title: "好的", style: .default, handler: nil))
+                self.present(ac, animated: true, completion: nil)
+            }
+        })
     }
-    */
-
 }
