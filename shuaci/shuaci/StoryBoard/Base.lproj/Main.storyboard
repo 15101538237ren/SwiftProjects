@@ -494,11 +494,6 @@
                             <size key="footerReferenceSize" width="0.0" height="0.0"/>
                             <inset key="sectionInset" minX="30" minY="20" maxX="25" maxY="20"/>
                         </collectionViewFlowLayout>
-                        <view key="backgroundView" contentMode="scaleToFill" id="gMH-3B-Ywx">
-                            <rect key="frame" x="0.0" y="-56" width="414" height="842"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                        </view>
                         <cells>
                             <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="Cell" id="4NE-he-h47" customClass="ThemeCollectionViewCell" customModule="刷词" customModuleProvider="target">
                                 <rect key="frame" x="30" y="20" width="150" height="325"/>
