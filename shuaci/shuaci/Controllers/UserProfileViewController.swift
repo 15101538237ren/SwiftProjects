@@ -17,9 +17,9 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
         SettingItem(icon: UIImage(named: "email") ?? UIImage(), name: "邮 箱", value: "未绑定"),
         SettingItem(icon: UIImage(named: "change_password") ?? UIImage(), name: "修改密码", value: ""),
         SettingItem(icon: UIImage(named: "cell_phone") ?? UIImage(), name: "手 机", value: "未绑定"),
-        SettingItem(icon: UIImage(named: "wechat") ?? UIImage(), name: "微 信", value: "未绑定"),
+        SettingItem(icon: UIImage(named: "wechat_setting") ?? UIImage(), name: "微 信", value: "未绑定"),
         SettingItem(icon: UIImage(named: "qq_setting") ?? UIImage(), name: "QQ", value: "未绑定"),
-        SettingItem(icon: UIImage(named: "weibo") ?? UIImage(), name: "新浪微博", value: "未绑定")
+        SettingItem(icon: UIImage(named: "weibo_setting") ?? UIImage(), name: "新浪微博", value: "未绑定")
     ]
     @IBOutlet var tableView: UITableView!
     @IBOutlet var userPhotoBtn: UIButton!{

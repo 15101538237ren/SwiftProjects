@@ -27,6 +27,48 @@ func getUserName() -> String{
 }
 
 
+func load_data_from_file(fileFp: String, recordClass: String, IdKey: String) -> Data?{
+    var data:Data? = nil
+    do {
+        let fileURL = try FileManager.default
+                .url(for: .applicationSupportDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
+                .appendingPathComponent(fileFp)
+            if FileManager.default.fileExists(atPath: fileURL.path) {
+                data = try Data(contentsOf: fileURL)
+                return data
+            }
+            else{
+                if Reachability.isConnectedToNetwork(){
+                    let user = LCApplication.default.currentUser!
+                    if let recId = user.get(IdKey)?.stringValue{
+                        do {
+                            let recordQuery = LCQuery(className: recordClass)
+                            let _ = recordQuery.get(recId) { (result) in
+                                switch result {
+                                case .success(object: let rec):
+                                    let recStr:String = rec.get("jsonStr")!.stringValue!
+                                    data = recStr.data(using: .utf8)
+                                case .failure(error: let error):
+                                    print(error)
+                                }
+                            }
+                            return data
+                        }
+                    } else {
+                        return data
+                    }
+                }
+                else{
+                    return data
+                }
+        }
+    }
+    catch {
+        print(error.localizedDescription)
+        return data
+    }
+}
+
 func isKeyPresentInUserDefaults(key: String) -> Bool {
     return UserDefaults.standard.object(forKey: key) != nil
 }
@@ -62,6 +104,7 @@ func saveRecordStringByGivenId(recordClass: String, saveRecordFailedKey: String,
                         switch result {
                         case .success:
                             print("\(recordClass)Obj saved successfully ")
+                            setSaveRecordToClouldStatus(key: saveRecordFailedKey, status: true)
                             break
                         case .failure(error: let error):
                             setSaveRecordToClouldStatus(key: saveRecordFailedKey, status: false)
@@ -70,11 +113,11 @@ func saveRecordStringByGivenId(recordClass: String, saveRecordFailedKey: String,
                     }
                 } catch {
                     setSaveRecordToClouldStatus(key: saveRecordFailedKey, status: false)
-                    print(error)
+                    print(error.localizedDescription)
                 }
             case .failure(error: let error):
                 setSaveRecordToClouldStatus(key: saveRecordFailedKey, status: false)
-                print(error)
+                print(error.localizedDescription)
             }
         }}
     }
@@ -112,6 +155,7 @@ func saveRecordStringToCloud(recordClass: String, saveRecordFailedKey: String, r
                                         switch result {
                                         case .success:
                                             print("\(recordClass)Obj saved successfully ")
+                                            setSaveRecordToClouldStatus(key: saveRecordFailedKey, status: true)
                                             break
                                         case .failure(error: let error):
                                             setSaveRecordToClouldStatus(key: saveRecordFailedKey, status: false)
@@ -119,15 +163,15 @@ func saveRecordStringToCloud(recordClass: String, saveRecordFailedKey: String, r
                                         }
                                     }
                                 } catch {
-                                    print(error)
+                                    setSaveRecordToClouldStatus(key: saveRecordFailedKey, status: false)
+                                    print(error.localizedDescription)
                                 }
                                 UserDefaults.standard.set(ReviewRecordId, forKey: recordIdKey)
                             }
-                            print("\(recordClass)Obj saved successfully ")
                             break
                         case .failure(error: let error):
                             setSaveRecordToClouldStatus(key: saveRecordFailedKey, status: false)
-                            print(error)
+                            print(error.localizedDescription)
                         }
                     }
                 }

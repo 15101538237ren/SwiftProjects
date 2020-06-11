@@ -35,16 +35,9 @@ class LearnWordViewController: UIViewController {
     let animationDuration = 0.15
     
     func setCardBackground(){
-        let theme_category_exist = isKeyPresentInUserDefaults(key: theme_category_string)
-        var theme_category  = 1
-        if theme_category_exist{
-            theme_category = UserDefaults.standard.integer(forKey: theme_category_string)
-        }else{
-            UserDefaults.standard.set(theme_category, forKey: theme_category_string)
-        }
-            
+        let current_theme_category = getPreference(key: "current_theme_category") as! Int
         for card in cards{
-            card.cardImageView?.image = UIImage(named: cardBackgrounds[theme_category]!)
+            card.cardImageView?.image = UIImage(named: cardBackgrounds[current_theme_category]!)
         }
     }
     
@@ -110,13 +103,8 @@ class LearnWordViewController: UIViewController {
         let card = cards[currentIndex % 2]
         if isCardBack {
             isCardBack = false
-            var theme_category  = 1
-            if isKeyPresentInUserDefaults(key: theme_category_string){
-                theme_category = UserDefaults.standard.integer(forKey: theme_category_string)
-            }else{
-                UserDefaults.standard.set(theme_category, forKey: theme_category_string)
-            }
-            card.cardImageView?.image = UIImage(named: cardBackgrounds[theme_category]!)
+            let current_theme_category = getPreference(key: "current_theme_category") as! Int
+            card.cardImageView?.image = UIImage(named: cardBackgrounds[current_theme_category]!)
             UIView.transition(with: card, duration: 0.3, options: .transitionFlipFromRight, animations: nil, completion: nil)
         }else{
             isCardBack = true

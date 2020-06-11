@@ -11,15 +11,6 @@ import UIKit
 import LeanCloud
 import SwiftyJSON
 
-var current_wallpaper: Wallpaper = default_wallpapers[0]
-var current_wallpaper_image: UIImage = UIImage()
-
-let trans_string = "trans"
-let word_string = "word"
-
-let theme_category_string = "theme_category"
-let last_theme_category_string = "last_theme_category"
-
 var textColors:[Int:UIColor] = [ 1: UIColor.white, 2: UIColor.white, 3: UIColor.gray, 4: UIColor.white, 5: UIColor.white, 6: UIColor.white, 7: UIColor.white, 8: UIColor.white, 9: UIColor.white, 10: UIColor.white]
 
 var themes:[Theme] = [
