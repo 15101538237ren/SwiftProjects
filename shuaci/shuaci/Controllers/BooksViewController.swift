@@ -409,6 +409,8 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
         if Reachability.isConnectedToNetwork(){
             DispatchQueue.global(qos: .background).async {
             do {
+                setPreference(key: "current_book_id", value: books[index].identifier)
+                
                 DispatchQueue.main.async {
                     self.initActivityIndicator(text: "数据下载中")
                 }
@@ -419,8 +421,6 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
                     
                     if let jsonData = data {
                         savejson(fileName: "current_book", jsonData: jsonData)
-
-                        UserDefaults.standard.set(books[index].identifier, forKey: "current_book")
                         currentbook_json_obj = load_json(fileName: "current_book")
                         update_words()
                         get_words()
@@ -445,7 +445,6 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
     func downloadAlert(index: Int, bookName: String){
         let alertController = UIAlertController(title: "选择词书", message: "学习\(bookName)?", preferredStyle: .alert)
         let okayAction = UIAlertAction(title: "确定", style: .default, handler: { action in
-            setCurrentBookId(bookId: books[index].identifier)
             self.downloadBookJson(index: index)
         })
         let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)

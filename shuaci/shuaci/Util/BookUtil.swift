@@ -11,7 +11,6 @@ import UIKit
 import LeanCloud
 import SwiftyJSON
 
-var current_book_id:String = "Level4_1"
 var category_items:[Int: String] = [0:"全部"]
 var selected_category:Int = 1
 var selected_subcategory: Int = 0

@@ -210,19 +210,6 @@ enum CardCollectBehavior {
 }
 
 // MARK: - Controller Util
-var npw_key = "number_of_word_per_day"
-
-func get_number_of_word_per_day() -> Int{
-    let number_of_word_per_day_exist = isKeyPresentInUserDefaults(key: npw_key)
-    var number_of_word_per_day: Int = 20
-    if number_of_word_per_day_exist{
-        number_of_word_per_day = UserDefaults.standard.integer(forKey: npw_key)
-    }
-    else{
-        UserDefaults.standard.set(number_of_word_per_day, forKey: npw_key)
-    }
-    return number_of_word_per_day
-}
 
 func presentAlert(title: String, message: String, okText: String) -> UIAlertController{
     let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
@@ -232,21 +219,11 @@ func presentAlert(title: String, message: String, okText: String) -> UIAlertCont
 }
 
 func getUSPhone() -> Bool{
-    let usphoneKey = "usphone"
-    if isKeyPresentInUserDefaults(key: usphoneKey){
-        let usphone:Bool = UserDefaults.standard.bool(forKey: usphoneKey)
-        return usphone
-    }
-    else{
-        let usphone:Bool = true
-        UserDefaults.standard.set(usphone, forKey: usphoneKey)
-        return usphone
-    }
+    return getPreference(key: "us_pronunciation") as! Bool
 }
 
 func setUSPhone(usphone: Bool){
-    let usphoneKey = "usphone"
-    UserDefaults.standard.set(usphone, forKey: usphoneKey)
+    setPreference(key: "us_pronunciation", value: usphone)
 }
 
 func getWordPronounceURL(word: String) -> URL?{
@@ -260,23 +237,6 @@ func getWordPronounceURL(word: String) -> URL?{
 }
 
 // MARK: - Book Util
-
-func setCurrentBookId(bookId: String){
-    let current_bookKey = "current_book"
-    current_book_id = bookId
-    UserDefaults.standard.setValue(bookId, forKey: current_bookKey)
-}
-
-func getCurrentBookId() -> String{
-    let current_bookKey = "current_book"
-    if isKeyPresentInUserDefaults(key: current_bookKey){
-        let book_id:String = UserDefaults.standard.string(forKey: current_bookKey) ?? current_book_id
-        return book_id
-    }
-    else{
-        return current_book_id
-    }
-}
 
 func fetchBooks(){
     if Reachability.isConnectedToNetwork(){
@@ -319,15 +279,9 @@ func fetchBooks(){
 // MARK: - Photo Util
 
 func savePhoto(image: UIImage, name_of_photo: String) -> UIImage?{
-    do {
-        let imageFileURL = getDocumentsDirectory().appendingPathComponent(name_of_photo)
-        try? image.jpegData(compressionQuality: 0.8)?.write(to: imageFileURL)
-        return image
-    } catch {
-        print("Error loading image : \(error)")
-    }
-    return nil
-    
+    let imageFileURL = getDocumentsDirectory().appendingPathComponent(name_of_photo)
+    try? image.jpegData(compressionQuality: 0.8)?.write(to: imageFileURL)
+    return image
 }
 
 func loadPhoto(name_of_photo: String) -> UIImage?{
@@ -370,12 +324,12 @@ func get_words(){
 
 func update_words(){
     let vocabRanks:[Int] = learntVocabRanks()
-    let number_of_word_per_day = get_number_of_word_per_day()
+    let number_of_words_per_group = getPreference(key: "number_of_words_per_group") as! Int
     let word_list = currentbook_json_obj["data"]
     let word_ids = word_list.count == 0 ? [] : Array(0...word_list.count)
     
     let diff_ids:[Int] = word_ids.difference(from: vocabRanks)
-    let sampling_number:Int = min(number_of_word_per_day, diff_ids.count)
+    let sampling_number:Int = min(number_of_words_per_group, diff_ids.count)
     
     let sampled_ids = diff_ids.choose(sampling_number)
     words = []

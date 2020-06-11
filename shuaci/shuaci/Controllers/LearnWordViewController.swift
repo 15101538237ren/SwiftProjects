@@ -120,6 +120,13 @@ class LearnWordViewController: UIViewController {
         }
     }
     
+    func playMp3GivenWord(word: String){
+        let auto_pronunciation:Bool = getPreference(key: "auto_pronunciation") as! Bool
+        let mp3_url = getWordPronounceURL(word: word)
+        if auto_pronunciation && (mp3_url != nil) {
+            playMp3(url: mp3_url!)
+        }
+    }
     
     func initCards() {
         for index in 0..<cards.count
@@ -134,9 +141,7 @@ class LearnWordViewController: UIViewController {
                 card.transform = CGAffineTransform(scaleX: scaleOfSecondCard, y: scaleOfSecondCard)
             }else{
                 let word: String = card.wordLabel?.text ?? ""
-                if let mp3_url = getWordPronounceURL(word: word){
-                    playMp3(url: mp3_url)
-                }
+                playMp3GivenWord(word: word)
             }
         }
     }
@@ -187,6 +192,7 @@ class LearnWordViewController: UIViewController {
     
     func initVocabRecords(){
         vocabRecordsOfCurrentLearning = []
+        let current_book_id:String = getPreference(key: "current_book_id") as! String
         for index in 0..<words.count
         {
             let word = words[index % words.count]
@@ -278,9 +284,7 @@ class LearnWordViewController: UIViewController {
                     print(card_behaviors)
                     
                     let word: String = nextCard.wordLabel?.text ?? ""
-                    if let mp3_url = getWordPronounceURL(word: word){
-                        playMp3(url: mp3_url)
-                    }
+                    playMp3GivenWord(word: word)
                     
                     self.currentIndex += 1
                     perform(#selector(moveCard), with: nil, afterDelay: animationDuration)
@@ -306,9 +310,7 @@ class LearnWordViewController: UIViewController {
                     print(card_behaviors)
                     
                     let word: String = nextCard.wordLabel?.text ?? ""
-                    if let mp3_url = getWordPronounceURL(word: word){
-                        playMp3(url: mp3_url)
-                    }
+                    playMp3GivenWord(word: word)
 
                     sender.view!.frame = card.frame
                     self.currentIndex += 1
@@ -424,9 +426,7 @@ class LearnWordViewController: UIViewController {
             removeLastVocabRecord(index: currentIndex, cardBehavior: card_behaviors[currentIndex])
             
             let wordStr: String = lastCard.wordLabel?.text ?? ""
-            if let mp3_url = getWordPronounceURL(word: wordStr){
-                playMp3(url: mp3_url)
-            }
+            playMp3GivenWord(word: wordStr)
             let direction:CGFloat = card_behaviors[currentIndex] == CardBehavior.forget ? 1 : -1
             lastCard.center = CGPoint(x:  self.view.center.x + 400 * (direction), y: self.view.center.y + 75)
             lastCard.X_Constraint.constant = lastCard.center.x - self.view.center.x
@@ -517,9 +517,7 @@ class LearnWordViewController: UIViewController {
                     print(self.card_behaviors)
 
                     let word: String = nextCard.wordLabel?.text ?? ""
-                    if let mp3_url = getWordPronounceURL(word: word){
-                        self.playMp3(url: mp3_url)
-                    }
+                    self.playMp3GivenWord(word: word)
 
                     self.currentIndex += 1
                     self.perform(#selector(self.moveCard), with: nil, afterDelay: self.animationDuration)
