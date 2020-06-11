@@ -17,6 +17,12 @@ let reviewRecordJsonFp = "reviewRecord.json"
 let vocabRecordJsonFp = "vocabRecord.json"
 let learningRecordJsonFp = "learningRecord.json"
 
+let ReviewRecordIdKey = "ReviewRecordId"
+let LearningRecordIdKey = "LearningRecordId"
+let VocabRecordIdKey = "VocabRecordId"
+let saveRecordToClouldFailedKey = "saveRecordIdToClouldFailedy"
+var saveRecordToClouldFailed : Bool = getSaveRecordToClouldStatus(saveRecordToClouldFailedKey)
+
 
 var vocabRecordsOfCurrentLearning:[VocabularyRecord] = []
 var currentLearningRec: LearningRecord = initNewLearningRec()
@@ -154,9 +160,6 @@ func syncRecords(){
     }
 }
 
-
-
-
 // MARK: - Vocab Util
 func learntVocabRanks() -> [Int]{
     var vocabRanks:[Int] = []
@@ -200,56 +203,17 @@ func loadVocabRecords() -> [VocabularyRecord] {
 }
 
 func saveVocabRecordsLocally(){
-    do {
-        let jsonData = try! JSONEncoder().encode(GlobalVocabRecords)
-        let jsonString = String(data: jsonData, encoding: .utf8)!
-        saveStringTo(fileName: vocabRecordJsonFp, jsonStr: jsonString)
-        update_words()
-    } catch {
-        print(error.localizedDescription)
-    }
+    let jsonData = try! JSONEncoder().encode(GlobalVocabRecords)
+    let jsonString = String(data: jsonData, encoding: .utf8)!
+    saveStringTo(fileName: vocabRecordJsonFp, jsonStr: jsonString)
+    update_words()
 }
 
 func saveVocabRecordsToClould(vocabRecords: [VocabularyRecord], username: String){
-    if Reachability.isConnectedToNetwork(){
-       DispatchQueue.global(qos: .background).async {
-       do {
-           let jsonData = try! JSONEncoder().encode(vocabRecords)
-           let jsonString = String(data: jsonData, encoding: .utf8)!
-           // 构建对象
-            if isKeyPresentInUserDefaults(key: "VocabRecordId"){
-                let VocabRecordId: String = UserDefaults.standard.string(forKey: "VocabRecordId")!
-            }
-            else{
-                let vocabRecordObj = LCObject(className: "VocabRecord")
-
-                // 为属性赋值
-                try vocabRecordObj.set("username", value: username)
-                try vocabRecordObj.set("jsonStr", value: jsonString)
-
-                // 将对象保存到云端
-                _ = vocabRecordObj.save { result in
-                    switch result {
-                    case .success:
-                        let VocabRecordId: String = vocabRecordObj.objectId?.stringValue! ?? ""
-                        if VocabRecordId != ""{
-                            UserDefaults.standard.set(VocabRecordId, forKey: "VocabRecordId")
-                        }
-                        // 成功保存之后，执行其他逻辑
-                        print("VocabRecord saved successfully ")
-                        break
-                    case .failure(error: let error):
-                        // 异常处理
-                        print(error)
-                    }
-                }
-            }
-           
-       } catch {
-           print(error.localizedDescription)
-           }}
-    }
-    
+    let jsonData = try! JSONEncoder().encode(vocabRecords)
+    let jsonString = String(data: jsonData, encoding: .utf8)!
+    let recordClass = "VocabRecord"
+    saveRecordStringToCloud(recordClass: recordClass, saveRecordFailedKey: saveRecordToClouldFailedKey, recordIdKey: VocabRecordIdKey, username: username, jsonString: jsonString)
 }
 
 
@@ -262,9 +226,9 @@ func initNewLearningRec() -> LearningRecord{
 func saveLearningRecordsFromLearning() {
     //Save learnt records
     GlobalVocabRecords.append(contentsOf: vocabRecordsOfCurrentLearning)
-    saveVocabRecordsLocally()
+    saveVocabRecords()
     GlobalLearningRecords.append(currentLearningRec)
-    saveLearningRecordsLocally()
+    saveLearningRecords()
     UserDefaults.standard.set(true, forKey: "uploadFailed")
     uploadRecordsIfNeeded()
 }
@@ -286,62 +250,13 @@ func loadLearningRecords() -> [LearningRecord]{
     return learningRecord
 }
 
-
-
-func saveLearningRecordsLocally(){
-    do {
-        let jsonData = try! JSONEncoder().encode(GlobalLearningRecords)
-        let jsonString = String(data: jsonData, encoding: .utf8)!
-        saveStringTo(fileName: learningRecordJsonFp, jsonStr: jsonString)
-    } catch {
-        print(error.localizedDescription)
-    }
-}
-
-
-func saveLearningRecordsToClould(learningRecord: [LearningRecord], username: String){
+func saveLearningRecords(){
+    let jsonData = try! JSONEncoder().encode(GlobalLearningRecords)
+    let jsonString = String(data: jsonData, encoding: .utf8)!
+    saveStringTo(fileName: learningRecordJsonFp, jsonStr: jsonString)
     
-    if Reachability.isConnectedToNetwork(){
-       DispatchQueue.global(qos: .background).async {
-       do {
-           let jsonData = try! JSONEncoder().encode(learningRecord)
-           let jsonString = String(data: jsonData, encoding: .utf8)!
-           // 构建对象
-            if isKeyPresentInUserDefaults(key: "LearningRecordId"){
-                let LearningRecordId: String = UserDefaults.standard.string(forKey: "LearningRecordId")!
-            }
-            else{
-                let learningRecordObj = LCObject(className: "LearningRecord")
-
-                // 为属性赋值
-                try learningRecordObj.set("username", value: username)
-                try learningRecordObj.set("jsonStr", value: jsonString)
-
-                // 将对象保存到云端
-                _ = learningRecordObj.save { result in
-                    switch result {
-                    case .success :
-                        print(result)
-                        // 成功保存之后，执行其他逻辑
-                        print("LearningRecord saved successfully ")
-                        let LearningRecordId: String = learningRecordObj.objectId?.stringValue! ?? ""
-                        if LearningRecordId != ""{
-                            UserDefaults.standard.set(LearningRecordId, forKey: "LearningRecordId")
-                        }
-                        
-                        UserDefaults.standard.set(false, forKey: "uploadFailed")
-                        break
-                    case .failure(error: let error):
-                        // 异常处理
-                        print(error)
-                    }
-                }
-            }
-           
-       } catch {
-           print(error.localizedDescription)
-           }}
-    }
+    let recordClass = "LearningRecord"
+    saveRecordStringToCloud(recordClass: recordClass, saveRecordFailedKey: saveRecordToClouldFailedKey, recordIdKey: LearningRecordIdKey, username: GlobalUserName, jsonString: jsonString)
 }
 
 
@@ -359,61 +274,56 @@ func loadReviewRecords() -> [ReviewRecord]{
     } catch {
         print(error.localizedDescription)
     }
+    
+    do {
+        let fileURL = try FileManager.default
+            .url(for: .applicationSupportDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
+            .appendingPathComponent(reviewRecordJsonFp)
+        
+        if FileManager.default.fileExists(atPath: fileURL.path) {
+            let data = try Data(contentsOf: fileURL, options: .mappedIfSafe)
+            let reviewRecords = try decoder.decode([ReviewRecord].self, from: data)
+            return reviewRecords
+        }
+        else{
+            if Reachability.isConnectedToNetwork(){
+               DispatchQueue.global(qos: .background).async {
+                do {
+                    let user = LCApplication.default.currentUser!
+                    if let prefId = user.get(DefaultPrefIdKey)?.stringValue{
+                        do {
+                            let userPreferenceQuery = LCQuery(className: "UserPreference")
+                            let _ = userPreferenceQuery.get(prefId) { (result) in
+                                switch result {
+                                case .success(object: let pref):
+                                    let prefStr:String = pref.get("Preference")!.stringValue!
+                                    USER_PREFERENCE = decodePreferenceFromStr(prefStr: prefStr)
+                                case .failure(error: let error):
+                                    print(error)
+                                }
+                            }
+                        }
+                    }else{
+                        initPreference()
+                    }
+                }
+            }
+        }
+        }
+    } catch {
+        print(error.localizedDescription)
+    }
+    
     let reviewRecords: [ReviewRecord] =  []
     return reviewRecords
 }
 
-func saveReviewRecordsLocally(){
-    do {
-        let jsonData = try! JSONEncoder().encode(GlobalReviewRecords)
-        let jsonString = String(data: jsonData, encoding: .utf8)!
-        saveStringTo(fileName: reviewRecordJsonFp, jsonStr: jsonString)
-    } catch {
-        print(error.localizedDescription)
-    }
-}
-
-func saveReviewRecordsToClould(reviewRecord: [ReviewRecord], username: String){
-    if Reachability.isConnectedToNetwork(){
-       DispatchQueue.global(qos: .background).async {
-       do {
-           let jsonData = try! JSONEncoder().encode(reviewRecord)
-           let jsonString = String(data: jsonData, encoding: .utf8)!
-           // 构建对象
-            if isKeyPresentInUserDefaults(key: "ReviewRecordId"){
-                let ReviewRecordId: String = UserDefaults.standard.string(forKey: "ReviewRecordId")!
-            }
-            else{
-                let reviewRecordObj = LCObject(className: "ReviewRecord")
-
-                // 为属性赋值
-                try reviewRecordObj.set("username", value: username)
-                try reviewRecordObj.set("jsonStr", value: jsonString)
-
-                // 将对象保存到云端
-                _ = reviewRecordObj.save { result in
-                    switch result {
-                    case .success:
-                        // 成功保存之后，执行其他逻辑
-                        let ReviewRecordId: String = reviewRecordObj.objectId?.stringValue! ?? ""
-                        if ReviewRecordId != ""{
-                            UserDefaults.standard.set(ReviewRecordId, forKey: "ReviewRecordId")
-                        }
-                        print("ReviewRecordObj saved successfully ")
-                        break
-                    case .failure(error: let error):
-                        // 异常处理
-                        print(error)
-                    }
-                }
-            }
-        
-           
-       } catch {
-           print(error.localizedDescription)
-           }}
-    }
+func saveReviewRecords(){
+    let jsonData = try! JSONEncoder().encode(GlobalReviewRecords)
+    let jsonString = String(data: jsonData, encoding: .utf8)!
+    saveStringTo(fileName: reviewRecordJsonFp, jsonStr: jsonString)
     
+    let recordClass = "ReviewRecord"
+    saveRecordStringToCloud(recordClass: recordClass, saveRecordFailedKey: saveRecordToClouldFailedKey, recordIdKey: ReviewRecordIdKey, username: GlobalUserName, jsonString: jsonString)
 }
-
 

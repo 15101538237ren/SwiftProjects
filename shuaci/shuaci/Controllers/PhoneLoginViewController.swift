@@ -49,6 +49,7 @@ class PhoneLoginViewController: UIViewController {
     }
     
     func showMainPanel() {
+        GlobalUserName = getUserName()
         let LoginRegStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
         let mainPanelViewController = LoginRegStoryBoard.instantiateViewController(withIdentifier: "mainPanelViewController") as! MainPanelViewController
         mainPanelViewController.modalPresentationStyle = .fullScreen

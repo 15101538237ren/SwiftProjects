@@ -16,6 +16,133 @@ import SwiftyJSON
 var imageCache = NSCache<NSString, NSURL>()
 let decoder = JSONDecoder()
 
+var GlobalUserName = ""
+
+// MARK: - Common Functions
+
+func getUserName() -> String{
+    let user = LCApplication.default.currentUser!
+    let username = user.get("username")!.stringValue!
+    return username
+}
+
+
+func isKeyPresentInUserDefaults(key: String) -> Bool {
+    return UserDefaults.standard.object(forKey: key) != nil
+}
+
+func getSaveRecordToClouldStatus(key: String) -> Bool{
+    if isKeyPresentInUserDefaults(key: key){
+        return UserDefaults.standard.bool(forKey: key)
+    }
+    else{
+        UserDefaults.standard.set(false, forKey: key)
+        return false
+    }
+}
+
+func setSaveRecordToClouldStatus(key: String, status: Bool){
+    UserDefaults.standard.set(status, forKey: key)
+}
+
+func saveRecordStringByGivenId(recordClass: String, saveRecordFailedKey: String, username: String, jsonString: String){
+    // if ReviewRecordId exist in UserPreference
+    let recordId: String = UserDefaults.standard.string(forKey: ReviewRecordIdKey)!
+    
+    DispatchQueue.global(qos: .background).async {
+    do {
+        let recordQuery = LCQuery(className: recordClass)
+        let _ = recordQuery.get(recordId) { (result) in
+            switch result {
+            case .success(object: let rec):
+                do {
+                    try rec.set("username", value: username)
+                    try rec.set("jsonStr", value: jsonString)
+                    rec.save { (result) in
+                        switch result {
+                        case .success:
+                            print("\(recordClass)Obj saved successfully ")
+                            break
+                        case .failure(error: let error):
+                            setSaveRecordToClouldStatus(key: saveRecordFailedKey, status: false)
+                            print(error.localizedDescription)
+                        }
+                    }
+                } catch {
+                    setSaveRecordToClouldStatus(key: saveRecordFailedKey, status: false)
+                    print(error)
+                }
+            case .failure(error: let error):
+                setSaveRecordToClouldStatus(key: saveRecordFailedKey, status: false)
+                print(error)
+            }
+        }}
+    }
+}
+
+func saveRecordStringToCloud(recordClass: String, saveRecordFailedKey: String, recordIdKey: String, username: String, jsonString: String){
+    if Reachability.isConnectedToNetwork(){
+       DispatchQueue.global(qos: .background).async {
+       do {
+            if !isKeyPresentInUserDefaults(key: recordIdKey)
+            {
+                //If cannot find Id in local, maybe stored in cloud, find it in user object. Otherwise, create and save it to local and user
+                let user = LCApplication.default.currentUser!
+                if let reviewRecordIdFromCloud = user.get(recordIdKey)?.stringValue{
+                    UserDefaults.standard.set(reviewRecordIdFromCloud, forKey: recordIdKey)
+                    saveRecordStringByGivenId(recordClass: recordClass, saveRecordFailedKey: saveRecordFailedKey, username: username, jsonString: jsonString)
+                }
+                else{
+                    let reviewRecordObj = LCObject(className: recordClass)
+
+                    // 为属性赋值
+                    try reviewRecordObj.set("username", value: username)
+                    try reviewRecordObj.set("jsonStr", value: jsonString)
+
+                    // 将对象保存到云端
+                    _ = reviewRecordObj.save { result in
+                        switch result {
+                        case .success:
+                            
+                            let ReviewRecordId: String = reviewRecordObj.objectId?.stringValue! ?? ""
+                            if ReviewRecordId != ""{
+                                do {
+                                   try user.set(recordIdKey, value: ReviewRecordId)
+                                    user.save { (result) in
+                                        switch result {
+                                        case .success:
+                                            print("\(recordClass)Obj saved successfully ")
+                                            break
+                                        case .failure(error: let error):
+                                            setSaveRecordToClouldStatus(key: saveRecordFailedKey, status: false)
+                                            print(error.localizedDescription)
+                                        }
+                                    }
+                                } catch {
+                                    print(error)
+                                }
+                                UserDefaults.standard.set(ReviewRecordId, forKey: recordIdKey)
+                            }
+                            print("\(recordClass)Obj saved successfully ")
+                            break
+                        case .failure(error: let error):
+                            setSaveRecordToClouldStatus(key: saveRecordFailedKey, status: false)
+                            print(error)
+                        }
+                    }
+                }
+            }
+            else{
+                saveRecordStringByGivenId(recordClass: recordClass, saveRecordFailedKey:saveRecordFailedKey, username: username, jsonString: jsonString)
+            }
+       } catch {
+        setSaveRecordToClouldStatus(key: saveRecordFailedKey, status: false)
+        print(error.localizedDescription)
+       }}
+    }
+}
+
+
 // MARK: - Card Util
 
 var cardBackgrounds: [Int: String] = [

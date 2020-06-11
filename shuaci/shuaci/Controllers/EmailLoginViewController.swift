@@ -127,6 +127,7 @@ class EmailLoginViewController: UIViewController {
         let LoginRegStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
         let mainPanelViewController = LoginRegStoryBoard.instantiateViewController(withIdentifier: "mainPanelViewController") as! MainPanelViewController
         mainPanelViewController.modalPresentationStyle = .fullScreen
+        GlobalUserName = getUserName()
         DispatchQueue.main.async {
             self.present(mainPanelViewController, animated: true, completion: nil)
         }

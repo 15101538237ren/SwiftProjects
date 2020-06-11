@@ -16,10 +16,6 @@ let preferenceJsonFp = "userPreference.json"
 let savePrefToClouldFailedKey = "savePrefToClouldFailed"
 var savePrefToClouldFailed : Bool = getSavePrefToClouldStatus()
 
-func isKeyPresentInUserDefaults(key: String) -> Bool {
-    return UserDefaults.standard.object(forKey: key) != nil
-}
-
 // MARK: - Preference
 
 func syncPrefToCloud(){
@@ -104,7 +100,6 @@ func loadPreference(){
                             let _ = userPreferenceQuery.get(prefId) { (result) in
                                 switch result {
                                 case .success(object: let pref):
-                                    // todo 就是 objectId 为 582570f38ac247004f39c24b 的 Todo 实例
                                     let prefStr:String = pref.get("Preference")!.stringValue!
                                     USER_PREFERENCE = decodePreferenceFromStr(prefStr: prefStr)
                                 case .failure(error: let error):
@@ -128,20 +123,15 @@ func savePreferenceToClould(){
     if Reachability.isConnectedToNetwork(){
        DispatchQueue.global(qos: .background).async {
        do {
-           var prefId = ""
            let preferenceStr = encodePreferenceToStr()
            // Construct Obj
-            if isKeyPresentInUserDefaults(key: DefaultPrefIdKey){
-                prefId = UserDefaults.standard.string(forKey: DefaultPrefIdKey)!
-            }
-            else{
+            if !isKeyPresentInUserDefaults(key: DefaultPrefIdKey){
                 let user = LCApplication.default.currentUser!
                 if let username = user.get("username"){
                     do {
                         
                         if let preferenceIdFromCloud = user.get(DefaultPrefIdKey)?.stringValue{
                             UserDefaults.standard.set(preferenceIdFromCloud, forKey: DefaultPrefIdKey)
-                            prefId = preferenceIdFromCloud
                         }
                         else{
                             let UserPreferenceObj = LCObject(className: "UserPreference")
@@ -170,7 +160,6 @@ func savePreferenceToClould(){
                                             print(error)
                                         }
                                         UserDefaults.standard.set(preferenceIdFromCloud, forKey: DefaultPrefIdKey)
-                                        prefId = preferenceIdFromCloud
                                     }
                                     break
                                 case .failure(error: let error):
@@ -186,7 +175,6 @@ func savePreferenceToClould(){
                 
                 
             }
-        
            
        } catch {
            print(error.localizedDescription)
