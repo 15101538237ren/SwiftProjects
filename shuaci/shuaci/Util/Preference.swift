@@ -48,15 +48,16 @@ func encodePreferenceToStr() -> String{
     return jsonString ?? ""
 }
 
-func savePreference(saveToLocal: Bool, saveToCloud: Bool = true){
+func savePreference(saveToLocal: Bool, saveToCloud: Bool = true, delaySeconds:Double = 0){
     let jsonString = encodePreferenceToStr()
     if jsonString != ""{
-        
-        if saveToLocal{
+        if saveToLocal || !fileExist(fileFp: preferenceJsonFp){
             saveStringTo(fileName: preferenceJsonFp, jsonStr: jsonString)
         }
         
-        saveRecordStringToCloud(recordClass: recordClass, saveRecordFailedKey: savePrefToClouldFailedKey, recordIdKey: DefaultPrefIdKey, username: GlobalUserName, jsonString: jsonString)
+        DispatchQueue.main.asyncAfter(deadline: .now() + delaySeconds) {
+           saveRecordStringToCloud(recordClass: recordClass, saveRecordFailedKey: savePrefToClouldFailedKey, recordIdKey: DefaultPrefIdKey, username: GlobalUserName, jsonString: jsonString)
+        }
     }
     else{
         print("loaded empty preference")
@@ -64,13 +65,14 @@ func savePreference(saveToLocal: Bool, saveToCloud: Bool = true){
 }
 
 func loadPreference(){
-    do {
-        if let data = load_data_from_file(fileFp: preferenceJsonFp, recordClass: recordClass, IdKey: DefaultPrefIdKey){
+    if let data = load_data_from_file(fileFp: preferenceJsonFp, recordClass: recordClass, IdKey: DefaultPrefIdKey){
+        do {
             USER_PREFERENCE = try (JSONSerialization.jsonObject(with: data, options: []) as? [String: Any])!
-        } else{
-            initPreference()
+        } catch {
+            print(error.localizedDescription)
         }
-    } catch {
-        print(error.localizedDescription)
+    } else{
+        initPreference()
     }
+    
 }

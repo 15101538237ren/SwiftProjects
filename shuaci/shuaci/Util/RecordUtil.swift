@@ -46,32 +46,32 @@ var GlobalLearningRecords:[LearningRecord] = loadLearningRecords()
 // MARK: - Overall Util
 
 func prepareRecordsAndPreference(){
+    loadPreference()
     GlobalVocabRecords = loadVocabRecords()
     GlobalReviewRecords = loadReviewRecords()
     GlobalLearningRecords = loadLearningRecords()
-    loadPreference()
+    
+    if !getSaveRecordToClouldStatus(key: savePrefToClouldFailedKey){
+        savePreference(saveToLocal: false)
+    }
     
     if !getSaveRecordToClouldStatus(key: saveVocabRecordToClouldFailedKey){
-        saveVocabRecords(saveToLocal: false)
+        saveVocabRecords(saveToLocal: false, delaySeconds: 1.0)
     }
     
     if !getSaveRecordToClouldStatus(key: saveLearningRecordToClouldFailedKey){
-        saveLearningRecords(saveToLocal: false)
+        saveLearningRecords(saveToLocal: false, delaySeconds: 2.0)
     }
     
     if !getSaveRecordToClouldStatus(key: saveReviewRecordToClouldFailedKey){
-        saveReviewRecords(saveToLocal: false)
-    }
-    
-    if !getSaveRecordToClouldStatus(key: savePrefToClouldFailedKey){
-        saveReviewRecords(saveToLocal: false)
+        saveReviewRecords(saveToLocal: false, delaySeconds: 3.0)
     }
 }
 
 // MARK: - Vocab Util
 func learntVocabRanks() -> [Int]{
     var vocabRanks:[Int] = []
-    let book_id:String = getCurrentBookId()
+    let book_id:String = getPreference(key: "current_book_id") as! String
     let vocabRecords: [VocabularyRecord] = loadVocabRecords()
     for vocabRec in vocabRecords{
         if vocabRec.BookId == book_id{
@@ -105,14 +105,16 @@ func loadVocabRecords() -> [VocabularyRecord] {
     return vocabRecords
 }
 
-func saveVocabRecords(saveToLocal: Bool){
+func saveVocabRecords(saveToLocal: Bool, delaySeconds:Double = 0){
     let jsonData = try! JSONEncoder().encode(GlobalVocabRecords)
     let jsonString = String(data: jsonData, encoding: .utf8)!
-    if saveToLocal{
+    if saveToLocal || !fileExist(fileFp: vocabRecordJsonFp){
         saveStringTo(fileName: vocabRecordJsonFp, jsonStr: jsonString)
     }
     update_words()
-    saveRecordStringToCloud(recordClass: vocabRecordClass, saveRecordFailedKey: saveVocabRecordToClouldFailedKey, recordIdKey: VocabRecordIdKey, username: GlobalUserName, jsonString: jsonString)
+    DispatchQueue.main.asyncAfter(deadline: .now() + delaySeconds) {
+        saveRecordStringToCloud(recordClass: vocabRecordClass, saveRecordFailedKey: saveVocabRecordToClouldFailedKey, recordIdKey: VocabRecordIdKey, username: GlobalUserName, jsonString: jsonString)
+    }
 }
 
 // MARK: - LearningRecord Util
@@ -142,13 +144,15 @@ func loadLearningRecords() -> [LearningRecord]{
     return learningRecord
 }
 
-func saveLearningRecords(saveToLocal: Bool){
+func saveLearningRecords(saveToLocal: Bool, delaySeconds:Double = 0){
     let jsonData = try! JSONEncoder().encode(GlobalLearningRecords)
     let jsonString = String(data: jsonData, encoding: .utf8)!
-    if saveToLocal{
+    if saveToLocal || !fileExist(fileFp: learningRecordJsonFp){
         saveStringTo(fileName: learningRecordJsonFp, jsonStr: jsonString)
     }
-    saveRecordStringToCloud(recordClass: learningRecordClass, saveRecordFailedKey: saveLearningRecordToClouldFailedKey, recordIdKey: LearningRecordIdKey, username: GlobalUserName, jsonString: jsonString)
+    DispatchQueue.main.asyncAfter(deadline: .now() + delaySeconds) {
+        saveRecordStringToCloud(recordClass: learningRecordClass, saveRecordFailedKey: saveLearningRecordToClouldFailedKey, recordIdKey: LearningRecordIdKey, username: GlobalUserName, jsonString: jsonString)
+    }
 }
 
 
@@ -165,13 +169,14 @@ func loadReviewRecords() -> [ReviewRecord]{
     return reviewRecords
 }
 
-func saveReviewRecords(saveToLocal: Bool){
+func saveReviewRecords(saveToLocal: Bool, delaySeconds:Double = 0){
     let jsonData = try! JSONEncoder().encode(GlobalReviewRecords)
     let jsonString = String(data: jsonData, encoding: .utf8)!
-    if saveToLocal{
+    if saveToLocal || !fileExist(fileFp: reviewRecordJsonFp){
         saveStringTo(fileName: reviewRecordJsonFp, jsonStr: jsonString)
     }
-    
-    saveRecordStringToCloud(recordClass: reviewRecordClass, saveRecordFailedKey: saveReviewRecordToClouldFailedKey, recordIdKey: ReviewRecordIdKey, username: GlobalUserName, jsonString: jsonString)
+    DispatchQueue.main.asyncAfter(deadline: .now() + delaySeconds) {
+        saveRecordStringToCloud(recordClass: reviewRecordClass, saveRecordFailedKey: saveReviewRecordToClouldFailedKey, recordIdKey: ReviewRecordIdKey, username: GlobalUserName, jsonString: jsonString)
+    }
 }
 

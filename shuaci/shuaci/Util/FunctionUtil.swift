@@ -26,6 +26,24 @@ func getUserName() -> String{
     return username
 }
 
+func fileExist(fileFp: String) -> Bool {
+    do {
+        let fileURL = try FileManager.default
+                .url(for: .applicationSupportDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
+                .appendingPathComponent(fileFp)
+        if FileManager.default.fileExists(atPath: fileURL.path) {
+            return true
+        }
+        else
+        {
+            return false
+        }
+    }
+    catch {
+        print(error.localizedDescription)
+        return false
+    }
+}
 
 func load_data_from_file(fileFp: String, recordClass: String, IdKey: String) -> Data?{
     var data:Data? = nil
@@ -42,17 +60,22 @@ func load_data_from_file(fileFp: String, recordClass: String, IdKey: String) -> 
                     let user = LCApplication.default.currentUser!
                     if let recId = user.get(IdKey)?.stringValue{
                         do {
-                            let recordQuery = LCQuery(className: recordClass)
-                            let _ = recordQuery.get(recId) { (result) in
-                                switch result {
-                                case .success(object: let rec):
-                                    let recStr:String = rec.get("jsonStr")!.stringValue!
-                                    data = recStr.data(using: .utf8)
-                                case .failure(error: let error):
-                                    print(error)
+                            if recId != ""{
+                                let recordQuery = LCQuery(className: recordClass)
+                                let _ = recordQuery.get(recId) { (result) in
+                                    switch result {
+                                    case .success(object: let rec):
+                                        let recStr:String = rec.get("jsonStr")!.stringValue!
+                                        data = recStr.data(using: .utf8)
+                                    case .failure(error: let error):
+                                        print(error)
+                                    }
                                 }
+                                return data
+                            }else{
+                                return data
                             }
-                            return data
+                            
                         }
                     } else {
                         return data
@@ -87,9 +110,9 @@ func setSaveRecordToClouldStatus(key: String, status: Bool){
     UserDefaults.standard.set(status, forKey: key)
 }
 
-func saveRecordStringByGivenId(recordClass: String, saveRecordFailedKey: String, username: String, jsonString: String){
+func saveRecordStringByGivenId(recordClass: String, saveRecordFailedKey: String, recordIdKey: String, username: String, jsonString: String){
     // if ReviewRecordId exist in UserPreference
-    let recordId: String = UserDefaults.standard.string(forKey: ReviewRecordIdKey)!
+    let recordId: String = UserDefaults.standard.string(forKey: recordIdKey)!
     
     DispatchQueue.global(qos: .background).async {
     do {
@@ -131,26 +154,26 @@ func saveRecordStringToCloud(recordClass: String, saveRecordFailedKey: String, r
             {
                 //If cannot find Id in local, maybe stored in cloud, find it in user object. Otherwise, create and save it to local and user
                 let user = LCApplication.default.currentUser!
-                if let reviewRecordIdFromCloud = user.get(recordIdKey)?.stringValue{
-                    UserDefaults.standard.set(reviewRecordIdFromCloud, forKey: recordIdKey)
-                    saveRecordStringByGivenId(recordClass: recordClass, saveRecordFailedKey: saveRecordFailedKey, username: username, jsonString: jsonString)
+                if let recordIdFromCloud = user.get(recordIdKey)?.stringValue{
+                    UserDefaults.standard.set(recordIdFromCloud, forKey: recordIdKey)
+                    saveRecordStringByGivenId(recordClass: recordClass, saveRecordFailedKey: saveRecordFailedKey, recordIdKey: recordIdKey, username: username, jsonString: jsonString)
                 }
                 else{
-                    let reviewRecordObj = LCObject(className: recordClass)
+                    let recordObj = LCObject(className: recordClass)
 
                     // 为属性赋值
-                    try reviewRecordObj.set("username", value: username)
-                    try reviewRecordObj.set("jsonStr", value: jsonString)
+                    try recordObj.set("username", value: username)
+                    try recordObj.set("jsonStr", value: jsonString)
 
                     // 将对象保存到云端
-                    _ = reviewRecordObj.save { result in
+                    _ = recordObj.save { result in
                         switch result {
                         case .success:
                             
-                            let ReviewRecordId: String = reviewRecordObj.objectId?.stringValue! ?? ""
-                            if ReviewRecordId != ""{
+                            let recordId: String = recordObj.objectId?.stringValue! ?? ""
+                            if recordId != ""{
                                 do {
-                                   try user.set(recordIdKey, value: ReviewRecordId)
+                                   try user.set(recordIdKey, value: recordId)
                                     user.save { (result) in
                                         switch result {
                                         case .success:
@@ -166,7 +189,7 @@ func saveRecordStringToCloud(recordClass: String, saveRecordFailedKey: String, r
                                     setSaveRecordToClouldStatus(key: saveRecordFailedKey, status: false)
                                     print(error.localizedDescription)
                                 }
-                                UserDefaults.standard.set(ReviewRecordId, forKey: recordIdKey)
+                                UserDefaults.standard.set(recordId, forKey: recordIdKey)
                             }
                             break
                         case .failure(error: let error):
@@ -177,7 +200,7 @@ func saveRecordStringToCloud(recordClass: String, saveRecordFailedKey: String, r
                 }
             }
             else{
-                saveRecordStringByGivenId(recordClass: recordClass, saveRecordFailedKey:saveRecordFailedKey, username: username, jsonString: jsonString)
+                saveRecordStringByGivenId(recordClass: recordClass, saveRecordFailedKey:saveRecordFailedKey, recordIdKey: recordIdKey, username: username, jsonString: jsonString)
             }
        } catch {
         setSaveRecordToClouldStatus(key: saveRecordFailedKey, status: false)
@@ -226,8 +249,8 @@ func setUSPhone(usphone: Bool){
     setPreference(key: "us_pronunciation", value: usphone)
 }
 
-func getWordPronounceURL(word: String) -> URL?{
-    let usphone = getUSPhone() == true ? 0 : 1
+func getWordPronounceURL(word: String, fromMainScreen: Bool = false) -> URL?{
+    let usphone = fromMainScreen ? 0 : (getUSPhone() == true ? 0 : 1)
     if word != ""{
         let url_string: String = "http://dict.youdao.com/dictvoice?type=\(usphone)&audio=\(word)"
         let mp3_url:URL = URL(string: url_string)!
@@ -301,42 +324,47 @@ var words:[JSON] = []
 let wordsJsonFp = "words.json"
 
 func get_words(){
-    do {
-        let wordJsonURL = try FileManager.default
-        .url(for: .applicationSupportDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
-        .appendingPathComponent(wordsJsonFp)
-        if words.count == 0{
-            let word_list = currentbook_json_obj["data"]
-            if !FileManager.default.fileExists(atPath: wordJsonURL.path) {
-                update_words()
+    if fileExist(fileFp: wordsJsonFp)
+    {
+        do {
+            let wordJsonURL = try FileManager.default
+            .url(for: .applicationSupportDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
+            .appendingPathComponent(wordsJsonFp)
+            if words.count == 0{
+                let word_list = currentbook_json_obj["data"]
+                if !FileManager.default.fileExists(atPath: wordJsonURL.path) {
+                    update_words()
+                }
+                let sampled_ids:[Int] = loadIntArrayFromFile(filename: wordsJsonFp)
+                
+                for i in 0..<sampled_ids.count{
+                    words.append(word_list[sampled_ids[i]])
+                }
             }
-            let sampled_ids:[Int] = loadIntArrayFromFile(filename: wordsJsonFp)
-            
-            for i in 0..<sampled_ids.count{
-                words.append(word_list[sampled_ids[i]])
-            }
+        } catch {
+            print(error.localizedDescription)
         }
-    } catch {
-        print(error.localizedDescription)
     }
 }
 
 
 func update_words(){
-    let vocabRanks:[Int] = learntVocabRanks()
-    let number_of_words_per_group = getPreference(key: "number_of_words_per_group") as! Int
-    let word_list = currentbook_json_obj["data"]
-    let word_ids = word_list.count == 0 ? [] : Array(0...word_list.count)
-    
-    let diff_ids:[Int] = word_ids.difference(from: vocabRanks)
-    let sampling_number:Int = min(number_of_words_per_group, diff_ids.count)
-    
-    let sampled_ids = diff_ids.choose(sampling_number)
-    words = []
-    for i in 0..<sampled_ids.count{
-        words.append(word_list[sampled_ids[i]])
+    if let _ = getPreference(key: "current_book_id") as? String {
+        let vocabRanks:[Int] = learntVocabRanks()
+        let number_of_words_per_group = getPreference(key: "number_of_words_per_group") as! Int
+        let word_list = currentbook_json_obj["data"]
+        let word_ids = word_list.count == 0 ? [] : Array(0...word_list.count)
+        
+        let diff_ids:[Int] = word_ids.difference(from: vocabRanks)
+        let sampling_number:Int = min(number_of_words_per_group, diff_ids.count)
+        
+        let sampled_ids = diff_ids.choose(sampling_number)
+        words = []
+        for i in 0..<sampled_ids.count{
+            words.append(word_list[sampled_ids[i]])
+        }
+        saveStringTo(fileName: wordsJsonFp, jsonStr: sampled_ids.map { String($0) }.joined(separator: ","))
     }
-    saveStringTo(fileName: wordsJsonFp, jsonStr: sampled_ids.map { String($0) }.joined(separator: ","))
 }
 
 func getFeildsOfWord(word: JSON, usphone: Bool) -> CardWord{

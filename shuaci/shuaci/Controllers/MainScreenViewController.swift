@@ -110,7 +110,7 @@ class MainScreenViewController: UIViewController {
             {
                 card.transform = CGAffineTransform(scaleX: scaleOfSecondCard, y: scaleOfSecondCard)
             } else {
-                if let mp3_url = getWordPronounceURL(word: cardWord.headWord){
+                if let mp3_url = getWordPronounceURL(word: cardWord.headWord, fromMainScreen: true){
                     playMp3(url: mp3_url)
                 }
             }
@@ -168,7 +168,7 @@ class MainScreenViewController: UIViewController {
                 })
                 sender.view!.frame = card.frame
                 let word: String = nextCard.wordLabel?.text ?? ""
-                if let mp3_url = getWordPronounceURL(word: word){
+                if let mp3_url = getWordPronounceURL(word: word, fromMainScreen: true){
                     playMp3(url: mp3_url)
                 }
                 UIView.animate(withDuration: animationDuration, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 5, options: .curveEaseInOut, animations: {
@@ -189,7 +189,7 @@ class MainScreenViewController: UIViewController {
                 })
                 sender.view!.frame = card.frame
                 let word: String = nextCard.wordLabel?.text ?? ""
-                if let mp3_url = getWordPronounceURL(word: word){
+                if let mp3_url = getWordPronounceURL(word: word, fromMainScreen: true){
                     playMp3(url: mp3_url)
                 }
                 self.currentIndex += 1
@@ -243,7 +243,7 @@ class MainScreenViewController: UIViewController {
         if Reachability.isConnectedToNetwork(){
             let cardWord = cardWords[currentIndex % cardWords.count]
             let wordStr: String = cardWord.headWord
-            if let mp3_url = getWordPronounceURL(word: wordStr){
+            if let mp3_url = getWordPronounceURL(word: wordStr, fromMainScreen: true){
                 playMp3(url: mp3_url)
             }
         }else{

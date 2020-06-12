@@ -98,9 +98,10 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
         if let _ = LCApplication.default.currentUser {
             syncLabel.alpha = 0
             // 跳到首页
+            GlobalUserName = getUserName()
+            print(GlobalUserName)
             prepareRecordsAndPreference()
             fetchBooks()
-            setWallpaper()
             if let userImage = loadPhoto(name_of_photo: "user_avatar.jpg") {
                 self.userPhotoBtn.setImage(userImage, for: [])
             }
@@ -248,12 +249,11 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
         }
         else{
             let word = UserDefaults.standard.string(forKey: "word")
-            let trans = UserDefaults.standard.string(forKey: "trans")
-            
             let imageFileURL = getDocumentsDirectory().appendingPathComponent("theme_download.jpg")
             do {
                 let imageData = try Data(contentsOf: imageFileURL)
                 let image = UIImage(data: imageData)
+                let trans = UserDefaults.standard.string(forKey: "trans")
                 DispatchQueue.main.async {
                     self.todayImageView?.image = image
                     self.wordLabel.text = word
@@ -262,20 +262,21 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
             } catch {
                 print("Error loading image : \(error)")
                 let image = UIImage(named: "theme_\(current_theme_category)")
+                let wallpaper = default_wallpapers[current_theme_category - 1]
                 DispatchQueue.main.async {
                     self.todayImageView?.image = image
-                    self.wordLabel.text = word
-                    self.meaningLabel.text = trans
-                }
+                    self.wordLabel.text = wallpaper.word
+                    self.meaningLabel.text = wallpaper.trans
             }
         }
-        
+        }
         setTextOrButtonsColor(color: textColors[current_theme_category] ?? UIColor.darkGray)
         
     }
     
     override func viewWillAppear(_ animated: Bool){
         if let user = LCApplication.default.currentUser {
+            setWallpaper()
             self.updateUserPhoto()
             get_words()
         }
@@ -323,7 +324,6 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
     }
     
     @IBAction func pernounce_word(_ sender: UITapGestureRecognizer) {
-        print("touched")
         if Reachability.isConnectedToNetwork(){
             let usphone = getUSPhone() == true ? 0 : 1
             let word:String = wordLabel.text ?? ""
