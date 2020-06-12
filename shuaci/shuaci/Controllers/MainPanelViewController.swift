@@ -188,7 +188,7 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
                                         
                                         UserDefaults.standard.set(word, forKey: "word")
                                         UserDefaults.standard.set(trans, forKey: "trans")
-                                        setPreference(key: "last_theme_category", value: category)
+                                        setPreference(key: "last_theme_category", value: category, saveToCloud: false)
                                         
                                         DispatchQueue.main.async {
                                             self.wordLabel.text = word
@@ -307,9 +307,11 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
     }
     
     @IBAction func ReciteNewWords(_ sender: UIButton) {
-        let current_book_key = "current_book"
-        let current_book_exist = isKeyPresentInUserDefaults(key: current_book_key)
-        if !current_book_exist{
+        
+        if let _ = getPreference(key: "current_book_id") as? String{
+            loadLearnController()
+        }
+        else{
             let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
             let booksVC = mainStoryBoard.instantiateViewController(withIdentifier: "booksController") as! BooksViewController
             booksVC.modalPresentationStyle = .fullScreen
@@ -317,9 +319,6 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
             DispatchQueue.main.async {
                 self.present(booksVC, animated: true, completion: nil)
             }
-        }
-        else{
-            loadLearnController()
         }
     }
     
