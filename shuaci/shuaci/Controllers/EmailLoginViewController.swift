@@ -21,7 +21,10 @@ class EmailLoginViewController: UIViewController {
         self.dismiss(animated: true, completion: nil)
     }
     
-    
+    func presentAlertInView(title: String, message: String, okText: String){
+        let alertController = presentAlert(title: title, message: message, okText: okText)
+        self.present(alertController, animated: true)
+    }
     
     @IBAction func loginOrRegister(sender: UIButton){
             self.view.endEditing(true)
@@ -52,10 +55,10 @@ class EmailLoginViewController: UIViewController {
             }
             
             if emailEmpty {
-                presentAlert(title: "邮箱格式错误", message: "请输入正确的邮箱!", okText: "好")
+                presentAlertInView(title: "邮箱格式错误", message: "请输入正确的邮箱!", okText: "好")
             }
             else if pwdEmpty {
-                presentAlert(title: "密码为空", message: "密码不能为空!", okText: "好")
+                presentAlertInView(title: "密码为空", message: "密码不能为空!", okText: "好")
             }
             else{
                 if Reachability.isConnectedToNetwork(){
@@ -80,18 +83,18 @@ class EmailLoginViewController: UIViewController {
                                         _ = user.signUp { (result) in
                                             switch result {
                                             case .success:
-                                                presentAlert(title: "请验证邮件", message: "已发送验证邮件到\(email!)。请您单击邮件中的链接，完成验证后登录!", okText: "好")
+                                                self.presentAlertInView(title: "请验证邮件", message: "已发送验证邮件到\(email!)。请您单击邮件中的链接，完成验证后登录!", okText: "好")
                                                 DispatchQueue.main.async {
                                                     self.emailLoginBtn.setTitle("登录", for: .normal)
                                                 }
                                             case .failure(error: let error):
                                                 switch error.code {
                                                 case 202 :
-                                                    presentAlert(title: "邮箱已注册", message: "该邮箱已注册!", okText: "好")
+                                                    self.presentAlertInView(title: "邮箱已注册", message: "该邮箱已注册!", okText: "好")
                                                 case 214:
-                                                    presentAlert(title: "邮箱已注册", message: "该邮箱已注册!", okText: "好")
+                                                    self.presentAlertInView(title: "邮箱已注册", message: "该邮箱已注册!", okText: "好")
                                                 default:
-                                                    presentAlert(title: "错误", message: error.description, okText: "好")
+                                                    self.presentAlertInView(title: "错误", message: error.description, okText: "好")
                                                 }
                                             }
                                         }
@@ -107,9 +110,9 @@ class EmailLoginViewController: UIViewController {
                                 alertController.addAction(cancelAction)
                                 self.present(alertController, animated: true, completion: nil)
                             case 210:
-                                 presentAlert(title: "密码不正确", message: "密码不正确!", okText: "好")
+                                self.presentAlertInView(title: "密码不正确", message: "密码不正确!", okText: "好")
                             case 400:
-                                presentAlert(title: "密码不正确", message: "密码不正确!", okText: "好")
+                                self.presentAlertInView(title: "密码不正确", message: "密码不正确!", okText: "好")
                             default:
                                 print(error)
                             }
