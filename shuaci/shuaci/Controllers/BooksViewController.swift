@@ -277,7 +277,7 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
                                 }
                                 break
                             case .failure(error: let error):
-                                print(error)
+                                print(error.localizedDescription)
                             }
                         }
                     }
@@ -289,38 +289,43 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
             }
             
         }else{
-            DispatchQueue.global(qos: .background).async {
-            do {
-                let query = LCQuery(className: "Book")
-                _ = query.find { result in
-                    switch result {
-                    case .success(objects: let results):
-                        // Books 是包含满足条件的 (className: "Book") 对象的数组
-                        for item in results{
-                            let identifier = item.get("identifier")?.stringValue
-                            let level1_category = item.get("level1_category")?.intValue
-                            let level2_category = item.get("level2_category")?.intValue
-                            let name = item.get("name")?.stringValue
-                            let desc = item.get("description")?.stringValue
-                            let word_num = item.get("word_num")?.intValue
-                            let recite_user_num = item.get("recite_user_num")?.intValue
-                            
-                            let book:Book = Book(identifier: identifier ?? "", level1_category: level1_category ?? 0, level2_category: level2_category ?? 0, name: name ?? "", description: desc ?? "", word_num: word_num ?? 0, recite_user_num: recite_user_num ?? 0)
-                            self.tempBooks.append(book)
-                            self.tempItems.append(item)
+            if Reachability.isConnectedToNetwork(){
+                DispatchQueue.global(qos: .background).async {
+                do {
+                    let query = LCQuery(className: "Book")
+                    _ = query.find { result in
+                        switch result {
+                        case .success(objects: let results):
+                            // Books 是包含满足条件的 (className: "Book") 对象的数组
+                            for item in results{
+                                let identifier = item.get("identifier")?.stringValue
+                                let level1_category = item.get("level1_category")?.intValue
+                                let level2_category = item.get("level2_category")?.intValue
+                                let name = item.get("name")?.stringValue
+                                let desc = item.get("description")?.stringValue
+                                let word_num = item.get("word_num")?.intValue
+                                let recite_user_num = item.get("recite_user_num")?.intValue
+                                
+                                let book:Book = Book(identifier: identifier ?? "", level1_category: level1_category ?? 0, level2_category: level2_category ?? 0, name: name ?? "", description: desc ?? "", word_num: word_num ?? 0, recite_user_num: recite_user_num ?? 0)
+                                self.tempBooks.append(book)
+                                self.tempItems.append(item)
+                            }
+                            books = self.tempBooks
+                            resultsItems = self.tempItems
+                            DispatchQueue.main.async {
+                                self.tableView.reloadData()
+                                self.stopIndicator()
+                            }
+                            break
+                        case .failure(error: let error):
+                            print(error.localizedDescription)
                         }
-                        books = self.tempBooks
-                        resultsItems = self.tempItems
-                        DispatchQueue.main.async {
-                            self.tableView.reloadData()
-                            self.stopIndicator()
-                        }
-                        break
-                    case .failure(error: let error):
-                        print(error)
                     }
                 }
-            }
+                }
+            }else{
+                let alertCtl = presentNoNetworkAlert()
+                self.present(alertCtl, animated: true, completion: nil)
             }
         }
     }
@@ -337,7 +342,6 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
             cell.cover.image = UIImage(named: "english_book")
             cell.selectionStyle = .none
             let index: Int = indexPath.row
-            print(books.count)
             if index < books.count{
                 let book = books[index]
                 cell.identifier = book.identifier
@@ -352,7 +356,6 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
             
         if let image = loadPhoto(name_of_photo: "\(books[indexPath.row].identifier as! NSString).jpg"){
                 // Fetch image from cache
-                print("Get image from file")
                 DispatchQueue.main.async {
                     cell.cover.image = image
                     cell.setNeedsLayout()
@@ -366,7 +369,6 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
                             //let imgData = photoData.value as! LCData
                             let url = URL(string: cover_image.url?.stringValue ?? "")!
                             let data = try? Data(contentsOf: url)
-                            print(url)
                             
                             if let imageData = data {
                                 if let image_name = cover_image.name?.stringValue
@@ -417,7 +419,6 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
                 if let bookJson = resultsItems[index].get("data") as? LCFile {
                     let url = URL(string: bookJson.url?.stringValue ?? "")!
                     let data = try? Data(contentsOf: url)
-                    print(url)
                     
                     if let jsonData = data {
                         savejson(fileName: "current_book", jsonData: jsonData)

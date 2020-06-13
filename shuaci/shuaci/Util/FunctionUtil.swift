@@ -18,6 +18,7 @@ let decoder = JSONDecoder()
 
 var GlobalUserName = ""
 
+
 // MARK: - Common Functions
 
 func getUserName() -> String{
@@ -112,9 +113,9 @@ func setSaveRecordToClouldStatus(key: String, status: Bool){
 
 func saveRecordStringByGivenId(recordClass: String, saveRecordFailedKey: String, recordIdKey: String, username: String, jsonString: String){
     // if ReviewRecordId exist in UserPreference
-    let recordId: String = UserDefaults.standard.string(forKey: recordIdKey)!
-    
-    DispatchQueue.global(qos: .background).async {
+    if Reachability.isConnectedToNetwork(){
+        let recordId: String = UserDefaults.standard.string(forKey: recordIdKey)!
+        DispatchQueue.global(qos: .background).async {
     do {
         let recordQuery = LCQuery(className: recordClass)
         let _ = recordQuery.get(recordId) { (result) in
@@ -144,6 +145,8 @@ func saveRecordStringByGivenId(recordClass: String, saveRecordFailedKey: String,
             }
         }}
     }
+    }
+
 }
 
 func saveRecordStringToCloud(recordClass: String, saveRecordFailedKey: String, recordIdKey: String, username: String, jsonString: String){
@@ -289,7 +292,7 @@ func fetchBooks(){
                     }
                     break
                 case .failure(error: let error):
-                    print(error)
+                    print(error.localizedDescription)
                 }
             }
         }
@@ -413,6 +416,13 @@ func timeString(time: Int) -> String {
     return String(format: "%02i:%02i:%02i", hour, minute, second)
 }
 
+func printDate(date: Date){
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "HH:mm E, d MMM y"
+    let dateString = dateFormatter.string(from: date)
+    print(dateString)
+}
+
 enum DurationType{
     case second
     case minute
@@ -420,6 +430,16 @@ enum DurationType{
     case day
     case month
     case year
+}
+
+func minutesBetweenDates(_ oldDate: Date, _ newDate: Date) -> CGFloat {
+
+    //get both times sinces refrenced date and divide by 60 to get minutes
+    let newDateMinutes = newDate.timeIntervalSinceReferenceDate/60
+    let oldDateMinutes = oldDate.timeIntervalSinceReferenceDate/60
+
+    //then return the difference
+    return CGFloat(newDateMinutes - oldDateMinutes)
 }
 
 // MARK: - File Util

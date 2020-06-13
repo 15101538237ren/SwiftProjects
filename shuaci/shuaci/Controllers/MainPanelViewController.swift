@@ -99,7 +99,6 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
             syncLabel.alpha = 0
             // 跳到首页
             GlobalUserName = getUserName()
-            print(GlobalUserName)
             prepareRecordsAndPreference()
             fetchBooks()
             if let userImage = loadPhoto(name_of_photo: "user_avatar.jpg") {
@@ -196,6 +195,7 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
                                             self.shouldStopRotating = true
                                             self.syncLabel.alpha = 0.0
                                         }
+                                        UserDefaults.standard.set(Date(), forKey: "lastUpdateTime")
                                         self.setTextOrButtonsColor(color: textColors[category] ?? UIColor.darkGray)
                                     }
                                 }
@@ -219,13 +219,28 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
     }
     
     @objc func updateWallpaperWhenBackScreen(){
-        let current_theme_category = getPreference(key: "current_theme_category") as! Int
-        DispatchQueue.main.async {
-            self.userPhotoBtn.rotate360Degrees(completionDelegate: self)
-            self.isRotating = true
-            self.syncLabel.alpha = 1.0
+        let lastUpdateTimeKey:String = "lastUpdateTime"
+        var lastUpdateTime = Date()
+        if isKeyPresentInUserDefaults(key: lastUpdateTimeKey){
+            lastUpdateTime = UserDefaults.standard.object(forKey: lastUpdateTimeKey) as! Date
         }
-        self.getTodayWallpaper(category: current_theme_category)
+        else
+        {
+            UserDefaults.standard.set(lastUpdateTime, forKey: lastUpdateTimeKey)
+        }
+        printDate(date: lastUpdateTime)
+        
+        if minutesBetweenDates(lastUpdateTime, Date()) > 30 {
+            let current_theme_category = getPreference(key: "current_theme_category") as! Int
+            DispatchQueue.main.async {
+                self.userPhotoBtn.rotate360Degrees(completionDelegate: self)
+                self.isRotating = true
+                self.syncLabel.alpha = 1.0
+            }
+            self.getTodayWallpaper(category: current_theme_category)
+        }
+        
+        
     }
     
     func setWallpaper(){
