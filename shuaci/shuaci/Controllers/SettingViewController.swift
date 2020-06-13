@@ -14,7 +14,7 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
     let redColor:UIColor = UIColor(red: 168, green: 0, blue: 0, alpha: 1)
     let settingItems:[SettingItem] = [
         SettingItem(icon: UIImage(named: "auto_pronunciation") ?? UIImage(), name: "自动发音", value: "开"),
-        SettingItem(icon: UIImage(named: "english_american_pronunce") ?? UIImage(), name: "发音类型", value: "美 音"),
+        SettingItem(icon: UIImage(named: "english_american_pronunce") ?? UIImage(), name: "发音类型", value: "美"),
         SettingItem(icon: UIImage(named: "choose_book") ?? UIImage(), name: "选择单词书", value: ""),
         SettingItem(icon: UIImage(named: "vocab_amount_each_group") ?? UIImage(), name: "每组单词数", value: "120"),
         SettingItem(icon: UIImage(named: "learning_reminder") ?? UIImage(), name: "学习提醒", value: "8:00"),
@@ -64,7 +64,9 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
             cell.nameLabel?.text = settingItem.name
             cell.leftValueLabel?.text = "关"
             cell.rightValueLabel?.text = "开"
-            if settingItem.value == "开"{
+            cell.toggleSwitch.addTarget(self, action: #selector(autoPronunceSwitched), for: UIControl.Event.valueChanged)
+            let autoPronunce = getPreference(key: "us_pronunciation") as! Bool
+            if autoPronunce{
                 cell.toggleSwitch.isOn = true
                 cell.leftValueLabel.textColor = .darkGray
                 cell.rightValueLabel.textColor = self.redColor
@@ -73,6 +75,28 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
                 cell.toggleSwitch.isOn = false
                 cell.leftValueLabel.textColor = self.redColor
                 cell.rightValueLabel.textColor = .darkGray
+            }
+            return cell
+        }
+        else if row == 1{
+            let cell = tableView.dequeueReusableCell(withIdentifier: "SettingToggleCell", for: indexPath) as! SettingToggleTableViewCell
+            cell.separatorInset = UIEdgeInsets(top: 0, left: cell.bounds.size.width, bottom: 0, right: 0);
+            let settingItem:SettingItem = settingItems[row]
+            cell.toggleSwitch.addTarget(self, action: #selector(pronunceStyleSwitched), for: UIControl.Event.valueChanged)
+            cell.iconView?.image = settingItem.icon
+            cell.nameLabel?.text = settingItem.name
+            cell.leftValueLabel?.text = "美"
+            cell.rightValueLabel?.text = "英"
+            let usPronunce = getPreference(key: "us_pronunciation") as! Bool
+            if usPronunce{
+                cell.toggleSwitch.isOn = false
+                cell.leftValueLabel.textColor = self.redColor
+                cell.rightValueLabel.textColor = .darkGray
+            }
+            else{
+                cell.toggleSwitch.isOn = true
+                cell.leftValueLabel.textColor = .darkGray
+                cell.rightValueLabel.textColor = self.redColor
             }
             return cell
         }
@@ -124,6 +148,45 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
 //            print("swiped")
 //        }
 //    }
+    
+    @objc func autoPronunceSwitched(uiSwitch: UISwitch) {
+        if uiSwitch.isOn{
+            setPreference(key: "auto_pronunciation", value: true)
+        }else{
+            setPreference(key: "auto_pronunciation", value: false)
+        }
+        let indexPath = IndexPath(row: 0, section: 0)
+        let cell =  tableView.cellForRow(at: indexPath) as! SettingToggleTableViewCell
+        
+        if uiSwitch.isOn{
+            cell.leftValueLabel.textColor = .darkGray
+            cell.rightValueLabel.textColor = self.redColor
+        }
+        else{
+            cell.leftValueLabel.textColor = self.redColor
+            cell.rightValueLabel.textColor = .darkGray
+        }
+        
+    }
+    
+    @objc func pronunceStyleSwitched(uiSwitch: UISwitch) {
+        if uiSwitch.isOn{
+            setPreference(key: "us_pronunciation", value: false)
+        }else{
+            setPreference(key: "us_pronunciation", value: true)
+        }
+        let indexPath = IndexPath(row: 1, section: 0)
+        let cell =  tableView.cellForRow(at: indexPath) as! SettingToggleTableViewCell
+        
+        if uiSwitch.isOn{
+            cell.leftValueLabel.textColor = .darkGray
+            cell.rightValueLabel.textColor = self.redColor
+        }
+        else{
+            cell.leftValueLabel.textColor = self.redColor
+            cell.rightValueLabel.textColor = .darkGray
+        }
+    }
     
     func showFeedBackMailComposer(){
         guard MFMailComposeViewController.canSendMail() else{
