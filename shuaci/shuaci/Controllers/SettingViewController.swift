@@ -65,7 +65,7 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
             cell.leftValueLabel?.text = "关"
             cell.rightValueLabel?.text = "开"
             cell.toggleSwitch.addTarget(self, action: #selector(autoPronunceSwitched), for: UIControl.Event.valueChanged)
-            let autoPronunce = getPreference(key: "us_pronunciation") as! Bool
+            let autoPronunce = getPreference(key: "auto_pronunciation") as! Bool
             if autoPronunce{
                 cell.toggleSwitch.isOn = true
                 cell.leftValueLabel.textColor = .darkGray

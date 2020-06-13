@@ -214,16 +214,6 @@ func saveRecordStringToCloud(recordClass: String, saveRecordFailedKey: String, r
 
 
 // MARK: - Card Util
-
-var cardBackgrounds: [Int: String] = [
-    1 : "light-blue",
-    5 : "red",
-    6 : "orange",
-    4 : "green",
-    7 : "blue",
-    2 : "dark_blue"
-]
-
 enum CardBehavior {
     case forget
     case remember

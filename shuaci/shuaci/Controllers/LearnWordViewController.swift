@@ -215,7 +215,6 @@ class LearnWordViewController: UIViewController {
             }
         }
         else if currentIndex < words.count - 1{
-            print(currentIndex)
             self.updateProgressLabel(index: self.currentIndex)
             let card = cards[(currentIndex + 1) % 2]
             let word = words[(currentIndex + 1) % words.count]
@@ -281,7 +280,6 @@ class LearnWordViewController: UIViewController {
                     vocabRecordsOfCurrentLearning[currentIndex].RememberDates.append(Date())
                     self.addReviewDueDatesForVocabRecords(index: currentIndex, cardBehavior: .remember)
                     card_behaviors.append(.remember)
-                    print(card_behaviors)
                     
                     let word: String = nextCard.wordLabel?.text ?? ""
                     playMp3GivenWord(word: word)
@@ -307,7 +305,6 @@ class LearnWordViewController: UIViewController {
                     vocabRecordsOfCurrentLearning[currentIndex].ForgetDates.append(Date())
                     self.addReviewDueDatesForVocabRecords(index: currentIndex, cardBehavior: .forget)
                     card_behaviors.append(.forget)
-                    print(card_behaviors)
                     
                     let word: String = nextCard.wordLabel?.text ?? ""
                     playMp3GivenWord(word: word)
@@ -395,7 +392,6 @@ class LearnWordViewController: UIViewController {
     
     func removeLastVocabRecord(index: Int, cardBehavior: CardBehavior){
         vocabRecordsOfCurrentLearning[index].ReviewDUEDates = []
-        print(vocabRecordsOfCurrentLearning[index].ReviewDUEDates)
         switch cardBehavior {
         case .forget:
             vocabRecordsOfCurrentLearning[index].ForgetDates.removeLast()
@@ -444,7 +440,6 @@ class LearnWordViewController: UIViewController {
             gestureRecognizer.view!.frame = lastCard.frame
             
             card_behaviors.removeLast()
-            print(card_behaviors)
             enableBtns()
         }
         else{
@@ -469,7 +464,6 @@ class LearnWordViewController: UIViewController {
         default:
             return
         }
-        print(vocabRecordsOfCurrentLearning[self.currentIndex].ReviewDUEDates)
     }
     
     func cardAnimation(rememberLabelText: String, backgroundColor: UIColor, cardBehavior: CardBehavior){
@@ -513,8 +507,6 @@ class LearnWordViewController: UIViewController {
                         vocabRecordsOfCurrentLearning[self.currentIndex].MasteredDate = Date()
                         self.card_behaviors.append(.trash)
                     }
-                    
-                    print(self.card_behaviors)
 
                     let word: String = nextCard.wordLabel?.text ?? ""
                     self.playMp3GivenWord(word: word)
