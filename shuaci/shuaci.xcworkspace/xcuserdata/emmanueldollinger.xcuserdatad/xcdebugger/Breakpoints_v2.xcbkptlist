@@ -14,8 +14,8 @@
             filePath = "shuaci/Controllers/PhoneLoginViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "71"
-            endingLineNumber = "71"
+            startingLineNumber = "74"
+            endingLineNumber = "74"
             landmarkName = "sendVerificationCode(sender:)"
             landmarkType = "7">
          </BreakpointContent>

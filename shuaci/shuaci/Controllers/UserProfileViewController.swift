@@ -191,6 +191,7 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
         }else{
             let alertCtl = presentNoNetworkAlert()
             self.present(alertCtl, animated: true, completion: nil)
+            non_network_preseted = true
         }
         
     }
@@ -225,6 +226,7 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
         }else{
             let alertCtl = presentNoNetworkAlert()
             self.present(alertCtl, animated: true, completion: nil)
+            non_network_preseted = true
         }
         
     }

@@ -366,8 +366,8 @@ class LearnWordViewController: UIViewController {
                     downloadTask.resume()
                 }}
             }else{
-                let alertCtl = presentNoNetworkAlert()
                 if non_network_preseted == false{
+                    let alertCtl = presentNoNetworkAlert()
                     self.present(alertCtl, animated: true, completion: nil)
                     non_network_preseted = true
                 }

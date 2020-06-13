@@ -116,8 +116,11 @@ class EmailLoginViewController: UIViewController {
                         }
                     }
                 }else{
-                    let alertCtl = presentNoNetworkAlert()
-                    self.present(alertCtl, animated: true, completion: nil)
+                   if non_network_preseted == false{
+                        let alertCtl = presentNoNetworkAlert()
+                        self.present(alertCtl, animated: true, completion: nil)
+                        non_network_preseted = true
+                    }
                 }
                 
             }

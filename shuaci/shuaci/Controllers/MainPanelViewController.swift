@@ -143,8 +143,11 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
                 }
             }
         }else{
-            let alertCtl = presentNoNetworkAlert()
-            self.present(alertCtl, animated: true, completion: nil)
+            if non_network_preseted == false{
+                let alertCtl = presentNoNetworkAlert()
+                self.present(alertCtl, animated: true, completion: nil)
+                non_network_preseted = true
+            }
         }
 
     }
@@ -209,8 +212,11 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
                 }
                 }}
         }else{
-            let alertCtl = presentNoNetworkAlert()
-            self.present(alertCtl, animated: true, completion: nil)
+            if non_network_preseted == false{
+                let alertCtl = presentNoNetworkAlert()
+                self.present(alertCtl, animated: true, completion: nil)
+                non_network_preseted = true
+            }
             DispatchQueue.main.async {
                 self.shouldStopRotating = true
                 self.syncLabel.alpha = 0.0
@@ -359,6 +365,13 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
                 }}
             }
             
+        }
+        else {
+            if non_network_preseted == false{
+                let alertCtl = presentNoNetworkAlert()
+                self.present(alertCtl, animated: true, completion: nil)
+                non_network_preseted = true
+            }
         }
     }
     

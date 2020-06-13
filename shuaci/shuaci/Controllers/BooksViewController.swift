@@ -284,8 +284,11 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
                 }
                 }
             }else{
-                let alertCtl = presentNoNetworkAlert()
-                self.present(alertCtl, animated: true, completion: nil)
+                if non_network_preseted == false{
+                    let alertCtl = presentNoNetworkAlert()
+                    self.present(alertCtl, animated: true, completion: nil)
+                    non_network_preseted = true
+                }
             }
             
         }else{
@@ -324,8 +327,11 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
                 }
                 }
             }else{
-                let alertCtl = presentNoNetworkAlert()
-                self.present(alertCtl, animated: true, completion: nil)
+                if non_network_preseted == false{
+                    let alertCtl = presentNoNetworkAlert()
+                    self.present(alertCtl, animated: true, completion: nil)
+                    non_network_preseted = true
+                }
             }
         }
     }
@@ -392,8 +398,11 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
                         }
                     }
                 }else{
-                    let alertCtl = presentNoNetworkAlert()
-                    self.present(alertCtl, animated: true, completion: nil)
+                    if non_network_preseted == false{
+                        let alertCtl = presentNoNetworkAlert()
+                        self.present(alertCtl, animated: true, completion: nil)
+                        non_network_preseted = true
+                    }
                 }
             }
         return cell
@@ -437,8 +446,11 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
                 }
             }
         }else{
-            let alertCtl = presentNoNetworkAlert()
-            self.present(alertCtl, animated: true, completion: nil)
+            if non_network_preseted == false{
+                let alertCtl = presentNoNetworkAlert()
+                self.present(alertCtl, animated: true, completion: nil)
+                non_network_preseted = true
+            }
         }
         
     }
