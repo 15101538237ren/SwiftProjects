@@ -720,7 +720,6 @@
         <!--Navigation Controller-->
         <scene sceneID="mZT-bN-lb2">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="m8F-Ou-nQa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" modalPresentationStyle="fullScreen" id="OTx-Qo-3b0" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="3GC-kv-eOb"/>
@@ -733,6 +732,7 @@
                         <segue destination="fqa-q8-weC" kind="relationship" relationship="rootViewController" id="fDu-ms-Ugq"/>
                     </connections>
                 </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="m8F-Ou-nQa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1557.9710144927537" y="1512.7232142857142"/>
         </scene>

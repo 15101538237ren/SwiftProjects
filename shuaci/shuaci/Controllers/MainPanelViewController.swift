@@ -354,7 +354,16 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
     
     @IBAction func ReviewWords(_ sender: UIButton) {
         if let _ = getPreference(key: "current_book_id") as? String{
-            loadReviewController()
+            let vocab_rec_need_to_be_review:[VocabularyRecord] = get_vocab_rec_need_to_be_review()
+            if vocab_rec_need_to_be_review.count > 0{
+                loadReviewController()
+            }
+            else
+            {
+                let ac = UIAlertController(title: "无待复习单词", message: "您当前没有待复习的单词，放松一下吧😊", preferredStyle: .alert)
+                ac.addAction(UIAlertAction(title: "好", style: .default, handler: nil))
+                present(ac, animated: true, completion: nil)
+            }
         }
         else{
             let ac = UIAlertController(title: "没有单词书", message: "您还没有选择单词书，请点击【学新词】选择!", preferredStyle: .alert)
