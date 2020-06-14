@@ -105,6 +105,7 @@ func loadVocabRecords() -> [VocabularyRecord] {
     return vocabRecords
 }
 
+
 func saveVocabRecords(saveToLocal: Bool, delaySeconds:Double = 0){
     let jsonData = try! JSONEncoder().encode(GlobalVocabRecords)
     let jsonString = String(data: jsonData, encoding: .utf8)!

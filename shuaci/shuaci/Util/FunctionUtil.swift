@@ -56,6 +56,53 @@ func sm2(x:[Int], a: Float = 6.0, b: Float = -0.8, c: Float = 0.28, d: Float = 0
     }
 }
 
+func add_notification_date() -> UNNotificationRequest?{
+    if GlobalVocabRecords.count == 0{
+        GlobalVocabRecords = loadVocabRecords()
+    }
+    if GlobalVocabRecords.count > 0{
+        var vocabsNeedReview:[VocabularyRecord] = []
+        for vocabRecord in GlobalVocabRecords{
+            if !vocabRecord.Mastered{
+                vocabsNeedReview.append(vocabRecord)
+            }
+        }
+        if vocabsNeedReview.count > 0{
+            let vocabsNeedReviewSorted:[VocabularyRecord] = vocabsNeedReview.sorted(by: {$0.ReviewDUEDate!.compare($1.ReviewDUEDate!) == .orderedAscending})
+                    
+                    let number_of_vocabs_per_group = getPreference(key: "number_of_words_per_group") as! Int
+                    let number_of_vocabs_to_notify = min(number_of_vocabs_per_group, vocabsNeedReviewSorted.count)
+                    let notification_date: Date = vocabsNeedReviewSorted[number_of_vocabs_to_notify - 1].ReviewDUEDate!
+                    let notification_trigger = UNTimeIntervalNotificationTrigger(timeInterval: 60, repeats: false)
+                    let notification_content = obtainNotificationContent(number_of_vocabs_to_notify: number_of_vocabs_to_notify)
+                    let request = UNNotificationRequest(identifier: UUID().uuidString, content: notification_content, trigger: notification_trigger)
+                    return request
+        }
+    }
+    return nil
+}
+
+func obtainNotificationContent(number_of_vocabs_to_notify:Int) -> UNMutableNotificationContent{
+    let content = UNMutableNotificationContent()
+    content.body = "\(number_of_vocabs_to_notify)个单词到了最佳复习时间，此时复习记忆效果翻倍哦~"
+    content.categoryIdentifier = "reviewReminder"
+    content.sound = UNNotificationSound.default
+    return content
+}
+
+func obtainCalendarNotificationTriggerByDate(notification_date: Date) -> UNCalendarNotificationTrigger{
+    let calendar = Calendar.current
+    var dateComponents = DateComponents()
+    dateComponents.year = calendar.component(.year, from: notification_date)
+    dateComponents.month = calendar.component(.month, from: notification_date)
+    dateComponents.day = calendar.component(.day, from: notification_date)
+    dateComponents.hour = calendar.component(.hour, from: notification_date)
+    dateComponents.minute = calendar.component(.minute, from: notification_date)
+    dateComponents.second = calendar.component(.second, from: notification_date)
+    let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
+    return trigger
+}
+
 func getUserName() -> String{
     let user = LCApplication.default.currentUser!
     let username = user.get("username")!.stringValue!
