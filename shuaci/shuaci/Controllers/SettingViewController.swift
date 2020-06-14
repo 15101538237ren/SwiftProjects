@@ -55,13 +55,13 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
         case .changed:
             viewTranslation = sender.translation(in: view)
             if viewTranslation.y > 0 {
-                UIView.animate(withDuration: 0.2, delay: 0, usingSpringWithDamping: 0.2, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+                UIView.animate(withDuration: 0.2, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
                     self.view.transform = CGAffineTransform(translationX: 0, y: self.viewTranslation.y)
                 })
             }
         case .ended:
             if viewTranslation.y < 200 {
-                UIView.animate(withDuration: 0.2, delay: 0, usingSpringWithDamping: 0.2, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+                UIView.animate(withDuration: 0.2, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
                     self.view.transform = .identity
                 })
             } else {
