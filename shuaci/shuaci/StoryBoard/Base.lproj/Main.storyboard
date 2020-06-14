@@ -63,6 +63,9 @@
                                         <state key="normal" title="复 习">
                                             <color key="titleColor" red="0.29828110340000002" green="0.28191745280000002" blue="0.28150892259999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
+                                        <connections>
+                                            <action selector="ReviewWords:" destination="868-VL-FJO" eventType="touchUpInside" id="sPU-1p-5cB"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                             </stackView>

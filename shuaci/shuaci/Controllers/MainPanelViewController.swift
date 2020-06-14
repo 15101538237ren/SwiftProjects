@@ -343,6 +343,28 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
         }
     }
     
+    func loadReviewController(){
+        let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Learning", bundle:nil)
+        let reviewVC = mainStoryBoard.instantiateViewController(withIdentifier: "reviewWordController") as! ReviewWordViewController
+        reviewVC.modalPresentationStyle = .overCurrentContext
+        reviewVC.mainPanelViewController = self
+        DispatchQueue.main.async {
+            self.present(reviewVC, animated: true, completion: nil)
+        }
+    }
+    
+    @IBAction func ReviewWords(_ sender: UIButton) {
+        if let _ = getPreference(key: "current_book_id") as? String{
+            loadReviewController()
+        }
+        else{
+            let ac = UIAlertController(title: "没有单词书", message: "您还没有选择单词书，请点击【学新词】选择!", preferredStyle: .alert)
+            ac.addAction(UIAlertAction(title: "好", style: .default, handler: nil))
+            present(ac, animated: true, completion: nil)
+        }
+    }
+    
+    
     @IBAction func pernounce_word(_ sender: UITapGestureRecognizer) {
         if Reachability.isConnectedToNetwork(){
             let usphone = getUSPhone() == true ? 0 : 1

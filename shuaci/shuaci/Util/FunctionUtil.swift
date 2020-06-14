@@ -21,6 +21,41 @@ var GlobalUserName = ""
 
 // MARK: - Common Functions
 
+func sm2(x:[Int], a: Float = 6.0, b: Float = -0.8, c: Float = 0.28, d: Float = 0.02, theta: Float = 0.2) -> Float{
+    //Sumper Algorithm: See at : doctorpangloss/repetition_algorithm.ipynb
+    let valid: Bool = false
+    var correct_x:[Bool] = []
+    var sum_term: Float = 0.0
+    for xi in x{
+        if xi < 0 || xi > 5{
+            break
+        }
+        correct_x.append(xi >= 3)
+        let xi_f = Float(xi)
+        sum_term += b + c * xi_f + d * xi_f * xi_f
+    }
+    let last_remember: Bool? = correct_x.last
+    if !valid || (last_remember != nil && !last_remember!){
+        //If you got the last question incorrect, just return 1 day interavl for next review
+        return 1.0
+    }
+    else{
+        //Calculate the latest consecutive answer streak
+        var num_consecutively_correct:Int = 0
+        for correct in correct_x.reversed(){
+            if correct {
+                num_consecutively_correct += 1
+            }
+            else{
+                break
+            }
+        }
+        let power:Float = theta * Float(num_consecutively_correct)
+        let next_review_day_interval:Float = powf(a * (max(1.3, 2.5 + sum_term)), power)
+        return next_review_day_interval
+    }
+}
+
 func getUserName() -> String{
     let user = LCApplication.default.currentUser!
     let username = user.get("username")!.stringValue!
@@ -214,10 +249,10 @@ func saveRecordStringToCloud(recordClass: String, saveRecordFailedKey: String, r
 
 
 // MARK: - Card Util
-enum CardBehavior {
-    case forget
-    case remember
-    case trash
+enum CardBehavior : Int {
+    case forget = 1
+    case remember = 3
+    case trash = 0
 }
 
 enum CardCollectBehavior {

@@ -14,6 +14,7 @@
 		55001E232491B21A00DF0D0E /* BookUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55001E222491B21A00DF0D0E /* BookUtil.swift */; };
 		5507D9072479935C0090DD37 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5507D9062479935C0090DD37 /* Reachability.swift */; };
 		5518B9B8247A2E7600BC8DA4 /* LearnFinishViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5518B9B7247A2E7600BC8DA4 /* LearnFinishViewController.swift */; };
+		553ED5AF2495DB15000ECE6D /* ReviewWordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 553ED5AE2495DB15000ECE6D /* ReviewWordViewController.swift */; };
 		55C7819C24901AFA00C9F33E /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55C7819B24901AFA00C9F33E /* SettingViewController.swift */; };
 		55C7819E24902BAE00C9F33E /* SettingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55C7819D24902BAE00C9F33E /* SettingTableViewCell.swift */; };
 		55C781A024902C4F00C9F33E /* SettingToggleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55C7819F24902C4F00C9F33E /* SettingToggleTableViewCell.swift */; };
@@ -77,6 +78,7 @@
 		55001E222491B21A00DF0D0E /* BookUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookUtil.swift; sourceTree = "<group>"; };
 		5507D9062479935C0090DD37 /* Reachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		5518B9B7247A2E7600BC8DA4 /* LearnFinishViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearnFinishViewController.swift; sourceTree = "<group>"; };
+		553ED5AE2495DB15000ECE6D /* ReviewWordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewWordViewController.swift; sourceTree = "<group>"; };
 		55C7819B24901AFA00C9F33E /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		55C7819D24902BAE00C9F33E /* SettingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingTableViewCell.swift; sourceTree = "<group>"; };
 		55C7819F24902C4F00C9F33E /* SettingToggleTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingToggleTableViewCell.swift; sourceTree = "<group>"; };
@@ -309,6 +311,7 @@
 				A5134E33246772B4008B116D /* LearnWordViewController.swift */,
 				5518B9B7247A2E7600BC8DA4 /* LearnFinishViewController.swift */,
 				55C7819B24901AFA00C9F33E /* SettingViewController.swift */,
+				553ED5AE2495DB15000ECE6D /* ReviewWordViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -471,6 +474,7 @@
 				A59A0B1C2454D48C000845F2 /* MainPanelViewController.swift in Sources */,
 				55C7819E24902BAE00C9F33E /* SettingTableViewCell.swift in Sources */,
 				A5134E3A24678C32008B116D /* Collection+Ext.swift in Sources */,
+				553ED5AF2495DB15000ECE6D /* ReviewWordViewController.swift in Sources */,
 				A5F5154D245F56DF00F06610 /* ThemeCollectionViewController.swift in Sources */,
 				A52B84DC2471EE4500A002C6 /* ReviewRecord.swift in Sources */,
 				A5B821732453669B00963FEC /* CardUIView.swift in Sources */,
