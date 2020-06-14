@@ -78,7 +78,7 @@
                                         <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <state key="normal" image="colors"/>
                                         <connections>
-                                            <segue destination="OTx-Qo-3b0" kind="show" id="8O6-Tz-Shp"/>
+                                            <segue destination="OTx-Qo-3b0" kind="show" identifier="themeSegue" id="8O6-Tz-Shp"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zyc-si-HQQ">
@@ -108,7 +108,7 @@
                                         <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <state key="normal" image="settings"/>
                                         <connections>
-                                            <segue destination="pFP-k4-cBJ" kind="show" id="gJg-hN-jK3"/>
+                                            <segue destination="pFP-k4-cBJ" kind="show" identifier="settingSegue" id="gJg-hN-jK3"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -229,13 +229,15 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3w0-Xh-g4i">
-                                <rect key="frame" x="10" y="59" width="26" height="26"/>
+                                <rect key="frame" x="10" y="59" width="30" height="30"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="26" id="aBD-wV-Ksd"/>
-                                    <constraint firstAttribute="height" constant="26" id="k2D-Ab-RHo"/>
+                                    <constraint firstAttribute="width" constant="30" id="aBD-wV-Ksd"/>
+                                    <constraint firstAttribute="height" constant="30" id="k2D-Ab-RHo"/>
                                 </constraints>
                                 <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <state key="normal" image="chevron.left" catalog="system"/>
+                                <state key="normal" image="chevron.down" catalog="system">
+                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="large"/>
+                                </state>
                                 <connections>
                                     <action selector="unwindWithSegue:" destination="fIo-7D-rHo" eventType="touchUpInside" id="6M6-ja-WjV"/>
                                     <action selector="unwindWithSegue:" destination="Sci-Ak-MJ2" eventType="touchUpInside" id="jEi-cj-JG7"/>
@@ -591,7 +593,7 @@
                                     </button>
                                 </subviews>
                             </stackView>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="50" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="pSb-Wp-d1D">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="50" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="pSb-Wp-d1D">
                                 <rect key="frame" x="0.0" y="238" width="414" height="384"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <prototypes>
@@ -664,13 +666,15 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Agh-jn-UNO">
-                                <rect key="frame" x="10" y="54" width="26" height="26"/>
+                                <rect key="frame" x="10" y="54" width="30" height="30"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="26" id="1A4-2U-RyL"/>
-                                    <constraint firstAttribute="width" constant="26" id="WV3-On-IMb"/>
+                                    <constraint firstAttribute="height" constant="30" id="1A4-2U-RyL"/>
+                                    <constraint firstAttribute="width" constant="30" id="WV3-On-IMb"/>
                                 </constraints>
                                 <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <state key="normal" image="chevron.left" catalog="system"/>
+                                <state key="normal" image="chevron.down" catalog="system">
+                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="large"/>
+                                </state>
                                 <connections>
                                     <action selector="unwindWithSegue:" destination="fIo-7D-rHo" eventType="touchUpInside" id="RX3-Lj-niN"/>
                                 </connections>
@@ -713,6 +717,7 @@
         <!--Navigation Controller-->
         <scene sceneID="mZT-bN-lb2">
             <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="m8F-Ou-nQa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" modalPresentationStyle="fullScreen" id="OTx-Qo-3b0" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="3GC-kv-eOb"/>
@@ -725,7 +730,6 @@
                         <segue destination="fqa-q8-weC" kind="relationship" relationship="rootViewController" id="fDu-ms-Ugq"/>
                     </connections>
                 </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="m8F-Ou-nQa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1557.9710144927537" y="1512.7232142857142"/>
         </scene>
@@ -737,7 +741,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="singleLineEtched" rowHeight="50" estimatedRowHeight="-1" sectionHeaderHeight="1" sectionFooterHeight="1" translatesAutoresizingMaskIntoConstraints="NO" id="SNd-Wo-HJu">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="grouped" separatorStyle="singleLineEtched" rowHeight="50" estimatedRowHeight="-1" sectionHeaderHeight="1" sectionFooterHeight="1" translatesAutoresizingMaskIntoConstraints="NO" id="SNd-Wo-HJu">
                                 <rect key="frame" x="0.0" y="83" width="414" height="599"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <prototypes>
@@ -858,13 +862,15 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="spD-Yz-QVU">
-                                <rect key="frame" x="10" y="54" width="26" height="26"/>
+                                <rect key="frame" x="10" y="54" width="30" height="30"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="26" id="cPv-sG-M0e"/>
-                                    <constraint firstAttribute="height" constant="26" id="xO7-Zu-dCO"/>
+                                    <constraint firstAttribute="width" constant="30" id="cPv-sG-M0e"/>
+                                    <constraint firstAttribute="height" constant="30" id="xO7-Zu-dCO"/>
                                 </constraints>
                                 <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <state key="normal" image="chevron.left" catalog="system"/>
+                                <state key="normal" image="chevron.down" catalog="system">
+                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="large"/>
+                                </state>
                                 <connections>
                                     <action selector="unwindWithSegue:" destination="pFP-k4-cBJ" eventType="touchUpInside" id="l6j-bx-snh"/>
                                 </connections>
@@ -881,7 +887,7 @@
                                 </connections>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="4yR-X4-MjN" firstAttribute="top" secondItem="6DS-v3-QIQ" secondAttribute="top" constant="13" id="2YA-Lq-RPv"/>
@@ -914,6 +920,7 @@
     <resources>
         <image name="auto_pronunciation" width="500" height="500"/>
         <image name="camera" width="512" height="512"/>
+        <image name="chevron.down" catalog="system" width="128" height="72"/>
         <image name="chevron.left" catalog="system" width="96" height="128"/>
         <image name="colors" width="512" height="512"/>
         <image name="english_american_pronunce" width="500" height="500"/>

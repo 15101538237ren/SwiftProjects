@@ -11,6 +11,7 @@ import LeanCloud
 import MessageUI
 
 class SettingViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+    var viewTranslation = CGPoint(x: 0, y: 0)
     let redColor:UIColor = UIColor(red: 168, green: 0, blue: 0, alpha: 1)
     let settingItems:[SettingItem] = [
         SettingItem(icon: UIImage(named: "auto_pronunciation") ?? UIImage(), name: "自动发音", value: "开"),
@@ -35,16 +36,48 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
         self.tableView.delegate = self
         self.tableView.dataSource = self
         self.tableView.separatorColor = .clear
+        self.tableView.backgroundColor = .clear
         self.modalPresentationStyle = .overCurrentContext
+        
         view.isOpaque = false
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         navigationController?.navigationBar.shadowImage = UIImage()
-        
         navigationController?.navigationBar.tintColor = .white
+        
+        view.backgroundColor = .clear
+        let blurEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .light))
+        blurEffectView.frame = self.view.bounds
+        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        self.view.insertSubview(blurEffectView, at: 0)
+        
+        view.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(handleDismiss)))
         super.viewDidLoad()
         
         // Do any additional setup after loading the view.
     }
+    
+    
+    @objc func handleDismiss(sender: UIPanGestureRecognizer) {
+        switch sender.state {
+        case .changed:
+            viewTranslation = sender.translation(in: view)
+            UIView.animate(withDuration: 0.2, delay: 0, usingSpringWithDamping: 0.2, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+                self.view.transform = CGAffineTransform(translationX: 0, y: self.viewTranslation.y)
+            })
+        case .ended:
+            if viewTranslation.y < 200 {
+                UIView.animate(withDuration: 0.2, delay: 0, usingSpringWithDamping: 0.2, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+                    self.view.transform = .identity
+                })
+            } else {
+                dismiss(animated: true, completion: nil)
+            }
+        default:
+            break
+        }
+    }
+    
+    
     func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1
@@ -58,6 +91,7 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
         let row = indexPath.row
         if  row == 0{
             let cell = tableView.dequeueReusableCell(withIdentifier: "SettingToggleCell", for: indexPath) as! SettingToggleTableViewCell
+            cell.backgroundColor = .clear
             cell.separatorInset = UIEdgeInsets(top: 0, left: cell.bounds.size.width, bottom: 0, right: 0);
             let settingItem:SettingItem = settingItems[row]
             cell.iconView?.image = settingItem.icon
@@ -80,6 +114,7 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
         }
         else if row == 1{
             let cell = tableView.dequeueReusableCell(withIdentifier: "SettingToggleCell", for: indexPath) as! SettingToggleTableViewCell
+            cell.backgroundColor = .clear
             cell.separatorInset = UIEdgeInsets(top: 0, left: cell.bounds.size.width, bottom: 0, right: 0);
             let settingItem:SettingItem = settingItems[row]
             cell.toggleSwitch.addTarget(self, action: #selector(pronunceStyleSwitched), for: UIControl.Event.valueChanged)
@@ -102,6 +137,7 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
         }
         else{
             let cell = tableView.dequeueReusableCell(withIdentifier: "SettingCell", for: indexPath) as! SettingTableViewCell
+            cell.backgroundColor = .clear
             cell.separatorInset = UIEdgeInsets(top: 0, left: cell.bounds.size.width, bottom: 0, right: 0);
             let settingItem:SettingItem = settingItems[row]
             cell.iconView?.image = settingItem.icon

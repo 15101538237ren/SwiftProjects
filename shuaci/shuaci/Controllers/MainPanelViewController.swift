@@ -310,7 +310,7 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
     func loadLearnController(){
         let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Learning", bundle:nil)
         let learnVC = mainStoryBoard.instantiateViewController(withIdentifier: "learnWordController") as! LearnWordViewController
-        learnVC.modalPresentationStyle = .fullScreen
+        learnVC.modalPresentationStyle = .overCurrentContext
         learnVC.mainPanelViewController = self
         DispatchQueue.main.async {
             self.present(learnVC, animated: true, completion: nil)
@@ -389,6 +389,11 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
         if segue.identifier == "userProfileSegue"{
             let destinationController = segue.destination as! UserProfileViewController
             destinationController.mainPanelViewController = self
+            destinationController.modalPresentationStyle = .overCurrentContext
+        }
+        else if segue.identifier == "settingSegue"{
+            let destinationController = segue.destination as! SettingViewController
+            destinationController.modalPresentationStyle = .overCurrentContext
         }
     }
 

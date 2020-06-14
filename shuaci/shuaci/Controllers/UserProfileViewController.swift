@@ -30,6 +30,7 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
     }
     
     var mainPanelViewController: MainPanelViewController!
+    var viewTranslation = CGPoint(x: 0, y: 0)
     
     @IBAction func unwind(segue: UIStoryboardSegue) {
         self.dismiss(animated: true, completion: nil)
@@ -39,15 +40,44 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
         self.tableView.delegate = self
         self.tableView.dataSource = self
         self.tableView.separatorColor = .clear
+        self.tableView.backgroundColor = .clear
         self.modalPresentationStyle = .overCurrentContext
+        
         view.isOpaque = false
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         navigationController?.navigationBar.shadowImage = UIImage()
-        
         navigationController?.navigationBar.tintColor = .white
+        
+        view.backgroundColor = .clear
+        let blurEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .light))
+        blurEffectView.frame = self.view.bounds
+        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        self.view.insertSubview(blurEffectView, at: 0)
+        
+        view.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(handleDismiss)))
         super.viewDidLoad()
         
         // Do any additional setup after loading the view.
+    }
+    
+    @objc func handleDismiss(sender: UIPanGestureRecognizer) {
+        switch sender.state {
+        case .changed:
+            viewTranslation = sender.translation(in: view)
+            UIView.animate(withDuration: 0.2, delay: 0, usingSpringWithDamping: 0.2, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+                self.view.transform = CGAffineTransform(translationX: 0, y: self.viewTranslation.y)
+            })
+        case .ended:
+            if viewTranslation.y < 200 {
+                UIView.animate(withDuration: 0.2, delay: 0, usingSpringWithDamping: 0.2, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+                    self.view.transform = .identity
+                })
+            } else {
+                dismiss(animated: true, completion: nil)
+            }
+        default:
+            break
+        }
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -62,6 +92,7 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let row = indexPath.row
         let cell = tableView.dequeueReusableCell(withIdentifier: "ProfileSettingCell", for: indexPath) as! SettingTableViewCell
+        cell.backgroundColor = .clear
         cell.separatorInset = UIEdgeInsets(top: 0, left: cell.bounds.size.width, bottom: 0, right: 0);
         let settingItem:SettingItem = settingItems[row]
         cell.iconView?.image = settingItem.icon

@@ -14,6 +14,7 @@ class ThemeCollectionViewController: UICollectionViewController {
     @IBAction func unwind(segue: UIStoryboardSegue) {
         self.dismiss(animated: true, completion: nil)
     }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
@@ -21,6 +22,7 @@ class ThemeCollectionViewController: UICollectionViewController {
         navigationController?.hidesBarsOnSwipe = true
         navigationController?.navigationBar.tintColor = .white
     }
+      
     
     // MARK: UICollectionViewDataSource
 
@@ -37,7 +39,6 @@ class ThemeCollectionViewController: UICollectionViewController {
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! ThemeCollectionViewCell
-        
         let theme = themes[indexPath.row]
         cell.themeImageView.image = UIImage(named: theme.background)
         cell.themeNameLabel.text = theme.name
