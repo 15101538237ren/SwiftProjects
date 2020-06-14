@@ -40,19 +40,12 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
         self.tableView.delegate = self
         self.tableView.dataSource = self
         self.tableView.separatorColor = .clear
-        self.tableView.backgroundColor = .clear
         self.modalPresentationStyle = .overCurrentContext
         
         view.isOpaque = false
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         navigationController?.navigationBar.shadowImage = UIImage()
         navigationController?.navigationBar.tintColor = .white
-        
-        view.backgroundColor = .clear
-        let blurEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .light))
-        blurEffectView.frame = self.view.bounds
-        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        self.view.insertSubview(blurEffectView, at: 0)
         
         view.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(handleDismiss)))
         super.viewDidLoad()
@@ -95,7 +88,6 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let row = indexPath.row
         let cell = tableView.dequeueReusableCell(withIdentifier: "ProfileSettingCell", for: indexPath) as! SettingTableViewCell
-        cell.backgroundColor = .clear
         cell.separatorInset = UIEdgeInsets(top: 0, left: cell.bounds.size.width, bottom: 0, right: 0);
         let settingItem:SettingItem = settingItems[row]
         cell.iconView?.image = settingItem.icon

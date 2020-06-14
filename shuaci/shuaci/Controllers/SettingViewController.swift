@@ -36,19 +36,12 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
         self.tableView.delegate = self
         self.tableView.dataSource = self
         self.tableView.separatorColor = .clear
-        self.tableView.backgroundColor = .clear
         self.modalPresentationStyle = .overCurrentContext
         
         view.isOpaque = false
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         navigationController?.navigationBar.shadowImage = UIImage()
         navigationController?.navigationBar.tintColor = .white
-        
-        view.backgroundColor = .clear
-        let blurEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .light))
-        blurEffectView.frame = self.view.bounds
-        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        self.view.insertSubview(blurEffectView, at: 0)
         
         view.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(handleDismiss)))
         super.viewDidLoad()
@@ -93,7 +86,6 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
         let row = indexPath.row
         if  row == 0{
             let cell = tableView.dequeueReusableCell(withIdentifier: "SettingToggleCell", for: indexPath) as! SettingToggleTableViewCell
-            cell.backgroundColor = .clear
             cell.separatorInset = UIEdgeInsets(top: 0, left: cell.bounds.size.width, bottom: 0, right: 0);
             let settingItem:SettingItem = settingItems[row]
             cell.iconView?.image = settingItem.icon
@@ -116,7 +108,6 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
         }
         else if row == 1{
             let cell = tableView.dequeueReusableCell(withIdentifier: "SettingToggleCell", for: indexPath) as! SettingToggleTableViewCell
-            cell.backgroundColor = .clear
             cell.separatorInset = UIEdgeInsets(top: 0, left: cell.bounds.size.width, bottom: 0, right: 0);
             let settingItem:SettingItem = settingItems[row]
             cell.toggleSwitch.addTarget(self, action: #selector(pronunceStyleSwitched), for: UIControl.Event.valueChanged)
@@ -139,7 +130,6 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
         }
         else{
             let cell = tableView.dequeueReusableCell(withIdentifier: "SettingCell", for: indexPath) as! SettingTableViewCell
-            cell.backgroundColor = .clear
             cell.separatorInset = UIEdgeInsets(top: 0, left: cell.bounds.size.width, bottom: 0, right: 0);
             let settingItem:SettingItem = settingItems[row]
             cell.iconView?.image = settingItem.icon
