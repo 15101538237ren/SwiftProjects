@@ -47,7 +47,7 @@ class LearnWordViewController: UIViewController {
         view.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(handleDismiss)))
         
         super.viewDidLoad()
-        currentLearningRec.StartDate = Date()
+        currentLearningRec.StartDate = Date().localDate()
     }
     
     @objc func handleDismiss(sender: UIPanGestureRecognizer) {
@@ -231,7 +231,7 @@ class LearnWordViewController: UIViewController {
     
     @objc func moveCard() {
         if currentIndex >= words.count{
-            currentLearningRec.EndDate = Date()
+            currentLearningRec.EndDate = Date().localDate()
             currentLearningRec.VocabRecIds = getVocabIdsFromVocabRecords(VocabRecords: vocabRecordsOfCurrentLearning)
             saveLearningRecordsFromLearning()
             DispatchQueue.main.async {
@@ -303,7 +303,7 @@ class LearnWordViewController: UIViewController {
                         nextCard.transform = .identity
                     })
                     vocabRecordsOfCurrentLearning[currentIndex].BehaviorHistory.append(CardBehavior.remember.rawValue)
-                    vocabRecordsOfCurrentLearning[currentIndex].ReviewDUEDate = Date().adding(durationVal: 30, durationType: .minute)
+                    vocabRecordsOfCurrentLearning[currentIndex].ReviewDUEDate = Date().localDate().adding(durationVal: 30, durationType: .minute)
                     card_behaviors.append(.remember)
                     
                     let word: String = nextCard.wordLabel?.text ?? ""
@@ -328,7 +328,7 @@ class LearnWordViewController: UIViewController {
                         nextCard.transform = .identity
                     })
                     vocabRecordsOfCurrentLearning[currentIndex].BehaviorHistory.append(CardBehavior.forget.rawValue)
-                    vocabRecordsOfCurrentLearning[currentIndex].ReviewDUEDate = Date().adding(durationVal: 30, durationType: .minute)
+                    vocabRecordsOfCurrentLearning[currentIndex].ReviewDUEDate = Date().localDate().adding(durationVal: 30, durationType: .minute)
                     card_behaviors.append(.forget)
                     
                     let word: String = nextCard.wordLabel?.text ?? ""
@@ -506,11 +506,11 @@ class LearnWordViewController: UIViewController {
                     switch cardBehavior{
                     case .remember:
                         vocabRecordsOfCurrentLearning[self.currentIndex].BehaviorHistory.append(CardBehavior.remember.rawValue)
-                        vocabRecordsOfCurrentLearning[self.currentIndex].ReviewDUEDate = Date().adding(durationVal: 30, durationType: .minute)
+                        vocabRecordsOfCurrentLearning[self.currentIndex].ReviewDUEDate = Date().localDate().adding(durationVal: 30, durationType: .minute)
                         self.card_behaviors.append(.remember)
                     case .forget:
                         vocabRecordsOfCurrentLearning[self.currentIndex].BehaviorHistory.append(CardBehavior.forget.rawValue)
-                        vocabRecordsOfCurrentLearning[self.currentIndex].ReviewDUEDate = Date().adding(durationVal: 30, durationType: .minute)
+                        vocabRecordsOfCurrentLearning[self.currentIndex].ReviewDUEDate = Date().localDate().adding(durationVal: 30, durationType: .minute)
                         self.card_behaviors.append(.forget)
                     case .trash:
                         vocabRecordsOfCurrentLearning[self.currentIndex].Mastered = true
@@ -561,7 +561,7 @@ class LearnWordViewController: UIViewController {
         let cardCollectedBehaviorPrevious: CardCollectBehavior = card_collect_behaviors[currentIndex]
         if cardCollectedBehaviorPrevious == .no{
             card_collect_behaviors[currentIndex] = .yes
-            vocabRecordsOfCurrentLearning[currentIndex].CollectDate = Date()
+            vocabRecordsOfCurrentLearning[currentIndex].CollectDate = Date().localDate()
             DispatchQueue.main.async {
                 card.collectImageView.alpha = 1
                 self.enableBtns()

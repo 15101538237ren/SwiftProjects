@@ -69,14 +69,15 @@ func add_notification_date() -> UNNotificationRequest?{
         }
         if vocabsNeedReview.count > 0{
             let vocabsNeedReviewSorted:[VocabularyRecord] = vocabsNeedReview.sorted(by: {$0.ReviewDUEDate!.compare($1.ReviewDUEDate!) == .orderedAscending})
-                    
-                    let number_of_vocabs_per_group = getPreference(key: "number_of_words_per_group") as! Int
-                    let number_of_vocabs_to_notify = min(number_of_vocabs_per_group, vocabsNeedReviewSorted.count)
-                    let notification_date: Date = vocabsNeedReviewSorted[number_of_vocabs_to_notify - 1].ReviewDUEDate!
-                    let notification_trigger = UNTimeIntervalNotificationTrigger(timeInterval: 60, repeats: false)
-                    let notification_content = obtainNotificationContent(number_of_vocabs_to_notify: number_of_vocabs_to_notify)
-                    let request = UNNotificationRequest(identifier: UUID().uuidString, content: notification_content, trigger: notification_trigger)
-                    return request
+            
+            let number_of_vocabs_per_group = getPreference(key: "number_of_words_per_group") as! Int
+            let number_of_vocabs_to_notify = min(number_of_vocabs_per_group, vocabsNeedReviewSorted.count)
+            let notification_date: Date = vocabsNeedReviewSorted[number_of_vocabs_to_notify - 1].ReviewDUEDate!
+            print(notification_date)
+            let notification_trigger = obtainCalendarNotificationTriggerByDate(notification_date: notification_date)
+            let notification_content = obtainNotificationContent(number_of_vocabs_to_notify: number_of_vocabs_to_notify)
+            let request = UNNotificationRequest(identifier: UUID().uuidString, content: notification_content, trigger: notification_trigger)
+            return request
         }
     }
     return nil

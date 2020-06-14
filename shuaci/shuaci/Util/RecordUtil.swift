@@ -121,7 +121,7 @@ func saveVocabRecords(saveToLocal: Bool, delaySeconds:Double = 0){
 // MARK: - LearningRecord Util
 
 func initNewLearningRec() -> LearningRecord{
-    return LearningRecord.init(StartDate: Date(), EndDate: Date(), VocabRecIds: [])
+    return LearningRecord.init(StartDate: Date().localDate(), EndDate: Date().localDate(), VocabRecIds: [])
 }
 
 func saveLearningRecordsFromLearning() {
