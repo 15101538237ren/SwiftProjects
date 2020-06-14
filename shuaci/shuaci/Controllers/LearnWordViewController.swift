@@ -34,6 +34,9 @@ class LearnWordViewController: UIViewController {
     var currentIndex:Int = 0
     let animationDuration = 0.15
     var viewTranslation = CGPoint(x: 0, y: 0)
+
+    let firstReviewDelayInMin = 30
+    
     func setCardBackground(){
         let current_theme_category = getPreference(key: "current_theme_category") as! Int
         for card in cards{
@@ -47,7 +50,7 @@ class LearnWordViewController: UIViewController {
         view.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(handleDismiss)))
         
         super.viewDidLoad()
-        currentLearningRec.StartDate = Date().localDate()
+        currentLearningRec.StartDate = Date()
     }
     
     @objc func handleDismiss(sender: UIPanGestureRecognizer) {
@@ -231,7 +234,7 @@ class LearnWordViewController: UIViewController {
     
     @objc func moveCard() {
         if currentIndex >= words.count{
-            currentLearningRec.EndDate = Date().localDate()
+            currentLearningRec.EndDate = Date()
             currentLearningRec.VocabRecIds = getVocabIdsFromVocabRecords(VocabRecords: vocabRecordsOfCurrentLearning)
             saveLearningRecordsFromLearning()
             DispatchQueue.main.async {
@@ -303,7 +306,7 @@ class LearnWordViewController: UIViewController {
                         nextCard.transform = .identity
                     })
                     vocabRecordsOfCurrentLearning[currentIndex].BehaviorHistory.append(CardBehavior.remember.rawValue)
-                    vocabRecordsOfCurrentLearning[currentIndex].ReviewDUEDate = Date().localDate().adding(durationVal: 30, durationType: .minute)
+                    vocabRecordsOfCurrentLearning[currentIndex].ReviewDUEDate = Date().adding(durationVal: firstReviewDelayInMin, durationType: .minute)
                     card_behaviors.append(.remember)
                     
                     let word: String = nextCard.wordLabel?.text ?? ""
@@ -328,7 +331,7 @@ class LearnWordViewController: UIViewController {
                         nextCard.transform = .identity
                     })
                     vocabRecordsOfCurrentLearning[currentIndex].BehaviorHistory.append(CardBehavior.forget.rawValue)
-                    vocabRecordsOfCurrentLearning[currentIndex].ReviewDUEDate = Date().localDate().adding(durationVal: 30, durationType: .minute)
+                    vocabRecordsOfCurrentLearning[currentIndex].ReviewDUEDate = Date().adding(durationVal: firstReviewDelayInMin, durationType: .minute)
                     card_behaviors.append(.forget)
                     
                     let word: String = nextCard.wordLabel?.text ?? ""
@@ -506,11 +509,11 @@ class LearnWordViewController: UIViewController {
                     switch cardBehavior{
                     case .remember:
                         vocabRecordsOfCurrentLearning[self.currentIndex].BehaviorHistory.append(CardBehavior.remember.rawValue)
-                        vocabRecordsOfCurrentLearning[self.currentIndex].ReviewDUEDate = Date().localDate().adding(durationVal: 30, durationType: .minute)
+                        vocabRecordsOfCurrentLearning[self.currentIndex].ReviewDUEDate = Date().adding(durationVal: self.firstReviewDelayInMin, durationType: .minute)
                         self.card_behaviors.append(.remember)
                     case .forget:
                         vocabRecordsOfCurrentLearning[self.currentIndex].BehaviorHistory.append(CardBehavior.forget.rawValue)
-                        vocabRecordsOfCurrentLearning[self.currentIndex].ReviewDUEDate = Date().localDate().adding(durationVal: 30, durationType: .minute)
+                        vocabRecordsOfCurrentLearning[self.currentIndex].ReviewDUEDate = Date().adding(durationVal: self.firstReviewDelayInMin, durationType: .minute)
                         self.card_behaviors.append(.forget)
                     case .trash:
                         vocabRecordsOfCurrentLearning[self.currentIndex].Mastered = true

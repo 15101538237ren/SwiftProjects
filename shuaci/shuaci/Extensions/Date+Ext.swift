@@ -25,7 +25,7 @@ extension Date {
         case .year:
             return Calendar.current.date(byAdding: .year, value: durationVal, to: self)!
         default:
-            return Date().localDate()
+            return Date()
         }
     }
     
@@ -33,7 +33,6 @@ extension Date {
         let nowUTC = Date()
         let timeZoneOffset = Double(TimeZone.current.secondsFromGMT(for: nowUTC))
         guard let localDate = Calendar.current.date(byAdding: .second, value: Int(timeZoneOffset), to: nowUTC) else {return Date()}
-
         return localDate
     }
 }

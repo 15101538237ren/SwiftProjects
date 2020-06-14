@@ -12,4 +12,10 @@ struct ReviewRecord: Codable {
     var StartDate: Date
     var EndDate: Date
     var VocabRecIds: [String]
+    
+    init(StartDate: Date, EndDate:Date, VocabRecIds: [String]) {
+        self.StartDate = StartDate
+        self.EndDate = EndDate
+        self.VocabRecIds = VocabRecIds
+    }
 }

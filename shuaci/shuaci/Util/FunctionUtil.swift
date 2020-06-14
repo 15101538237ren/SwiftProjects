@@ -15,7 +15,6 @@ import SwiftyJSON
 
 var imageCache = NSCache<NSString, NSURL>()
 let decoder = JSONDecoder()
-
 var GlobalUserName = ""
 
 
@@ -56,6 +55,48 @@ func sm2(x:[Int], a: Float = 6.0, b: Float = -0.8, c: Float = 0.28, d: Float = 0
     }
 }
 
+func calcSecondsDurationGivenBehaviorHistory(cardBehaviorHistory: [Int]) -> Int{
+    if cardBehaviorHistory.count <= 2{
+        return convertFloatDayDurationToSecond(dayDuration: 0.5)
+    }
+    else{
+        return convertFloatDayDurationToSecond(dayDuration: sm2(x: cardBehaviorHistory))
+    }
+}
+
+func convertFloatDayDurationToSecond(dayDuration: Float)-> Int{
+    return Int(dayDuration * 24.0 * 60.0 * 60.0)
+}
+
+
+func get_vocab_rec_need_to_be_review() -> [VocabularyRecord]{
+    var vocab_rec_need_to_be_review:[VocabularyRecord] = []
+    
+    if GlobalVocabRecords.count == 0{
+        GlobalVocabRecords = loadVocabRecords()
+    }
+    let current_book_id:String = getPreference(key: "current_book_id") as! String
+    let current_time = Date()
+    if GlobalVocabRecords.count > 0{
+        for vocabRecord in GlobalVocabRecords{
+            if (vocabRecord.BookId == current_book_id) && (!vocabRecord.Mastered) && (vocabRecord.ReviewDUEDate! < current_time){
+                vocab_rec_need_to_be_review.append(vocabRecord)
+            }
+        }
+    }
+    return vocab_rec_need_to_be_review
+}
+
+func get_words_need_to_be_review(vocab_rec_need_to_be_review: [VocabularyRecord]) -> [JSON]{
+    var review_words:[JSON] = []
+    let current_book_id:String = getPreference(key: "current_book_id") as! String
+    let word_list = currentbook_json_obj["data"]
+    for vocab in vocab_rec_need_to_be_review{
+        review_words.append(word_list[vocab.WordRank - 1])
+    }
+    return review_words
+}
+
 func add_notification_date() -> UNNotificationRequest?{
     if GlobalVocabRecords.count == 0{
         GlobalVocabRecords = loadVocabRecords()
@@ -73,7 +114,7 @@ func add_notification_date() -> UNNotificationRequest?{
             let number_of_vocabs_per_group = getPreference(key: "number_of_words_per_group") as! Int
             let number_of_vocabs_to_notify = min(number_of_vocabs_per_group, vocabsNeedReviewSorted.count)
             let notification_date: Date = vocabsNeedReviewSorted[number_of_vocabs_to_notify - 1].ReviewDUEDate!
-            print(notification_date)
+            print(notification_date.localDate())
             let notification_trigger = obtainCalendarNotificationTriggerByDate(notification_date: notification_date)
             let notification_content = obtainNotificationContent(number_of_vocabs_to_notify: number_of_vocabs_to_notify)
             let request = UNNotificationRequest(identifier: UUID().uuidString, content: notification_content, trigger: notification_trigger)

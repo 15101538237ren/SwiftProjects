@@ -35,7 +35,9 @@ var saveLearningRecordFailed : Bool = getSaveRecordToClouldStatus(key: saveLearn
 var saveVocabRecordFailed : Bool = getSaveRecordToClouldStatus(key: saveVocabRecordToClouldFailedKey)
 
 var vocabRecordsOfCurrentLearning:[VocabularyRecord] = []
+var vocabRecordsOfCurrentReview:[VocabularyRecord] = []
 var currentLearningRec: LearningRecord = initNewLearningRec()
+var currentReviewRec: ReviewRecord = initNewReviewRec()
 
 
 var GlobalReviewRecords:[ReviewRecord] = loadReviewRecords()
@@ -121,7 +123,11 @@ func saveVocabRecords(saveToLocal: Bool, delaySeconds:Double = 0){
 // MARK: - LearningRecord Util
 
 func initNewLearningRec() -> LearningRecord{
-    return LearningRecord.init(StartDate: Date().localDate(), EndDate: Date().localDate(), VocabRecIds: [])
+    return LearningRecord.init(StartDate: Date(), EndDate: Date(), VocabRecIds: [])
+}
+
+func initNewReviewRec() -> ReviewRecord{
+    return ReviewRecord.init(StartDate: Date(), EndDate: Date(), VocabRecIds: [])
 }
 
 func saveLearningRecordsFromLearning() {
@@ -132,6 +138,36 @@ func saveLearningRecordsFromLearning() {
     GlobalLearningRecords.append(currentLearningRec)
     saveLearningRecords(saveToLocal: true)
 }
+
+func updateGlobalVocabRecords(vocabs_updated: [VocabularyRecord]){
+    var vocab_new_ids:[String] = []
+    for vocab in vocabs_updated{
+        vocab_new_ids.append(vocab.VocabRecId)
+    }
+    var temp_GlobalVocabRec = GlobalVocabRecords
+    for vi in 0..<temp_GlobalVocabRec.count{
+        let vocab:VocabularyRecord = temp_GlobalVocabRec[vi]
+        if vocab_new_ids.contains(vocab.VocabRecId){
+            temp_GlobalVocabRec.remove(at: vi)
+        }
+    }
+    
+    for vocab in vocabs_updated{
+        temp_GlobalVocabRec.append(vocab)
+    }
+    GlobalVocabRecords = temp_GlobalVocabRec
+}
+
+func saveReviewRecordsFromReview(vocabs_updated: [VocabularyRecord]) {
+    //Save review records and vocabs after review
+    updateGlobalVocabRecords(vocabs_updated: vocabs_updated)
+    saveVocabRecords(saveToLocal: true)
+    
+    GlobalReviewRecords.append(currentReviewRec)
+    saveReviewRecords(saveToLocal: true)
+}
+
+
 
 func loadLearningRecords() -> [LearningRecord]{
     var learningRecord: [LearningRecord] =  []

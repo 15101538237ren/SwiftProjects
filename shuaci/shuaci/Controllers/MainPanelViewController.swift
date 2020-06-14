@@ -198,7 +198,7 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
                                             self.shouldStopRotating = true
                                             self.syncLabel.alpha = 0.0
                                         }
-                                        UserDefaults.standard.set(Date().localDate(), forKey: "lastUpdateTime")
+                                        UserDefaults.standard.set(Date(), forKey: "lastUpdateTime")
                                         self.setTextOrButtonsColor(color: textColors[category] ?? UIColor.darkGray)
                                     }
                                 }
@@ -226,7 +226,7 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
     
     @objc func updateWallpaperWhenBackScreen(){
         let lastUpdateTimeKey:String = "lastUpdateTime"
-        var lastUpdateTime = Date().localDate()
+        var lastUpdateTime = Date()
         if isKeyPresentInUserDefaults(key: lastUpdateTimeKey){
             lastUpdateTime = UserDefaults.standard.object(forKey: lastUpdateTimeKey) as! Date
         }
@@ -235,7 +235,7 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
             UserDefaults.standard.set(lastUpdateTime, forKey: lastUpdateTimeKey)
         }
         
-        if minutesBetweenDates(lastUpdateTime, Date().localDate()) > 30 {
+        if minutesBetweenDates(lastUpdateTime, Date()) > 30 {
             let current_theme_category = getPreference(key: "current_theme_category") as! Int
             DispatchQueue.main.async {
                 self.userPhotoBtn.rotate360Degrees(completionDelegate: self)

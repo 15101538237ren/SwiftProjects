@@ -593,10 +593,10 @@
             </objects>
             <point key="canvasLocation" x="800.00000000000011" y="107.8125"/>
         </scene>
-        <!--Learn Word View Controller-->
+        <!--Review Word View Controller-->
         <scene sceneID="KrQ-G7-bf0">
             <objects>
-                <viewController storyboardIdentifier="reviewWordController" id="SS3-Jh-03V" customClass="LearnWordViewController" customModule="刷词" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="reviewWordController" id="SS3-Jh-03V" customClass="ReviewWordViewController" customModule="刷词" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="z1M-BE-KAc" customClass="LearnUIView" customModule="刷词" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -611,9 +611,6 @@
                                 <state key="normal" image="chevron.down" catalog="system">
                                     <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="large"/>
                                 </state>
-                                <connections>
-                                    <action selector="unwindWithSegue:" destination="SS3-Jh-03V" eventType="touchUpInside" id="4ER-Ih-QbH"/>
-                                </connections>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WO8-A9-ENN" userLabel="Card 2" customClass="CardUIView" customModule="刷词" customModuleProvider="target">
                                 <rect key="frame" x="57" y="223" width="300" height="450"/>
@@ -676,7 +673,7 @@
                                         <color key="tintColor" red="0.8993865848" green="0.62407978019999999" blue="0.093372721610000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <state key="normal" backgroundImage="speaker.2" catalog="system"/>
                                         <connections>
-                                            <action selector="playAudio:" destination="SS3-Jh-03V" eventType="touchUpInside" id="b7O-eW-Zg7"/>
+                                            <action selector="playAudio:" destination="SS3-Jh-03V" eventType="touchUpInside" id="cBS-BK-9ch"/>
                                         </connections>
                                     </button>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="star" translatesAutoresizingMaskIntoConstraints="NO" id="IkE-UF-UwA">
@@ -804,7 +801,7 @@
                                         <color key="tintColor" red="0.8993865848" green="0.62407978019999999" blue="0.093372721610000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <state key="normal" backgroundImage="speaker.2" catalog="system"/>
                                         <connections>
-                                            <action selector="playAudio:" destination="SS3-Jh-03V" eventType="touchUpInside" id="Fqn-te-hbM"/>
+                                            <action selector="playAudio:" destination="SS3-Jh-03V" eventType="touchUpInside" id="HHO-y2-sCz"/>
                                         </connections>
                                     </button>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="star" translatesAutoresizingMaskIntoConstraints="NO" id="65N-Bh-NtT">
@@ -879,7 +876,7 @@
                                 </constraints>
                                 <state key="normal" backgroundImage="wrong"/>
                                 <connections>
-                                    <action selector="cardDifficultToLearn:" destination="SS3-Jh-03V" eventType="touchUpInside" id="We1-cs-rGq"/>
+                                    <action selector="cardDifficultToLearn:" destination="SS3-Jh-03V" eventType="touchUpInside" id="dnn-dP-jYA"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Bq2-1C-73o">
@@ -890,7 +887,7 @@
                                 </constraints>
                                 <state key="normal" image="pass"/>
                                 <connections>
-                                    <action selector="masterThisCard:" destination="SS3-Jh-03V" eventType="touchUpInside" id="2bY-09-bPg"/>
+                                    <action selector="masterThisCard:" destination="SS3-Jh-03V" eventType="touchUpInside" id="n2E-Dq-2OR"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lOl-GR-hNc">
@@ -901,7 +898,7 @@
                                 </constraints>
                                 <state key="normal" image="ok"/>
                                 <connections>
-                                    <action selector="learntTheCard:" destination="SS3-Jh-03V" eventType="touchUpInside" id="VVj-ZW-z8A"/>
+                                    <action selector="learntTheCard:" destination="SS3-Jh-03V" eventType="touchUpInside" id="IXW-Qq-qH8"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GMO-tS-QFX">
@@ -913,7 +910,7 @@
                                 </constraints>
                                 <state key="normal" image="collect"/>
                                 <connections>
-                                    <action selector="addWordToCollection:" destination="SS3-Jh-03V" eventType="touchUpInside" id="EgP-tT-kY6"/>
+                                    <action selector="addWordToCollection:" destination="SS3-Jh-03V" eventType="touchUpInside" id="tgJ-Zo-yzQ"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="O6F-gQ-Puz">
@@ -925,7 +922,7 @@
                                 </constraints>
                                 <state key="normal" image="undo"/>
                                 <connections>
-                                    <action selector="backOneCard:" destination="SS3-Jh-03V" eventType="touchUpInside" id="Fru-Xn-j4L"/>
+                                    <action selector="backOneCard:" destination="SS3-Jh-03V" eventType="touchUpInside" id="MBl-qt-Cuq"/>
                                 </connections>
                             </button>
                             <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="bhf-Z5-DMa">
@@ -1005,34 +1002,34 @@
                         </connections>
                     </view>
                     <connections>
-                        <outlet property="learnUIView" destination="z1M-BE-KAc" id="Ctd-nT-tIU"/>
-                        <outlet property="progressLabel" destination="GZo-sx-J4h" id="9wQ-eq-qZQ"/>
-                        <outlet property="timeLabel" destination="frR-G4-yKf" id="LOU-wt-HnQ"/>
-                        <outletCollection property="cards" destination="0XW-ab-WVf" collectionClass="NSMutableArray" id="a0R-Sd-yBh"/>
-                        <outletCollection property="cards" destination="WO8-A9-ENN" collectionClass="NSMutableArray" id="SQ3-rt-Zw3"/>
-                        <outletCollection property="gestureRecognizers" destination="VVT-FF-AE8" collectionClass="NSMutableArray" id="Xo6-ik-Aqp"/>
-                        <outletCollection property="gestureRecognizers" destination="BtN-d2-fC9" collectionClass="NSMutableArray" id="ZNb-Ws-Dlo"/>
+                        <outlet property="learnUIView" destination="z1M-BE-KAc" id="J8N-bj-wEy"/>
+                        <outlet property="progressLabel" destination="GZo-sx-J4h" id="ehP-eQ-Fx9"/>
+                        <outlet property="timeLabel" destination="frR-G4-yKf" id="xya-wW-sSQ"/>
+                        <outletCollection property="cards" destination="0XW-ab-WVf" collectionClass="NSMutableArray" id="2ah-E2-lkf"/>
+                        <outletCollection property="cards" destination="WO8-A9-ENN" collectionClass="NSMutableArray" id="dh8-Zi-aa4"/>
+                        <outletCollection property="gestureRecognizers" destination="VVT-FF-AE8" collectionClass="NSMutableArray" id="uPK-KZ-KjF"/>
+                        <outletCollection property="gestureRecognizers" destination="BtN-d2-fC9" collectionClass="NSMutableArray" id="edS-FA-HiS"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cFS-LF-9iv" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <tapGestureRecognizer id="Frh-om-1ui">
                     <connections>
-                        <action selector="flipCard:" destination="SS3-Jh-03V" id="4rg-Je-Ocf"/>
+                        <action selector="flipCard:" destination="SS3-Jh-03V" id="T6r-zJ-RHV"/>
                     </connections>
                 </tapGestureRecognizer>
                 <tapGestureRecognizer id="ilV-Lq-8Qj">
                     <connections>
-                        <action selector="flipCard:" destination="SS3-Jh-03V" id="5Qi-pz-yJp"/>
+                        <action selector="flipCard:" destination="SS3-Jh-03V" id="Zdy-P4-tMw"/>
                     </connections>
                 </tapGestureRecognizer>
                 <panGestureRecognizer minimumNumberOfTouches="1" id="VVT-FF-AE8">
                     <connections>
-                        <action selector="panCard:" destination="SS3-Jh-03V" id="yng-5M-VQg"/>
+                        <action selector="panCard:" destination="SS3-Jh-03V" id="My6-pB-SaL"/>
                     </connections>
                 </panGestureRecognizer>
                 <panGestureRecognizer minimumNumberOfTouches="1" id="BtN-d2-fC9">
                     <connections>
-                        <action selector="panCard:" destination="SS3-Jh-03V" id="UUx-c1-Vsd"/>
+                        <action selector="panCard:" destination="SS3-Jh-03V" id="qtq-Vn-YZ4"/>
                     </connections>
                 </panGestureRecognizer>
             </objects>
