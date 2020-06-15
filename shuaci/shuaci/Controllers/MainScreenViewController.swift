@@ -220,11 +220,13 @@ class MainScreenViewController: UIViewController {
             do {
                 var downloadTask: URLSessionDownloadTask
                 downloadTask = URLSession.shared.downloadTask(with: url, completionHandler: { (urlhere, response, error) -> Void in
-                do {
-                    self.mp3Player = try AVAudioPlayer(contentsOf: urlhere!)
-                    self.mp3Player?.play()
-                } catch {
-                    print("couldn't load file :( \(urlhere)")
+                if let urlhere = urlhere{
+                    do {
+                        self.mp3Player = try AVAudioPlayer(contentsOf: urlhere)
+                        self.mp3Player?.play()
+                    } catch {
+                        print("couldn't load file :( \(urlhere)")
+                    }
                 }
             })
                 downloadTask.resume()

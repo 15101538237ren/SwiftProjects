@@ -56,12 +56,15 @@ func sm2(x:[Int], a: Float = 6.0, b: Float = -0.8, c: Float = 0.28, d: Float = 0
 }
 
 func calcSecondsDurationGivenBehaviorHistory(cardBehaviorHistory: [Int]) -> Int{
+    var secondDuration:Int = 0
     if cardBehaviorHistory.count <= 2{
-        return convertFloatDayDurationToSecond(dayDuration: 0.5)
+        secondDuration = convertFloatDayDurationToSecond(dayDuration: 0.5)
     }
     else{
-        return convertFloatDayDurationToSecond(dayDuration: sm2(x: cardBehaviorHistory))
+        secondDuration = convertFloatDayDurationToSecond(dayDuration: sm2(x: cardBehaviorHistory))
     }
+    print(secondDuration)
+    return secondDuration
 }
 
 func convertFloatDayDurationToSecond(dayDuration: Float)-> Int{
@@ -89,7 +92,6 @@ func get_vocab_rec_need_to_be_review() -> [VocabularyRecord]{
 
 func get_words_need_to_be_review(vocab_rec_need_to_be_review: [VocabularyRecord]) -> [JSON]{
     var review_words:[JSON] = []
-    let current_book_id:String = getPreference(key: "current_book_id") as! String
     let word_list = currentbook_json_obj["data"]
     for vocab in vocab_rec_need_to_be_review{
         review_words.append(word_list[vocab.WordRank - 1])
@@ -114,7 +116,9 @@ func add_notification_date() -> UNNotificationRequest?{
             let number_of_vocabs_per_group = getPreference(key: "number_of_words_per_group") as! Int
             let number_of_vocabs_to_notify = min(number_of_vocabs_per_group, vocabsNeedReviewSorted.count)
             let notification_date: Date = vocabsNeedReviewSorted[number_of_vocabs_to_notify - 1].ReviewDUEDate!
-            print(notification_date.localDate())
+            print(notification_date)
+            let avs = notification_date.localDate()
+            print(avs)
             let notification_trigger = obtainCalendarNotificationTriggerByDate(notification_date: notification_date)
             let notification_content = obtainNotificationContent(number_of_vocabs_to_notify: number_of_vocabs_to_notify)
             let request = UNNotificationRequest(identifier: UUID().uuidString, content: notification_content, trigger: notification_trigger)
@@ -470,15 +474,21 @@ func update_words(){
         let vocabRanks:[Int] = learntVocabRanks()
         let number_of_words_per_group = getPreference(key: "number_of_words_per_group") as! Int
         let word_list = currentbook_json_obj["data"]
-        let word_ids = word_list.count == 0 ? [] : Array(0...word_list.count)
-        
-        let diff_ids:[Int] = word_ids.difference(from: vocabRanks)
+        let word_ids = word_list.count == 0 ? [] : Array(0..<word_list.count)
+        var diff_ids:[Int] = word_ids.difference(from: vocabRanks)
         let sampling_number:Int = min(number_of_words_per_group, diff_ids.count)
         
-        let sampled_ids = diff_ids.choose(sampling_number)
         words = []
-        for i in 0..<sampled_ids.count{
-            words.append(word_list[sampled_ids[i]])
+        var sampled_ids:[Int] = []
+        var randomIndex:Int = Int(arc4random_uniform(UInt32(diff_ids.count)))
+        for _ in 0..<sampling_number{
+            while vocabRanks.contains(getFeildsOfWord(word: word_list[diff_ids[randomIndex]], usphone: true).wordRank) {
+                randomIndex = Int(arc4random_uniform(UInt32(diff_ids.count)))
+            }
+            
+            sampled_ids.append(diff_ids[randomIndex])
+            words.append(word_list[diff_ids[randomIndex]])
+            diff_ids.remove(at: randomIndex)
         }
         saveStringTo(fileName: wordsJsonFp, jsonStr: sampled_ids.map { String($0) }.joined(separator: ","))
     }

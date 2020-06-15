@@ -456,7 +456,7 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
     }
     
     func downloadAlert(index: Int, bookName: String){
-        let alertController = UIAlertController(title: "选择词书", message: "学习\(bookName)?", preferredStyle: .alert)
+        let alertController = UIAlertController(title: "提示", message: "学习\(bookName)?", preferredStyle: .alert)
         let okayAction = UIAlertAction(title: "确定", style: .default, handler: { action in
             self.downloadBookJson(index: index)
         })

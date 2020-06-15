@@ -36,7 +36,7 @@ class ResetPwdViewController: UIViewController {
                 _ = LCUser.requestPasswordReset(email: email) { (result) in
                     switch result {
                     case .success:
-                        self.presentAlert(title: "密码重置邮件已发送!", message: "密码重置邮件已发送至\(email)!请查看邮件", okText: "好")
+                        self.presentAlert(title: "提示", message: "密码重置邮件已发送至\(email)!请查看邮件", okText: "好")
                     case .failure(error: let error):
                         print(error)
                     }
@@ -49,7 +49,7 @@ class ResetPwdViewController: UIViewController {
             
         }
         else{
-            presentAlert(title: "邮箱格式错误", message: "请输入正确的邮箱!", okText: "好")
+            presentAlert(title: "错误", message: "请输入正确的邮箱!", okText: "好")
         }
         
     }

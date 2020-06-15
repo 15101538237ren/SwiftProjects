@@ -37,7 +37,6 @@ class ReviewWordViewController: UIViewController {
     var scaleOfSecondCard:CGFloat = 0.9
     var currentIndex:Int = 0
     let animationDuration = 0.15
-    var viewTranslation = CGPoint(x: 0, y: 0)
     
     func setCardBackground(){
         let current_theme_category = getPreference(key: "current_theme_category") as! Int
@@ -51,32 +50,8 @@ class ReviewWordViewController: UIViewController {
         review_words = get_words_need_to_be_review(vocab_rec_need_to_be_review: vocab_rec_need_to_be_review)
         view.backgroundColor = UIColor(red: 238, green: 241, blue: 245, alpha: 1.0)
         
-        view.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(handleDismiss)))
-        
         super.viewDidLoad()
         currentReviewRec.StartDate = Date()
-    }
-    
-    @objc func handleDismiss(sender: UIPanGestureRecognizer) {
-        switch sender.state {
-        case .changed:
-            viewTranslation = sender.translation(in: view)
-            if viewTranslation.y > 0 {
-                UIView.animate(withDuration: 0.2, delay: 0, usingSpringWithDamping: 0.2, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
-                    self.view.transform = CGAffineTransform(translationX: 0, y: self.viewTranslation.y)
-                })
-            }
-        case .ended:
-            if viewTranslation.y < 200 {
-                UIView.animate(withDuration: 0.2, delay: 0, usingSpringWithDamping: 0.2, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
-                    self.view.transform = .identity
-                })
-            } else {
-                dismiss(animated: true, completion: nil)
-            }
-        default:
-            break
-        }
     }
     
     @objc func relayout(){
@@ -116,10 +91,25 @@ class ReviewWordViewController: UIViewController {
     self.updateProgressLabel(index: self.currentIndex)
     }
     
-    @IBAction func unwind(segue: UIStoryboardSegue) {
-        self.dismiss(animated: true, completion: nil)
+    @IBAction func ExitReview(_ sender: UIButton) {
+        let alertController = UIAlertController(title: "提示", message: "是否保存当前复习记录?", preferredStyle: .alert)
+        let okayAction = UIAlertAction(title: "是", style: .default, handler: { action in
+            currentReviewRec.EndDate = Date()
+            var currentReivewedRecords:[VocabularyRecord] = []
+            for index in 0 ..< self.currentIndex{
+                currentReivewedRecords.append(vocabRecordsOfCurrentReview[index])
+            }
+            currentReviewRec.VocabRecIds = getVocabIdsFromVocabRecords(VocabRecords: currentReivewedRecords)
+            print(currentReivewedRecords)
+            saveReviewRecordsFromReview(vocabs_updated: currentReivewedRecords)
+        })
+        let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: { action in
+            self.dismiss(animated: true, completion: nil)
+        })
+        alertController.addAction(okayAction)
+        alertController.addAction(cancelAction)
+        self.present(alertController, animated: true, completion: nil)
     }
-    
     
     func startTimer()
     {
@@ -198,7 +188,7 @@ class ReviewWordViewController: UIViewController {
         }
         card.wordLabel?.text = cardWord.headWord
         DispatchQueue.main.async {
-            if cardWord.headWord.count >= 12{
+            if cardWord.headWord.count >= 10{
                 card.wordLabel?.font = card.wordLabel?.font.withSize(40.0)
             }else{
                 card.wordLabel?.font = card.wordLabel?.font.withSize(45.0)
@@ -386,11 +376,13 @@ class ReviewWordViewController: UIViewController {
                 do {
                     var downloadTask: URLSessionDownloadTask
                     downloadTask = URLSession.shared.downloadTask(with: url, completionHandler: { (urlhere, response, error) -> Void in
-                    do {
-                        self.mp3Player = try AVAudioPlayer(contentsOf: urlhere!)
-                        self.mp3Player?.play()
-                    } catch {
-                        print("couldn't load file :( \(urlhere)")
+                    if let urlhere = urlhere{
+                        do {
+                            self.mp3Player = try AVAudioPlayer(contentsOf: urlhere)
+                            self.mp3Player?.play()
+                        } catch {
+                            print("couldn't load file :( \(urlhere)")
+                        }
                     }
                 })
                     downloadTask.resume()
@@ -474,7 +466,7 @@ class ReviewWordViewController: UIViewController {
             enableBtns()
         }
         else{
-            let alertCtl = presentAlert(title: "已达首张", message: "已经是第一张啦!", okText: "好的")
+            let alertCtl = presentAlert(title: "提示", message: "已经是第一张啦!", okText: "好的")
             self.present(alertCtl, animated: true, completion: nil)
         }
     }
@@ -525,6 +517,7 @@ class ReviewWordViewController: UIViewController {
                         self.card_behaviors.append(.trash)
                     }
 
+                    print(vocabRecordsOfCurrentReview[self.currentIndex])
                     let word: String = nextCard.wordLabel?.text ?? ""
                     self.playMp3GivenWord(word: word)
 

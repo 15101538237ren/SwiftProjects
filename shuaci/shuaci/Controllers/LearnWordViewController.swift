@@ -35,7 +35,7 @@ class LearnWordViewController: UIViewController {
     let animationDuration = 0.15
     var viewTranslation = CGPoint(x: 0, y: 0)
 
-    let firstReviewDelayInMin = 30
+    let firstReviewDelayInMin = 2
     
     func setCardBackground(){
         let current_theme_category = getPreference(key: "current_theme_category") as! Int
@@ -194,7 +194,7 @@ class LearnWordViewController: UIViewController {
         }
         card.wordLabel?.text = cardWord.headWord
         DispatchQueue.main.async {
-            if cardWord.headWord.count >= 12{
+            if cardWord.headWord.count >= 10{
                 card.wordLabel?.font = card.wordLabel?.font.withSize(40.0)
             }else{
                 card.wordLabel?.font = card.wordLabel?.font.withSize(45.0)
@@ -381,12 +381,14 @@ class LearnWordViewController: UIViewController {
                 do {
                     var downloadTask: URLSessionDownloadTask
                     downloadTask = URLSession.shared.downloadTask(with: url, completionHandler: { (urlhere, response, error) -> Void in
-                    do {
-                        self.mp3Player = try AVAudioPlayer(contentsOf: urlhere!)
-                        self.mp3Player?.play()
-                    } catch {
-                        print("couldn't load file :( \(urlhere)")
-                    }
+                        if let urlhere = urlhere{
+                            do {
+                                self.mp3Player = try AVAudioPlayer(contentsOf: urlhere)
+                                self.mp3Player?.play()
+                            } catch {
+                                print("couldn't load file :( \(urlhere)")
+                            }
+                        }
                 })
                     downloadTask.resume()
                 }}
@@ -469,7 +471,7 @@ class LearnWordViewController: UIViewController {
             enableBtns()
         }
         else{
-            let alertCtl = presentAlert(title: "已达首张", message: "已经是第一张啦!", okText: "好的")
+            let alertCtl = presentAlert(title: "提示", message: "已经是第一张啦!", okText: "好的")
             self.present(alertCtl, animated: true, completion: nil)
         }
     }

@@ -608,9 +608,12 @@
                                     <constraint firstAttribute="height" constant="30" id="tEb-oX-47B"/>
                                 </constraints>
                                 <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <state key="normal" image="chevron.down" catalog="system">
+                                <state key="normal" image="chevron.left" catalog="system">
                                     <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="large"/>
                                 </state>
+                                <connections>
+                                    <action selector="ExitReview:" destination="SS3-Jh-03V" eventType="touchUpInside" id="ndt-Ar-sHu"/>
+                                </connections>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WO8-A9-ENN" userLabel="Card 2" customClass="CardUIView" customModule="刷词" customModuleProvider="target">
                                 <rect key="frame" x="57" y="223" width="300" height="450"/>
@@ -1039,6 +1042,7 @@
     <resources>
         <image name="beach" width="1080" height="1920"/>
         <image name="chevron.down" catalog="system" width="128" height="72"/>
+        <image name="chevron.left" catalog="system" width="96" height="128"/>
         <image name="collect" width="290" height="286"/>
         <image name="happy" width="512" height="512"/>
         <image name="ok" width="326" height="326"/>

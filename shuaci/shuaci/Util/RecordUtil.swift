@@ -109,6 +109,17 @@ func loadVocabRecords() -> [VocabularyRecord] {
 
 
 func saveVocabRecords(saveToLocal: Bool, delaySeconds:Double = 0){
+    var ranks:[String:Int] = [:]
+    for vi in 0..<GlobalVocabRecords.count{
+        let vocab:VocabularyRecord = GlobalVocabRecords[vi]
+        if let _ = ranks[vocab.VocabRecId]{
+            ranks[vocab.VocabRecId]! += 1
+        }else{
+            
+            ranks[vocab.VocabRecId] = 1
+        }
+    }
+    print(ranks)
     let jsonData = try! JSONEncoder().encode(GlobalVocabRecords)
     let jsonString = String(data: jsonData, encoding: .utf8)!
     if saveToLocal || !fileExist(fileFp: vocabRecordJsonFp){
@@ -144,11 +155,11 @@ func updateGlobalVocabRecords(vocabs_updated: [VocabularyRecord]){
     for vocab in vocabs_updated{
         vocab_new_ids.append(vocab.VocabRecId)
     }
-    var temp_GlobalVocabRec = GlobalVocabRecords
-    for vi in 0..<temp_GlobalVocabRec.count{
-        let vocab:VocabularyRecord = temp_GlobalVocabRec[vi]
-        if vocab_new_ids.contains(vocab.VocabRecId){
-            temp_GlobalVocabRec.remove(at: vi)
+    var temp_GlobalVocabRec:[VocabularyRecord] = []
+    for vi in 0..<GlobalVocabRecords.count{
+        let vocab:VocabularyRecord = GlobalVocabRecords[vi]
+        if !vocab_new_ids.contains(vocab.VocabRecId){
+            temp_GlobalVocabRec.append(vocab)
         }
     }
     

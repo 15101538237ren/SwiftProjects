@@ -52,12 +52,12 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
     
     @objc func image(_ image:UIImage, didFinishSavingWithError error: Error?, contextInfo: UnsafeRawPointer){
         if let error = error {
-            let ac = UIAlertController(title: "保存出错", message: error.localizedDescription, preferredStyle: .alert)
+            let ac = UIAlertController(title: "错误", message: error.localizedDescription, preferredStyle: .alert)
             ac.addAction(UIAlertAction(title: "好的", style: .default, handler: nil))
             present(ac, animated: true, completion: nil)
         }
         else{
-            let ac = UIAlertController(title: "保存成功!", message: "图片保存成功!", preferredStyle: .alert)
+            let ac = UIAlertController(title: "提示", message: "图片保存成功!", preferredStyle: .alert)
             ac.addAction(UIAlertAction(title: "好的", style: .default, handler: nil))
             present(ac, animated: true, completion: nil)
         }
@@ -100,7 +100,12 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
             // 跳到首页
             GlobalUserName = getUserName()
             prepareRecordsAndPreference()
-            fetchBooks()
+            if let current_book_id = getPreference(key: "current_book_id") {
+                print(current_book_id as! String)
+            }
+            else{
+                fetchBooks()
+            }
             if let userImage = loadPhoto(name_of_photo: "user_avatar.jpg") {
                 self.userPhotoBtn.setImage(userImage, for: [])
             }
@@ -360,13 +365,13 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
             }
             else
             {
-                let ac = UIAlertController(title: "无待复习单词", message: "您当前没有待复习的单词，放松一下吧😊", preferredStyle: .alert)
+                let ac = UIAlertController(title: "提示", message: "您当前没有待复习的单词，放松一下吧😊", preferredStyle: .alert)
                 ac.addAction(UIAlertAction(title: "好", style: .default, handler: nil))
                 present(ac, animated: true, completion: nil)
             }
         }
         else{
-            let ac = UIAlertController(title: "没有单词书", message: "您还没有选择单词书，请点击【学新词】选择!", preferredStyle: .alert)
+            let ac = UIAlertController(title: "提示", message: "您还没有选择单词书，请点击【学新词】选择!", preferredStyle: .alert)
             ac.addAction(UIAlertAction(title: "好", style: .default, handler: nil))
             present(ac, animated: true, completion: nil)
         }
@@ -384,11 +389,13 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
                 do {
                     var downloadTask: URLSessionDownloadTask
                     downloadTask = URLSession.shared.downloadTask(with: mp3_url, completionHandler: { (urlhere, response, error) -> Void in
-                    do {
-                        self.mp3Player = try AVAudioPlayer(contentsOf: urlhere!)
-                        self.mp3Player?.play()
-                    } catch {
-                        print("couldn't load file :( \(urlhere)")
+                    if let urlhere = urlhere{
+                        do {
+                            self.mp3Player = try AVAudioPlayer(contentsOf: urlhere)
+                            self.mp3Player?.play()
+                        } catch {
+                            print("couldn't load file :( \(urlhere)")
+                        }
                     }
                 })
                     downloadTask.resume()

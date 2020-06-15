@@ -70,11 +70,11 @@ class PhoneLoginViewController: UIViewController {
             _ = LCUser.requestLoginVerificationCode(mobilePhoneNumber: "+86\(phoneNumber)") { result in
                 switch result {
                 case .success:
-                    self.presentAlert(title: "验证码", message: "验证码已发送!", okText: "好")
+                    self.presentAlert(title: "提示", message: "验证码已发送!", okText: "好")
                 case .failure(error: let error as LCError):
                     switch error.code {
                     case 213:
-                        let alertController = UIAlertController(title: "该手机号尚未注册", message: "该手机号尚未注册,是否注册?", preferredStyle: .alert)
+                        let alertController = UIAlertController(title: "提示", message: "该手机号尚未注册,是否注册?", preferredStyle: .alert)
                         let okayAction = UIAlertAction(title: "是", style: .default, handler: { action in
                             self.verificationCodeSent = true
                             DispatchQueue.main.async {
@@ -84,7 +84,7 @@ class PhoneLoginViewController: UIViewController {
                             _ = LCSMSClient.requestShortMessage(mobilePhoneNumber: "+86\(phoneNumber)", templateName: "shuaci_verification", signatureName: "shuaci") { (result) in
                                 switch result {
                                 case .success:
-                                    self.presentAlert(title: "验证码", message: "验证码已发送!", okText: "好")
+                                    self.presentAlert(title: "提示", message: "验证码已发送!", okText: "好")
                                 case .failure(error: let error):
                                     print(error)
                                 }

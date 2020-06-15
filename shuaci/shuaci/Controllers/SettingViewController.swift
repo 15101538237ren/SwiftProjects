@@ -218,7 +218,7 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
     
     func showFeedBackMailComposer(){
         guard MFMailComposeViewController.canSendMail() else{
-            let ac = UIAlertController(title: "无法发送邮件", message: "无法发送邮件，请检查网络或设置", preferredStyle: .alert)
+            let ac = UIAlertController(title: "错误", message: "无法发送邮件，请检查网络或设置", preferredStyle: .alert)
             ac.addAction(UIAlertAction(title: "好的", style: .default, handler: nil))
             present(ac, animated: true, completion: nil)
             return 
@@ -271,7 +271,7 @@ extension SettingViewController : MFMailComposeViewControllerDelegate{
         }
         controller.dismiss(animated: true, completion: {
             if feedback_sent == true{
-                let ac = UIAlertController(title: "反馈已发送", message: "感谢您的反馈！我们会认真阅读您的意见,并在1-3天内给您回复", preferredStyle: .alert)
+                let ac = UIAlertController(title: "提示", message: "感谢您的反馈！我们会认真阅读您的意见,并在1-3天内给您回复", preferredStyle: .alert)
                 ac.addAction(UIAlertAction(title: "好的", style: .default, handler: nil))
                 self.present(ac, animated: true, completion: nil)
             }

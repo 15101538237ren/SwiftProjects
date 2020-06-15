@@ -114,7 +114,7 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
     
     @IBAction func logOut(_ sender: UIButton) {
         if Reachability.isConnectedToNetwork(){
-           let alertController = UIAlertController(title: "注销", message: "确定注销?", preferredStyle: .alert)
+           let alertController = UIAlertController(title: "提示", message: "确定注销?", preferredStyle: .alert)
            let okayAction = UIAlertAction(title: "确定", style: .default, handler: { action in
                LCUser.logOut()
                self.dismiss(animated: false, completion: nil)
