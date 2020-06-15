@@ -12,6 +12,7 @@ import MessageUI
 
 class SettingViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     var viewTranslation = CGPoint(x: 0, y: 0)
+    var mainPanelViewController: MainPanelViewController!
     let redColor:UIColor = UIColor(red: 168, green: 0, blue: 0, alpha: 1)
     let settingItems:[SettingItem] = [
         SettingItem(icon: UIImage(named: "auto_pronunciation") ?? UIImage(), name: "自动发音", value: "开"),
@@ -237,6 +238,7 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
            let okayAction = UIAlertAction(title: "确定", style: .default, handler: { action in
                LCUser.logOut()
                self.dismiss(animated: false, completion: nil)
+               self.mainPanelViewController.showLoginScreen()
            })
            let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
            alertController.addAction(okayAction)

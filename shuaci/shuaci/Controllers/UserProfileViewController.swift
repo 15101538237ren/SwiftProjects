@@ -118,6 +118,7 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
            let okayAction = UIAlertAction(title: "确定", style: .default, handler: { action in
                LCUser.logOut()
                self.dismiss(animated: false, completion: nil)
+                self.mainPanelViewController.showLoginScreen()
            })
            let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
            alertController.addAction(okayAction)

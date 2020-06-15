@@ -160,6 +160,7 @@ class ReviewWordViewController: UIViewController {
             setFieldsOfCard(card: card, cardWord: cardWord, collected: false)
             if index == 1
             {
+                card.dragable = false
                 card.transform = CGAffineTransform(scaleX: scaleOfSecondCard, y: scaleOfSecondCard)
             }else{
                 let word: String = card.wordLabel?.text ?? ""
@@ -244,7 +245,11 @@ class ReviewWordViewController: UIViewController {
             let cardWord = getFeildsOfWord(word: word, usphone: getUSPhone())
             let collected = card_collect_behaviors[currentIndex + 1] == .yes ? true : false
             setFieldsOfCard(card: card, cardWord: cardWord, collected: collected)
-            learnUIView.bringSubviewToFront(cards[currentIndex % 2])
+            let next_card = cards[currentIndex % 2]
+            if currentIndex == 1{
+                next_card.dragable = true
+            }
+            learnUIView.bringSubviewToFront(next_card)
             resetCard(card: card)
             enableBtns()
         }
@@ -257,6 +262,9 @@ class ReviewWordViewController: UIViewController {
     @IBAction func panCard(_ sender: UIPanGestureRecognizer) {
         
             let card = sender.view! as! CardUIView
+            if !card.dragable{
+                return
+            }
             let point = sender.translation(in: view)
             
             card.center = CGPoint(x: view.center.x + point.x, y: view.center.y + point.y)

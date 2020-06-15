@@ -33,7 +33,7 @@ class CardUIView: UIView {
         }
     }
     
-    
+    var dragable: Bool = true
     
     @IBOutlet var X_Constraint: NSLayoutConstraint!
     @IBOutlet var Y_Constraint: NSLayoutConstraint!

@@ -109,7 +109,9 @@ class MainScreenViewController: UIViewController {
             if index == 1
             {
                 card.transform = CGAffineTransform(scaleX: scaleOfSecondCard, y: scaleOfSecondCard)
-            } else {
+                card.dragable = false
+            } else
+            {
                 if let mp3_url = getWordPronounceURL(word: cardWord.headWord, fromMainScreen: true){
                     playMp3(url: mp3_url)
                 }
@@ -121,13 +123,20 @@ class MainScreenViewController: UIViewController {
         let card = cards[(currentIndex + 1) % 2]
         let cardWord = cardWords[(currentIndex + 1) % cardWords.count]
         setFieldsOfCard(card: card, cardWord: cardWord)
-        mainScreenUIView.bringSubviewToFront(cards[currentIndex % 2])
+        let next_card = cards[currentIndex % 2]
+        if currentIndex == 1{
+            next_card.dragable = true
+        }
+        mainScreenUIView.bringSubviewToFront(next_card)
         resetCard(card: card)
     }
     
     @IBAction func panCard(_ sender: UIPanGestureRecognizer) {
 
         let card = sender.view! as! CardUIView
+        if !card.dragable{
+            return
+        }
         let point = sender.translation(in: view)
         let xFromCenter = card.center.x - view.center.x
         card.center = CGPoint(x: view.center.x + point.x, y: view.center.y + point.y)

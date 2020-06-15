@@ -431,6 +431,7 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
         else if segue.identifier == "settingSegue"{
             let destinationController = segue.destination as! SettingViewController
             destinationController.modalPresentationStyle = .overCurrentContext
+            destinationController.mainPanelViewController = self
         }
     }
 
