@@ -8,5 +8,6 @@ target 'shuaci' do
   # Pods for shuaci
   pod 'LeanCloud'
   pod 'CropViewController'
+  pod 'BottomPopup'
   pod 'SwiftyJSON', '~> 4.0'
 end

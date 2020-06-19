@@ -15,6 +15,8 @@
 		5507D9072479935C0090DD37 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5507D9062479935C0090DD37 /* Reachability.swift */; };
 		5518B9B8247A2E7600BC8DA4 /* LearnFinishViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5518B9B7247A2E7600BC8DA4 /* LearnFinishViewController.swift */; };
 		553ED5AF2495DB15000ECE6D /* ReviewWordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 553ED5AE2495DB15000ECE6D /* ReviewWordViewController.swift */; };
+		558F71EC249C713B0014956F /* NumWordPerGroupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 558F71EB249C713B0014956F /* NumWordPerGroupViewController.swift */; };
+		558F71EE249C72AE0014956F /* NumberOfWordTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 558F71ED249C72AE0014956F /* NumberOfWordTableViewCell.swift */; };
 		55C7819C24901AFA00C9F33E /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55C7819B24901AFA00C9F33E /* SettingViewController.swift */; };
 		55C7819E24902BAE00C9F33E /* SettingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55C7819D24902BAE00C9F33E /* SettingTableViewCell.swift */; };
 		55C781A024902C4F00C9F33E /* SettingToggleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55C7819F24902C4F00C9F33E /* SettingToggleTableViewCell.swift */; };
@@ -79,6 +81,8 @@
 		5507D9062479935C0090DD37 /* Reachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		5518B9B7247A2E7600BC8DA4 /* LearnFinishViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearnFinishViewController.swift; sourceTree = "<group>"; };
 		553ED5AE2495DB15000ECE6D /* ReviewWordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewWordViewController.swift; sourceTree = "<group>"; };
+		558F71EB249C713B0014956F /* NumWordPerGroupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumWordPerGroupViewController.swift; sourceTree = "<group>"; };
+		558F71ED249C72AE0014956F /* NumberOfWordTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberOfWordTableViewCell.swift; sourceTree = "<group>"; };
 		55C7819B24901AFA00C9F33E /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		55C7819D24902BAE00C9F33E /* SettingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingTableViewCell.swift; sourceTree = "<group>"; };
 		55C7819F24902C4F00C9F33E /* SettingToggleTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingToggleTableViewCell.swift; sourceTree = "<group>"; };
@@ -292,6 +296,7 @@
 				55F2B5A1247B4A0F00758113 /* LearnFinishUIView.swift */,
 				55C7819D24902BAE00C9F33E /* SettingTableViewCell.swift */,
 				55C7819F24902C4F00C9F33E /* SettingToggleTableViewCell.swift */,
+				558F71ED249C72AE0014956F /* NumberOfWordTableViewCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -312,6 +317,7 @@
 				5518B9B7247A2E7600BC8DA4 /* LearnFinishViewController.swift */,
 				55C7819B24901AFA00C9F33E /* SettingViewController.swift */,
 				553ED5AE2495DB15000ECE6D /* ReviewWordViewController.swift */,
+				558F71EB249C713B0014956F /* NumWordPerGroupViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -449,6 +455,7 @@
 				A5D8B2DF245FD1BC00786F7C /* UIViewExtensions.swift in Sources */,
 				A5F59F4A2453DDD000D6D717 /* EmailLoginViewController.swift in Sources */,
 				A5B821792453747C00963FEC /* MainScreenUIView.swift in Sources */,
+				558F71EE249C72AE0014956F /* NumberOfWordTableViewCell.swift in Sources */,
 				A5F51551245F5E9300F06610 /* Wallpaper.swift in Sources */,
 				A5BE9C2D2462242500302F38 /* Book.swift in Sources */,
 				55C781A224902F1600C9F33E /* SettingItem.swift in Sources */,
@@ -473,6 +480,7 @@
 				55001E1D2491AF7300DF0D0E /* RecordUtil.swift in Sources */,
 				A59A0B1C2454D48C000845F2 /* MainPanelViewController.swift in Sources */,
 				55C7819E24902BAE00C9F33E /* SettingTableViewCell.swift in Sources */,
+				558F71EC249C713B0014956F /* NumWordPerGroupViewController.swift in Sources */,
 				A5134E3A24678C32008B116D /* Collection+Ext.swift in Sources */,
 				553ED5AF2495DB15000ECE6D /* ReviewWordViewController.swift in Sources */,
 				A5F5154D245F56DF00F06610 /* ThemeCollectionViewController.swift in Sources */,

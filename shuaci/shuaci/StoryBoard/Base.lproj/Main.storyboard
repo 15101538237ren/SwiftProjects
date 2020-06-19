@@ -919,10 +919,78 @@
             </objects>
             <point key="canvasLocation" x="2515.9420289855075" y="845.75892857142856"/>
         </scene>
+        <!--num_of_words_per_group_pop_up-->
+        <scene sceneID="3r2-KY-h2l">
+            <objects>
+                <viewController storyboardIdentifier="NumOfWordVC" title="num_of_words_per_group_pop_up" id="dNk-oJ-Fab" customClass="NumWordPerGroupViewController" customModule="刷词" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="V99-V1-jdR">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="30H-CN-XbQ">
+                                <rect key="frame" x="20" y="54" width="374" height="798"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="NumberOfWordCell" rowHeight="55" id="kO3-wz-giz" customClass="NumberOfWordTableViewCell" customModule="刷词" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="374" height="55"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="kO3-wz-giz" id="eyc-gk-dxl">
+                                            <rect key="frame" x="0.0" y="0.0" width="374" height="55"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bmp-57-6WX">
+                                                    <rect key="frame" x="30" y="15.5" width="48" height="24"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="checked" translatesAutoresizingMaskIntoConstraints="NO" id="hXj-id-frm">
+                                                    <rect key="frame" x="338" y="14.5" width="26" height="26"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="26" id="Mvx-Tb-JjN"/>
+                                                        <constraint firstAttribute="width" constant="26" id="txD-TL-xbp"/>
+                                                    </constraints>
+                                                </imageView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="hXj-id-frm" firstAttribute="centerY" secondItem="eyc-gk-dxl" secondAttribute="centerY" id="2uV-ZG-8h9"/>
+                                                <constraint firstItem="Bmp-57-6WX" firstAttribute="leading" secondItem="eyc-gk-dxl" secondAttribute="leadingMargin" constant="10" id="2zx-vd-1JT"/>
+                                                <constraint firstItem="Bmp-57-6WX" firstAttribute="centerY" secondItem="eyc-gk-dxl" secondAttribute="centerY" id="MBo-ZV-WqU"/>
+                                                <constraint firstItem="hXj-id-frm" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Bmp-57-6WX" secondAttribute="trailing" constant="30" id="Wpc-AC-52h"/>
+                                                <constraint firstItem="hXj-id-frm" firstAttribute="trailing" secondItem="eyc-gk-dxl" secondAttribute="trailingMargin" constant="10" id="X73-iP-voc"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="checkedImageView" destination="hXj-id-frm" id="XiR-dD-5yr"/>
+                                            <outlet property="numberOfWordLabel" destination="Bmp-57-6WX" id="Ck8-4M-nNy"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="HAK-SJ-L60" firstAttribute="bottom" secondItem="30H-CN-XbQ" secondAttribute="bottom" constant="10" id="5ox-PW-8ft"/>
+                            <constraint firstItem="30H-CN-XbQ" firstAttribute="top" secondItem="HAK-SJ-L60" secondAttribute="top" constant="10" id="ACb-pN-Nut"/>
+                            <constraint firstItem="30H-CN-XbQ" firstAttribute="centerX" secondItem="V99-V1-jdR" secondAttribute="centerX" id="Ltb-6u-nGc"/>
+                            <constraint firstItem="HAK-SJ-L60" firstAttribute="trailing" secondItem="30H-CN-XbQ" secondAttribute="trailing" constant="20" id="bXF-Vk-2iM"/>
+                            <constraint firstItem="30H-CN-XbQ" firstAttribute="leading" secondItem="HAK-SJ-L60" secondAttribute="leading" constant="20" id="eec-f1-zgD"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="HAK-SJ-L60"/>
+                    </view>
+                    <connections>
+                        <outlet property="tableView" destination="30H-CN-XbQ" id="Bvw-AX-QH8"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="tki-kj-WLv" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3236.2318840579715" y="840.40178571428567"/>
+        </scene>
     </scenes>
     <resources>
         <image name="auto_pronunciation" width="500" height="500"/>
         <image name="camera" width="512" height="512"/>
+        <image name="checked" width="512" height="512"/>
         <image name="chevron.down" catalog="system" width="128" height="72"/>
         <image name="chevron.left" catalog="system" width="96" height="128"/>
         <image name="colors" width="512" height="512"/>

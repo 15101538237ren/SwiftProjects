@@ -129,6 +129,16 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
             }
             return cell
         }
+        else if row == 3{
+            let cell = tableView.dequeueReusableCell(withIdentifier: "SettingCell", for: indexPath) as! SettingTableViewCell
+            cell.separatorInset = UIEdgeInsets(top: 0, left: cell.bounds.size.width, bottom: 0, right: 0);
+            let settingItem:SettingItem = settingItems[row]
+            cell.iconView?.image = settingItem.icon
+            cell.nameLabel?.text = settingItem.name
+            cell.valueLabel?.text = "\(getPreference(key: "number_of_words_per_group") as! Int)"
+            return cell
+        }
+            
         else{
             let cell = tableView.dequeueReusableCell(withIdentifier: "SettingCell", for: indexPath) as! SettingTableViewCell
             cell.separatorInset = UIEdgeInsets(top: 0, left: cell.bounds.size.width, bottom: 0, right: 0);
@@ -160,6 +170,12 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
             booksVC.mainPanelViewController = nil
             DispatchQueue.main.async {
                 self.present(booksVC, animated: true, completion: nil)
+            }
+        case 3:
+            let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+            let NumOfWordPopUpVC = mainStoryBoard.instantiateViewController(withIdentifier: "NumOfWordVC") as! NumWordPerGroupViewController
+            DispatchQueue.main.async {
+                self.present(NumOfWordPopUpVC, animated: true, completion: nil)
             }
         case 8:
             showFeedBackMailComposer()

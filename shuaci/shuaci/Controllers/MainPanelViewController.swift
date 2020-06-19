@@ -429,9 +429,9 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
             destinationController.modalPresentationStyle = .overCurrentContext
         }
         else if segue.identifier == "settingSegue"{
-            let destinationController = segue.destination as! SettingViewController
-            destinationController.modalPresentationStyle = .overCurrentContext
-            destinationController.mainPanelViewController = self
+//            let destinationController = segue.destination as! SettingViewController
+//            destinationController.modalPresentationStyle = .fullScreen
+//            destinationController.mainPanelViewController = self
         }
     }
 
