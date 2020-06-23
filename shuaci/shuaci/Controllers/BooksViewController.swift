@@ -223,7 +223,7 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
         tableView.delegate = self
         tableView.dataSource = self
         tableView.tableFooterView = UIView()
-        initActivityIndicator(text: "数据加载中")
+        initActivityIndicator(text: "数据加载中..")
         setCollectionViewDataSourceDelegate()
         loadBooks()
     }

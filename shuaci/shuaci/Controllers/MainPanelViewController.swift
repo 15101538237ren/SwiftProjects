@@ -50,6 +50,82 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
         
     }
     
+    func downloadBookJson(completionHandler: @escaping CompletionHandler){
+        if fileExist(fileFp: "current_book.json"){
+            completionHandler(true)
+        }
+        else{
+            DispatchQueue.global(qos: .background).async {
+            do {
+                DispatchQueue.main.async {
+                    self.syncLabel.text = "正在下载词书..."
+                }
+                let bookId:String = getPreference(key: "current_book_id") as! String
+                let query = LCQuery(className: "Book")
+                query.whereKey("identifier", .equalTo(bookId))
+                _ = query.getFirst() { result in
+                    switch result {
+                    case .success(object: let result):
+                        if let bookJson = result.get("data") as? LCFile {
+                            let url = URL(string: bookJson.url?.stringValue ?? "")!
+                            let data = try? Data(contentsOf: url)
+                            
+                            if let jsonData = data {
+                                savejson(fileName: "current_book", jsonData: jsonData)
+                                currentbook_json_obj = load_json(fileName: "current_book")
+                                update_words()
+                                get_words()
+                                completionHandler(true)
+                            }
+                        }
+                    case .failure(error: let error):
+                        print(error.localizedDescription)
+                        completionHandler(false)
+                    }
+                }
+                
+                }
+            }
+        }
+    }
+    
+    func loadSettingAndRecords(){
+        DispatchQueue.main.async {
+            self.syncLabel.alpha = 1.0
+            self.syncLabel.text = "正在同步数据..."
+            self.userPhotoBtn.rotate360Degrees(completionDelegate: self)
+            self.isRotating = true
+        }
+        
+        prepareRecordsAndPreference(completionHandler: {success in
+            if success{
+                self.downloadBookJson(completionHandler: { success in
+                    if success{
+                        self.loadSettingAndRecordsFinished()
+                    }
+                    else{
+                        let ac = UIAlertController(title: "提示", message: "下载正在学的单词书失败，请检查您的网络!", preferredStyle: .alert)
+                        ac.addAction(UIAlertAction(title: "好", style: .default, handler: nil))
+                        self.present(ac, animated: true, completion: nil)
+                    }
+                })
+            }
+            else{
+                let ac = UIAlertController(title: "提示", message: "从云端下载设置与学习记录失败，请检查您的网络!", preferredStyle: .alert)
+                ac.addAction(UIAlertAction(title: "好", style: .default, handler: nil))
+                self.present(ac, animated: true, completion: nil)
+            }
+        })
+    }
+    func loadSettingAndRecordsFinished(){
+        DispatchQueue.main.async {
+            self.shouldStopRotating = true
+            self.syncLabel.alpha = 0.0
+        }
+        setWallpaper()
+        get_words()
+    }
+    
     @objc func image(_ image:UIImage, didFinishSavingWithError error: Error?, contextInfo: UnsafeRawPointer){
         if let error = error {
             let ac = UIAlertController(title: "错误", message: error.localizedDescription, preferredStyle: .alert)
@@ -99,13 +175,7 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
             syncLabel.alpha = 0
             // 跳到首页
             GlobalUserName = getUserName()
-            prepareRecordsAndPreference()
-            if let current_book_id = getPreference(key: "current_book_id") {
-                print(current_book_id as! String)
-            }
-            else{
-                fetchBooks()
-            }
+            loadSettingAndRecords()
             if let userImage = loadPhoto(name_of_photo: "user_avatar.jpg") {
                 self.userPhotoBtn.setImage(userImage, for: [])
             }
@@ -184,10 +254,12 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
                                     if let imageData = data {
                                         if let image = UIImage(data: imageData){
                                             savePhoto(image: image, name_of_photo: "theme_download.jpg")
-                                            
-                                            DispatchQueue.main.async {
-                                                self.todayImageView?.image = image
-                                            }
+                                            DispatchQueue.global(qos: .background).async {
+                                            do {
+                                                DispatchQueue.main.async {
+                                                    self.todayImageView?.image = image
+                                                    }
+                                                }}
                                         }
                                         
                                         let word = wallpaper.word?.stringValue
@@ -246,27 +318,36 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
                 self.userPhotoBtn.rotate360Degrees(completionDelegate: self)
                 self.isRotating = true
                 self.syncLabel.alpha = 1.0
+                self.syncLabel.text = "正在更新壁纸..."
             }
             self.getTodayWallpaper(category: current_theme_category)
         }
         
-        
     }
     
     func setWallpaper(){
-        let current_theme_category = getPreference(key: "current_theme_category") as! Int
-        let last_theme_category = getPreference(key: "last_theme_category") as! Int
+        var current_theme_category:Int = 4
+        var last_theme_category:Int = 4
+        if let current_category = getPreference(key: "current_theme_category") as? Int {
+            current_theme_category = current_category
+            last_theme_category = getPreference(key: "last_theme_category") as! Int
+        }
+        
         if current_theme_category != last_theme_category{
             let image = UIImage(named: "theme_\(current_theme_category)")
             let wallpaper = default_wallpapers[current_theme_category - 1]
-            DispatchQueue.main.async {
-                self.todayImageView?.image = image
-                self.wordLabel.text = wallpaper.word
-                self.meaningLabel.text = wallpaper.trans
-                self.userPhotoBtn.rotate360Degrees(completionDelegate: self)
-                self.isRotating = true
-                self.syncLabel.alpha = 1.0
-            }
+            DispatchQueue.global(qos: .background).async {
+            do {
+                DispatchQueue.main.async {
+                    self.todayImageView?.image = image
+                    self.wordLabel.text = wallpaper.word
+                    self.meaningLabel.text = wallpaper.trans
+                    self.userPhotoBtn.rotate360Degrees(completionDelegate: self)
+                    self.isRotating = true
+                    self.syncLabel.alpha = 1.0
+                    self.syncLabel.text = "正在更新壁纸..."
+                }
+            }}
             UserDefaults.standard.set(wallpaper.word, forKey: "word")
             UserDefaults.standard.set(wallpaper.trans, forKey: "trans")
             
@@ -279,20 +360,26 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
                 let imageData = try Data(contentsOf: imageFileURL)
                 let image = UIImage(data: imageData)
                 let trans = UserDefaults.standard.string(forKey: "trans")
-                DispatchQueue.main.async {
-                    self.todayImageView?.image = image
-                    self.wordLabel.text = word
-                    self.meaningLabel.text = trans
-                }
+                DispatchQueue.global(qos: .background).async {
+                do {
+                    DispatchQueue.main.async {
+                        self.todayImageView?.image = image
+                        self.wordLabel.text = word
+                        self.meaningLabel.text = trans
+                    }
+                }}
             } catch {
                 print("Error loading image : \(error)")
                 let image = UIImage(named: "theme_\(current_theme_category)")
                 let wallpaper = default_wallpapers[current_theme_category - 1]
-                DispatchQueue.main.async {
-                    self.todayImageView?.image = image
-                    self.wordLabel.text = wallpaper.word
-                    self.meaningLabel.text = wallpaper.trans
-            }
+                DispatchQueue.global(qos: .background).async {
+                do {
+                    DispatchQueue.main.async {
+                        self.todayImageView?.image = image
+                        self.wordLabel.text = wallpaper.word
+                        self.meaningLabel.text = wallpaper.trans
+                    }
+                }}
         }
         }
         setTextOrButtonsColor(color: textColors[current_theme_category] ?? UIColor.darkGray)
@@ -429,9 +516,9 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
             destinationController.modalPresentationStyle = .overCurrentContext
         }
         else if segue.identifier == "settingSegue"{
-//            let destinationController = segue.destination as! SettingViewController
-//            destinationController.modalPresentationStyle = .fullScreen
-//            destinationController.mainPanelViewController = self
+            let destinationController = segue.destination as! SettingViewController
+            destinationController.modalPresentationStyle = .overCurrentContext
+            destinationController.mainPanelViewController = self
         }
     }
 

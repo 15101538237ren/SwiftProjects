@@ -17,6 +17,8 @@ var imageCache = NSCache<NSString, NSURL>()
 let decoder = JSONDecoder()
 var GlobalUserName = ""
 
+typealias CompletionHandler = (_ success:Bool) -> Void
+typealias CompletionHandlerWithData = (_ data: Data?) -> Void
 
 // MARK: - Common Functions
 
@@ -174,7 +176,7 @@ func fileExist(fileFp: String) -> Bool {
     }
 }
 
-func load_data_from_file(fileFp: String, recordClass: String, IdKey: String) -> Data?{
+func load_data_from_file(fileFp: String, recordClass: String, IdKey: String, completionHandlerWithData: @escaping CompletionHandlerWithData) {
     var data:Data? = nil
     do {
         let fileURL = try FileManager.default
@@ -182,7 +184,7 @@ func load_data_from_file(fileFp: String, recordClass: String, IdKey: String) -> 
                 .appendingPathComponent(fileFp)
             if FileManager.default.fileExists(atPath: fileURL.path) {
                 data = try Data(contentsOf: fileURL)
-                return data
+                completionHandlerWithData(data)
             }
             else{
                 if Reachability.isConnectedToNetwork(){
@@ -195,29 +197,31 @@ func load_data_from_file(fileFp: String, recordClass: String, IdKey: String) -> 
                                     switch result {
                                     case .success(object: let rec):
                                         let recStr:String = rec.get("jsonStr")!.stringValue!
+                                        saveStringTo(fileName: fileFp, jsonStr: recStr)
                                         data = recStr.data(using: .utf8)
+                                        completionHandlerWithData(data)
                                     case .failure(error: let error):
-                                        print(error)
+                                        completionHandlerWithData(data)
+                                        print(error.localizedDescription)
                                     }
                                 }
-                                return data
                             }else{
-                                return data
+                                completionHandlerWithData(data)
                             }
                             
                         }
                     } else {
-                        return data
+                        completionHandlerWithData(data)
                     }
                 }
                 else{
-                    return data
+                    completionHandlerWithData(data)
                 }
         }
     }
     catch {
+        completionHandlerWithData(data)
         print(error.localizedDescription)
-        return data
     }
 }
 
@@ -239,7 +243,7 @@ func setSaveRecordToClouldStatus(key: String, status: Bool){
     UserDefaults.standard.set(status, forKey: key)
 }
 
-func saveRecordStringByGivenId(recordClass: String, saveRecordFailedKey: String, recordIdKey: String, username: String, jsonString: String){
+func saveRecordStringByGivenId(recordClass: String, saveRecordFailedKey: String, recordIdKey: String, username: String, jsonString: String, completionHandler: @escaping CompletionHandler){
     // if ReviewRecordId exist in UserPreference
     if Reachability.isConnectedToNetwork(){
         let recordId: String = UserDefaults.standard.string(forKey: recordIdKey)!
@@ -257,18 +261,22 @@ func saveRecordStringByGivenId(recordClass: String, saveRecordFailedKey: String,
                         case .success:
                             print("\(recordClass)Obj saved successfully ")
                             setSaveRecordToClouldStatus(key: saveRecordFailedKey, status: true)
+                            completionHandler(true)
                             break
                         case .failure(error: let error):
                             setSaveRecordToClouldStatus(key: saveRecordFailedKey, status: false)
+                            completionHandler(false)
                             print(error.localizedDescription)
                         }
                     }
                 } catch {
                     setSaveRecordToClouldStatus(key: saveRecordFailedKey, status: false)
+                    completionHandler(false)
                     print(error.localizedDescription)
                 }
             case .failure(error: let error):
                 setSaveRecordToClouldStatus(key: saveRecordFailedKey, status: false)
+                completionHandler(false)
                 print(error.localizedDescription)
             }
         }}
@@ -277,7 +285,7 @@ func saveRecordStringByGivenId(recordClass: String, saveRecordFailedKey: String,
 
 }
 
-func saveRecordStringToCloud(recordClass: String, saveRecordFailedKey: String, recordIdKey: String, username: String, jsonString: String){
+func saveRecordStringToCloud(recordClass: String, saveRecordFailedKey: String, recordIdKey: String, username: String, jsonString: String, completionHandler: @escaping CompletionHandler){
     if Reachability.isConnectedToNetwork(){
        DispatchQueue.global(qos: .background).async {
        do {
@@ -287,7 +295,7 @@ func saveRecordStringToCloud(recordClass: String, saveRecordFailedKey: String, r
                 let user = LCApplication.default.currentUser!
                 if let recordIdFromCloud = user.get(recordIdKey)?.stringValue{
                     UserDefaults.standard.set(recordIdFromCloud, forKey: recordIdKey)
-                    saveRecordStringByGivenId(recordClass: recordClass, saveRecordFailedKey: saveRecordFailedKey, recordIdKey: recordIdKey, username: username, jsonString: jsonString)
+                    saveRecordStringByGivenId(recordClass: recordClass, saveRecordFailedKey: saveRecordFailedKey, recordIdKey: recordIdKey, username: username, jsonString: jsonString, completionHandler: completionHandler)
                 }
                 else{
                     let recordObj = LCObject(className: recordClass)
@@ -310,14 +318,17 @@ func saveRecordStringToCloud(recordClass: String, saveRecordFailedKey: String, r
                                         case .success:
                                             print("\(recordClass)Obj saved successfully ")
                                             setSaveRecordToClouldStatus(key: saveRecordFailedKey, status: true)
+                                            completionHandler(true)
                                             break
                                         case .failure(error: let error):
                                             setSaveRecordToClouldStatus(key: saveRecordFailedKey, status: false)
+                                            completionHandler(false)
                                             print(error.localizedDescription)
                                         }
                                     }
                                 } catch {
                                     setSaveRecordToClouldStatus(key: saveRecordFailedKey, status: false)
+                                    completionHandler(false)
                                     print(error.localizedDescription)
                                 }
                                 UserDefaults.standard.set(recordId, forKey: recordIdKey)
@@ -325,16 +336,18 @@ func saveRecordStringToCloud(recordClass: String, saveRecordFailedKey: String, r
                             break
                         case .failure(error: let error):
                             setSaveRecordToClouldStatus(key: saveRecordFailedKey, status: false)
+                            completionHandler(false)
                             print(error.localizedDescription)
                         }
                     }
                 }
             }
             else{
-                saveRecordStringByGivenId(recordClass: recordClass, saveRecordFailedKey:saveRecordFailedKey, recordIdKey: recordIdKey, username: username, jsonString: jsonString)
+                saveRecordStringByGivenId(recordClass: recordClass, saveRecordFailedKey:saveRecordFailedKey, recordIdKey: recordIdKey, username: username, jsonString: jsonString, completionHandler: completionHandler)
             }
        } catch {
         setSaveRecordToClouldStatus(key: saveRecordFailedKey, status: false)
+        completionHandler(false)
         print(error.localizedDescription)
        }}
     }
@@ -468,7 +481,6 @@ func get_words(){
     }
 }
 
-
 func update_words(){
     if let _ = getPreference(key: "current_book_id") as? String {
         let vocabRanks:[Int] = learntVocabRanks()
@@ -480,10 +492,10 @@ func update_words(){
         
         words = []
         var sampled_ids:[Int] = []
-        var randomIndex:Int = Int(arc4random_uniform(UInt32(diff_ids.count)))
+        var randomIndex:Int = Int(arc4random_uniform(UInt32(diff_ids.count - 1)))
         for _ in 0..<sampling_number{
             while vocabRanks.contains(getFeildsOfWord(word: word_list[diff_ids[randomIndex]], usphone: true).wordRank) {
-                randomIndex = Int(arc4random_uniform(UInt32(diff_ids.count)))
+                randomIndex = Int(arc4random_uniform(UInt32(diff_ids.count - 1)))
             }
             
             sampled_ids.append(diff_ids[randomIndex])

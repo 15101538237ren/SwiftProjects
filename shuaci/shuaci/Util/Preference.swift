@@ -32,14 +32,14 @@ func initPreference(){
 
 func getPreference(key: String) -> Any? {
     if USER_PREFERENCE.count == 0{
-        loadPreference()
+        loadPreference(completionHandler: {_ in })
     }
     return USER_PREFERENCE[key] ?? nil
 }
 
-func setPreference(key: String, value: Any, saveToCloud: Bool = true) {
+func setPreference(key: String, value: Any, saveToCloud: Bool = false) {
     USER_PREFERENCE[key] = value
-    savePreference(saveToLocal: true, saveToCloud: saveToCloud)
+    savePreference(saveToLocal: true, saveToCloud: saveToCloud, completionHandler: {_ in })
 }
 
 func encodePreferenceToStr() -> String{
@@ -48,15 +48,16 @@ func encodePreferenceToStr() -> String{
     return jsonString ?? ""
 }
 
-func savePreference(saveToLocal: Bool, saveToCloud: Bool = true, delaySeconds:Double = 0){
+func savePreference(saveToLocal: Bool, saveToCloud: Bool = true, delaySeconds:Double = 0, completionHandler: @escaping CompletionHandler){
     let jsonString = encodePreferenceToStr()
     if jsonString != ""{
         if saveToLocal || !fileExist(fileFp: preferenceJsonFp){
             saveStringTo(fileName: preferenceJsonFp, jsonStr: jsonString)
         }
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + delaySeconds) {
-           saveRecordStringToCloud(recordClass: recordClass, saveRecordFailedKey: savePrefToClouldFailedKey, recordIdKey: DefaultPrefIdKey, username: GlobalUserName, jsonString: jsonString)
+        if saveToCloud{
+            DispatchQueue.main.asyncAfter(deadline: .now() + delaySeconds) {
+               saveRecordStringToCloud(recordClass: recordClass, saveRecordFailedKey: savePrefToClouldFailedKey, recordIdKey: DefaultPrefIdKey, username: GlobalUserName, jsonString: jsonString, completionHandler: completionHandler)
+            }
         }
     }
     else{
@@ -64,15 +65,21 @@ func savePreference(saveToLocal: Bool, saveToCloud: Bool = true, delaySeconds:Do
     }
 }
 
-func loadPreference(){
-    if let data = load_data_from_file(fileFp: preferenceJsonFp, recordClass: recordClass, IdKey: DefaultPrefIdKey){
+func loadPreference(completionHandler: @escaping CompletionHandler){
+    load_data_from_file(fileFp: preferenceJsonFp, recordClass: recordClass, IdKey: DefaultPrefIdKey,  completionHandlerWithData: { data in
         do {
-            USER_PREFERENCE = try (JSONSerialization.jsonObject(with: data, options: []) as? [String: Any])!
-        } catch {
-            print(error.localizedDescription)
+            if let data = data {
+                        USER_PREFERENCE = try (JSONSerialization.jsonObject(with: data, options: []) as? [String: Any])!
+                } else{
+                    initPreference()
+            }
+            completionHandler(true)
         }
-    } else{
-        initPreference()
-    }
-    
+        catch {
+            print(error.localizedDescription)
+            completionHandler(false)
+        }
+        }
+        
+    )
 }

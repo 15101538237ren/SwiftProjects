@@ -47,7 +47,7 @@ class ThemeCollectionViewController: UICollectionViewController {
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let theme = themes[indexPath.row]
-        setPreference(key: "current_theme_category", value: theme.category, saveToCloud: true)
+        setPreference(key: "current_theme_category", value: theme.category)
         self.dismiss(animated: true, completion: nil)
     }
 

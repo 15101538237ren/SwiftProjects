@@ -12,6 +12,11 @@ import MessageUI
 
 class SettingViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     var viewTranslation = CGPoint(x: 0, y: 0)
+    
+    var activityIndicator = UIActivityIndicatorView()
+    var activityLabel = UILabel()
+    let activityEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .regular))
+    
     var mainPanelViewController: MainPanelViewController!
     let redColor:UIColor = UIColor(red: 168, green: 0, blue: 0, alpha: 1)
     let settingItems:[SettingItem] = [
@@ -21,7 +26,7 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
         SettingItem(icon: UIImage(named: "vocab_amount_each_group") ?? UIImage(), name: "每组单词数", value: "120"),
         SettingItem(icon: UIImage(named: "learning_reminder") ?? UIImage(), name: "学习提醒", value: "8:00"),
         SettingItem(icon: UIImage(named: "clean_cache") ?? UIImage(), name: "清除缓存", value: "3.25M"),
-        SettingItem(icon: UIImage(named: "sync_record") ?? UIImage(), name: "同步学习记录", value: ""),
+        SettingItem(icon: UIImage(named: "sync_record") ?? UIImage(), name: "上传设置与学习记录", value: ""),
         SettingItem(icon: UIImage(named: "rate_app") ?? UIImage(), name: "评价应用", value: "v1.0.0"),
         SettingItem(icon: UIImage(named: "feedback") ?? UIImage(), name: "意见反馈", value: ""),
         SettingItem(icon: UIImage(named: "share_app") ?? UIImage(), name: "推荐给好友", value: ""),
@@ -48,6 +53,39 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
         super.viewDidLoad()
         
         // Do any additional setup after loading the view.
+    }
+    
+    func initActivityIndicator(text: String) {
+        activityLabel.removeFromSuperview()
+        activityIndicator.removeFromSuperview()
+        activityEffectView.removeFromSuperview()
+        let height:CGFloat = 46.0
+        activityLabel = UILabel(frame: CGRect(x: 50, y: 0, width: 200, height: height))
+        activityLabel.text = text
+        activityLabel.font = .systemFont(ofSize: 14, weight: .medium)
+        activityLabel.textColor = .darkGray
+        activityLabel.alpha = 1.0
+        activityEffectView.frame = CGRect(x: view.frame.midX - activityLabel.frame.width/2, y: view.frame.midY - activityLabel.frame.height/2 , width: 220, height: height)
+        activityEffectView.layer.cornerRadius = 15
+        activityEffectView.layer.masksToBounds = true
+        activityEffectView.backgroundColor = UIColor(red: 244, green: 244, blue: 245, alpha: 1.0)
+        
+        activityEffectView.alpha = 1.0
+        activityIndicator = .init(style: .medium)
+        activityIndicator.frame = CGRect(x: 0, y: 0, width: height, height: height)
+        activityIndicator.alpha = 1.0
+        activityIndicator.startAnimating()
+
+        activityEffectView.contentView.addSubview(activityIndicator)
+        activityEffectView.contentView.addSubview(activityLabel)
+        view.addSubview(activityEffectView)
+    }
+    
+    func stopIndicator(){
+        self.activityIndicator.stopAnimating()
+        self.activityIndicator.hidesWhenStopped = true
+        self.activityEffectView.alpha = 0
+        self.activityLabel.alpha = 0
     }
     
     
@@ -155,6 +193,7 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
         case 0:
             let cell = tableView.cellForRow(at: indexPath) as! SettingToggleTableViewCell
             cell.toggleSwitch.isOn = !cell.toggleSwitch.isOn
+            autoPronunceSwitched(uiSwitch: cell.toggleSwitch)
             if cell.toggleSwitch.isOn == true{
                 cell.leftValueLabel.textColor = .darkGray
                 cell.rightValueLabel.textColor = self.redColor
@@ -163,20 +202,55 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
                 cell.leftValueLabel.textColor = self.redColor
                 cell.rightValueLabel.textColor = .darkGray
             }
+        case 1:
+            let cell = tableView.cellForRow(at: indexPath) as! SettingToggleTableViewCell
+            cell.toggleSwitch.isOn = !cell.toggleSwitch.isOn
+            pronunceStyleSwitched(uiSwitch: cell.toggleSwitch)
+            if cell.toggleSwitch.isOn == true{
+                cell.leftValueLabel.textColor = .darkGray
+                cell.rightValueLabel.textColor = self.redColor
+            }
+        else{
+            cell.leftValueLabel.textColor = self.redColor
+            cell.rightValueLabel.textColor = .darkGray
+        }
         case 2:
             let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
             let booksVC = mainStoryBoard.instantiateViewController(withIdentifier: "booksController") as! BooksViewController
             booksVC.modalPresentationStyle = .fullScreen
             booksVC.mainPanelViewController = nil
+            fetchBooks()
             DispatchQueue.main.async {
                 self.present(booksVC, animated: true, completion: nil)
             }
         case 3:
             let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
             let NumOfWordPopUpVC = mainStoryBoard.instantiateViewController(withIdentifier: "NumOfWordVC") as! NumWordPerGroupViewController
+            NumOfWordPopUpVC.setting_tableView = tableView
             DispatchQueue.main.async {
                 self.present(NumOfWordPopUpVC, animated: true, completion: nil)
             }
+        case 6:
+            initActivityIndicator(text: "正在上传设置..")
+            savePreference(saveToLocal: false, saveToCloud: true, completionHandler: {_ in
+                DispatchQueue.main.async {
+                self.activityLabel.text = "正在上传学习记录..."
+                }})
+            
+            saveVocabRecords(saveToLocal: false, saveToCloud: true, delaySeconds: 1.0, completionHandler: {_ in })
+            saveLearningRecords(saveToLocal: false, saveToCloud: true, delaySeconds: 1.5, completionHandler: {_ in })
+            saveReviewRecords(saveToLocal: false, saveToCloud: true, delaySeconds: 2.0, completionHandler: {success in
+                var successMessage: String = "上传成功!"
+                if !success {
+                    successMessage = "上传失败，请稍后再试.."
+                }
+                DispatchQueue.main.async {
+                    self.stopIndicator()
+                    let ac = UIAlertController(title: "提示", message: successMessage, preferredStyle: .alert)
+                    ac.addAction(UIAlertAction(title: "好", style: .default, handler: nil))
+                    self.present(ac, animated: true, completion: nil)
+                }
+            })
         case 8:
             showFeedBackMailComposer()
         default:

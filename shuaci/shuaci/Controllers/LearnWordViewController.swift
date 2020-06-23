@@ -46,33 +46,8 @@ class LearnWordViewController: UIViewController {
     
     override func viewDidLoad() {
         view.backgroundColor = UIColor(red: 238, green: 241, blue: 245, alpha: 1.0)
-        
-        view.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(handleDismiss)))
-        
         super.viewDidLoad()
         currentLearningRec.StartDate = Date()
-    }
-    
-    @objc func handleDismiss(sender: UIPanGestureRecognizer) {
-        switch sender.state {
-        case .changed:
-            viewTranslation = sender.translation(in: view)
-            if viewTranslation.y > 0 {
-                UIView.animate(withDuration: 0.2, delay: 0, usingSpringWithDamping: 0.2, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
-                    self.view.transform = CGAffineTransform(translationX: 0, y: self.viewTranslation.y)
-                })
-            }
-        case .ended:
-            if viewTranslation.y < 200 {
-                UIView.animate(withDuration: 0.2, delay: 0, usingSpringWithDamping: 0.2, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
-                    self.view.transform = .identity
-                })
-            } else {
-                dismiss(animated: true, completion: nil)
-            }
-        default:
-            break
-        }
     }
     
     @objc func relayout(){
