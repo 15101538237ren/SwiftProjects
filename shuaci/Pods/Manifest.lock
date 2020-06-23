@@ -14,9 +14,6 @@ PODS:
     - LeanCloud/Foundation (= 17.5.2)
     - Starscream (~> 3.1)
     - SwiftProtobuf (~> 1.8)
-  - NVActivityIndicatorView (4.8.0):
-    - NVActivityIndicatorView/Presenter (= 4.8.0)
-  - NVActivityIndicatorView/Presenter (4.8.0)
   - Starscream (3.1.1)
   - SwiftProtobuf (1.8.0)
   - SwiftyJSON (4.3.0)
@@ -25,7 +22,6 @@ DEPENDENCIES:
   - BottomPopup
   - CropViewController
   - LeanCloud
-  - NVActivityIndicatorView
   - SwiftyJSON (~> 4.0)
 
 SPEC REPOS:
@@ -35,7 +31,6 @@ SPEC REPOS:
     - CropViewController
     - GRDB.swift
     - LeanCloud
-    - NVActivityIndicatorView
     - Starscream
     - SwiftProtobuf
     - SwiftyJSON
@@ -46,11 +41,10 @@ SPEC CHECKSUMS:
   CropViewController: 1aac40093c5739e60d992b04724a55d12a689a4c
   GRDB.swift: 8cc3ab7c8b8b4ac1761deb8dca4b51c1c9d429f8
   LeanCloud: cbb1c70dbc9a858992e69510d17ba716695e69f5
-  NVActivityIndicatorView: d24b7ebcf80af5dcd994adb650e2b6c93379270f
   Starscream: 4bb2f9942274833f7b4d296a55504dcfc7edb7b0
   SwiftProtobuf: 2cbd9409689b7df170d82a92a33443c8e3e14a70
   SwiftyJSON: 6faa0040f8b59dead0ee07436cbf76b73c08fd08
 
-PODFILE CHECKSUM: e17d1059bdc91f09517f8c221fee3c1a08dcb9a2
+PODFILE CHECKSUM: 25b152c1b18b5bd76ef57dd706e525d2060956f4
 
 COCOAPODS: 1.9.3

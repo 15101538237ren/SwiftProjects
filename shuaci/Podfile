@@ -9,6 +9,5 @@ target 'shuaci' do
   pod 'LeanCloud'
   pod 'CropViewController'
   pod 'BottomPopup'
-  pod 'NVActivityIndicatorView'
   pod 'SwiftyJSON', '~> 4.0'
 end
