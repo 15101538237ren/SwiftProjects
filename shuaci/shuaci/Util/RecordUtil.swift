@@ -97,7 +97,7 @@ func loadVocabRecords() -> [VocabularyRecord] {
 }
 
 
-func saveVocabRecords(saveToLocal: Bool, saveToCloud: Bool = false, delaySeconds:Double = 0, completionHandler: @escaping CompletionHandler){
+func saveVocabRecords(saveToLocal: Bool, saveToCloud: Bool = false, random_new_word: Bool = false, delaySeconds:Double = 0, completionHandler: @escaping CompletionHandler){
     var ranks:[String:Int] = [:]
     for vi in 0..<GlobalVocabRecords.count{
         let vocab:VocabularyRecord = GlobalVocabRecords[vi]
@@ -113,7 +113,9 @@ func saveVocabRecords(saveToLocal: Bool, saveToCloud: Bool = false, delaySeconds
     if saveToLocal || !fileExist(fileFp: vocabRecordJsonFp){
         saveStringTo(fileName: vocabRecordJsonFp, jsonStr: jsonString)
     }
-    update_words()
+    if random_new_word{
+        update_words()
+    }
     if saveToCloud{
         DispatchQueue.main.asyncAfter(deadline: .now() + delaySeconds) {
             saveRecordStringToCloud(recordClass: vocabRecordClass, saveRecordFailedKey: saveVocabRecordToClouldFailedKey, recordIdKey: VocabRecordIdKey, username: GlobalUserName, jsonString: jsonString, completionHandler: completionHandler)

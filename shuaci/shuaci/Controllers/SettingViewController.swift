@@ -237,7 +237,7 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
                 self.activityLabel.text = "正在上传学习记录..."
                 }})
             
-            saveVocabRecords(saveToLocal: false, saveToCloud: true, delaySeconds: 1.0, completionHandler: {_ in })
+            saveVocabRecords(saveToLocal: false, saveToCloud: true, random_new_word: false, delaySeconds: 1.0, completionHandler: {_ in })
             saveLearningRecords(saveToLocal: false, saveToCloud: true, delaySeconds: 1.5, completionHandler: {_ in })
             saveReviewRecords(saveToLocal: false, saveToCloud: true, delaySeconds: 2.0, completionHandler: {success in
                 var successMessage: String = "上传成功!"

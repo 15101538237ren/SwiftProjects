@@ -124,9 +124,8 @@ class MainScreenViewController: UIViewController {
         let cardWord = cardWords[(currentIndex + 1) % cardWords.count]
         setFieldsOfCard(card: card, cardWord: cardWord)
         let next_card = cards[currentIndex % 2]
-        if currentIndex == 1{
-            next_card.dragable = true
-        }
+        next_card.dragable = true
+        card.dragable = false
         mainScreenUIView.bringSubviewToFront(next_card)
         resetCard(card: card)
     }

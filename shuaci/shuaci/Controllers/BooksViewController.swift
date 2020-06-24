@@ -244,7 +244,7 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
                 do {
                     let query = LCQuery(className: "Book")
                     let updated_count = query.count()
-                    if books.count != updated_count.intValue {
+                    if books.count != updated_count.intValue{
                         _ = query.find { result in
                             switch result {
                             case .success(objects: let results):
@@ -333,6 +333,9 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
                     non_network_preseted = true
                 }
             }
+        }
+        if global_total_books.count == 0{
+            fetchBooks()
         }
     }
     

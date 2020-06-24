@@ -11,16 +11,19 @@ import LeanCloud
 import CropViewController
 
 class UserProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, CropViewControllerDelegate , UITableViewDataSource, UITableViewDelegate {
+    let user = LCApplication.default.currentUser!
     let redColor:UIColor = UIColor(red: 168, green: 0, blue: 0, alpha: 1)
     let settingItems:[SettingItem] = [
         SettingItem(icon: UIImage(named: "nickname") ?? UIImage(), name: "昵 称", value: "未设置"),
         SettingItem(icon: UIImage(named: "email") ?? UIImage(), name: "邮 箱", value: "未绑定"),
-        SettingItem(icon: UIImage(named: "change_password") ?? UIImage(), name: "修改密码", value: ""),
-        SettingItem(icon: UIImage(named: "cell_phone") ?? UIImage(), name: "手 机", value: "未绑定"),
-        SettingItem(icon: UIImage(named: "wechat_setting") ?? UIImage(), name: "微 信", value: "未绑定"),
-        SettingItem(icon: UIImage(named: "qq_setting") ?? UIImage(), name: "QQ", value: "未绑定"),
-        SettingItem(icon: UIImage(named: "weibo_setting") ?? UIImage(), name: "新浪微博", value: "未绑定")
+        SettingItem(icon: UIImage(named: "change_password") ?? UIImage(), name: "重置密码", value: ""),
+        SettingItem(icon: UIImage(named: "cell_phone") ?? UIImage(), name: "手 机", value: "未绑定")
     ]
+    
+//    ,SettingItem(icon: UIImage(named: "wechat_setting") ?? UIImage(), name: "微 信", value: "未绑定"),
+//    SettingItem(icon: UIImage(named: "qq_setting") ?? UIImage(), name: "QQ", value: "未绑定"),
+//    SettingItem(icon: UIImage(named: "weibo_setting") ?? UIImage(), name: "新浪微博", value: "未绑定")
+    
     @IBOutlet var tableView: UITableView!
     @IBOutlet var userPhotoBtn: UIButton!{
         didSet {
@@ -85,6 +88,33 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
         return settingItems.count
     }
     
+    func getSetted(row: Int)-> Bool{
+        var setted = false
+        switch row {
+            case 0:
+                if let _ = user.get("nickname")?.stringValue{
+                    setted = true
+                }
+            case 1:
+                if let _ = user.get("email")?.stringValue{
+                    let verified = user.get("emailVerified")!.boolValue!
+                    if verified{
+                        setted = true
+                    }
+                }
+            case 3:
+                if let _ = user.get("mobilePhoneNumber")?.stringValue{
+                    let verified = user.get("mobilePhoneVerified")!.boolValue!
+                    if verified{
+                        setted = true
+                    }
+                }
+            default:
+                    setted = false
+        }
+            return setted
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let row = indexPath.row
         let cell = tableView.dequeueReusableCell(withIdentifier: "ProfileSettingCell", for: indexPath) as! SettingTableViewCell
@@ -92,15 +122,76 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
         let settingItem:SettingItem = settingItems[row]
         cell.iconView?.image = settingItem.icon
         cell.nameLabel?.text = settingItem.name
-        cell.valueLabel?.text = settingItem.value
-        if settingItem.value == "未绑定" || settingItem.value == "未设置"{
-            cell.valueLabel?.textColor = self.redColor
+        let setted: Bool = getSetted(row: row)
+        var value: String = setted ? "已绑定" : "未绑定"
+        
+        if row == 0 {
+            value = "未设置"
+            if setted, let nickname = user.get("nickname")?.stringValue{
+                value = nickname
+            }
         }
-        else {
-            cell.valueLabel?.textColor = .darkGray
-        }
+        
+        cell.valueLabel?.textColor = setted ? .darkGray : self.redColor
+        cell.valueLabel?.text = row == 2 ? "": value
         return cell
     }
+    
+//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        let row: Int = indexPath.row
+//        let setted: Bool = getSetted(row: row)
+//        if row == 0 || row == 2 || !setted
+//        {
+//            switch row {
+//            case 0:
+//                let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+//                let bindPhoneNumberVC = mainStoryBoard.instantiateViewController(withIdentifier: "bindPhoneNumberVC") as! BindPhoneNumberViewController
+//            case 1:
+//            case 2:
+//                
+//                booksVC.modalPresentationStyle = .fullScreen
+//                booksVC.mainPanelViewController = nil
+//                fetchBooks()
+//                DispatchQueue.main.async {
+//                    self.present(booksVC, animated: true, completion: nil)
+//                }
+//            case 3:
+//                let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+//                let NumOfWordPopUpVC = mainStoryBoard.instantiateViewController(withIdentifier: "NumOfWordVC") as! NumWordPerGroupViewController
+//                NumOfWordPopUpVC.setting_tableView = tableView
+//                DispatchQueue.main.async {
+//                    self.present(NumOfWordPopUpVC, animated: true, completion: nil)
+//                }
+//            case 6:
+//                initActivityIndicator(text: "正在上传设置..")
+//                savePreference(saveToLocal: false, saveToCloud: true, completionHandler: {_ in
+//                    DispatchQueue.main.async {
+//                    self.activityLabel.text = "正在上传学习记录..."
+//                    }})
+//                
+//                saveVocabRecords(saveToLocal: false, saveToCloud: true, random_new_word: false, delaySeconds: 1.0, completionHandler: {_ in })
+//                saveLearningRecords(saveToLocal: false, saveToCloud: true, delaySeconds: 1.5, completionHandler: {_ in })
+//                saveReviewRecords(saveToLocal: false, saveToCloud: true, delaySeconds: 2.0, completionHandler: {success in
+//                    var successMessage: String = "上传成功!"
+//                    if !success {
+//                        successMessage = "上传失败，请稍后再试.."
+//                    }
+//                    DispatchQueue.main.async {
+//                        self.stopIndicator()
+//                        let ac = UIAlertController(title: "提示", message: successMessage, preferredStyle: .alert)
+//                        ac.addAction(UIAlertAction(title: "好", style: .default, handler: nil))
+//                        self.present(ac, animated: true, completion: nil)
+//                    }
+//                })
+//            case 8:
+//                showFeedBackMailComposer()
+//            default:
+//                break
+//            }
+//        }
+//        
+//        tableView.deselectRow(at: indexPath, animated: true)
+//    }
     
     override func viewWillAppear(_ animated: Bool){
         self.updateUserPhoto()

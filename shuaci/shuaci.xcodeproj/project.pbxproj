@@ -17,6 +17,7 @@
 		553ED5AF2495DB15000ECE6D /* ReviewWordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 553ED5AE2495DB15000ECE6D /* ReviewWordViewController.swift */; };
 		558F71EC249C713B0014956F /* NumWordPerGroupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 558F71EB249C713B0014956F /* NumWordPerGroupViewController.swift */; };
 		558F71EE249C72AE0014956F /* NumberOfWordTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 558F71ED249C72AE0014956F /* NumberOfWordTableViewCell.swift */; };
+		559BFD8224A1CC5500AFD7E6 /* BindPhoneNumberViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559BFD8124A1CC5500AFD7E6 /* BindPhoneNumberViewController.swift */; };
 		55C7819C24901AFA00C9F33E /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55C7819B24901AFA00C9F33E /* SettingViewController.swift */; };
 		55C7819E24902BAE00C9F33E /* SettingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55C7819D24902BAE00C9F33E /* SettingTableViewCell.swift */; };
 		55C781A024902C4F00C9F33E /* SettingToggleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55C7819F24902C4F00C9F33E /* SettingToggleTableViewCell.swift */; };
@@ -83,6 +84,7 @@
 		553ED5AE2495DB15000ECE6D /* ReviewWordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewWordViewController.swift; sourceTree = "<group>"; };
 		558F71EB249C713B0014956F /* NumWordPerGroupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumWordPerGroupViewController.swift; sourceTree = "<group>"; };
 		558F71ED249C72AE0014956F /* NumberOfWordTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberOfWordTableViewCell.swift; sourceTree = "<group>"; };
+		559BFD8124A1CC5500AFD7E6 /* BindPhoneNumberViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BindPhoneNumberViewController.swift; sourceTree = "<group>"; };
 		55C7819B24901AFA00C9F33E /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		55C7819D24902BAE00C9F33E /* SettingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingTableViewCell.swift; sourceTree = "<group>"; };
 		55C7819F24902C4F00C9F33E /* SettingToggleTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingToggleTableViewCell.swift; sourceTree = "<group>"; };
@@ -318,6 +320,7 @@
 				55C7819B24901AFA00C9F33E /* SettingViewController.swift */,
 				553ED5AE2495DB15000ECE6D /* ReviewWordViewController.swift */,
 				558F71EB249C713B0014956F /* NumWordPerGroupViewController.swift */,
+				559BFD8124A1CC5500AFD7E6 /* BindPhoneNumberViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -485,6 +488,7 @@
 				553ED5AF2495DB15000ECE6D /* ReviewWordViewController.swift in Sources */,
 				A5F5154D245F56DF00F06610 /* ThemeCollectionViewController.swift in Sources */,
 				A52B84DC2471EE4500A002C6 /* ReviewRecord.swift in Sources */,
+				559BFD8224A1CC5500AFD7E6 /* BindPhoneNumberViewController.swift in Sources */,
 				A5B821732453669B00963FEC /* CardUIView.swift in Sources */,
 				A5E764D1245D269300367C2A /* ShengciViewController.swift in Sources */,
 				55001E1F2491AFF600DF0D0E /* FunctionUtil.swift in Sources */,

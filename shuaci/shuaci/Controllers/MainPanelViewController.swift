@@ -35,8 +35,7 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
     @IBOutlet var collectBtn: UIButton!
     @IBOutlet var statBtn: UIButton!
     @IBOutlet var settingBtn: UIButton!
-    
-    
+    var getNextWallpaperCalled = false
     func updateUserPhoto() {
         if let userImage = loadPhoto(name_of_photo: "user_avatar.jpg") {
             self.userPhotoBtn.setImage(userImage, for: [])
@@ -60,30 +59,35 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
                 DispatchQueue.main.async {
                     self.syncLabel.text = "正在下载词书..."
                 }
-                let bookId:String = getPreference(key: "current_book_id") as! String
-                let query = LCQuery(className: "Book")
-                query.whereKey("identifier", .equalTo(bookId))
-                _ = query.getFirst() { result in
-                    switch result {
-                    case .success(object: let result):
-                        if let bookJson = result.get("data") as? LCFile {
-                            let url = URL(string: bookJson.url?.stringValue ?? "")!
-                            let data = try? Data(contentsOf: url)
-                            
-                            if let jsonData = data {
-                                savejson(fileName: "current_book", jsonData: jsonData)
-                                currentbook_json_obj = load_json(fileName: "current_book")
-                                update_words()
-                                get_words()
-                                completionHandler(true)
+                if let bookId: String = getPreference(key: "current_book_id") as? String{
+                    let query = LCQuery(className: "Book")
+                    query.whereKey("identifier", .equalTo(bookId))
+                    _ = query.getFirst() { result in
+                        switch result {
+                        case .success(object: let result):
+                            if let bookJson = result.get("data") as? LCFile {
+                                let url = URL(string: bookJson.url?.stringValue ?? "")!
+                                let data = try? Data(contentsOf: url)
+                                
+                                if let jsonData = data {
+                                    savejson(fileName: "current_book", jsonData: jsonData)
+                                    currentbook_json_obj = load_json(fileName: "current_book")
+                                    update_words()
+                                    get_words()
+                                    completionHandler(true)
+                                }
                             }
+                        case .failure(error: let error):
+                            print(error.localizedDescription)
+                            completionHandler(false)
                         }
-                    case .failure(error: let error):
-                        print(error.localizedDescription)
-                        completionHandler(false)
+                    }
+                }else{
+                    DispatchQueue.main.async {
+                        self.shouldStopRotating = true
+                        self.syncLabel.alpha = 0.0
                     }
                 }
-                
                 }
             }
         }
@@ -167,6 +171,11 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        if !isKeyPresentInUserDefaults(key: "getNextWallpaperCalled"){
+            UserDefaults.standard.set(false, forKey: "getNextWallpaperCalled")
+        }
+        getNextWallpaperCalled = UserDefaults.standard.bool(forKey: "getNextWallpaperCalled")
+        
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         navigationController?.navigationBar.shadowImage = UIImage()
         
@@ -227,65 +236,161 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
 
     }
     
-    func getTodayWallpaper(category: Int){
+    func getNextWallpaper(category: Int){
         if Reachability.isConnectedToNetwork(){
+            DispatchQueue.main.async {
+                self.userPhotoBtn.rotate360Degrees(completionDelegate: self)
+                self.isRotating = true
+                self.syncLabel.alpha = 1.0
+                self.syncLabel.text = "正在更新壁纸..."
+            }
+            
             DispatchQueue.global(qos: .background).async{
             do{ //
                 do {
-                    
                     let count_query = LCQuery(className: "Wallpaper")
                     count_query.whereKey("theme_category", .equalTo(category))
                     count_query.count{ count in
                         let count = count.intValue
-                        let rand_index = Int.random(in: 0 ... count - 1)
-                        let query = LCQuery(className: "Wallpaper")
-                        query.whereKey("theme_category", .equalTo(category))
-                        query.limit = 1
-                        query.skip = rand_index
-                        _ = query.getFirst { result in
-                            switch result {
-                            case .success(object: let wallpaper):
-                                // wallpapers 是包含满足条件的 (className: "Wallpaper") 对象的数组
-                                
-                                if let wallpaper_image = wallpaper.get("image") as? LCFile {
-                                    //let imgData = photoData.value as! LCData
-                                    let url = URL(string: wallpaper_image.url?.stringValue ?? "")!
-                                    let data = try? Data(contentsOf: url)
-                                    if let imageData = data {
-                                        if let image = UIImage(data: imageData){
-                                            savePhoto(image: image, name_of_photo: "theme_download.jpg")
-                                            DispatchQueue.global(qos: .background).async {
-                                            do {
-                                                DispatchQueue.main.async {
-                                                    self.todayImageView?.image = image
-                                                    }
-                                                }}
-                                        }
-                                        
+                        if count > 0 {
+                            let rand_index = Int.random(in: 0 ... count - 1)
+                            let query = LCQuery(className: "Wallpaper")
+                            query.whereKey("theme_category", .equalTo(category))
+                            query.limit = 1
+                            query.skip = rand_index
+                            _ = query.getFirst { result in
+                                switch result {
+                                case .success(object: let wallpaper):
+                                    // wallpapers 是包含满足条件的 (className: "Wallpaper") 对象的数组
+                                    print("Downloaded \(rand_index)")
+                                    if let wallpaper_image = wallpaper.get("image") as? LCFile {
+                                        //let imgData = photoData.value as! LCData
+                                        let url = URL(string: wallpaper_image.url?.stringValue ?? "")!
+                                        DispatchQueue.global(qos: .background).async{
+                                        do{
+                                            let data = try? Data(contentsOf: url)
+                                            if let imageData = data {
+                                                if let image = UIImage(data: imageData){
+                                                    _ = savePhoto(image: image, name_of_photo: "wallpaper_next.jpg")
+                                                }
+                                            }
+                                        }}
                                         let word = wallpaper.word?.stringValue
                                         let trans = wallpaper.trans?.stringValue
                                         
-                                        UserDefaults.standard.set(word, forKey: "word")
-                                        UserDefaults.standard.set(trans, forKey: "trans")
-                                        setPreference(key: "last_theme_category", value: category, saveToCloud: false)
+                                        UserDefaults.standard.set(word, forKey: "word_next")
+                                        UserDefaults.standard.set(trans, forKey: "trans_next")
                                         
                                         DispatchQueue.main.async {
-                                            self.wordLabel.text = word
-                                            self.meaningLabel.text = trans
                                             self.shouldStopRotating = true
                                             self.syncLabel.alpha = 0.0
                                         }
-                                        UserDefaults.standard.set(Date(), forKey: "lastUpdateTime")
-                                        self.setTextOrButtonsColor(color: textColors[category] ?? UIColor.darkGray)
                                     }
+                                    break
+                                case .failure(error: let error):
+                                    print(error.localizedDescription)
                                 }
-                                break
-                            case .failure(error: let error):
-                                print(error.localizedDescription)
                             }
                         }
                     }
                     
+                }
+                }}
+        }else{
+            if non_network_preseted == false{
+                let alertCtl = presentNoNetworkAlert()
+                self.present(alertCtl, animated: true, completion: nil)
+                non_network_preseted = true
+            }
+            DispatchQueue.main.async {
+                self.shouldStopRotating = true
+                self.syncLabel.alpha = 0.0
+            }
+        }
+    }
+    
+    func updateWallpaper(){
+        if Reachability.isConnectedToNetwork(){
+            DispatchQueue.global(qos: .background).async{
+            do{ //
+                do {
+                    let category = getPreference(key: "current_theme_category") as! Int
+                    let imageFileURL = getDocumentsDirectory().appendingPathComponent("wallpaper_next.jpg")
+                    do {
+                        let imageData = try Data(contentsOf: imageFileURL)
+                        let image = UIImage(data: imageData)!
+                        
+                        DispatchQueue.global(qos: .background).async{
+                        do{
+                            _ = savePhoto(image: image, name_of_photo: "wallpaper.jpg")
+                        }}
+                        
+                        let trans = UserDefaults.standard.string(forKey: "trans_next")
+                        let word = UserDefaults.standard.string(forKey: "word_next")
+                        
+                        UserDefaults.standard.set(word, forKey: "word")
+                        UserDefaults.standard.set(trans, forKey: "trans")
+                        
+                        DispatchQueue.main.async {
+                            self.todayImageView?.image = image
+                            self.wordLabel.text = word
+                            self.meaningLabel.text = trans
+                        }
+                        UserDefaults.standard.set(Date(), forKey: "lastUpdateTime")
+                        self.setTextOrButtonsColor(color: textColors[category] ?? UIColor.darkGray)
+                        
+                        let count_query = LCQuery(className: "Wallpaper")
+                        count_query.whereKey("theme_category", .equalTo(category))
+                        count_query.count{ count in
+                            let count = count.intValue
+                            if count > 0{
+                                let rand_index = Int.random(in: 0 ... count - 1)
+                                let query = LCQuery(className: "Wallpaper")
+                                query.whereKey("theme_category", .equalTo(category))
+                                query.limit = 1
+                                query.skip = rand_index
+                                _ = query.getFirst { result in
+                                    switch result {
+                                    case .success(object: let wallpaper):
+                                        // wallpapers 是包含满足条件的 (className: "Wallpaper") 对象的数组
+                                        
+                                        if let wallpaper_image = wallpaper.get("image") as? LCFile {
+                                            //let imgData = photoData.value as! LCData
+                                            let url = URL(string: wallpaper_image.url?.stringValue ?? "")!
+                                            
+                                            DispatchQueue.global(qos: .background).async{
+                                            do{
+                                                let data = try? Data(contentsOf: url)
+                                                if let imageData = data {
+                                                    if let image = UIImage(data: imageData){
+                                                        _ = savePhoto(image: image, name_of_photo: "wallpaper_next.jpg")
+                                                    }
+                                                }
+                                            }}
+                                            
+                                            let word = wallpaper.word?.stringValue
+                                            let trans = wallpaper.trans?.stringValue
+                                            UserDefaults.standard.set(word, forKey: "word_next")
+                                            UserDefaults.standard.set(trans, forKey: "trans_next")
+                                            
+                                        }
+                                        break
+                                    case .failure(error: let error):
+                                        print(error.localizedDescription)
+                                    }
+                                }
+                            }
+                            
+                        }
+                        
+                    } catch {
+                        if !self.getNextWallpaperCalled{
+                            self.getNextWallpaper(category: category)
+                            self.getNextWallpaperCalled = true
+                            UserDefaults.standard.set(true, forKey: "getNextWallpaperCalled")
+                            
+                        }
+                    }
                 }
                 }}
         }else{
@@ -313,14 +418,7 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
         }
         
         if minutesBetweenDates(lastUpdateTime, Date()) > 30 {
-            let current_theme_category = getPreference(key: "current_theme_category") as! Int
-            DispatchQueue.main.async {
-                self.userPhotoBtn.rotate360Degrees(completionDelegate: self)
-                self.isRotating = true
-                self.syncLabel.alpha = 1.0
-                self.syncLabel.text = "正在更新壁纸..."
-            }
-            self.getTodayWallpaper(category: current_theme_category)
+            self.updateWallpaper()
         }
         
     }
@@ -336,30 +434,31 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
         if current_theme_category != last_theme_category{
             let image = UIImage(named: "theme_\(current_theme_category)")
             let wallpaper = default_wallpapers[current_theme_category - 1]
-            DispatchQueue.global(qos: .background).async {
-            do {
-                DispatchQueue.main.async {
-                    self.todayImageView?.image = image
-                    self.wordLabel.text = wallpaper.word
-                    self.meaningLabel.text = wallpaper.trans
-                    self.userPhotoBtn.rotate360Degrees(completionDelegate: self)
-                    self.isRotating = true
-                    self.syncLabel.alpha = 1.0
-                    self.syncLabel.text = "正在更新壁纸..."
-                }
-            }}
+            
+            _ = savePhoto(image: image!, name_of_photo: "wallpaper.jpg")
             UserDefaults.standard.set(wallpaper.word, forKey: "word")
             UserDefaults.standard.set(wallpaper.trans, forKey: "trans")
             
-            self.getTodayWallpaper(category: current_theme_category)
+            DispatchQueue.main.async {
+                self.todayImageView?.image = image
+                self.wordLabel.text = wallpaper.word
+                self.meaningLabel.text = wallpaper.trans
+            }
+            setPreference(key: "last_theme_category", value: current_theme_category)
+            
+            self.getNextWallpaper(category: current_theme_category)
+            getNextWallpaperCalled = true
+            UserDefaults.standard.set(true, forKey: "getNextWallpaperCalled")
+            UserDefaults.standard.set(Date(), forKey: "lastUpdateTime")
+            setTextOrButtonsColor(color: textColors[current_theme_category] ?? UIColor.darkGray)
         }
         else{
-            let word = UserDefaults.standard.string(forKey: "word")
-            let imageFileURL = getDocumentsDirectory().appendingPathComponent("theme_download.jpg")
+            let imageFileURL = getDocumentsDirectory().appendingPathComponent("wallpaper.jpg")
             do {
                 let imageData = try Data(contentsOf: imageFileURL)
                 let image = UIImage(data: imageData)
                 let trans = UserDefaults.standard.string(forKey: "trans")
+                let word = UserDefaults.standard.string(forKey: "word")
                 DispatchQueue.global(qos: .background).async {
                 do {
                     DispatchQueue.main.async {
@@ -369,8 +468,14 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
                     }
                 }}
             } catch {
+                if !getNextWallpaperCalled{
+                    self.getNextWallpaper(category: current_theme_category)
+                    getNextWallpaperCalled = true
+                    UserDefaults.standard.set(true, forKey: "getNextWallpaperCalled")
+                }
                 print("Error loading image : \(error)")
                 let image = UIImage(named: "theme_\(current_theme_category)")
+                _ = savePhoto(image: image!, name_of_photo: "wallpaper.jpg")
                 let wallpaper = default_wallpapers[current_theme_category - 1]
                 DispatchQueue.global(qos: .background).async {
                 do {
@@ -380,9 +485,13 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
                         self.meaningLabel.text = wallpaper.trans
                     }
                 }}
+                UserDefaults.standard.set(wallpaper.word, forKey: "word")
+                UserDefaults.standard.set(wallpaper.trans, forKey: "trans")
         }
-        }
+
+        UserDefaults.standard.set(Date(), forKey: "lastUpdateTime")
         setTextOrButtonsColor(color: textColors[current_theme_category] ?? UIColor.darkGray)
+        }
         
     }
     
@@ -507,7 +616,7 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
             self.present(mainScreenViewController, animated: false, completion: nil)
         }
     }
-//    
+//
 //    // MARK: - Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "userProfileSegue"{
@@ -523,3 +632,4 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
     }
 
 }
+

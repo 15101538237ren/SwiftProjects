@@ -28,7 +28,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         } catch {
             print(error)
         }
-        LCApplication.logLevel = .all
+//        LCApplication.logLevel = .all
         return true
     }
 
