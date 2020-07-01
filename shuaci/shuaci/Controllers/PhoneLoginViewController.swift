@@ -210,5 +210,9 @@ class PhoneLoginViewController: UIViewController {
         navigationController?.navigationBar.shadowImage = UIImage()
         
         navigationController?.navigationBar.tintColor = .white
+        if !Reachability.isConnectedToNetwork(){
+            let alertCtl = presentNoNetworkAlert()
+            UIApplication.topViewController()?.present(alertCtl, animated: true, completion: nil)
+        }
     }
 }

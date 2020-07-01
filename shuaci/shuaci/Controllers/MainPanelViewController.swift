@@ -108,6 +108,7 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
                         self.loadSettingAndRecordsFinished()
                     }
                     else{
+                        
                         let ac = UIAlertController(title: "提示", message: "下载正在学的单词书失败，请检查您的网络!", preferredStyle: .alert)
                         ac.addAction(UIAlertAction(title: "好", style: .default, handler: nil))
                         self.present(ac, animated: true, completion: nil)
@@ -115,7 +116,7 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
                 })
             }
             else{
-                let ac = UIAlertController(title: "提示", message: "从云端下载设置与学习记录失败，请检查您的网络!", preferredStyle: .alert)
+                let ac = UIAlertController(title: "提示", message: "从云端下载设置与学习记录失败，请稍后再试!", preferredStyle: .alert)
                 ac.addAction(UIAlertAction(title: "好", style: .default, handler: nil))
                 self.present(ac, animated: true, completion: nil)
             }
@@ -191,7 +192,7 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
             else {
                 self.getUserPhoto()
             }
-            updateWallpaperWhenBackScreen()
+//            updateWallpaperWhenBackScreen()
             
             NotificationCenter.default.addObserver(self, selector: #selector(updateWallpaperWhenBackScreen), name: UIApplication.willEnterForegroundNotification, object: nil)
         } else {
@@ -237,6 +238,12 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
     }
     
     func getNextWallpaper(category: Int){
+        
+        UserDefaults.standard.removeObject(forKey: "word_next")
+        UserDefaults.standard.removeObject(forKey: "trans_next")
+        UserDefaults.standard.synchronize()
+        deletePhoto(name_of_photo: "wallpaper_next.jpg")
+        
         if Reachability.isConnectedToNetwork(){
             DispatchQueue.main.async {
                 self.userPhotoBtn.rotate360Degrees(completionDelegate: self)
@@ -272,14 +279,15 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
                                             if let imageData = data {
                                                 if let image = UIImage(data: imageData){
                                                     _ = savePhoto(image: image, name_of_photo: "wallpaper_next.jpg")
+
+                                                    let word = wallpaper.word?.stringValue
+                                                    let trans = wallpaper.trans?.stringValue
+                                                    
+                                                    UserDefaults.standard.set(word, forKey: "word_next")
+                                                    UserDefaults.standard.set(trans, forKey: "trans_next")
                                                 }
                                             }
                                         }}
-                                        let word = wallpaper.word?.stringValue
-                                        let trans = wallpaper.trans?.stringValue
-                                        
-                                        UserDefaults.standard.set(word, forKey: "word_next")
-                                        UserDefaults.standard.set(trans, forKey: "trans_next")
                                         
                                         DispatchQueue.main.async {
                                             self.shouldStopRotating = true
@@ -289,6 +297,10 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
                                     break
                                 case .failure(error: let error):
                                     print(error.localizedDescription)
+                                    DispatchQueue.main.async {
+                                        self.shouldStopRotating = true
+                                        self.syncLabel.alpha = 0.0
+                                    }
                                 }
                             }
                         }
@@ -297,11 +309,9 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
                 }
                 }}
         }else{
-            if non_network_preseted == false{
-                let alertCtl = presentNoNetworkAlert()
-                self.present(alertCtl, animated: true, completion: nil)
-                non_network_preseted = true
-            }
+            let alertCtl = presentNoNetworkAlert()
+            self.present(alertCtl, animated: true, completion: nil)
+            
             DispatchQueue.main.async {
                 self.shouldStopRotating = true
                 self.syncLabel.alpha = 0.0
@@ -317,6 +327,7 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
                     let category = getPreference(key: "current_theme_category") as! Int
                     let imageFileURL = getDocumentsDirectory().appendingPathComponent("wallpaper_next.jpg")
                     do {
+                        self.getNextWallpaperCalled = false
                         let imageData = try Data(contentsOf: imageFileURL)
                         let image = UIImage(data: imageData)!
                         
@@ -328,15 +339,20 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
                         let trans = UserDefaults.standard.string(forKey: "trans_next")
                         let word = UserDefaults.standard.string(forKey: "word_next")
                         
+                        UserDefaults.standard.removeObject(forKey: "word_next")
+                        UserDefaults.standard.removeObject(forKey: "trans_next")
+                        UserDefaults.standard.synchronize()
+                        
                         UserDefaults.standard.set(word, forKey: "word")
                         UserDefaults.standard.set(trans, forKey: "trans")
+                        deletePhoto(name_of_photo: "wallpaper_next.jpg")
                         
                         DispatchQueue.main.async {
                             self.todayImageView?.image = image
                             self.wordLabel.text = word
                             self.meaningLabel.text = trans
+                            self.view.setNeedsDisplay()
                         }
-                        UserDefaults.standard.set(Date(), forKey: "lastUpdateTime")
                         self.setTextOrButtonsColor(color: textColors[category] ?? UIColor.darkGray)
                         
                         let count_query = LCQuery(className: "Wallpaper")
@@ -364,14 +380,16 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
                                                 if let imageData = data {
                                                     if let image = UIImage(data: imageData){
                                                         _ = savePhoto(image: image, name_of_photo: "wallpaper_next.jpg")
+                                                        print("Downloaded \(rand_index)")
+                                                        
+                                                        let word = wallpaper.word?.stringValue
+                                                        let trans = wallpaper.trans?.stringValue
+                                                        UserDefaults.standard.set(word, forKey: "word_next")
+                                                        UserDefaults.standard.set(trans, forKey: "trans_next")
+                                                        UserDefaults.standard.set(Date(), forKey: "lastUpdateTime")
                                                     }
                                                 }
                                             }}
-                                            
-                                            let word = wallpaper.word?.stringValue
-                                            let trans = wallpaper.trans?.stringValue
-                                            UserDefaults.standard.set(word, forKey: "word_next")
-                                            UserDefaults.standard.set(trans, forKey: "trans_next")
                                             
                                         }
                                         break
@@ -384,6 +402,7 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
                         }
                         
                     } catch {
+                        print(error.localizedDescription)
                         if !self.getNextWallpaperCalled{
                             self.getNextWallpaper(category: category)
                             self.getNextWallpaperCalled = true
@@ -417,7 +436,7 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
             UserDefaults.standard.set(lastUpdateTime, forKey: lastUpdateTimeKey)
         }
         
-        if minutesBetweenDates(lastUpdateTime, Date()) > 30 {
+        if minutesBetweenDates(lastUpdateTime, Date()) > 0.2 {
             self.updateWallpaper()
         }
         
@@ -439,6 +458,10 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
             UserDefaults.standard.set(wallpaper.word, forKey: "word")
             UserDefaults.standard.set(wallpaper.trans, forKey: "trans")
             
+            UserDefaults.standard.removeObject(forKey: "word_next")
+            UserDefaults.standard.removeObject(forKey: "trans_next")
+            UserDefaults.standard.synchronize()
+            deletePhoto(name_of_photo: "wallpaper_next.jpg")
             DispatchQueue.main.async {
                 self.todayImageView?.image = image
                 self.wordLabel.text = wallpaper.word
@@ -468,11 +491,6 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
                     }
                 }}
             } catch {
-                if !getNextWallpaperCalled{
-                    self.getNextWallpaper(category: current_theme_category)
-                    getNextWallpaperCalled = true
-                    UserDefaults.standard.set(true, forKey: "getNextWallpaperCalled")
-                }
                 print("Error loading image : \(error)")
                 let image = UIImage(named: "theme_\(current_theme_category)")
                 _ = savePhoto(image: image!, name_of_photo: "wallpaper.jpg")
@@ -487,6 +505,12 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
                 }}
                 UserDefaults.standard.set(wallpaper.word, forKey: "word")
                 UserDefaults.standard.set(wallpaper.trans, forKey: "trans")
+                
+                if !getNextWallpaperCalled{
+                    self.getNextWallpaper(category: current_theme_category)
+                    getNextWallpaperCalled = true
+                    UserDefaults.standard.set(true, forKey: "getNextWallpaperCalled")
+                }
         }
 
         UserDefaults.standard.set(Date(), forKey: "lastUpdateTime")

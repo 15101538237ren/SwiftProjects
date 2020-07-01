@@ -441,6 +441,19 @@ func savePhoto(image: UIImage, name_of_photo: String) -> UIImage?{
     return image
 }
 
+func deletePhoto(name_of_photo: String){
+    let imageFileURL = getDocumentsDirectory().appendingPathComponent(name_of_photo)
+    
+    if FileManager.default.fileExists(atPath: imageFileURL.path) {
+        do {
+            try FileManager.default.removeItem(at: imageFileURL)
+            print("\(name_of_photo) deleted")
+        } catch {
+            print("Error deleting Image : \(error)")
+        }
+    }
+}
+
 func loadPhoto(name_of_photo: String) -> UIImage?{
     let imageFileURL = getDocumentsDirectory().appendingPathComponent(name_of_photo)
     do {
@@ -597,6 +610,9 @@ func saveStringTo(fileName: String, jsonStr: String){
         print(error.localizedDescription)
     }
 }
+
+
+
 
 func loadIntArrayFromFile(filename: String) -> [Int] {
     do {

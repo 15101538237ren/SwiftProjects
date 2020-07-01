@@ -110,7 +110,8 @@ class MainScreenViewController: UIViewController {
             {
                 card.transform = CGAffineTransform(scaleX: scaleOfSecondCard, y: scaleOfSecondCard)
                 card.dragable = false
-            } else
+            }
+            else
             {
                 if let mp3_url = getWordPronounceURL(word: cardWord.headWord, fromMainScreen: true){
                     playMp3(url: mp3_url)
@@ -258,10 +259,7 @@ class MainScreenViewController: UIViewController {
             }
         }else{
             let alertCtl = presentNoNetworkAlert()
-            if non_network_preseted == false{
-                self.present(alertCtl, animated: true, completion: nil)
-                non_network_preseted = true
-            }
+            UIApplication.topViewController()?.present(alertCtl, animated: true, completion: nil)
         }
         
     }
