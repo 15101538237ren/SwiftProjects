@@ -494,6 +494,11 @@ func get_words(){
     }
 }
 
+func clear_words(){
+    words = [] // clear current words array
+    saveStringTo(fileName: wordsJsonFp, jsonStr: "")
+}
+
 func update_words(){
     if let _ = getPreference(key: "current_book_id") as? String {
         let vocabRanks:[Int] = learntVocabRanks()
@@ -504,7 +509,7 @@ func update_words(){
         let sampling_number:Int = min(number_of_words_per_group, diff_ids.count)
         
         words = []
-        var sampled_ids:[Int] = []
+        var sampled_ids:[Int] = loadIntArrayFromFile(filename: wordsJsonFp)
         var randomIndex:Int = Int(arc4random_uniform(UInt32(diff_ids.count - 1)))
         for _ in 0..<sampling_number{
             while vocabRanks.contains(getFeildsOfWord(word: word_list[diff_ids[randomIndex]], usphone: true).wordRank) {

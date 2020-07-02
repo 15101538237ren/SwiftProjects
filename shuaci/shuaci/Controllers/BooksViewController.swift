@@ -435,6 +435,7 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
                     if let jsonData = data {
                         savejson(fileName: "current_book", jsonData: jsonData)
                         currentbook_json_obj = load_json(fileName: "current_book")
+                        clear_words()
                         update_words()
                         get_words()
                         DispatchQueue.main.async {
