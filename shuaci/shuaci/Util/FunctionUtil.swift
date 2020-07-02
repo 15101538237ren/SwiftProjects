@@ -510,15 +510,17 @@ func update_words(){
         
         words = []
         var sampled_ids:[Int] = loadIntArrayFromFile(filename: wordsJsonFp)
-        var randomIndex:Int = Int(arc4random_uniform(UInt32(diff_ids.count - 1)))
+        var randomIndex:Int = Int.random(in: 0...(diff_ids.count - 1)) //Int(arc4random_uniform(UInt32(diff_ids.count - 1)))
+        print(diff_ids.count)
         for _ in 0..<sampling_number{
             while vocabRanks.contains(getFeildsOfWord(word: word_list[diff_ids[randomIndex]], usphone: true).wordRank) {
-                randomIndex = Int(arc4random_uniform(UInt32(diff_ids.count - 1)))
+                randomIndex = Int.random(in: 0...(diff_ids.count - 1))//Int(arc4random_uniform(UInt32(diff_ids.count - 1)))
             }
             
             sampled_ids.append(diff_ids[randomIndex])
             words.append(word_list[diff_ids[randomIndex]])
             diff_ids.remove(at: randomIndex)
+            randomIndex = Int.random(in: 0...(diff_ids.count - 1))
         }
         saveStringTo(fileName: wordsJsonFp, jsonStr: sampled_ids.map { String($0) }.joined(separator: ","))
     }

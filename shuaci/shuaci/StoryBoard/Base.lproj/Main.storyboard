@@ -1080,14 +1080,14 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="30H-CN-XbQ">
-                                <rect key="frame" x="20" y="54" width="374" height="798"/>
+                                <rect key="frame" x="0.0" y="544" width="414" height="352"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="NumberOfWordCell" rowHeight="55" id="kO3-wz-giz" customClass="NumberOfWordTableViewCell" customModule="刷词" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="374" height="55"/>
+                                        <rect key="frame" x="0.0" y="28" width="414" height="55"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="kO3-wz-giz" id="eyc-gk-dxl">
-                                            <rect key="frame" x="0.0" y="0.0" width="374" height="55"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="55"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bmp-57-6WX">
@@ -1097,7 +1097,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="checked" translatesAutoresizingMaskIntoConstraints="NO" id="hXj-id-frm">
-                                                    <rect key="frame" x="338" y="14.5" width="26" height="26"/>
+                                                    <rect key="frame" x="378" y="14.5" width="26" height="26"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="26" id="Mvx-Tb-JjN"/>
                                                         <constraint firstAttribute="width" constant="26" id="txD-TL-xbp"/>
@@ -1122,11 +1122,11 @@
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
-                            <constraint firstItem="HAK-SJ-L60" firstAttribute="bottom" secondItem="30H-CN-XbQ" secondAttribute="bottom" constant="10" id="5ox-PW-8ft"/>
-                            <constraint firstItem="30H-CN-XbQ" firstAttribute="top" secondItem="HAK-SJ-L60" secondAttribute="top" constant="10" id="ACb-pN-Nut"/>
+                            <constraint firstItem="30H-CN-XbQ" firstAttribute="top" secondItem="HAK-SJ-L60" secondAttribute="top" constant="500" id="ACb-pN-Nut"/>
                             <constraint firstItem="30H-CN-XbQ" firstAttribute="centerX" secondItem="V99-V1-jdR" secondAttribute="centerX" id="Ltb-6u-nGc"/>
-                            <constraint firstItem="HAK-SJ-L60" firstAttribute="trailing" secondItem="30H-CN-XbQ" secondAttribute="trailing" constant="20" id="bXF-Vk-2iM"/>
-                            <constraint firstItem="30H-CN-XbQ" firstAttribute="leading" secondItem="HAK-SJ-L60" secondAttribute="leading" constant="20" id="eec-f1-zgD"/>
+                            <constraint firstItem="HAK-SJ-L60" firstAttribute="trailing" secondItem="30H-CN-XbQ" secondAttribute="trailing" id="bXF-Vk-2iM"/>
+                            <constraint firstAttribute="bottom" secondItem="30H-CN-XbQ" secondAttribute="bottom" id="cLr-e4-0R4"/>
+                            <constraint firstItem="30H-CN-XbQ" firstAttribute="leading" secondItem="HAK-SJ-L60" secondAttribute="leading" id="eec-f1-zgD"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="HAK-SJ-L60"/>
                     </view>

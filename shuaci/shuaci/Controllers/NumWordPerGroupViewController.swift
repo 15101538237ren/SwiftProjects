@@ -11,7 +11,7 @@ import BottomPopup
 
 class NumWordPerGroupViewController: BottomPopupViewController, UITableViewDataSource, UITableViewDelegate {
     
-    override var popupHeight: CGFloat { return CGFloat(300) }
+    override var popupHeight: CGFloat { return UIScreen.main.bounds.height }
     
     override var popupPresentDuration: Double { return 0.3 }
     
@@ -24,9 +24,12 @@ class NumWordPerGroupViewController: BottomPopupViewController, UITableViewDataS
     @IBOutlet var tableView: UITableView!
     
     override func viewDidLoad() {
+        view.backgroundColor = UIColor(white: 1.0, alpha: 0.4)
         get_pref_setting()
         self.tableView.delegate = self
         self.tableView.dataSource = self
+        self.tableView.layer.cornerRadius = 20.0
+        self.tableView.layer.masksToBounds = true
         super.viewDidLoad()
         
         // Do any additional setup after loading the view.
@@ -80,6 +83,7 @@ class NumWordPerGroupViewController: BottomPopupViewController, UITableViewDataS
                 cell.checkedImageView.alpha = 1.0
                 self.dismiss(animated: true, completion: nil)
             }
+            clear_words()
             update_words()
             
         })

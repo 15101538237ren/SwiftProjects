@@ -230,6 +230,12 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
             DispatchQueue.main.async {
                 self.present(NumOfWordPopUpVC, animated: true, completion: nil)
             }
+        case 4:
+            // Simple Time Picker
+            RPicker.selectDate(title: "选择时间", cancelText: "取消",doneText: "完成", datePickerMode: .time, didSelectDate: { [weak self](selectedDate) in
+                // TODO: Your implementation for date
+//                self?.outputLabel.text = selectedDate.dateString("hh:mm a")
+            })
         case 6:
             initActivityIndicator(text: "正在上传设置..")
             savePreference(saveToLocal: false, saveToCloud: true, completionHandler: {_ in
