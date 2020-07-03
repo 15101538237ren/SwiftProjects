@@ -44,14 +44,14 @@ class ResetPwdViewController: UIViewController {
                     _ = LCUser.requestPasswordReset(email: email) { (result) in
                         switch result {
                         case .success:
-                            self.presentAlert(title: "提示", message: "密码重置邮件已发送至\(email)!请查看邮件", okText: "好")
+                            self.presentAlert(title: "密码重置邮件已发送至\(email)!", message: "", okText: "好")
                             UserDefaults.standard.set(Date(), forKey: lastResetEmailSentTimeKey)
                         case .failure(error: let error as LCError):
                             switch error.code {
                             case 205:
-                                self.presentAlert(title: "错误", message: "该邮箱尚未注册!", okText: "好")
+                                self.presentAlert(title: "该邮箱尚未注册!", message: "", okText: "好")
                             default:
-                                self.presentAlert(title: "错误", message: error.reason?.stringValue ?? "出现错误，请检查并重试", okText: "好")
+                                self.presentAlert(title: error.reason?.stringValue ?? "出现错误，请检查并重试", message: "", okText: "好")
                             }
                         }
                     }
@@ -63,10 +63,10 @@ class ResetPwdViewController: UIViewController {
                 
             }
             else{
-                presentAlert(title: "错误", message: "请输入正确的邮箱!", okText: "好")
+                presentAlert(title: "请输入正确的邮箱!", message: "", okText: "好")
             }
         } else{
-            presentAlert(title: "提示", message: "邮件已发送，如需重新发送，请等待2分钟!", okText: "好")
+            presentAlert(title: "邮件已发送，如需重新发送，请等待2分钟!", message: "", okText: "好")
         }
         
         

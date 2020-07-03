@@ -226,9 +226,10 @@ class LearnWordViewController: UIViewController {
             let collected = card_collect_behaviors[currentIndex + 1] == .yes ? true : false
             setFieldsOfCard(card: card, cardWord: cardWord, collected: collected)
             let next_card = cards[currentIndex % 2]
-            if currentIndex == 1{
-                next_card.dragable = true
-            }
+            
+            next_card.dragable = !next_card.dragable
+            card.dragable = !card.dragable
+            
             learnUIView.bringSubviewToFront(next_card)
             resetCard(card: card)
             enableBtns()
@@ -243,6 +244,9 @@ class LearnWordViewController: UIViewController {
             let card = sender.view! as! CardUIView
             if !card.dragable{
                 return
+            }
+            if isBtnEnabled(){
+                disableBtns()
             }
             let point = sender.translation(in: view)
             
@@ -275,7 +279,9 @@ class LearnWordViewController: UIViewController {
             {
                 if card.center.x < (0.4 * view.frame.width)
                 {
-                    disableBtns()
+                    if isBtnEnabled(){
+                        disableBtns()
+                    }
                     UIView.animate(withDuration: animationDuration, animations:
                     {
                         card.center = CGPoint(x: card.center.x - 200, y: card.center.y + 75)
@@ -300,7 +306,9 @@ class LearnWordViewController: UIViewController {
                 }
                 else if card.center.x > (0.6 * view.frame.width)
                 {
-                    disableBtns()
+                    if isBtnEnabled(){
+                        disableBtns()
+                    }
                     UIView.animate(withDuration: animationDuration, animations:
                     {
                         card.center = CGPoint(x: card.center.x + 200, y: card.center.y + 75)
@@ -340,6 +348,7 @@ class LearnWordViewController: UIViewController {
         card.rememberImageView?.alpha = 0
         card.rememberLabel?.alpha = 0.0
         card.transform = .identity
+        enableBtns()
     }
     
         func resetCard(card: CardUIView)
@@ -423,6 +432,10 @@ class LearnWordViewController: UIViewController {
             let thisCard = cards[(currentIndex + 1) % 2]
             thisCard.transform = CGAffineTransform(scaleX: scaleOfSecondCard, y: scaleOfSecondCard)
             let lastCard = cards[currentIndex % 2]
+            
+            thisCard.dragable = !thisCard.dragable
+            lastCard.dragable = !lastCard.dragable
+            
             lastCard.layer.removeAllAnimations()
             lastCard.transform = CGAffineTransform.identity.scaledBy(x: 1.0, y: 1.0)
             let word = words[currentIndex % words.count]
@@ -453,7 +466,7 @@ class LearnWordViewController: UIViewController {
             enableBtns()
         }
         else{
-            let alertCtl = presentAlert(title: "提示", message: "已经是第一张啦!", okText: "好的")
+            let alertCtl = presentAlert(title: "已经是第一张啦!", message: "", okText: "好的")
             self.present(alertCtl, animated: true, completion: nil)
         }
     }
@@ -526,6 +539,10 @@ class LearnWordViewController: UIViewController {
             self.learnUIView.noBtn.isEnabled = false
             self.learnUIView.trashBtn.isEnabled = false
         }
+    }
+    
+    func isBtnEnabled() -> Bool{
+        return self.learnUIView.collectBtn.isEnabled
     }
     
     func enableBtns(){

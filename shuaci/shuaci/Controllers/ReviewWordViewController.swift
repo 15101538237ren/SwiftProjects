@@ -92,7 +92,7 @@ class ReviewWordViewController: UIViewController {
     }
     
     @IBAction func ExitReview(_ sender: UIButton) {
-        let alertController = UIAlertController(title: "提示", message: "是否保存当前复习记录?", preferredStyle: .alert)
+        let alertController = UIAlertController(title: "是否保存当前复习记录?", message: "", preferredStyle: .alert)
         let okayAction = UIAlertAction(title: "是", style: .default, handler: { action in
             currentReviewRec.EndDate = Date()
             var currentReivewedRecords:[VocabularyRecord] = []
@@ -246,9 +246,9 @@ class ReviewWordViewController: UIViewController {
             let collected = card_collect_behaviors[currentIndex + 1] == .yes ? true : false
             setFieldsOfCard(card: card, cardWord: cardWord, collected: collected)
             let next_card = cards[currentIndex % 2]
-            if currentIndex == 1{
-                next_card.dragable = true
-            }
+            next_card.dragable = !next_card.dragable
+            card.dragable = !card.dragable
+            
             learnUIView.bringSubviewToFront(next_card)
             resetCard(card: card)
             enableBtns()
@@ -259,11 +259,19 @@ class ReviewWordViewController: UIViewController {
         }
     }
     
+    func isBtnEnabled() -> Bool{
+        return self.learnUIView.collectBtn.isEnabled
+    }
+    
     @IBAction func panCard(_ sender: UIPanGestureRecognizer) {
         
             let card = sender.view! as! CardUIView
             if !card.dragable{
                 return
+            }
+        
+            if isBtnEnabled(){
+                disableBtns()
             }
             let point = sender.translation(in: view)
             
@@ -296,7 +304,9 @@ class ReviewWordViewController: UIViewController {
             {
                 if card.center.x < (0.4 * view.frame.width)
                 {
-                    disableBtns()
+                    if isBtnEnabled(){
+                        disableBtns()
+                    }
                     UIView.animate(withDuration: animationDuration, animations:
                     {
                         card.center = CGPoint(x: card.center.x - 200, y: card.center.y + 75)
@@ -321,7 +331,9 @@ class ReviewWordViewController: UIViewController {
                 }
                 else if card.center.x > (0.6 * view.frame.width)
                 {
-                    disableBtns()
+                    if isBtnEnabled(){
+                        disableBtns()
+                    }
                     UIView.animate(withDuration: animationDuration, animations:
                     {
                         card.center = CGPoint(x: card.center.x + 200, y: card.center.y + 75)
@@ -361,6 +373,7 @@ class ReviewWordViewController: UIViewController {
         card.rememberImageView?.alpha = 0
         card.rememberLabel?.alpha = 0.0
         card.transform = .identity
+        enableBtns()
     }
     
         func resetCard(card: CardUIView)
@@ -444,6 +457,10 @@ class ReviewWordViewController: UIViewController {
             let thisCard = cards[(currentIndex + 1) % 2]
             thisCard.transform = CGAffineTransform(scaleX: scaleOfSecondCard, y: scaleOfSecondCard)
             let lastCard = cards[currentIndex % 2]
+            
+            thisCard.dragable = !thisCard.dragable
+            lastCard.dragable = !lastCard.dragable
+            
             lastCard.layer.removeAllAnimations()
             lastCard.transform = CGAffineTransform.identity.scaledBy(x: 1.0, y: 1.0)
             let word = review_words[currentIndex % review_words.count]
@@ -474,7 +491,7 @@ class ReviewWordViewController: UIViewController {
             enableBtns()
         }
         else{
-            let alertCtl = presentAlert(title: "提示", message: "已经是第一张啦!", okText: "好的")
+            let alertCtl = presentAlert(title: "已经是第一张啦!", message: "", okText: "好的")
             self.present(alertCtl, animated: true, completion: nil)
         }
     }

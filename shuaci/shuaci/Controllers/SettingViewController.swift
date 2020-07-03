@@ -252,7 +252,7 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
                 }
                 DispatchQueue.main.async {
                     self.stopIndicator()
-                    let ac = UIAlertController(title: "提示", message: successMessage, preferredStyle: .alert)
+                    let ac = UIAlertController(title: "\(successMessage)", message: "", preferredStyle: .alert)
                     ac.addAction(UIAlertAction(title: "好", style: .default, handler: nil))
                     self.present(ac, animated: true, completion: nil)
                 }
@@ -315,7 +315,7 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
     
     func showFeedBackMailComposer(){
         guard MFMailComposeViewController.canSendMail() else{
-            let ac = UIAlertController(title: "错误", message: "无法发送邮件，请检查网络或设置", preferredStyle: .alert)
+            let ac = UIAlertController(title: "无法发送邮件，请检查网络或设置!", message: "", preferredStyle: .alert)
             ac.addAction(UIAlertAction(title: "好的", style: .default, handler: nil))
             present(ac, animated: true, completion: nil)
             return 
@@ -330,7 +330,7 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
     
     @IBAction func logOut(_ sender: UIButton) {
         if Reachability.isConnectedToNetwork(){
-           let alertController = UIAlertController(title: "注销", message: "确定注销?", preferredStyle: .alert)
+           let alertController = UIAlertController(title: "确定注销?", message: "", preferredStyle: .alert)
            let okayAction = UIAlertAction(title: "确定", style: .default, handler: { action in
                LCUser.logOut()
                self.dismiss(animated: false, completion: nil)

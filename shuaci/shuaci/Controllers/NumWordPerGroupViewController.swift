@@ -63,7 +63,7 @@ class NumWordPerGroupViewController: BottomPopupViewController, UITableViewDataS
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let alertController = UIAlertController(title: "提示", message: "是否更改为每组\(number_of_words[indexPath.row])个单词?", preferredStyle: .alert)
+        let alertController = UIAlertController(title: "是否更改为每组\(number_of_words[indexPath.row])个单词?", message: "", preferredStyle: .alert)
         let okayAction = UIAlertAction(title: "是", style: .default, handler: { action in
             let indexPath_prev_selected = IndexPath(row: self.checked_row, section: 0)
             let cell_prev_selected = tableView.dequeueReusableCell(withIdentifier: "NumberOfWordCell", for: indexPath_prev_selected) as! NumberOfWordTableViewCell
