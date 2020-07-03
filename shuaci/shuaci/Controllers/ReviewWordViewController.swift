@@ -178,11 +178,12 @@ class ReviewWordViewController: UIViewController {
             var finalStringArr:[String] = []
             let meaningArr:[String] = meaningLabelTxt.components(separatedBy: "\n")
             for mi in 0..<meaningArr.count - 1{
-                let firstChr = meaningArr[mi + 1].unicodeScalars.first
-                if firstChr!.isASCII{
-                    finalStringArr.append("\(meaningArr[mi])\n")
-                }else{
-                    finalStringArr.append("\(meaningArr[mi])；")
+                if let firstChr = meaningArr[mi + 1].unicodeScalars.first{
+                    if firstChr.isASCII{
+                        finalStringArr.append("\(meaningArr[mi])\n")
+                    }else{
+                        finalStringArr.append("\(meaningArr[mi])；")
+                    }
                 }
             }
             meaningLabelTxt = finalStringArr.joined(separator: "")

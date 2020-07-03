@@ -35,7 +35,7 @@ class LearnWordViewController: UIViewController {
     let animationDuration = 0.15
     var viewTranslation = CGPoint(x: 0, y: 0)
 
-    let firstReviewDelayInMin = 2
+    let firstReviewDelayInMin = 30
     
     func setCardBackground(){
         let current_theme_category = getPreference(key: "current_theme_category") as! Int
