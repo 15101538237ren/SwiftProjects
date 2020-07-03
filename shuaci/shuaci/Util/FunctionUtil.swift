@@ -65,7 +65,6 @@ func calcSecondsDurationGivenBehaviorHistory(cardBehaviorHistory: [Int]) -> Int{
     else{
         secondDuration = convertFloatDayDurationToSecond(dayDuration: sm2(x: cardBehaviorHistory))
     }
-    print(secondDuration)
     return secondDuration
 }
 
@@ -101,7 +100,7 @@ func get_words_need_to_be_review(vocab_rec_need_to_be_review: [VocabularyRecord]
     return review_words
 }
 
-func add_notification_date() -> UNNotificationRequest?{
+func obtainNextReviewDate() -> Date?{
     if GlobalVocabRecords.count == 0{
         GlobalVocabRecords = loadVocabRecords()
     }
@@ -118,21 +117,23 @@ func add_notification_date() -> UNNotificationRequest?{
             let number_of_vocabs_per_group = getPreference(key: "number_of_words_per_group") as! Int
             let number_of_vocabs_to_notify = min(number_of_vocabs_per_group, vocabsNeedReviewSorted.count)
             let notification_date: Date = vocabsNeedReviewSorted[number_of_vocabs_to_notify - 1].ReviewDUEDate!
-            print(notification_date)
-            let avs = notification_date.localDate()
-            print(avs)
-            let notification_trigger = obtainCalendarNotificationTriggerByDate(notification_date: notification_date)
-            let notification_content = obtainNotificationContent(number_of_vocabs_to_notify: number_of_vocabs_to_notify)
-            let request = UNNotificationRequest(identifier: UUID().uuidString, content: notification_content, trigger: notification_trigger)
-            return request
+            return notification_date
         }
     }
     return nil
 }
 
-func obtainNotificationContent(number_of_vocabs_to_notify:Int) -> UNMutableNotificationContent{
+func add_notification_date(notification_date: Date) -> UNNotificationRequest?{
+    let notification_trigger = obtainCalendarNotificationTriggerByDate(notification_date: notification_date)
+    let notification_content = obtainNotificationContent()
+    let request = UNNotificationRequest(identifier: UUID().uuidString, content: notification_content, trigger: notification_trigger)
+    return request
+    return nil
+}
+
+func obtainNotificationContent() -> UNMutableNotificationContent{
     let content = UNMutableNotificationContent()
-    content.body = "\(number_of_vocabs_to_notify)个单词到了最佳复习时间，此时复习记忆效果翻倍哦~"
+    content.body = "小刷提醒您，根据记忆规律，现在复习单词记忆效果翻倍哦！"
     content.categoryIdentifier = "reviewReminder"
     content.sound = UNNotificationSound.default
     return content
@@ -509,7 +510,7 @@ func update_words(){
         let sampling_number:Int = min(number_of_words_per_group, diff_ids.count)
         
         words = []
-        var sampled_ids:[Int] = loadIntArrayFromFile(filename: wordsJsonFp)
+        var sampled_ids:[Int] = []//loadIntArrayFromFile(filename: wordsJsonFp)
         var randomIndex:Int = Int.random(in: 0...(diff_ids.count - 1)) //Int(arc4random_uniform(UInt32(diff_ids.count - 1)))
         print(diff_ids.count)
         for _ in 0..<sampling_number{
@@ -572,11 +573,12 @@ func timeString(time: Int) -> String {
     return String(format: "%02i:%02i:%02i", hour, minute, second)
 }
 
-func printDate(date: Date){
+func printDate(date: Date) -> String{
     let dateFormatter = DateFormatter()
     dateFormatter.dateFormat = "HH:mm E, d MMM y"
     let dateString = dateFormatter.string(from: date)
     print(dateString)
+    return dateString
 }
 
 enum DurationType{

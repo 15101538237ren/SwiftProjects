@@ -159,11 +159,12 @@ class LearnWordViewController: UIViewController {
             var finalStringArr:[String] = []
             let meaningArr:[String] = meaningLabelTxt.components(separatedBy: "\n")
             for mi in 0..<meaningArr.count - 1{
-                let firstChr = meaningArr[mi + 1].unicodeScalars.first
-                if firstChr!.isASCII{
-                    finalStringArr.append("\(meaningArr[mi])\n")
-                }else{
-                    finalStringArr.append("\(meaningArr[mi])；")
+                if let firstChr = meaningArr[mi + 1].unicodeScalars.first{
+                    if firstChr.isASCII{
+                        finalStringArr.append("\(meaningArr[mi])\n")
+                    }else{
+                        finalStringArr.append("\(meaningArr[mi])；")
+                    }
                 }
             }
             meaningLabelTxt = finalStringArr.joined(separator: "")
@@ -213,6 +214,7 @@ class LearnWordViewController: UIViewController {
             currentLearningRec.EndDate = Date()
             currentLearningRec.VocabRecIds = getVocabIdsFromVocabRecords(VocabRecords: vocabRecordsOfCurrentLearning)
             saveLearningRecordsFromLearning()
+            update_words()
             DispatchQueue.main.async {
                 self.dismiss(animated: true, completion: nil)
                 self.mainPanelViewController.loadLearnFinishController()
@@ -235,6 +237,11 @@ class LearnWordViewController: UIViewController {
             enableBtns()
         }
         else{
+            let card = cards[(currentIndex + 1) % 2]
+            let next_card = cards[currentIndex % 2]
+            
+            next_card.dragable = !next_card.dragable
+            card.dragable = !card.dragable
             self.updateProgressLabel(index: self.currentIndex)
             enableBtns()
         }

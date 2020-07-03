@@ -69,9 +69,18 @@ func loadPreference(completionHandler: @escaping CompletionHandler){
     load_data_from_file(fileFp: preferenceJsonFp, recordClass: recordClass, IdKey: DefaultPrefIdKey,  completionHandlerWithData: { data in
         do {
             if let data = data {
-                        USER_PREFERENCE = try (JSONSerialization.jsonObject(with: data, options: []) as? [String: Any])!
+                var save_pref: Bool = false
+                if USER_PREFERENCE.count == 0 {
+                    save_pref = true
+                }
+                USER_PREFERENCE = try (JSONSerialization.jsonObject(with: data, options: []) as? [String: Any])!
+                if save_pref {
+                    savePreference(saveToLocal: true, saveToCloud: false, completionHandler: {_ in })
+                }
+                
                 } else{
                     initPreference()
+                    savePreference(saveToLocal: true, saveToCloud: false, completionHandler: {_ in })
             }
             completionHandler(true)
         }

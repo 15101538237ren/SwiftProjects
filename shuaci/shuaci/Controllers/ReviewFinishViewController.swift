@@ -9,14 +9,12 @@
 import UIKit
 import UserNotifications
 
-class LearnFinishViewController: UIViewController {
+class ReviewFinishViewController: UIViewController {
     
     @IBOutlet var mainPanelViewController: MainPanelViewController!
     @IBOutlet var emojiImageView: UIImageView!
     @IBOutlet var greetingLabel: UILabel!
     @IBOutlet var tableView: UITableView!
-    @IBOutlet var goReviewBtn: UIButton!
-    @IBOutlet var learnMoreBtn: UIButton!
     var viewTranslation = CGPoint(x: 0, y: 0)
     
     override func viewDidLoad() {
@@ -74,19 +72,13 @@ class LearnFinishViewController: UIViewController {
     
     func setUpView(){
         DispatchQueue.main.async {
-            self.greetingLabel.text = "真棒，你又学习了\(vocabRecordsOfCurrentLearning.count)个单词!"
+            self.greetingLabel.text = "真棒，你又复习了\(vocabRecordsOfCurrentReview.count)个单词!"
         }
     }
     
     @IBAction func unwind(segue: UIStoryboardSegue) {
         self.dismiss(animated: true, completion: nil)
         
-    }
-    @IBAction func learnOneMoreGroup(_ sender: UIButton) {
-        DispatchQueue.main.async {
-            self.dismiss(animated: false, completion: nil)
-            self.mainPanelViewController.loadLearnController()
-        }
     }
     
 }

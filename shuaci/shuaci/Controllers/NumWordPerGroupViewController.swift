@@ -83,7 +83,6 @@ class NumWordPerGroupViewController: BottomPopupViewController, UITableViewDataS
                 cell.checkedImageView.alpha = 1.0
                 self.dismiss(animated: true, completion: nil)
             }
-            clear_words()
             update_words()
             
         })

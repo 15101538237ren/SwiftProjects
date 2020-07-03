@@ -13,6 +13,7 @@
 		55001E212491B1FC00DF0D0E /* ThemeUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55001E202491B1FC00DF0D0E /* ThemeUtil.swift */; };
 		55001E232491B21A00DF0D0E /* BookUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55001E222491B21A00DF0D0E /* BookUtil.swift */; };
 		5507D9072479935C0090DD37 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5507D9062479935C0090DD37 /* Reachability.swift */; };
+		551265CB24AEE03F007C333E /* ReviewFinishViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 551265CA24AEE03F007C333E /* ReviewFinishViewController.swift */; };
 		5518B9B8247A2E7600BC8DA4 /* LearnFinishViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5518B9B7247A2E7600BC8DA4 /* LearnFinishViewController.swift */; };
 		553ED5AF2495DB15000ECE6D /* ReviewWordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 553ED5AE2495DB15000ECE6D /* ReviewWordViewController.swift */; };
 		5569E93F24AD187D006FBE62 /* UIApplication+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5569E93E24AD187D006FBE62 /* UIApplication+Ext.swift */; };
@@ -82,6 +83,7 @@
 		55001E202491B1FC00DF0D0E /* ThemeUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeUtil.swift; sourceTree = "<group>"; };
 		55001E222491B21A00DF0D0E /* BookUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookUtil.swift; sourceTree = "<group>"; };
 		5507D9062479935C0090DD37 /* Reachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
+		551265CA24AEE03F007C333E /* ReviewFinishViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewFinishViewController.swift; sourceTree = "<group>"; };
 		5518B9B7247A2E7600BC8DA4 /* LearnFinishViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearnFinishViewController.swift; sourceTree = "<group>"; };
 		553ED5AE2495DB15000ECE6D /* ReviewWordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewWordViewController.swift; sourceTree = "<group>"; };
 		5569E93E24AD187D006FBE62 /* UIApplication+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+Ext.swift"; sourceTree = "<group>"; };
@@ -327,6 +329,7 @@
 				553ED5AE2495DB15000ECE6D /* ReviewWordViewController.swift */,
 				558F71EB249C713B0014956F /* NumWordPerGroupViewController.swift */,
 				559BFD8124A1CC5500AFD7E6 /* BindPhoneNumberViewController.swift */,
+				551265CA24AEE03F007C333E /* ReviewFinishViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -474,6 +477,7 @@
 				A52B84DE2471F00D00A002C6 /* VocabularyRecord.swift in Sources */,
 				A5DD06E424626CAA0051B3E5 /* Level2CollectionViewCell.swift in Sources */,
 				A523A717245542F100976574 /* ResetPwdUIView.swift in Sources */,
+				551265CB24AEE03F007C333E /* ReviewFinishViewController.swift in Sources */,
 				55F2B5A0247B053500758113 /* Date+Ext.swift in Sources */,
 				A5E764D4245E0AD000367C2A /* UserProfileViewController.swift in Sources */,
 				A59EB1D72452A12900F300E1 /* MainScreenViewController.swift in Sources */,

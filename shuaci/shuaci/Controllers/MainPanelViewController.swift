@@ -551,6 +551,16 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
         }
     }
     
+    func loadReviewFinishController(){
+        let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Learning", bundle:nil)
+        let reviewFinishVC = mainStoryBoard.instantiateViewController(withIdentifier: "reviewFinishController") as! ReviewFinishViewController
+        reviewFinishVC.mainPanelViewController = self
+        reviewFinishVC.modalPresentationStyle = .overCurrentContext
+        DispatchQueue.main.async {
+            self.present(reviewFinishVC, animated: true, completion: nil)
+        }
+    }
+    
     @IBAction func ReciteNewWords(_ sender: UIButton) {
         
         if let _ = getPreference(key: "current_book_id") as? String{

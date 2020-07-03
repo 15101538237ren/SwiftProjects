@@ -100,8 +100,8 @@ class ReviewWordViewController: UIViewController {
                 currentReivewedRecords.append(vocabRecordsOfCurrentReview[index])
             }
             currentReviewRec.VocabRecIds = getVocabIdsFromVocabRecords(VocabRecords: currentReivewedRecords)
-            print(currentReivewedRecords)
             saveReviewRecordsFromReview(vocabs_updated: currentReivewedRecords)
+            self.dismiss(animated: true, completion: nil)
         })
         let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: { action in
             self.dismiss(animated: true, completion: nil)
@@ -231,11 +231,10 @@ class ReviewWordViewController: UIViewController {
         if currentIndex >= review_words.count{
             currentReviewRec.EndDate = Date()
             currentReviewRec.VocabRecIds = getVocabIdsFromVocabRecords(VocabRecords: vocabRecordsOfCurrentReview)
-            print(vocabRecordsOfCurrentReview)
             saveReviewRecordsFromReview(vocabs_updated: vocabRecordsOfCurrentReview)
             DispatchQueue.main.async {
                 self.dismiss(animated: true, completion: nil)
-                self.mainPanelViewController.loadLearnFinishController()
+                self.mainPanelViewController.loadReviewFinishController()
             }
         }
         else if currentIndex < review_words.count - 1{
@@ -254,6 +253,11 @@ class ReviewWordViewController: UIViewController {
             enableBtns()
         }
         else{
+            let card = cards[(currentIndex + 1) % 2]
+            let next_card = cards[currentIndex % 2]
+            
+            next_card.dragable = !next_card.dragable
+            card.dragable = !card.dragable
             self.updateProgressLabel(index: self.currentIndex)
             enableBtns()
         }
@@ -541,8 +545,6 @@ class ReviewWordViewController: UIViewController {
                         vocabRecordsOfCurrentReview[self.currentIndex].Mastered = true
                         self.card_behaviors.append(.trash)
                     }
-
-                    print(vocabRecordsOfCurrentReview[self.currentIndex])
                     let word: String = nextCard.wordLabel?.text ?? ""
                     self.playMp3GivenWord(word: word)
 
