@@ -101,6 +101,9 @@
                                         </constraints>
                                         <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <state key="normal" image="seo"/>
+                                        <connections>
+                                            <segue destination="4a5-3m-NM6" kind="show" identifier="showStatSeague" id="uVe-b8-luP"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="osM-iq-H3S">
                                         <rect key="frame" x="282" y="0.0" width="26" height="26"/>
@@ -868,6 +871,56 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DGG-Jg-Qjp" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2467" y="-133"/>
+        </scene>
+        <!--Stat View Controller-->
+        <scene sceneID="np5-h9-Vwt">
+            <objects>
+                <viewController storyboardIdentifier="statVC" modalPresentationStyle="fullScreen" id="4a5-3m-NM6" customClass="StatViewController" customModule="刷词" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="HVJ-d2-TyF">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NXW-YI-P3Y">
+                                <rect key="frame" x="10" y="54" width="30" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="30" id="CVd-bI-F7w"/>
+                                    <constraint firstAttribute="height" constant="30" id="GDY-TA-sYI"/>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="30" id="Ikm-QL-w9D"/>
+                                    <constraint firstAttribute="width" constant="30" id="pOP-O7-YYz"/>
+                                </constraints>
+                                <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal" image="chevron.down" catalog="system">
+                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="large"/>
+                                </state>
+                                <connections>
+                                    <action selector="unwindWithSegue:" destination="4a5-3m-NM6" eventType="touchUpInside" id="15h-mb-0er"/>
+                                    <action selector="unwindWithSegue:" destination="pFP-k4-cBJ" eventType="touchUpInside" id="AWd-rm-iTb"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="学习统计" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kW9-FR-IxA">
+                                <rect key="frame" x="172" y="57" width="70" height="26"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="26" id="wlx-4K-DJo"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="NXW-YI-P3Y" firstAttribute="top" secondItem="hCE-Gp-s1p" secondAttribute="top" constant="10" id="DTS-50-5QG"/>
+                            <constraint firstItem="kW9-FR-IxA" firstAttribute="centerX" secondItem="HVJ-d2-TyF" secondAttribute="centerX" id="gjF-AE-mWx"/>
+                            <constraint firstItem="NXW-YI-P3Y" firstAttribute="leading" secondItem="hCE-Gp-s1p" secondAttribute="leading" constant="10" id="ppc-KE-IDc"/>
+                            <constraint firstItem="kW9-FR-IxA" firstAttribute="top" secondItem="hCE-Gp-s1p" secondAttribute="top" constant="13" id="qDH-1u-6SS"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="hCE-Gp-s1p"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="Ftz-Ln-bCP"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="1SV-fU-Hz6" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="746" y="1513"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="mZT-bN-lb2">

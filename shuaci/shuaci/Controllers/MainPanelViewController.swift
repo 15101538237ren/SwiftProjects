@@ -109,14 +109,14 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
                     }
                     else{
                         
-                        let ac = UIAlertController(title: "提示", message: "下载正在学的单词书失败，请检查您的网络!", preferredStyle: .alert)
+                        let ac = UIAlertController(title: "下载正在学的单词书失败，请检查您的网络!", message: "", preferredStyle: .alert)
                         ac.addAction(UIAlertAction(title: "好", style: .default, handler: nil))
                         self.present(ac, animated: true, completion: nil)
                     }
                 })
             }
             else{
-                let ac = UIAlertController(title: "提示", message: "从云端下载设置与学习记录失败，请稍后再试!", preferredStyle: .alert)
+                let ac = UIAlertController(title: "从云端下载设置与学习记录失败，请稍后再试!", message: "", preferredStyle: .alert)
                 ac.addAction(UIAlertAction(title: "好", style: .default, handler: nil))
                 self.present(ac, animated: true, completion: nil)
             }
@@ -133,12 +133,12 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
     
     @objc func image(_ image:UIImage, didFinishSavingWithError error: Error?, contextInfo: UnsafeRawPointer){
         if let error = error {
-            let ac = UIAlertController(title: "错误", message: error.localizedDescription, preferredStyle: .alert)
+            let ac = UIAlertController(title: "\(error.localizedDescription)", message: "", preferredStyle: .alert)
             ac.addAction(UIAlertAction(title: "好的", style: .default, handler: nil))
             present(ac, animated: true, completion: nil)
         }
         else{
-            let ac = UIAlertController(title: "提示", message: "图片保存成功!", preferredStyle: .alert)
+            let ac = UIAlertController(title: "图片保存成功!", message: "", preferredStyle: .alert)
             ac.addAction(UIAlertAction(title: "好的", style: .default, handler: nil))
             present(ac, animated: true, completion: nil)
         }
@@ -436,7 +436,7 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
             UserDefaults.standard.set(lastUpdateTime, forKey: lastUpdateTimeKey)
         }
         
-        if minutesBetweenDates(lastUpdateTime, Date()) > 0.2 {
+        if minutesBetweenDates(lastUpdateTime, Date()) > 15 {
             self.updateWallpaper()
         }
         
@@ -595,13 +595,13 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
             }
             else
             {
-                let ac = UIAlertController(title: "提示", message: "您当前没有待复习的单词，放松一下吧😊", preferredStyle: .alert)
+                let ac = UIAlertController(title: "您当前没有待复习的单词，\n放松一下吧😊", message: "", preferredStyle: .alert)
                 ac.addAction(UIAlertAction(title: "好", style: .default, handler: nil))
                 present(ac, animated: true, completion: nil)
             }
         }
         else{
-            let ac = UIAlertController(title: "提示", message: "您还没有选择单词书，请点击【学新词】选择!", preferredStyle: .alert)
+            let ac = UIAlertController(title: "您还没有选择单词书，请点击【学新词】选择!", message: "", preferredStyle: .alert)
             ac.addAction(UIAlertAction(title: "好", style: .default, handler: nil))
             present(ac, animated: true, completion: nil)
         }
@@ -662,6 +662,11 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
             let destinationController = segue.destination as! SettingViewController
             destinationController.modalPresentationStyle = .overCurrentContext
             destinationController.mainPanelViewController = self
+        }
+        
+        else if segue.identifier == "showStatSeague"{
+            let destinationController = segue.destination as! StatViewController
+            destinationController.modalPresentationStyle = .overCurrentContext
         }
     }
 

@@ -1,4 +1,5 @@
 PODS:
+  - AAInfographics (5.0.0)
   - Alamofire (5.1.0)
   - BottomPopup (0.6.0)
   - CropViewController (2.5.2)
@@ -19,6 +20,7 @@ PODS:
   - SwiftyJSON (4.3.0)
 
 DEPENDENCIES:
+  - AAInfographics (from `https://github.com/AAChartModel/AAChartKit-Swift.git`)
   - BottomPopup
   - CropViewController
   - LeanCloud
@@ -35,7 +37,17 @@ SPEC REPOS:
     - SwiftProtobuf
     - SwiftyJSON
 
+EXTERNAL SOURCES:
+  AAInfographics:
+    :git: https://github.com/AAChartModel/AAChartKit-Swift.git
+
+CHECKOUT OPTIONS:
+  AAInfographics:
+    :commit: ad4fbc9294b2aa7ddc809d2d7d5556a16c4204d1
+    :git: https://github.com/AAChartModel/AAChartKit-Swift.git
+
 SPEC CHECKSUMS:
+  AAInfographics: abed9a186dcbed0ef53eddf90763ed27ef4c6c1f
   Alamofire: 9d5c5f602928e512395b30950c5984eca840093c
   BottomPopup: 1d5649a3b29396238f0e8f3c82075a7bfcf37ba7
   CropViewController: 1aac40093c5739e60d992b04724a55d12a689a4c
@@ -45,6 +57,6 @@ SPEC CHECKSUMS:
   SwiftProtobuf: 2cbd9409689b7df170d82a92a33443c8e3e14a70
   SwiftyJSON: 6faa0040f8b59dead0ee07436cbf76b73c08fd08
 
-PODFILE CHECKSUM: 25b152c1b18b5bd76ef57dd706e525d2060956f4
+PODFILE CHECKSUM: cbaffa36b84717a73c017f0f7acc8d3d40556b3d
 
 COCOAPODS: 1.9.3
