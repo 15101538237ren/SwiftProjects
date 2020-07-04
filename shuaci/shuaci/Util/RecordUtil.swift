@@ -11,6 +11,7 @@ import UIKit
 import LeanCloud
 import SwiftyJSON
 
+
 // MARK: - Global Variables
 
 let reviewRecordJsonFp = "reviewRecord.json"
@@ -47,6 +48,26 @@ var GlobalLearningRecords:[LearningRecord] = loadLearningRecords()
 
 // MARK: - Overall Util
 
+func getLearningRecordsOf(date: Date) -> [LearningRecord]{
+    var learningRecords:[LearningRecord] = []
+    for lrec in GlobalLearningRecords{
+        if Calendar.current.isDate(lrec.EndDate, inSameDayAs: date){
+            learningRecords.append(lrec)
+        }
+    }
+    return learningRecords
+}
+
+func getReviewRecordsOf(date: Date) -> [ReviewRecord]{
+    var reviewRecords:[ReviewRecord] = []
+    for rrec in GlobalReviewRecords{
+        if Calendar.current.isDate(rrec.EndDate, inSameDayAs: date){
+            reviewRecords.append(rrec)
+        }
+    }
+    return reviewRecords
+}
+
 func prepareRecordsAndPreference(completionHandler: @escaping CompletionHandler){
     loadPreference(completionHandler: completionHandler)
     GlobalVocabRecords = loadVocabRecords()
@@ -73,6 +94,16 @@ func getVocabIdsFromVocabRecords(VocabRecords: [VocabularyRecord]) -> [String]{
         VocabIds.append(VocabRecord.VocabRecId)
     }
     return VocabIds
+}
+
+func getVocabRecordsByRecordIds(VocabRecordIds: [String]) -> [VocabularyRecord]{
+    var VocabRecs:[VocabularyRecord] = []
+    for vocabRecord in GlobalVocabRecords{
+        if VocabRecordIds.contains(vocabRecord.VocabRecId){
+            VocabRecs.append(vocabRecord)
+        }
+    }
+    return VocabRecs
 }
 
 func clearVocabRecordsOfCurrentLearning(){

@@ -880,6 +880,191 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pvz-nE-kjs">
+                                <rect key="frame" x="20" y="104" width="374" height="220"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="概况" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vA7-pM-4Ne">
+                                        <rect key="frame" x="20" y="15" width="36.5" height="25.5"/>
+                                        <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="18"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="6" translatesAutoresizingMaskIntoConstraints="NO" id="Yuc-p8-y2B">
+                                        <rect key="frame" x="20" y="60" width="101" height="14"/>
+                                        <subviews>
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bar-chart" translatesAutoresizingMaskIntoConstraints="NO" id="Y2R-FI-CRg">
+                                                <rect key="frame" x="0.0" y="0.0" width="14" height="14"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="14" id="fUn-pq-wSN"/>
+                                                    <constraint firstAttribute="height" constant="14" id="vD9-fB-XTJ"/>
+                                                </constraints>
+                                            </imageView>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="今日学习&amp;复习" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8mw-dk-ObO">
+                                                <rect key="frame" x="20" y="0.0" width="81" height="14"/>
+                                                <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="12"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstAttribute="width" relation="lessThanOrEqual" constant="120" id="gLi-lt-KtS"/>
+                                        </constraints>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="6" translatesAutoresizingMaskIntoConstraints="NO" id="xw6-7k-8RC">
+                                        <rect key="frame" x="230" y="60" width="68" height="14"/>
+                                        <subviews>
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="cum_word" translatesAutoresizingMaskIntoConstraints="NO" id="ZQY-qZ-V4l">
+                                                <rect key="frame" x="0.0" y="0.0" width="14" height="14"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="14" id="5jK-T1-HFf"/>
+                                                    <constraint firstAttribute="height" constant="14" id="JZ9-ch-k9b"/>
+                                                </constraints>
+                                            </imageView>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="累计学习" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="09a-0g-aJC">
+                                                <rect key="frame" x="20" y="0.0" width="48" height="14"/>
+                                                <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="12"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstAttribute="width" relation="lessThanOrEqual" constant="100" id="rxD-Gv-0M2"/>
+                                        </constraints>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="6" translatesAutoresizingMaskIntoConstraints="NO" id="7bE-z5-m4z">
+                                        <rect key="frame" x="230" y="139" width="92" height="14"/>
+                                        <subviews>
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="cum_time" translatesAutoresizingMaskIntoConstraints="NO" id="wy8-P2-XNb">
+                                                <rect key="frame" x="0.0" y="0.0" width="14" height="14"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="14" id="Jn1-z1-Bsi"/>
+                                                    <constraint firstAttribute="width" constant="14" id="eW5-3X-WJj"/>
+                                                </constraints>
+                                            </imageView>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="累计学习时长" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EEw-1X-c2c">
+                                                <rect key="frame" x="20" y="0.0" width="72" height="14"/>
+                                                <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="12"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstAttribute="width" relation="lessThanOrEqual" constant="100" id="Lxy-pu-jiw"/>
+                                        </constraints>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="6" translatesAutoresizingMaskIntoConstraints="NO" id="EC9-6H-LbG">
+                                        <rect key="frame" x="20" y="139" width="92" height="14"/>
+                                        <subviews>
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="clock" translatesAutoresizingMaskIntoConstraints="NO" id="TfN-C4-Rh0">
+                                                <rect key="frame" x="0.0" y="0.0" width="14" height="14"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="14" id="GL0-ji-dZT"/>
+                                                    <constraint firstAttribute="height" constant="14" id="H2X-bd-TAt"/>
+                                                </constraints>
+                                            </imageView>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="今日学习时长" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bS6-FF-iHs">
+                                                <rect key="frame" x="20" y="0.0" width="72" height="14"/>
+                                                <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="12"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstAttribute="width" relation="lessThanOrEqual" constant="100" id="t38-md-8wV"/>
+                                        </constraints>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="N5q-l5-X2b">
+                                        <rect key="frame" x="50" y="96" width="52" height="19.5"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1309" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qN7-Sf-jzn">
+                                                <rect key="frame" x="0.0" y="0.0" width="38" height="19.5"/>
+                                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
+                                                <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="词" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yHX-uv-SXh">
+                                                <rect key="frame" x="42" y="0.0" width="10" height="19.5"/>
+                                                <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="10"/>
+                                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="Vyl-LK-Vwy">
+                                        <rect key="frame" x="250" y="96" width="63.5" height="19.5"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="23920" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2QU-uX-xCs">
+                                                <rect key="frame" x="0.0" y="0.0" width="49.5" height="19.5"/>
+                                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
+                                                <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="词" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IDJ-Z0-lYi">
+                                                <rect key="frame" x="53.5" y="0.0" width="10" height="19.5"/>
+                                                <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="10"/>
+                                                <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="CFH-zI-tuf">
+                                        <rect key="frame" x="250" y="175" width="59.5" height="19.5"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1196" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="N0J-Sq-WE7">
+                                                <rect key="frame" x="0.0" y="0.0" width="35.5" height="19.5"/>
+                                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
+                                                <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="分钟" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="W0e-ea-R4l">
+                                                <rect key="frame" x="39.5" y="0.0" width="20" height="19.5"/>
+                                                <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="10"/>
+                                                <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="9so-4S-doY">
+                                        <rect key="frame" x="50" y="175" width="44" height="19.5"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="23" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BEj-rl-6Id">
+                                                <rect key="frame" x="0.0" y="0.0" width="20" height="19.5"/>
+                                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
+                                                <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="分钟" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="u7J-K4-WOb">
+                                                <rect key="frame" x="24" y="0.0" width="20" height="19.5"/>
+                                                <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="10"/>
+                                                <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <constraints>
+                                    <constraint firstItem="CFH-zI-tuf" firstAttribute="leading" secondItem="pvz-nE-kjs" secondAttribute="leading" constant="250" id="2YU-Cr-cZi"/>
+                                    <constraint firstItem="xw6-7k-8RC" firstAttribute="top" secondItem="pvz-nE-kjs" secondAttribute="top" constant="60" id="3vy-8h-Pnp"/>
+                                    <constraint firstItem="9so-4S-doY" firstAttribute="top" secondItem="EC9-6H-LbG" secondAttribute="bottom" constant="22" id="49k-Ll-MDZ"/>
+                                    <constraint firstItem="Yuc-p8-y2B" firstAttribute="top" secondItem="pvz-nE-kjs" secondAttribute="top" constant="60" id="5VJ-R3-NRZ"/>
+                                    <constraint firstItem="vA7-pM-4Ne" firstAttribute="top" secondItem="pvz-nE-kjs" secondAttribute="top" constant="15" id="BEm-Mc-LdR"/>
+                                    <constraint firstItem="7bE-z5-m4z" firstAttribute="leading" secondItem="pvz-nE-kjs" secondAttribute="leading" constant="230" id="FuP-A5-kfA"/>
+                                    <constraint firstItem="Yuc-p8-y2B" firstAttribute="leading" secondItem="pvz-nE-kjs" secondAttribute="leading" constant="20" id="Gqt-NK-68i"/>
+                                    <constraint firstItem="Vyl-LK-Vwy" firstAttribute="leading" secondItem="pvz-nE-kjs" secondAttribute="leading" constant="250" id="KwE-kd-Plu"/>
+                                    <constraint firstItem="EC9-6H-LbG" firstAttribute="top" secondItem="Yuc-p8-y2B" secondAttribute="bottom" constant="65" id="M37-oW-QWo"/>
+                                    <constraint firstItem="N5q-l5-X2b" firstAttribute="leading" secondItem="pvz-nE-kjs" secondAttribute="leading" constant="50" id="OZ4-ag-514"/>
+                                    <constraint firstItem="CFH-zI-tuf" firstAttribute="top" secondItem="7bE-z5-m4z" secondAttribute="bottom" constant="22" id="VV8-vt-Rd9"/>
+                                    <constraint firstAttribute="height" constant="220" id="dk8-HJ-acQ"/>
+                                    <constraint firstItem="xw6-7k-8RC" firstAttribute="leading" secondItem="pvz-nE-kjs" secondAttribute="leading" constant="230" id="eeU-8j-xKt"/>
+                                    <constraint firstItem="7bE-z5-m4z" firstAttribute="top" secondItem="xw6-7k-8RC" secondAttribute="bottom" constant="65" id="hth-dM-OXJ"/>
+                                    <constraint firstItem="vA7-pM-4Ne" firstAttribute="leading" secondItem="pvz-nE-kjs" secondAttribute="leading" constant="20" id="lZ7-ZZ-ZHx"/>
+                                    <constraint firstItem="Vyl-LK-Vwy" firstAttribute="top" secondItem="xw6-7k-8RC" secondAttribute="bottom" constant="22" id="q4y-Vh-hR2"/>
+                                    <constraint firstItem="EC9-6H-LbG" firstAttribute="leading" secondItem="pvz-nE-kjs" secondAttribute="leading" constant="20" id="qlk-Zt-t8X"/>
+                                    <constraint firstItem="9so-4S-doY" firstAttribute="leading" secondItem="pvz-nE-kjs" secondAttribute="leading" constant="50" id="z4f-jU-SBD"/>
+                                    <constraint firstItem="N5q-l5-X2b" firstAttribute="top" secondItem="Yuc-p8-y2B" secondAttribute="bottom" constant="22" id="zLY-Lw-Loy"/>
+                                </constraints>
+                            </view>
                             <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NXW-YI-P3Y">
                                 <rect key="frame" x="10" y="54" width="30" height="30"/>
                                 <constraints>
@@ -898,7 +1083,7 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="学习统计" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kW9-FR-IxA">
-                                <rect key="frame" x="172" y="57" width="70" height="26"/>
+                                <rect key="frame" x="172.5" y="57" width="69.5" height="26"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="26" id="wlx-4K-DJo"/>
                                 </constraints>
@@ -907,20 +1092,31 @@
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <color key="backgroundColor" systemColor="systemGray6Color" red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="NXW-YI-P3Y" firstAttribute="top" secondItem="hCE-Gp-s1p" secondAttribute="top" constant="10" id="DTS-50-5QG"/>
+                            <constraint firstItem="pvz-nE-kjs" firstAttribute="leading" secondItem="hCE-Gp-s1p" secondAttribute="leading" constant="20" id="E9r-x2-OdO"/>
+                            <constraint firstItem="hCE-Gp-s1p" firstAttribute="trailing" secondItem="pvz-nE-kjs" secondAttribute="trailing" constant="20" id="RUB-Wd-03Q"/>
+                            <constraint firstItem="pvz-nE-kjs" firstAttribute="top" secondItem="hCE-Gp-s1p" secondAttribute="top" constant="60" id="aMh-eO-Q40"/>
                             <constraint firstItem="kW9-FR-IxA" firstAttribute="centerX" secondItem="HVJ-d2-TyF" secondAttribute="centerX" id="gjF-AE-mWx"/>
+                            <constraint firstItem="pvz-nE-kjs" firstAttribute="centerX" secondItem="HVJ-d2-TyF" secondAttribute="centerX" id="hYU-DW-3eT"/>
                             <constraint firstItem="NXW-YI-P3Y" firstAttribute="leading" secondItem="hCE-Gp-s1p" secondAttribute="leading" constant="10" id="ppc-KE-IDc"/>
                             <constraint firstItem="kW9-FR-IxA" firstAttribute="top" secondItem="hCE-Gp-s1p" secondAttribute="top" constant="13" id="qDH-1u-6SS"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="hCE-Gp-s1p"/>
                     </view>
                     <navigationItem key="navigationItem" id="Ftz-Ln-bCP"/>
+                    <connections>
+                        <outlet property="numMinutesCumulatedLabel" destination="N0J-Sq-WE7" id="Zpz-qC-WHn"/>
+                        <outlet property="numMinutesTodayLabel" destination="BEj-rl-6Id" id="a4R-jb-BNp"/>
+                        <outlet property="numWordCumulatedLabel" destination="2QU-uX-xCs" id="5JA-DU-Ew4"/>
+                        <outlet property="numWordTodayLabel" destination="qN7-Sf-jzn" id="TPo-dD-s1V"/>
+                        <outlet property="overView" destination="pvz-nE-kjs" id="UYR-yA-VNb"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1SV-fU-Hz6" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="746" y="1513"/>
+            <point key="canvasLocation" x="744.92753623188412" y="1512.7232142857142"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="mZT-bN-lb2">
@@ -1194,11 +1390,15 @@
     </scenes>
     <resources>
         <image name="auto_pronunciation" width="500" height="500"/>
+        <image name="bar-chart" width="500" height="600"/>
         <image name="camera" width="512" height="512"/>
         <image name="checked" width="512" height="512"/>
         <image name="chevron.down" catalog="system" width="128" height="72"/>
         <image name="chevron.left" catalog="system" width="96" height="128"/>
+        <image name="clock" width="500" height="500"/>
         <image name="colors" width="512" height="512"/>
+        <image name="cum_time" width="500" height="500"/>
+        <image name="cum_word" width="500" height="500"/>
         <image name="english_american_pronunce" width="500" height="500"/>
         <image name="english_book" width="128" height="176"/>
         <image name="house.fill" catalog="system" width="128" height="106"/>

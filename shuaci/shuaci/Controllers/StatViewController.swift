@@ -10,49 +10,73 @@ import UIKit
 import AAInfographics
 
 class StatViewController: UIViewController {
-    var aaChartView: AAChartView  = AAChartView()
-    
     var viewTranslation = CGPoint(x: 0, y: 0)
-    let offsetY:CGFloat = 150.0
+    @IBOutlet var numWordTodayLabel: UILabel!
+    @IBOutlet var numMinutesTodayLabel: UILabel!
+    @IBOutlet var numWordCumulatedLabel: UILabel!
+    @IBOutlet var numMinutesCumulatedLabel: UILabel!
+    @IBOutlet var overView: UIView!{
+        didSet {
+            overView?.layer.cornerRadius = 15.0
+            overView?.layer.masksToBounds = true
+        }
+    }
+    
     override func viewDidLoad() {
+        getStatOfToday()
         view.isOpaque = false
         view.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(handleDismiss)))
-        
         super.viewDidLoad()
-        let chartViewWidth  = view.bounds.width
-        let chartViewHeight = view.bounds.height - offsetY
-        aaChartView.frame = CGRect(x:0,y:offsetY,width:chartViewWidth,height:chartViewHeight)
-        // set the content height of aachartView
-        // aaChartView?.contentHeight = self.view.frame.size.height
-        self.view.addSubview(aaChartView)
-        let aaChartModel = AAChartModel()
-        .chartType(.line)//Can be any of the chart types listed under `AAChartType`.
-        .animationType(.bounce)
-        .title("TITLE")//The chart title
-        .subtitle("subtitle")//The chart subtitle
-        .dataLabelsEnabled(false) //Enable or disable the data labels. Defaults to false
-        .tooltipValueSuffix("USD")//the value suffix of the chart tooltip
-        .categories(["Jan", "Feb", "Mar", "Apr", "May", "Jun",
-                     "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"])
-        .colorsTheme(["#fe117c","#ffc069","#06caf4","#7dffc0"])
-        .series([
-            AASeriesElement()
-                .name("Tokyo")
-                .data([7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6]),
-            AASeriesElement()
-                .name("New York")
-                .data([0.2, 0.8, 5.7, 11.3, 17.0, 22.0, 24.8, 24.1, 20.1, 14.1, 8.6, 2.5]),
-            AASeriesElement()
-                .name("Berlin")
-                .data([0.9, 0.6, 3.5, 8.4, 13.5, 17.0, 18.6, 17.9, 14.3, 9.0, 3.9, 1.0]),
-            AASeriesElement()
-                .name("London")
-                .data([3.9, 4.2, 5.7, 8.5, 11.9, 15.2, 17.0, 16.6, 14.2, 10.3, 6.6, 4.8]),
-                ])
-        //The chart view object calls the instance object of AAChartModel and draws the final graphic
-        aaChartView.aa_drawChartWithChartModel(aaChartModel)
         // Do any additional setup after loading the view.
     }
+    
+
+    func getStatOfToday(){
+        let today = Date()
+        let todayLearnRec = getLearningRecordsOf(date: today)
+        let todayReviewRec = getLearningRecordsOf(date: today)
+        var number_of_vocab_today:Int = 0
+        var number_of_learning_mins_today: Int = 0
+        for lrec in todayLearnRec{
+            number_of_vocab_today += lrec.VocabRecIds.count
+            let difference = Calendar.current.dateComponents([.minute], from: lrec.StartDate, to: lrec.EndDate)
+            if let minT = difference.minute {
+                number_of_learning_mins_today += minT
+            }
+        }
+        for rrec in todayReviewRec{
+            number_of_vocab_today += rrec.VocabRecIds.count
+            let difference = Calendar.current.dateComponents([.minute], from: rrec.StartDate, to: rrec.EndDate)
+            if let minT = difference.minute {
+                number_of_learning_mins_today += minT
+            }
+        }
+        
+        var number_of_vocab_cummulated:Int = 0
+        var number_of_learning_mins_cummulated: Int = 0
+        for lrec in GlobalLearningRecords{
+            number_of_vocab_cummulated += lrec.VocabRecIds.count
+            let difference = Calendar.current.dateComponents([.minute], from: lrec.StartDate, to: lrec.EndDate)
+            if let minT = difference.minute {
+                number_of_learning_mins_cummulated += minT
+            }
+        }
+        for rrec in GlobalReviewRecords{
+            number_of_vocab_cummulated += rrec.VocabRecIds.count
+            let difference = Calendar.current.dateComponents([.minute], from: rrec.StartDate, to: rrec.EndDate)
+            if let minT = difference.minute {
+                number_of_learning_mins_cummulated += minT
+            }
+        }
+        
+        DispatchQueue.main.async {
+            self.numWordTodayLabel.text = "\(number_of_vocab_today)"
+            self.numMinutesTodayLabel.text = "\(number_of_learning_mins_today)"
+            self.numWordCumulatedLabel.text = "\(number_of_vocab_cummulated)"
+            self.numMinutesCumulatedLabel.text = "\(number_of_learning_mins_cummulated)"
+        }
+    }
+    
     
     @objc func handleDismiss(sender: UIPanGestureRecognizer) {
         switch sender.state {
@@ -79,15 +103,5 @@ class StatViewController: UIViewController {
     @IBAction func unwind(segue: UIStoryboardSegue) {
         self.dismiss(animated: true, completion: nil)
     }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }
