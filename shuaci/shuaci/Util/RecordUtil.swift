@@ -70,15 +70,30 @@ func formatDateAsCategory(dates: [Date]) -> [String] {
     let formatter = DateFormatter()
     var categories:[String] = []
     for date in dates{
-        if !date.isInThisYear {
-            formatter.dateFormat = "MM-dd"
+        if Calendar.current.isDate(date, inSameDayAs: Date()){
+            categories.append("今天")
         }else{
-            formatter.dateFormat = "MM-dd\nyyyy"
+            formatter.dateFormat = "MM-dd"
+            let dateStr = formatter.string(from: date)
+            categories.append(dateStr)
         }
-        let dateStr = formatter.string(from: date)
-        categories.append(dateStr)
     }
     return categories
+}
+
+func generateDatesForMinMaxDates(minMaxDates:[Date])-> [Date]{
+    if minMaxDates.count != 2{
+        return []
+    }
+    else {
+        var minDate = minMaxDates[0]
+        let maxDate = minMaxDates[1]
+        if Calendar.current.isDate(minDate, inSameDayAs: maxDate){
+            minDate = minDate.adding(durationVal: -7, durationType: .day)
+        }
+        let dates = Date.dates(from: minDate, to: maxDate)
+        return dates
+    }
 }
 
 func generateCategorieLabelsForMinMaxDates(minMaxDates:[Date])-> [String]{
@@ -86,17 +101,102 @@ func generateCategorieLabelsForMinMaxDates(minMaxDates:[Date])-> [String]{
         return []
     }
     else {
-        let minDate = minMaxDates[0]
+        var minDate = minMaxDates[0]
         let maxDate = minMaxDates[1]
         if Calendar.current.isDate(minDate, inSameDayAs: maxDate){
-            return formatDateAsCategory(dates: [minDate])
+            minDate = minDate.adding(durationVal: -7, durationType: .day)
         }
-        else{
-            let dates = Date.dates(from: minDate, to: maxDate)
-            return formatDateAsCategory(dates: dates)
+        let dates = Date.dates(from: minDate, to: maxDate)
+        return formatDateAsCategory(dates: dates)
+    }
+}
+
+
+func isExactSeqMemory(vocab: VocabularyRecord) -> Bool{
+    let behaviors:[Int] = vocab.BehaviorHistory
+    if behaviors.count < numberOfContDaysForMasteredAWord{
+        return false
+    }
+    else{
+        let tempalateArr:[String] = Array(repeating: CardBehavior.remember.rawValue, count: numberOfContDaysForMasteredAWord).map { String($0) }
+        let templateStrStr = tempalateArr.joined(separator: "")
+        let behaviorArr:[String] = behaviors.map { String($0) }
+        let behaviorStr: String = behaviorArr.joined(separator: "")
+        
+        if let range = behaviorStr.range(of: templateStrStr) {
+            let endPos = behaviorStr.distance(from: behaviorStr.startIndex, to: range.upperBound)
+            if endPos >= behaviorStr.count - 1{
+                return true
+            }
+            else{
+                return false
+            }
+        } else {
+            return false
         }
     }
 }
+
+func getCumulatedMasteredByDate(dates: [Date]) -> [Int]{
+    
+    var reviewedVocabIdDateDict:[String: Date] = [:]
+    for revRec in GlobalReviewRecords{
+        for revId in revRec.VocabRecIds{
+            reviewedVocabIdDateDict[revId] = revRec.EndDate
+        }
+    }
+    
+    var masteredVocabs:[VocabularyRecord] = []
+    var datesWithSequentialMemorized:[Date] = []
+    for vocab in GlobalVocabRecords{
+        if vocab.Mastered{
+            masteredVocabs.append(vocab)
+        }
+        else if reviewedVocabIdDateDict.keys.contains(vocab.VocabRecId) && isExactSeqMemory(vocab: vocab){
+            if let date = reviewedVocabIdDateDict[vocab.VocabRecId] {
+                datesWithSequentialMemorized.append(date)
+            }
+        }
+    }
+    
+    var cumMastered:[Int] = []
+    for di in 0..<dates.count{
+        cumMastered.append(0)
+        for vocab in masteredVocabs{
+            if Calendar.current.isDate(vocab.LearnDate ?? Date(), inSameDayAs: dates[di]){
+                cumMastered[di] += 1
+            }
+        }
+        
+        for dateWithMem in datesWithSequentialMemorized{
+            if Calendar.current.isDate(dateWithMem, inSameDayAs: dates[di]){
+                cumMastered[di] += 1
+            }
+        }
+        
+        if di > 0{
+            cumMastered[di] += cumMastered[di - 1]
+        }
+    }
+    return cumMastered
+}
+
+func getCumulatedLearnedByDate(dates: [Date]) -> [Int]{
+    var cumLearned:[Int] = []
+    for di in 0..<dates.count{
+        cumLearned.append(0)
+        for lrec in GlobalLearningRecords{
+            if Calendar.current.isDate(lrec.EndDate, inSameDayAs: dates[di]){
+                cumLearned[di] += lrec.VocabRecIds.count
+            }
+        }
+        if di > 0{
+            cumLearned[di] += cumLearned[di - 1]
+        }
+    }
+    return cumLearned
+}
+
 
 func getLearningRecordsOf(date: Date) -> [LearningRecord]{
     var learningRecords:[LearningRecord] = []

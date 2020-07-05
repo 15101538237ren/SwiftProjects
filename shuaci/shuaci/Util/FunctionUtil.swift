@@ -17,6 +17,8 @@ var imageCache = NSCache<NSString, NSURL>()
 let decoder = JSONDecoder()
 var GlobalUserName = ""
 
+let numberOfContDaysForMasteredAWord = 5 
+
 typealias CompletionHandler = (_ success:Bool) -> Void
 typealias CompletionHandlerWithData = (_ data: Data?) -> Void
 

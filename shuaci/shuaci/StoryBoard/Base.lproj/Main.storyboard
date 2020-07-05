@@ -1197,6 +1197,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="Ftz-Ln-bCP"/>
                     <connections>
+                        <outlet property="masteredAndLearnedCurveView" destination="ov2-Jp-MsX" id="myl-fx-wBM"/>
                         <outlet property="masteredStatusView" destination="YdH-UP-BSR" id="ecO-LF-g8r"/>
                         <outlet property="numMinutesCumulatedLabel" destination="N0J-Sq-WE7" id="Zpz-qC-WHn"/>
                         <outlet property="numMinutesTodayLabel" destination="BEj-rl-6Id" id="a4R-jb-BNp"/>
