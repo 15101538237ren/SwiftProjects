@@ -10,6 +10,39 @@ import Foundation
 
 
 extension Date {
+    func isEqual(to date: Date, toGranularity component: Calendar.Component, in calendar: Calendar = .current) -> Bool {
+        calendar.isDate(self, equalTo: date, toGranularity: component)
+    }
+    
+    static func dates(from fromDate: Date, to toDate: Date) -> [Date] {
+        var dates: [Date] = []
+        var date = fromDate
+
+        while date <= toDate {
+            dates.append(date)
+            guard let newDate = Calendar.current.date(byAdding: .day, value: 1, to: date) else { break }
+            date = newDate
+        }
+        return dates
+    }
+
+    func isInSameYear(as date: Date) -> Bool { isEqual(to: date, toGranularity: .year) }
+    func isInSameMonth(as date: Date) -> Bool { isEqual(to: date, toGranularity: .month) }
+    func isInSameWeek(as date: Date) -> Bool { isEqual(to: date, toGranularity: .weekOfYear) }
+
+    func isInSameDay(as date: Date) -> Bool { Calendar.current.isDate(self, inSameDayAs: date) }
+
+    var isInThisYear:  Bool { isInSameYear(as: Date()) }
+    var isInThisMonth: Bool { isInSameMonth(as: Date()) }
+    var isInThisWeek:  Bool { isInSameWeek(as: Date()) }
+
+    var isInYesterday: Bool { Calendar.current.isDateInYesterday(self) }
+    var isInToday:     Bool { Calendar.current.isDateInToday(self) }
+    var isInTomorrow:  Bool { Calendar.current.isDateInTomorrow(self) }
+
+    var isInTheFuture: Bool { self > Date() }
+    var isInThePast:   Bool { self < Date() }
+    
     func adding(durationVal: Int, durationType: DurationType) -> Date {
         switch durationType {
         case .second:

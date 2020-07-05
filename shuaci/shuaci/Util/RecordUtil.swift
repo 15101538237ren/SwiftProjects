@@ -48,6 +48,56 @@ var GlobalLearningRecords:[LearningRecord] = loadLearningRecords()
 
 // MARK: - Overall Util
 
+func getMinMaxDateOfVocabRecords() -> [Date]{
+    let formatter = DateFormatter()
+    formatter.dateFormat = "yyyy/MM/dd HH:mm"
+    var minDate = Date()
+    var maxDate = formatter.date(from: "1000/01/01 00:00")!
+    for vocab in GlobalVocabRecords{
+        if let learnDate = vocab.LearnDate {
+            if learnDate < minDate{
+                minDate = learnDate
+            }
+            else if learnDate > maxDate{
+                maxDate = learnDate
+            }
+        }
+    }
+    return [minDate, maxDate]
+}
+
+func formatDateAsCategory(dates: [Date]) -> [String] {
+    let formatter = DateFormatter()
+    var categories:[String] = []
+    for date in dates{
+        if !date.isInThisYear {
+            formatter.dateFormat = "MM-dd"
+        }else{
+            formatter.dateFormat = "MM-dd\nyyyy"
+        }
+        let dateStr = formatter.string(from: date)
+        categories.append(dateStr)
+    }
+    return categories
+}
+
+func generateCategorieLabelsForMinMaxDates(minMaxDates:[Date])-> [String]{
+    if minMaxDates.count != 2{
+        return []
+    }
+    else {
+        let minDate = minMaxDates[0]
+        let maxDate = minMaxDates[1]
+        if Calendar.current.isDate(minDate, inSameDayAs: maxDate){
+            return formatDateAsCategory(dates: [minDate])
+        }
+        else{
+            let dates = Date.dates(from: minDate, to: maxDate)
+            return formatDateAsCategory(dates: dates)
+        }
+    }
+}
+
 func getLearningRecordsOf(date: Date) -> [LearningRecord]{
     var learningRecords:[LearningRecord] = []
     for lrec in GlobalLearningRecords{
@@ -166,6 +216,9 @@ func initNewReviewRec() -> ReviewRecord{
 
 func saveLearningRecordsFromLearning() {
     //Save learning records and vocabs after learning
+    for i in 0..<vocabRecordsOfCurrentLearning.count{
+        vocabRecordsOfCurrentLearning[i].LearnDate = Date()
+    }
     GlobalVocabRecords.append(contentsOf: vocabRecordsOfCurrentLearning)
     saveVocabRecords(saveToLocal: true, completionHandler: {_ in })
     
