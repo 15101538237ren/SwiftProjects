@@ -15,7 +15,12 @@ class StatViewController: UIViewController {
     @IBOutlet var numWordCumulatedLabel: UILabel!
     @IBOutlet var numMinutesCumulatedLabel: UILabel!
     
-    var viewByDates:[Bool] = [true, true, true]
+    var learnStatusByDaySelected: Bool = true
+    @IBOutlet weak var learnStatusByDayLabel: UILabel!
+    @IBOutlet weak var learnStatusByMonLabel: UILabel!
+    @IBOutlet weak var learnStatusByDayIndicator: UIButton!
+    @IBOutlet weak var learnStatusByMonIndicator: UIButton!
+    
     var masteredChartView = AAChartView()
     
     @IBOutlet var masteredStatusView: UIView!{
@@ -39,15 +44,43 @@ class StatViewController: UIViewController {
         }
     }
     
+    func setUpLearnStatusSelected(){
+        DispatchQueue.main.async {
+            self.learnStatusByDayLabel.textColor = self.learnStatusByDaySelected ? .black : .lightGray
+            self.learnStatusByMonLabel.textColor = self.learnStatusByDaySelected ? .lightGray : .black
+            self.learnStatusByDayIndicator.alpha = self.learnStatusByDaySelected ? 1.0 : 0.0
+            self.learnStatusByMonIndicator.alpha = self.learnStatusByDaySelected ? 0.0 : 1.0
+        }
+    }
     
+    @objc func tappedLearnStatusByDay(sender:UITapGestureRecognizer) {
+        if learnStatusByDaySelected == false{
+            learnStatusByDaySelected = true
+            setUpLearnStatusSelected()
+        }
+    }
+    
+    @objc func tappedLearnStatusByMon(sender:UITapGestureRecognizer) {
+        if learnStatusByDaySelected == true{
+            learnStatusByDaySelected = false
+            setUpLearnStatusSelected()
+        }
+    }
     
     override func viewDidLoad() {
         getStatOfToday()
+        setUpLearnStatusSelected()
+        
+        let tapLearnStatusByDay = UITapGestureRecognizer(target: self, action: #selector(tappedLearnStatusByDay))
+        
+        let tapLearnStatusByMon = UITapGestureRecognizer(target: self, action: #selector(tappedLearnStatusByMon))
+        
+        learnStatusByDayLabel.addGestureRecognizer(tapLearnStatusByDay)
+        learnStatusByMonLabel.addGestureRecognizer(tapLearnStatusByMon)
         
         masteredChartView.frame = CGRect(x: 0, y: 0, width: masteredAndLearnedCurveView.bounds.width, height: masteredAndLearnedCurveView.bounds.height)
-               // set the content height of aachartView
-               // aaChartView?.contentHeight = self.view.frame.size.height
         masteredAndLearnedCurveView.addSubview(masteredChartView)
+        
         let minMaxDates:[Date] = getMinMaxDateOfVocabRecords()
         let categories:[String] = generateCategorieLabelsForMinMaxDates(minMaxDates: minMaxDates)
         let intervalDates:[Date] = generateDatesForMinMaxDates(minMaxDates: minMaxDates)
@@ -56,17 +89,18 @@ class StatViewController: UIViewController {
         let masteredStatusChartModel = AAChartModel()
             .chartType(.line)//Can be any of the chart types listed under `AAChartType`.
             .animationType(.elastic)
+        .tooltipValueSuffix("词")//the value suffix of the chart tooltip
         .dataLabelsEnabled(false) //Enable or disable the data labels. Defaults to false
         .yAxisVisible(false)
         .categories(categories)
-        .colorsTheme(["#4fa83d","#3f8ada"]) //,"#06caf4","#7dffc0"
+        .colorsTheme(["#4fa83d","#3f8ada"])
         .series([
             AASeriesElement()
-                .name("已掌握")
-                .data(cumMasteredCount),
-            AASeriesElement()
             .name("已学习")
-            .data(cumLearnedCount)])
+            .data(cumLearnedCount),
+            AASeriesElement()
+                .name("已掌握")
+                .data(cumMasteredCount)])
         masteredChartView.aa_drawChartWithChartModel(masteredStatusChartModel)
         view.isOpaque = false
         super.viewDidLoad()

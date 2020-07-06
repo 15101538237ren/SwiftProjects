@@ -103,8 +103,9 @@ func generateCategorieLabelsForMinMaxDates(minMaxDates:[Date])-> [String]{
     else {
         var minDate = minMaxDates[0]
         let maxDate = minMaxDates[1]
-        if Calendar.current.isDate(minDate, inSameDayAs: maxDate){
-            minDate = minDate.adding(durationVal: -7, durationType: .day)
+        let diffDay = Calendar.current.dateComponents([.day], from: minDate, to: maxDate).day
+        if diffDay != nil && diffDay! < 7{
+            minDate = maxDate.adding(durationVal: -7, durationType: .day)
         }
         let dates = Date.dates(from: minDate, to: maxDate)
         return formatDateAsCategory(dates: dates)
