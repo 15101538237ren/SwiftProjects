@@ -52,18 +52,14 @@ func getMinMaxDateOfVocabRecords() -> [Date]{
     let formatter = DateFormatter()
     formatter.dateFormat = "yyyy/MM/dd HH:mm"
     var minDate = Date()
-    var maxDate = formatter.date(from: "1000/01/01 00:00")!
     for vocab in GlobalVocabRecords{
         if let learnDate = vocab.LearnDate {
             if learnDate < minDate{
                 minDate = learnDate
             }
-            else if learnDate > maxDate{
-                maxDate = learnDate
-            }
         }
     }
-    return [minDate, maxDate]
+    return [minDate, Date()]
 }
 
 func formatDateAsCategory(dates: [Date], byDay: Bool = true) -> [String] {
