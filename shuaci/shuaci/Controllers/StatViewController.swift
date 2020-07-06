@@ -22,7 +22,6 @@ class StatViewController: UIViewController {
     @IBOutlet weak var learnStatusByMonIndicator: UIButton!
     
     var masteredChartView = AAChartView()
-    
     @IBOutlet var masteredStatusView: UIView!{
         didSet {
             masteredStatusView?.layer.cornerRadius = 15.0
@@ -44,7 +43,12 @@ class StatViewController: UIViewController {
         }
     }
     
-    func setUpLearnStatusSelected(){
+    func setUpLearnStatusSelected(initial: Bool = false){
+        if !initial{
+            let masteredStatusChartModel = getLearnStatusModel()
+            masteredChartView.aa_refreshChartWholeContentWithChartModel(masteredStatusChartModel)
+        }
+        
         DispatchQueue.main.async {
             self.learnStatusByDayLabel.textColor = self.learnStatusByDaySelected ? .black : .lightGray
             self.learnStatusByMonLabel.textColor = self.learnStatusByDaySelected ? .lightGray : .black
@@ -66,26 +70,13 @@ class StatViewController: UIViewController {
             setUpLearnStatusSelected()
         }
     }
-    
-    override func viewDidLoad() {
-        getStatOfToday()
-        setUpLearnStatusSelected()
-        
-        let tapLearnStatusByDay = UITapGestureRecognizer(target: self, action: #selector(tappedLearnStatusByDay))
-        
-        let tapLearnStatusByMon = UITapGestureRecognizer(target: self, action: #selector(tappedLearnStatusByMon))
-        
-        learnStatusByDayLabel.addGestureRecognizer(tapLearnStatusByDay)
-        learnStatusByMonLabel.addGestureRecognizer(tapLearnStatusByMon)
-        
-        masteredChartView.frame = CGRect(x: 0, y: 0, width: masteredAndLearnedCurveView.bounds.width, height: masteredAndLearnedCurveView.bounds.height)
-        masteredAndLearnedCurveView.addSubview(masteredChartView)
-        
+    func getLearnStatusModel() -> AAChartModel{
         let minMaxDates:[Date] = getMinMaxDateOfVocabRecords()
-        let categories:[String] = generateCategorieLabelsForMinMaxDates(minMaxDates: minMaxDates)
-        let intervalDates:[Date] = generateDatesForMinMaxDates(minMaxDates: minMaxDates)
-        let cumMasteredCount:[Int] = getCumulatedMasteredByDate(dates: intervalDates)
-        let cumLearnedCount:[Int] = getCumulatedLearnedByDate(dates: intervalDates)
+        let intervalDates:[Date] = generateDatesForMinMaxDates(minMaxDates: minMaxDates, byDay: learnStatusByDaySelected)
+        let categories:[String] = formatDateAsCategory(dates: intervalDates, byDay: learnStatusByDaySelected)
+        let cumMasteredCount:[Int] = getCumulatedMasteredByDate(dates: intervalDates, byDay: learnStatusByDaySelected)
+        let cumLearnedCount:[Int] = getCumulatedLearnedByDate(dates: intervalDates, byDay: learnStatusByDaySelected)
+        
         let masteredStatusChartModel = AAChartModel()
             .chartType(.line)//Can be any of the chart types listed under `AAChartType`.
             .animationType(.elastic)
@@ -101,7 +92,22 @@ class StatViewController: UIViewController {
             AASeriesElement()
                 .name("已掌握")
                 .data(cumMasteredCount)])
-        masteredChartView.aa_drawChartWithChartModel(masteredStatusChartModel)
+        return masteredStatusChartModel
+    }
+    override func viewDidLoad() {
+        getStatOfToday()
+        setUpLearnStatusSelected(initial: true)
+        
+        let tapLearnStatusByDay = UITapGestureRecognizer(target: self, action: #selector(tappedLearnStatusByDay))
+        
+        let tapLearnStatusByMon = UITapGestureRecognizer(target: self, action: #selector(tappedLearnStatusByMon))
+        
+        learnStatusByDayLabel.addGestureRecognizer(tapLearnStatusByDay)
+        learnStatusByMonLabel.addGestureRecognizer(tapLearnStatusByMon)
+        
+        masteredChartView.frame = CGRect(x: 0, y: 0, width: masteredAndLearnedCurveView.bounds.width, height: masteredAndLearnedCurveView.bounds.height)
+        masteredAndLearnedCurveView.addSubview(masteredChartView)
+        masteredChartView.aa_drawChartWithChartModel(getLearnStatusModel())
         view.isOpaque = false
         super.viewDidLoad()
         // Do any additional setup after loading the view.

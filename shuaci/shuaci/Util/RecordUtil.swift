@@ -66,52 +66,76 @@ func getMinMaxDateOfVocabRecords() -> [Date]{
     return [minDate, maxDate]
 }
 
-func formatDateAsCategory(dates: [Date]) -> [String] {
+func formatDateAsCategory(dates: [Date], byDay: Bool = true) -> [String] {
     let formatter = DateFormatter()
     var categories:[String] = []
     for date in dates{
-        if Calendar.current.isDate(date, inSameDayAs: Date()){
-            categories.append("今天")
-        }else{
-            formatter.dateFormat = "MM-dd"
-            let dateStr = formatter.string(from: date)
-            categories.append(dateStr)
+        if byDay{
+            if Calendar.current.isDate(date, inSameDayAs: Date()){
+                categories.append("今天")
+            }else{
+                formatter.dateFormat = "MM-dd"
+                let dateStr = formatter.string(from: date)
+                categories.append(dateStr)
+            }
+        } else{
+            if date.isInSameMonth(as: Date()){
+                categories.append("本月")
+            }else{
+                formatter.dateFormat = "MM"
+                let dateStr = formatter.string(from: date)
+                categories.append(dateStr)
+            }
         }
+        
     }
     return categories
 }
 
-func generateDatesForMinMaxDates(minMaxDates:[Date])-> [Date]{
+
+func generateDatesForMinMaxDates(minMaxDates:[Date], byDay: Bool = true)-> [Date]{
     if minMaxDates.count != 2{
         return []
     }
     else {
         var minDate = minMaxDates[0]
         let maxDate = minMaxDates[1]
-        if Calendar.current.isDate(minDate, inSameDayAs: maxDate){
-            minDate = minDate.adding(durationVal: -7, durationType: .day)
+        if byDay{
+            let diffDay = Calendar.current.dateComponents([.day], from: minDate, to: maxDate).day
+            if diffDay != nil && diffDay! < 7{
+                minDate = maxDate.adding(durationVal: -7, durationType: .day)
+            }
+            return Date.dates(from: minDate, to: maxDate)
+        } else{
+            let diffMon = Calendar.current.dateComponents([.month], from: minDate, to: maxDate).month
+            if diffMon != nil && diffMon! < 6{
+                minDate = maxDate.adding(durationVal: -6, durationType: .month)
+            }
+            let dates = generateDatesByMonth(fromDate: minDate, endDate: maxDate)
+            return dates
         }
-        let dates = Date.dates(from: minDate, to: maxDate)
-        return dates
+        
     }
 }
 
-func generateCategorieLabelsForMinMaxDates(minMaxDates:[Date])-> [String]{
-    if minMaxDates.count != 2{
-        return []
+func generateDatesByMonth(fromDate: Date, endDate: Date) -> [Date]{
+    var dates: [Date] = []
+    
+    var dc = Calendar.current.dateComponents([.year, .month], from: fromDate)
+    dc.day = 1
+    dc.timeZone = TimeZone(identifier: TimeZone.current.identifier)
+    dc.hour = 0
+    dc.minute = 0
+    dc.second = 1
+    
+    let initialDate = Calendar.current.date(from: dc) ?? endDate
+    var monthCount = 0
+    while initialDate.adding(durationVal: monthCount, durationType: .month) < endDate {
+        dates.append(initialDate.adding(durationVal: monthCount, durationType: .month))
+        monthCount += 1
     }
-    else {
-        var minDate = minMaxDates[0]
-        let maxDate = minMaxDates[1]
-        let diffDay = Calendar.current.dateComponents([.day], from: minDate, to: maxDate).day
-        if diffDay != nil && diffDay! < 7{
-            minDate = maxDate.adding(durationVal: -7, durationType: .day)
-        }
-        let dates = Date.dates(from: minDate, to: maxDate)
-        return formatDateAsCategory(dates: dates)
-    }
+    return dates
 }
-
 
 func isExactSeqMemory(vocab: VocabularyRecord) -> Bool{
     let behaviors:[Int] = vocab.BehaviorHistory
@@ -138,8 +162,7 @@ func isExactSeqMemory(vocab: VocabularyRecord) -> Bool{
     }
 }
 
-func getCumulatedMasteredByDate(dates: [Date]) -> [Int]{
-    
+func getCumulatedMasteredByDate(dates: [Date], byDay: Bool = true) -> [Int]{
     var reviewedVocabIdDateDict:[String: Date] = [:]
     for revRec in GlobalReviewRecords{
         for revId in revRec.VocabRecIds{
@@ -164,15 +187,28 @@ func getCumulatedMasteredByDate(dates: [Date]) -> [Int]{
     for di in 0..<dates.count{
         cumMastered.append(0)
         for vocab in masteredVocabs{
-            if Calendar.current.isDate(vocab.LearnDate ?? Date(), inSameDayAs: dates[di]){
-                cumMastered[di] += 1
+            if byDay{
+                if Calendar.current.isDate(vocab.LearnDate ?? Date(), inSameDayAs: dates[di]){
+                    cumMastered[di] += 1
+                }
+            } else{
+                if dates[di].isInSameMonth(as: vocab.LearnDate ?? Date()){
+                    cumMastered[di] += 1
+                }
             }
         }
         
         for dateWithMem in datesWithSequentialMemorized{
-            if Calendar.current.isDate(dateWithMem, inSameDayAs: dates[di]){
-                cumMastered[di] += 1
+            if byDay{
+                if Calendar.current.isDate(dateWithMem, inSameDayAs: dates[di]){
+                    cumMastered[di] += 1
+                }
+            } else{
+                if dates[di].isInSameMonth(as: dateWithMem){
+                    cumMastered[di] += 1
+                }
             }
+            
         }
         
         if di > 0{
@@ -182,14 +218,23 @@ func getCumulatedMasteredByDate(dates: [Date]) -> [Int]{
     return cumMastered
 }
 
-func getCumulatedLearnedByDate(dates: [Date]) -> [Int]{
+
+
+func getCumulatedLearnedByDate(dates: [Date], byDay: Bool = true) -> [Int]{
     var cumLearned:[Int] = []
     for di in 0..<dates.count{
         cumLearned.append(0)
         for lrec in GlobalLearningRecords{
-            if Calendar.current.isDate(lrec.EndDate, inSameDayAs: dates[di]){
-                cumLearned[di] += lrec.VocabRecIds.count
+            if byDay{
+                if Calendar.current.isDate(lrec.EndDate, inSameDayAs: dates[di]){
+                    cumLearned[di] += lrec.VocabRecIds.count
+                }
+            } else{
+                if dates[di].isInSameMonth(as: lrec.EndDate){
+                    cumLearned[di] += 1
+                }
             }
+            
         }
         if di > 0{
             cumLearned[di] += cumLearned[di - 1]
