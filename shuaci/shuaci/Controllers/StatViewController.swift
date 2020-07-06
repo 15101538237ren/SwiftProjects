@@ -74,6 +74,7 @@ class StatViewController: UIViewController {
         let minMaxDates:[Date] = getMinMaxDateOfVocabRecords()
         let intervalDates:[Date] = generateDatesForMinMaxDates(minMaxDates: minMaxDates, byDay: learnStatusByDaySelected)
         let categories:[String] = formatDateAsCategory(dates: intervalDates, byDay: learnStatusByDaySelected)
+        print(intervalDates)
         let cumMasteredCount:[Int] = getCumulatedMasteredByDate(dates: intervalDates, byDay: learnStatusByDaySelected)
         let cumLearnedCount:[Int] = getCumulatedLearnedByDate(dates: intervalDates, byDay: learnStatusByDaySelected)
         
@@ -155,7 +156,7 @@ class StatViewController: UIViewController {
             self.numWordTodayLabel.text = "\(number_of_vocab_today)"
             self.numWordCumulatedLabel.text = "\(number_of_vocab_cummulated)"
             let learning_mins_today = Double(number_of_learning_secs_today)/60.0
-            if learning_mins_today > 1.0{
+            if learning_mins_today > 1.0 || number_of_learning_secs_today == 0{
                 self.numMinutesTodayLabel.text = String(format: "%d", Int(round(learning_mins_today)))
             }
             else{
@@ -163,7 +164,7 @@ class StatViewController: UIViewController {
             }
             let learning_mins_cummulated =  Double(number_of_learning_secs_cummulated)/60.0
             
-            if learning_mins_cummulated > 1.0{
+            if learning_mins_cummulated > 1.0 || number_of_learning_secs_cummulated == 0{
                 self.numMinutesCumulatedLabel.text = String(format: "%d", Int(round(learning_mins_cummulated)))
             }
             else{

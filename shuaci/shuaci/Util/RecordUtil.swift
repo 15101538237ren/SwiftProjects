@@ -102,14 +102,14 @@ func generateDatesForMinMaxDates(minMaxDates:[Date], byDay: Bool = true)-> [Date
         let maxDate = minMaxDates[1]
         if byDay{
             let diffDay = Calendar.current.dateComponents([.day], from: minDate, to: maxDate).day
-            if diffDay != nil && diffDay! < 7{
-                minDate = maxDate.adding(durationVal: -7, durationType: .day)
+            if diffDay != nil && diffDay! < 6{
+                minDate = maxDate.adding(durationVal: -6, durationType: .day)
             }
             return Date.dates(from: minDate, to: maxDate)
         } else{
             let diffMon = Calendar.current.dateComponents([.month], from: minDate, to: maxDate).month
-            if diffMon != nil && diffMon! < 6{
-                minDate = maxDate.adding(durationVal: -6, durationType: .month)
+            if diffMon != nil && diffMon! < 5{
+                minDate = maxDate.adding(durationVal: -5, durationType: .month)
             }
             let dates = generateDatesByMonth(fromDate: minDate, endDate: maxDate)
             return dates
@@ -231,7 +231,7 @@ func getCumulatedLearnedByDate(dates: [Date], byDay: Bool = true) -> [Int]{
                 }
             } else{
                 if dates[di].isInSameMonth(as: lrec.EndDate){
-                    cumLearned[di] += 1
+                    cumLearned[di] += lrec.VocabRecIds.count
                 }
             }
             
