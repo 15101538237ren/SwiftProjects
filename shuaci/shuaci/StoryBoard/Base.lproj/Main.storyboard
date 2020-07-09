@@ -1078,38 +1078,52 @@
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" alignment="center" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="CBO-54-22a">
-                                                <rect key="frame" x="38.5" y="56.5" width="297.5" height="31"/>
+                                            <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" alignment="center" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="CBO-54-22a">
+                                                <rect key="frame" x="65" y="66.5" width="244" height="25"/>
                                                 <subviews>
                                                     <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" apportionsSegmentWidthsByContent="YES" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="QOh-EE-5wt">
-                                                        <rect key="frame" x="0.0" y="0.0" width="86" height="32"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="70" height="26"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" constant="70" id="aRn-ct-faB"/>
+                                                            <constraint firstAttribute="height" constant="25" id="gnS-TN-Hnx"/>
+                                                        </constraints>
                                                         <segments>
                                                             <segment title="按日"/>
-                                                            <segment title="按月" width="40"/>
+                                                            <segment title="按月"/>
                                                         </segments>
-                                                        <color key="tintColor" systemColor="systemOrangeColor" red="1" green="0.58431372550000005" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                        <color key="selectedSegmentTintColor" systemColor="systemOrangeColor" red="1" green="0.58431372550000005" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <connections>
                                                             <action selector="dayMonSelectedChanged:" destination="4a5-3m-NM6" eventType="valueChanged" id="hcO-y8-Mhb"/>
                                                         </connections>
                                                     </segmentedControl>
                                                     <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" apportionsSegmentWidthsByContent="YES" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Zmd-2a-WmY">
-                                                        <rect key="frame" x="101" y="0.0" width="95.5" height="32"/>
+                                                        <rect key="frame" x="82" y="0.0" width="80" height="26"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="25" id="fzC-o3-RGy"/>
+                                                            <constraint firstAttribute="width" constant="80" id="w7G-9J-aHt"/>
+                                                        </constraints>
                                                         <segments>
-                                                            <segment title="单词量" width="51.5"/>
-                                                            <segment title="时长" width="43"/>
+                                                            <segment title="单词量"/>
+                                                            <segment title="时长"/>
                                                         </segments>
                                                         <color key="tintColor" systemColor="systemOrangeColor" red="1" green="0.58431372550000005" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                        <color key="selectedSegmentTintColor" systemColor="systemOrangeColor" red="1" green="0.58431372550000005" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <connections>
                                                             <action selector="wordTimeSelectedChanged:" destination="4a5-3m-NM6" eventType="valueChanged" id="kPG-BW-LXf"/>
                                                         </connections>
                                                     </segmentedControl>
-                                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="GoD-dt-gRb">
-                                                        <rect key="frame" x="211.5" y="0.0" width="86" height="32"/>
+                                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" apportionsSegmentWidthsByContent="YES" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="GoD-dt-gRb">
+                                                        <rect key="frame" x="174" y="0.0" width="70" height="26"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="25" id="BU3-2X-wtF"/>
+                                                            <constraint firstAttribute="width" constant="70" id="kHN-wm-pLQ"/>
+                                                        </constraints>
                                                         <segments>
                                                             <segment title="逐次"/>
-                                                            <segment title="累计" width="40"/>
+                                                            <segment title="累计"/>
                                                         </segments>
                                                         <color key="tintColor" systemColor="systemOrangeColor" red="1" green="0.58431372550000005" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                        <color key="selectedSegmentTintColor" systemColor="systemOrangeColor" red="1" green="0.58431372550000005" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <connections>
                                                             <action selector="perTimeCumSelectedChanged:" destination="4a5-3m-NM6" eventType="valueChanged" id="HVW-UP-abV"/>
                                                         </connections>
@@ -1117,13 +1131,13 @@
                                                 </subviews>
                                             </stackView>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ov2-Jp-MsX">
-                                                <rect key="frame" x="0.0" y="102.5" width="374" height="297.5"/>
+                                                <rect key="frame" x="0.0" y="91.5" width="374" height="308.5"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                             </view>
                                         </subviews>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                         <constraints>
-                                            <constraint firstItem="CBO-54-22a" firstAttribute="top" secondItem="8vT-aQ-cUP" secondAttribute="bottom" constant="20" id="0wq-48-elM"/>
+                                            <constraint firstItem="CBO-54-22a" firstAttribute="top" secondItem="8vT-aQ-cUP" secondAttribute="bottom" constant="30" id="0wq-48-elM"/>
                                             <constraint firstItem="ov2-Jp-MsX" firstAttribute="centerX" secondItem="YdH-UP-BSR" secondAttribute="centerX" id="5KL-HY-CUk"/>
                                             <constraint firstAttribute="trailing" secondItem="ov2-Jp-MsX" secondAttribute="trailing" id="DCq-sm-TtJ"/>
                                             <constraint firstItem="ov2-Jp-MsX" firstAttribute="leading" secondItem="YdH-UP-BSR" secondAttribute="leading" id="IL8-gD-tUw"/>
@@ -1131,7 +1145,7 @@
                                             <constraint firstItem="CBO-54-22a" firstAttribute="centerX" secondItem="YdH-UP-BSR" secondAttribute="centerX" id="YWi-Aj-yAZ"/>
                                             <constraint firstItem="8vT-aQ-cUP" firstAttribute="leading" secondItem="YdH-UP-BSR" secondAttribute="leading" constant="20" id="lyF-LY-b1C"/>
                                             <constraint firstAttribute="height" constant="400" id="qCG-Qr-BZJ"/>
-                                            <constraint firstItem="ov2-Jp-MsX" firstAttribute="top" secondItem="CBO-54-22a" secondAttribute="bottom" constant="15" id="wdp-qd-8wn"/>
+                                            <constraint firstItem="ov2-Jp-MsX" firstAttribute="top" secondItem="CBO-54-22a" secondAttribute="bottom" id="wdp-qd-8wn"/>
                                             <constraint firstAttribute="bottom" secondItem="ov2-Jp-MsX" secondAttribute="bottom" id="zcJ-gE-RwF"/>
                                         </constraints>
                                     </view>

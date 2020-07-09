@@ -92,7 +92,32 @@ class StatViewController: UIViewController {
                 .data(cumMasteredCount)])
         return masteredStatusChartModel
     }
+    
+    func setFontofSegmentedControl(font: UIFont, selectedForeGroundColor: UIColor, selectedBackGroundColor: UIColor, unSelectedForegroundColor: UIColor = .black, unSelectedBackgroundColor: UIColor = .lightGray){
+        dayMonSegmentedControl.setTitleTextAttributes([NSAttributedString.Key.font: font], for: .normal)
+        wordTimeSegmentedControl.setTitleTextAttributes([NSAttributedString.Key.font: font], for: .normal)
+        perTimeCumSegmentedControl.setTitleTextAttributes([NSAttributedString.Key.font: font], for: .normal)
+        
+        dayMonSegmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: selectedForeGroundColor], for: .selected)
+        wordTimeSegmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: selectedForeGroundColor], for: .selected)
+        perTimeCumSegmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: selectedForeGroundColor], for: .selected)
+        
+        dayMonSegmentedControl.setTitleTextAttributes([NSAttributedString.Key.backgroundColor: selectedBackGroundColor], for: .selected)
+        wordTimeSegmentedControl.setTitleTextAttributes([NSAttributedString.Key.backgroundColor: selectedBackGroundColor], for: .selected)
+        perTimeCumSegmentedControl.setTitleTextAttributes([NSAttributedString.Key.backgroundColor: selectedBackGroundColor], for: .selected)
+        
+        dayMonSegmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: unSelectedForegroundColor], for: .normal)
+        wordTimeSegmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: unSelectedForegroundColor], for: .normal)
+        perTimeCumSegmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: unSelectedForegroundColor], for: .normal)
+        
+        dayMonSegmentedControl.setTitleTextAttributes([NSAttributedString.Key.backgroundColor: unSelectedBackgroundColor], for: .normal)
+        wordTimeSegmentedControl.setTitleTextAttributes([NSAttributedString.Key.backgroundColor: unSelectedBackgroundColor], for: .normal)
+        perTimeCumSegmentedControl.setTitleTextAttributes([NSAttributedString.Key.backgroundColor: unSelectedBackgroundColor], for: .normal)
+        
+    }
+    
     override func viewDidLoad() {
+        setFontofSegmentedControl(font: UIFont.systemFont(ofSize: 10), selectedForeGroundColor: .white, selectedBackGroundColor: .orange)
         getStatOfToday()
         setUpLearnStatusSelected(initial: true)
         
