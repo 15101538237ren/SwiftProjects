@@ -61,12 +61,11 @@ class StatViewController: UIViewController {
     
     func setUpLearnStatusSelected(initial: Bool = false){
         if !initial{
-            let masteredStatusChartModel = getLearnStatusModel()
-            masteredChartView.aa_refreshChartWholeContentWithChartModel(masteredStatusChartModel)
+            masteredChartView.aa_refreshChartWholeContentWithChartOptions(getLearnStatusOptions())
         }
     }
     
-    func getLearnStatusModel() -> AAChartModel{
+    func getLearnStatusOptions() -> AAOptions{
         let byDay: Bool = dayMonSegmentedControl.selectedSegmentIndex == 0 ? true : false
         let byWordCnt: Bool = wordTimeSegmentedControl.selectedSegmentIndex == 0 ? true : false
         
@@ -97,7 +96,8 @@ class StatViewController: UIViewController {
                         AASeriesElement()
                             .name(seriesNames[1])
                             .data(cumMasteredCount)])
-                    return masteredStatusChartModel
+                    let aa_options: AAOptions = AAOptionsConstructor.configureChartOptions(masteredStatusChartModel)
+                    return aa_options
         } else{
             let cumReviewedHours:[Float] = getCumHoursByDate(dates: intervalDates, byDay: byDay, cumulated: cumulated, Learn: false)
             let cumLearnedHours:[Float] = getCumHoursByDate(dates: intervalDates, byDay: byDay, cumulated: cumulated, Learn: true)
@@ -109,6 +109,7 @@ class StatViewController: UIViewController {
             .dataLabelsEnabled(false) //Enable or disable the data labels. Defaults to false
     //        .yAxisVisible(false)
             .categories(categories)
+            .yAxisAllowDecimals(false)
             .colorsTheme(["#4fa83d","#3f8ada"])
             .series([
                 AASeriesElement()
@@ -117,7 +118,9 @@ class StatViewController: UIViewController {
                 AASeriesElement()
                     .name(seriesNames[1])
                     .data(cumReviewedHours)])
-            return masteredStatusChartModel
+            let aa_options: AAOptions = AAOptionsConstructor.configureChartOptions(masteredStatusChartModel)
+            aa_options.tooltip?.valueDecimals(1)
+            return aa_options
         }
         
     }
@@ -145,7 +148,7 @@ class StatViewController: UIViewController {
         
         masteredChartView.frame = CGRect(x: 0, y: 0, width: masteredAndLearnedCurveView.bounds.width, height: masteredAndLearnedCurveView.bounds.height)
         masteredAndLearnedCurveView.addSubview(masteredChartView)
-        masteredChartView.aa_drawChartWithChartModel(getLearnStatusModel())
+        masteredChartView.aa_drawChartWithChartOptions(getLearnStatusOptions())
         view.isOpaque = false
         super.viewDidLoad()
         // Do any additional setup after loading the view.
