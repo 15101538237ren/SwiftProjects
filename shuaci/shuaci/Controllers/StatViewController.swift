@@ -16,12 +16,15 @@ class StatViewController: UIViewController {
     @IBOutlet var numMinutesCumulatedLabel: UILabel!
     
     var learnStatusByDaySelected: Bool = true
-    @IBOutlet weak var learnStatusByDayLabel: UILabel!
-    @IBOutlet weak var learnStatusByMonLabel: UILabel!
-    @IBOutlet weak var learnStatusByDayIndicator: UIButton!
-    @IBOutlet weak var learnStatusByMonIndicator: UIButton!
+    
+    @IBOutlet weak var dayMonSegmentedControl: UISegmentedControl!
+    
+    @IBOutlet weak var wordTimeSegmentedControl: UISegmentedControl!
+    
+    @IBOutlet weak var perTimeCumSegmentedControl: UISegmentedControl!
     
     var masteredChartView = AAChartView()
+    
     @IBOutlet var masteredStatusView: UIView!{
         didSet {
             masteredStatusView?.layer.cornerRadius = 15.0
@@ -43,34 +46,28 @@ class StatViewController: UIViewController {
         }
     }
     
+    @IBAction func dayMonSelectedChanged(_ sender: UISegmentedControl) {
+        setUpLearnStatusSelected()
+    }
+    
+    
+    @IBAction func wordTimeSelectedChanged(_ sender: UISegmentedControl) {
+        setUpLearnStatusSelected()
+    }
+    
+    @IBAction func perTimeCumSelectedChanged(_ sender: UISegmentedControl) {
+        setUpLearnStatusSelected()
+    }
+    
     func setUpLearnStatusSelected(initial: Bool = false){
         if !initial{
             let masteredStatusChartModel = getLearnStatusModel()
             masteredChartView.aa_refreshChartWholeContentWithChartModel(masteredStatusChartModel)
         }
-        
-        DispatchQueue.main.async {
-            self.learnStatusByDayLabel.textColor = self.learnStatusByDaySelected ? .black : .lightGray
-            self.learnStatusByMonLabel.textColor = self.learnStatusByDaySelected ? .lightGray : .black
-            self.learnStatusByDayIndicator.alpha = self.learnStatusByDaySelected ? 1.0 : 0.0
-            self.learnStatusByMonIndicator.alpha = self.learnStatusByDaySelected ? 0.0 : 1.0
-        }
     }
     
-    @objc func tappedLearnStatusByDay(sender:UITapGestureRecognizer) {
-        if learnStatusByDaySelected == false{
-            learnStatusByDaySelected = true
-            setUpLearnStatusSelected()
-        }
-    }
-    
-    @objc func tappedLearnStatusByMon(sender:UITapGestureRecognizer) {
-        if learnStatusByDaySelected == true{
-            learnStatusByDaySelected = false
-            setUpLearnStatusSelected()
-        }
-    }
     func getLearnStatusModel() -> AAChartModel{
+        let learnStatusByDaySelected: Bool = dayMonSegmentedControl.selectedSegmentIndex == 0 ? true : false
         let minMaxDates:[Date] = getMinMaxDateOfVocabRecords()
         let intervalDates:[Date] = generateDatesForMinMaxDates(minMaxDates: minMaxDates, byDay: learnStatusByDaySelected)
         let categories:[String] = formatDateAsCategory(dates: intervalDates, byDay: learnStatusByDaySelected)
@@ -88,23 +85,16 @@ class StatViewController: UIViewController {
         .colorsTheme(["#4fa83d","#3f8ada"])
         .series([
             AASeriesElement()
-            .name("已学习")
+            .name("累计学习")
             .data(cumLearnedCount),
             AASeriesElement()
-                .name("已掌握")
+                .name("累计掌握")
                 .data(cumMasteredCount)])
         return masteredStatusChartModel
     }
     override func viewDidLoad() {
         getStatOfToday()
         setUpLearnStatusSelected(initial: true)
-        
-        let tapLearnStatusByDay = UITapGestureRecognizer(target: self, action: #selector(tappedLearnStatusByDay))
-        
-        let tapLearnStatusByMon = UITapGestureRecognizer(target: self, action: #selector(tappedLearnStatusByMon))
-        
-        learnStatusByDayLabel.addGestureRecognizer(tapLearnStatusByDay)
-        learnStatusByMonLabel.addGestureRecognizer(tapLearnStatusByMon)
         
         masteredChartView.frame = CGRect(x: 0, y: 0, width: masteredAndLearnedCurveView.bounds.width, height: masteredAndLearnedCurveView.bounds.height)
         masteredAndLearnedCurveView.addSubview(masteredChartView)

@@ -731,21 +731,21 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="Kfu-y6-fmR">
-                                <rect key="frame" x="43" y="144" width="328.5" height="98"/>
+                                <rect key="frame" x="43" y="144" width="328.5" height="97.5"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="LQC-TQ-Bmg">
-                                        <rect key="frame" x="0.0" y="0.0" width="328.5" height="39"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="328.5" height="38.5"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="Mx9-wG-XnW">
-                                                <rect key="frame" x="0.0" y="0.0" width="328.5" height="28"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="328.5" height="27.5"/>
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0pa-Mv-0kj">
-                                                        <rect key="frame" x="0.0" y="0.0" width="28" height="28"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="27.5" height="27.5"/>
                                                         <color key="tintColor" red="0.43277218940000001" green="0.51260131600000003" blue="0.86753517390000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <state key="normal" image="phone"/>
                                                     </button>
                                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请输入中国大陆手机号码" textAlignment="natural" minimumFontSize="15" translatesAutoresizingMaskIntoConstraints="NO" id="ndL-pP-8OC">
-                                                        <rect key="frame" x="38" y="0.0" width="290.5" height="28"/>
+                                                        <rect key="frame" x="37.5" y="0.0" width="291" height="27.5"/>
                                                         <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="18"/>
                                                         <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="numberPad" returnKeyType="next"/>
@@ -758,7 +758,7 @@
                                                 </subviews>
                                             </stackView>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sk5-ee-xEQ" userLabel="Divider">
-                                                <rect key="frame" x="0.0" y="38" width="328.5" height="1"/>
+                                                <rect key="frame" x="0.0" y="37.5" width="328.5" height="1"/>
                                                 <color key="backgroundColor" red="0.69455690670000003" green="0.69455690670000003" blue="0.69455690670000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="1" id="19z-ds-e6c"/>
@@ -771,7 +771,7 @@
                                         </constraints>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="vWL-S2-6Cn">
-                                        <rect key="frame" x="0.0" y="59" width="328.5" height="39"/>
+                                        <rect key="frame" x="0.0" y="58.5" width="328.5" height="39"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="Q8d-pf-sVY">
                                                 <rect key="frame" x="0.0" y="0.0" width="168" height="39"/>
@@ -830,7 +830,7 @@
                                 </subviews>
                             </stackView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0JE-jv-kbg">
-                                <rect key="frame" x="117" y="272" width="180" height="45"/>
+                                <rect key="frame" x="117" y="271.5" width="180" height="45"/>
                                 <color key="backgroundColor" red="0.96598750349999996" green="0.96612614389999996" blue="0.96595734359999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="180" id="FKw-es-649"/>
@@ -1070,73 +1070,68 @@
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YdH-UP-BSR">
-                                        <rect key="frame" x="20" y="280" width="374" height="350"/>
+                                        <rect key="frame" x="20" y="280" width="374" height="400"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="累计学习" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8vT-aQ-cUP">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="学习曲线" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8vT-aQ-cUP">
                                                 <rect key="frame" x="20" y="17" width="65.5" height="19.5"/>
                                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <stackView opaque="NO" contentMode="scaleToFill" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="sMN-qj-4od">
-                                                <rect key="frame" x="119.5" y="56.5" width="135" height="25"/>
+                                            <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" alignment="center" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="CBO-54-22a">
+                                                <rect key="frame" x="38.5" y="56.5" width="297.5" height="31"/>
                                                 <subviews>
-                                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="Tde-NX-WBT">
-                                                        <rect key="frame" x="0.0" y="0.0" width="57.5" height="25"/>
-                                                        <subviews>
-                                                            <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="按日查看" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RDe-hK-88u">
-                                                                <rect key="frame" x="0.0" y="0.0" width="57.5" height="17"/>
-                                                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="14"/>
-                                                                <nil key="textColor"/>
-                                                                <nil key="highlightedColor"/>
-                                                            </label>
-                                                            <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9h5-mB-Eke">
-                                                                <rect key="frame" x="25" y="22" width="8" height="3"/>
-                                                                <color key="backgroundColor" systemColor="systemOrangeColor" red="1" green="0.58431372550000005" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                                <constraints>
-                                                                    <constraint firstAttribute="height" constant="3" id="P9h-iJ-qhY"/>
-                                                                    <constraint firstAttribute="width" constant="8" id="jz4-25-mxM"/>
-                                                                </constraints>
-                                                            </button>
-                                                        </subviews>
-                                                    </stackView>
-                                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="hyO-ZM-uIx">
-                                                        <rect key="frame" x="77.5" y="0.0" width="57.5" height="25"/>
-                                                        <subviews>
-                                                            <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="按月查看" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="S1g-tp-EuT">
-                                                                <rect key="frame" x="0.0" y="0.0" width="57.5" height="17"/>
-                                                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="14"/>
-                                                                <nil key="textColor"/>
-                                                                <nil key="highlightedColor"/>
-                                                            </label>
-                                                            <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kiO-iy-uRD">
-                                                                <rect key="frame" x="25" y="22" width="8" height="3"/>
-                                                                <color key="backgroundColor" systemColor="systemOrangeColor" red="1" green="0.58431372550000005" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                                <constraints>
-                                                                    <constraint firstAttribute="height" constant="3" id="XKp-jd-kiu"/>
-                                                                    <constraint firstAttribute="width" constant="8" id="trv-tS-sYB"/>
-                                                                </constraints>
-                                                            </button>
-                                                        </subviews>
-                                                    </stackView>
+                                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" apportionsSegmentWidthsByContent="YES" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="QOh-EE-5wt">
+                                                        <rect key="frame" x="0.0" y="0.0" width="86" height="32"/>
+                                                        <segments>
+                                                            <segment title="按日"/>
+                                                            <segment title="按月" width="40"/>
+                                                        </segments>
+                                                        <color key="tintColor" systemColor="systemOrangeColor" red="1" green="0.58431372550000005" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                        <connections>
+                                                            <action selector="dayMonSelectedChanged:" destination="4a5-3m-NM6" eventType="valueChanged" id="hcO-y8-Mhb"/>
+                                                        </connections>
+                                                    </segmentedControl>
+                                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" apportionsSegmentWidthsByContent="YES" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Zmd-2a-WmY">
+                                                        <rect key="frame" x="101" y="0.0" width="95.5" height="32"/>
+                                                        <segments>
+                                                            <segment title="单词量" width="51.5"/>
+                                                            <segment title="时长" width="43"/>
+                                                        </segments>
+                                                        <color key="tintColor" systemColor="systemOrangeColor" red="1" green="0.58431372550000005" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                        <connections>
+                                                            <action selector="wordTimeSelectedChanged:" destination="4a5-3m-NM6" eventType="valueChanged" id="kPG-BW-LXf"/>
+                                                        </connections>
+                                                    </segmentedControl>
+                                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="GoD-dt-gRb">
+                                                        <rect key="frame" x="211.5" y="0.0" width="86" height="32"/>
+                                                        <segments>
+                                                            <segment title="逐次"/>
+                                                            <segment title="累计" width="40"/>
+                                                        </segments>
+                                                        <color key="tintColor" systemColor="systemOrangeColor" red="1" green="0.58431372550000005" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                        <connections>
+                                                            <action selector="perTimeCumSelectedChanged:" destination="4a5-3m-NM6" eventType="valueChanged" id="HVW-UP-abV"/>
+                                                        </connections>
+                                                    </segmentedControl>
                                                 </subviews>
                                             </stackView>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ov2-Jp-MsX">
-                                                <rect key="frame" x="0.0" y="93.5" width="374" height="256.5"/>
+                                                <rect key="frame" x="0.0" y="102.5" width="374" height="297.5"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                             </view>
                                         </subviews>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                         <constraints>
+                                            <constraint firstItem="CBO-54-22a" firstAttribute="top" secondItem="8vT-aQ-cUP" secondAttribute="bottom" constant="20" id="0wq-48-elM"/>
                                             <constraint firstItem="ov2-Jp-MsX" firstAttribute="centerX" secondItem="YdH-UP-BSR" secondAttribute="centerX" id="5KL-HY-CUk"/>
                                             <constraint firstAttribute="trailing" secondItem="ov2-Jp-MsX" secondAttribute="trailing" id="DCq-sm-TtJ"/>
                                             <constraint firstItem="ov2-Jp-MsX" firstAttribute="leading" secondItem="YdH-UP-BSR" secondAttribute="leading" id="IL8-gD-tUw"/>
-                                            <constraint firstItem="sMN-qj-4od" firstAttribute="top" secondItem="8vT-aQ-cUP" secondAttribute="bottom" constant="20" id="NlI-pW-kPv"/>
                                             <constraint firstItem="8vT-aQ-cUP" firstAttribute="top" secondItem="YdH-UP-BSR" secondAttribute="top" constant="17" id="OBP-1u-odV"/>
-                                            <constraint firstItem="sMN-qj-4od" firstAttribute="centerX" secondItem="YdH-UP-BSR" secondAttribute="centerX" id="bLn-c9-Wz5"/>
-                                            <constraint firstItem="ov2-Jp-MsX" firstAttribute="top" secondItem="sMN-qj-4od" secondAttribute="bottom" constant="12" id="eFM-0A-Lhc"/>
+                                            <constraint firstItem="CBO-54-22a" firstAttribute="centerX" secondItem="YdH-UP-BSR" secondAttribute="centerX" id="YWi-Aj-yAZ"/>
                                             <constraint firstItem="8vT-aQ-cUP" firstAttribute="leading" secondItem="YdH-UP-BSR" secondAttribute="leading" constant="20" id="lyF-LY-b1C"/>
-                                            <constraint firstAttribute="height" constant="350" id="qCG-Qr-BZJ"/>
+                                            <constraint firstAttribute="height" constant="400" id="qCG-Qr-BZJ"/>
+                                            <constraint firstItem="ov2-Jp-MsX" firstAttribute="top" secondItem="CBO-54-22a" secondAttribute="bottom" constant="15" id="wdp-qd-8wn"/>
                                             <constraint firstAttribute="bottom" secondItem="ov2-Jp-MsX" secondAttribute="bottom" id="zcJ-gE-RwF"/>
                                         </constraints>
                                     </view>
@@ -1197,10 +1192,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="Ftz-Ln-bCP"/>
                     <connections>
-                        <outlet property="learnStatusByDayIndicator" destination="9h5-mB-Eke" id="axt-74-DRe"/>
-                        <outlet property="learnStatusByDayLabel" destination="RDe-hK-88u" id="5Sp-js-ttu"/>
-                        <outlet property="learnStatusByMonIndicator" destination="kiO-iy-uRD" id="1pE-lF-PCa"/>
-                        <outlet property="learnStatusByMonLabel" destination="S1g-tp-EuT" id="aLO-F7-PJa"/>
+                        <outlet property="dayMonSegmentedControl" destination="QOh-EE-5wt" id="xPK-El-ZGb"/>
                         <outlet property="masteredAndLearnedCurveView" destination="ov2-Jp-MsX" id="myl-fx-wBM"/>
                         <outlet property="masteredStatusView" destination="YdH-UP-BSR" id="ecO-LF-g8r"/>
                         <outlet property="numMinutesCumulatedLabel" destination="N0J-Sq-WE7" id="Zpz-qC-WHn"/>
@@ -1208,6 +1200,8 @@
                         <outlet property="numWordCumulatedLabel" destination="2QU-uX-xCs" id="5JA-DU-Ew4"/>
                         <outlet property="numWordTodayLabel" destination="qN7-Sf-jzn" id="TPo-dD-s1V"/>
                         <outlet property="overView" destination="pvz-nE-kjs" id="UYR-yA-VNb"/>
+                        <outlet property="perTimeCumSegmentedControl" destination="GoD-dt-gRb" id="xS3-Ou-aWe"/>
+                        <outlet property="wordTimeSegmentedControl" destination="Zmd-2a-WmY" id="yoV-pS-v3B"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1SV-fU-Hz6" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
