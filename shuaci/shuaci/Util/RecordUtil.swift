@@ -184,7 +184,7 @@ func getCumulatedMasteredByDate(dates: [Date], byDay: Bool = true) -> [Int]{
         cumMastered.append(0)
         for vocab in masteredVocabs{
             if byDay{
-                if Calendar.current.isDate(vocab.LearnDate ?? Date(), inSameDayAs: dates[di]){
+                if Calendar.current.isDate(vocab.MasteredDate ?? Date(), inSameDayAs: dates[di]){
                     cumMastered[di] += 1
                 }
             } else{
@@ -216,7 +216,7 @@ func getCumulatedMasteredByDate(dates: [Date], byDay: Bool = true) -> [Int]{
 
 
 
-func getCumulatedLearnedByDate(dates: [Date], byDay: Bool = true) -> [Int]{
+func getCumulatedLearnedByDate(dates: [Date], byDay: Bool = true, cumulated: Bool = true) -> [Int]{
     var cumLearned:[Int] = []
     for di in 0..<dates.count{
         cumLearned.append(0)
@@ -232,7 +232,58 @@ func getCumulatedLearnedByDate(dates: [Date], byDay: Bool = true) -> [Int]{
             }
             
         }
-        if di > 0{
+        if cumulated && di > 0{
+            cumLearned[di] += cumLearned[di - 1]
+        }
+    }
+    return cumLearned
+}
+
+func getCumHoursByDate(dates: [Date], byDay: Bool = true, cumulated: Bool = true, Learn: Bool = true) -> [Float]{
+    var cumLearned:[Float] = []
+    for di in 0..<dates.count{
+        cumLearned.append(0)
+        if Learn{
+            for lrec in GlobalLearningRecords{
+                if byDay{
+                    if Calendar.current.isDate(lrec.EndDate, inSameDayAs: dates[di]){
+                        let difference = Calendar.current.dateComponents([.second], from: lrec.StartDate, to: lrec.EndDate)
+                        if let secondT:Int = difference.second {
+                            cumLearned[di] += Float(secondT) / Float(60)
+                        }
+                    }
+                } else{
+                    if dates[di].isInSameMonth(as: lrec.EndDate){
+                        let difference = Calendar.current.dateComponents([.second], from: lrec.StartDate, to: lrec.EndDate)
+                        if let secondT:Int = difference.second {
+                            cumLearned[di] += Float(secondT) / Float(60)
+                        }
+                    }
+                }
+                
+            }
+        }else{
+            for rrec in GlobalReviewRecords{
+                if byDay{
+                    if Calendar.current.isDate(rrec.EndDate, inSameDayAs: dates[di]){
+                        let difference = Calendar.current.dateComponents([.second], from: rrec.StartDate, to: rrec.EndDate)
+                        if let secondT:Int = difference.second {
+                            cumLearned[di] += Float(secondT) / Float(60)
+                        }
+                    }
+                } else{
+                    if dates[di].isInSameMonth(as: rrec.EndDate){
+                        let difference = Calendar.current.dateComponents([.second], from: rrec.StartDate, to: rrec.EndDate)
+                        if let secondT:Int = difference.second {
+                            cumLearned[di] += Float(secondT) / Float(60)
+                        }
+                    }
+                }
+                
+            }
+        }
+        
+        if cumulated && di > 0{
             cumLearned[di] += cumLearned[di - 1]
         }
     }
@@ -360,6 +411,9 @@ func saveLearningRecordsFromLearning() {
     //Save learning records and vocabs after learning
     for i in 0..<vocabRecordsOfCurrentLearning.count{
         vocabRecordsOfCurrentLearning[i].LearnDate = Date()
+        if vocabRecordsOfCurrentLearning[i].Mastered{
+            vocabRecordsOfCurrentLearning[i].MasteredDate = Date()
+        }
     }
     GlobalVocabRecords.append(contentsOf: vocabRecordsOfCurrentLearning)
     saveVocabRecords(saveToLocal: true, completionHandler: {_ in })

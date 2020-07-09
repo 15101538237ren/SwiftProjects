@@ -15,15 +15,17 @@ struct VocabularyRecord: Codable {
     var LearnDate: Date?
     var CollectDate: Date?
     var Mastered: Bool
+    var MasteredDate: Date?
     var ReviewDUEDate: Date?
     var BehaviorHistory: [Int]
-    init(VocabRecId: String, BookId: String, WordRank: Int, LearnDate: Date?, CollectDate: Date?, Mastered: Bool, ReviewDUEDate: Date?, BehaviorHistory: [CardBehavior]) {
+    init(VocabRecId: String, BookId: String, WordRank: Int, LearnDate: Date?, CollectDate: Date?, Mastered: Bool, MasteredDate: Date?, ReviewDUEDate: Date?, BehaviorHistory: [CardBehavior]) {
         self.VocabRecId = VocabRecId
         self.BookId = BookId
         self.WordRank = WordRank
         self.LearnDate = LearnDate
         self.CollectDate = CollectDate
         self.Mastered = Mastered
+        self.MasteredDate = MasteredDate
         self.ReviewDUEDate = ReviewDUEDate
         var rawBehaviorHistory:[Int] = []
         for cardBehavior in BehaviorHistory{

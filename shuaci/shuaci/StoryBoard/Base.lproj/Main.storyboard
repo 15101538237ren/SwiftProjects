@@ -884,16 +884,16 @@
                                 <rect key="frame" x="0.0" y="91" width="414" height="778"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pvz-nE-kjs">
-                                        <rect key="frame" x="20" y="30" width="374" height="220"/>
+                                        <rect key="frame" x="20" y="30" width="374" height="240"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="概况" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vA7-pM-4Ne">
-                                                <rect key="frame" x="20" y="17" width="33" height="19.5"/>
+                                                <rect key="frame" x="20" y="23" width="33" height="19.5"/>
                                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <stackView opaque="NO" contentMode="scaleToFill" spacing="6" translatesAutoresizingMaskIntoConstraints="NO" id="Yuc-p8-y2B">
-                                                <rect key="frame" x="20" y="60" width="118" height="16"/>
+                                                <rect key="frame" x="20" y="70" width="118" height="16"/>
                                                 <subviews>
                                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bar-chart" translatesAutoresizingMaskIntoConstraints="NO" id="Y2R-FI-CRg">
                                                         <rect key="frame" x="0.0" y="0.0" width="16" height="16"/>
@@ -914,7 +914,7 @@
                                                 </constraints>
                                             </stackView>
                                             <stackView opaque="NO" contentMode="scaleToFill" spacing="6" translatesAutoresizingMaskIntoConstraints="NO" id="xw6-7k-8RC">
-                                                <rect key="frame" x="230" y="60" width="79.5" height="16"/>
+                                                <rect key="frame" x="230" y="70" width="79.5" height="16"/>
                                                 <subviews>
                                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="cum_word" translatesAutoresizingMaskIntoConstraints="NO" id="ZQY-qZ-V4l">
                                                         <rect key="frame" x="0.0" y="0.0" width="16" height="16"/>
@@ -935,7 +935,7 @@
                                                 </constraints>
                                             </stackView>
                                             <stackView opaque="NO" contentMode="scaleToFill" spacing="6" translatesAutoresizingMaskIntoConstraints="NO" id="7bE-z5-m4z">
-                                                <rect key="frame" x="230" y="141" width="108" height="16"/>
+                                                <rect key="frame" x="230" y="151" width="108" height="16"/>
                                                 <subviews>
                                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="cum_time" translatesAutoresizingMaskIntoConstraints="NO" id="wy8-P2-XNb">
                                                         <rect key="frame" x="0.0" y="0.0" width="16" height="16"/>
@@ -956,7 +956,7 @@
                                                 </constraints>
                                             </stackView>
                                             <stackView opaque="NO" contentMode="scaleToFill" spacing="6" translatesAutoresizingMaskIntoConstraints="NO" id="EC9-6H-LbG">
-                                                <rect key="frame" x="20" y="141" width="108" height="16"/>
+                                                <rect key="frame" x="20" y="151" width="108" height="16"/>
                                                 <subviews>
                                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="clock" translatesAutoresizingMaskIntoConstraints="NO" id="TfN-C4-Rh0">
                                                         <rect key="frame" x="0.0" y="0.0" width="16" height="16"/>
@@ -977,7 +977,7 @@
                                                 </constraints>
                                             </stackView>
                                             <stackView opaque="NO" contentMode="scaleToFill" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="N5q-l5-X2b">
-                                                <rect key="frame" x="50" y="98" width="43.5" height="19.5"/>
+                                                <rect key="frame" x="50" y="108" width="43.5" height="19.5"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="----" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qN7-Sf-jzn">
                                                         <rect key="frame" x="0.0" y="0.0" width="29.5" height="19.5"/>
@@ -994,7 +994,7 @@
                                                 </subviews>
                                             </stackView>
                                             <stackView opaque="NO" contentMode="scaleToFill" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="Vyl-LK-Vwy">
-                                                <rect key="frame" x="250" y="98" width="43.5" height="19.5"/>
+                                                <rect key="frame" x="250" y="108" width="43.5" height="19.5"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="----" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2QU-uX-xCs">
                                                         <rect key="frame" x="0.0" y="0.0" width="29.5" height="19.5"/>
@@ -1011,7 +1011,7 @@
                                                 </subviews>
                                             </stackView>
                                             <stackView opaque="NO" contentMode="scaleToFill" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="CFH-zI-tuf">
-                                                <rect key="frame" x="250" y="179" width="39" height="19.5"/>
+                                                <rect key="frame" x="250" y="189" width="39" height="19.5"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="--" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="N0J-Sq-WE7">
                                                         <rect key="frame" x="0.0" y="0.0" width="15" height="19.5"/>
@@ -1028,7 +1028,7 @@
                                                 </subviews>
                                             </stackView>
                                             <stackView opaque="NO" contentMode="scaleToFill" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="9so-4S-doY">
-                                                <rect key="frame" x="50" y="179" width="39" height="19.5"/>
+                                                <rect key="frame" x="50" y="189" width="39" height="19.5"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="--" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BEj-rl-6Id">
                                                         <rect key="frame" x="0.0" y="0.0" width="15" height="19.5"/>
@@ -1048,10 +1048,10 @@
                                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                         <constraints>
                                             <constraint firstItem="CFH-zI-tuf" firstAttribute="leading" secondItem="pvz-nE-kjs" secondAttribute="leading" constant="250" id="2YU-Cr-cZi"/>
-                                            <constraint firstItem="xw6-7k-8RC" firstAttribute="top" secondItem="pvz-nE-kjs" secondAttribute="top" constant="60" id="3vy-8h-Pnp"/>
+                                            <constraint firstItem="xw6-7k-8RC" firstAttribute="top" secondItem="pvz-nE-kjs" secondAttribute="top" constant="70" id="3vy-8h-Pnp"/>
                                             <constraint firstItem="9so-4S-doY" firstAttribute="top" secondItem="EC9-6H-LbG" secondAttribute="bottom" constant="22" id="49k-Ll-MDZ"/>
-                                            <constraint firstItem="Yuc-p8-y2B" firstAttribute="top" secondItem="pvz-nE-kjs" secondAttribute="top" constant="60" id="5VJ-R3-NRZ"/>
-                                            <constraint firstItem="vA7-pM-4Ne" firstAttribute="top" secondItem="pvz-nE-kjs" secondAttribute="top" constant="17" id="BEm-Mc-LdR"/>
+                                            <constraint firstItem="Yuc-p8-y2B" firstAttribute="top" secondItem="pvz-nE-kjs" secondAttribute="top" constant="70" id="5VJ-R3-NRZ"/>
+                                            <constraint firstItem="vA7-pM-4Ne" firstAttribute="top" secondItem="pvz-nE-kjs" secondAttribute="top" constant="23" id="BEm-Mc-LdR"/>
                                             <constraint firstItem="7bE-z5-m4z" firstAttribute="leading" secondItem="pvz-nE-kjs" secondAttribute="leading" constant="230" id="FuP-A5-kfA"/>
                                             <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="220" id="GF1-XG-UYq"/>
                                             <constraint firstItem="Yuc-p8-y2B" firstAttribute="leading" secondItem="pvz-nE-kjs" secondAttribute="leading" constant="20" id="Gqt-NK-68i"/>
@@ -1059,7 +1059,7 @@
                                             <constraint firstItem="EC9-6H-LbG" firstAttribute="top" secondItem="Yuc-p8-y2B" secondAttribute="bottom" constant="65" id="M37-oW-QWo"/>
                                             <constraint firstItem="N5q-l5-X2b" firstAttribute="leading" secondItem="pvz-nE-kjs" secondAttribute="leading" constant="50" id="OZ4-ag-514"/>
                                             <constraint firstItem="CFH-zI-tuf" firstAttribute="top" secondItem="7bE-z5-m4z" secondAttribute="bottom" constant="22" id="VV8-vt-Rd9"/>
-                                            <constraint firstAttribute="height" constant="220" id="dk8-HJ-acQ"/>
+                                            <constraint firstAttribute="height" constant="240" id="dk8-HJ-acQ"/>
                                             <constraint firstItem="xw6-7k-8RC" firstAttribute="leading" secondItem="pvz-nE-kjs" secondAttribute="leading" constant="230" id="eeU-8j-xKt"/>
                                             <constraint firstItem="7bE-z5-m4z" firstAttribute="top" secondItem="xw6-7k-8RC" secondAttribute="bottom" constant="65" id="hth-dM-OXJ"/>
                                             <constraint firstItem="vA7-pM-4Ne" firstAttribute="leading" secondItem="pvz-nE-kjs" secondAttribute="leading" constant="20" id="lZ7-ZZ-ZHx"/>
@@ -1070,37 +1070,22 @@
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YdH-UP-BSR">
-                                        <rect key="frame" x="20" y="280" width="374" height="400"/>
+                                        <rect key="frame" x="20" y="300" width="374" height="445"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="学习曲线" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8vT-aQ-cUP">
-                                                <rect key="frame" x="20" y="17" width="65.5" height="19.5"/>
+                                                <rect key="frame" x="20" y="23" width="65.5" height="19.5"/>
                                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" alignment="center" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="CBO-54-22a">
-                                                <rect key="frame" x="65" y="66.5" width="244" height="25"/>
+                                                <rect key="frame" x="67.5" y="72.5" width="239" height="27"/>
                                                 <subviews>
-                                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" apportionsSegmentWidthsByContent="YES" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="QOh-EE-5wt">
-                                                        <rect key="frame" x="0.0" y="0.0" width="70" height="26"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="width" constant="70" id="aRn-ct-faB"/>
-                                                            <constraint firstAttribute="height" constant="25" id="gnS-TN-Hnx"/>
-                                                        </constraints>
-                                                        <segments>
-                                                            <segment title="按日"/>
-                                                            <segment title="按月"/>
-                                                        </segments>
-                                                        <color key="selectedSegmentTintColor" systemColor="systemOrangeColor" red="1" green="0.58431372550000005" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                        <connections>
-                                                            <action selector="dayMonSelectedChanged:" destination="4a5-3m-NM6" eventType="valueChanged" id="hcO-y8-Mhb"/>
-                                                        </connections>
-                                                    </segmentedControl>
                                                     <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" apportionsSegmentWidthsByContent="YES" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Zmd-2a-WmY">
-                                                        <rect key="frame" x="82" y="0.0" width="80" height="26"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="75" height="28"/>
                                                         <constraints>
-                                                            <constraint firstAttribute="height" constant="25" id="fzC-o3-RGy"/>
-                                                            <constraint firstAttribute="width" constant="80" id="w7G-9J-aHt"/>
+                                                            <constraint firstAttribute="height" constant="27" id="fzC-o3-RGy"/>
+                                                            <constraint firstAttribute="width" constant="75" id="w7G-9J-aHt"/>
                                                         </constraints>
                                                         <segments>
                                                             <segment title="单词量"/>
@@ -1112,10 +1097,25 @@
                                                             <action selector="wordTimeSelectedChanged:" destination="4a5-3m-NM6" eventType="valueChanged" id="kPG-BW-LXf"/>
                                                         </connections>
                                                     </segmentedControl>
-                                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" apportionsSegmentWidthsByContent="YES" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="GoD-dt-gRb">
-                                                        <rect key="frame" x="174" y="0.0" width="70" height="26"/>
+                                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" apportionsSegmentWidthsByContent="YES" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="QOh-EE-5wt">
+                                                        <rect key="frame" x="87" y="0.0" width="70" height="28"/>
                                                         <constraints>
-                                                            <constraint firstAttribute="height" constant="25" id="BU3-2X-wtF"/>
+                                                            <constraint firstAttribute="width" constant="70" id="aRn-ct-faB"/>
+                                                            <constraint firstAttribute="height" constant="27" id="gnS-TN-Hnx"/>
+                                                        </constraints>
+                                                        <segments>
+                                                            <segment title="按日"/>
+                                                            <segment title="按月"/>
+                                                        </segments>
+                                                        <color key="selectedSegmentTintColor" systemColor="systemOrangeColor" red="1" green="0.58431372550000005" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                        <connections>
+                                                            <action selector="dayMonSelectedChanged:" destination="4a5-3m-NM6" eventType="valueChanged" id="hcO-y8-Mhb"/>
+                                                        </connections>
+                                                    </segmentedControl>
+                                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" apportionsSegmentWidthsByContent="YES" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="GoD-dt-gRb">
+                                                        <rect key="frame" x="169" y="0.0" width="70" height="28"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="27" id="BU3-2X-wtF"/>
                                                             <constraint firstAttribute="width" constant="70" id="kHN-wm-pLQ"/>
                                                         </constraints>
                                                         <segments>
@@ -1131,7 +1131,7 @@
                                                 </subviews>
                                             </stackView>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ov2-Jp-MsX">
-                                                <rect key="frame" x="0.0" y="91.5" width="374" height="308.5"/>
+                                                <rect key="frame" x="0.0" y="109.5" width="374" height="325.5"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                             </view>
                                         </subviews>
@@ -1141,12 +1141,11 @@
                                             <constraint firstItem="ov2-Jp-MsX" firstAttribute="centerX" secondItem="YdH-UP-BSR" secondAttribute="centerX" id="5KL-HY-CUk"/>
                                             <constraint firstAttribute="trailing" secondItem="ov2-Jp-MsX" secondAttribute="trailing" id="DCq-sm-TtJ"/>
                                             <constraint firstItem="ov2-Jp-MsX" firstAttribute="leading" secondItem="YdH-UP-BSR" secondAttribute="leading" id="IL8-gD-tUw"/>
-                                            <constraint firstItem="8vT-aQ-cUP" firstAttribute="top" secondItem="YdH-UP-BSR" secondAttribute="top" constant="17" id="OBP-1u-odV"/>
+                                            <constraint firstItem="8vT-aQ-cUP" firstAttribute="top" secondItem="YdH-UP-BSR" secondAttribute="top" constant="23" id="OBP-1u-odV"/>
                                             <constraint firstItem="CBO-54-22a" firstAttribute="centerX" secondItem="YdH-UP-BSR" secondAttribute="centerX" id="YWi-Aj-yAZ"/>
                                             <constraint firstItem="8vT-aQ-cUP" firstAttribute="leading" secondItem="YdH-UP-BSR" secondAttribute="leading" constant="20" id="lyF-LY-b1C"/>
-                                            <constraint firstAttribute="height" constant="400" id="qCG-Qr-BZJ"/>
-                                            <constraint firstItem="ov2-Jp-MsX" firstAttribute="top" secondItem="CBO-54-22a" secondAttribute="bottom" id="wdp-qd-8wn"/>
-                                            <constraint firstAttribute="bottom" secondItem="ov2-Jp-MsX" secondAttribute="bottom" id="zcJ-gE-RwF"/>
+                                            <constraint firstItem="ov2-Jp-MsX" firstAttribute="top" secondItem="CBO-54-22a" secondAttribute="bottom" constant="10" id="wdp-qd-8wn"/>
+                                            <constraint firstAttribute="bottom" secondItem="ov2-Jp-MsX" secondAttribute="bottom" constant="10" id="zcJ-gE-RwF"/>
                                         </constraints>
                                     </view>
                                 </subviews>
@@ -1156,6 +1155,7 @@
                                     <constraint firstItem="YdH-UP-BSR" firstAttribute="leading" secondItem="k2O-4R-fAf" secondAttribute="leading" constant="20" id="Ffl-6W-Xtj"/>
                                     <constraint firstItem="pvz-nE-kjs" firstAttribute="centerX" secondItem="axR-mW-taG" secondAttribute="centerX" id="Ihn-Yf-4xK"/>
                                     <constraint firstItem="pvz-nE-kjs" firstAttribute="leading" secondItem="k2O-4R-fAf" secondAttribute="leading" constant="20" id="SUv-xs-gUh"/>
+                                    <constraint firstItem="k2O-4R-fAf" firstAttribute="bottom" secondItem="YdH-UP-BSR" secondAttribute="bottom" constant="60" id="TYV-W5-gYV"/>
                                     <constraint firstItem="pvz-nE-kjs" firstAttribute="top" secondItem="k2O-4R-fAf" secondAttribute="top" constant="30" id="lVG-u7-0ju"/>
                                     <constraint firstItem="YdH-UP-BSR" firstAttribute="top" secondItem="pvz-nE-kjs" secondAttribute="bottom" constant="30" id="qOu-eH-pi5"/>
                                     <constraint firstItem="YdH-UP-BSR" firstAttribute="centerX" secondItem="axR-mW-taG" secondAttribute="centerX" id="riD-e1-AmO"/>

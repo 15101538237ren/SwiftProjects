@@ -67,33 +67,62 @@ class StatViewController: UIViewController {
     }
     
     func getLearnStatusModel() -> AAChartModel{
-        let learnStatusByDaySelected: Bool = dayMonSegmentedControl.selectedSegmentIndex == 0 ? true : false
-        let minMaxDates:[Date] = getMinMaxDateOfVocabRecords()
-        let intervalDates:[Date] = generateDatesForMinMaxDates(minMaxDates: minMaxDates, byDay: learnStatusByDaySelected)
-        let categories:[String] = formatDateAsCategory(dates: intervalDates, byDay: learnStatusByDaySelected)
-        print(intervalDates)
-        let cumMasteredCount:[Int] = getCumulatedMasteredByDate(dates: intervalDates, byDay: learnStatusByDaySelected)
-        let cumLearnedCount:[Int] = getCumulatedLearnedByDate(dates: intervalDates, byDay: learnStatusByDaySelected)
+        let byDay: Bool = dayMonSegmentedControl.selectedSegmentIndex == 0 ? true : false
+        let byWordCnt: Bool = wordTimeSegmentedControl.selectedSegmentIndex == 0 ? true : false
         
-        let masteredStatusChartModel = AAChartModel()
-            .chartType(.line)//Can be any of the chart types listed under `AAChartType`.
-            .animationType(.elastic)
-        .tooltipValueSuffix("词")//the value suffix of the chart tooltip
-        .dataLabelsEnabled(false) //Enable or disable the data labels. Defaults to false
-        .yAxisVisible(false)
-        .categories(categories)
-        .colorsTheme(["#4fa83d","#3f8ada"])
-        .series([
-            AASeriesElement()
-            .name("累计学习")
-            .data(cumLearnedCount),
-            AASeriesElement()
-                .name("累计掌握")
-                .data(cumMasteredCount)])
-        return masteredStatusChartModel
+        let cumulated: Bool = perTimeCumSegmentedControl.selectedSegmentIndex == 0 ? false : true
+        let cumLabel = cumulated ? "累计" : byDay ? "当天" : "当月"
+        let suffixLabel = byWordCnt ? "词" : "分钟"
+        let seriesNames = byWordCnt ? ["\(cumLabel)学习", "\(cumLabel)掌握"] : ["\(cumLabel)学习", "\(cumLabel)复习"]
+        
+        let minMaxDates:[Date] = getMinMaxDateOfVocabRecords()
+        let intervalDates:[Date] = generateDatesForMinMaxDates(minMaxDates: minMaxDates, byDay: byDay)
+        let categories:[String] = formatDateAsCategory(dates: intervalDates, byDay: byDay)
+        if byWordCnt{
+            let cumMasteredCount:[Int] = getCumulatedMasteredByDate(dates: intervalDates, byDay: byDay)
+                    let cumLearnedCount:[Int] = getCumulatedLearnedByDate(dates: intervalDates, byDay: byDay, cumulated: cumulated)
+                    
+                    let masteredStatusChartModel = AAChartModel()
+                        .chartType(.line)//Can be any of the chart types listed under `AAChartType`.
+                        .animationType(.elastic)
+                    .tooltipValueSuffix(suffixLabel)//the value suffix of the chart tooltip
+                    .dataLabelsEnabled(false) //Enable or disable the data labels. Defaults to false
+            //        .yAxisVisible(false)
+                    .categories(categories)
+                    .colorsTheme(["#4fa83d","#3f8ada"])
+                    .series([
+                        AASeriesElement()
+                        .name(seriesNames[0])
+                        .data(cumLearnedCount),
+                        AASeriesElement()
+                            .name(seriesNames[1])
+                            .data(cumMasteredCount)])
+                    return masteredStatusChartModel
+        } else{
+            let cumReviewedHours:[Float] = getCumHoursByDate(dates: intervalDates, byDay: byDay, cumulated: cumulated, Learn: false)
+            let cumLearnedHours:[Float] = getCumHoursByDate(dates: intervalDates, byDay: byDay, cumulated: cumulated, Learn: true)
+            
+            let masteredStatusChartModel = AAChartModel()
+                .chartType(.line)//Can be any of the chart types listed under `AAChartType`.
+                .animationType(.elastic)
+            .tooltipValueSuffix(suffixLabel)//the value suffix of the chart tooltip
+            .dataLabelsEnabled(false) //Enable or disable the data labels. Defaults to false
+    //        .yAxisVisible(false)
+            .categories(categories)
+            .colorsTheme(["#4fa83d","#3f8ada"])
+            .series([
+                AASeriesElement()
+                .name(seriesNames[0])
+                .data(cumLearnedHours),
+                AASeriesElement()
+                    .name(seriesNames[1])
+                    .data(cumReviewedHours)])
+            return masteredStatusChartModel
+        }
+        
     }
     
-    func setFontofSegmentedControl(font: UIFont, selectedForeGroundColor: UIColor, selectedBackGroundColor: UIColor, unSelectedForegroundColor: UIColor = .black, unSelectedBackgroundColor: UIColor = .lightGray){
+    func setFontofSegmentedControl(font: UIFont, selectedForeGroundColor: UIColor, selectedTintColor: UIColor){
         dayMonSegmentedControl.setTitleTextAttributes([NSAttributedString.Key.font: font], for: .normal)
         wordTimeSegmentedControl.setTitleTextAttributes([NSAttributedString.Key.font: font], for: .normal)
         perTimeCumSegmentedControl.setTitleTextAttributes([NSAttributedString.Key.font: font], for: .normal)
@@ -102,22 +131,15 @@ class StatViewController: UIViewController {
         wordTimeSegmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: selectedForeGroundColor], for: .selected)
         perTimeCumSegmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: selectedForeGroundColor], for: .selected)
         
-        dayMonSegmentedControl.setTitleTextAttributes([NSAttributedString.Key.backgroundColor: selectedBackGroundColor], for: .selected)
-        wordTimeSegmentedControl.setTitleTextAttributes([NSAttributedString.Key.backgroundColor: selectedBackGroundColor], for: .selected)
-        perTimeCumSegmentedControl.setTitleTextAttributes([NSAttributedString.Key.backgroundColor: selectedBackGroundColor], for: .selected)
         
-        dayMonSegmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: unSelectedForegroundColor], for: .normal)
-        wordTimeSegmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: unSelectedForegroundColor], for: .normal)
-        perTimeCumSegmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: unSelectedForegroundColor], for: .normal)
-        
-        dayMonSegmentedControl.setTitleTextAttributes([NSAttributedString.Key.backgroundColor: unSelectedBackgroundColor], for: .normal)
-        wordTimeSegmentedControl.setTitleTextAttributes([NSAttributedString.Key.backgroundColor: unSelectedBackgroundColor], for: .normal)
-        perTimeCumSegmentedControl.setTitleTextAttributes([NSAttributedString.Key.backgroundColor: unSelectedBackgroundColor], for: .normal)
+        dayMonSegmentedControl.tintColor = selectedTintColor
+        wordTimeSegmentedControl.tintColor = selectedTintColor
+        perTimeCumSegmentedControl.tintColor = selectedTintColor
         
     }
     
     override func viewDidLoad() {
-        setFontofSegmentedControl(font: UIFont.systemFont(ofSize: 10), selectedForeGroundColor: .white, selectedBackGroundColor: .orange)
+        setFontofSegmentedControl(font: UIFont.systemFont(ofSize: 10), selectedForeGroundColor: .white, selectedTintColor: .orange)
         getStatOfToday()
         setUpLearnStatusSelected(initial: true)
         

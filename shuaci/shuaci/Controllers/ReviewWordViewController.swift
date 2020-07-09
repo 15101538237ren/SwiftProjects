@@ -450,6 +450,7 @@ class ReviewWordViewController: UIViewController {
             vocabRecordsOfCurrentReview[index].BehaviorHistory.removeLast()
         case .trash:
             vocabRecordsOfCurrentReview[index].Mastered = false
+            vocabRecordsOfCurrentReview[index].MasteredDate = nil
         }
     }
     
@@ -544,6 +545,9 @@ class ReviewWordViewController: UIViewController {
                         self.card_behaviors.append(.forget)
                     case .trash:
                         vocabRecordsOfCurrentReview[self.currentIndex].Mastered = true
+                        if vocabRecordsOfCurrentReview[self.currentIndex].MasteredDate == nil{
+                            vocabRecordsOfCurrentReview[self.currentIndex].MasteredDate = Date()
+                        }
                         self.card_behaviors.append(.trash)
                     }
                     let word: String = nextCard.wordLabel?.text ?? ""

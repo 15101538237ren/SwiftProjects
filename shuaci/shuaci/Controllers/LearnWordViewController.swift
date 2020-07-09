@@ -202,7 +202,7 @@ class LearnWordViewController: UIViewController {
         {
             let word = words[index % words.count]
             let cardWord = getFeildsOfWord(word: word, usphone: getUSPhone())
-            var vocabRecord: VocabularyRecord = VocabularyRecord.init(VocabRecId: "\(current_book_id)_\(cardWord.wordRank)", BookId: current_book_id, WordRank: cardWord.wordRank, LearnDate: nil, CollectDate: nil, Mastered: false, ReviewDUEDate: nil, BehaviorHistory: [])
+            var vocabRecord: VocabularyRecord = VocabularyRecord.init(VocabRecId: "\(current_book_id)_\(cardWord.wordRank)", BookId: current_book_id, WordRank: cardWord.wordRank, LearnDate: nil, CollectDate: nil, Mastered: false, MasteredDate: nil, ReviewDUEDate: nil, BehaviorHistory: [])
             vocabRecordsOfCurrentLearning.append(vocabRecord)
             card_collect_behaviors.append(.no)
         }
