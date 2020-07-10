@@ -229,21 +229,21 @@ class LearnWordViewController: UIViewController {
             setFieldsOfCard(card: card, cardWord: cardWord, collected: collected)
             let next_card = cards[currentIndex % 2]
             
-            next_card.dragable = !next_card.dragable
-            card.dragable = !card.dragable
-            
             learnUIView.bringSubviewToFront(next_card)
             resetCard(card: card)
             enableBtns()
+            next_card.dragable = !next_card.dragable
+            card.dragable = !card.dragable
         }
         else{
             let card = cards[(currentIndex + 1) % 2]
             let next_card = cards[currentIndex % 2]
             
             next_card.dragable = !next_card.dragable
-            card.dragable = !card.dragable
             self.updateProgressLabel(index: self.currentIndex)
             enableBtns()
+            resetCard(card: card)
+            card.dragable = !card.dragable
         }
     }
     

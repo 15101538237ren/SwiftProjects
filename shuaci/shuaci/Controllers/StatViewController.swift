@@ -125,7 +125,7 @@ class StatViewController: UIViewController {
         
     }
     
-    func setFontofSegmentedControl(font: UIFont, selectedForeGroundColor: UIColor, selectedTintColor: UIColor){
+    func setFontofSegmentedControl(font: UIFont, selectedForeGroundColor: UIColor){
         dayMonSegmentedControl.setTitleTextAttributes([NSAttributedString.Key.font: font], for: .normal)
         wordTimeSegmentedControl.setTitleTextAttributes([NSAttributedString.Key.font: font], for: .normal)
         perTimeCumSegmentedControl.setTitleTextAttributes([NSAttributedString.Key.font: font], for: .normal)
@@ -133,16 +133,10 @@ class StatViewController: UIViewController {
         dayMonSegmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: selectedForeGroundColor], for: .selected)
         wordTimeSegmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: selectedForeGroundColor], for: .selected)
         perTimeCumSegmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: selectedForeGroundColor], for: .selected)
-        
-        
-        dayMonSegmentedControl.tintColor = selectedTintColor
-        wordTimeSegmentedControl.tintColor = selectedTintColor
-        perTimeCumSegmentedControl.tintColor = selectedTintColor
-        
     }
     
     override func viewDidLoad() {
-        setFontofSegmentedControl(font: UIFont.systemFont(ofSize: 10), selectedForeGroundColor: .white, selectedTintColor: .orange)
+        setFontofSegmentedControl(font: UIFont.systemFont(ofSize: 10), selectedForeGroundColor: .white)
         getStatOfToday()
         setUpLearnStatusSelected(initial: true)
         

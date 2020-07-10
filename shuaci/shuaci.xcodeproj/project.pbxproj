@@ -12,6 +12,10 @@
 		55001E1F2491AFF600DF0D0E /* FunctionUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55001E1E2491AFF600DF0D0E /* FunctionUtil.swift */; };
 		55001E212491B1FC00DF0D0E /* ThemeUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55001E202491B1FC00DF0D0E /* ThemeUtil.swift */; };
 		55001E232491B21A00DF0D0E /* BookUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55001E222491B21A00DF0D0E /* BookUtil.swift */; };
+		5500540F24B7EA5B0005AD6F /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5500540E24B7EA5B0005AD6F /* SearchViewController.swift */; };
+		5500541324B822170005AD6F /* setNickNameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5500541224B822170005AD6F /* setNickNameViewController.swift */; };
+		5500541524B8222E0005AD6F /* bindEmailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5500541424B8222E0005AD6F /* bindEmailViewController.swift */; };
+		5500541724B8223E0005AD6F /* bindPhoneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5500541624B8223E0005AD6F /* bindPhoneViewController.swift */; };
 		5507D9072479935C0090DD37 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5507D9062479935C0090DD37 /* Reachability.swift */; };
 		551265CB24AEE03F007C333E /* ReviewFinishViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 551265CA24AEE03F007C333E /* ReviewFinishViewController.swift */; };
 		5518B9B8247A2E7600BC8DA4 /* LearnFinishViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5518B9B7247A2E7600BC8DA4 /* LearnFinishViewController.swift */; };
@@ -83,6 +87,10 @@
 		55001E1E2491AFF600DF0D0E /* FunctionUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FunctionUtil.swift; sourceTree = "<group>"; };
 		55001E202491B1FC00DF0D0E /* ThemeUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeUtil.swift; sourceTree = "<group>"; };
 		55001E222491B21A00DF0D0E /* BookUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookUtil.swift; sourceTree = "<group>"; };
+		5500540E24B7EA5B0005AD6F /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
+		5500541224B822170005AD6F /* setNickNameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = setNickNameViewController.swift; sourceTree = "<group>"; };
+		5500541424B8222E0005AD6F /* bindEmailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = bindEmailViewController.swift; sourceTree = "<group>"; };
+		5500541624B8223E0005AD6F /* bindPhoneViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = bindPhoneViewController.swift; sourceTree = "<group>"; };
 		5507D9062479935C0090DD37 /* Reachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		551265CA24AEE03F007C333E /* ReviewFinishViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewFinishViewController.swift; sourceTree = "<group>"; };
 		5518B9B7247A2E7600BC8DA4 /* LearnFinishViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearnFinishViewController.swift; sourceTree = "<group>"; };
@@ -333,6 +341,10 @@
 				559BFD8124A1CC5500AFD7E6 /* BindPhoneNumberViewController.swift */,
 				551265CA24AEE03F007C333E /* ReviewFinishViewController.swift */,
 				55C5E20124B03A40005D2956 /* StatViewController.swift */,
+				5500540E24B7EA5B0005AD6F /* SearchViewController.swift */,
+				5500541224B822170005AD6F /* setNickNameViewController.swift */,
+				5500541424B8222E0005AD6F /* bindEmailViewController.swift */,
+				5500541624B8223E0005AD6F /* bindPhoneViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -485,6 +497,7 @@
 				A5E764D4245E0AD000367C2A /* UserProfileViewController.swift in Sources */,
 				A59EB1D72452A12900F300E1 /* MainScreenViewController.swift in Sources */,
 				A59EB1D32452A12900F300E1 /* AppDelegate.swift in Sources */,
+				5500541524B8222E0005AD6F /* bindEmailViewController.swift in Sources */,
 				A59A0B1A2454C04E000845F2 /* UIColor+Ext.swift in Sources */,
 				55001E1B2491A6D400DF0D0E /* Preference.swift in Sources */,
 				A5DD06E0246267A60051B3E5 /* BookItemTableViewCell.swift in Sources */,
@@ -494,6 +507,7 @@
 				A5F59F462453DC6900D6D717 /* PhoneLoginUIView.swift in Sources */,
 				A5F59F4C2453DDDB00D6D717 /* PhoneLoginViewController.swift in Sources */,
 				A5134E34246772B4008B116D /* LearnWordViewController.swift in Sources */,
+				5500541324B822170005AD6F /* setNickNameViewController.swift in Sources */,
 				5569E93F24AD187D006FBE62 /* UIApplication+Ext.swift in Sources */,
 				55001E1D2491AF7300DF0D0E /* RecordUtil.swift in Sources */,
 				A59A0B1C2454D48C000845F2 /* MainPanelViewController.swift in Sources */,
@@ -501,6 +515,7 @@
 				558F71EC249C713B0014956F /* NumWordPerGroupViewController.swift in Sources */,
 				A5134E3A24678C32008B116D /* Collection+Ext.swift in Sources */,
 				553ED5AF2495DB15000ECE6D /* ReviewWordViewController.swift in Sources */,
+				5500540F24B7EA5B0005AD6F /* SearchViewController.swift in Sources */,
 				A5F5154D245F56DF00F06610 /* ThemeCollectionViewController.swift in Sources */,
 				A52B84DC2471EE4500A002C6 /* ReviewRecord.swift in Sources */,
 				559BFD8224A1CC5500AFD7E6 /* BindPhoneNumberViewController.swift in Sources */,
@@ -514,6 +529,7 @@
 				5569E94124AD98FC006FBE62 /* RPicker.swift in Sources */,
 				55C7819C24901AFA00C9F33E /* SettingViewController.swift in Sources */,
 				55F2B5A2247B4A0F00758113 /* LearnFinishUIView.swift in Sources */,
+				5500541724B8223E0005AD6F /* bindPhoneViewController.swift in Sources */,
 				A5E6973E2473404A004CFA70 /* CardWord.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

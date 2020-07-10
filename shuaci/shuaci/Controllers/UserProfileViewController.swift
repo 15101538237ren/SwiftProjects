@@ -16,7 +16,6 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
     let settingItems:[SettingItem] = [
         SettingItem(icon: UIImage(named: "nickname") ?? UIImage(), name: "昵 称", value: "未设置"),
         SettingItem(icon: UIImage(named: "email") ?? UIImage(), name: "邮 箱", value: "未绑定"),
-        SettingItem(icon: UIImage(named: "change_password") ?? UIImage(), name: "重置密码", value: ""),
         SettingItem(icon: UIImage(named: "cell_phone") ?? UIImage(), name: "手 机", value: "未绑定")
     ]
     
@@ -88,31 +87,38 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
         return settingItems.count
     }
     
-    func getSetted(row: Int)-> Bool{
-        var setted = false
+    func getSetted(row: Int)-> String{
+        var textStr: String = "未绑定"
         switch row {
             case 0:
-                if let _ = user.get("nickname")?.stringValue{
-                    setted = true
+                if let user_nickname = user.get("nickname")?.stringValue{
+                    textStr = user_nickname
+                }
+                else{
+                    textStr = "未设置"
                 }
             case 1:
                 if let _ = user.get("email")?.stringValue{
                     let verified = user.get("emailVerified")!.boolValue!
                     if verified{
-                        setted = true
+                        textStr = "已绑定"
+                    }else{
+                        textStr = "未验证"
                     }
                 }
-            case 3:
+            case 2:
                 if let _ = user.get("mobilePhoneNumber")?.stringValue{
                     let verified = user.get("mobilePhoneVerified")!.boolValue!
                     if verified{
-                        setted = true
+                        textStr = "已绑定"
+                    }else{
+                        textStr = "未验证"
                     }
                 }
             default:
-                    setted = false
+                    textStr = "未验证"
         }
-            return setted
+            return textStr
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -122,18 +128,9 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
         let settingItem:SettingItem = settingItems[row]
         cell.iconView?.image = settingItem.icon
         cell.nameLabel?.text = settingItem.name
-        let setted: Bool = getSetted(row: row)
-        var value: String = setted ? "已绑定" : "未绑定"
-        
-        if row == 0 {
-            value = "未设置"
-            if setted, let nickname = user.get("nickname")?.stringValue{
-                value = nickname
-            }
-        }
-        
-        cell.valueLabel?.textColor = setted ? .darkGray : self.redColor
-        cell.valueLabel?.text = row == 2 ? "": value
+        let textStr: String = getSetted(row: row)
+        cell.valueLabel?.textColor = ["未验证", "未设置", "未绑定"].contains(textStr) ? self.redColor : .darkGray
+        cell.valueLabel?.text = textStr
         return cell
     }
     
