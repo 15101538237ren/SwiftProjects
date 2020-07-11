@@ -62,6 +62,120 @@ func getMinMaxDateOfVocabRecords() -> [Date]{
     return [minDate, Date()]
 }
 
+enum DateType {
+    case learn
+    case master
+    case collect
+}
+
+func progressBarColor(progress: Float) -> UIColor{
+    if progress > 0.8{
+        return .systemGreen
+    } else if progress > 0.4{
+        return .systemBlue
+    } else{
+        return .systemOrange
+    }
+}
+
+func getMasteredProgress(vocab: VocabularyRecord) -> Float{
+    if vocab.Mastered{
+        return Float(1.0)
+    }
+    else{
+        let behaviors = vocab.BehaviorHistory
+        let behaviorStr: String = String(behaviors.map { String($0) }.joined(separator: "").reversed())
+        var numberContinousRemember: Int = 0
+        for idx in 0..<behaviorStr.count{
+            if String(behaviorStr[idx]) == "1"{
+                if idx == 0{
+                    return Float(0.0)
+                }
+                else{
+                    break
+                }
+            }else if String(behaviorStr[idx]) == "3"{
+                numberContinousRemember += 1
+            }
+        }
+        return min(Float(numberContinousRemember)/Float(5.0), Float(1.0))
+    }
+}
+
+func getVocabDate(vocab: VocabularyRecord, dateType: DateType) -> String?{
+    let formatter = DateFormatter()
+    formatter.dateFormat = "MM月dd日-yyyy"
+    switch dateType {
+        case .learn:
+            if let date = vocab.LearnDate {
+                return formatter.string(from: date)
+            }
+            else{
+                return nil
+            }
+        case .master:
+            if let date = vocab.MasteredDate {
+                return formatter.string(from: date)
+            }
+            else{
+                return nil
+            }
+        case .collect:
+            if let date = vocab.CollectDate {
+                return formatter.string(from: date)
+            }
+            else{
+                return nil
+            }
+    }
+}
+
+func groupVocabRecByDate(dateType: DateType) -> [String : [VocabularyRecord]]{
+    var groupedVocabs:[String : [VocabularyRecord]] = [:]
+    switch dateType {
+        case .learn:
+            for vocab in GlobalVocabRecords {
+                if vocab.LearnDate != nil {
+                    if let date:String = getVocabDate(vocab: vocab, dateType: dateType) {
+                        if let _ = groupedVocabs[date] {
+                            groupedVocabs[date]!.append(vocab)
+                        }else{
+                            groupedVocabs[date] = []
+                            groupedVocabs[date]!.append(vocab)
+                        }
+                    }
+                }
+            }
+        case .master:
+            for vocab in GlobalVocabRecords {
+                if vocab.MasteredDate != nil {
+                    if let date:String = getVocabDate(vocab: vocab, dateType: dateType) {
+                        if let _ = groupedVocabs[date] {
+                            groupedVocabs[date]!.append(vocab)
+                        }else{
+                            groupedVocabs[date] = []
+                            groupedVocabs[date]!.append(vocab)
+                        }
+                    }
+                }
+            }
+        case .collect:
+            for vocab in GlobalVocabRecords {
+                if vocab.CollectDate != nil {
+                    if let date:String = getVocabDate(vocab: vocab, dateType: dateType) {
+                        if let _ = groupedVocabs[date] {
+                            groupedVocabs[date]!.append(vocab)
+                        }else{
+                            groupedVocabs[date] = []
+                            groupedVocabs[date]!.append(vocab)
+                        }
+                    }
+                }
+            }
+    }
+    return groupedVocabs
+}
+
 func formatDateAsCategory(dates: [Date], byDay: Bool = true) -> [String] {
     let formatter = DateFormatter()
     var categories:[String] = []

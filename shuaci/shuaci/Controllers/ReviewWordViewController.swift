@@ -92,23 +92,28 @@ class ReviewWordViewController: UIViewController {
     }
     
     @IBAction func ExitReview(_ sender: UIButton) {
-        let alertController = UIAlertController(title: "是否保存当前复习记录?", message: "", preferredStyle: .alert)
-        let okayAction = UIAlertAction(title: "是", style: .default, handler: { action in
-            currentReviewRec.EndDate = Date()
-            var currentReivewedRecords:[VocabularyRecord] = []
-            for index in 0 ..< self.currentIndex{
-                currentReivewedRecords.append(vocabRecordsOfCurrentReview[index])
-            }
-            currentReviewRec.VocabRecIds = getVocabIdsFromVocabRecords(VocabRecords: currentReivewedRecords)
-            saveReviewRecordsFromReview(vocabs_updated: currentReivewedRecords)
+        if self.currentIndex > 0{
+            let alertController = UIAlertController(title: "是否保存当前复习记录?", message: "", preferredStyle: .alert)
+            let okayAction = UIAlertAction(title: "是", style: .default, handler: { action in
+                currentReviewRec.EndDate = Date()
+                var currentReivewedRecords:[VocabularyRecord] = []
+                for index in 0 ..< self.currentIndex{
+                    currentReivewedRecords.append(vocabRecordsOfCurrentReview[index])
+                }
+                currentReviewRec.VocabRecIds = getVocabIdsFromVocabRecords(VocabRecords: currentReivewedRecords)
+                saveReviewRecordsFromReview(vocabs_updated: currentReivewedRecords)
+                self.dismiss(animated: true, completion: nil)
+            })
+            let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: { action in
+                self.dismiss(animated: true, completion: nil)
+            })
+            alertController.addAction(okayAction)
+            alertController.addAction(cancelAction)
+            self.present(alertController, animated: true, completion: nil)
+        }
+        else{
             self.dismiss(animated: true, completion: nil)
-        })
-        let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: { action in
-            self.dismiss(animated: true, completion: nil)
-        })
-        alertController.addAction(okayAction)
-        alertController.addAction(cancelAction)
-        self.present(alertController, animated: true, completion: nil)
+        }
     }
     
     func startTimer()
