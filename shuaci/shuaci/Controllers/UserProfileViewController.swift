@@ -11,7 +11,7 @@ import LeanCloud
 import CropViewController
 
 class UserProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, CropViewControllerDelegate , UITableViewDataSource, UITableViewDelegate {
-    let user = LCApplication.default.currentUser!
+    var user = LCApplication.default.currentUser!
     let redColor:UIColor = UIColor(red: 168, green: 0, blue: 0, alpha: 1)
     let settingItems:[SettingItem] = [
         SettingItem(icon: UIImage(named: "nickname") ?? UIImage(), name: "昵 称", value: "未设置"),
@@ -39,6 +39,7 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
     }
     
     override func viewDidLoad() {
+        self.updateUserPhoto()
         self.tableView.delegate = self
         self.tableView.dataSource = self
         self.tableView.separatorColor = .clear
@@ -51,8 +52,14 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
         
         view.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(handleDismiss)))
         super.viewDidLoad()
-        
         // Do any additional setup after loading the view.
+    }
+    
+    
+    
+    func presentAlertInView(title: String, message: String, okText: String){
+        let alertController = presentAlert(title: title, message: message, okText: okText)
+        self.present(alertController, animated: true)
     }
     
     @objc func handleDismiss(sender: UIPanGestureRecognizer) {
@@ -89,6 +96,7 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
     
     func getSetted(row: Int)-> String{
         var textStr: String = "未绑定"
+        user = LCApplication.default.currentUser!
         switch row {
             case 0:
                 if let user_nickname = user.get("nickname")?.stringValue{
@@ -134,64 +142,72 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
         return cell
     }
     
-//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        let row: Int = indexPath.row
-//        let setted: Bool = getSetted(row: row)
-//        if row == 0 || row == 2 || !setted
-//        {
-//            switch row {
-//            case 0:
-//                let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
-//                let bindPhoneNumberVC = mainStoryBoard.instantiateViewController(withIdentifier: "bindPhoneNumberVC") as! BindPhoneNumberViewController
-//            case 1:
-//            case 2:
-//                
-//                booksVC.modalPresentationStyle = .fullScreen
-//                booksVC.mainPanelViewController = nil
-//                fetchBooks()
-//                DispatchQueue.main.async {
-//                    self.present(booksVC, animated: true, completion: nil)
-//                }
-//            case 3:
-//                let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
-//                let NumOfWordPopUpVC = mainStoryBoard.instantiateViewController(withIdentifier: "NumOfWordVC") as! NumWordPerGroupViewController
-//                NumOfWordPopUpVC.setting_tableView = tableView
-//                DispatchQueue.main.async {
-//                    self.present(NumOfWordPopUpVC, animated: true, completion: nil)
-//                }
-//            case 6:
-//                initActivityIndicator(text: "正在上传设置..")
-//                savePreference(saveToLocal: false, saveToCloud: true, completionHandler: {_ in
-//                    DispatchQueue.main.async {
-//                    self.activityLabel.text = "正在上传学习记录..."
-//                    }})
-//                
-//                saveVocabRecords(saveToLocal: false, saveToCloud: true, random_new_word: false, delaySeconds: 1.0, completionHandler: {_ in })
-//                saveLearningRecords(saveToLocal: false, saveToCloud: true, delaySeconds: 1.5, completionHandler: {_ in })
-//                saveReviewRecords(saveToLocal: false, saveToCloud: true, delaySeconds: 2.0, completionHandler: {success in
-//                    var successMessage: String = "上传成功!"
-//                    if !success {
-//                        successMessage = "上传失败，请稍后再试.."
-//                    }
-//                    DispatchQueue.main.async {
-//                        self.stopIndicator()
-//                        let ac = UIAlertController(title: "提示", message: successMessage, preferredStyle: .alert)
-//                        ac.addAction(UIAlertAction(title: "好", style: .default, handler: nil))
-//                        self.present(ac, animated: true, completion: nil)
-//                    }
-//                })
-//            case 8:
-//                showFeedBackMailComposer()
-//            default:
-//                break
-//            }
-//        }
-//        
-//        tableView.deselectRow(at: indexPath, animated: true)
-//    }
+    
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let row: Int = indexPath.row
+        let textStr: String = getSetted(row: row)
+        
+        switch row {
+        case 0:
+            let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+            let setNickNameVC = mainStoryBoard.instantiateViewController(withIdentifier: "setNickNameVC") as! setNickNameViewController
+            setNickNameVC.nickname = textStr
+            setNickNameVC.modalPresentationStyle = .fullScreen
+            self.present(setNickNameVC, animated: true, completion: nil)
+        case 1:
+            if textStr == "未绑定"{
+                let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+                let bindEmailVC = mainStoryBoard.instantiateViewController(withIdentifier: "bindEmailVC") as! bindEmailViewController
+                bindEmailVC.modalPresentationStyle = .fullScreen
+                self.present(bindEmailVC, animated: true, completion: nil)
+            }else if textStr == "未验证"{
+                var lastEmailLoginClickTime:Date? = nil
+                let emailVerficationSendTimeKey:String = "EmailVerficationSendTime"
+                if isKeyPresentInUserDefaults(key: emailVerficationSendTimeKey){
+                    lastEmailLoginClickTime = UserDefaults.standard.object(forKey: emailVerficationSendTimeKey) as? Date
+                }
+                if lastEmailLoginClickTime == nil ||  minutesBetweenDates(lastEmailLoginClickTime!, Date()) > 1 {
+                    if let email = getEmail(){
+                        UserDefaults.standard.set(Date(), forKey: emailVerficationSendTimeKey)
+                        _ = LCUser.requestVerificationMail(email: email) { result in
+                            switch result {
+                            case .success:
+                                let alertController = UIAlertController(title: "已发送验证邮件到\(email)\n请验证后重新登录!", message: "", preferredStyle: .alert)
+                                let okayAction = UIAlertAction(title: "好", style: .default, handler: { action in
+                                    LCUser.logOut()
+                                    self.dismiss(animated: true, completion: nil)
+                                    self.mainPanelViewController.showLoginScreen()
+                                    })
+                                alertController.addAction(okayAction)
+                                self.present(alertController, animated: true, completion: nil)
+                            case .failure(error: let error):
+                                self.presentAlertInView(title: error.localizedDescription, message: "", okText: "好")
+                            }
+                        }
+                    } else{
+                        self.presentAlertInView(title: "获取Email出现问题，请稍后再试!", message: "", okText: "好")
+                    }
+                } else{
+                    self.presentAlertInView(title: "尝试过于频繁，请稍等1分钟!", message: "", okText: "好")
+                }
+            }
+        case 2:
+            if ["未验证", "未绑定"].contains(textStr){
+                let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+                let bindPhonerVC = mainStoryBoard.instantiateViewController(withIdentifier: "bindPhonerVC") as! bindPhoneViewController
+                bindPhonerVC.phoneNumber = getPhoneNumber()
+                bindPhonerVC.modalPresentationStyle = .fullScreen
+                self.present(bindPhonerVC, animated: true, completion: nil)
+            }
+        default:
+            break
+        }
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
     
     override func viewWillAppear(_ animated: Bool){
-        self.updateUserPhoto()
+        self.tableView.reloadData()
     }
     
     func updateUserPhoto() {
@@ -206,7 +222,7 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
            let okayAction = UIAlertAction(title: "确定", style: .default, handler: { action in
                LCUser.logOut()
                self.dismiss(animated: false, completion: nil)
-                self.mainPanelViewController.showLoginScreen()
+               self.mainPanelViewController.showLoginScreen()
            })
            let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
            alertController.addAction(okayAction)

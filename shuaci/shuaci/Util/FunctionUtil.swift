@@ -155,9 +155,38 @@ func obtainCalendarNotificationTriggerByDate(notification_date: Date) -> UNCalen
 }
 
 func getUserName() -> String{
-    let user = LCApplication.default.currentUser!
-    let username = user.get("username")!.stringValue!
-    return username
+    if let user = LCApplication.default.currentUser {
+        if let usernameObj = user.get("username") {
+            if let usernameStr = usernameObj.stringValue {
+                return usernameStr
+            }
+        }
+    }
+    return ""
+}
+
+func getPhoneNumber() -> String?{
+    if let user = LCApplication.default.currentUser {
+        if let phoneLCObj = user.get("mobilePhoneNumber") {
+            return phoneLCObj.stringValue
+        }else{
+            return nil
+        }
+    } else{
+        return nil
+    }
+}
+
+func getEmail() -> String?{
+    if let user = LCApplication.default.currentUser {
+        if let emailLCObj = user.get("email") {
+            return emailLCObj.stringValue
+        }else{
+            return nil
+        }
+    } else{
+        return nil
+    }
 }
 
 func fileExist(fileFp: String) -> Bool {

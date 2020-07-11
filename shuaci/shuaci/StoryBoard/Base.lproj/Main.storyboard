@@ -674,8 +674,11 @@
                                 </subviews>
                             </stackView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="50" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="pSb-Wp-d1D">
-                                <rect key="frame" x="0.0" y="258" width="414" height="234"/>
+                                <rect key="frame" x="0.0" y="258" width="414" height="174"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="174" id="CHy-B4-WUN"/>
+                                </constraints>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="SettingCell" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ProfileSettingCell" rowHeight="50" id="Y6h-Lt-eAy" customClass="SettingTableViewCell" customModule="刷词" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="414" height="50"/>
@@ -735,7 +738,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QeT-z8-m5t">
-                                <rect key="frame" x="140.5" y="512" width="133" height="41"/>
+                                <rect key="frame" x="140.5" y="452" width="133" height="41"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="133" id="PWZ-ed-tg9"/>
                                     <constraint firstAttribute="height" constant="41" id="kAD-hT-1rc"/>
@@ -762,7 +765,6 @@
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
-                            <constraint firstItem="Jka-6J-Yzs" firstAttribute="bottom" secondItem="pSb-Wp-d1D" secondAttribute="bottom" constant="370" id="Bxz-He-qZ9"/>
                             <constraint firstItem="QeT-z8-m5t" firstAttribute="centerX" secondItem="FKa-ic-A48" secondAttribute="centerX" id="GWo-i4-Z4w"/>
                             <constraint firstItem="pSb-Wp-d1D" firstAttribute="top" secondItem="RjZ-Pt-3aX" secondAttribute="bottom" constant="30" id="Koy-Zz-pCq"/>
                             <constraint firstItem="RjZ-Pt-3aX" firstAttribute="top" secondItem="gb7-Wa-3gm" secondAttribute="bottom" constant="25" id="Lzf-x6-grq"/>
@@ -797,7 +799,7 @@
         <!--Bind Email View Controller-->
         <scene sceneID="9CD-k9-NVt">
             <objects>
-                <viewController id="r0K-XS-8GN" customClass="bindEmailViewController" customModule="刷词" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="bindEmailVC" id="r0K-XS-8GN" customClass="bindEmailViewController" customModule="刷词" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="ugn-SP-XxG">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -816,6 +818,7 @@
                                 </state>
                                 <connections>
                                     <action selector="unwindWithSegue:" destination="pFP-k4-cBJ" eventType="touchUpInside" id="KrL-CN-N3V"/>
+                                    <action selector="unwindWithSegue:" destination="r0K-XS-8GN" eventType="touchUpInside" id="hf7-Yh-vRD"/>
                                     <action selector="unwindWithSegue:" destination="R7q-Up-UwU" eventType="touchUpInside" id="iOn-JC-R9I"/>
                                     <action selector="unwindWithSegue:" destination="PC2-zb-VC3" eventType="touchUpInside" id="scD-kQ-aoG"/>
                                     <action selector="unwindWithSegue:" destination="4a5-3m-NM6" eventType="touchUpInside" id="vAP-4v-KZS"/>
@@ -895,6 +898,10 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="hEu-8M-NLD"/>
                     </view>
+                    <connections>
+                        <outlet property="emailBindBtn" destination="iGs-dp-luh" id="STm-gq-cWb"/>
+                        <outlet property="emailTextField" destination="3lY-oA-e20" id="u8z-0K-osm"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QiN-jQ-5in" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -903,7 +910,7 @@
         <!--Set Nick Name View Controller-->
         <scene sceneID="gIk-3U-KxL">
             <objects>
-                <viewController id="PC2-zb-VC3" customClass="setNickNameViewController" customModule="刷词" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="setNickNameVC" id="PC2-zb-VC3" customClass="setNickNameViewController" customModule="刷词" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="mCe-iX-f0J">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1001,6 +1008,9 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="pno-Kj-r2J"/>
                     </view>
+                    <connections>
+                        <outlet property="textfield" destination="x3E-Zy-yfC" id="qwp-bN-0ZM"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vzr-cQ-97f" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -1009,7 +1019,7 @@
         <!--bindPhoneNumber-->
         <scene sceneID="Rlx-F5-VPo">
             <objects>
-                <viewController storyboardIdentifier="bindPhoneNumberVC" title="bindPhoneNumber" id="1zA-af-jfs" customClass="BindPhoneNumberViewController" customModule="刷词" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="bindPhonerVC" title="bindPhoneNumber" id="1zA-af-jfs" customClass="bindPhoneViewController" customModule="刷词" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="OSv-j6-HBX">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1136,6 +1146,7 @@
                                     <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="large"/>
                                 </state>
                                 <connections>
+                                    <action selector="unwindWithSegue:" destination="1zA-af-jfs" eventType="touchUpInside" id="OIQ-8N-EWM"/>
                                     <action selector="unwindWithSegue:" destination="fIo-7D-rHo" eventType="touchUpInside" id="c9q-Oh-uj7"/>
                                 </connections>
                             </button>
@@ -1162,6 +1173,12 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="4RP-Bq-a3n"/>
                     </view>
+                    <connections>
+                        <outlet property="getVerificationCodeBtn" destination="RVf-kd-z6g" id="Itc-zQ-vHQ"/>
+                        <outlet property="phoneBindBtn" destination="0JE-jv-kbg" id="Wzy-Xp-JRh"/>
+                        <outlet property="phoneTextField" destination="ndL-pP-8OC" id="T4v-zr-lvw"/>
+                        <outlet property="verificationCodeTextField" destination="Dlv-Lh-Gxb" id="1Gp-83-QTp"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DGG-Jg-Qjp" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -1545,8 +1562,11 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="grouped" separatorStyle="singleLineEtched" rowHeight="50" estimatedRowHeight="-1" sectionHeaderHeight="1" sectionFooterHeight="1" translatesAutoresizingMaskIntoConstraints="NO" id="SNd-Wo-HJu">
-                                <rect key="frame" x="0.0" y="83" width="414" height="599"/>
+                                <rect key="frame" x="0.0" y="83" width="414" height="600"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="600" id="Psd-pj-u94"/>
+                                </constraints>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="SettingToggleCell" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="SettingToggleCell" rowHeight="50" id="Bvu-hu-fbj" customClass="SettingToggleTableViewCell" customModule="刷词" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="55.5" width="414" height="50"/>
@@ -1679,7 +1699,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="G4h-q2-RyU">
-                                <rect key="frame" x="140.5" y="702" width="133" height="41"/>
+                                <rect key="frame" x="140.5" y="703" width="133" height="41"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="41" id="AuC-8G-ndR"/>
                                     <constraint firstAttribute="width" constant="133" id="hkd-98-QXl"/>
@@ -1694,7 +1714,6 @@
                         <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="4yR-X4-MjN" firstAttribute="top" secondItem="6DS-v3-QIQ" secondAttribute="top" constant="13" id="2YA-Lq-RPv"/>
-                            <constraint firstItem="6DS-v3-QIQ" firstAttribute="bottom" secondItem="SNd-Wo-HJu" secondAttribute="bottom" constant="180" id="5i6-HZ-hW8"/>
                             <constraint firstItem="SNd-Wo-HJu" firstAttribute="leading" secondItem="6DS-v3-QIQ" secondAttribute="leading" id="DCd-Xa-90F"/>
                             <constraint firstItem="G4h-q2-RyU" firstAttribute="centerX" secondItem="aWc-Ox-5Lk" secondAttribute="centerX" id="Enw-5b-vNP"/>
                             <constraint firstItem="SNd-Wo-HJu" firstAttribute="top" secondItem="4yR-X4-MjN" secondAttribute="bottom" id="Ob0-8U-3Eh"/>

@@ -7,16 +7,21 @@
 //
 
 import UIKit
+import LeanCloud
 
 class setNickNameViewController: UIViewController {
-
+    var nickname: String!
+    @IBOutlet var textfield: UITextField!
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        textfield.placeholder = nickname
         // Do any additional setup after loading the view.
     }
     
-
+    func setNickName(){
+        
+    }
+    
     @IBAction func unwind(segue: UIStoryboardSegue) {
         self.dismiss(animated: true, completion: nil)
     }

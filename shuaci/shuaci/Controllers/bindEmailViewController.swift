@@ -9,7 +9,14 @@
 import UIKit
 
 class bindEmailViewController: UIViewController {
-
+    @IBOutlet var emailTextField: UITextField!
+    @IBOutlet var emailBindBtn: UIButton!{
+        didSet {
+            emailBindBtn.layer.cornerRadius = 9.0
+            emailBindBtn.layer.masksToBounds = true
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 

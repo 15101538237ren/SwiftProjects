@@ -153,6 +153,7 @@ class EmailLoginViewController: UIViewController {
         let mainPanelViewController = LoginRegStoryBoard.instantiateViewController(withIdentifier: "mainPanelViewController") as! MainPanelViewController
         mainPanelViewController.modalPresentationStyle = .fullScreen
         DispatchQueue.main.async {
+            self.dismiss(animated: false, completion: nil)
             self.present(mainPanelViewController, animated: true, completion: nil)
         }
     }
