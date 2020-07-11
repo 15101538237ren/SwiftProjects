@@ -16,6 +16,7 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
     @IBOutlet var wordLabel: UILabel!
     @IBOutlet var meaningLabel: UILabel!
     @IBOutlet var todayImageView: UIImageView!
+    let username:String = getUserName()
     var mp3Player: AVAudioPlayer?
     @IBOutlet var userPhotoBtn: UIButton!{
         didSet {
@@ -37,7 +38,7 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
     @IBOutlet var settingBtn: UIButton!
     var getNextWallpaperCalled = false
     func updateUserPhoto() {
-        if let userImage = loadPhoto(name_of_photo: "user_avatar.jpg") {
+        if let userImage = loadPhoto(name_of_photo: "user_avatar_\(username).jpg") {
             self.userPhotoBtn.setImage(userImage, for: [])
         }
         else{
@@ -186,7 +187,7 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
             // 跳到首页
             GlobalUserName = getUserName()
             loadSettingAndRecords()
-            if let userImage = loadPhoto(name_of_photo: "user_avatar.jpg") {
+            if let userImage = loadPhoto(name_of_photo: "user_avatar_\(username).jpg") {
                 self.userPhotoBtn.setImage(userImage, for: [])
             }
             else {
@@ -206,25 +207,20 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
     func getUserPhoto(){
         if Reachability.isConnectedToNetwork(){
             DispatchQueue.global(qos: .background).async {
-                do {
-                    let user = LCApplication.default.currentUser
-                    if let photoData = user?.get("avatar") as? LCFile {
-                        //let imgData = photoData.value as! LCData
-                        let url = URL(string: photoData.url?.stringValue ?? "")!
-                        let data = try? Data(contentsOf: url)
-                        print(url)
-                        if let imageData = data {
-                            if let image = UIImage(data: imageData){
-                                savePhoto(image: image, name_of_photo: "user_avatar.jpg")
-                                DispatchQueue.main.async {
-                                    // qos' default value is ´DispatchQoS.QoSClass.default`
-                                    self.userPhotoBtn.setImage(image, for: [])
-                                }
+                let user = LCApplication.default.currentUser
+                if let photoData = user?.get("avatar") as? LCFile {
+                    //let imgData = photoData.value as! LCData
+                    let url = URL(string: photoData.url?.stringValue ?? "")!
+                    let data = try? Data(contentsOf: url)
+                    if let imageData = data {
+                        if let image = UIImage(data: imageData){
+                            savePhoto(image: image, name_of_photo: "user_avatar_\(self.username).jpg")
+                            DispatchQueue.main.async {
+                                // qos' default value is ´DispatchQoS.QoSClass.default`
+                                self.userPhotoBtn.setImage(image, for: [])
                             }
                         }
                     }
-                } catch {
-                    print(error.localizedDescription)
                 }
             }
         }else{

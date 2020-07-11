@@ -158,7 +158,7 @@ func isExactSeqMemory(vocab: VocabularyRecord) -> Bool{
     }
 }
 
-func getCumulatedMasteredByDate(dates: [Date], byDay: Bool = true) -> [Int]{
+func getCumulatedMasteredByDate(dates: [Date], byDay: Bool = true, cumulated: Bool = true) -> [Int]{
     var reviewedVocabIdDateDict:[String: Date] = [:]
     for revRec in GlobalReviewRecords{
         for revId in revRec.VocabRecIds{
@@ -207,7 +207,7 @@ func getCumulatedMasteredByDate(dates: [Date], byDay: Bool = true) -> [Int]{
             
         }
         
-        if di > 0{
+        if cumulated && di > 0{
             cumMastered[di] += cumMastered[di - 1]
         }
     }

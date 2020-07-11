@@ -78,32 +78,32 @@ class StatViewController: UIViewController {
         let intervalDates:[Date] = generateDatesForMinMaxDates(minMaxDates: minMaxDates, byDay: byDay)
         let categories:[String] = formatDateAsCategory(dates: intervalDates, byDay: byDay)
         if byWordCnt{
-            let cumMasteredCount:[Int] = getCumulatedMasteredByDate(dates: intervalDates, byDay: byDay)
-                    let cumLearnedCount:[Int] = getCumulatedLearnedByDate(dates: intervalDates, byDay: byDay, cumulated: cumulated)
-                    
-                    let masteredStatusChartModel = AAChartModel()
-                        .chartType(.line)//Can be any of the chart types listed under `AAChartType`.
-                        .animationType(.elastic)
-                    .tooltipValueSuffix(suffixLabel)//the value suffix of the chart tooltip
-                    .dataLabelsEnabled(false) //Enable or disable the data labels. Defaults to false
-            //        .yAxisVisible(false)
-                    .categories(categories)
-                    .colorsTheme(["#4fa83d","#3f8ada"])
-                    .series([
-                        AASeriesElement()
-                        .name(seriesNames[0])
-                        .data(cumLearnedCount),
-                        AASeriesElement()
-                            .name(seriesNames[1])
-                            .data(cumMasteredCount)])
-                    let aa_options: AAOptions = AAOptionsConstructor.configureChartOptions(masteredStatusChartModel)
-                    return aa_options
+            let cumMasteredCount:[Int] = getCumulatedMasteredByDate(dates: intervalDates, byDay: byDay, cumulated: cumulated)
+            let cumLearnedCount:[Int] = getCumulatedLearnedByDate(dates: intervalDates, byDay: byDay, cumulated: cumulated)
+            
+            let masteredStatusChartModel = AAChartModel()
+                .chartType(.spline)//cumulated ? .spline : .column)//Can be any of the chart types listed under `AAChartType`.
+                .animationType(.elastic)
+            .tooltipValueSuffix(suffixLabel)//the value suffix of the chart tooltip
+            .dataLabelsEnabled(false) //Enable or disable the data labels. Defaults to false
+    //        .yAxisVisible(false)
+            .categories(categories)
+            .colorsTheme(["#4fa83d","#3f8ada"])
+            .series([
+                AASeriesElement()
+                .name(seriesNames[0])
+                .data(cumLearnedCount),
+                AASeriesElement()
+                    .name(seriesNames[1])
+                    .data(cumMasteredCount)])
+            let aa_options: AAOptions = AAOptionsConstructor.configureChartOptions(masteredStatusChartModel)
+            return aa_options
         } else{
             let cumReviewedHours:[Float] = getCumHoursByDate(dates: intervalDates, byDay: byDay, cumulated: cumulated, Learn: false)
             let cumLearnedHours:[Float] = getCumHoursByDate(dates: intervalDates, byDay: byDay, cumulated: cumulated, Learn: true)
             
             let masteredStatusChartModel = AAChartModel()
-                .chartType(.line)//Can be any of the chart types listed under `AAChartType`.
+                .chartType(.spline)//cumulated ? .spline : .column)//Can be any of the chart types listed under `AAChartType`.
                 .animationType(.elastic)
             .tooltipValueSuffix(suffixLabel)//the value suffix of the chart tooltip
             .dataLabelsEnabled(false) //Enable or disable the data labels. Defaults to false

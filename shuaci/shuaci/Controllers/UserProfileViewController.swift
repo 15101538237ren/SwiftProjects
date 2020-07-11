@@ -12,6 +12,7 @@ import CropViewController
 
 class UserProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, CropViewControllerDelegate , UITableViewDataSource, UITableViewDelegate {
     var user = LCApplication.default.currentUser!
+    let username = getUserName()
     let redColor:UIColor = UIColor(red: 168, green: 0, blue: 0, alpha: 1)
     let settingItems:[SettingItem] = [
         SettingItem(icon: UIImage(named: "nickname") ?? UIImage(), name: "昵 称", value: "未设置"),
@@ -211,7 +212,7 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
     }
     
     func updateUserPhoto() {
-        if let userImage = loadPhoto(name_of_photo: "user_avatar.jpg") {
+        if let userImage = loadPhoto(name_of_photo: "user_avatar_\(username).jpg") {
             self.userPhotoBtn.setImage(userImage, for: [])
         }
     }
@@ -295,7 +296,7 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
     
     func cropViewController(_ cropViewController: CropViewController, didCropToImage image: UIImage, withRect cropRect: CGRect, angle: Int) {
         // Write the image to local file for temporary use
-        let imageFileURL = getDocumentsDirectory().appendingPathComponent("user_avatar.jpg")
+        let imageFileURL = getDocumentsDirectory().appendingPathComponent("user_avatar_\(username).jpg")
         let cropped_img = resizeImage(image: image, newWidth: 300.0)
         try? cropped_img.jpegData(compressionQuality: 0.8)?.write(to: imageFileURL)
         self.updateUserPhoto()
