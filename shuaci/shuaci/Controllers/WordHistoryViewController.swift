@@ -39,18 +39,23 @@ class WordHistoryViewController: UIViewController {
     }
     
     @IBAction func multiSelectionTapped(_ sender: UIButton) {
-        wordsTableView.allowsMultipleSelectionDuringEditing.toggle()
         tableISEditing.toggle()
+        wordsTableView.allowsMultipleSelectionDuringEditing = tableISEditing
         wordsTableView.setEditing(tableISEditing, animated: true)
         multiSelectionBtn.setTitleColor(tableISEditing ? .lightGray : .systemBlue, for: .normal)
     }
     
     func disableMultiSelectionBtn(){
         multiSelectionBtn.isEnabled = false
+        tableISEditing = false
+        wordsTableView.setEditing(tableISEditing, animated: true)
+        wordsTableView.allowsMultipleSelectionDuringEditing = tableISEditing
+        multiSelectionBtn.setTitleColor(.lightGray, for: .disabled)
     }
     
     func enableMultiSelectionBtn(){
         multiSelectionBtn.isEnabled = true
+        multiSelectionBtn.setTitleColor(tableISEditing ? .lightGray : .systemBlue, for: .normal)
     }
     
     var groupedVocabs:[String : [VocabularyRecord]] = [:]
