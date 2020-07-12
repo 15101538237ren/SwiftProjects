@@ -304,6 +304,7 @@
 		A5B821752453698D00963FEC /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				5547AE8924BA45540096B41E /* WordHistoryTableViewCell.swift */,
 				A5B821722453669B00963FEC /* CardUIView.swift */,
 				A5B821782453747C00963FEC /* MainScreenUIView.swift */,
 				A5F59F452453DC6900D6D717 /* PhoneLoginUIView.swift */,
@@ -347,7 +348,6 @@
 				5500541424B8222E0005AD6F /* bindEmailViewController.swift */,
 				5500541624B8223E0005AD6F /* bindPhoneViewController.swift */,
 				5547AE8724BA37400096B41E /* WordHistoryViewController.swift */,
-				5547AE8924BA45540096B41E /* WordHistoryTableViewCell.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";

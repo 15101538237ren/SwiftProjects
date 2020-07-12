@@ -11,30 +11,99 @@ import UIKit
 class WordHistoryViewController: UIViewController {
     @IBOutlet weak var segmentedControl: UISegmentedControl!
     @IBOutlet weak var wordsTableView: UITableView!
+    @IBOutlet weak var multiSelectionBtn: UIButton!
+    var tableISEditing: Bool = false
+    var cellIsSelected:[String:[Bool]] = [:]
+    let redColor:UIColor = UIColor(red: 168, green: 0, blue: 0, alpha: 1)
+    
+    @IBOutlet weak var reviewSelectionBtn: UIButton!{
+        didSet {
+            reviewSelectionBtn.layer.cornerRadius = 15.0
+            reviewSelectionBtn.layer.masksToBounds = true
+        }
+    }
+    
+    
+    @IBAction func reviewSelectedWords(_ sender: UIButton) {
+        multiSelectionBtn.isEnabled = true
+        tableISEditing = false
+        wordsTableView.setEditing(false, animated: true)
+        wordsTableView.allowsMultipleSelectionDuringEditing = false
+        for key in sortedKeys{
+            for idx in 0..<groupedVocabs[key]!.count{
+                if cellIsSelected[key]![idx]{
+                    print(groupedVocabs[key]![idx].VocabRecId)
+                }
+            }
+        }
+    }
+    
+    @IBAction func multiSelectionTapped(_ sender: UIButton) {
+        wordsTableView.allowsMultipleSelectionDuringEditing.toggle()
+        tableISEditing.toggle()
+        wordsTableView.setEditing(tableISEditing, animated: true)
+        multiSelectionBtn.setTitleColor(tableISEditing ? .lightGray : .systemBlue, for: .normal)
+    }
+    
+    func disableMultiSelectionBtn(){
+        multiSelectionBtn.isEnabled = false
+    }
+    
+    func enableMultiSelectionBtn(){
+        multiSelectionBtn.isEnabled = true
+    }
+    
     var groupedVocabs:[String : [VocabularyRecord]] = [:]
     var sortedKeys:[String] = []
+    
+    func initCellIsSelected(){
+        cellIsSelected = [:]
+        for key in sortedKeys{
+            cellIsSelected[key] = []
+            for _ in groupedVocabs[key]!{
+                cellIsSelected[key]!.append(false)
+            }
+        }
+    }
     func getGroupVocabs(){
         switch segmentedControl.selectedSegmentIndex {
             case 0:
                 groupedVocabs = groupVocabRecByDate(dateType: .learn)
+                enableMultiSelectionBtn()
             case 1:
                 groupedVocabs = groupVocabRecByDate(dateType: .collect)
-                
+                enableMultiSelectionBtn()
             case 2:
                 groupedVocabs = groupVocabRecByDate(dateType: .master)
+                disableMultiSelectionBtn()
             default:
                 break
         }
         sortedKeys = Array(groupedVocabs.keys).sorted(by: <)
+        initCellIsSelected()
         wordsTableView.reloadData()
     }
     @IBAction func segControlChanged(_ sender: UISegmentedControl) {
         getGroupVocabs()
     }
     
+    func enableReviewSelectedBtn(){
+        reviewSelectionBtn.backgroundColor = redColor
+        reviewSelectionBtn.isEnabled = true
+        reviewSelectionBtn.setTitleColor(.white, for: .normal)
+    }
+    
+    func disableReviewSelectedBtn(){
+        reviewSelectionBtn.backgroundColor = .lightGray
+        reviewSelectionBtn.isEnabled = false
+        reviewSelectionBtn.setTitleColor(.white, for: .normal)
+    }
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         getGroupVocabs()
+        disableReviewSelectedBtn()
         segmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.white], for: .selected)
         // Do any additional setup after loading the view.
     }
@@ -74,5 +143,46 @@ extension WordHistoryViewController: UITableViewDataSource, UITableViewDelegate{
         return cell
     }
     
+    func tableView(_ tableView: UITableView, didBeginMultipleSelectionInteractionAt indexPath: IndexPath) {
+        tableISEditing = true
+        tableView.setEditing(tableISEditing, animated: true)
+        if !reviewSelectionBtn.isEnabled{
+            enableReviewSelectedBtn()
+        }
+    }
+    
+    func tableViewDidEndMultipleSelectionInteraction(_ tableView: UITableView) {
+        print("\(#function)")
+        var numberOfSelected:Int = 0
+        for key in sortedKeys{
+            numberOfSelected += cellIsSelected[key]!.filter({ $0 == true }).count
+        }
+        print(numberOfSelected)
+        if numberOfSelected == 0 && reviewSelectionBtn.isEnabled{
+            disableReviewSelectedBtn()
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, shouldBeginMultipleSelectionInteractionAt indexPath: IndexPath) -> Bool {
+        true
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let section = indexPath.section
+        let row = indexPath.row
+        if cellIsSelected[sortedKeys[section]]![row]{
+            return
+        }
+        cellIsSelected[sortedKeys[section]]![row].toggle()
+    }
+    
+    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        let section = indexPath.section
+        let row = indexPath.row
+        if !cellIsSelected[sortedKeys[section]]![row]{
+            return
+        }
+        cellIsSelected[sortedKeys[section]]![row].toggle()
+    }
     
 }

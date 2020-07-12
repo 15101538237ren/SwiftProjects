@@ -135,7 +135,7 @@ func groupVocabRecByDate(dateType: DateType) -> [String : [VocabularyRecord]]{
     switch dateType {
         case .learn:
             for vocab in GlobalVocabRecords {
-                if vocab.LearnDate != nil {
+                if vocab.LearnDate != nil && !vocab.Mastered{
                     if let date:String = getVocabDate(vocab: vocab, dateType: dateType) {
                         if let _ = groupedVocabs[date] {
                             groupedVocabs[date]!.append(vocab)
