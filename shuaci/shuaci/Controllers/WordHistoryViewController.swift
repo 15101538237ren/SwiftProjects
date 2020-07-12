@@ -54,6 +54,10 @@ class WordHistoryViewController: UIViewController {
     }
     
     func enableMultiSelectionBtn(){
+        tableISEditing = false
+        wordsTableView.setEditing(tableISEditing, animated: true)
+        wordsTableView.allowsMultipleSelectionDuringEditing = tableISEditing
+        
         multiSelectionBtn.isEnabled = true
         multiSelectionBtn.setTitleColor(tableISEditing ? .lightGray : .systemBlue, for: .normal)
     }
