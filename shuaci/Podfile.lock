@@ -16,6 +16,7 @@ PODS:
     - Starscream (~> 3.1)
     - SwiftProtobuf (~> 1.8)
   - Starscream (3.1.1)
+  - SwiftGifOrigin (1.7.0)
   - SwiftProtobuf (1.8.0)
   - SwiftyJSON (4.3.0)
 
@@ -24,6 +25,7 @@ DEPENDENCIES:
   - BottomPopup
   - CropViewController
   - LeanCloud
+  - SwiftGifOrigin (~> 1.7.0)
   - SwiftyJSON (~> 4.0)
 
 SPEC REPOS:
@@ -34,6 +36,7 @@ SPEC REPOS:
     - GRDB.swift
     - LeanCloud
     - Starscream
+    - SwiftGifOrigin
     - SwiftProtobuf
     - SwiftyJSON
 
@@ -54,9 +57,10 @@ SPEC CHECKSUMS:
   GRDB.swift: 8cc3ab7c8b8b4ac1761deb8dca4b51c1c9d429f8
   LeanCloud: cbb1c70dbc9a858992e69510d17ba716695e69f5
   Starscream: 4bb2f9942274833f7b4d296a55504dcfc7edb7b0
+  SwiftGifOrigin: fbd6cf37afcfcf97a5c3db996ddc0492e5c5c145
   SwiftProtobuf: 2cbd9409689b7df170d82a92a33443c8e3e14a70
   SwiftyJSON: 6faa0040f8b59dead0ee07436cbf76b73c08fd08
 
-PODFILE CHECKSUM: cbaffa36b84717a73c017f0f7acc8d3d40556b3d
+PODFILE CHECKSUM: 50cb3a32a0b800893a3b50b09b23cf89f1c15efd
 
 COCOAPODS: 1.9.3

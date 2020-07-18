@@ -26,7 +26,7 @@ func initPreference(){
     "us_pronunciation" : true,
     "current_theme_category" : 1,
     "last_theme_category" : 1,
-    "reminder_time": nil
+    "reminder_time": ""
     ]
 }
 

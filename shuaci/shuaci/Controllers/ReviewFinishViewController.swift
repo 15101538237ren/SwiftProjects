@@ -49,7 +49,7 @@ class ReviewFinishViewController: UIViewController {
     
     @objc func registerNotification() {
         let center = UNUserNotificationCenter.current()
-        center.removeAllPendingNotificationRequests()
+//        center.removeAllPendingNotificationRequests()
         center.requestAuthorization(options: [.alert, .badge, .sound]) { (granted, error) in
             if granted {
                 if let nextReviewDate = obtainNextReviewDate() {
@@ -65,7 +65,9 @@ class ReviewFinishViewController: UIViewController {
                 }
                 
             } else {
-                print("User denied notification!")
+                let ac = UIAlertController(title: "请开启【通知】权限以使用艾宾浩斯智能提醒", message: "", preferredStyle: .alert)
+                ac.addAction(UIAlertAction(title: "好", style: .default, handler: nil))
+                self.present(ac, animated: true, completion: nil)
             }
         }
     }

@@ -24,7 +24,7 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
         SettingItem(icon: UIImage(named: "english_american_pronunce") ?? UIImage(), name: "发音类型", value: "美"),
         SettingItem(icon: UIImage(named: "choose_book") ?? UIImage(), name: "选择单词书", value: ""),
         SettingItem(icon: UIImage(named: "vocab_amount_each_group") ?? UIImage(), name: "每组单词数", value: "120"),
-        SettingItem(icon: UIImage(named: "learning_reminder") ?? UIImage(), name: "每日提醒", value: "8:00"),
+        SettingItem(icon: UIImage(named: "learning_reminder") ?? UIImage(), name: "每日提醒", value: ""),
         SettingItem(icon: UIImage(named: "clean_cache") ?? UIImage(), name: "清除缓存", value: "3.25M"),
         SettingItem(icon: UIImage(named: "sync_record") ?? UIImage(), name: "同步学习记录至云端", value: ""),
         SettingItem(icon: UIImage(named: "rate_app") ?? UIImage(), name: "评价应用", value: "v1.0.0"),
@@ -183,9 +183,26 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
             let settingItem:SettingItem = settingItems[row]
             cell.iconView?.image = settingItem.icon
             cell.nameLabel?.text = settingItem.name
-            cell.valueLabel?.text = settingItem.value
+            cell.valueLabel?.text = row == 4 ? getPreference(key: "reminder_time") as? String ?? "" : settingItem.value
             return cell
         }
+    }
+    
+    func updateReminderTime(){
+        let indexPath = IndexPath(row: 4, section: 0)
+        DispatchQueue.main.async {
+            self.tableView.reloadRows(at: [indexPath], with: .top)
+        }
+        
+        let remindStr = getPreference(key: "reminder_time") as? String ?? ""
+        var alertStr:String = "已移除每日学习提醒"
+        if remindStr != ""{
+            alertStr = "已为您设置每日学习提醒 \(remindStr)"
+        }
+        
+        let ac = UIAlertController(title: alertStr, message: "", preferredStyle: .alert)
+        ac.addAction(UIAlertAction(title: "好", style: .default, handler: nil))
+        present(ac, animated: true, completion: nil)
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -231,11 +248,13 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
                 self.present(NumOfWordPopUpVC, animated: true, completion: nil)
             }
         case 4:
-            // Simple Time Picker
-            RPicker.selectDate(title: "选择时间", cancelText: "取消",doneText: "完成", datePickerMode: .time, didSelectDate: { [weak self](selectedDate) in
-                // TODO: Your implementation for date
-//                self?.outputLabel.text = selectedDate.dateString("hh:mm a")
-            })
+            let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+            let reminderTimePickerVC = mainStoryBoard.instantiateViewController(withIdentifier: "reminderTimePickerVC") as! ReminderTimePickerViewController
+            reminderTimePickerVC.settingVC = self
+            reminderTimePickerVC.modalPresentationStyle = .overCurrentContext
+            DispatchQueue.main.async {
+                self.present(reminderTimePickerVC, animated: true, completion: nil)
+            }
         case 6:
             initActivityIndicator(text: "正在上传设置..")
             savePreference(saveToLocal: false, saveToCloud: true, completionHandler: {_ in
@@ -264,15 +283,6 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
         }
         tableView.deselectRow(at: indexPath, animated: true)
     }
-    
-//    @IBAction func swipeDetected(_ sender: UISwipeGestureRecognizer) {
-//        switch sender.direction {
-//        case .right:
-//            dismiss(animated: true, completion: nil)
-//        default:
-//            print("swiped")
-//        }
-//    }
     
     @objc func autoPronunceSwitched(uiSwitch: UISwitch) {
         if uiSwitch.isOn{

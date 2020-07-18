@@ -17,10 +17,13 @@ var imageCache = NSCache<NSString, NSURL>()
 let decoder = JSONDecoder()
 var GlobalUserName = ""
 
+var everyDayLearningReminderNotificationIdentifier = "dailyLearningReminder"
+
 let numberOfContDaysForMasteredAWord = 5 
 
 typealias CompletionHandler = (_ success:Bool) -> Void
 typealias CompletionHandlerWithData = (_ data: Data?) -> Void
+
 
 // MARK: - Common Functions
 
@@ -130,7 +133,6 @@ func add_notification_date(notification_date: Date) -> UNNotificationRequest?{
     let notification_content = obtainNotificationContent()
     let request = UNNotificationRequest(identifier: UUID().uuidString, content: notification_content, trigger: notification_trigger)
     return request
-    return nil
 }
 
 func obtainNotificationContent() -> UNMutableNotificationContent{

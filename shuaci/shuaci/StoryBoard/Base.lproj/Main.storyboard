@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="868-VL-FJO">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="868-VL-FJO">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
@@ -2016,6 +2016,114 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tki-kj-WLv" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3236.2318840579715" y="840.40178571428567"/>
+        </scene>
+        <!--Reminder Time Picker View Controller-->
+        <scene sceneID="X6W-Hf-o3W">
+            <objects>
+                <viewController storyboardIdentifier="reminderTimePickerVC" modalPresentationStyle="overCurrentContext" id="tEN-je-fvP" customClass="ReminderTimePickerViewController" customModule="刷词" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="nj7-Bn-nai">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="19" translatesAutoresizingMaskIntoConstraints="NO" id="fmx-5o-KDV">
+                                <rect key="frame" x="67" y="296" width="280" height="304"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="设置提醒时间" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="b6U-EF-bfv">
+                                        <rect key="frame" x="88" y="0.0" width="104" height="20.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="MwT-8J-wqk">
+                                        <rect key="frame" x="74" y="39.5" width="132.5" height="14.5"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="下次提醒" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5jh-bG-cXE">
+                                                <rect key="frame" x="0.0" y="0.0" width="49.5" height="14.5"/>
+                                                <fontDescription key="fontDescription" type="system" weight="light" pointSize="12"/>
+                                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="                        " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="m8f-7k-Hgk">
+                                                <rect key="frame" x="54.5" y="0.0" width="78" height="14.5"/>
+                                                <fontDescription key="fontDescription" type="system" weight="light" pointSize="12"/>
+                                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                    </stackView>
+                                    <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="time" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="loR-lS-Gop">
+                                        <rect key="frame" x="0.0" y="73" width="280" height="180"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="180" id="H4o-mJ-6fC"/>
+                                            <constraint firstAttribute="width" constant="280" id="nE8-xi-DO7"/>
+                                        </constraints>
+                                        <locale key="locale" localeIdentifier="zh-Hans"/>
+                                        <connections>
+                                            <action selector="pickerSelectedTimeChanged:" destination="tEN-je-fvP" eventType="valueChanged" id="11Z-oc-mA7"/>
+                                        </connections>
+                                    </datePicker>
+                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" alignment="center" spacing="80" translatesAutoresizingMaskIntoConstraints="NO" id="GdM-rt-37a">
+                                        <rect key="frame" x="59" y="272" width="162" height="32"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9bk-00-dtD">
+                                                <rect key="frame" x="0.0" y="0.0" width="49" height="32"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                <state key="normal" title="不提醒">
+                                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="removeReminderClock:" destination="tEN-je-fvP" eventType="touchUpInside" id="Ch7-LB-4f8"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tne-ae-DkL">
+                                                <rect key="frame" x="129" y="0.0" width="33" height="32"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                <state key="normal" title="设置">
+                                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="setReminderClock:" destination="tEN-je-fvP" eventType="touchUpInside" id="JFb-Au-Z44"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
+                            </stackView>
+                            <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="w1d-6S-jlJ">
+                                <rect key="frame" x="20" y="59" width="30" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="30" id="fzF-65-He7"/>
+                                    <constraint firstAttribute="height" constant="30" id="lCB-fh-JfP"/>
+                                </constraints>
+                                <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal" image="chevron.down" catalog="system">
+                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="large"/>
+                                </state>
+                                <connections>
+                                    <action selector="unwind:" destination="tEN-je-fvP" eventType="touchUpInside" id="AES-Kn-0PY"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="fmx-5o-KDV" firstAttribute="centerY" secondItem="nj7-Bn-nai" secondAttribute="centerY" id="G4g-0Y-e2U"/>
+                            <constraint firstItem="w1d-6S-jlJ" firstAttribute="top" secondItem="cVg-qo-mLP" secondAttribute="top" constant="15" id="aoi-bt-6Tg"/>
+                            <constraint firstItem="w1d-6S-jlJ" firstAttribute="leading" secondItem="cVg-qo-mLP" secondAttribute="leading" constant="20" id="qAF-b4-aXg"/>
+                            <constraint firstItem="fmx-5o-KDV" firstAttribute="centerX" secondItem="nj7-Bn-nai" secondAttribute="centerX" id="ydN-gs-CPM"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="cVg-qo-mLP"/>
+                    </view>
+                    <connections>
+                        <outlet property="doNotRemind" destination="9bk-00-dtD" id="vTg-qG-QhF"/>
+                        <outlet property="nextRemindTime" destination="m8f-7k-Hgk" id="8Lr-XW-D8s"/>
+                        <outlet property="setReminder" destination="Tne-ae-DkL" id="zaH-cF-KDX"/>
+                        <outlet property="timePicker" destination="loR-lS-Gop" id="493-8E-QN5"/>
+                        <outlet property="titleLabel" destination="b6U-EF-bfv" id="vr2-Na-iWv"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="j8t-nZ-Flk" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3982.6086956521744" y="840.40178571428567"/>
         </scene>
     </scenes>
     <resources>
