@@ -9,7 +9,6 @@ target 'shuaci' do
   pod 'LeanCloud'
   pod 'CropViewController'
   pod 'BottomPopup'
-  pod 'SwiftGifOrigin', '~> 1.7.0'
   pod 'SwiftyJSON', '~> 4.0'
   pod 'AAInfographics', :git => 'https://github.com/AAChartModel/AAChartKit-Swift.git'
 end
