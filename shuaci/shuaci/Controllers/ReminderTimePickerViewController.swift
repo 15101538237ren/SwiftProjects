@@ -8,7 +8,6 @@
 
 import UIKit
 import UserNotifications
-import SwiftGifOrigin
 
 class ReminderTimePickerViewController: UIViewController {
     var settingVC: SettingViewController!
