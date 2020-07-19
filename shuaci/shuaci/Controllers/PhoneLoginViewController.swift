@@ -14,8 +14,10 @@ class PhoneLoginViewController: UIViewController {
     @IBOutlet var getVerificationCodeBtn: UIButton!
     @IBOutlet var phoneLoginBtn: UIButton!
     var verificationCodeSent = false
+    var mainScreenVC: MainScreenViewController!
     
-    @IBAction func unwind(segue: UIStoryboardSegue) {
+    
+    @IBAction func unwind(_ sender: UIButton) {
         self.dismiss(animated: true, completion: nil)
     }
     

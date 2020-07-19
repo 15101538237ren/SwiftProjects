@@ -13,11 +13,11 @@ class EmailLoginViewController: UIViewController {
     @IBOutlet var emailTextField: UITextField!
     @IBOutlet var passwordField: UITextField!
     @IBOutlet var emailLoginBtn: UIButton!
-
+    var mainScreenVC: MainScreenViewController!
     
     let regex = try! NSRegularExpression(pattern: "^([a-zA-Z0-9_\\-\\.]+)@([a-zA-Z0-9_\\-\\.]+)\\.([a-zA-Z]{2,5})$")
     
-    @IBAction func unwind(segue: UIStoryboardSegue) {
+    @IBAction func unwind(_ sender: UIButton) {
         self.dismiss(animated: true, completion: nil)
     }
     
@@ -135,7 +135,7 @@ class EmailLoginViewController: UIViewController {
                         }
                     }
                     else{
-                        presentAlert(title: "登录请求太快，请等待1分钟!", message: "", okText: "好")
+                        self.presentAlertInView(title: "登录请求太快，请等待1分钟!", message: "", okText: "好")
                     }
                 }else{
                    if non_network_preseted == false{
@@ -149,12 +149,10 @@ class EmailLoginViewController: UIViewController {
             
         }
     func showMainPanel() {
-        let LoginRegStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
-        let mainPanelViewController = LoginRegStoryBoard.instantiateViewController(withIdentifier: "mainPanelViewController") as! MainPanelViewController
-        mainPanelViewController.modalPresentationStyle = .fullScreen
         DispatchQueue.main.async {
-            self.dismiss(animated: false, completion: nil)
-            self.present(mainPanelViewController, animated: true, completion: nil)
+            self.dismiss(animated: false, completion: {
+                self.mainScreenVC.showMainPanel()
+            })
         }
     }
     override func viewDidLoad() {
@@ -168,5 +166,17 @@ class EmailLoginViewController: UIViewController {
             UIApplication.topViewController()?.present(alertCtl, animated: true, completion: nil)
         }
     }
+    
+    
+    @IBAction func forgetPwd(_ sender: UIButton) {
+        let LoginRegStoryBoard : UIStoryboard = UIStoryboard(name: "LoginReg", bundle:nil)
+        let resetPwdVC = LoginRegStoryBoard.instantiateViewController(withIdentifier: "resetPwd") as! ResetPwdViewController
+        resetPwdVC.modalPresentationStyle = .fullScreen
+        DispatchQueue.main.async {
+            self.present(resetPwdVC, animated: true, completion: nil)
+            
+        }
+    }
+    
     
 }

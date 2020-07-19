@@ -14,7 +14,7 @@ class setNickNameViewController: UIViewController {
     @IBOutlet var textfield: UITextField!
     override func viewDidLoad() {
         super.viewDidLoad()
-        textfield.placeholder = nickname
+        textfield.placeholder = nickname == "" ? "请输入您喜爱的昵称" : nickname
         // Do any additional setup after loading the view.
     }
     

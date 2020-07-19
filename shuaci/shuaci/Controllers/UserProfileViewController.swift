@@ -153,7 +153,12 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
         case 0:
             let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
             let setNickNameVC = mainStoryBoard.instantiateViewController(withIdentifier: "setNickNameVC") as! setNickNameViewController
-            setNickNameVC.nickname = textStr
+            if let user_nickname = user.get("nickname")?.stringValue{
+                setNickNameVC.nickname = user_nickname
+            }else{
+                setNickNameVC.nickname = ""
+            }
+            
             setNickNameVC.modalPresentationStyle = .fullScreen
             self.present(setNickNameVC, animated: true, completion: nil)
         case 1:

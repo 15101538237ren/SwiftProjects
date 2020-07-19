@@ -16,7 +16,7 @@ class ResetPwdViewController: UIViewController {
     let selfController = self
     let regex = try! NSRegularExpression(pattern: "^([a-zA-Z0-9_\\-\\.]+)@([a-zA-Z0-9_\\-\\.]+)\\.([a-zA-Z]{2,5})$")
     
-    @IBAction func unwind(segue: UIStoryboardSegue) {
+    @IBAction func unwind(_ sender: UIButton) {
         self.dismiss(animated: true, completion: nil)
     }
     

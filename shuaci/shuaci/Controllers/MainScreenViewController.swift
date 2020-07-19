@@ -222,6 +222,41 @@ class MainScreenViewController: UIViewController {
         card.transform = .identity
     }
     
+    func showMainPanel(){
+        let LoginRegStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+        let mainPanelViewController = LoginRegStoryBoard.instantiateViewController(withIdentifier: "mainPanelViewController") as! MainPanelViewController
+        mainPanelViewController.modalPresentationStyle = .overCurrentContext
+        
+        DispatchQueue.main.async {
+            self.present(mainPanelViewController, animated: true, completion: nil)
+            
+        }
+    }
+    
+    
+    @IBAction func emailLogin(_ sender: UIButton) {
+        let LoginRegStoryBoard : UIStoryboard = UIStoryboard(name: "LoginReg", bundle:nil)
+        let emailLoginVC = LoginRegStoryBoard.instantiateViewController(withIdentifier: "emailLoginVC") as! EmailLoginViewController
+        emailLoginVC.modalPresentationStyle = .fullScreen
+        emailLoginVC.mainScreenVC = self
+        DispatchQueue.main.async {
+            self.present(emailLoginVC, animated: true, completion: nil)
+            
+        }
+    }
+    
+    @IBAction func phoneLogin(_ sender: UIButton) {
+        let LoginRegStoryBoard : UIStoryboard = UIStoryboard(name: "LoginReg", bundle:nil)
+        let phoneLoginVC = LoginRegStoryBoard.instantiateViewController(withIdentifier: "phoneLogin") as! PhoneLoginViewController
+        phoneLoginVC.modalPresentationStyle = .fullScreen
+        phoneLoginVC.mainScreenVC = self
+        DispatchQueue.main.async {
+            self.present(phoneLoginVC, animated: true, completion: nil)
+            
+        }
+    }
+    
+    
     func playMp3(url: URL)
     {
         if Reachability.isConnectedToNetwork(){
@@ -263,5 +298,7 @@ class MainScreenViewController: UIViewController {
         }
         
     }
+    
+    
     
 }
