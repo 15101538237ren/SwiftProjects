@@ -244,6 +244,7 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
             let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
             let NumOfWordPopUpVC = mainStoryBoard.instantiateViewController(withIdentifier: "NumOfWordVC") as! NumWordPerGroupViewController
             NumOfWordPopUpVC.setting_tableView = tableView
+            NumOfWordPopUpVC.modalPresentationStyle = .overCurrentContext
             DispatchQueue.main.async {
                 self.present(NumOfWordPopUpVC, animated: true, completion: nil)
             }

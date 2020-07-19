@@ -1950,72 +1950,77 @@
             </objects>
             <point key="canvasLocation" x="2515.9420289855075" y="845.75892857142856"/>
         </scene>
-        <!--num_of_words_per_group_pop_up-->
-        <scene sceneID="3r2-KY-h2l">
+        <!--Num Word Per Group View Controller-->
+        <scene sceneID="J9y-KL-xcI">
             <objects>
-                <viewController storyboardIdentifier="NumOfWordVC" title="num_of_words_per_group_pop_up" id="dNk-oJ-Fab" customClass="NumWordPerGroupViewController" customModule="刷词" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="V99-V1-jdR">
+                <viewController storyboardIdentifier="NumOfWordVC" id="Cw4-9G-H3S" customClass="NumWordPerGroupViewController" customModule="刷词" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="L4C-OT-YtW">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="30H-CN-XbQ">
-                                <rect key="frame" x="0.0" y="544" width="414" height="352"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                                <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="NumberOfWordCell" rowHeight="55" id="kO3-wz-giz" customClass="NumberOfWordTableViewCell" customModule="刷词" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="414" height="55"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="kO3-wz-giz" id="eyc-gk-dxl">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="55"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bmp-57-6WX">
-                                                    <rect key="frame" x="30" y="15.5" width="48" height="24"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="checked" translatesAutoresizingMaskIntoConstraints="NO" id="hXj-id-frm">
-                                                    <rect key="frame" x="378" y="14.5" width="26" height="26"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="26" id="Mvx-Tb-JjN"/>
-                                                        <constraint firstAttribute="width" constant="26" id="txD-TL-xbp"/>
-                                                    </constraints>
-                                                </imageView>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstItem="hXj-id-frm" firstAttribute="centerY" secondItem="eyc-gk-dxl" secondAttribute="centerY" id="2uV-ZG-8h9"/>
-                                                <constraint firstItem="Bmp-57-6WX" firstAttribute="leading" secondItem="eyc-gk-dxl" secondAttribute="leadingMargin" constant="10" id="2zx-vd-1JT"/>
-                                                <constraint firstItem="Bmp-57-6WX" firstAttribute="centerY" secondItem="eyc-gk-dxl" secondAttribute="centerY" id="MBo-ZV-WqU"/>
-                                                <constraint firstItem="hXj-id-frm" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Bmp-57-6WX" secondAttribute="trailing" constant="30" id="Wpc-AC-52h"/>
-                                                <constraint firstItem="hXj-id-frm" firstAttribute="trailing" secondItem="eyc-gk-dxl" secondAttribute="trailingMargin" constant="10" id="X73-iP-voc"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="Q9m-jP-zCI">
+                                <rect key="frame" x="47" y="312" width="320" height="272.5"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="设置每组单词数" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YYK-Eh-rjj">
+                                        <rect key="frame" x="99.5" y="0.0" width="121.5" height="20.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bII-KV-AxD">
+                                        <rect key="frame" x="0.0" y="30.5" width="320" height="200"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="200" id="qb7-45-ES1"/>
+                                        </constraints>
+                                    </pickerView>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="c8F-mt-Tk8">
+                                        <rect key="frame" x="143.5" y="240.5" width="33" height="32"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                        <state key="normal" title="设置">
+                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
                                         <connections>
-                                            <outlet property="checkedImageView" destination="hXj-id-frm" id="XiR-dD-5yr"/>
-                                            <outlet property="numberOfWordLabel" destination="Bmp-57-6WX" id="Ck8-4M-nNy"/>
+                                            <action selector="setNumOfWord:" destination="Cw4-9G-H3S" eventType="touchUpInside" id="AWR-R2-LLP"/>
+                                            <action selector="setReminderClock:" destination="tEN-je-fvP" eventType="touchUpInside" id="jk1-mj-9P3"/>
                                         </connections>
-                                    </tableViewCell>
-                                </prototypes>
-                            </tableView>
+                                    </button>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="bII-KV-AxD" firstAttribute="centerX" secondItem="Q9m-jP-zCI" secondAttribute="centerX" id="vaa-gH-ftF"/>
+                                </constraints>
+                            </stackView>
+                            <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oG5-Dm-0i2">
+                                <rect key="frame" x="20" y="59" width="30" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="30" id="8jO-JK-HZ7"/>
+                                    <constraint firstAttribute="height" constant="30" id="Llc-gc-8N8"/>
+                                </constraints>
+                                <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal" image="chevron.down" catalog="system">
+                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="large"/>
+                                </state>
+                                <connections>
+                                    <action selector="unwind:" destination="Cw4-9G-H3S" eventType="touchUpInside" id="ScT-Vw-EJJ"/>
+                                    <action selector="unwind:" destination="tEN-je-fvP" eventType="touchUpInside" id="XhB-WQ-kNn"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
-                            <constraint firstItem="30H-CN-XbQ" firstAttribute="top" secondItem="HAK-SJ-L60" secondAttribute="top" constant="500" id="ACb-pN-Nut"/>
-                            <constraint firstItem="30H-CN-XbQ" firstAttribute="centerX" secondItem="V99-V1-jdR" secondAttribute="centerX" id="Ltb-6u-nGc"/>
-                            <constraint firstItem="HAK-SJ-L60" firstAttribute="trailing" secondItem="30H-CN-XbQ" secondAttribute="trailing" id="bXF-Vk-2iM"/>
-                            <constraint firstAttribute="bottom" secondItem="30H-CN-XbQ" secondAttribute="bottom" id="cLr-e4-0R4"/>
-                            <constraint firstItem="30H-CN-XbQ" firstAttribute="leading" secondItem="HAK-SJ-L60" secondAttribute="leading" id="eec-f1-zgD"/>
+                            <constraint firstItem="Q9m-jP-zCI" firstAttribute="centerX" secondItem="L4C-OT-YtW" secondAttribute="centerX" id="Fqe-34-ilV"/>
+                            <constraint firstItem="oG5-Dm-0i2" firstAttribute="leading" secondItem="Mgt-Rd-0Fg" secondAttribute="leading" constant="20" id="PFv-7N-9bU"/>
+                            <constraint firstItem="oG5-Dm-0i2" firstAttribute="top" secondItem="Mgt-Rd-0Fg" secondAttribute="top" constant="15" id="fNf-0d-6aC"/>
+                            <constraint firstItem="Q9m-jP-zCI" firstAttribute="centerY" secondItem="L4C-OT-YtW" secondAttribute="centerY" id="qp9-f2-STN"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="HAK-SJ-L60"/>
+                        <viewLayoutGuide key="safeArea" id="Mgt-Rd-0Fg"/>
                     </view>
                     <connections>
-                        <outlet property="tableView" destination="30H-CN-XbQ" id="Bvw-AX-QH8"/>
+                        <outlet property="numVocPickerView" destination="bII-KV-AxD" id="Vow-wi-RgR"/>
                     </connections>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="tki-kj-WLv" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="UHQ-fc-ghJ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3236.2318840579715" y="840.40178571428567"/>
+            <point key="canvasLocation" x="3246" y="846"/>
         </scene>
         <!--Reminder Time Picker View Controller-->
         <scene sceneID="X6W-Hf-o3W">
@@ -2130,7 +2135,6 @@
         <image name="auto_pronunciation" width="500" height="500"/>
         <image name="bar-chart" width="500" height="600"/>
         <image name="camera" width="512" height="512"/>
-        <image name="checked" width="512" height="512"/>
         <image name="chevron.down" catalog="system" width="128" height="72"/>
         <image name="chevron.left" catalog="system" width="96" height="128"/>
         <image name="clock" width="500" height="500"/>

@@ -7,91 +7,107 @@
 //
 
 import UIKit
-import BottomPopup
 
-class NumWordPerGroupViewController: BottomPopupViewController, UITableViewDataSource, UITableViewDelegate {
+class NumWordPerGroupViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource  {
     
-    override var popupHeight: CGFloat { return UIScreen.main.bounds.height }
-    
-    override var popupPresentDuration: Double { return 0.3 }
-    
-    override var popupDismissDuration: Double { return 0.3 }
-    
+    var viewTranslation = CGPoint(x: 0, y: 0)
     let number_of_words: [Int] = [10, 20, 30, 40, 50, 100, 150, 200, 300]
     var setting_tableView: UITableView!
-    var checked_row:Int = 1
     
-    @IBOutlet var tableView: UITableView!
+    @IBOutlet weak var numVocPickerView: UIPickerView!
     
-    override func viewDidLoad() {
-        view.backgroundColor = UIColor(white: 1.0, alpha: 0.4)
-        get_pref_setting()
-        self.tableView.delegate = self
-        self.tableView.dataSource = self
-        self.tableView.layer.cornerRadius = 20.0
-        self.tableView.layer.masksToBounds = true
-        super.viewDidLoad()
-        
-        // Do any additional setup after loading the view.
+    @IBAction func unwind(_ sender: UIButton) {
+        self.dismiss(animated: true, completion: nil)
     }
     
-    func get_pref_setting(){
+    
+    
+    func selectedIndex() -> Int{
         let npg_pref:Int = getPreference(key: "number_of_words_per_group") as! Int
         for i in 0..<number_of_words.count{
             if number_of_words[i] == npg_pref{
-                checked_row = i
+                return i
             }
+        }
+        return 0
+    }
+    
+    func addBlurBackgroundView(){
+        let blurEffect = UIBlurEffect(style: UIBlurEffect.Style.light)
+        let blurEffectView = UIVisualEffectView(effect: blurEffect)
+        blurEffectView.frame = view.bounds
+        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        view.insertSubview(blurEffectView, at: 0)
+    }
+    
+    @objc func handleDismiss(sender: UIPanGestureRecognizer) {
+        switch sender.state {
+        case .changed:
+            viewTranslation = sender.translation(in: view)
+            if viewTranslation.y > 0 {
+                UIView.animate(withDuration: 0.2, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+                    self.view.transform = CGAffineTransform(translationX: 0, y: self.viewTranslation.y)
+                })
+            }
+        case .ended:
+            if viewTranslation.y < 200 {
+                UIView.animate(withDuration: 0.2, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+                    self.view.transform = .identity
+                })
+            } else {
+                dismiss(animated: true, completion: nil)
+            }
+        default:
+            break
         }
     }
     
-    func numberOfSections(in tableView: UITableView) -> Int {
-       // #warning Incomplete implementation, return the number of sections
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        numVocPickerView.delegate = self
+        numVocPickerView.dataSource = self
+        view.backgroundColor = .clear
+        addBlurBackgroundView()
+        view.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(handleDismiss)))
+        view.isUserInteractionEnabled = true
+        let selected_ind:Int = selectedIndex()
+        numVocPickerView.selectRow(selected_ind, inComponent: 0, animated: true)
+        // Do any additional setup after loading the view.
+    }
+    
+    override func didReceiveMemoryWarning()
+    {
+       super.didReceiveMemoryWarning()
+       // Dispose of any resources that can be recreated.
+    }
+    
+    // Number of columns of data
+   func numberOfComponents(in pickerView: UIPickerView) -> Int {
        return 1
    }
    
-   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-       return number_of_words.count
-   }
+    // The number of rows of data
+      func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+          return number_of_words.count
+      }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let row = indexPath.row
-        let cell = tableView.dequeueReusableCell(withIdentifier: "NumberOfWordCell", for: indexPath) as! NumberOfWordTableViewCell
-        let alpha:CGFloat = row == checked_row ? 1.0 : 0.0
-        cell.checkedImageView.alpha = alpha
-        cell.numberOfWordLabel.text = "\(number_of_words[row])个"
-        return cell
+    // The data to return fopr the row and component (column) that's being passed in
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return String(number_of_words[row])
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let alertController = UIAlertController(title: "是否更改为每组\(number_of_words[indexPath.row])个单词?", message: "", preferredStyle: .alert)
-        let okayAction = UIAlertAction(title: "是", style: .default, handler: { action in
-            let indexPath_prev_selected = IndexPath(row: self.checked_row, section: 0)
-            let cell_prev_selected = tableView.dequeueReusableCell(withIdentifier: "NumberOfWordCell", for: indexPath_prev_selected) as! NumberOfWordTableViewCell
-            
-            self.checked_row = indexPath.row
-            setPreference(key: "number_of_words_per_group", value: self.number_of_words[self.checked_row])
-            let cell = tableView.dequeueReusableCell(withIdentifier: "NumberOfWordCell", for: IndexPath(row: self.checked_row, section: 0)) as! NumberOfWordTableViewCell
-            
-            DispatchQueue.main.async {
-                let indexPath_in_setting = IndexPath(item: 3, section: 0)
-                let cell_in_setting = self.setting_tableView.dequeueReusableCell(withIdentifier: "SettingCell", for: indexPath_in_setting) as! SettingTableViewCell
-                cell_in_setting.valueLabel?.text = "\(self.number_of_words[indexPath.row])"
-                self.setting_tableView.reloadRows(at: [indexPath_in_setting], with: .top)
-                
-                cell_prev_selected.checkedImageView.alpha = 0.0
-                tableView.deselectRow(at: indexPath_prev_selected, animated: true)
-                cell.checkedImageView.alpha = 1.0
-                self.dismiss(animated: true, completion: nil)
-            }
-            update_words()
-            
-        })
-        let cancelAction = UIAlertAction(title: "否", style: .cancel, handler: { action in
+    @IBAction func setNumOfWord(_ sender: UIButton) {
+        let selected_ind = numVocPickerView.selectedRow(inComponent: 0)
+        setPreference(key: "number_of_words_per_group", value: self.number_of_words[selected_ind])
+        
+        DispatchQueue.main.async {
+            let indexPath_in_setting = IndexPath(item: 3, section: 0)
+            let cell_in_setting = self.setting_tableView.dequeueReusableCell(withIdentifier: "SettingCell", for: indexPath_in_setting) as! SettingTableViewCell
+            cell_in_setting.valueLabel?.text = "\(self.number_of_words[selected_ind])"
+            self.setting_tableView.reloadRows(at: [indexPath_in_setting], with: .top)
             self.dismiss(animated: true, completion: nil)
-        })
-        alertController.addAction(okayAction)
-        alertController.addAction(cancelAction)
-        self.present(alertController, animated: true, completion: nil)
+        }
+        update_words()
     }
     
 }
