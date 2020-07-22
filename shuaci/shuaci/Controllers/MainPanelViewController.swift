@@ -31,6 +31,37 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
     
     @IBOutlet var searchBtn: UIButton!
     
+    @IBOutlet var learnBtn: UIButton!{
+        didSet {
+            learnBtn.layer.cornerRadius = 9.0
+            learnBtn.layer.masksToBounds = true
+            learnBtn.backgroundColor = .clear
+            learnBtn.setTitleColor(.white, for: .normal)
+        }
+    }
+    @IBOutlet var reviewBtn: UIButton!{
+        didSet {
+            reviewBtn.layer.cornerRadius = 9.0
+            reviewBtn.layer.masksToBounds = true
+            reviewBtn.backgroundColor = .clear
+            reviewBtn.setTitleColor(.white, for: .normal)
+        }
+    }
+    
+    func addBlurBtnView(){
+        let blurEffect = UIBlurEffect(style: UIBlurEffect.Style.light)
+        let blurEffectViewforLearnBtn = UIVisualEffectView(effect: blurEffect)
+        blurEffectViewforLearnBtn.isUserInteractionEnabled = false
+        blurEffectViewforLearnBtn.frame = learnBtn.bounds
+        blurEffectViewforLearnBtn.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        learnBtn.insertSubview(blurEffectViewforLearnBtn, at: 0)
+        
+        let blurEffectViewforReviewBtn = UIVisualEffectView(effect: blurEffect)
+        blurEffectViewforReviewBtn.frame = reviewBtn.bounds
+        blurEffectViewforReviewBtn.isUserInteractionEnabled = false
+        blurEffectViewforReviewBtn.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        reviewBtn.insertSubview(blurEffectViewforReviewBtn, at: 0)
+    }
     
     @IBOutlet var themeBtn: UIButton!
     @IBOutlet var collectBtn: UIButton!
@@ -173,6 +204,7 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        addBlurBtnView()
         if !isKeyPresentInUserDefaults(key: "getNextWallpaperCalled"){
             UserDefaults.standard.set(false, forKey: "getNextWallpaperCalled")
         }
