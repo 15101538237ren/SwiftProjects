@@ -10,6 +10,7 @@ import UIKit
 import LeanCloud
 import AVFoundation
 import SwiftyJSON
+import SwiftTheme
 
 class MainPanelViewController: UIViewController, CAAnimationDelegate {
     @IBOutlet var mainPanelUIView: MainPanelUIView!
@@ -33,6 +34,8 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
     
     @IBOutlet var learnBtn: UIButton!{
         didSet {
+            learnBtn.theme_setTitleColor("Global.btnTitleColor", forState: .normal)
+            learnBtn.theme_tintColor = "Global.btnTintColor"
             learnBtn.layer.cornerRadius = 9.0
             learnBtn.layer.masksToBounds = true
             learnBtn.backgroundColor = .clear
@@ -41,6 +44,8 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
     }
     @IBOutlet var reviewBtn: UIButton!{
         didSet {
+            reviewBtn.theme_setTitleColor("Global.btnTitleColor", forState: .normal)
+            reviewBtn.theme_tintColor = "Global.btnTintColor"
             reviewBtn.layer.cornerRadius = 9.0
             reviewBtn.layer.masksToBounds = true
             reviewBtn.backgroundColor = .clear
@@ -49,7 +54,17 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
     }
     
     func addBlurBtnView(){
-        let blurEffect = UIBlurEffect(style: UIBlurEffect.Style.light)
+        var blurEffect = UIBlurEffect(style: UIBlurEffect.Style.light)
+        let blurEffectName = ThemeManager.currentTheme?.value(forKeyPath: "Global.blurEffectStyle") as! String
+        switch blurEffectName {
+            case "light":
+                blurEffect = UIBlurEffect(style: UIBlurEffect.Style.light)
+            case "dark":
+                blurEffect = UIBlurEffect(style: UIBlurEffect.Style.dark)
+            default:
+                blurEffect = UIBlurEffect(style: UIBlurEffect.Style.light)
+        }
+        
         let blurEffectViewforLearnBtn = UIVisualEffectView(effect: blurEffect)
         blurEffectViewforLearnBtn.isUserInteractionEnabled = false
         blurEffectViewforLearnBtn.frame = learnBtn.bounds
@@ -176,19 +191,6 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
         }
     }
     
-    func setTextOrButtonsColor(color: UIColor) {
-        DispatchQueue.main.async {
-            self.syncLabel.textColor = color
-            self.wordLabel.textColor = color
-            self.meaningLabel.textColor = color
-            self.themeBtn.tintColor = color
-            self.collectBtn.tintColor = color
-            self.statBtn.tintColor = color
-            self.settingBtn.tintColor = color
-            self.searchBtn.tintColor = color
-        }
-    }
-    
     func animationDidStop(_ anim: CAAnimation, finished flag: Bool) {
         if shouldStopRotating == false {
             self.userPhotoBtn.rotate360Degrees(completionDelegate: self)
@@ -204,6 +206,16 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.syncLabel.theme_textColor = "Global.textColor"
+        self.wordLabel.theme_textColor = "Global.textColor"
+        self.meaningLabel.theme_textColor = "Global.textColor"
+        self.themeBtn.theme_tintColor = "Global.btnTintColor"
+        self.collectBtn.theme_tintColor = "Global.btnTintColor"
+        self.statBtn.theme_tintColor = "Global.btnTintColor"
+        self.settingBtn.theme_tintColor = "Global.btnTintColor"
+        self.searchBtn.theme_tintColor = "Global.btnTintColor"
+        
         addBlurBtnView()
         if !isKeyPresentInUserDefaults(key: "getNextWallpaperCalled"){
             UserDefaults.standard.set(false, forKey: "getNextWallpaperCalled")
@@ -381,7 +393,6 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
                             self.meaningLabel.text = trans
                             self.view.setNeedsDisplay()
                         }
-                        self.setTextOrButtonsColor(color: textColors[category] ?? UIColor.darkGray)
                         
                         let count_query = LCQuery(className: "Wallpaper")
                         count_query.whereKey("theme_category", .equalTo(category))
@@ -501,7 +512,6 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
             getNextWallpaperCalled = true
             UserDefaults.standard.set(true, forKey: "getNextWallpaperCalled")
             UserDefaults.standard.set(Date(), forKey: "lastUpdateTime")
-            setTextOrButtonsColor(color: textColors[current_theme_category] ?? UIColor.darkGray)
         }
         else{
             let imageFileURL = getDocumentsDirectory().appendingPathComponent("wallpaper.jpg")
@@ -542,7 +552,6 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
         }
 
         UserDefaults.standard.set(Date(), forKey: "lastUpdateTime")
-        setTextOrButtonsColor(color: textColors[current_theme_category] ?? UIColor.darkGray)
         }
         
     }

@@ -10,8 +10,16 @@ import Foundation
 import UIKit
 import LeanCloud
 import SwiftyJSON
+import SwiftTheme
 
-var textColors:[Int:UIColor] = [ 1: UIColor.white, 2: UIColor.white, 3: UIColor.gray, 4: UIColor.white, 5: UIColor.white, 6: UIColor.white, 7: UIColor.white, 8: UIColor.white, 9: UIColor.white, 10: UIColor.white]
+enum theme: String {
+    case lightGray = "Light_Gray"
+    case lightWhite = "Light_White"
+    case dark = "Dark"
+    case night = "Night"
+}
+
+var theme_category_to_name:[Int : theme] = [ 1: .lightWhite, 2: .dark, 3: .night, 4: .lightWhite, 5: .lightWhite, 6: .lightWhite, 7: .lightWhite, 8: .lightGray, 9: .lightWhite, 10: .lightWhite]
 
 var themes:[Theme] = [
     Theme(name: "明 亮", background: "1_Light", category: 1),

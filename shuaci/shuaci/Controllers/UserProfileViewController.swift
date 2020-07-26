@@ -9,6 +9,7 @@
 import UIKit
 import LeanCloud
 import CropViewController
+import SwiftTheme
 
 class UserProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, CropViewControllerDelegate , UITableViewDataSource, UITableViewDelegate {
     var user = LCApplication.default.currentUser!
@@ -35,11 +36,18 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
     var mainPanelViewController: MainPanelViewController!
     var viewTranslation = CGPoint(x: 0, y: 0)
     
+    @IBOutlet weak var backBtn: UIButton!
+    @IBOutlet weak var barTitleLabel: UILabel!
+    
     @IBAction func unwind(segue: UIStoryboardSegue) {
         self.dismiss(animated: true, completion: nil)
     }
     
     override func viewDidLoad() {
+        view.theme_backgroundColor = "Global.viewBackgroundColor"
+        backBtn.theme_tintColor = "Global.backBtnTintColor"
+        barTitleLabel.theme_textColor = "Global.barTitleColor"
+        tableView.theme_backgroundColor = "Global.viewBackgroundColor"
         self.updateUserPhoto()
         self.tableView.delegate = self
         self.tableView.dataSource = self
@@ -140,6 +148,7 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
         let textStr: String = getSetted(row: row)
         cell.valueLabel?.textColor = ["未验证", "未设置", "未绑定"].contains(textStr) ? self.redColor : .darkGray
         cell.valueLabel?.text = textStr
+        cell.backgroundColor = .clear
         return cell
     }
     

@@ -34,11 +34,18 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
     ]
     @IBOutlet var tableView: UITableView!
     
+    @IBOutlet weak var backBtn: UIButton!
+    @IBOutlet weak var barTitleLabel: UILabel!
+    
     @IBAction func unwind(segue: UIStoryboardSegue) {
         self.dismiss(animated: true, completion: nil)
     }
     
     override func viewDidLoad() {
+        view.theme_backgroundColor = "Global.viewBackgroundColor"
+        backBtn.theme_tintColor = "Global.backBtnTintColor"
+        barTitleLabel.theme_textColor = "Global.barTitleColor"
+        tableView.theme_backgroundColor = "Global.viewBackgroundColor"
         self.tableView.delegate = self
         self.tableView.dataSource = self
         self.tableView.separatorColor = .clear
@@ -54,6 +61,7 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
         
         // Do any additional setup after loading the view.
     }
+    
     
     func initActivityIndicator(text: String) {
         activityLabel.removeFromSuperview()
@@ -125,6 +133,8 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
         let row = indexPath.row
         if  row == 0{
             let cell = tableView.dequeueReusableCell(withIdentifier: "SettingToggleCell", for: indexPath) as! SettingToggleTableViewCell
+
+            cell.backgroundColor = .clear
             cell.separatorInset = UIEdgeInsets(top: 0, left: cell.bounds.size.width, bottom: 0, right: 0);
             let settingItem:SettingItem = settingItems[row]
             cell.iconView?.image = settingItem.icon
@@ -147,6 +157,8 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
         }
         else if row == 1{
             let cell = tableView.dequeueReusableCell(withIdentifier: "SettingToggleCell", for: indexPath) as! SettingToggleTableViewCell
+
+            cell.backgroundColor = .clear
             cell.separatorInset = UIEdgeInsets(top: 0, left: cell.bounds.size.width, bottom: 0, right: 0);
             let settingItem:SettingItem = settingItems[row]
             cell.toggleSwitch.addTarget(self, action: #selector(pronunceStyleSwitched), for: UIControl.Event.valueChanged)
@@ -169,7 +181,9 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
         }
         else if row == 3{
             let cell = tableView.dequeueReusableCell(withIdentifier: "SettingCell", for: indexPath) as! SettingTableViewCell
-            cell.separatorInset = UIEdgeInsets(top: 0, left: cell.bounds.size.width, bottom: 0, right: 0);
+
+            cell.backgroundColor = .clear
+            cell.separatorInset = UIEdgeInsets(top: 0, left: cell.bounds.size.width, bottom: 0, right: 0)
             let settingItem:SettingItem = settingItems[row]
             cell.iconView?.image = settingItem.icon
             cell.nameLabel?.text = settingItem.name
@@ -179,6 +193,7 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
             
         else{
             let cell = tableView.dequeueReusableCell(withIdentifier: "SettingCell", for: indexPath) as! SettingTableViewCell
+            cell.backgroundColor = .clear
             cell.separatorInset = UIEdgeInsets(top: 0, left: cell.bounds.size.width, bottom: 0, right: 0);
             let settingItem:SettingItem = settingItems[row]
             cell.iconView?.image = settingItem.icon

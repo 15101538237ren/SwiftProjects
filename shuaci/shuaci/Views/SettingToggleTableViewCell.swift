@@ -17,19 +17,19 @@ class SettingToggleTableViewCell: UITableViewCell {
     }
     @IBOutlet var nameLabel: UILabel!{
         didSet{
-            nameLabel.textColor = .black
+            nameLabel.theme_textColor = "TableView.labelTextColor"
         }
     }
     @IBOutlet var leftValueLabel: UILabel!{
         didSet{
-            leftValueLabel.textColor = .darkGray
+            leftValueLabel.theme_textColor = "TableView.valueTextColor"
         }
     }
     @IBOutlet var toggleSwitch: UISwitch!
     
     @IBOutlet var rightValueLabel: UILabel!{
         didSet{
-            rightValueLabel.textColor = .darkGray
+            rightValueLabel.theme_textColor = "TableView.valueTextColor"
         }
     }
     

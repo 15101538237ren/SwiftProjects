@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SwiftTheme
 
 private let reuseIdentifier = "Cell"
 
@@ -48,6 +49,7 @@ class ThemeCollectionViewController: UICollectionViewController {
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let theme = themes[indexPath.row]
         setPreference(key: "current_theme_category", value: theme.category)
+        ThemeManager.setTheme(plistName: theme_category_to_name[theme.category]!.rawValue, path: .mainBundle)
         self.dismiss(animated: true, completion: nil)
     }
 

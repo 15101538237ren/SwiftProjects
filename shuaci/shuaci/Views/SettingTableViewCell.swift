@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SwiftTheme
 
 class SettingTableViewCell: UITableViewCell {
     @IBOutlet var iconView: UIImageView!{
@@ -17,12 +18,12 @@ class SettingTableViewCell: UITableViewCell {
     }
     @IBOutlet var nameLabel: UILabel!{
         didSet{
-            nameLabel.textColor = .black
+            nameLabel.theme_textColor = "TableView.labelTextColor"
         }
     }
     @IBOutlet var valueLabel: UILabel!{
         didSet{
-            valueLabel.textColor = .darkGray
+            valueLabel.theme_textColor = "TableView.valueTextColor"
         }
     }
     

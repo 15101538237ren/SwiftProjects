@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>TableView</key>
+	<dict>
+		<key>labelTextColor</key>
+		<string>#000</string>
+		<key>valueTextColor</key>
+		<string>#555555</string>
+	</dict>
+	<key>Global</key>
+	<dict>
+		<key>blurEffectStyle</key>
+		<string>light</string>
+		<key>viewBackgroundColor</key>
+		<string>#FFF</string>
+		<key>backBtnTintColor</key>
+		<string>#A9A9A9</string>
+		<key>barTitleColor</key>
+		<string>#000</string>
+		<key>btnTintColor</key>
+		<string>#FFF</string>
+		<key>btnTitleColor</key>
+		<string>#FFF</string>
+		<key>textColor</key>
+		<string>#FFF</string>
+	</dict>
+</dict>
+</plist>

@@ -228,7 +228,6 @@
                                         <state key="normal" image="magnifyingglass" catalog="system"/>
                                         <connections>
                                             <action selector="searchBtnTouched:" destination="868-VL-FJO" eventType="touchUpInside" id="LTk-Vx-0Et"/>
-                                            <segue destination="R7q-Up-UwU" kind="show" identifier="showSearchBar" id="cRJ-Qh-Msx"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -793,6 +792,8 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="backBtn" destination="Agh-jn-UNO" id="MQI-FW-zKc"/>
+                        <outlet property="barTitleLabel" destination="gb7-Wa-3gm" id="pvO-wF-D03"/>
                         <outlet property="tableView" destination="pSb-Wp-d1D" id="URY-Ry-5wb"/>
                         <outlet property="userPhotoBtn" destination="PMR-c1-71Z" id="RTe-b0-o3E"/>
                     </connections>
@@ -1945,6 +1946,8 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="backBtn" destination="spD-Yz-QVU" id="NYk-E4-S45"/>
+                        <outlet property="barTitleLabel" destination="4yR-X4-MjN" id="bMg-cT-rQ6"/>
                         <outlet property="tableView" destination="SNd-Wo-HJu" id="apA-Ps-gun"/>
                     </connections>
                 </viewController>
