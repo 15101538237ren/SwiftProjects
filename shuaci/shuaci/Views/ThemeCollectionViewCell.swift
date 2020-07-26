@@ -9,6 +9,17 @@
 import UIKit
 
 class ThemeCollectionViewCell: UICollectionViewCell {
+    
     @IBOutlet var themeImageView: UIImageView!
-    @IBOutlet var themeNameLabel: UILabel!
+    @IBOutlet var themeNameLabel: UILabel!{
+        didSet {
+            themeNameLabel.theme_textColor = "TableView.labelTextColor"
+        }
+    }
+    @IBOutlet var dimUIView: UIView!{
+        didSet {
+            dimUIView.backgroundColor = .black
+            dimUIView.theme_alpha = "MainPanel.dimAlpha"
+        }
+    }
 }

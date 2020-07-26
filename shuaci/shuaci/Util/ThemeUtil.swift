@@ -31,7 +31,7 @@ var themes:[Theme] = [
     Theme(name: "蓝 色", background: "7_Blue", category: 7),
     Theme(name: "紫 色", background: "10_Purple", category: 10),
     Theme(name: "棕 色", background: "9_Brown", category: 9),
-    Theme(name: "深 夜", background: "3_Night", category: 3)
+    Theme(name: "夜 晚", background: "3_Night", category: 3)
 ]
 
 var default_wallpapers:[Wallpaper] = [

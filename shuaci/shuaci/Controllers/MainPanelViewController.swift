@@ -525,6 +525,8 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
             current_theme_category = current_category
             last_theme_category = getPreference(key: "last_theme_category") as! Int
         }
+        print(current_theme_category)
+        print(last_theme_category)
         
         if current_theme_category != last_theme_category{
             let image = UIImage(named: "theme_\(current_theme_category)")
@@ -605,6 +607,16 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
         }
     }
     
+    func loadThemeController(){
+        let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+        let themeVC = mainStoryBoard.instantiateViewController(withIdentifier: "themeVC") as! ThemeCollectionViewController
+        themeVC.modalPresentationStyle = .overCurrentContext
+        themeVC.mainPanelViewController = self
+        DispatchQueue.main.async {
+            self.present(themeVC, animated: true, completion: nil)
+        }
+    }
+    
     func loadLearnController(){
         let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Learning", bundle:nil)
         let learnVC = mainStoryBoard.instantiateViewController(withIdentifier: "learnWordController") as! LearnWordViewController
@@ -634,6 +646,11 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
             self.present(reviewFinishVC, animated: true, completion: nil)
         }
     }
+    
+    @IBAction func themeBtnClicked(_ sender: UIButton) {
+        loadThemeController()
+    }
+    
     
     @IBAction func ReciteNewWords(_ sender: UIButton) {
         
