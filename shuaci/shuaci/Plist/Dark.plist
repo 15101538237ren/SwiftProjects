@@ -2,8 +2,17 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>MainPanel</key>
+	<dict>
+		<key>dimAlpha</key>
+		<real>0.3</real>
+	</dict>
 	<key>TableView</key>
 	<dict>
+		<key>switchOffTextColor</key>
+		<string>#6c6c6c</string>
+		<key>switchOnTextColor</key>
+		<string>#FFF</string>
 		<key>labelTextColor</key>
 		<string>#FFF</string>
 		<key>valueTextColor</key>

@@ -14,7 +14,6 @@ import SwiftTheme
 class UserProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, CropViewControllerDelegate , UITableViewDataSource, UITableViewDelegate {
     var user = LCApplication.default.currentUser!
     let username = getUserName()
-    let redColor:UIColor = UIColor(red: 168, green: 0, blue: 0, alpha: 1)
     let settingItems:[SettingItem] = [
         SettingItem(icon: UIImage(named: "nickname") ?? UIImage(), name: "昵 称", value: "未设置"),
         SettingItem(icon: UIImage(named: "email") ?? UIImage(), name: "邮 箱", value: "未绑定"),
@@ -146,7 +145,7 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
         cell.iconView?.image = settingItem.icon
         cell.nameLabel?.text = settingItem.name
         let textStr: String = getSetted(row: row)
-        cell.valueLabel?.textColor = ["未验证", "未设置", "未绑定"].contains(textStr) ? self.redColor : .darkGray
+        cell.valueLabel?.theme_textColor = ["未验证", "未设置", "未绑定"].contains(textStr) ? "TableView.switchOnTextColor" : "TableView.switchOffTextColor"
         cell.valueLabel?.text = textStr
         cell.backgroundColor = .clear
         return cell

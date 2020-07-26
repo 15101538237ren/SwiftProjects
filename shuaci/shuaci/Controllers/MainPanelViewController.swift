@@ -13,10 +13,13 @@ import SwiftyJSON
 import SwiftTheme
 
 class MainPanelViewController: UIViewController, CAAnimationDelegate {
+    let btnTag: Int = 7
     @IBOutlet var mainPanelUIView: MainPanelUIView!
     @IBOutlet var wordLabel: UILabel!
     @IBOutlet var meaningLabel: UILabel!
     @IBOutlet var todayImageView: UIImageView!
+    @IBOutlet weak var dimUIView: UIView!
+    
     let username:String = getUserName()
     var mp3Player: AVAudioPlayer?
     @IBOutlet var userPhotoBtn: UIButton!{
@@ -39,7 +42,6 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
             learnBtn.layer.cornerRadius = 9.0
             learnBtn.layer.masksToBounds = true
             learnBtn.backgroundColor = .clear
-            learnBtn.setTitleColor(.white, for: .normal)
         }
     }
     @IBOutlet var reviewBtn: UIButton!{
@@ -49,25 +51,27 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
             reviewBtn.layer.cornerRadius = 9.0
             reviewBtn.layer.masksToBounds = true
             reviewBtn.backgroundColor = .clear
-            reviewBtn.setTitleColor(.white, for: .normal)
+        }
+    }
+    
+    func getBlurEffect() -> UIBlurEffect {
+        let blurEffectName = ThemeManager.currentTheme?.value(forKeyPath: "Global.blurEffectStyle") as! String
+        switch blurEffectName {
+            case "light":
+                return UIBlurEffect(style: UIBlurEffect.Style.light)
+            case "dark":
+                return UIBlurEffect(style: UIBlurEffect.Style.dark)
+            default:
+                return UIBlurEffect(style: UIBlurEffect.Style.light)
         }
     }
     
     func addBlurBtnView(){
-        var blurEffect = UIBlurEffect(style: UIBlurEffect.Style.light)
-        let blurEffectName = ThemeManager.currentTheme?.value(forKeyPath: "Global.blurEffectStyle") as! String
-        switch blurEffectName {
-            case "light":
-                blurEffect = UIBlurEffect(style: UIBlurEffect.Style.light)
-            case "dark":
-                blurEffect = UIBlurEffect(style: UIBlurEffect.Style.dark)
-            default:
-                blurEffect = UIBlurEffect(style: UIBlurEffect.Style.light)
-        }
-        
+        let blurEffect = getBlurEffect()
         let blurEffectViewforLearnBtn = UIVisualEffectView(effect: blurEffect)
         blurEffectViewforLearnBtn.isUserInteractionEnabled = false
         blurEffectViewforLearnBtn.frame = learnBtn.bounds
+        blurEffectViewforLearnBtn.tag = btnTag
         blurEffectViewforLearnBtn.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         learnBtn.insertSubview(blurEffectViewforLearnBtn, at: 0)
         
@@ -75,7 +79,31 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
         blurEffectViewforReviewBtn.frame = reviewBtn.bounds
         blurEffectViewforReviewBtn.isUserInteractionEnabled = false
         blurEffectViewforReviewBtn.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        blurEffectViewforReviewBtn.tag = btnTag
         reviewBtn.insertSubview(blurEffectViewforReviewBtn, at: 0)
+    }
+    
+    @objc func updateBlurBtnView(){
+        let blurEffect = getBlurEffect()
+        if let learnBtnViewWithTag = learnBtn.viewWithTag(btnTag) {
+            learnBtnViewWithTag.removeFromSuperview()
+            let blurEffectViewforLearnBtn = UIVisualEffectView(effect: blurEffect)
+            blurEffectViewforLearnBtn.isUserInteractionEnabled = false
+            blurEffectViewforLearnBtn.frame = learnBtn.bounds
+            blurEffectViewforLearnBtn.tag = btnTag
+            blurEffectViewforLearnBtn.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+            learnBtn.insertSubview(blurEffectViewforLearnBtn, at: 0)
+        }
+        
+        if let reviewBtnViewWithTag = reviewBtn.viewWithTag(btnTag) {
+            reviewBtnViewWithTag.removeFromSuperview()
+            let blurEffectViewforReviewBtn = UIVisualEffectView(effect: blurEffect)
+            blurEffectViewforReviewBtn.frame = reviewBtn.bounds
+            blurEffectViewforReviewBtn.isUserInteractionEnabled = false
+            blurEffectViewforReviewBtn.tag = btnTag
+            blurEffectViewforReviewBtn.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+            reviewBtn.insertSubview(blurEffectViewforReviewBtn, at: 0)
+        }
     }
     
     @IBOutlet var themeBtn: UIButton!
@@ -215,6 +243,15 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
         self.statBtn.theme_tintColor = "Global.btnTintColor"
         self.settingBtn.theme_tintColor = "Global.btnTintColor"
         self.searchBtn.theme_tintColor = "Global.btnTintColor"
+        dimUIView.backgroundColor = .black
+        dimUIView.theme_alpha = "MainPanel.dimAlpha"
+        
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(updateBlurBtnView),
+            name: NSNotification.Name(rawValue: ThemeUpdateNotification),
+            object: nil
+        )
         
         addBlurBtnView()
         if !isKeyPresentInUserDefaults(key: "getNextWallpaperCalled"){

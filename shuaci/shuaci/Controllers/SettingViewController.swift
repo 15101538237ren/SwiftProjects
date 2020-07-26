@@ -9,6 +9,7 @@
 import UIKit
 import LeanCloud
 import MessageUI
+import SwiftTheme
 
 class SettingViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     var viewTranslation = CGPoint(x: 0, y: 0)
@@ -18,7 +19,6 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
     let activityEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .regular))
     
     var mainPanelViewController: MainPanelViewController!
-    let redColor:UIColor = UIColor(red: 168, green: 0, blue: 0, alpha: 1)
     let settingItems:[SettingItem] = [
         SettingItem(icon: UIImage(named: "auto_pronunciation") ?? UIImage(), name: "自动发音", value: "开"),
         SettingItem(icon: UIImage(named: "english_american_pronunce") ?? UIImage(), name: "发音类型", value: "美"),
@@ -58,10 +58,18 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
         
         view.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(handleDismiss)))
         super.viewDidLoad()
-        
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(updateTableTheme),
+            name: NSNotification.Name(rawValue: ThemeUpdateNotification),
+            object: nil
+        )
         // Do any additional setup after loading the view.
     }
     
+    @objc func updateTableTheme(){
+        self.tableView.reloadData()
+    }
     
     func initActivityIndicator(text: String) {
         activityLabel.removeFromSuperview()
@@ -145,13 +153,13 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
             let autoPronunce = getPreference(key: "auto_pronunciation") as! Bool
             if autoPronunce{
                 cell.toggleSwitch.isOn = true
-                cell.leftValueLabel.textColor = .darkGray
-                cell.rightValueLabel.textColor = self.redColor
+                cell.leftValueLabel.theme_textColor = "TableView.switchOffTextColor"
+                cell.rightValueLabel.theme_textColor = "TableView.switchOnTextColor"
             }
             else{
                 cell.toggleSwitch.isOn = false
-                cell.leftValueLabel.textColor = self.redColor
-                cell.rightValueLabel.textColor = .darkGray
+                cell.leftValueLabel.theme_textColor = "TableView.switchOnTextColor"
+                cell.rightValueLabel.theme_textColor = "TableView.switchOffTextColor"
             }
             return cell
         }
@@ -169,13 +177,13 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
             let usPronunce = getPreference(key: "us_pronunciation") as! Bool
             if usPronunce{
                 cell.toggleSwitch.isOn = false
-                cell.leftValueLabel.textColor = self.redColor
-                cell.rightValueLabel.textColor = .darkGray
+                cell.leftValueLabel.theme_textColor = "TableView.switchOnTextColor"
+                cell.rightValueLabel.theme_textColor = "TableView.switchOffTextColor"
             }
             else{
                 cell.toggleSwitch.isOn = true
-                cell.leftValueLabel.textColor = .darkGray
-                cell.rightValueLabel.textColor = self.redColor
+                cell.leftValueLabel.theme_textColor = "TableView.switchOffTextColor"
+                cell.rightValueLabel.theme_textColor = "TableView.switchOnTextColor"
             }
             return cell
         }
@@ -227,24 +235,24 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
             cell.toggleSwitch.isOn = !cell.toggleSwitch.isOn
             autoPronunceSwitched(uiSwitch: cell.toggleSwitch)
             if cell.toggleSwitch.isOn == true{
-                cell.leftValueLabel.textColor = .darkGray
-                cell.rightValueLabel.textColor = self.redColor
+                cell.leftValueLabel.theme_textColor = "TableView.switchOffTextColor"
+                cell.rightValueLabel.theme_textColor = "TableView.switchOnTextColor"
             }
             else{
-                cell.leftValueLabel.textColor = self.redColor
-                cell.rightValueLabel.textColor = .darkGray
+                cell.leftValueLabel.theme_textColor = "TableView.switchOnTextColor"
+                cell.rightValueLabel.theme_textColor = "TableView.switchOffTextColor"
             }
         case 1:
             let cell = tableView.cellForRow(at: indexPath) as! SettingToggleTableViewCell
             cell.toggleSwitch.isOn = !cell.toggleSwitch.isOn
             pronunceStyleSwitched(uiSwitch: cell.toggleSwitch)
             if cell.toggleSwitch.isOn == true{
-                cell.leftValueLabel.textColor = .darkGray
-                cell.rightValueLabel.textColor = self.redColor
+                cell.leftValueLabel.theme_textColor = "TableView.switchOffTextColor"
+                cell.rightValueLabel.theme_textColor = "TableView.switchOnTextColor"
             }
         else{
-            cell.leftValueLabel.textColor = self.redColor
-            cell.rightValueLabel.textColor = .darkGray
+            cell.leftValueLabel.theme_textColor = "TableView.switchOnTextColor"
+            cell.rightValueLabel.theme_textColor = "TableView.switchOffTextColor"
         }
         case 2:
             let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
@@ -310,12 +318,12 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
         let cell =  tableView.cellForRow(at: indexPath) as! SettingToggleTableViewCell
         
         if uiSwitch.isOn{
-            cell.leftValueLabel.textColor = .darkGray
-            cell.rightValueLabel.textColor = self.redColor
+            cell.leftValueLabel.theme_textColor = "TableView.switchOffTextColor"
+            cell.rightValueLabel.theme_textColor = "TableView.switchOnTextColor"
         }
         else{
-            cell.leftValueLabel.textColor = self.redColor
-            cell.rightValueLabel.textColor = .darkGray
+            cell.leftValueLabel.theme_textColor = "TableView.switchOnTextColor"
+            cell.rightValueLabel.theme_textColor = "TableView.switchOffTextColor"
         }
         
     }
@@ -330,12 +338,12 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
         let cell =  tableView.cellForRow(at: indexPath) as! SettingToggleTableViewCell
         
         if uiSwitch.isOn{
-            cell.leftValueLabel.textColor = .darkGray
-            cell.rightValueLabel.textColor = self.redColor
+            cell.leftValueLabel.theme_textColor = "TableView.switchOffTextColor"
+            cell.rightValueLabel.theme_textColor = "TableView.switchOnTextColor"
         }
         else{
-            cell.leftValueLabel.textColor = self.redColor
-            cell.rightValueLabel.textColor = .darkGray
+            cell.leftValueLabel.theme_textColor = "TableView.switchOnTextColor"
+            cell.rightValueLabel.theme_textColor = "TableView.switchOffTextColor"
         }
     }
     
