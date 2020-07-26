@@ -1629,7 +1629,7 @@
                                                             <segment title="单词量"/>
                                                             <segment title="时长"/>
                                                         </segments>
-                                                        <color key="tintColor" systemColor="systemOrangeColor" red="1" green="0.58431372550000005" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                        <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <color key="selectedSegmentTintColor" systemColor="systemOrangeColor" red="1" green="0.58431372550000005" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <connections>
                                                             <action selector="wordTimeSelectedChanged:" destination="4a5-3m-NM6" eventType="valueChanged" id="kPG-BW-LXf"/>
@@ -1645,6 +1645,7 @@
                                                             <segment title="按日"/>
                                                             <segment title="按月"/>
                                                         </segments>
+                                                        <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <color key="selectedSegmentTintColor" systemColor="systemOrangeColor" red="1" green="0.58431372550000005" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <connections>
                                                             <action selector="dayMonSelectedChanged:" destination="4a5-3m-NM6" eventType="valueChanged" id="hcO-y8-Mhb"/>
@@ -1660,7 +1661,7 @@
                                                             <segment title="逐次"/>
                                                             <segment title="累计"/>
                                                         </segments>
-                                                        <color key="tintColor" systemColor="systemOrangeColor" red="1" green="0.58431372550000005" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                        <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <color key="selectedSegmentTintColor" systemColor="systemOrangeColor" red="1" green="0.58431372550000005" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <connections>
                                                             <action selector="perTimeCumSelectedChanged:" destination="4a5-3m-NM6" eventType="valueChanged" id="HVW-UP-abV"/>
@@ -1744,6 +1745,8 @@
                     </view>
                     <navigationItem key="navigationItem" id="Ftz-Ln-bCP"/>
                     <connections>
+                        <outlet property="backBtn" destination="NXW-YI-P3Y" id="lty-Hh-guC"/>
+                        <outlet property="barTitleLabel" destination="kW9-FR-IxA" id="VIl-To-ftK"/>
                         <outlet property="dayMonSegmentedControl" destination="QOh-EE-5wt" id="xPK-El-ZGb"/>
                         <outlet property="masteredAndLearnedCurveView" destination="ov2-Jp-MsX" id="myl-fx-wBM"/>
                         <outlet property="masteredStatusView" destination="YdH-UP-BSR" id="ecO-LF-g8r"/>
@@ -1754,6 +1757,16 @@
                         <outlet property="overView" destination="pvz-nE-kjs" id="UYR-yA-VNb"/>
                         <outlet property="perTimeCumSegmentedControl" destination="GoD-dt-gRb" id="xS3-Ou-aWe"/>
                         <outlet property="wordTimeSegmentedControl" destination="Zmd-2a-WmY" id="yoV-pS-v3B"/>
+                        <outletCollection property="displayLabels" destination="8mw-dk-ObO" collectionClass="NSMutableArray" id="d0U-eX-aIy"/>
+                        <outletCollection property="displayLabels" destination="vA7-pM-4Ne" collectionClass="NSMutableArray" id="RJw-cG-GHp"/>
+                        <outletCollection property="displayLabels" destination="09a-0g-aJC" collectionClass="NSMutableArray" id="wus-xT-oqt"/>
+                        <outletCollection property="displayLabels" destination="8vT-aQ-cUP" collectionClass="NSMutableArray" id="Ek0-Qn-KgA"/>
+                        <outletCollection property="displayLabels" destination="EEw-1X-c2c" collectionClass="NSMutableArray" id="qRQ-AE-EUl"/>
+                        <outletCollection property="displayLabels" destination="bS6-FF-iHs" collectionClass="NSMutableArray" id="tGJ-At-sjb"/>
+                        <outletCollection property="displayLabels" destination="qN7-Sf-jzn" collectionClass="NSMutableArray" id="UwR-sK-Lhl"/>
+                        <outletCollection property="displayLabels" destination="2QU-uX-xCs" collectionClass="NSMutableArray" id="DzY-7k-0H4"/>
+                        <outletCollection property="displayLabels" destination="BEj-rl-6Id" collectionClass="NSMutableArray" id="bUy-U8-Ghr"/>
+                        <outletCollection property="displayLabels" destination="N0J-Sq-WE7" collectionClass="NSMutableArray" id="x9E-dD-wcX"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1SV-fU-Hz6" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

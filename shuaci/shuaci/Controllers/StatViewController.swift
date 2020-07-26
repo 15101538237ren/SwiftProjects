@@ -8,13 +8,17 @@
 
 import UIKit
 import AAInfographics
+import SwiftTheme
 
 class StatViewController: UIViewController {
     @IBOutlet var numWordTodayLabel: UILabel!
+    @IBOutlet var displayLabels: [UILabel]!
     @IBOutlet var numMinutesTodayLabel: UILabel!
     @IBOutlet var numWordCumulatedLabel: UILabel!
     @IBOutlet var numMinutesCumulatedLabel: UILabel!
     
+    @IBOutlet weak var barTitleLabel: UILabel!
+    @IBOutlet weak var backBtn: UIButton!
     var learnStatusByDaySelected: Bool = true
     
     @IBOutlet weak var dayMonSegmentedControl: UISegmentedControl!
@@ -27,6 +31,7 @@ class StatViewController: UIViewController {
     
     @IBOutlet var masteredStatusView: UIView!{
         didSet {
+            masteredStatusView.theme_backgroundColor = "Global.viewBackgroundColor"
             masteredStatusView?.layer.cornerRadius = 15.0
             masteredStatusView?.layer.masksToBounds = true
         }
@@ -34,6 +39,7 @@ class StatViewController: UIViewController {
     
     @IBOutlet var overView: UIView!{
         didSet {
+            overView.theme_backgroundColor = "Global.viewBackgroundColor"
             overView?.layer.cornerRadius = 15.0
             overView?.layer.masksToBounds = true
         }
@@ -41,6 +47,7 @@ class StatViewController: UIViewController {
     
     @IBOutlet var masteredAndLearnedCurveView: UIView!{
         didSet {
+            masteredAndLearnedCurveView.theme_backgroundColor = "Global.viewBackgroundColor"
             masteredAndLearnedCurveView?.layer.cornerRadius = 15.0
             masteredAndLearnedCurveView?.layer.masksToBounds = true
         }
@@ -65,6 +72,22 @@ class StatViewController: UIViewController {
         }
     }
     
+    func getBackgroundViewColor() -> String{
+        let viewBackgroundColor = ThemeManager.currentTheme?.value(forKeyPath: "Global.viewBackgroundColor") as! String
+        return viewBackgroundColor
+    }
+    
+    func getBarTitleColor() -> String{
+        let viewBackgroundColor = ThemeManager.currentTheme?.value(forKeyPath: "Global.barTitleColor") as! String
+        return viewBackgroundColor
+    }
+    
+    func getSegmentedCtrlUnselectedTextColor() -> String{
+        let viewBackgroundColor = ThemeManager.currentTheme?.value(forKeyPath: "StatView.segmentedCtrlUnselectedColor") as! String
+        return viewBackgroundColor
+    }
+    
+    
     func getLearnStatusOptions() -> AAOptions{
         let byDay: Bool = dayMonSegmentedControl.selectedSegmentIndex == 0 ? true : false
         let byWordCnt: Bool = wordTimeSegmentedControl.selectedSegmentIndex == 0 ? true : false
@@ -88,6 +111,8 @@ class StatViewController: UIViewController {
             .dataLabelsEnabled(false) //Enable or disable the data labels. Defaults to false
     //        .yAxisVisible(false)
             .categories(categories)
+            .backgroundColor(getBackgroundViewColor())
+            .axesTextColor(getBarTitleColor())
             .colorsTheme(["#4fa83d","#3f8ada"])
             .series([
                 AASeriesElement()
@@ -109,6 +134,8 @@ class StatViewController: UIViewController {
             .dataLabelsEnabled(false) //Enable or disable the data labels. Defaults to false
     //        .yAxisVisible(false)
             .categories(categories)
+            .backgroundColor(getBackgroundViewColor())
+            .axesTextColor(getBarTitleColor())
             .yAxisAllowDecimals(false)
             .colorsTheme(["#4fa83d","#3f8ada"])
             .series([
@@ -125,18 +152,20 @@ class StatViewController: UIViewController {
         
     }
     
-    func setFontofSegmentedControl(font: UIFont, selectedForeGroundColor: UIColor){
-        dayMonSegmentedControl.setTitleTextAttributes([NSAttributedString.Key.font: font], for: .normal)
-        wordTimeSegmentedControl.setTitleTextAttributes([NSAttributedString.Key.font: font], for: .normal)
-        perTimeCumSegmentedControl.setTitleTextAttributes([NSAttributedString.Key.font: font], for: .normal)
-        
+    func setFontofSegmentedControl(selectedForeGroundColor: UIColor){
         dayMonSegmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: selectedForeGroundColor], for: .selected)
         wordTimeSegmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: selectedForeGroundColor], for: .selected)
         perTimeCumSegmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: selectedForeGroundColor], for: .selected)
     }
     
     override func viewDidLoad() {
-        setFontofSegmentedControl(font: UIFont.systemFont(ofSize: 10), selectedForeGroundColor: .white)
+        view.theme_backgroundColor = "Global.viewBackgroundColor"
+        for label in displayLabels{
+            label.theme_textColor = "Global.barTitleColor"
+        }
+        backBtn.theme_tintColor = "Global.backBtnTintColor"
+        barTitleLabel.theme_textColor = "Global.barTitleColor"
+        setFontofSegmentedControl(selectedForeGroundColor: .white)
         getStatOfToday()
         setUpLearnStatusSelected(initial: true)
         
@@ -145,6 +174,11 @@ class StatViewController: UIViewController {
         masteredChartView.aa_drawChartWithChartOptions(getLearnStatusOptions())
         view.isOpaque = false
         super.viewDidLoad()
+        
+        let font = UIFont.systemFont(ofSize: 10)
+        dayMonSegmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor(hex: getSegmentedCtrlUnselectedTextColor()) ?? .darkGray, NSAttributedString.Key.font: font], for: .normal)
+        wordTimeSegmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor(hex: getSegmentedCtrlUnselectedTextColor()) ?? .darkGray, NSAttributedString.Key.font: font], for: .normal)
+        perTimeCumSegmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor(hex: getSegmentedCtrlUnselectedTextColor()) ?? .darkGray, NSAttributedString.Key.font: font], for: .normal)
         // Do any additional setup after loading the view.
     }
     
