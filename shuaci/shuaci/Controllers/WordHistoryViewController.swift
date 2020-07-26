@@ -130,7 +130,7 @@ class WordHistoryViewController: UIViewController {
         print(color)
         segmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor(hex: getSegmentedCtrlUnselectedTextColor()) ?? .darkGray], for: .normal)
         segmentedControl.theme_backgroundColor = "WordHistory.segCtrlTintColor"
-        segmentedControl.theme_selectedSegmentTintColor = "WordHistory.segSelectedCtrlTintColor"
+        segmentedControl.theme_selectedSegmentTintColor = "StatView.segmentedCtrlSelectedTintColor"
         // Do any additional setup after loading the view.
     }
     

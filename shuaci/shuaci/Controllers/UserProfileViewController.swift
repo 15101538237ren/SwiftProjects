@@ -32,6 +32,12 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
         }
     }
     
+    @IBOutlet weak var cameraIconBtn: UIButton!{
+        didSet {
+            cameraIconBtn.theme_tintColor = "UserProfile.cameraIconTintColor"
+        }
+    }
+    
     var mainPanelViewController: MainPanelViewController!
     var viewTranslation = CGPoint(x: 0, y: 0)
     

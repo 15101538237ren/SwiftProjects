@@ -9,9 +9,28 @@
 import UIKit
 
 class WordHistoryTableViewCell: UITableViewCell {
-    @IBOutlet weak var wordHeadLabel: UILabel!
-    @IBOutlet weak var timerLabel: UILabel!
-    @IBOutlet weak var masterPercentLabel: UILabel!
+    @IBOutlet weak var wordHeadLabel: UILabel!{
+        didSet{
+            wordHeadLabel.theme_textColor = "TableView.labelTextColor"
+        }
+    }
+    @IBOutlet weak var timerLabel: UILabel!{
+        didSet{
+            timerLabel.theme_textColor = "TableView.valueTextColor"
+        }
+    }
+    
+    @IBOutlet weak var masteredUILabel: UILabel!{
+        didSet{
+            masteredUILabel.theme_textColor = "TableView.valueTextColor"
+        }
+    }
+    
+    @IBOutlet weak var masterPercentLabel: UILabel!{
+        didSet{
+            masterPercentLabel.theme_textColor = "TableView.valueTextColor"
+        }
+    }
     @IBOutlet weak var progressView: UIProgressView!
     
     override func awakeFromNib() {

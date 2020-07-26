@@ -87,7 +87,6 @@ class StatViewController: UIViewController {
         return viewBackgroundColor
     }
     
-    
     func getLearnStatusOptions() -> AAOptions{
         let byDay: Bool = dayMonSegmentedControl.selectedSegmentIndex == 0 ? true : false
         let byWordCnt: Bool = wordTimeSegmentedControl.selectedSegmentIndex == 0 ? true : false
@@ -183,6 +182,10 @@ class StatViewController: UIViewController {
         wordTimeSegmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor(hex: getSegmentedCtrlUnselectedTextColor()) ?? .darkGray, NSAttributedString.Key.font: font], for: .normal)
         perTimeCumSegmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor(hex: getSegmentedCtrlUnselectedTextColor()) ?? .darkGray, NSAttributedString.Key.font: font], for: .normal)
         // Do any additional setup after loading the view.
+        
+        dayMonSegmentedControl.theme_selectedSegmentTintColor = "StatView.segmentedCtrlSelectedTintColor"
+        wordTimeSegmentedControl.theme_selectedSegmentTintColor = "StatView.segmentedCtrlSelectedTintColor"
+        perTimeCumSegmentedControl.theme_selectedSegmentTintColor = "StatView.segmentedCtrlSelectedTintColor"
     }
     
 

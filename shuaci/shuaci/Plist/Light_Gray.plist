@@ -2,17 +2,22 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>UserProfile</key>
+	<dict>
+		<key>cameraIconTintColor</key>
+		<string>#000</string>
+	</dict>
 	<key>WordHistory</key>
 	<dict>
 		<key>segTextColor</key>
 		<string>#A9A9A9</string>
 		<key>segCtrlTintColor</key>
 		<string>#d3d3d3</string>
-		<key>segSelectedCtrlTintColor</key>
-		<string>#367cf7</string>
 	</dict>
 	<key>StatView</key>
 	<dict>
+		<key>segmentedCtrlSelectedTintColor</key>
+		<string>#FF7216</string>
 		<key>panelBgColor</key>
 		<string>#FFF</string>
 		<key>displayTextColor</key>

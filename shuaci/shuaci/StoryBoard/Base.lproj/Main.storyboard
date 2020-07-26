@@ -730,6 +730,7 @@
                     <connections>
                         <outlet property="backBtn" destination="Agh-jn-UNO" id="MQI-FW-zKc"/>
                         <outlet property="barTitleLabel" destination="gb7-Wa-3gm" id="pvO-wF-D03"/>
+                        <outlet property="cameraIconBtn" destination="xgU-dS-aoX" id="pLT-fq-fRl"/>
                         <outlet property="tableView" destination="pSb-Wp-d1D" id="URY-Ry-5wb"/>
                         <outlet property="userPhotoBtn" destination="PMR-c1-71Z" id="RTe-b0-o3E"/>
                     </connections>
@@ -1276,6 +1277,7 @@
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="masterPercentLabel" destination="pkU-6V-bEJ" id="2HX-85-5BF"/>
+                                            <outlet property="masteredUILabel" destination="JuU-Ne-vEF" id="Ilw-Az-t9Z"/>
                                             <outlet property="progressView" destination="iQZ-PQ-e2z" id="Q3K-uo-4NU"/>
                                             <outlet property="timerLabel" destination="0ws-Ij-sgU" id="gmF-4p-ksw"/>
                                             <outlet property="wordHeadLabel" destination="gBR-9h-OCQ" id="l5Q-EM-EBf"/>
