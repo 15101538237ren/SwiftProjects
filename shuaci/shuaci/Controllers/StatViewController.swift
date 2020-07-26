@@ -77,8 +77,8 @@ class StatViewController: UIViewController {
         return viewBackgroundColor
     }
     
-    func getBarTitleColor() -> String{
-        let viewBackgroundColor = ThemeManager.currentTheme?.value(forKeyPath: "Global.barTitleColor") as! String
+    func getDisplayTextColor() -> String{
+        let viewBackgroundColor = ThemeManager.currentTheme?.value(forKeyPath: "StatView.displayTextColor") as! String
         return viewBackgroundColor
     }
     
@@ -105,14 +105,14 @@ class StatViewController: UIViewController {
             let cumLearnedCount:[Int] = getCumulatedLearnedByDate(dates: intervalDates, byDay: byDay, cumulated: cumulated)
             
             let masteredStatusChartModel = AAChartModel()
+            .backgroundColor(getBackgroundViewColor())
                 .chartType(.spline)//cumulated ? .spline : .column)//Can be any of the chart types listed under `AAChartType`.
                 .animationType(.elastic)
             .tooltipValueSuffix(suffixLabel)//the value suffix of the chart tooltip
             .dataLabelsEnabled(false) //Enable or disable the data labels. Defaults to false
     //        .yAxisVisible(false)
             .categories(categories)
-            .backgroundColor(getBackgroundViewColor())
-            .axesTextColor(getBarTitleColor())
+            .axesTextColor(getDisplayTextColor())
             .colorsTheme(["#4fa83d","#3f8ada"])
             .series([
                 AASeriesElement()
@@ -128,14 +128,14 @@ class StatViewController: UIViewController {
             let cumLearnedHours:[Float] = getCumHoursByDate(dates: intervalDates, byDay: byDay, cumulated: cumulated, Learn: true)
             
             let masteredStatusChartModel = AAChartModel()
+            .backgroundColor(getBackgroundViewColor())
                 .chartType(.spline)//cumulated ? .spline : .column)//Can be any of the chart types listed under `AAChartType`.
                 .animationType(.elastic)
             .tooltipValueSuffix(suffixLabel)//the value suffix of the chart tooltip
             .dataLabelsEnabled(false) //Enable or disable the data labels. Defaults to false
     //        .yAxisVisible(false)
             .categories(categories)
-            .backgroundColor(getBackgroundViewColor())
-            .axesTextColor(getBarTitleColor())
+            .axesTextColor(getDisplayTextColor())
             .yAxisAllowDecimals(false)
             .colorsTheme(["#4fa83d","#3f8ada"])
             .series([
@@ -161,7 +161,7 @@ class StatViewController: UIViewController {
     override func viewDidLoad() {
         view.theme_backgroundColor = "Global.viewBackgroundColor"
         for label in displayLabels{
-            label.theme_textColor = "Global.barTitleColor"
+            label.theme_textColor = "StatView.displayTextColor"
         }
         backBtn.theme_tintColor = "Global.backBtnTintColor"
         barTitleLabel.theme_textColor = "Global.barTitleColor"
@@ -169,6 +169,7 @@ class StatViewController: UIViewController {
         getStatOfToday()
         setUpLearnStatusSelected(initial: true)
         
+        masteredChartView.theme_backgroundColor = "Global.viewBackgroundColor"
         masteredChartView.frame = CGRect(x: 0, y: 0, width: masteredAndLearnedCurveView.bounds.width, height: masteredAndLearnedCurveView.bounds.height)
         masteredAndLearnedCurveView.addSubview(masteredChartView)
         masteredChartView.aa_drawChartWithChartOptions(getLearnStatusOptions())

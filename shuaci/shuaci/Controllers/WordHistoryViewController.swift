@@ -7,11 +7,15 @@
 //
 
 import UIKit
+import SwiftTheme
 
 class WordHistoryViewController: UIViewController {
     @IBOutlet weak var segmentedControl: UISegmentedControl!
     @IBOutlet weak var wordsTableView: UITableView!
     @IBOutlet weak var multiSelectionBtn: UIButton!
+    @IBOutlet weak var backBtn: UIButton!
+    @IBOutlet weak var barTitleLabel: UILabel!
+    
     var tableISEditing: Bool = false
     var cellIsSelected:[String:[Bool]] = [:]
     let redColor:UIColor = UIColor(red: 168, green: 0, blue: 0, alpha: 1)
@@ -108,12 +112,25 @@ class WordHistoryViewController: UIViewController {
         reviewSelectionBtn.setTitleColor(.white, for: .normal)
     }
     
+    func getSegmentedCtrlUnselectedTextColor() -> String{
+        let viewBackgroundColor = ThemeManager.currentTheme?.value(forKeyPath: "WordHistory.segTextColor") as! String
+        return viewBackgroundColor
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.theme_backgroundColor = "Global.viewBackgroundColor"
+        backBtn.theme_tintColor = "Global.backBtnTintColor"
+        barTitleLabel.theme_textColor = "Global.barTitleColor"
+        wordsTableView.theme_backgroundColor = "Global.viewBackgroundColor"
         getGroupVocabs()
         disableReviewSelectedBtn()
         segmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.white], for: .selected)
+        let color = UIColor(hex: getSegmentedCtrlUnselectedTextColor())
+        print(color)
+        segmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor(hex: getSegmentedCtrlUnselectedTextColor()) ?? .darkGray], for: .normal)
+        segmentedControl.theme_backgroundColor = "WordHistory.segCtrlTintColor"
+        segmentedControl.theme_selectedSegmentTintColor = "WordHistory.segSelectedCtrlTintColor"
         // Do any additional setup after loading the view.
     }
     
@@ -143,6 +160,7 @@ extension WordHistoryViewController: UITableViewDataSource, UITableViewDelegate{
         let row = indexPath.row
         let section = indexPath.section
         let cell = tableView.dequeueReusableCell(withIdentifier: "vocabHistoryCell", for: indexPath) as! WordHistoryTableViewCell
+        cell.backgroundColor = .clear
         let vocab: VocabularyRecord = groupedVocabs[sortedKeys[section]]![row]
         cell.wordHeadLabel.text = vocab.VocabRecId
         let progress: Float = getMasteredProgress(vocab: vocab)
@@ -151,6 +169,13 @@ extension WordHistoryViewController: UITableViewDataSource, UITableViewDelegate{
         cell.masterPercentLabel.text = "\(Int(round(100.0*Double(progress))))"
         return cell
     }
+    
+//    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView?
+//    {
+//      let headerView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.bounds.size.width, height: 30))
+//        headerView.backgroundColor = .clear
+//      return headerView
+//    }
     
     func tableView(_ tableView: UITableView, didBeginMultipleSelectionInteractionAt indexPath: IndexPath) {
         tableISEditing = true

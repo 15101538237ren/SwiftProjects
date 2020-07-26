@@ -1255,7 +1255,7 @@
                                     <segment title="生词本"/>
                                     <segment title="已掌握"/>
                                 </segments>
-                                <color key="selectedSegmentTintColor" systemColor="systemBlueColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="selectedSegmentTintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <connections>
                                     <action selector="segControlChanged:" destination="wM5-zn-OKs" eventType="valueChanged" id="s9p-U8-Rbs"/>
                                 </connections>
@@ -1400,6 +1400,8 @@
                     </view>
                     <navigationItem key="navigationItem" id="6eP-K6-Ruf"/>
                     <connections>
+                        <outlet property="backBtn" destination="ywu-dw-2Vg" id="031-fY-4lh"/>
+                        <outlet property="barTitleLabel" destination="a4R-OR-Pey" id="iLo-xq-PVw"/>
                         <outlet property="multiSelectionBtn" destination="qq2-LP-pTT" id="8wd-0b-nzr"/>
                         <outlet property="reviewSelectionBtn" destination="nXA-mb-cUn" id="I7s-fe-HQK"/>
                         <outlet property="segmentedControl" destination="WF0-7B-zOc" id="xgu-iC-3pg"/>

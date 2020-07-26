@@ -2,8 +2,19 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>WordHistory</key>
+	<dict>
+		<key>segTextColor</key>
+		<string>#a0a0a0</string>
+		<key>segCtrlTintColor</key>
+		<string>#343748</string>
+		<key>segSelectedCtrlTintColor</key>
+		<string>#ee9a36</string>
+	</dict>
 	<key>StatView</key>
 	<dict>
+		<key>displayTextColor</key>
+		<string>#6c6c6c</string>
 		<key>segmentedCtrlUnselectedColor</key>
 		<string>#d3d3d3</string>
 	</dict>
@@ -14,6 +25,8 @@
 	</dict>
 	<key>TableView</key>
 	<dict>
+		<key>sectionBgColor</key>
+		<string>#6c6c6c</string>
 		<key>switchOffTextColor</key>
 		<string>#6c6c6c</string>
 		<key>switchOnTextColor</key>
