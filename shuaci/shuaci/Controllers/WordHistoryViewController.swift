@@ -127,7 +127,6 @@ class WordHistoryViewController: UIViewController {
         disableReviewSelectedBtn()
         segmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.white], for: .selected)
         let color = UIColor(hex: getSegmentedCtrlUnselectedTextColor())
-        print(color)
         segmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor(hex: getSegmentedCtrlUnselectedTextColor()) ?? .darkGray], for: .normal)
         segmentedControl.theme_backgroundColor = "WordHistory.segCtrlTintColor"
         segmentedControl.theme_selectedSegmentTintColor = "StatView.segmentedCtrlSelectedTintColor"

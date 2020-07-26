@@ -2,6 +2,11 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>BookVC</key>
+	<dict>
+		<key>level2BtnColor</key>
+		<string>#ed8831</string>
+	</dict>
 	<key>UserProfile</key>
 	<dict>
 		<key>cameraIconTintColor</key>
@@ -32,6 +37,10 @@
 	</dict>
 	<key>TableView</key>
 	<dict>
+		<key>descriptionTextColor</key>
+		<string>#a0a0a0</string>
+		<key>separatorColor</key>
+		<string>#d3d3d3</string>
 		<key>sectionBgColor</key>
 		<string>#d3d3d3</string>
 		<key>switchOffTextColor</key>

@@ -10,10 +10,44 @@ import UIKit
 
 class BookItemTableViewCell: UITableViewCell {
     @IBOutlet var cover: UIImageView!
-    @IBOutlet var name: UILabel!
-    @IBOutlet var introduce: UILabel!
-    @IBOutlet var num_word: UILabel!
-    @IBOutlet var num_recite: UILabel!
+    @IBOutlet var name: UILabel!{
+        didSet{
+            name.theme_textColor = "TableView.labelTextColor"
+        }
+    }
+    @IBOutlet var introduce: UILabel!{
+        didSet {
+            introduce.numberOfLines = 0
+            introduce.theme_textColor = "TableView.descriptionTextColor"
+        }
+    }
+    @IBOutlet var num_word: UILabel!{
+        didSet{
+            num_word.theme_textColor = "TableView.valueTextColor"
+        }
+    }
+    
+    @IBOutlet weak var numWordLabel: UILabel!{
+        didSet{
+            numWordLabel.theme_textColor = "TableView.valueTextColor"
+        }
+    }
+    
+    @IBOutlet var num_recite: UILabel!{
+        didSet{
+            num_recite.theme_textColor = "TableView.valueTextColor"
+        }
+    }
+    
+    @IBOutlet weak var numReciteLabel: UILabel!{
+        didSet{
+            numReciteLabel.theme_textColor = "TableView.valueTextColor"
+        }
+    }
+    
+    
+    
+    
     var identifier: String!
     
     override func awakeFromNib() {

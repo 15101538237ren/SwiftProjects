@@ -12,6 +12,9 @@ import SwiftyJSON
 
 class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UICollectionViewDelegate, UICollectionViewDataSource{
     
+    @IBOutlet weak var backBtn: UIButton!
+    @IBOutlet weak var barTitleLabel: UILabel!
+    
     @IBOutlet private var collectionViews: [UICollectionView]!
     @IBOutlet var mainPanelViewController: MainPanelViewController?
     var indicator = UIActivityIndicatorView()
@@ -58,7 +61,7 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
             let cell = collectionView.cellForItem(at: indexPath) as! Level1CollectionViewCell
             
             DispatchQueue.main.async {
-                cell.level1_category_label.textColor = .black
+                cell.level1_category_label.theme_textColor = "TableView.labelTextColor"
                 cell.indicatorBtn.alpha = 1
                 self.collectionViews[1].reloadData()
             }
@@ -95,7 +98,7 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
             if collectionView.tag == 1{
                 collectionView.selectItem(at: indexPath, animated: false, scrollPosition: .left)
                 let cell = collectionView.cellForItem(at: indexPath) as! Level1CollectionViewCell
-                cell.level1_category_label.textColor = .black
+                cell.level1_category_label.theme_textColor = "TableView.labelTextColor"
                 cell.indicatorBtn.alpha = 1
             }
         }
@@ -135,8 +138,6 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
                 let cell = collectionView.cellForItem(at: indexPath) as! Level2CollectionViewCell
                 DispatchQueue.main.async {
                     collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
-                    cell.level2_category_button.backgroundColor = .orange
-                    cell.level2_category_button.setTitleColor(.white, for: .normal)
                 }
                 if global_total_books.count != 0 && currentSelectedSubCategory > 0{
                     books = []
@@ -217,6 +218,15 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        for collectionView in collectionViews{
+            collectionView.theme_backgroundColor = "StatView.panelBgColor"
+        }
+        view.theme_backgroundColor = "Global.viewBackgroundColor"
+        backBtn.theme_tintColor = "Global.backBtnTintColor"
+        barTitleLabel.theme_textColor = "Global.barTitleColor"
+        tableView.theme_backgroundColor = "StatView.panelBgColor"
+        tableView.theme_separatorColor = "TableView.separatorColor"
+        tableView.separatorStyle = .singleLine
         category_items = [0:"全部"]
         currentSelectedCategory = 0
         currentSelectedSubCategory = 0
@@ -408,6 +418,7 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
                     }
                 }
             }
+        cell.backgroundColor = .clear
         return cell
     }
     
