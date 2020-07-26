@@ -31,7 +31,7 @@ class StatViewController: UIViewController {
     
     @IBOutlet var masteredStatusView: UIView!{
         didSet {
-            masteredStatusView.theme_backgroundColor = "Global.viewBackgroundColor"
+            masteredStatusView.theme_backgroundColor = "StatView.panelBgColor"
             masteredStatusView?.layer.cornerRadius = 15.0
             masteredStatusView?.layer.masksToBounds = true
         }
@@ -39,7 +39,7 @@ class StatViewController: UIViewController {
     
     @IBOutlet var overView: UIView!{
         didSet {
-            overView.theme_backgroundColor = "Global.viewBackgroundColor"
+            overView.theme_backgroundColor = "StatView.panelBgColor"
             overView?.layer.cornerRadius = 15.0
             overView?.layer.masksToBounds = true
         }
@@ -47,7 +47,7 @@ class StatViewController: UIViewController {
     
     @IBOutlet var masteredAndLearnedCurveView: UIView!{
         didSet {
-            masteredAndLearnedCurveView.theme_backgroundColor = "Global.viewBackgroundColor"
+            masteredAndLearnedCurveView.theme_backgroundColor = "StatView.panelBgColor"
             masteredAndLearnedCurveView?.layer.cornerRadius = 15.0
             masteredAndLearnedCurveView?.layer.masksToBounds = true
         }
@@ -73,7 +73,7 @@ class StatViewController: UIViewController {
     }
     
     func getBackgroundViewColor() -> String{
-        let viewBackgroundColor = ThemeManager.currentTheme?.value(forKeyPath: "Global.viewBackgroundColor") as! String
+        let viewBackgroundColor = ThemeManager.currentTheme?.value(forKeyPath: "StatView.panelBgColor") as! String
         return viewBackgroundColor
     }
     
@@ -114,6 +114,7 @@ class StatViewController: UIViewController {
             .categories(categories)
             .axesTextColor(getDisplayTextColor())
             .colorsTheme(["#4fa83d","#3f8ada"])
+            .zoomType(.x)
             .series([
                 AASeriesElement()
                 .name(seriesNames[0])
@@ -137,6 +138,7 @@ class StatViewController: UIViewController {
             .categories(categories)
             .axesTextColor(getDisplayTextColor())
             .yAxisAllowDecimals(false)
+            .zoomType(.x)
             .colorsTheme(["#4fa83d","#3f8ada"])
             .series([
                 AASeriesElement()

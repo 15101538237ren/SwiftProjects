@@ -525,8 +525,6 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
             current_theme_category = current_category
             last_theme_category = getPreference(key: "last_theme_category") as! Int
         }
-        print(current_theme_category)
-        print(last_theme_category)
         
         if current_theme_category != last_theme_category{
             let image = UIImage(named: "theme_\(current_theme_category)")

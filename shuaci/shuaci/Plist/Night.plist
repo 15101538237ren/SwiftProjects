@@ -13,6 +13,8 @@
 	</dict>
 	<key>StatView</key>
 	<dict>
+		<key>panelBgColor</key>
+		<string>#121212</string>
 		<key>displayTextColor</key>
 		<string>#6c6c6c</string>
 		<key>segmentedCtrlUnselectedColor</key>
@@ -41,7 +43,7 @@
 		<key>blurEffectStyle</key>
 		<string>dark</string>
 		<key>viewBackgroundColor</key>
-		<string>#121212</string>
+		<string>#040404</string>
 		<key>backBtnTintColor</key>
 		<string>#6c6c6c</string>
 		<key>barTitleColor</key>
