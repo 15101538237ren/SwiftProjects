@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SwiftTheme
 import UserNotifications
 
 class ReminderTimePickerViewController: UIViewController {
@@ -14,7 +15,11 @@ class ReminderTimePickerViewController: UIViewController {
     
     var viewTranslation = CGPoint(x: 0, y: 0)
     
+    @IBOutlet weak var backBtn: UIButton!
+    
     @IBOutlet weak var titleLabel: UILabel!
+    
+    @IBOutlet weak var nextTimeLabel: UILabel!
     
     @IBOutlet weak var nextRemindTime: UILabel!
     
@@ -29,7 +34,7 @@ class ReminderTimePickerViewController: UIViewController {
     }
     
     func addBlurBackgroundView(){
-        let blurEffect = UIBlurEffect(style: UIBlurEffect.Style.light)
+        let blurEffect = getBlurEffect()
         let blurEffectView = UIVisualEffectView(effect: blurEffect)
         blurEffectView.frame = view.bounds
         blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
@@ -58,8 +63,20 @@ class ReminderTimePickerViewController: UIViewController {
         }
     }
     
+    func getDisplayTextColor() -> String{
+        let viewBackgroundColor = ThemeManager.currentTheme?.value(forKeyPath: "TableView.labelTextColor") as! String
+        return viewBackgroundColor
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        backBtn.theme_tintColor = "Global.backBtnTintColor"
+        titleLabel.theme_textColor = "TableView.labelTextColor"
+        nextTimeLabel.theme_textColor = "TableView.labelTextColor"
+        nextRemindTime.theme_textColor = "TableView.labelTextColor"
+        doNotRemind.theme_setTitleColor("TableView.labelTextColor", forState: .normal)
+        setReminder.theme_setTitleColor("TableView.labelTextColor", forState: .normal)
+        timePicker.setValue(UIColor(hex: getDisplayTextColor()), forKeyPath: "textColor")
         view.backgroundColor = .clear
         addBlurBackgroundView()
         view.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(handleDismiss)))

@@ -2033,7 +2033,6 @@
                                         </state>
                                         <connections>
                                             <action selector="setNumOfWord:" destination="Cw4-9G-H3S" eventType="touchUpInside" id="AWR-R2-LLP"/>
-                                            <action selector="setReminderClock:" destination="tEN-je-fvP" eventType="touchUpInside" id="jk1-mj-9P3"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -2067,7 +2066,10 @@
                         <viewLayoutGuide key="safeArea" id="Mgt-Rd-0Fg"/>
                     </view>
                     <connections>
+                        <outlet property="backBtn" destination="oG5-Dm-0i2" id="Z2T-Dd-Rst"/>
                         <outlet property="numVocPickerView" destination="bII-KV-AxD" id="Vow-wi-RgR"/>
+                        <outlet property="setBtn" destination="c8F-mt-Tk8" id="VxG-du-4je"/>
+                        <outlet property="titleLabel" destination="YYK-Eh-rjj" id="IVG-BW-Phx"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UHQ-fc-ghJ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -2171,8 +2173,10 @@
                         <viewLayoutGuide key="safeArea" id="cVg-qo-mLP"/>
                     </view>
                     <connections>
+                        <outlet property="backBtn" destination="w1d-6S-jlJ" id="AQx-yh-Kms"/>
                         <outlet property="doNotRemind" destination="9bk-00-dtD" id="vTg-qG-QhF"/>
                         <outlet property="nextRemindTime" destination="m8f-7k-Hgk" id="8Lr-XW-D8s"/>
+                        <outlet property="nextTimeLabel" destination="5jh-bG-cXE" id="QFe-P0-qec"/>
                         <outlet property="setReminder" destination="Tne-ae-DkL" id="zaH-cF-KDX"/>
                         <outlet property="timePicker" destination="loR-lS-Gop" id="493-8E-QN5"/>
                         <outlet property="titleLabel" destination="b6U-EF-bfv" id="vr2-Na-iWv"/>

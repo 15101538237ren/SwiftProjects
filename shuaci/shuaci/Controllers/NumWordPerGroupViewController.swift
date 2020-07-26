@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SwiftTheme
 
 class NumWordPerGroupViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource  {
     
@@ -14,13 +15,19 @@ class NumWordPerGroupViewController: UIViewController, UIPickerViewDelegate, UIP
     let number_of_words: [Int] = [10, 20, 30, 40, 50, 100, 150, 200, 300]
     var setting_tableView: UITableView!
     
+    @IBOutlet weak var backBtn: UIButton!
+    @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var numVocPickerView: UIPickerView!
+    @IBOutlet weak var setBtn: UIButton!
     
     @IBAction func unwind(_ sender: UIButton) {
         self.dismiss(animated: true, completion: nil)
     }
     
-    
+    func getDisplayTextColor() -> String{
+        let viewBackgroundColor = ThemeManager.currentTheme?.value(forKeyPath: "TableView.labelTextColor") as! String
+        return viewBackgroundColor
+    }
     
     func selectedIndex() -> Int{
         let npg_pref:Int = getPreference(key: "number_of_words_per_group") as! Int
@@ -33,7 +40,7 @@ class NumWordPerGroupViewController: UIViewController, UIPickerViewDelegate, UIP
     }
     
     func addBlurBackgroundView(){
-        let blurEffect = UIBlurEffect(style: UIBlurEffect.Style.light)
+        let blurEffect = getBlurEffect()
         let blurEffectView = UIVisualEffectView(effect: blurEffect)
         blurEffectView.frame = view.bounds
         blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
@@ -66,6 +73,9 @@ class NumWordPerGroupViewController: UIViewController, UIPickerViewDelegate, UIP
         super.viewDidLoad()
         numVocPickerView.delegate = self
         numVocPickerView.dataSource = self
+        backBtn.theme_tintColor = "Global.backBtnTintColor"
+        titleLabel.theme_textColor = "TableView.labelTextColor"
+        setBtn.theme_setTitleColor("TableView.labelTextColor", forState: .normal)
         view.backgroundColor = .clear
         addBlurBackgroundView()
         view.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(handleDismiss)))
@@ -91,9 +101,8 @@ class NumWordPerGroupViewController: UIViewController, UIPickerViewDelegate, UIP
           return number_of_words.count
       }
     
-    // The data to return fopr the row and component (column) that's being passed in
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return String(number_of_words[row])
+    func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
+        return NSAttributedString(string: String(number_of_words[row]), attributes: [NSAttributedString.Key.foregroundColor: UIColor(hex: getDisplayTextColor()) ?? UIColor.black])
     }
     
     @IBAction func setNumOfWord(_ sender: UIButton) {
