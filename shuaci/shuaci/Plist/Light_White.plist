@@ -2,6 +2,15 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>SearchVC</key>
+	<dict>
+		<key>searchBarTextColor</key>
+		<string>#7b7e8a</string>
+		<key>transColor</key>
+		<string>#555555</string>
+		<key>wordColor</key>
+		<string>#a80000</string>
+	</dict>
 	<key>BookVC</key>
 	<dict>
 		<key>level2BtnColor</key>

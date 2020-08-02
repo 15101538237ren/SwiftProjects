@@ -13,7 +13,7 @@ class SearchViewController: UIViewController {
     var AllData:[String:JSON] = [:]
     var AllData_keys:[String] = []
     var searching = false
-    
+    let maxNumOfResult = 50
     @IBOutlet weak var backBtn: UIButton!
     @IBOutlet weak var searchBar: UISearchBar!{
         didSet{
@@ -23,6 +23,7 @@ class SearchViewController: UIViewController {
             searchBar.autocapitalizationType = .none
         }
     }
+   
     @IBOutlet weak var tblView: UITableView!
     private var DICT_URL: URL = Bundle.main.url(forResource: "DICT.json", withExtension: nil)!
     
@@ -40,6 +41,10 @@ class SearchViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        if let textFieldInSearchBar = searchBar.value(forKey: "searchField") as? UITextField {
+            textFieldInSearchBar.theme_textColor = "SearchVC.searchBarTextColor" 
+        }
+        
         view.theme_backgroundColor = "Global.viewBackgroundColor"
         
         backBtn.theme_tintColor = "Global.backBtnTintColor"
@@ -47,8 +52,14 @@ class SearchViewController: UIViewController {
         
         searchBar.delegate = self
         load_DICT()
-        print(AllData.count)
+        
         // Do any additional setup after loading the view, typically from a nib.
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        DispatchQueue.main.async {
+            self.searchBar.becomeFirstResponder()
+        }
     }
     
     override func didReceiveMemoryWarning() {
@@ -99,11 +110,12 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     
     
 }
-extension SearchViewController: UISearchBarDelegate {
+extension SearchViewController: UISearchBarDelegate, UISearchControllerDelegate {
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         if searchText.count > 0{
             searchResults = AllData_keys .filter({$0.lowercased().prefix(searchText.count) == searchText.lowercased()})
+            searchResults = Array(searchResults.prefix(maxNumOfResult))
             searching = true
         }else{
             searching = false
@@ -120,6 +132,18 @@ extension SearchViewController: UISearchBarDelegate {
         tblView.reloadData()
     }
     
+    func searchBarSearchButtonClicked( _ searchBar: UISearchBar)
+    {
+        let searchText:String = searchBar.text ?? ""
+        print(searchText)
+        if searchText.count > 0{
+            searchResults = AllData_keys .filter({$0.lowercased() == searchText.lowercased()})
+            searching = true
+            tblView.reloadData()
+        }
+        
+        searchBar.endEditing(true)
+    }
 }
 
 

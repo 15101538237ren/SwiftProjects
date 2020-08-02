@@ -9,18 +9,17 @@
 import UIKit
 
 class SearchWordTableViewCell: UITableViewCell {
-    let redColor:UIColor = UIColor(red: 168, green: 0, blue: 0, alpha: 1)
     @IBOutlet var wordLabel: UILabel!{
         didSet{
             wordLabel.numberOfLines = 0
-            wordLabel.textColor = redColor
+            wordLabel.theme_textColor = "SearchVC.wordColor"
         }
     }
     @IBOutlet var meaningLabel: UILabel!{
         didSet{
             meaningLabel.lineBreakMode = .byWordWrapping
             meaningLabel.numberOfLines = 0
-            meaningLabel.theme_textColor = "TableView.valueTextColor"
+            meaningLabel.theme_textColor = "SearchVC.transColor"
         }
     }
     
