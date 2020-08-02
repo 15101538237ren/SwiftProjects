@@ -102,14 +102,21 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
 extension SearchViewController: UISearchBarDelegate {
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        searchResults = AllData_keys .filter({$0.lowercased().prefix(searchText.count) == searchText.lowercased()})
-        searching = true
+        if searchText.count > 0{
+            searchResults = AllData_keys .filter({$0.lowercased().prefix(searchText.count) == searchText.lowercased()})
+            searching = true
+        }else{
+            searching = false
+            searchBar.text = ""
+            searchResults = []
+        }
         tblView.reloadData()
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searching = false
         searchBar.text = ""
+        searchResults = []
         tblView.reloadData()
     }
     

@@ -34,7 +34,7 @@
                                     <action selector="unwindWithSegue:" destination="pFP-k4-cBJ" eventType="touchUpInside" id="wqp-Xs-ut1"/>
                                 </connections>
                             </button>
-                            <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="2Q3-se-ylx">
+                            <searchBar contentMode="redraw" searchBarStyle="minimal" placeholder="请输入要查询的单词" translatesAutoresizingMaskIntoConstraints="NO" id="2Q3-se-ylx">
                                 <rect key="frame" x="45" y="44" width="369" height="56"/>
                                 <textInputTraits key="textInputTraits"/>
                                 <connections>
@@ -45,15 +45,15 @@
                                 <rect key="frame" x="0.0" y="100" width="414" height="796"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="wordcell" rowHeight="80" id="jb6-RE-IRC" customClass="SearchWordTableViewCell" customModule="刷词" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="414" height="80"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="wordcell" id="jb6-RE-IRC" customClass="SearchWordTableViewCell" customModule="刷词" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="414" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="jb6-RE-IRC" id="hO4-LE-L4H">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="80"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Word" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GO7-gR-s3n">
-                                                    <rect key="frame" x="20" y="29.5" width="150" height="21"/>
+                                                    <rect key="frame" x="20" y="11.5" width="150" height="21"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="150" id="gJo-o0-1i5"/>
                                                     </constraints>
@@ -62,7 +62,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="单词" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vQH-k4-HDx">
-                                                    <rect key="frame" x="190" y="31.5" width="204" height="17"/>
+                                                    <rect key="frame" x="190" y="13.5" width="204" height="17"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="17" id="MHT-Ig-J1J"/>
                                                     </constraints>
