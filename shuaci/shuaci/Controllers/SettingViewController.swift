@@ -143,7 +143,7 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
             let cell = tableView.dequeueReusableCell(withIdentifier: "SettingToggleCell", for: indexPath) as! SettingToggleTableViewCell
 
             cell.backgroundColor = .clear
-            cell.separatorInset = UIEdgeInsets(top: 0, left: cell.bounds.size.width, bottom: 0, right: 0);
+            cell.separatorInset = UIEdgeInsets(top: 0, left: cell.bounds.size.width, bottom: 0, right: 0)
             let settingItem:SettingItem = settingItems[row]
             cell.iconView?.image = settingItem.icon
             cell.nameLabel?.text = settingItem.name

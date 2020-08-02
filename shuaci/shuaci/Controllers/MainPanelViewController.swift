@@ -109,7 +109,12 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
     }
     
     @IBAction func searchBtnTouched(_ sender: UIButton) {
-        
+        let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+        let searchVC = mainStoryBoard.instantiateViewController(withIdentifier: "searchVC") as! SearchViewController
+        searchVC.modalPresentationStyle = .overCurrentContext
+        DispatchQueue.main.async {
+            self.present(searchVC, animated: true, completion: nil)
+        }
     }
     
     func downloadBookJson(completionHandler: @escaping CompletionHandler){

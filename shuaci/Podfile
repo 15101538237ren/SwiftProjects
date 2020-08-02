@@ -10,5 +10,6 @@ target 'shuaci' do
   pod 'CropViewController'
   pod 'SwiftTheme'
   pod 'SwiftyJSON', '~> 4.0'
+  pod 'GRDB.swift'
   pod 'AAInfographics', :git => 'https://github.com/AAChartModel/AAChartKit-Swift.git'
 end

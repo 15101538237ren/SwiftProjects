@@ -22,6 +22,7 @@ PODS:
 DEPENDENCIES:
   - AAInfographics (from `https://github.com/AAChartModel/AAChartKit-Swift.git`)
   - CropViewController
+  - GRDB.swift
   - LeanCloud
   - SwiftTheme
   - SwiftyJSON (~> 4.0)
@@ -57,6 +58,6 @@ SPEC CHECKSUMS:
   SwiftTheme: 8b02c479bb4441b2b6790ac126e961b1b6fb0932
   SwiftyJSON: 6faa0040f8b59dead0ee07436cbf76b73c08fd08
 
-PODFILE CHECKSUM: 1737cbae2e4ea1fb12bea26962c0e1cbcf092b46
+PODFILE CHECKSUM: 3e5f9cde34ebd7644c7e61ea276b8d245f638234
 
 COCOAPODS: 1.9.3
