@@ -14,12 +14,13 @@ import SwiftTheme
 
 enum theme: String {
     case lightGray = "Light_Gray"
+    case lightBlack = "Light_Black"
     case lightWhite = "Light_White"
     case dark = "Dark"
     case night = "Night"
 }
 
-var theme_category_to_name:[Int : theme] = [ 1: .lightWhite, 2: .dark, 3: .night, 4: .lightWhite, 5: .lightWhite, 6: .lightWhite, 7: .lightWhite, 8: .lightGray, 9: .lightWhite, 10: .lightWhite]
+var theme_category_to_name:[Int : theme] = [ 1: .lightBlack, 2: .dark, 3: .night, 4: .lightWhite, 5: .lightWhite, 6: .lightWhite, 7: .lightWhite, 8: .lightGray, 9: .lightWhite, 10: .lightWhite]
 
 var themes:[Theme] = [
     Theme(name: "明 亮", background: "1_Light", category: 1),
