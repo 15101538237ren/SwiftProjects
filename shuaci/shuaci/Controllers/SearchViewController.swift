@@ -33,7 +33,7 @@ class SearchViewController: UIViewController {
     
     func load_DICT(){
         do {
-           let data = try Data(contentsOf: DICT_URL, options: .mappedIfSafe)
+           let data = try Data(contentsOf: DICT_URL, options: [])//.mappedIfSafe
            AllData = try JSON(data: data)["data"].dictionary!
            AllData_keys = Array(AllData.keys)
             for val in AllData.values{
@@ -52,14 +52,24 @@ class SearchViewController: UIViewController {
         }
         
         view.theme_backgroundColor = "Global.viewBackgroundColor"
-        
         backBtn.theme_tintColor = "Global.backBtnTintColor"
         tblView.theme_backgroundColor = "Global.viewBackgroundColor"
         
         searchBar.delegate = self
         load_DICT()
         
+        let tapGestRec: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action:#selector(dismissKeyboard))
+        let panGestRec: UIPanGestureRecognizer = UIPanGestureRecognizer(target: self, action:#selector(dismissKeyboard))
+        tapGestRec.delegate = self
+        panGestRec.delegate = self
+        tblView.addGestureRecognizer(tapGestRec)
+        tblView.addGestureRecognizer(panGestRec)
+        
         // Do any additional setup after loading the view, typically from a nib.
+    }
+    
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -76,25 +86,11 @@ class SearchViewController: UIViewController {
     @IBAction func unwind(_ sender: UIButton) {
         self.dismiss(animated: true, completion: nil)
     }
-    
-    func processMeaningText(meaning: String) -> String{
-        let numberOfNewlines:Int = meaning.components(separatedBy: "\n").count - 1
-        var meaningLabelTxt:String = meaning
-        if numberOfNewlines > 3{
-            var finalStringArr:[String] = []
-            let meaningArr:[String] = meaningLabelTxt.components(separatedBy: "\n")
-            for mi in 0..<meaningArr.count - 1{
-                if let firstChr = meaningArr[mi + 1].unicodeScalars.first{
-                    if firstChr.isASCII{
-                        finalStringArr.append("\(meaningArr[mi])\n")
-                    }else{
-                        finalStringArr.append("\(meaningArr[mi])；")
-                    }
-                }
-            }
-            meaningLabelTxt = finalStringArr.joined(separator: "")
-        }
-        return meaningLabelTxt
+}
+
+extension SearchViewController: UIGestureRecognizerDelegate {
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+            return true
     }
 }
 
@@ -108,11 +104,19 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "wordcell") as! SearchWordTableViewCell
         cell.backgroundColor = .clear
         cell.wordLabel.text = searchResults[indexPath.row]
-        cell.meaningLabel.text = searchResultsInter[indexPath.row]
+        cell.meaningLabel.text = searchResultsInter[indexPath.row].replacingOccurrences(of: "\\n", with: "\n")
         return cell
     }
     
-    
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+
+       return tableView.rowHeight
+
+    }
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+
+        return UITableView.automaticDimension
+    }
 }
 extension SearchViewController: UISearchBarDelegate, UISearchControllerDelegate {
     
@@ -166,7 +170,6 @@ extension SearchViewController: UISearchBarDelegate, UISearchControllerDelegate 
     func searchBarSearchButtonClicked( _ searchBar: UISearchBar)
     {
         let searchText:String = searchBar.text ?? ""
-        print(searchText)
         if searchText.count > 0{
             var isSearchTextAsciiTmp = true
             for scalar in searchText.unicodeScalars {

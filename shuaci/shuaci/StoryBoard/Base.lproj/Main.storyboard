@@ -46,14 +46,14 @@
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="wordcell" id="jb6-RE-IRC" customClass="SearchWordTableViewCell" customModule="刷词" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="414" height="43.5"/>
+                                        <rect key="frame" x="0.0" y="28" width="414" height="53"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="jb6-RE-IRC" id="hO4-LE-L4H">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="53"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Word" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GO7-gR-s3n">
-                                                    <rect key="frame" x="20" y="11.5" width="150" height="21"/>
+                                                    <rect key="frame" x="20" y="16.5" width="150" height="20.5"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="150" id="gJo-o0-1i5"/>
                                                     </constraints>
@@ -62,7 +62,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="单词" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vQH-k4-HDx">
-                                                    <rect key="frame" x="190" y="13.5" width="204" height="17"/>
+                                                    <rect key="frame" x="190" y="14" width="204" height="25"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="17" id="MHT-Ig-J1J"/>
                                                     </constraints>
@@ -74,7 +74,11 @@
                                             <constraints>
                                                 <constraint firstItem="GO7-gR-s3n" firstAttribute="centerY" secondItem="hO4-LE-L4H" secondAttribute="centerY" id="5iz-IP-Dwv"/>
                                                 <constraint firstItem="vQH-k4-HDx" firstAttribute="leading" secondItem="GO7-gR-s3n" secondAttribute="trailing" constant="20" id="5kp-Hl-aHz"/>
+                                                <constraint firstAttribute="bottomMargin" relation="greaterThanOrEqual" secondItem="GO7-gR-s3n" secondAttribute="bottom" constant="5" id="Jn2-sg-XZL"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="vQH-k4-HDx" secondAttribute="bottom" constant="3" id="QZQ-Ua-xMb"/>
                                                 <constraint firstItem="GO7-gR-s3n" firstAttribute="leading" secondItem="hO4-LE-L4H" secondAttribute="leadingMargin" id="Ukg-Ef-N7t"/>
+                                                <constraint firstItem="GO7-gR-s3n" firstAttribute="top" relation="greaterThanOrEqual" secondItem="hO4-LE-L4H" secondAttribute="topMargin" constant="5" id="ldw-uz-xuM"/>
+                                                <constraint firstItem="vQH-k4-HDx" firstAttribute="top" secondItem="hO4-LE-L4H" secondAttribute="topMargin" constant="3" id="nKd-vN-MR7"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="vQH-k4-HDx" secondAttribute="trailing" id="ozU-3E-jvs"/>
                                                 <constraint firstItem="vQH-k4-HDx" firstAttribute="centerY" secondItem="hO4-LE-L4H" secondAttribute="centerY" id="tyA-s2-Xsl"/>
                                             </constraints>

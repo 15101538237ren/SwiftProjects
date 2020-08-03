@@ -11,6 +11,7 @@ import UIKit
 class SearchWordTableViewCell: UITableViewCell {
     @IBOutlet var wordLabel: UILabel!{
         didSet{
+            wordLabel.lineBreakMode = .byWordWrapping
             wordLabel.numberOfLines = 0
             wordLabel.theme_textColor = "SearchVC.wordColor"
         }
