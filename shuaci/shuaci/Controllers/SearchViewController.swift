@@ -10,10 +10,13 @@ import SwiftyJSON
 
 class SearchViewController: UIViewController {
     var searchResults:[String] = []
+    var searchResultsInter:[String] = []
     var AllData:[String:JSON] = [:]
     var AllData_keys:[String] = []
+    var AllInterp_keys:[String] = []
     var searching = false
     let maxNumOfResult = 50
+    var isSearchTextAscii = true
     @IBOutlet weak var backBtn: UIButton!
     @IBOutlet weak var searchBar: UISearchBar!{
         didSet{
@@ -33,6 +36,9 @@ class SearchViewController: UIViewController {
            let data = try Data(contentsOf: DICT_URL, options: .mappedIfSafe)
            AllData = try JSON(data: data)["data"].dictionary!
            AllData_keys = Array(AllData.keys)
+            for val in AllData.values{
+                AllInterp_keys.append(val.stringValue)
+            }
            print("Load \(DICT_URL) successful!")
         } catch {
             print(error.localizedDescription)
@@ -101,10 +107,8 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "wordcell") as! SearchWordTableViewCell
         cell.backgroundColor = .clear
-        let key = searchResults[indexPath.row]
-        cell.wordLabel.text = key
-        cell.meaningLabel.text = AllData[key]!.stringValue
-        
+        cell.wordLabel.text = searchResults[indexPath.row]
+        cell.meaningLabel.text = searchResultsInter[indexPath.row]
         return cell
     }
     
@@ -114,13 +118,39 @@ extension SearchViewController: UISearchBarDelegate, UISearchControllerDelegate 
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         if searchText.count > 0{
-            searchResults = AllData_keys .filter({$0.lowercased().prefix(searchText.count) == searchText.lowercased()})
-            searchResults = Array(searchResults.prefix(maxNumOfResult))
+            var isSearchTextAsciiTmp = true
+            for scalar in searchText.unicodeScalars {
+                if !scalar.isASCII{
+                    isSearchTextAsciiTmp = false
+                }
+            }
+            isSearchTextAscii = isSearchTextAsciiTmp
+            searchResults = []
+            searchResultsInter = []
+            for ik in 0..<AllData_keys.count{
+                if searchResults.count > maxNumOfResult{
+                    break
+                }
+                if isSearchTextAscii{
+                    let key = AllData_keys[ik]
+                    if key.lowercased().prefix(searchText.count) == searchText.lowercased(){
+                        searchResults.append(key)
+                        searchResultsInter.append(AllInterp_keys[ik])
+                    }
+                }else{
+                    let key = AllInterp_keys[ik]
+                    if key.contains(searchText){
+                        searchResults.append(AllData_keys[ik])
+                        searchResultsInter.append(key)
+                    }
+                }
+            }
             searching = true
         }else{
             searching = false
             searchBar.text = ""
             searchResults = []
+            searchResultsInter = []
         }
         tblView.reloadData()
     }
@@ -129,6 +159,7 @@ extension SearchViewController: UISearchBarDelegate, UISearchControllerDelegate 
         searching = false
         searchBar.text = ""
         searchResults = []
+        searchResultsInter = []
         tblView.reloadData()
     }
     
@@ -137,9 +168,30 @@ extension SearchViewController: UISearchBarDelegate, UISearchControllerDelegate 
         let searchText:String = searchBar.text ?? ""
         print(searchText)
         if searchText.count > 0{
-            searchResults = AllData_keys .filter({$0.lowercased() == searchText.lowercased()})
-            searching = true
-            tblView.reloadData()
+            var isSearchTextAsciiTmp = true
+            for scalar in searchText.unicodeScalars {
+                if !scalar.isASCII{
+                    isSearchTextAsciiTmp = false
+                }
+            }
+            isSearchTextAscii = isSearchTextAsciiTmp
+
+            if isSearchTextAscii{
+                searchResults = []
+                searchResultsInter = []
+                for ik in 0..<AllData_keys.count{
+                    if searchResults.count > maxNumOfResult{
+                        break
+                    }
+                    let key = AllData_keys[ik]
+                    if key.lowercased() == searchText.lowercased(){
+                        searchResults.append(key)
+                        searchResultsInter.append(AllInterp_keys[ik])
+                    }
+                }
+                searching = true
+                tblView.reloadData()
+            }
         }
         
         searchBar.endEditing(true)

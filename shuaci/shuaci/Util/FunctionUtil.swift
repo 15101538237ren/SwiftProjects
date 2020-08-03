@@ -191,6 +191,8 @@ func getEmail() -> String?{
     }
 }
 
+
+
 func fileExist(fileFp: String) -> Bool {
     do {
         let fileURL = try FileManager.default
