@@ -46,41 +46,55 @@
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="wordcell" id="jb6-RE-IRC" customClass="SearchWordTableViewCell" customModule="刷词" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="414" height="53"/>
+                                        <rect key="frame" x="0.0" y="28" width="414" height="48.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="jb6-RE-IRC" id="hO4-LE-L4H">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="53"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="48.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Word" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GO7-gR-s3n">
-                                                    <rect key="frame" x="20" y="16.5" width="150" height="20.5"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="150" id="gJo-o0-1i5"/>
-                                                    </constraints>
-                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="单词" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vQH-k4-HDx">
-                                                    <rect key="frame" x="190" y="14" width="204" height="25"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vQH-k4-HDx">
+                                                    <rect key="frame" x="170" y="16" width="28" height="17"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="17" id="MHT-Ig-J1J"/>
+                                                        <constraint firstAttribute="width" relation="lessThanOrEqual" constant="230" id="ooB-hE-Jfw"/>
                                                     </constraints>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                    <nil key="textColor"/>
+                                                    <attributedString key="attributedText">
+                                                        <fragment content="单词">
+                                                            <attributes>
+                                                                <font key="NSFont" size="14" name=".PingFangSC-Regular"/>
+                                                                <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" lineSpacing="1.5" tighteningFactorForTruncation="0.0"/>
+                                                            </attributes>
+                                                        </fragment>
+                                                    </attributedString>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GO7-gR-s3n">
+                                                    <rect key="frame" x="20" y="15" width="130" height="19"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="130" id="6ck-zx-J3d"/>
+                                                    </constraints>
+                                                    <attributedString key="attributedText">
+                                                        <fragment content="Word">
+                                                            <attributes>
+                                                                <color key="NSColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                                                <font key="NSFont" size="17" name="Arial-BoldMT"/>
+                                                                <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" lineSpacing="1.5" lineHeightMultiple="1" tighteningFactorForTruncation="0.0"/>
+                                                            </attributes>
+                                                        </fragment>
+                                                    </attributedString>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="GO7-gR-s3n" firstAttribute="centerY" secondItem="hO4-LE-L4H" secondAttribute="centerY" id="5iz-IP-Dwv"/>
-                                                <constraint firstItem="vQH-k4-HDx" firstAttribute="leading" secondItem="GO7-gR-s3n" secondAttribute="trailing" constant="20" id="5kp-Hl-aHz"/>
-                                                <constraint firstAttribute="bottomMargin" relation="greaterThanOrEqual" secondItem="GO7-gR-s3n" secondAttribute="bottom" constant="5" id="Jn2-sg-XZL"/>
-                                                <constraint firstAttribute="bottomMargin" secondItem="vQH-k4-HDx" secondAttribute="bottom" constant="3" id="QZQ-Ua-xMb"/>
-                                                <constraint firstItem="GO7-gR-s3n" firstAttribute="leading" secondItem="hO4-LE-L4H" secondAttribute="leadingMargin" id="Ukg-Ef-N7t"/>
-                                                <constraint firstItem="GO7-gR-s3n" firstAttribute="top" relation="greaterThanOrEqual" secondItem="hO4-LE-L4H" secondAttribute="topMargin" constant="5" id="ldw-uz-xuM"/>
-                                                <constraint firstItem="vQH-k4-HDx" firstAttribute="top" secondItem="hO4-LE-L4H" secondAttribute="topMargin" constant="3" id="nKd-vN-MR7"/>
-                                                <constraint firstAttribute="trailingMargin" secondItem="vQH-k4-HDx" secondAttribute="trailing" id="ozU-3E-jvs"/>
-                                                <constraint firstItem="vQH-k4-HDx" firstAttribute="centerY" secondItem="hO4-LE-L4H" secondAttribute="centerY" id="tyA-s2-Xsl"/>
+                                                <constraint firstItem="GO7-gR-s3n" firstAttribute="centerY" secondItem="hO4-LE-L4H" secondAttribute="centerY" id="0gb-cP-bxZ"/>
+                                                <constraint firstItem="vQH-k4-HDx" firstAttribute="centerY" secondItem="hO4-LE-L4H" secondAttribute="centerY" id="4Ij-wJ-7qo"/>
+                                                <constraint firstItem="GO7-gR-s3n" firstAttribute="leading" secondItem="hO4-LE-L4H" secondAttribute="leading" constant="20" id="8Xa-VY-zFx"/>
+                                                <constraint firstItem="GO7-gR-s3n" firstAttribute="top" relation="greaterThanOrEqual" secondItem="hO4-LE-L4H" secondAttribute="topMargin" constant="3.5" id="WvH-oo-USV"/>
+                                                <constraint firstAttribute="bottomMargin" relation="greaterThanOrEqual" secondItem="GO7-gR-s3n" secondAttribute="bottom" constant="3.5" id="Y2C-iV-PR8"/>
+                                                <constraint firstItem="vQH-k4-HDx" firstAttribute="leading" secondItem="GO7-gR-s3n" secondAttribute="trailing" constant="20" id="avy-dk-VLD"/>
+                                                <constraint firstItem="vQH-k4-HDx" firstAttribute="top" relation="greaterThanOrEqual" secondItem="hO4-LE-L4H" secondAttribute="topMargin" constant="3.5" id="v68-aj-kKG"/>
+                                                <constraint firstAttribute="bottomMargin" relation="greaterThanOrEqual" secondItem="vQH-k4-HDx" secondAttribute="bottom" constant="3.5" id="wJ6-6p-Fuo"/>
+                                                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="vQH-k4-HDx" secondAttribute="trailing" constant="20" id="xTy-et-HRf"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>

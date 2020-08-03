@@ -58,14 +58,21 @@ class SearchViewController: UIViewController {
         searchBar.delegate = self
         load_DICT()
         
-        let tapGestRec: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action:#selector(dismissKeyboard))
+        tblView.separatorColor = .clear
+        
         let panGestRec: UIPanGestureRecognizer = UIPanGestureRecognizer(target: self, action:#selector(dismissKeyboard))
-        tapGestRec.delegate = self
         panGestRec.delegate = self
-        tblView.addGestureRecognizer(tapGestRec)
         tblView.addGestureRecognizer(panGestRec)
         
+        let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(swipedCells(sender:)))
+        swipeRight.direction = .right
+        tblView.addGestureRecognizer(swipeRight)
+        
         // Do any additional setup after loading the view, typically from a nib.
+    }
+    
+    @objc func swipedCells(sender: UITapGestureRecognizer) {
+        dismiss(animated: true, completion: nil)
     }
     
     @objc func dismissKeyboard() {
