@@ -35,9 +35,11 @@ class SearchViewController: UIViewController {
         do {
            let data = try Data(contentsOf: DICT_URL, options: [])//.mappedIfSafe
            AllData = try JSON(data: data)["data"].dictionary!
-           AllData_keys = Array(AllData.keys)
-            for val in AllData.values{
-                AllInterp_keys.append(val.stringValue)
+            let key_arr = try JSON(data: data)["keys"].arrayValue
+            for key in key_arr{
+                let key_str = key.stringValue
+                AllData_keys.append(key_str)
+                AllInterp_keys.append(AllData[key_str]!.stringValue)
             }
            print("Load \(DICT_URL) successful!")
         } catch {

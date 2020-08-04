@@ -19,6 +19,7 @@
 		5507D9072479935C0090DD37 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5507D9062479935C0090DD37 /* Reachability.swift */; };
 		551265CB24AEE03F007C333E /* ReviewFinishViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 551265CA24AEE03F007C333E /* ReviewFinishViewController.swift */; };
 		5518B9B8247A2E7600BC8DA4 /* LearnFinishViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5518B9B7247A2E7600BC8DA4 /* LearnFinishViewController.swift */; };
+		551B493424D9254100B1F1D0 /* DICT.json in Resources */ = {isa = PBXBuildFile; fileRef = 551B493324D9254100B1F1D0 /* DICT.json */; };
 		553ED5AF2495DB15000ECE6D /* ReviewWordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 553ED5AE2495DB15000ECE6D /* ReviewWordViewController.swift */; };
 		55414C5524D66217004E4E7D /* Light_Black.plist in Resources */ = {isa = PBXBuildFile; fileRef = 55414C5424D66217004E4E7D /* Light_Black.plist */; };
 		5547AE8824BA37400096B41E /* WordHistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5547AE8724BA37400096B41E /* WordHistoryViewController.swift */; };
@@ -31,7 +32,6 @@
 		558F71EC249C713B0014956F /* NumWordPerGroupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 558F71EB249C713B0014956F /* NumWordPerGroupViewController.swift */; };
 		558F71EE249C72AE0014956F /* NumberOfWordTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 558F71ED249C72AE0014956F /* NumberOfWordTableViewCell.swift */; };
 		55B63A2324D530D300B6B8B5 /* SearchWordTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55B63A2224D530D300B6B8B5 /* SearchWordTableViewCell.swift */; };
-		55BCD5D224D8C3820011AABE /* DICT.json in Resources */ = {isa = PBXBuildFile; fileRef = 55BCD5D124D8C3820011AABE /* DICT.json */; };
 		55BFC12824C366A0006DA60B /* ReminderTimePickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55BFC12724C366A0006DA60B /* ReminderTimePickerViewController.swift */; };
 		55C5E20224B03A40005D2956 /* StatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55C5E20124B03A40005D2956 /* StatViewController.swift */; };
 		55C7819C24901AFA00C9F33E /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55C7819B24901AFA00C9F33E /* SettingViewController.swift */; };
@@ -102,6 +102,7 @@
 		5507D9062479935C0090DD37 /* Reachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		551265CA24AEE03F007C333E /* ReviewFinishViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewFinishViewController.swift; sourceTree = "<group>"; };
 		5518B9B7247A2E7600BC8DA4 /* LearnFinishViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearnFinishViewController.swift; sourceTree = "<group>"; };
+		551B493324D9254100B1F1D0 /* DICT.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = DICT.json; sourceTree = "<group>"; };
 		553ED5AE2495DB15000ECE6D /* ReviewWordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewWordViewController.swift; sourceTree = "<group>"; };
 		55414C5424D66217004E4E7D /* Light_Black.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Light_Black.plist; sourceTree = "<group>"; };
 		5547AE8724BA37400096B41E /* WordHistoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordHistoryViewController.swift; sourceTree = "<group>"; };
@@ -115,7 +116,6 @@
 		558F71ED249C72AE0014956F /* NumberOfWordTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberOfWordTableViewCell.swift; sourceTree = "<group>"; };
 		55B63A1B24D523AB00B6B8B5 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		55B63A2224D530D300B6B8B5 /* SearchWordTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchWordTableViewCell.swift; sourceTree = "<group>"; };
-		55BCD5D124D8C3820011AABE /* DICT.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = DICT.json; sourceTree = "<group>"; };
 		55BFC12724C366A0006DA60B /* ReminderTimePickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderTimePickerViewController.swift; sourceTree = "<group>"; };
 		55C5E20124B03A40005D2956 /* StatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatViewController.swift; sourceTree = "<group>"; };
 		55C7819B24901AFA00C9F33E /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
@@ -191,7 +191,7 @@
 		55414C4F24D62957004E4E7D /* DATA */ = {
 			isa = PBXGroup;
 			children = (
-				55BCD5D124D8C3820011AABE /* DICT.json */,
+				551B493324D9254100B1F1D0 /* DICT.json */,
 			);
 			path = DATA;
 			sourceTree = "<group>";
@@ -456,7 +456,7 @@
 				A5134E322467719C008B116D /* Learning.storyboard in Resources */,
 				A56375BC2457745500BA5293 /* HuaKangFangYuan.ttf in Resources */,
 				A5E764D2245DEB8600367C2A /* LoginReg.storyboard in Resources */,
-				55BCD5D224D8C3820011AABE /* DICT.json in Resources */,
+				551B493424D9254100B1F1D0 /* DICT.json in Resources */,
 				557B66F524CCF47B0068AB05 /* Light_Gray.plist in Resources */,
 				A58E071224535E5E00C4D914 /* youyuan.ttf in Resources */,
 				557B66F124CCF2700068AB05 /* Night.plist in Resources */,
