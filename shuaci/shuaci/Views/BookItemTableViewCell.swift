@@ -9,7 +9,12 @@
 import UIKit
 
 class BookItemTableViewCell: UITableViewCell {
-    @IBOutlet var cover: UIImageView!
+    @IBOutlet var cover: UIImageView!{
+        didSet {
+            cover.layer.cornerRadius = 9.0
+            cover.layer.masksToBounds = true
+        }
+    }
     @IBOutlet var name: UILabel!{
         didSet{
             name.theme_textColor = "TableView.labelTextColor"

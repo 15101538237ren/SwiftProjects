@@ -9,6 +9,7 @@
 import UIKit
 import LeanCloud
 import SwiftyJSON
+import Network
 
 class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UICollectionViewDelegate, UICollectionViewDataSource{
     
@@ -69,11 +70,13 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
             if global_total_books.count != 0 && currentSelectedCategory > 0{
                 books = []
                 resultsItems = []
+                var booknames:[String] = []
                 for (index, book) in global_total_books.enumerated(){
                     if book.level1_category == currentSelectedCategory{
                         books.append(book)
                         resultsItems.append(global_total_items[index])
                     }
+                    booknames.append(book.name)
                 }
                 DispatchQueue.main.async {
                     collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
@@ -267,8 +270,9 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
                                     let desc = item.get("description")?.stringValue
                                     let word_num = item.get("word_num")?.intValue
                                     let recite_user_num = item.get("recite_user_num")?.intValue
+                                    let file_sz = item.get("file_sz")?.floatValue
                                     
-                                    let book:Book = Book(identifier: identifier ?? "", level1_category: level1_category ?? 0, level2_category: level2_category ?? 0, name: name ?? "", description: desc ?? "", word_num: word_num ?? 0, recite_user_num: recite_user_num ?? 0)
+                                    let book:Book = Book(identifier: identifier ?? "", level1_category: level1_category ?? 0, level2_category: level2_category ?? 0, name: name ?? "", description: desc ?? "", word_num: word_num ?? 0, recite_user_num: recite_user_num ?? 0, file_sz: file_sz ?? 0.0)
                                     self.tempBooks.append(book)
                                     self.tempItems.append(item)
                                 }
@@ -306,6 +310,7 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
                 DispatchQueue.global(qos: .background).async {
                 do {
                     let query = LCQuery(className: "Book")
+                    query.limit = 1000
                     _ = query.find { result in
                         switch result {
                         case .success(objects: let results):
@@ -318,8 +323,9 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
                                 let desc = item.get("description")?.stringValue
                                 let word_num = item.get("word_num")?.intValue
                                 let recite_user_num = item.get("recite_user_num")?.intValue
+                                let file_sz = item.get("file_sz")?.floatValue
                                 
-                                let book:Book = Book(identifier: identifier ?? "", level1_category: level1_category ?? 0, level2_category: level2_category ?? 0, name: name ?? "", description: desc ?? "", word_num: word_num ?? 0, recite_user_num: recite_user_num ?? 0)
+                                let book:Book = Book(identifier: identifier ?? "", level1_category: level1_category ?? 0, level2_category: level2_category ?? 0, name: name ?? "", description: desc ?? "", word_num: word_num ?? 0, recite_user_num: recite_user_num ?? 0, file_sz: file_sz ?? 0.0)
                                 self.tempBooks.append(book)
                                 self.tempItems.append(item)
                             }
@@ -373,7 +379,7 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
                 // Check if the image is stored in cache
             }
             
-        if let image = loadPhoto(name_of_photo: "\(books[indexPath.row].identifier as! NSString).jpg"){
+        if let image = loadPhoto(name_of_photo: "\(books[indexPath.row].name as! NSString).jpg"){
                 // Fetch image from cache
                 DispatchQueue.main.async {
                     cell.cover.image = image
@@ -471,6 +477,16 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
     }
     
     func downloadAlert(index: Int, bookName: String){
+        let monitor = NWPathMonitor()
+        monitor.pathUpdateHandler = { path in
+            if path.usesInterfaceType(.cellular) {
+                print("3G/4G FTW!!!")
+            }else{
+                
+            }
+        }
+        
+        
         let alertController = UIAlertController(title: "学习\(bookName)?", message: "", preferredStyle: .alert)
         let okayAction = UIAlertAction(title: "确定", style: .default, handler: { action in
             self.downloadBookJson(index: index)
@@ -498,10 +514,17 @@ extension BooksViewController: UICollectionViewDelegateFlowLayout {
                 NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 14)])
         }
         else{
-            label = category_items[indexPath.row]!
-            let label_size = label.size(withAttributes: [
-            NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 14)])
-            return label_size
+            category_items = categories[currentSelectedCategory]?["subcategory"] ?? [:]
+            if let label = category_items[indexPath.row] {
+                let label_size = label.size(withAttributes: [
+                NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 14)])
+                return label_size
+            }else{
+                let label_size = "三个字".size(withAttributes: [
+                NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 14)])
+                return label_size
+            }
+            
         }
     }
 }
