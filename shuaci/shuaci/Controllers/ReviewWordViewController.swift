@@ -234,6 +234,7 @@ class ReviewWordViewController: UIViewController {
     
     
     @objc func moveCard() {
+        self.mp3Player?.stop()
         if currentIndex >= review_words.count{
             currentReviewRec.EndDate = Date()
             currentReviewRec.VocabRecIds = getVocabIdsFromVocabRecords(VocabRecords: vocabRecordsOfCurrentReview)

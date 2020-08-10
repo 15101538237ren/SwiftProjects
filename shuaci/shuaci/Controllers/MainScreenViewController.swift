@@ -121,6 +121,7 @@ class MainScreenViewController: UIViewController {
     }
     
     @objc func moveCard() {
+        self.mp3Player?.stop()
         let card = cards[(currentIndex + 1) % 2]
         let cardWord = cardWords[(currentIndex + 1) % cardWords.count]
         setFieldsOfCard(card: card, cardWord: cardWord)

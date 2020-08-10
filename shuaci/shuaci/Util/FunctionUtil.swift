@@ -422,7 +422,8 @@ func setUSPhone(usphone: Bool){
 func getWordPronounceURL(word: String, fromMainScreen: Bool = false) -> URL?{
     let usphone = fromMainScreen ? 0 : (getUSPhone() == true ? 0 : 1)
     if word != ""{
-        let url_string: String = "http://dict.youdao.com/dictvoice?type=\(usphone)&audio=\(word)"
+        let replaced_word = word.replacingOccurrences(of: " ", with: "+")
+        let url_string: String = "http://dict.youdao.com/dictvoice?type=\(usphone)&audio=\(replaced_word)"
         let mp3_url:URL = URL(string: url_string)!
         return mp3_url
     }

@@ -125,6 +125,7 @@ class LearnWordViewController: UIViewController {
     
     func playMp3GivenWord(word: String){
         let auto_pronunciation:Bool = getPreference(key: "auto_pronunciation") as! Bool
+        
         let mp3_url = getWordPronounceURL(word: word)
         if auto_pronunciation && (mp3_url != nil) {
             playMp3(url: mp3_url!)
@@ -210,6 +211,7 @@ class LearnWordViewController: UIViewController {
     
     
     @objc func moveCard() {
+        self.mp3Player?.stop()
         if currentIndex >= words.count{
             currentLearningRec.EndDate = Date()
             currentLearningRec.VocabRecIds = getVocabIdsFromVocabRecords(VocabRecords: vocabRecordsOfCurrentLearning)

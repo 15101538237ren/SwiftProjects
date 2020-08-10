@@ -695,7 +695,8 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
             let usphone = getUSPhone() == true ? 0 : 1
             let word:String = wordLabel.text ?? ""
             if word != ""{
-                let url_string: String = "http://dict.youdao.com/dictvoice?type=\(usphone)&audio=\(word)"
+                let replaced_word = word.replacingOccurrences(of: " ", with: "+")
+                let url_string: String = "http://dict.youdao.com/dictvoice?type=\(usphone)&audio=\(replaced_word)"
                 let mp3_url:URL = URL(string: url_string)!
                 DispatchQueue.global(qos: .background).async {
                 do {
