@@ -57,9 +57,9 @@
 		<key>searchBarTextColor</key>
 		<string>#7b7e8a</string>
 		<key>transColor</key>
-		<string>#555555</string>
+		<string>#757d8f</string>
 		<key>wordColor</key>
-		<string>#a80000</string>
+		<string>#373f54</string>
 	</dict>
 	<key>Global</key>
 	<dict>
