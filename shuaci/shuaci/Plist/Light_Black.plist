@@ -72,11 +72,11 @@
 		<key>barTitleColor</key>
 		<string>#000</string>
 		<key>btnTintColor</key>
-		<string>#323232</string>
+		<string>#5c616b</string>
 		<key>btnTitleColor</key>
-		<string>#323232</string>
+		<string>#5c616b</string>
 		<key>textColor</key>
-		<string>#323232</string>
+		<string>#5c616b</string>
 	</dict>
 </dict>
 </plist>
