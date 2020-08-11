@@ -65,13 +65,17 @@ var cardBackgrounds: [Int: String] = [
 
 
 func getBlurEffect() -> UIBlurEffect {
-    let blurEffectName = ThemeManager.currentTheme?.value(forKeyPath: "Global.blurEffectStyle") as! String
-    switch blurEffectName {
-        case "light":
-            return UIBlurEffect(style: UIBlurEffect.Style.light)
-        case "dark":
-            return UIBlurEffect(style: UIBlurEffect.Style.dark)
-        default:
-            return UIBlurEffect(style: UIBlurEffect.Style.light)
+    if let blurEffectName = ThemeManager.currentTheme?.value(forKeyPath: "Global.blurEffectStyle") as! String?{
+        switch blurEffectName {
+            case "light":
+                return UIBlurEffect(style: UIBlurEffect.Style.light)
+            case "dark":
+                return UIBlurEffect(style: UIBlurEffect.Style.dark)
+            default:
+                return UIBlurEffect(style: UIBlurEffect.Style.light)
+        }
+    }
+    else{
+        return UIBlurEffect(style: UIBlurEffect.Style.light)
     }
 }

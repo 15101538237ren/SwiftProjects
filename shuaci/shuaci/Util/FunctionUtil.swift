@@ -12,7 +12,7 @@ import LeanCloud
 import SwiftyJSON
 
 // MARK: - Global Variables
-
+let minToChangingWallpaper:CGFloat = 5
 var imageCache = NSCache<NSString, NSURL>()
 let decoder = JSONDecoder()
 var GlobalUserName = ""
@@ -224,31 +224,35 @@ func load_data_from_file(fileFp: String, recordClass: String, IdKey: String, com
             }
             else{
                 if Reachability.isConnectedToNetwork(){
-                    let user = LCApplication.default.currentUser!
-                    if let recId = user.get(IdKey)?.stringValue{
-                        do {
-                            if recId != ""{
-                                let recordQuery = LCQuery(className: recordClass)
-                                let _ = recordQuery.get(recId) { (result) in
-                                    switch result {
-                                    case .success(object: let rec):
-                                        let recStr:String = rec.get("jsonStr")!.stringValue!
-                                        saveStringTo(fileName: fileFp, jsonStr: recStr)
-                                        data = recStr.data(using: .utf8)
-                                        completionHandlerWithData(data)
-                                    case .failure(error: let error):
-                                        completionHandlerWithData(data)
-                                        print(error.localizedDescription)
+                    if let user = LCApplication.default.currentUser{
+                        if let recId = user.get(IdKey)?.stringValue{
+                            do {
+                                if recId != ""{
+                                    let recordQuery = LCQuery(className: recordClass)
+                                    let _ = recordQuery.get(recId) { (result) in
+                                        switch result {
+                                        case .success(object: let rec):
+                                            let recStr:String = rec.get("jsonStr")!.stringValue!
+                                            saveStringTo(fileName: fileFp, jsonStr: recStr)
+                                            data = recStr.data(using: .utf8)
+                                            completionHandlerWithData(data)
+                                        case .failure(error: let error):
+                                            completionHandlerWithData(data)
+                                            print(error.localizedDescription)
+                                        }
                                     }
+                                }else{
+                                    completionHandlerWithData(data)
                                 }
-                            }else{
-                                completionHandlerWithData(data)
+                                
                             }
-                            
+                        } else {
+                            completionHandlerWithData(data)
                         }
-                    } else {
+                    } else{
                         completionHandlerWithData(data)
                     }
+                    
                 }
                 else{
                     completionHandlerWithData(data)

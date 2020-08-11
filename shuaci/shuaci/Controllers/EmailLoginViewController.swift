@@ -8,6 +8,7 @@
 
 import UIKit
 import LeanCloud
+import SwiftTheme
 
 class EmailLoginViewController: UIViewController {
     @IBOutlet var emailTextField: UITextField!
@@ -80,6 +81,7 @@ class EmailLoginViewController: UIViewController {
                             case .success(object: let user):
                                 UserDefaults.standard.set(Date(), forKey: lastEmailLoginClickTimeKey)
                                 self.showMainPanel()
+                                
                             case .failure(error: let error):
                                 switch error.code {
                                 case 211:

@@ -15,6 +15,12 @@ class BookItemTableViewCell: UITableViewCell {
             cover.layer.masksToBounds = true
         }
     }
+    @IBOutlet weak var dimUIView: UIView!{
+        didSet{
+            dimUIView.backgroundColor = .black
+            dimUIView.theme_alpha = "MainPanel.dimAlpha"
+        }
+    }
     @IBOutlet var name: UILabel!{
         didSet{
             name.theme_textColor = "TableView.labelTextColor"

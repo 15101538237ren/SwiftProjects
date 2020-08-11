@@ -18,7 +18,6 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
     @IBOutlet var wordLabel: UILabel!
     @IBOutlet var meaningLabel: UILabel!
     @IBOutlet var todayImageView: UIImageView!
-    @IBOutlet weak var dimUIView: UIView!
     
     let username:String = getUserName()
     var mp3Player: AVAudioPlayer?
@@ -236,8 +235,6 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
         self.statBtn.theme_tintColor = "Global.btnTintColor"
         self.settingBtn.theme_tintColor = "Global.btnTintColor"
         self.searchBtn.theme_tintColor = "Global.btnTintColor"
-        dimUIView.backgroundColor = .black
-        dimUIView.theme_alpha = "MainPanel.dimAlpha"
         
         NotificationCenter.default.addObserver(
             self,
@@ -505,9 +502,9 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
             UserDefaults.standard.set(lastUpdateTime, forKey: lastUpdateTimeKey)
         }
         
-        if minutesBetweenDates(lastUpdateTime, Date()) > 15 {
-            self.updateWallpaper()
-        }
+       if minutesBetweenDates(lastUpdateTime, Date()) > minToChangingWallpaper {
+              self.updateWallpaper()
+          }
         
     }
     

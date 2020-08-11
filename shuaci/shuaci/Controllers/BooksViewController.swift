@@ -386,44 +386,7 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
                     cell.setNeedsLayout()
                 }
 
-            } else {
-                if Reachability.isConnectedToNetwork(){
-                    DispatchQueue.global(qos: .background).async {
-                    do {
-                        if let cover_image = resultsItems[index].get("cover") as? LCFile {
-                            //let imgData = photoData.value as! LCData
-                            let url = URL(string: cover_image.url?.stringValue ?? "")!
-                            let data = try? Data(contentsOf: url)
-                            
-                            if let imageData = data {
-                                if let image_name = cover_image.name?.stringValue
-                                {
-                                    var components = image_name.components(separatedBy: ".")
-                                    if components.count > 1 { // If there is a file extension
-                                        components.removeLast()
-                                        let image_filename = components.joined(separator: ".")
-                                        if let image = UIImage(data: imageData)
-                                        {
-                                            savePhoto(image: image, name_of_photo: "\(image_filename).jpg")
-                                            DispatchQueue.main.async {
-                                                cell.cover.image = image
-                                                cell.setNeedsLayout()
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                        }
-                    }
-                }else{
-                    if non_network_preseted == false{
-                        let alertCtl = presentNoNetworkAlert()
-                        self.present(alertCtl, animated: true, completion: nil)
-                        non_network_preseted = true
-                    }
-                }
-            }
+            } 
         cell.backgroundColor = .clear
         return cell
     }

@@ -20,7 +20,8 @@ var savePrefToClouldFailed : Bool = getSaveRecordToClouldStatus(key: savePrefToC
 // MARK: - Preference
 
 func initPreference(){
-    USER_PREFERENCE = ["number_of_words_per_group" : 20,
+    USER_PREFERENCE = [
+    "number_of_words_per_group" : 20,
     "current_book_id" : nil,
     "auto_pronunciation" : true,
     "us_pronunciation" : true,
