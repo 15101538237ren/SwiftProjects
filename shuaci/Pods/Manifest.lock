@@ -1,4 +1,5 @@
 PODS:
+  - AAInfographics (5.0.0)
   - Alamofire (5.1.0)
   - CropViewController (2.5.2)
   - GRDB.swift (4.14.0):
@@ -15,11 +16,14 @@ PODS:
     - SwiftProtobuf (~> 1.8)
   - Starscream (3.1.1)
   - SwiftProtobuf (1.8.0)
+  - SwiftTheme (0.5.2)
   - SwiftyJSON (4.3.0)
 
 DEPENDENCIES:
+  - AAInfographics (from `https://github.com/AAChartModel/AAChartKit-Swift.git`)
   - CropViewController
   - LeanCloud
+  - SwiftTheme
   - SwiftyJSON (~> 4.0)
 
 SPEC REPOS:
@@ -30,17 +34,29 @@ SPEC REPOS:
     - LeanCloud
     - Starscream
     - SwiftProtobuf
+    - SwiftTheme
     - SwiftyJSON
 
+EXTERNAL SOURCES:
+  AAInfographics:
+    :git: https://github.com/AAChartModel/AAChartKit-Swift.git
+
+CHECKOUT OPTIONS:
+  AAInfographics:
+    :commit: ad4fbc9294b2aa7ddc809d2d7d5556a16c4204d1
+    :git: https://github.com/AAChartModel/AAChartKit-Swift.git
+
 SPEC CHECKSUMS:
+  AAInfographics: abed9a186dcbed0ef53eddf90763ed27ef4c6c1f
   Alamofire: 9d5c5f602928e512395b30950c5984eca840093c
   CropViewController: 1aac40093c5739e60d992b04724a55d12a689a4c
   GRDB.swift: 8cc3ab7c8b8b4ac1761deb8dca4b51c1c9d429f8
   LeanCloud: cbb1c70dbc9a858992e69510d17ba716695e69f5
   Starscream: 4bb2f9942274833f7b4d296a55504dcfc7edb7b0
   SwiftProtobuf: 2cbd9409689b7df170d82a92a33443c8e3e14a70
+  SwiftTheme: 8b02c479bb4441b2b6790ac126e961b1b6fb0932
   SwiftyJSON: 6faa0040f8b59dead0ee07436cbf76b73c08fd08
 
-PODFILE CHECKSUM: 5da71689864258821c100cf382869be51ebbc653
+PODFILE CHECKSUM: 1737cbae2e4ea1fb12bea26962c0e1cbcf092b46
 
-COCOAPODS: 1.9.1
+COCOAPODS: 1.9.3

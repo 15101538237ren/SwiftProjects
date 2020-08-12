@@ -19,6 +19,12 @@ class MainPanelUIView: UIView {
             learnBtn.layer.masksToBounds = true
         }
     }
+    @IBOutlet weak var dimUIView: UIView!{
+        didSet{
+            dimUIView.backgroundColor = .black
+            dimUIView.theme_alpha = "MainPanel.dimAlpha"
+        }
+    }
     @IBOutlet var reviewBtn: UIButton!{
         didSet {
             reviewBtn.layer.cornerRadius = 9.0

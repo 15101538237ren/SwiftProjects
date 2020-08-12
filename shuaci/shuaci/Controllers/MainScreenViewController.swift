@@ -26,14 +26,31 @@ class MainScreenViewController: UIViewController {
     var scaleOfSecondCard:CGFloat = 0.9
     var currentIndex:Int = 0
     let animationDuration = 0.1
-    var words: [Word] = [
-        Word(wordHead: "sea", trans: [["tranCn":"n.海；海洋", "pos": "n"]], usphone: "siː", ukphone: "siː", usspeech: "sea_0", ukspeech: "sea_1", remMethod: "", relWords: [], phrases: [["pContent":"china sea", "pCn": "中国海"]], synoWords: [["pos": ["n"], "tran":["n.海；海洋；许多；大量"], "hwds":["ocean", "lots of", "wealth"]]], sentences: [["sContent": "Sea and sky seemed to blend.", "sCn": "大海和蓝天似乎相融合。"]]),
-        Word(wordHead: "beach", trans: [["tranCn":"n.海滩，沙滩", "tranOther":"an area of sand or small stones at the edge of the sea or a lake", "pos":"n"]], usphone: "bitʃ", ukphone: "biːtʃ", usspeech: "beach_0", ukspeech: "beach_1", remMethod: "pharma (药) + cy (学科) → 药剂学", relWords: [], phrases:  [["pContent":"china sea", "pCn": "中国海"]], synoWords: [["pos": ["n"], "tran":["n. [海洋][地理]海；海洋；许多；大量"], "hwds":["ocean", "lots of", "wealth"]]], sentences: [["sContent": "Sea and sky seemed to blend.", "sCn": "大海和蓝天似乎相融合。"]]),
-        Word(wordHead: "Paris", trans: [["tranCn":"n.巴黎","pos":"n"]], usphone: "'pærɪs", ukphone: "'pærɪs", usspeech: "Paris_0", ukspeech: "Paris_1", remMethod: "pharma (药) + cy (学科) → 药剂学", relWords: [], phrases:  [["pContent":"china sea", "pCn": "中国海"]], synoWords: [["pos": ["n"], "tran":["n. [海洋][地理]海；海洋；许多；大量"], "hwds":["ocean", "lots of", "wealth"]]], sentences: [["sContent": "Sea and sky seemed to blend.", "sCn": "大海和蓝天似乎相融合。"]]),
-        Word(wordHead: "aurora", trans: [["tranCn":"n.极光；曙光","pos":"n"]], usphone: "ɔ:'rɔ:rə", ukphone: "ɔ:'rɔ:rə", usspeech: "aurora_0", ukspeech: "aurora_1", remMethod: "pharma (药) + cy (学科) → 药剂学", relWords: [], phrases:  [["pContent":"china sea", "pCn": "中国海"]], synoWords: [["pos": ["n"], "tran":["n. [海洋][地理]海；海洋；许多；大量"], "hwds":["ocean", "lots of", "wealth"]]], sentences: [["sContent": "Sea and sky seemed to blend.", "sCn": "大海和蓝天似乎相融合。"]]),
-        Word(wordHead: "pharmacy", trans: [["tranCn":"n.药房；药学；制药业", "tranOther":"a shop or a part of a shop where medicines are prepared and sold", "pos":"n"]], usphone: "'fɑrməsi", ukphone: "'fɑːməsɪ", usspeech: "pharmacy_0", ukspeech: "pharmacy_1", remMethod: "pharma (药) + cy (学科) → 药剂学", relWords: [], phrases:  [["pContent":"china sea", "pCn": "中国海"]], synoWords: [["pos": ["n"], "tran":["n. [海洋][地理]海；海洋；许多；大量"], "hwds":["ocean", "lots of", "wealth"]]], sentences: [["sContent": "Sea and sky seemed to blend.", "sCn": "大海和蓝天似乎相融合。"]])]
     
-    
+    var cardWords:[CardWord] = [
+                                CardWord.init(wordRank: 1, headWord: "forest", meaning: "n. 森林", phone: "ˈfɔːrɪst"),
+                                CardWord.init(wordRank: 2, headWord: "sea", meaning: "n.海；海洋", phone: "siː"),
+                                CardWord.init(wordRank: 3, headWord: "canyon", meaning: "n. 峡谷", phone: "ˈkænjən"),
+                                CardWord.init(wordRank: 4, headWord: "aurora", meaning: "n.极光；曙光", phone: "ɔ:'rɔ:rə"),
+                                CardWord.init(wordRank: 5, headWord: "coast", meaning: "n. 海岸", phone: "koʊst"),
+                                CardWord.init(wordRank: 6, headWord: "bonfire", meaning: "n. 篝火", phone: "ˈbɑːnfaɪər"),
+                                CardWord.init(wordRank: 7, headWord: "glacier", meaning: "n. 冰河，冰川", phone: "ˈɡleɪʃər"),
+                                CardWord.init(wordRank: 8, headWord: "marriage", meaning: "n. 结婚；婚姻", phone: "ˈmærɪdʒ"),
+                                CardWord.init(wordRank: 9, headWord: "metropolis", meaning: "n. 大都市", phone: "məˈtrɑːpəlɪs"),
+                                CardWord.init(wordRank: 10, headWord: "Paris", meaning: "n.巴黎", phone: "'pærɪs"),
+                                CardWord.init(wordRank: 11, headWord: "Cappuccino", meaning: "n. 卡布奇诺咖啡", phone: "ˌkæpuˈtʃiːnoʊ"),
+                                CardWord.init(wordRank: 12, headWord: "strawberry", meaning: "n. 草莓", phone: "ˈstrɔːberi"),
+                                CardWord.init(wordRank: 13, headWord: "galaxy", meaning: "n.星系；银河系", phone: "ˈɡæləksi"),
+                                CardWord.init(wordRank: 14, headWord: "character", meaning: "n. 角色；特性", phone: "ˈkærəktər"),
+                                CardWord.init(wordRank: 15, headWord: "cliff", meaning: "n. 悬崖", phone: "klɪf"),
+                                CardWord.init(wordRank: 16, headWord: "hiking", meaning: "n. 徒步旅行", phone: "ˈhaɪkɪŋ"),
+                                CardWord.init(wordRank: 17, headWord: "avocado", meaning: "n. 牛油果；鳄梨", phone: "ˌævəˈkɑːdoʊ"),
+                                CardWord.init(wordRank: 18, headWord: "bridge", meaning: "n. 桥", phone: "brɪdʒ"),
+                                CardWord.init(wordRank: 19, headWord: "portrait", meaning: "n. 人像", phone: "ˈpɔːrtrət"),
+                                CardWord.init(wordRank: 20, headWord: "beach", meaning: "n.海滩，沙滩", phone: "bitʃ"),
+                                CardWord.init(wordRank: 21, headWord: "robot", meaning: "n. 机器人", phone: "ˈroʊbɑːt"),
+                                CardWord.init(wordRank: 22, headWord: "penguin", meaning: "n. 企鹅", phone: "ˈpeŋɡwɪn"),
+                                CardWord.init(wordRank: 23, headWord: "smile", meaning: "n.微笑", phone: "smaɪl")]
     override func viewDidLoad() {
         super.viewDidLoad()
         initCards()
@@ -41,53 +58,86 @@ class MainScreenViewController: UIViewController {
         let xshift:CGFloat = card.frame.size.width/8.0
         card.transform = CGAffineTransform(translationX: -xshift, y:0.0).rotated(by: -xshift*0.61/card.center.x)
     }
-    func initCards() {
-        for index in 0..<cards.count
-        {
-            let card = cards[index]
-            let word = words[index % words.count]
-            card.cardImageView?.image = UIImage(named: word.wordHead)
-            card.wordLabel?.text = word.wordHead
-            card.meaningLabel?.text = word.trans[0]["tranCn"]!
-            card.accentLabel?.text = "美"
-            card.phoneticLabel?.text = word.usphone
-            card.rememberImageView?.backgroundColor = UIColor.systemGreen
-            card.rememberImageView?.alpha = 0
-            card.rememberLabel?.text = "会了"
-            card.rememberLabel?.alpha = 0
-            card.speech? = word.usspeech
-            if index == 1
-            {
-                card.transform = CGAffineTransform(scaleX: scaleOfSecondCard, y: scaleOfSecondCard)
+    
+    func setFieldsOfCard(card: CardUIView, cardWord: CardWord){
+        DispatchQueue.main.async {
+            card.wordLabel?.text = cardWord.headWord
+            if cardWord.headWord.count >= 12{
+                card.wordLabel?.font = card.wordLabel?.font.withSize(40.0)
+            }else{
+                card.wordLabel?.font = card.wordLabel?.font.withSize(45.0)
             }
+            
+            card.meaningLabel?.text = cardWord.meaning
+            if cardWord.memMethod != ""{
+                card.wordLabel_Top_Space_Constraint.constant = 130
+                card.memMethodLabel?.alpha = 1
+                card.memMethodLabel?.text = "记: \(cardWord.memMethod)"
+            }
+            else{
+                card.wordLabel_Top_Space_Constraint.constant = 150
+                card.memMethodLabel?.alpha = 0
+            }
+            card.cardImageView?.image = UIImage(named: cardWord.headWord)
         }
     }
-    @objc func moveCard() {
-        let card = cards[(currentIndex + 1) % 2]
-        let word = words[(currentIndex + 1) % words.count]
-        
-        card.cardImageView?.image = UIImage(named: word.wordHead)
-        card.wordLabel?.text = word.wordHead
-        card.meaningLabel?.text = word.trans[0]["tranCn"]!
-        card.accentLabel?.text = "美"
-        card.phoneticLabel?.text = word.usphone
+    
+    func resetCard(card: CardUIView)
+    {
+        card.X_Constraint.constant = 0
+        card.Y_Constraint.constant = 0
         card.rememberImageView?.backgroundColor = UIColor.white
+        card.cardImageView?.image = UIImage()
         card.rememberImageView?.alpha = 0
         card.rememberLabel?.text = ""
         card.rememberLabel?.alpha = 0
-        card.X_Constraint.constant = 0
-        card.Y_Constraint.constant = 0
-        card.speech? = word.usspeech
+        card.memMethodLabel?.text = ""
+        card.memMethodLabel?.alpha = 0
         card.layer.removeAllAnimations()
         card.transform = CGAffineTransform.identity.scaledBy(x: scaleOfSecondCard, y: scaleOfSecondCard)
         card.center = CGPoint(x: view.center.x, y: view.center.y)
-        mainScreenUIView.bringSubviewToFront(cards[currentIndex % 2])
         card.alpha = 1
+    }
+    
+    func initCards() {
+        for index in 0..<cards.count
+        {
+            let card = cards[index % cards.count]
+            card.center = CGPoint(x: view.center.x, y: view.center.y)
+            let cardWord = cardWords[index % cardWords.count]
+            setFieldsOfCard(card: card, cardWord: cardWord)
+            if index == 1
+            {
+                card.transform = CGAffineTransform(scaleX: scaleOfSecondCard, y: scaleOfSecondCard)
+                card.dragable = false
+            }
+            else
+            {
+                if let mp3_url = getWordPronounceURL(word: cardWord.headWord, fromMainScreen: true){
+                    playMp3(url: mp3_url)
+                }
+            }
+        }
+    }
+    
+    @objc func moveCard() {
+        self.mp3Player?.stop()
+        let card = cards[(currentIndex + 1) % 2]
+        let cardWord = cardWords[(currentIndex + 1) % cardWords.count]
+        setFieldsOfCard(card: card, cardWord: cardWord)
+        let next_card = cards[currentIndex % 2]
+        next_card.dragable = true
+        card.dragable = false
+        mainScreenUIView.bringSubviewToFront(next_card)
+        resetCard(card: card)
     }
     
     @IBAction func panCard(_ sender: UIPanGestureRecognizer) {
 
         let card = sender.view! as! CardUIView
+        if !card.dragable{
+            return
+        }
         let point = sender.translation(in: view)
         let xFromCenter = card.center.x - view.center.x
         card.center = CGPoint(x: view.center.x + point.x, y: view.center.y + point.y)
@@ -107,7 +157,7 @@ class MainScreenViewController: UIViewController {
             card.rememberImageView?.backgroundColor = UIColor.systemGreen
             card.rememberLabel?.text = "会了"
         }
-        card.rememberImageView?.alpha = 0.3 + (abs(xFromCenter) / view.center.x) * 0.6
+        card.rememberImageView?.alpha = 0.7 + (abs(xFromCenter) / view.center.x) * 0.3
         card.rememberLabel?.alpha = 1.0
         card.transform = CGAffineTransform(rotationAngle: 0.61 * xFromCenter / view.center.x).scaledBy(x: scale, y: scale)
         let nextCard = cards[(currentIndex + 1) % 2]
@@ -127,7 +177,10 @@ class MainScreenViewController: UIViewController {
                     
                 })
                 sender.view!.frame = card.frame
-                playMp3(filename: words[(currentIndex + 1) % words.count].usspeech)
+                let word: String = nextCard.wordLabel?.text ?? ""
+                if let mp3_url = getWordPronounceURL(word: word, fromMainScreen: true){
+                    playMp3(url: mp3_url)
+                }
                 UIView.animate(withDuration: animationDuration, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 5, options: .curveEaseInOut, animations: {
                     nextCard.transform = .identity
                 })
@@ -145,16 +198,19 @@ class MainScreenViewController: UIViewController {
                     card.alpha = 0
                 })
                 sender.view!.frame = card.frame
-                playMp3(filename: words[(currentIndex + 1) % words.count].usspeech)
+                let word: String = nextCard.wordLabel?.text ?? ""
+                if let mp3_url = getWordPronounceURL(word: word, fromMainScreen: true){
+                    playMp3(url: mp3_url)
+                }
                 self.currentIndex += 1
                 perform(#selector(moveCard), with: nil, afterDelay: animationDuration)
                 return
             }
-            resetCard(card: card)
+            resetCardToCenter(card: card)
         }
     }
-    func resetCard(card: CardUIView)
-    {
+    
+    func resetCardToCenter(card: CardUIView){
         UIView.animate(withDuration: 0.2, animations:
         {
             card.center = self.view.center
@@ -167,28 +223,83 @@ class MainScreenViewController: UIViewController {
         card.transform = .identity
     }
     
-    func playMp3(filename: String)
-    {
-        guard let url = Bundle.main.url(forResource: filename, withExtension: "mp3") else { return }
-        do {
-            mp3Player = try AVAudioPlayer(contentsOf: url)
-            mp3Player?.play()
-        } catch {
-            print("couldn't load file :( \(url)")
+    func showMainPanel(){
+        let LoginRegStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+        let mainPanelViewController = LoginRegStoryBoard.instantiateViewController(withIdentifier: "mainPanelViewController") as! MainPanelViewController
+        mainPanelViewController.modalPresentationStyle = .overCurrentContext
+        
+        DispatchQueue.main.async {
+            self.present(mainPanelViewController, animated: true, completion: nil)
+            
         }
     }
     
-    @IBAction func playAudio(_ sender: UIButton) {
-        guard let url = Bundle.main.url(forResource: words[currentIndex % words.count].usspeech, withExtension: "mp3") else { return }
-        do {
-            try AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category.playback)
-            try AVAudioSession.sharedInstance().setActive(true)
-            audioPlayer = try AVAudioPlayer(contentsOf: url)
-            audioPlayer?.play()
-        } catch {
-            print("couldn't load file :( \(url)")
-            //
+    
+    @IBAction func emailLogin(_ sender: UIButton) {
+        let LoginRegStoryBoard : UIStoryboard = UIStoryboard(name: "LoginReg", bundle:nil)
+        let emailLoginVC = LoginRegStoryBoard.instantiateViewController(withIdentifier: "emailLoginVC") as! EmailLoginViewController
+        emailLoginVC.modalPresentationStyle = .fullScreen
+        emailLoginVC.mainScreenVC = self
+        DispatchQueue.main.async {
+            self.present(emailLoginVC, animated: true, completion: nil)
+            
         }
     }
+    
+    @IBAction func phoneLogin(_ sender: UIButton) {
+        let LoginRegStoryBoard : UIStoryboard = UIStoryboard(name: "LoginReg", bundle:nil)
+        let phoneLoginVC = LoginRegStoryBoard.instantiateViewController(withIdentifier: "phoneLogin") as! PhoneLoginViewController
+        phoneLoginVC.modalPresentationStyle = .fullScreen
+        phoneLoginVC.mainScreenVC = self
+        DispatchQueue.main.async {
+            self.present(phoneLoginVC, animated: true, completion: nil)
+            
+        }
+    }
+    
+    
+    func playMp3(url: URL)
+    {
+        if Reachability.isConnectedToNetwork(){
+            DispatchQueue.global(qos: .background).async {
+            do {
+                var downloadTask: URLSessionDownloadTask
+                downloadTask = URLSession.shared.downloadTask(with: url, completionHandler: { (urlhere, response, error) -> Void in
+                if let urlhere = urlhere{
+                    do {
+                        self.mp3Player = try AVAudioPlayer(contentsOf: urlhere)
+                        self.mp3Player?.play()
+                    } catch {
+                        print("couldn't load file :( \(urlhere)")
+                    }
+                }
+            })
+                downloadTask.resume()
+            }}
+        }else{
+            let alertCtl = presentNoNetworkAlert()
+            if non_network_preseted == false{
+                self.present(alertCtl, animated: true, completion: nil)
+                non_network_preseted = true
+            }
+        }
+        
+    }
+    
+    @IBAction func playAudio(_ sender: UIButton) {
+        if Reachability.isConnectedToNetwork(){
+            let cardWord = cardWords[currentIndex % cardWords.count]
+            let wordStr: String = cardWord.headWord
+            if let mp3_url = getWordPronounceURL(word: wordStr, fromMainScreen: true){
+                playMp3(url: mp3_url)
+            }
+        }else{
+            let alertCtl = presentNoNetworkAlert()
+            UIApplication.topViewController()?.present(alertCtl, animated: true, completion: nil)
+        }
+        
+    }
+    
+    
     
 }

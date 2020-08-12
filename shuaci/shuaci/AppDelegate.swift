@@ -8,6 +8,7 @@
 
 import UIKit
 import LeanCloud
+import SwiftTheme
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -19,6 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        
         // Override point for customization after application launch.
         do {
             try LCApplication.default.set(
@@ -28,7 +30,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         } catch {
             print(error)
         }
-        LCApplication.logLevel = .all
+        ThemeManager.setTheme(plistName: theme_category_to_name[getPreference(key: "current_theme_category") as! Int]!.rawValue, path: .mainBundle)
+//        LCApplication.logLevel = .all
         return true
     }
 

@@ -27,14 +27,20 @@ class CardUIView: UIView {
         }
     }
     
+    @IBOutlet var memMethodLabel: UILabel?{
+        didSet {
+            memMethodLabel?.numberOfLines = 0
+        }
+    }
+    
+    var dragable: Bool = true
     
     @IBOutlet var X_Constraint: NSLayoutConstraint!
     @IBOutlet var Y_Constraint: NSLayoutConstraint!
-    
-    @IBOutlet var accentLabel: UILabel?
-    @IBOutlet var phoneticLabel: UILabel?
+    @IBOutlet var wordLabel_Top_Space_Constraint: NSLayoutConstraint!
     @IBOutlet var rememberImageView: UIImageView?
     @IBOutlet var rememberLabel: UILabel?
+    @IBOutlet var collectImageView: UIImageView!
     
     var speech:String?
     init(cardImage: String, word: String, meaning: String, accent:String, phone: String, speech: String){
@@ -42,8 +48,6 @@ class CardUIView: UIView {
         self.cardImageView?.image = UIImage(named: cardImage)
         self.wordLabel?.text = word
         self.meaningLabel?.text = meaning
-        self.accentLabel?.text = accent
-        self.phoneticLabel?.text = phone
         self.rememberImageView?.backgroundColor = .white
         self.rememberImageView?.alpha = 0.0
         self.rememberLabel?.text = ""

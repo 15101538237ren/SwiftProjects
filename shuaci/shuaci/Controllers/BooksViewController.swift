@@ -9,11 +9,15 @@
 import UIKit
 import LeanCloud
 import SwiftyJSON
+import Network
 
 class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UICollectionViewDelegate, UICollectionViewDataSource{
     
+    @IBOutlet weak var backBtn: UIButton!
+    @IBOutlet weak var barTitleLabel: UILabel!
+    
     @IBOutlet private var collectionViews: [UICollectionView]!
-    @IBOutlet var mainPanelViewController: MainPanelViewController!
+    @IBOutlet var mainPanelViewController: MainPanelViewController?
     var indicator = UIActivityIndicatorView()
     var strLabel = UILabel()
     let effectView = UIVisualEffectView(effect: UIBlurEffect(style: .regular))
@@ -58,7 +62,7 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
             let cell = collectionView.cellForItem(at: indexPath) as! Level1CollectionViewCell
             
             DispatchQueue.main.async {
-                cell.level1_category_label.textColor = .black
+                cell.level1_category_label.theme_textColor = "TableView.labelTextColor"
                 cell.indicatorBtn.alpha = 1
                 self.collectionViews[1].reloadData()
             }
@@ -66,11 +70,13 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
             if global_total_books.count != 0 && currentSelectedCategory > 0{
                 books = []
                 resultsItems = []
+                var booknames:[String] = []
                 for (index, book) in global_total_books.enumerated(){
                     if book.level1_category == currentSelectedCategory{
                         books.append(book)
                         resultsItems.append(global_total_items[index])
                     }
+                    booknames.append(book.name)
                 }
                 DispatchQueue.main.async {
                     collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
@@ -95,7 +101,7 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
             if collectionView.tag == 1{
                 collectionView.selectItem(at: indexPath, animated: false, scrollPosition: .left)
                 let cell = collectionView.cellForItem(at: indexPath) as! Level1CollectionViewCell
-                cell.level1_category_label.textColor = .black
+                cell.level1_category_label.theme_textColor = "TableView.labelTextColor"
                 cell.indicatorBtn.alpha = 1
             }
         }
@@ -135,8 +141,6 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
                 let cell = collectionView.cellForItem(at: indexPath) as! Level2CollectionViewCell
                 DispatchQueue.main.async {
                     collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
-                    cell.level2_category_button.backgroundColor = .orange
-                    cell.level2_category_button.setTitleColor(.white, for: .normal)
                 }
                 if global_total_books.count != 0 && currentSelectedSubCategory > 0{
                     books = []
@@ -217,13 +221,22 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        for collectionView in collectionViews{
+            collectionView.theme_backgroundColor = "StatView.panelBgColor"
+        }
+        view.theme_backgroundColor = "Global.viewBackgroundColor"
+        backBtn.theme_tintColor = "Global.backBtnTintColor"
+        barTitleLabel.theme_textColor = "Global.barTitleColor"
+        tableView.theme_backgroundColor = "StatView.panelBgColor"
+        tableView.theme_separatorColor = "TableView.separatorColor"
+        tableView.separatorStyle = .singleLine
         category_items = [0:"全部"]
         currentSelectedCategory = 0
         currentSelectedSubCategory = 0
         tableView.delegate = self
         tableView.dataSource = self
         tableView.tableFooterView = UIView()
-        initActivityIndicator(text: "数据加载中")
+        initActivityIndicator(text: "数据加载中..")
         setCollectionViewDataSourceDelegate()
         loadBooks()
     }
@@ -239,11 +252,65 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
     {
         if books.count > 0{
             stopIndicator()
-            DispatchQueue.global(qos: .background).async {
-            do {
-                let query = LCQuery(className: "Book")
-                let updated_count = query.count()
-                if books.count != updated_count.intValue {
+            if Reachability.isConnectedToNetwork(){
+                DispatchQueue.global(qos: .background).async {
+                do {
+                    let query = LCQuery(className: "Book")
+                    let updated_count = query.count()
+                    if books.count != updated_count.intValue{
+                        _ = query.find { result in
+                            switch result {
+                            case .success(objects: let results):
+                                // Books 是包含满足条件的 (className: "Book") 对象的数组
+                                for item in results{
+                                    let identifier = item.get("identifier")?.stringValue
+                                    let level1_category = item.get("level1_category")?.intValue
+                                    let level2_category = item.get("level2_category")?.intValue
+                                    let name = item.get("name")?.stringValue
+                                    let desc = item.get("description")?.stringValue
+                                    let word_num = item.get("word_num")?.intValue
+                                    let recite_user_num = item.get("recite_user_num")?.intValue
+                                    let file_sz = item.get("file_sz")?.floatValue
+                                    
+                                    let book:Book = Book(identifier: identifier ?? "", level1_category: level1_category ?? 0, level2_category: level2_category ?? 0, name: name ?? "", description: desc ?? "", word_num: word_num ?? 0, recite_user_num: recite_user_num ?? 0, file_sz: file_sz ?? 0.0)
+                                    self.tempBooks.append(book)
+                                    self.tempItems.append(item)
+                                }
+                                if self.tempBooks.count != books.count{
+                                    books = self.tempBooks
+                                    resultsItems = self.tempItems
+                                    
+                                    DispatchQueue.main.async {
+                                        self.tableView.reloadData()
+                                    }
+                                    
+                                    if global_total_books.count == 0 && books.count != 0{
+                                        global_total_books = books
+                                        global_total_items = resultsItems
+                                    }
+                                }
+                                break
+                            case .failure(error: let error):
+                                print(error.localizedDescription)
+                            }
+                        }
+                    }
+                }
+                }
+            }else{
+                if non_network_preseted == false{
+                    let alertCtl = presentNoNetworkAlert()
+                    self.present(alertCtl, animated: true, completion: nil)
+                    non_network_preseted = true
+                }
+            }
+            
+        }else{
+            if Reachability.isConnectedToNetwork(){
+                DispatchQueue.global(qos: .background).async {
+                do {
+                    let query = LCQuery(className: "Book")
+                    query.limit = 1000
                     _ = query.find { result in
                         switch result {
                         case .success(objects: let results):
@@ -256,66 +323,35 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
                                 let desc = item.get("description")?.stringValue
                                 let word_num = item.get("word_num")?.intValue
                                 let recite_user_num = item.get("recite_user_num")?.intValue
+                                let file_sz = item.get("file_sz")?.floatValue
                                 
-                                let book:Book = Book(identifier: identifier ?? "", level1_category: level1_category ?? 0, level2_category: level2_category ?? 0, name: name ?? "", description: desc ?? "", word_num: word_num ?? 0, recite_user_num: recite_user_num ?? 0)
+                                let book:Book = Book(identifier: identifier ?? "", level1_category: level1_category ?? 0, level2_category: level2_category ?? 0, name: name ?? "", description: desc ?? "", word_num: word_num ?? 0, recite_user_num: recite_user_num ?? 0, file_sz: file_sz ?? 0.0)
                                 self.tempBooks.append(book)
                                 self.tempItems.append(item)
                             }
-                            if self.tempBooks.count != books.count{
-                                books = self.tempBooks
-                                resultsItems = self.tempItems
-                                
-                                DispatchQueue.main.async {
-                                    self.tableView.reloadData()
-                                }
-                                
-                                if global_total_books.count == 0 && books.count != 0{
-                                    global_total_books = books
-                                    global_total_items = resultsItems
-                                }
+                            books = self.tempBooks
+                            resultsItems = self.tempItems
+                            DispatchQueue.main.async {
+                                self.tableView.reloadData()
+                                self.stopIndicator()
                             }
                             break
                         case .failure(error: let error):
-                            print(error)
+                            print(error.localizedDescription)
                         }
                     }
                 }
-            }
-            }
-        }else{
-            DispatchQueue.global(qos: .background).async {
-            do {
-                let query = LCQuery(className: "Book")
-                _ = query.find { result in
-                    switch result {
-                    case .success(objects: let results):
-                        // Books 是包含满足条件的 (className: "Book") 对象的数组
-                        for item in results{
-                            let identifier = item.get("identifier")?.stringValue
-                            let level1_category = item.get("level1_category")?.intValue
-                            let level2_category = item.get("level2_category")?.intValue
-                            let name = item.get("name")?.stringValue
-                            let desc = item.get("description")?.stringValue
-                            let word_num = item.get("word_num")?.intValue
-                            let recite_user_num = item.get("recite_user_num")?.intValue
-                            
-                            let book:Book = Book(identifier: identifier ?? "", level1_category: level1_category ?? 0, level2_category: level2_category ?? 0, name: name ?? "", description: desc ?? "", word_num: word_num ?? 0, recite_user_num: recite_user_num ?? 0)
-                            self.tempBooks.append(book)
-                            self.tempItems.append(item)
-                        }
-                        books = self.tempBooks
-                        resultsItems = self.tempItems
-                        DispatchQueue.main.async {
-                            self.tableView.reloadData()
-                            self.stopIndicator()
-                        }
-                        break
-                    case .failure(error: let error):
-                        print(error)
-                    }
+                }
+            }else{
+                if non_network_preseted == false{
+                    let alertCtl = presentNoNetworkAlert()
+                    self.present(alertCtl, animated: true, completion: nil)
+                    non_network_preseted = true
                 }
             }
-            }
+        }
+        if global_total_books.count == 0{
+            fetchBooks()
         }
     }
     
@@ -331,7 +367,6 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
             cell.cover.image = UIImage(named: "english_book")
             cell.selectionStyle = .none
             let index: Int = indexPath.row
-            print(books.count)
             if index < books.count{
                 let book = books[index]
                 cell.identifier = book.identifier
@@ -344,45 +379,15 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
                 // Check if the image is stored in cache
             }
             
-        if let image = loadPhoto(name_of_photo: "\(books[indexPath.row].identifier as! NSString).jpg"){
+        if let image = loadPhoto(name_of_photo: "\(books[indexPath.row].name as! NSString).jpg"){
                 // Fetch image from cache
-                print("Get image from file")
                 DispatchQueue.main.async {
                     cell.cover.image = image
                     cell.setNeedsLayout()
                 }
 
-            } else {
-                DispatchQueue.global(qos: .background).async {
-                do {
-                    if let cover_image = resultsItems[index].get("cover") as? LCFile {
-                        //let imgData = photoData.value as! LCData
-                        let url = URL(string: cover_image.url?.stringValue ?? "")!
-                        let data = try? Data(contentsOf: url)
-                        print(url)
-                        
-                        if let imageData = data {
-                            if let image_name = cover_image.name?.stringValue
-                            {
-                                var components = image_name.components(separatedBy: ".")
-                                if components.count > 1 { // If there is a file extension
-                                    components.removeLast()
-                                    let image_filename = components.joined(separator: ".")
-                                    if let image = UIImage(data: imageData)
-                                    {
-                                        savePhoto(image: image, name_of_photo: "\(image_filename).jpg")
-                                        DispatchQueue.main.async {
-                                            cell.cover.image = image
-                                            cell.setNeedsLayout()
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    }
-                }
-            }
+            } 
+        cell.backgroundColor = .clear
         return cell
     }
     
@@ -395,37 +400,57 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
     }
     
     func downloadBookJson(index: Int){
-        
-        DispatchQueue.global(qos: .background).async {
-        do {
-            DispatchQueue.main.async {
-                self.initActivityIndicator(text: "数据下载中")
-            }
-            if let bookJson = resultsItems[index].get("data") as? LCFile {
-                let url = URL(string: bookJson.url?.stringValue ?? "")!
-                let data = try? Data(contentsOf: url)
-                print(url)
+        if Reachability.isConnectedToNetwork(){
+            DispatchQueue.global(qos: .background).async {
+            do {
+                setPreference(key: "current_book_id", value: books[index].identifier)
                 
-                if let jsonData = data {
-                    savejson(fileName: "current_book", jsonData: jsonData)
-
-                    UserDefaults.standard.set(books[index].identifier, forKey: "current_book")
-                    currentbook_json_obj = load_json(fileName: "current_book")
-                    update_words()
-                    get_words()
-                    DispatchQueue.main.async {
-                        self.stopIndicator()
-                        self.dismiss(animated: true, completion: nil)
-                        self.mainPanelViewController.loadLearnController()
+                DispatchQueue.main.async {
+                    self.initActivityIndicator(text: "数据下载中")
+                }
+                if let bookJson = resultsItems[index].get("data") as? LCFile {
+                    let url = URL(string: bookJson.url?.stringValue ?? "")!
+                    let data = try? Data(contentsOf: url)
+                    
+                    if let jsonData = data {
+                        savejson(fileName: "current_book", jsonData: jsonData)
+                        currentbook_json_obj = load_json(fileName: "current_book")
+                        clear_words()
+                        update_words()
+                        get_words()
+                        DispatchQueue.main.async {
+                            self.stopIndicator()
+                            self.dismiss(animated: true, completion: nil)
+                            if let mainPanelViewController = self.mainPanelViewController{
+                                mainPanelViewController.loadLearnController()
+                            }
+                        }
                     }
                 }
+                }
             }
+        }else{
+            if non_network_preseted == false{
+                let alertCtl = presentNoNetworkAlert()
+                self.present(alertCtl, animated: true, completion: nil)
+                non_network_preseted = true
             }
         }
+        
     }
     
     func downloadAlert(index: Int, bookName: String){
-        let alertController = UIAlertController(title: "选择词书", message: "学习\(bookName)?", preferredStyle: .alert)
+        let monitor = NWPathMonitor()
+        monitor.pathUpdateHandler = { path in
+            if path.usesInterfaceType(.cellular) {
+                print("3G/4G FTW!!!")
+            }else{
+                
+            }
+        }
+        
+        
+        let alertController = UIAlertController(title: "学习\(bookName)?", message: "", preferredStyle: .alert)
         let okayAction = UIAlertAction(title: "确定", style: .default, handler: { action in
             self.downloadBookJson(index: index)
         })
@@ -452,10 +477,17 @@ extension BooksViewController: UICollectionViewDelegateFlowLayout {
                 NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 14)])
         }
         else{
-            label = category_items[indexPath.row]!
-            let label_size = label.size(withAttributes: [
-            NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 14)])
-            return label_size
+            category_items = categories[currentSelectedCategory]?["subcategory"] ?? [:]
+            if let label = category_items[indexPath.row] {
+                let label_size = label.size(withAttributes: [
+                NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 14)])
+                return label_size
+            }else{
+                let label_size = "三个字".size(withAttributes: [
+                NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 14)])
+                return label_size
+            }
+            
         }
     }
 }

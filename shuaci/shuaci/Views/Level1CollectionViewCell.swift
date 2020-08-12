@@ -13,6 +13,7 @@ class Level1CollectionViewCell: UICollectionViewCell {
     @IBOutlet var indicatorBtn: UIButton!{
         didSet{
             indicatorBtn.alpha = 0
+            indicatorBtn.theme_backgroundColor = "BookVC.level2BtnColor"
         }
     }
 }

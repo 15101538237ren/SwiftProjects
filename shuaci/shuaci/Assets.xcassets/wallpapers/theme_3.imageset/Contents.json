@@ -1,7 +1,7 @@
 {
   "images" : [
     {
-      "filename" : "rocket.jpg",
+      "filename" : "theme_3.jpg",
       "idiom" : "universal",
       "scale" : "1x"
     },
@@ -19,6 +19,7 @@
     "version" : 1
   },
   "properties" : {
-    "compression-type" : "lossless"
+    "compression-type" : "lossless",
+    "template-rendering-intent" : "original"
   }
 }

@@ -14,15 +14,14 @@ class CardWord
     var headWord: String
     var meaning: String
     var phone: String
-    var speech: String
     var accent: String
-    
-    init(wordRank:Int, headWord: String, meaning:String, phone: String, speech:String, accent: String) {
+    var memMethod: String
+    init(wordRank:Int, headWord: String, meaning:String, phone: String,accent: String="美", memMethod: String = "") {
         self.wordRank = wordRank
         self.headWord = headWord
         self.phone = phone
         self.accent = accent
         self.meaning = meaning
-        self.speech = speech
+        self.memMethod = memMethod
     }
 }

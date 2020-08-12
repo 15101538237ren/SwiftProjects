@@ -19,6 +19,8 @@ class Level2CollectionViewCell: UICollectionViewCell {
     @IBOutlet var level2_category_button: UIButton!{
         didSet{
             level2_category_button.addTarget(self, action: #selector(btnTapped), for: .touchUpInside)
+            level2_category_button.theme_backgroundColor = "BookVC.level2BtnColor"
+            level2_category_button.setTitleColor(.white, for: .normal)
         }
     }
 }
