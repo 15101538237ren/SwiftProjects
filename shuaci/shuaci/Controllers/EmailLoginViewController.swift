@@ -18,6 +18,43 @@ class EmailLoginViewController: UIViewController {
     
     let regex = try! NSRegularExpression(pattern: "^([a-zA-Z0-9_\\-\\.]+)@([a-zA-Z0-9_\\-\\.]+)\\.([a-zA-Z]{2,5})$")
     
+    var indicator = UIActivityIndicatorView()
+    var strLabel = UILabel()
+    let effectView = UIVisualEffectView(effect: UIBlurEffect(style: .regular))
+    
+    func initActivityIndicator(text: String) {
+        strLabel.removeFromSuperview()
+        indicator.removeFromSuperview()
+        effectView.removeFromSuperview()
+        let height:CGFloat = 60.0
+        strLabel = UILabel(frame: CGRect(x: 50, y: 0, width: 180, height: height))
+        strLabel.text = text
+        strLabel.font = .systemFont(ofSize: 16, weight: .medium)
+        strLabel.textColor = .darkGray
+        strLabel.alpha = 1.0
+        effectView.frame = CGRect(x: view.frame.midX - strLabel.frame.width/2, y: view.frame.midY - strLabel.frame.height/2 , width: 160, height: height)
+        effectView.layer.cornerRadius = 15
+        effectView.layer.masksToBounds = true
+        effectView.backgroundColor = UIColor(red: 244, green: 244, blue: 245, alpha: 1.0)
+        
+        effectView.alpha = 1.0
+        indicator = .init(style: .medium)
+        indicator.frame = CGRect(x: 0, y: 0, width: height, height: height)
+        indicator.alpha = 1.0
+        indicator.startAnimating()
+
+        effectView.contentView.addSubview(indicator)
+        effectView.contentView.addSubview(strLabel)
+        view.addSubview(effectView)
+    }
+    
+    func stopIndicator(){
+        self.indicator.stopAnimating()
+        self.indicator.hidesWhenStopped = true
+        self.effectView.alpha = 0
+        self.strLabel.alpha = 0
+    }
+    
     @IBAction func unwind(_ sender: UIButton) {
         self.dismiss(animated: true, completion: nil)
     }
@@ -76,13 +113,20 @@ class EmailLoginViewController: UIViewController {
 //                    }
                     
                     if !emailClickKeySet || (minutesBetweenDates(lastEmailLoginClickTime, Date()) > 1) {
+                        DispatchQueue.main.async {
+                            self.initActivityIndicator(text: "正在登录")
+                        }
                         _ = LCUser.logIn(email: email!, password: pwd!) { result in
                             switch result {
-                            case .success(object: let user):
+                            case .success(object: let _):
                                 UserDefaults.standard.set(Date(), forKey: lastEmailLoginClickTimeKey)
                                 self.showMainPanel()
                                 
                             case .failure(error: let error):
+                                DispatchQueue.main.async {
+                                    self.stopIndicator()
+                                }
+                                
                                 switch error.code {
                                 case 211:
                                     let alertController = UIAlertController(title: "该邮箱尚未注册,是否注册?", message: "", preferredStyle: .alert)
@@ -115,8 +159,6 @@ class EmailLoginViewController: UIViewController {
                                                     }
                                                 }
                                             }
-                                        } catch {
-                                            print(error)
                                         }
                                         
                                         DispatchQueue.main.async {
@@ -131,7 +173,7 @@ class EmailLoginViewController: UIViewController {
                                 case 400:
                                     self.presentAlertInView(title: "密码不正确!", message: "", okText: "好")
                                 default:
-                                    print(error)
+                                    self.presentAlertInView(title: error.reason ?? "登录错误,请稍后再试", message: "", okText: "好")
                                 }
                             }
                         }
@@ -153,6 +195,7 @@ class EmailLoginViewController: UIViewController {
     func showMainPanel() {
         DispatchQueue.main.async {
             self.dismiss(animated: false, completion: {
+                self.stopIndicator()
                 self.mainScreenVC.showMainPanel()
             })
         }
@@ -161,8 +204,8 @@ class EmailLoginViewController: UIViewController {
         super.viewDidLoad()
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         navigationController?.navigationBar.shadowImage = UIImage()
-        
         navigationController?.navigationBar.tintColor = .white
+        
         if !Reachability.isConnectedToNetwork(){
             let alertCtl = presentNoNetworkAlert()
             UIApplication.topViewController()?.present(alertCtl, animated: true, completion: nil)
