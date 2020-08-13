@@ -462,8 +462,13 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
         }
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        downloadAlert(index: indexPath.row, bookName: books[indexPath.row].name)
+        let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+        let SetMemOptionVC = mainStoryBoard.instantiateViewController(withIdentifier: "SetMemOptionVC") as! SetMemOptionViewController
+        SetMemOptionVC.modalPresentationStyle = .overCurrentContext
+        DispatchQueue.main.async {
+            self.present(SetMemOptionVC, animated: true, completion: nil)
+        }
+//        downloadAlert(index: indexPath.row, bookName: books[indexPath.row].name)
     }
     
 }
