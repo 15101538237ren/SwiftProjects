@@ -14,6 +14,11 @@ class SetMemOptionView: UIView {
     @IBOutlet weak var memMethodLabel: UILabel!
     @IBOutlet weak var memOrderLabel: UILabel!
     @IBOutlet weak var everyDayPlanLabel: UILabel!
+    @IBOutlet weak var everayDayPlanView: UIView!{
+        didSet{
+            everayDayPlanView.backgroundColor = .clear
+        }
+    }
     @IBOutlet weak var ESTLabel: UILabel!
     @IBOutlet weak var ESTTime: UILabel!
     @IBOutlet weak var setBtn: UIButton!

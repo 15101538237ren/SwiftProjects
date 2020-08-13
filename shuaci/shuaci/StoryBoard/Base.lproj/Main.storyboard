@@ -2252,67 +2252,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="25" translatesAutoresizingMaskIntoConstraints="NO" id="XhQ-mC-Rio">
-                                <rect key="frame" x="47" y="209.5" width="320" height="337"/>
-                                <subviews>
-                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="7" translatesAutoresizingMaskIntoConstraints="NO" id="ER8-HM-LKA">
-                                        <rect key="frame" x="0.0" y="0.0" width="195" height="31"/>
-                                        <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1. 背词方式" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3cW-G2-boS">
-                                                <rect key="frame" x="0.0" y="0.0" width="71" height="31"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                <nil key="textColor"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" apportionsSegmentWidthsByContent="YES" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="oTF-Nr-cCj">
-                                                <rect key="frame" x="78" y="0.0" width="117" height="32"/>
-                                                <segments>
-                                                    <segment title="按单词"/>
-                                                    <segment title="按章节"/>
-                                                </segments>
-                                            </segmentedControl>
-                                        </subviews>
-                                    </stackView>
-                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="7" translatesAutoresizingMaskIntoConstraints="NO" id="uQc-F4-MIF">
-                                        <rect key="frame" x="0.0" y="56" width="217.5" height="31"/>
-                                        <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2. 背词顺序" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ot9-VT-elk">
-                                                <rect key="frame" x="0.0" y="0.0" width="73.5" height="31"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                <nil key="textColor"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="SeM-yE-WzK">
-                                                <rect key="frame" x="80.5" y="0.0" width="137" height="32"/>
-                                                <segments>
-                                                    <segment title="乱序"/>
-                                                    <segment title="顺序"/>
-                                                    <segment title="倒序"/>
-                                                </segments>
-                                            </segmentedControl>
-                                        </subviews>
-                                    </stackView>
-                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Edn-V5-6bk">
-                                        <rect key="frame" x="0.0" y="112" width="320" height="225"/>
-                                        <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="3. 每日单词计划" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="j4s-sg-dkh">
-                                                <rect key="frame" x="0.0" y="0.0" width="102" height="17"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                <nil key="textColor"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3ds-Cq-HDz">
-                                                <rect key="frame" x="0.0" y="25" width="320" height="200"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="200" id="Pb2-to-7Na"/>
-                                                </constraints>
-                                            </pickerView>
-                                        </subviews>
-                                    </stackView>
-                                </subviews>
-                            </stackView>
-                            <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="8NP-hh-ymi">
-                                <rect key="frame" x="107.5" y="571.5" width="199" height="14.5"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" spacing="25" translatesAutoresizingMaskIntoConstraints="NO" id="8NP-hh-ymi">
+                                <rect key="frame" x="97.5" y="602" width="219" height="14.5"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="预计完成时间" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nvZ-WS-9rZ">
                                         <rect key="frame" x="0.0" y="0.0" width="74" height="14.5"/>
@@ -2321,7 +2262,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="                        " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ge6-Dm-g6C">
-                                        <rect key="frame" x="79" y="0.0" width="120" height="14.5"/>
+                                        <rect key="frame" x="99" y="0.0" width="120" height="14.5"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="120" id="HSc-m6-zh9"/>
                                         </constraints>
@@ -2332,7 +2273,7 @@
                                 </subviews>
                             </stackView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="R8f-03-i8D">
-                                <rect key="frame" x="190.5" y="606" width="33" height="32"/>
+                                <rect key="frame" x="190.5" y="636.5" width="33" height="32"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <state key="normal" title="设置">
                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -2353,24 +2294,117 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="设置背词方式" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="S2E-Ra-ILu">
-                                <rect key="frame" x="155" y="139" width="104" height="20.5"/>
+                                <rect key="frame" x="155" y="173.5" width="104" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="XhQ-mC-Rio">
+                                <rect key="frame" x="47" y="234" width="320" height="348"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="7" translatesAutoresizingMaskIntoConstraints="NO" id="ER8-HM-LKA">
+                                        <rect key="frame" x="0.0" y="0.0" width="195" height="31"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1. 背词方式" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3cW-G2-boS">
+                                                <rect key="frame" x="0.0" y="0.0" width="71" height="31"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" apportionsSegmentWidthsByContent="YES" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="oTF-Nr-cCj">
+                                                <rect key="frame" x="78" y="0.0" width="117" height="32"/>
+                                                <segments>
+                                                    <segment title="按单词"/>
+                                                    <segment title="按章节"/>
+                                                </segments>
+                                            </segmentedControl>
+                                        </subviews>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="7" translatesAutoresizingMaskIntoConstraints="NO" id="uQc-F4-MIF">
+                                        <rect key="frame" x="0.0" y="61" width="217.5" height="31"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2. 背词顺序" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ot9-VT-elk">
+                                                <rect key="frame" x="0.0" y="0.0" width="73.5" height="31"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="SeM-yE-WzK">
+                                                <rect key="frame" x="80.5" y="0.0" width="137" height="32"/>
+                                                <segments>
+                                                    <segment title="乱序"/>
+                                                    <segment title="顺序"/>
+                                                    <segment title="倒序"/>
+                                                </segments>
+                                            </segmentedControl>
+                                        </subviews>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="19" translatesAutoresizingMaskIntoConstraints="NO" id="Edn-V5-6bk">
+                                        <rect key="frame" x="0.0" y="122" width="320" height="226"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="3. 每日计划" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="j4s-sg-dkh">
+                                                <rect key="frame" x="0.0" y="0.0" width="73.5" height="17"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="eqS-9U-Ynl">
+                                                <rect key="frame" x="0.0" y="36" width="320" height="190"/>
+                                                <subviews>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="36X-hw-gyR">
+                                                        <rect key="frame" x="0.0" y="0.0" width="320" height="30"/>
+                                                        <subviews>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="预计天数" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Is3-7B-91u">
+                                                                <rect key="frame" x="220.5" y="8" width="49.5" height="14.5"/>
+                                                                <fontDescription key="fontDescription" type="system" weight="light" pointSize="12"/>
+                                                                <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                <nil key="highlightedColor"/>
+                                                            </label>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="每天背单词" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="phL-hB-Do8">
+                                                                <rect key="frame" x="50" y="8" width="61.5" height="14.5"/>
+                                                                <fontDescription key="fontDescription" type="system" weight="light" pointSize="12"/>
+                                                                <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                <nil key="highlightedColor"/>
+                                                            </label>
+                                                        </subviews>
+                                                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                                        <constraints>
+                                                            <constraint firstItem="Is3-7B-91u" firstAttribute="centerY" secondItem="36X-hw-gyR" secondAttribute="centerY" id="Cbb-Ho-gaY"/>
+                                                            <constraint firstItem="phL-hB-Do8" firstAttribute="centerY" secondItem="36X-hw-gyR" secondAttribute="centerY" id="P0G-AX-g30"/>
+                                                            <constraint firstAttribute="trailing" secondItem="Is3-7B-91u" secondAttribute="trailing" constant="50" id="bCk-gg-GBH"/>
+                                                            <constraint firstItem="phL-hB-Do8" firstAttribute="leading" secondItem="36X-hw-gyR" secondAttribute="leading" constant="50" id="cek-tt-CqN"/>
+                                                            <constraint firstAttribute="height" constant="30" id="jtU-DY-4t0"/>
+                                                        </constraints>
+                                                    </view>
+                                                    <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3ds-Cq-HDz">
+                                                        <rect key="frame" x="0.0" y="30" width="320" height="160"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="160" id="Pb2-to-7Na"/>
+                                                        </constraints>
+                                                    </pickerView>
+                                                </subviews>
+                                                <constraints>
+                                                    <constraint firstItem="36X-hw-gyR" firstAttribute="leading" secondItem="eqS-9U-Ynl" secondAttribute="leading" id="oGQ-TX-SzE"/>
+                                                    <constraint firstAttribute="trailing" secondItem="36X-hw-gyR" secondAttribute="trailing" id="y9Z-Uw-21g"/>
+                                                </constraints>
+                                            </stackView>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
-                            <constraint firstItem="XhQ-mC-Rio" firstAttribute="top" secondItem="S2E-Ra-ILu" secondAttribute="bottom" constant="50" id="65n-1Y-XOv"/>
-                            <constraint firstItem="XhQ-mC-Rio" firstAttribute="centerX" secondItem="W6v-uF-MsG" secondAttribute="centerX" id="90R-wG-Q1d"/>
+                            <constraint firstItem="XhQ-mC-Rio" firstAttribute="centerY" secondItem="W6v-uF-MsG" secondAttribute="centerY" constant="-40" id="1eG-db-ir1"/>
+                            <constraint firstItem="XhQ-mC-Rio" firstAttribute="centerX" secondItem="W6v-uF-MsG" secondAttribute="centerX" id="AfV-P7-PPX"/>
                             <constraint firstItem="6R6-S1-K0W" firstAttribute="top" secondItem="SwO-NG-Lc9" secondAttribute="top" constant="15" id="Eur-w6-adG"/>
-                            <constraint firstItem="R8f-03-i8D" firstAttribute="top" secondItem="8NP-hh-ymi" secondAttribute="bottom" constant="20" id="GnI-mO-ldI"/>
                             <constraint firstItem="R8f-03-i8D" firstAttribute="centerX" secondItem="W6v-uF-MsG" secondAttribute="centerX" id="Nb3-9o-bb9"/>
-                            <constraint firstItem="S2E-Ra-ILu" firstAttribute="centerX" secondItem="W6v-uF-MsG" secondAttribute="centerX" id="Uqy-ur-qE9"/>
+                            <constraint firstItem="8NP-hh-ymi" firstAttribute="centerX" secondItem="W6v-uF-MsG" secondAttribute="centerX" id="QJA-Yb-O5k"/>
+                            <constraint firstItem="S2E-Ra-ILu" firstAttribute="centerX" secondItem="W6v-uF-MsG" secondAttribute="centerX" id="Xxe-wl-Jsa"/>
+                            <constraint firstItem="XhQ-mC-Rio" firstAttribute="top" secondItem="S2E-Ra-ILu" secondAttribute="bottom" constant="40" id="iC9-pc-RCy"/>
                             <constraint firstItem="6R6-S1-K0W" firstAttribute="leading" secondItem="SwO-NG-Lc9" secondAttribute="leading" constant="20" id="iOr-oq-lbx"/>
-                            <constraint firstItem="8NP-hh-ymi" firstAttribute="top" secondItem="XhQ-mC-Rio" secondAttribute="bottom" constant="25" id="kVs-AS-0fs"/>
-                            <constraint firstItem="8NP-hh-ymi" firstAttribute="centerX" secondItem="W6v-uF-MsG" secondAttribute="centerX" id="l8f-6L-Rc4"/>
-                            <constraint firstItem="XhQ-mC-Rio" firstAttribute="centerY" secondItem="W6v-uF-MsG" secondAttribute="centerY" constant="-70" id="y7U-AT-OZ1"/>
+                            <constraint firstItem="R8f-03-i8D" firstAttribute="top" secondItem="8NP-hh-ymi" secondAttribute="bottom" constant="20" id="pM7-YL-HB7"/>
+                            <constraint firstItem="8NP-hh-ymi" firstAttribute="top" secondItem="XhQ-mC-Rio" secondAttribute="bottom" constant="20" id="uP8-T9-lcZ"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="SwO-NG-Lc9"/>
                         <connections>
@@ -2378,6 +2412,7 @@
                             <outlet property="ESTTime" destination="Ge6-Dm-g6C" id="AIz-Q4-Fr5"/>
                             <outlet property="backBtn" destination="6R6-S1-K0W" id="uMQ-Mx-3Gq"/>
                             <outlet property="dailyNumWordPickerView" destination="3ds-Cq-HDz" id="WV0-LD-4iL"/>
+                            <outlet property="everayDayPlanView" destination="36X-hw-gyR" id="iKM-UR-mrX"/>
                             <outlet property="everyDayPlanLabel" destination="j4s-sg-dkh" id="g5H-Ot-8fe"/>
                             <outlet property="memMethodLabel" destination="3cW-G2-boS" id="9yZ-bU-OdU"/>
                             <outlet property="memMethodSegCtrl" destination="oTF-Nr-cCj" id="PVI-fF-Xck"/>

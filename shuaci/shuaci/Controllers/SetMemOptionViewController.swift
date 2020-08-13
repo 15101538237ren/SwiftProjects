@@ -24,6 +24,7 @@ class SetMemOptionViewController: UIViewController, UIPickerViewDelegate, UIPick
     @IBOutlet weak var dailyNumWordPickerView: UIPickerView!
     
     let number_of_words: [Int] = [10, 20, 30, 40, 50, 100, 150, 200, 300]
+    let num_days_to_complete: [Int] = [22, 33, 30, 40, 50, 100, 150, 200, 300]
     
     @IBAction func unwind(sender: UIButton) {
         dismiss(animated: true, completion: nil)
@@ -88,16 +89,25 @@ class SetMemOptionViewController: UIViewController, UIPickerViewDelegate, UIPick
      
      // Number of columns of data
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 1
+        return 2
     }
     
     // The number of rows of data
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return number_of_words.count
+        if component == 0{
+            return number_of_words.count
+        }else{
+            return num_days_to_complete.count
+        }
+        
     }
     
     func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
-        return NSAttributedString(string: String(number_of_words[row]), attributes: [NSAttributedString.Key.foregroundColor: UIColor(hex: getDisplayTextColor()) ?? UIColor.black])
+        var itemLabel:String = String(number_of_words[row])
+        if component != 0{
+            itemLabel = "\(num_days_to_complete[row])天"
+        }
+        return NSAttributedString(string: itemLabel, attributes: [NSAttributedString.Key.foregroundColor: UIColor(hex: getDisplayTextColor()) ?? UIColor.black])
     }
     
 }
