@@ -30,7 +30,6 @@
 		557B66F524CCF47B0068AB05 /* Light_Gray.plist in Resources */ = {isa = PBXBuildFile; fileRef = 557B66F424CCF47B0068AB05 /* Light_Gray.plist */; };
 		557B66F724CCF7660068AB05 /* Dark.plist in Resources */ = {isa = PBXBuildFile; fileRef = 557B66F624CCF7660068AB05 /* Dark.plist */; };
 		558F71EC249C713B0014956F /* NumWordPerGroupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 558F71EB249C713B0014956F /* NumWordPerGroupViewController.swift */; };
-		558F71EE249C72AE0014956F /* NumberOfWordTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 558F71ED249C72AE0014956F /* NumberOfWordTableViewCell.swift */; };
 		55B63A2324D530D300B6B8B5 /* SearchWordTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55B63A2224D530D300B6B8B5 /* SearchWordTableViewCell.swift */; };
 		55BFC12824C366A0006DA60B /* ReminderTimePickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55BFC12724C366A0006DA60B /* ReminderTimePickerViewController.swift */; };
 		55C5E20224B03A40005D2956 /* StatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55C5E20124B03A40005D2956 /* StatViewController.swift */; };
@@ -62,6 +61,8 @@
 		A59EB1DA2452A12900F300E1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A59EB1D82452A12900F300E1 /* Main.storyboard */; };
 		A59EB1DC2452A12A00F300E1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A59EB1DB2452A12A00F300E1 /* Assets.xcassets */; };
 		A59EB1DF2452A12A00F300E1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A59EB1DD2452A12A00F300E1 /* LaunchScreen.storyboard */; };
+		A5AE21FF24E4E6EF00473EA2 /* SetMemOptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5AE21FE24E4E6EF00473EA2 /* SetMemOptionView.swift */; };
+		A5AE220124E4E9D500473EA2 /* SetMemOptionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5AE220024E4E9D500473EA2 /* SetMemOptionViewController.swift */; };
 		A5B82171245360F700963FEC /* PingFang SC Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A5B82170245360F700963FEC /* PingFang SC Regular.ttf */; };
 		A5B821732453669B00963FEC /* CardUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B821722453669B00963FEC /* CardUIView.swift */; };
 		A5B82177245370CD00963FEC /* Songti SC Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A5B82176245370CD00963FEC /* Songti SC Regular.ttf */; };
@@ -113,7 +114,6 @@
 		557B66F424CCF47B0068AB05 /* Light_Gray.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Light_Gray.plist; sourceTree = "<group>"; };
 		557B66F624CCF7660068AB05 /* Dark.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Dark.plist; sourceTree = "<group>"; };
 		558F71EB249C713B0014956F /* NumWordPerGroupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumWordPerGroupViewController.swift; sourceTree = "<group>"; };
-		558F71ED249C72AE0014956F /* NumberOfWordTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberOfWordTableViewCell.swift; sourceTree = "<group>"; };
 		55B63A1B24D523AB00B6B8B5 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		55B63A2224D530D300B6B8B5 /* SearchWordTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchWordTableViewCell.swift; sourceTree = "<group>"; };
 		55BFC12724C366A0006DA60B /* ReminderTimePickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderTimePickerViewController.swift; sourceTree = "<group>"; };
@@ -151,6 +151,8 @@
 		A59EB1DE2452A12A00F300E1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A59EB1E02452A12A00F300E1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A5A83E20245D1D1300075BB4 /* LoginReg.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = LoginReg.storyboard; path = shuaci/LoginReg.storyboard; sourceTree = SOURCE_ROOT; };
+		A5AE21FE24E4E6EF00473EA2 /* SetMemOptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetMemOptionView.swift; sourceTree = "<group>"; };
+		A5AE220024E4E9D500473EA2 /* SetMemOptionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetMemOptionViewController.swift; sourceTree = "<group>"; };
 		A5B82170245360F700963FEC /* PingFang SC Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "PingFang SC Regular.ttf"; sourceTree = "<group>"; };
 		A5B821722453669B00963FEC /* CardUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardUIView.swift; sourceTree = "<group>"; };
 		A5B82174245366F600963FEC /* Geneva Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Geneva Regular.ttf"; sourceTree = "<group>"; };
@@ -356,8 +358,8 @@
 				55F2B5A1247B4A0F00758113 /* LearnFinishUIView.swift */,
 				55C7819D24902BAE00C9F33E /* SettingTableViewCell.swift */,
 				55C7819F24902C4F00C9F33E /* SettingToggleTableViewCell.swift */,
-				558F71ED249C72AE0014956F /* NumberOfWordTableViewCell.swift */,
 				55B63A2224D530D300B6B8B5 /* SearchWordTableViewCell.swift */,
+				A5AE21FE24E4E6EF00473EA2 /* SetMemOptionView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -387,6 +389,7 @@
 				5500541624B8223E0005AD6F /* bindPhoneViewController.swift */,
 				5547AE8724BA37400096B41E /* WordHistoryViewController.swift */,
 				55BFC12724C366A0006DA60B /* ReminderTimePickerViewController.swift */,
+				A5AE220024E4E9D500473EA2 /* SetMemOptionViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -531,8 +534,9 @@
 				5547AE8A24BA45540096B41E /* WordHistoryTableViewCell.swift in Sources */,
 				A5F59F4A2453DDD000D6D717 /* EmailLoginViewController.swift in Sources */,
 				A5B821792453747C00963FEC /* MainScreenUIView.swift in Sources */,
+				A5AE220124E4E9D500473EA2 /* SetMemOptionViewController.swift in Sources */,
+				A5AE21FF24E4E6EF00473EA2 /* SetMemOptionView.swift in Sources */,
 				5547AE8824BA37400096B41E /* WordHistoryViewController.swift in Sources */,
-				558F71EE249C72AE0014956F /* NumberOfWordTableViewCell.swift in Sources */,
 				A5F51551245F5E9300F06610 /* Wallpaper.swift in Sources */,
 				55B63A2324D530D300B6B8B5 /* SearchWordTableViewCell.swift in Sources */,
 				A5BE9C2D2462242500302F38 /* Book.swift in Sources */,

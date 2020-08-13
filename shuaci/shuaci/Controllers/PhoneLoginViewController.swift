@@ -16,6 +16,43 @@ class PhoneLoginViewController: UIViewController {
     var verificationCodeSent = false
     var mainScreenVC: MainScreenViewController!
     
+    var indicator = UIActivityIndicatorView()
+    var strLabel = UILabel()
+    let effectView = UIVisualEffectView(effect: UIBlurEffect(style: .regular))
+    
+    func initActivityIndicator(text: String) {
+        strLabel.removeFromSuperview()
+        indicator.removeFromSuperview()
+        effectView.removeFromSuperview()
+        let height:CGFloat = 60.0
+        strLabel = UILabel(frame: CGRect(x: 50, y: 0, width: 180, height: height))
+        strLabel.text = text
+        strLabel.font = .systemFont(ofSize: 16, weight: .medium)
+        strLabel.textColor = .darkGray
+        strLabel.alpha = 1.0
+        effectView.frame = CGRect(x: view.frame.midX - strLabel.frame.width/2, y: view.frame.midY - strLabel.frame.height/2 , width: 160, height: height)
+        effectView.layer.cornerRadius = 15
+        effectView.layer.masksToBounds = true
+        effectView.backgroundColor = UIColor(red: 244, green: 244, blue: 245, alpha: 1.0)
+        
+        effectView.alpha = 1.0
+        indicator = .init(style: .medium)
+        indicator.frame = CGRect(x: 0, y: 0, width: height, height: height)
+        indicator.alpha = 1.0
+        indicator.startAnimating()
+
+        effectView.contentView.addSubview(indicator)
+        effectView.contentView.addSubview(strLabel)
+        view.addSubview(effectView)
+    }
+    
+    func stopIndicator(){
+        self.indicator.stopAnimating()
+        self.indicator.hidesWhenStopped = true
+        self.effectView.alpha = 0
+        self.strLabel.alpha = 0
+    }
+    
     
     @IBAction func unwind(_ sender: UIButton) {
         self.dismiss(animated: true, completion: nil)
@@ -33,15 +70,18 @@ class PhoneLoginViewController: UIViewController {
          let phoneNumber:String = phoneTextField.text!
          let verificationCode:String = verificationCodeTextField.text!
          if Reachability.isConnectedToNetwork(){
+            DispatchQueue.main.async {
+                self.initActivityIndicator(text: "正在登录")
+            }
              _ = LCUser.signUpOrLogIn(mobilePhoneNumber: "+86\(phoneNumber)", verificationCode: verificationCode, completion: { (result) in
+                DispatchQueue.main.async {
+                    self.stopIndicator()
+                }
                 switch result {
-                case .success(object: let user):
-                    print(user)
+                case .success:
                     self.showMainPanel()
-                    
-                case .failure(error: let error as LCError):
-                    print(error.reason?.stringValue)
-                    self.presentAlert(title: "登录失败，请稍后重试", message: error.reason?.stringValue ?? "", okText: "好")
+                case .failure(error: let error):
+                    self.presentAlert(title: error.reason ?? "登录失败，请稍后重试", message: "", okText: "好")
                 }
              })
          }else{
@@ -69,38 +109,43 @@ class PhoneLoginViewController: UIViewController {
         let phoneNumber:String = phoneTextField.text!
         
         if Reachability.isConnectedToNetwork(){
+            DispatchQueue.main.async {
+                self.initActivityIndicator(text: "正在发送")
+            }
             _ = LCUser.requestLoginVerificationCode(mobilePhoneNumber: "+86\(phoneNumber)") { result in
+                DispatchQueue.main.async {
+                    self.stopIndicator()
+                }
                 switch result {
-                case .success:
-                    self.presentAlert(title: "验证码已发送!", message: "", okText: "好")
-                case .failure(error: let error as LCError):
-                    switch error.code {
-                    case 213:
-                        let alertController = UIAlertController(title: "该手机号尚未注册,是否注册?", message: "", preferredStyle: .alert)
-                        let okayAction = UIAlertAction(title: "是", style: .default, handler: { action in
-                            self.verificationCodeSent = true
-                            DispatchQueue.main.async {
-                                self.phoneLoginBtn.setTitle("注册", for: .normal)
-                            }
-                            //templateName 是短信模版名称，signatureName 是短信签名名称。可以在控制台 > 消息 > 短信 >设置中查看。
-                            _ = LCSMSClient.requestShortMessage(mobilePhoneNumber: "+86\(phoneNumber)", templateName: "shuaci_verification", signatureName: "shuaci") { (result) in
-                                switch result {
-                                case .success:
-                                    self.presentAlert(title: "验证码已发送!", message: "", okText: "好")
-                                case .failure(error: let error):
-                                    print(error)
+                    case .success:
+                        self.presentAlert(title: "验证码已发送!", message: "", okText: "好")
+                    case .failure(error: let error):
+                        switch error.code {
+                        case 213:
+                            let alertController = UIAlertController(title: "该手机号尚未注册,是否注册?", message: "", preferredStyle: .alert)
+                            let okayAction = UIAlertAction(title: "是", style: .default, handler: { action in
+                                self.verificationCodeSent = true
+                                DispatchQueue.main.async {
+                                    self.phoneLoginBtn.setTitle("注册", for: .normal)
                                 }
-                            }
-                            
-                        })
-                        let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
-                        alertController.addAction(okayAction)
-                        alertController.addAction(cancelAction)
-                        self.present(alertController, animated: true, completion: nil)
-                    default:
-                        print(error.reason?.stringValue)
-                        self.presentAlert(title: "登录失败，请稍后重试", message: error.reason?.stringValue ?? "", okText: "好")
-                    }
+                                //templateName 是短信模版名称，signatureName 是短信签名名称。可以在控制台 > 消息 > 短信 >设置中查看。
+                                _ = LCSMSClient.requestShortMessage(mobilePhoneNumber: "+86\(phoneNumber)", templateName: "shuaci_verification", signatureName: "shuaci") { (result) in
+                                    switch result {
+                                    case .success:
+                                        self.presentAlert(title: "验证码已发送!", message: "", okText: "好")
+                                    case .failure(error: let error):
+                                        print(error)
+                                    }
+                                }
+                                
+                            })
+                            let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
+                            alertController.addAction(okayAction)
+                            alertController.addAction(cancelAction)
+                            self.present(alertController, animated: true, completion: nil)
+                        default:
+                            self.presentAlert(title: "登录失败，请稍后重试", message: error.reason?.stringValue ?? "", okText: "好")
+                        }
                 }
             }
         }else{
