@@ -100,7 +100,7 @@ class ReviewWordViewController: UIViewController {
                 for index in 0 ..< self.currentIndex{
                     currentReivewedRecords.append(vocabRecordsOfCurrentReview[index])
                 }
-                currentReviewRec.VocabRecIds = getVocabIdsFromVocabRecords(VocabRecords: currentReivewedRecords)
+                currentReviewRec.VocabRecHeads = getVocabHeadsFromVocabRecords(VocabRecords: currentReivewedRecords)
                 saveReviewRecordsFromReview(vocabs_updated: currentReivewedRecords)
                 self.dismiss(animated: true, completion: nil)
             })
@@ -237,7 +237,7 @@ class ReviewWordViewController: UIViewController {
         self.mp3Player?.stop()
         if currentIndex >= review_words.count{
             currentReviewRec.EndDate = Date()
-            currentReviewRec.VocabRecIds = getVocabIdsFromVocabRecords(VocabRecords: vocabRecordsOfCurrentReview)
+            currentReviewRec.VocabRecHeads = getVocabHeadsFromVocabRecords(VocabRecords: vocabRecordsOfCurrentReview)
             saveReviewRecordsFromReview(vocabs_updated: vocabRecordsOfCurrentReview)
             DispatchQueue.main.async {
                 self.dismiss(animated: true, completion: nil)

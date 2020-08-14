@@ -23,7 +23,7 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
         SettingItem(icon: UIImage(named: "auto_pronunciation") ?? UIImage(), name: "自动发音", value: "开"),
         SettingItem(icon: UIImage(named: "english_american_pronunce") ?? UIImage(), name: "发音类型", value: "美"),
         SettingItem(icon: UIImage(named: "choose_book") ?? UIImage(), name: "选择单词书", value: ""),
-        SettingItem(icon: UIImage(named: "vocab_amount_each_group") ?? UIImage(), name: "每组单词数", value: "120"),
+        SettingItem(icon: UIImage(named: "vocab_amount_each_group") ?? UIImage(), name: "设置学习计划", value: "20"),
         SettingItem(icon: UIImage(named: "learning_reminder") ?? UIImage(), name: "每日提醒", value: ""),
         SettingItem(icon: UIImage(named: "clean_cache") ?? UIImage(), name: "清除缓存", value: "3.25M"),
         SettingItem(icon: UIImage(named: "sync_record") ?? UIImage(), name: "同步学习记录至云端", value: ""),
@@ -228,6 +228,7 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
         present(ac, animated: true, completion: nil)
     }
     
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch indexPath.row {
         case 0:
@@ -264,12 +265,20 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
                 self.present(booksVC, animated: true, completion: nil)
             }
         case 3:
-            let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
-            let NumOfWordPopUpVC = mainStoryBoard.instantiateViewController(withIdentifier: "NumOfWordVC") as! NumWordPerGroupViewController
-            NumOfWordPopUpVC.setting_tableView = tableView
-            NumOfWordPopUpVC.modalPresentationStyle = .overCurrentContext
-            DispatchQueue.main.async {
-                self.present(NumOfWordPopUpVC, animated: true, completion: nil)
+            let bookIndex = getCurrentBookIndex()
+            if bookIndex >= 0 {
+                let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+                let SetMemOptionVC = mainStoryBoard.instantiateViewController(withIdentifier: "SetMemOptionVC") as! SetMemOptionViewController
+                SetMemOptionVC.modalPresentationStyle = .overCurrentContext
+                SetMemOptionVC.bookIndex = bookIndex
+                SetMemOptionVC.book = global_total_books[bookIndex]
+                SetMemOptionVC.bookVC = nil
+                SetMemOptionVC.mainPanelVC = nil
+                SetMemOptionVC.setting_tableView = self.tableView
+                
+                DispatchQueue.main.async {
+                    self.present(SetMemOptionVC, animated: true, completion: nil)
+                }
             }
         case 4:
             let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)

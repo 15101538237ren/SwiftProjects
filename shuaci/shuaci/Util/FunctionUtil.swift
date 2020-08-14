@@ -16,7 +16,6 @@ let minToChangingWallpaper:CGFloat = 5
 var imageCache = NSCache<NSString, NSURL>()
 let decoder = JSONDecoder()
 var GlobalUserName = ""
-
 var everyDayLearningReminderNotificationIdentifier = "dailyLearningReminder"
 
 let numberOfContDaysForMasteredAWord = 5 
@@ -96,11 +95,26 @@ func get_vocab_rec_need_to_be_review() -> [VocabularyRecord]{
     return vocab_rec_need_to_be_review
 }
 
+func build_word_head_to_json_dict() ->[String : JSON]{
+    var word_head_to_json_dict: [String : JSON] = [:]
+    let chapters = currentbook_json_obj["chapters"].arrayValue
+    for chpt_idx in 0..<chapters.count{
+        let chapter = chapters[chpt_idx]
+        let word_heads = chapter["word_heads"].arrayValue.map {$0.stringValue}
+        for wid in 0..<word_heads.count{
+            let word = word_heads[wid]
+            let word_data = chapters[chpt_idx]["data"].arrayValue[wid]
+            word_head_to_json_dict[word] = word_data
+        }
+    }
+    return word_head_to_json_dict
+}
+
 func get_words_need_to_be_review(vocab_rec_need_to_be_review: [VocabularyRecord]) -> [JSON]{
     var review_words:[JSON] = []
-    let word_list = currentbook_json_obj["data"]
+    let word_head_to_json_dict: [String : JSON] = build_word_head_to_json_dict()
     for vocab in vocab_rec_need_to_be_review{
-        review_words.append(word_list[vocab.WordRank - 1])
+        review_words.append(word_head_to_json_dict[vocab.VocabHead]!)
     }
     return review_words
 }
@@ -564,11 +578,8 @@ func get_words(){
                        let word_head: String = words_left[selectedInd]
                        let word_chp_ind: Int = word_left_chpt_inds[selectedInd]
                        let word_in_chp_ind: Int = word_left_indexs_in_chpt[selectedInd]
-                       let word_data = chapters[word_chp_ind]["data"].arrayValue[word_in_chp_ind].arrayValue
-                        let word_in_data = word_data[0].stringValue
-                        if word_in_data == word_head{
-                            words.append(word_data[1])
-                        }
+                       let word_data = chapters[word_chp_ind]["data"].arrayValue[word_in_chp_ind]
+                        words.append(word_data)
                     }
                 }
                 
@@ -631,29 +642,24 @@ func update_words(){
                selectedIndexs.append(words_left.count - 1 - ind)
             }
         }
-        var selected_word_heads:[String] = []
         for ind in 0..<sampling_number{
            let selectedInd = selectedIndexs[ind]
            let word_head: String = words_left[selectedInd]
            let word_chp_ind: Int = word_left_chpt_inds[selectedInd]
            let word_in_chp_ind: Int = word_left_indexs_in_chpt[selectedInd]
-           let word_data = chapters[word_chp_ind]["data"].arrayValue[word_in_chp_ind].arrayValue
-            let word_in_data = word_data[0].stringValue
-            if word_in_data == word_head{
-                words.append(word_data[1])
-                selected_word_heads.append(word_head)
-            }
+           let word_data = chapters[word_chp_ind]["data"].arrayValue[word_in_chp_ind]
+           words.append(word_data)
         }
         saveStringTo(fileName: wordsJsonFp, jsonStr: selectedIndexs.map { String($0) }.joined(separator: ","))
     }
 }
 
 func getFeildsOfWord(word: JSON, usphone: Bool) -> CardWord{
-    let wordRank: Int = word["wordRank"].intValue
-    let headWord: String = word["headWord"].stringValue
-    let content = word["content"]["word"]["content"].dictionaryValue
+    let word_data = word.arrayValue
+    let headWord: String = word_data[0].stringValue
+    let content = word_data[1].dictionaryValue
     var meaning = ""
-    if let trans = content["trans"]?.arrayValue
+    if let trans = content["translations"]?.arrayValue
     {
         var stringArr:[String] = []
         for tran in trans{
@@ -664,15 +670,15 @@ func getFeildsOfWord(word: JSON, usphone: Bool) -> CardWord{
             meaning = stringArr.joined(separator: "\n")
         }
     }
-    let phoneType = (usphone == true)  ? "usphone" : "ukphone"
+    let phoneType = (usphone == true)  ? "us_phone" : "uk_phone"
     let phone = content[phoneType]?.stringValue ?? ""
     let accent = (usphone == true)  ? "美" : "英"
     var memMethod = ""
-    if let memDict = content["remMethod"] {
-        memMethod = memDict["val"].stringValue
+    if let memDict = content["remMethod"]{
+        memMethod = memDict.stringValue
     }
     
-    let cardWord = CardWord(wordRank: wordRank, headWord: headWord, meaning: meaning, phone: phone, accent: accent, memMethod: memMethod)
+    let cardWord = CardWord(headWord: headWord, meaning: meaning, phone: phone, accent: accent, memMethod: memMethod)
     return cardWord
 }
 

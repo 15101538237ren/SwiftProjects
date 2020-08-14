@@ -10,14 +10,12 @@ import Foundation
 
 class CardWord
 {
-    var wordRank: Int
     var headWord: String
     var meaning: String
     var phone: String
     var accent: String
     var memMethod: String
-    init(wordRank:Int, headWord: String, meaning:String, phone: String,accent: String="美", memMethod: String = "") {
-        self.wordRank = wordRank
+    init(headWord: String, meaning:String, phone: String,accent: String="美", memMethod: String = "") {
         self.headWord = headWord
         self.phone = phone
         self.accent = accent

@@ -22,7 +22,7 @@ var books: [Book] = []
 var global_total_books: [Book] = []
 var global_total_items: [LCObject] = []
 var resultsItems: [LCObject] = []
-var currentbook_json_obj: JSON = load_json(fileName: "current_book")
+var currentbook_json_obj: JSON = []
 
 let categories:[Int: [String: [Int: String]]] = [
     0: ["category": [0:"全部"], "subcategory": [0:"全部"]],
@@ -36,3 +36,14 @@ let categories:[Int: [String: [Int: String]]] = [
     8: ["category": [0:"其他"], "subcategory": [0:"全部", 1: "词组", 2: "新概念", 3: "老版词书", 4: "词汇量", 9: "全国等级考试", 10: "其他"]],
 ]
 
+func getCurrentBookIndex() -> Int{
+    if let bookId = getPreference(key: "current_book_id") as? String {
+        for bid in 0..<global_total_books.count{
+            let book = global_total_books[bid]
+            if book.identifier == bookId{
+                return bid
+            }
+        }
+    }
+    return -1
+}

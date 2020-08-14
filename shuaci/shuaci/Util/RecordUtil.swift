@@ -275,7 +275,7 @@ func isExactSeqMemory(vocab: VocabularyRecord) -> Bool{
 func getCumulatedMasteredByDate(dates: [Date], byDay: Bool = true, cumulated: Bool = true) -> [Int]{
     var reviewedVocabIdDateDict:[String: Date] = [:]
     for revRec in GlobalReviewRecords{
-        for revId in revRec.VocabRecIds{
+        for revId in revRec.VocabRecHeads{
             reviewedVocabIdDateDict[revId] = revRec.EndDate
         }
     }
@@ -286,8 +286,8 @@ func getCumulatedMasteredByDate(dates: [Date], byDay: Bool = true, cumulated: Bo
         if vocab.Mastered{
             masteredVocabs.append(vocab)
         }
-        else if reviewedVocabIdDateDict.keys.contains(vocab.VocabRecId) && isExactSeqMemory(vocab: vocab){
-            if let date = reviewedVocabIdDateDict[vocab.VocabRecId] {
+        else if reviewedVocabIdDateDict.keys.contains(vocab.VocabHead) && isExactSeqMemory(vocab: vocab){
+            if let date = reviewedVocabIdDateDict[vocab.VocabHead] {
                 datesWithSequentialMemorized.append(date)
             }
         }
@@ -337,11 +337,11 @@ func getCumulatedLearnedByDate(dates: [Date], byDay: Bool = true, cumulated: Boo
         for lrec in GlobalLearningRecords{
             if byDay{
                 if Calendar.current.isDate(lrec.EndDate, inSameDayAs: dates[di]){
-                    cumLearned[di] += lrec.VocabRecIds.count
+                    cumLearned[di] += lrec.VocabRecHeads.count
                 }
             } else{
                 if dates[di].isInSameMonth(as: lrec.EndDate){
-                    cumLearned[di] += lrec.VocabRecIds.count
+                    cumLearned[di] += lrec.VocabRecHeads.count
                 }
             }
             
@@ -432,22 +432,12 @@ func prepareRecordsAndPreference(completionHandler: @escaping CompletionHandler)
     GlobalLearningRecords = loadLearningRecords()
 }
 
-func getVocabIdsFromVocabRecords(VocabRecords: [VocabularyRecord]) -> [String]{
+func getVocabHeadsFromVocabRecords(VocabRecords: [VocabularyRecord]) -> [String]{
     var VocabIds:[String] = []
     for VocabRecord in VocabRecords{
-        VocabIds.append(VocabRecord.VocabRecId)
+        VocabIds.append(VocabRecord.VocabHead)
     }
     return VocabIds
-}
-
-func getVocabRecordsByRecordIds(VocabRecordIds: [String]) -> [VocabularyRecord]{
-    var VocabRecs:[VocabularyRecord] = []
-    for vocabRecord in GlobalVocabRecords{
-        if VocabRecordIds.contains(vocabRecord.VocabRecId){
-            VocabRecs.append(vocabRecord)
-        }
-    }
-    return VocabRecs
 }
 
 func clearVocabRecordsOfCurrentLearning(){
@@ -473,16 +463,6 @@ func loadVocabRecords() -> [VocabularyRecord] {
 
 
 func saveVocabRecords(saveToLocal: Bool, saveToCloud: Bool = false, random_new_word: Bool = false, delaySeconds:Double = 0, completionHandler: @escaping CompletionHandler){
-    var ranks:[String:Int] = [:]
-    for vi in 0..<GlobalVocabRecords.count{
-        let vocab:VocabularyRecord = GlobalVocabRecords[vi]
-        if let _ = ranks[vocab.VocabRecId]{
-            ranks[vocab.VocabRecId]! += 1
-        }else{
-            
-            ranks[vocab.VocabRecId] = 1
-        }
-    }
     let jsonData = try! JSONEncoder().encode(GlobalVocabRecords)
     let jsonString = String(data: jsonData, encoding: .utf8)!
     if saveToLocal || !fileExist(fileFp: vocabRecordJsonFp){
@@ -501,11 +481,11 @@ func saveVocabRecords(saveToLocal: Bool, saveToCloud: Bool = false, random_new_w
 // MARK: - LearningRecord Util
 
 func initNewLearningRec() -> LearningRecord{
-    return LearningRecord.init(StartDate: Date(), EndDate: Date(), VocabRecIds: [])
+    return LearningRecord.init(StartDate: Date(), EndDate: Date(), VocabRecHeads: [])
 }
 
 func initNewReviewRec() -> ReviewRecord{
-    return ReviewRecord.init(StartDate: Date(), EndDate: Date(), VocabRecIds: [])
+    return ReviewRecord.init(StartDate: Date(), EndDate: Date(), VocabRecHeads: [])
 }
 
 func saveLearningRecordsFromLearning() {
@@ -524,14 +504,14 @@ func saveLearningRecordsFromLearning() {
 }
 
 func updateGlobalVocabRecords(vocabs_updated: [VocabularyRecord]){
-    var vocab_new_ids:[String] = []
+    var vocab_new_heads:[String] = []
     for vocab in vocabs_updated{
-        vocab_new_ids.append(vocab.VocabRecId)
+        vocab_new_heads.append(vocab.VocabHead)
     }
     var temp_GlobalVocabRec:[VocabularyRecord] = []
     for vi in 0..<GlobalVocabRecords.count{
         let vocab:VocabularyRecord = GlobalVocabRecords[vi]
-        if !vocab_new_ids.contains(vocab.VocabRecId){
+        if !vocab_new_heads.contains(vocab.VocabHead){
             temp_GlobalVocabRec.append(vocab)
         }
     }
