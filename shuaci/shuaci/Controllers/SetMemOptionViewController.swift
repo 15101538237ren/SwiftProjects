@@ -7,11 +7,13 @@
 //
 
 import UIKit
+import LeanCloud
 import SwiftTheme
+import Reachability
+
 class SetMemOptionViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
     @IBOutlet weak var backBtn: UIButton!
     @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var memMethodLabel: UILabel!
     @IBOutlet weak var memOrderLabel: UILabel!
     @IBOutlet weak var everyDayPlanLabel: UILabel!
     @IBOutlet weak var everyDayNumWordLabel: UILabel!
@@ -19,43 +21,31 @@ class SetMemOptionViewController: UIViewController, UIPickerViewDelegate, UIPick
     @IBOutlet weak var ESTLabel: UILabel!
     @IBOutlet weak var ESTTime: UILabel!
     @IBOutlet weak var setBtn: UIButton!
-    @IBOutlet weak var memMethodSegCtrl: UISegmentedControl!
     @IBOutlet weak var memOrderSegCtrl: UISegmentedControl!
     @IBOutlet var title_To_Bottom_Y_Constraint: NSLayoutConstraint!
+    var bookVC: BooksViewController!
+    var mainPanelVC: MainPanelViewController!
+    
+    var indicator = UIActivityIndicatorView()
+    var strLabel = UILabel()
+    let effectView = UIVisualEffectView(effect: UIBlurEffect(style: .regular))
     
     var book: Book!
+    var bookIndex: Int!
     var itemToDayDict: [Int: Int] = [:]
     var dayToItemDict: [Int: Int] = [:]
     @IBOutlet weak var dailyNumWordPickerView: UIPickerView!
     
     let number_of_words: [Int] = [10, 20, 30, 40, 50, 100, 150, 200, 300, 400, 500]
-    let number_of_chapters: [Int] = [1, 2, 3, 4, 5]
-    var num_of_items : [Int] = []
     var num_days_to_complete: [Int] = []
     
-    enum memMethod {
-        case byWord
-        case byChpater
+    enum memOrder: Int {
+        case byRandom = 1
+        case byAlphabet = 2
+        case byReversedAlphabet = 3
     }
     
-    enum memOrder {
-        case byRandom
-        case byAlphabet
-        case byReversedAlphabet
-    }
-    
-    var memMet: memMethod = .byWord
     var memOrd: memOrder = .byRandom
-    
-    @IBAction func memMethodChanged(_ sender: UISegmentedControl) {
-        if memMethodSegCtrl.selectedSegmentIndex == 0{
-            memMet = .byWord
-        }
-        else{
-            memMet = .byChpater
-        }
-        refreshPickerView()
-    }
     
     @IBAction func memOrderChanged(_ sender: UISegmentedControl) {
         if memOrderSegCtrl.selectedSegmentIndex == 0{
@@ -66,7 +56,40 @@ class SetMemOptionViewController: UIViewController, UIPickerViewDelegate, UIPick
         }else{
             memOrd = .byReversedAlphabet
         }
-        refreshPickerView()
+    }
+    
+    
+    func initActivityIndicator(text: String) {
+        strLabel.removeFromSuperview()
+        indicator.removeFromSuperview()
+        effectView.removeFromSuperview()
+        let height:CGFloat = 46.0
+        strLabel = UILabel(frame: CGRect(x: 50, y: 0, width: 180, height: height))
+        strLabel.text = text
+        strLabel.font = .systemFont(ofSize: 14, weight: .medium)
+        strLabel.textColor = .darkGray
+        strLabel.alpha = 1.0
+        effectView.frame = CGRect(x: view.frame.midX - strLabel.frame.width/2, y: view.frame.midY - strLabel.frame.height/2 , width: 160, height: height)
+        effectView.layer.cornerRadius = 15
+        effectView.layer.masksToBounds = true
+        effectView.backgroundColor = UIColor(red: 244, green: 244, blue: 245, alpha: 1.0)
+        
+        effectView.alpha = 1.0
+        indicator = .init(style: .medium)
+        indicator.frame = CGRect(x: 0, y: 0, width: height, height: height)
+        indicator.alpha = 1.0
+        indicator.startAnimating()
+
+        effectView.contentView.addSubview(indicator)
+        effectView.contentView.addSubview(strLabel)
+        view.addSubview(effectView)
+    }
+    
+    func stopIndicator(){
+        self.indicator.stopAnimating()
+        self.indicator.hidesWhenStopped = true
+        self.effectView.alpha = 0
+        self.strLabel.alpha = 0
     }
     
     @IBAction func unwind(sender: UIButton) {
@@ -79,8 +102,8 @@ class SetMemOptionViewController: UIViewController, UIPickerViewDelegate, UIPick
     }
     
     func selectedFirstIndex(numWord: Int) -> Int{
-        for i in 0..<num_of_items.count{
-            if num_of_items[i] == numWord{
+        for i in 0..<number_of_words.count{
+            if number_of_words[i] == numWord{
                 return i
             }
         }
@@ -114,30 +137,14 @@ class SetMemOptionViewController: UIViewController, UIPickerViewDelegate, UIPick
         view.insertSubview(blurEffectView, at: 1)
     }
     
-    func refreshPickerView() {
-        num_of_items = []
+    func initPickerView() {
         num_days_to_complete = []
         itemToDayDict = [:]
         var num_days_to_complete_set: Set = Set<Int>()
-        var tempItems:[Int] = []
-        var numTot: Int = 0
-        if memMet == .byWord{
-            tempItems = number_of_words
-            numTot = book.word_num
-            DispatchQueue.main.async {
-                self.everyDayNumWordLabel.text = "每日单词数"
-            }
-        }else{
-            tempItems = number_of_chapters
-            numTot = book.nchpt
-            DispatchQueue.main.async {
-                self.everyDayNumWordLabel.text = "每日Unit数"
-            }
-        }
-        for item in tempItems{
-            if item <= numTot{
-                num_of_items.append(item)
-                let numDayToComplete:Int = Int((Float(numTot) / Float(item)).rounded(.up))
+        
+        for item in number_of_words{
+            if item <= book.word_num{
+                let numDayToComplete:Int = Int((Float(book.word_num) / Float(item)).rounded(.up))
                 num_days_to_complete_set.insert(numDayToComplete)
                 itemToDayDict[item] = numDayToComplete
                 if dayToItemDict[numDayToComplete] == nil{
@@ -150,13 +157,12 @@ class SetMemOptionViewController: UIViewController, UIPickerViewDelegate, UIPick
             num_days_to_complete.append(item)
         }
         
-        
         dailyNumWordPickerView.reloadAllComponents()
         
         let selected_ind:Int = 0
         dailyNumWordPickerView.selectRow(selected_ind, inComponent: 0, animated: true)
         
-        let numOfDayToComplete: Int = itemToDayDict[num_of_items[selected_ind]] ?? 0
+        let numOfDayToComplete: Int = itemToDayDict[number_of_words[selected_ind]] ?? 0
         let selected_second_ind:Int = selectedSecondIndex(numDay: numOfDayToComplete)
         if selected_second_ind >= 0{
             dailyNumWordPickerView.selectRow(selected_second_ind, inComponent: 1, animated: true)
@@ -181,22 +187,22 @@ class SetMemOptionViewController: UIViewController, UIPickerViewDelegate, UIPick
     }
     
     func loadContentFromBook() {
-        if book.nchpt == 1{
-            DispatchQueue.main.async {
-                self.memMethodLabel.isUserInteractionEnabled = false
-                self.memMethodSegCtrl.isUserInteractionEnabled = false
-                
-                self.memMethodLabel.alpha = 0
-                self.memMethodSegCtrl.alpha = 0
-                
-                self.memOrderLabel.text = "1. 背词顺序"
-                self.everyDayPlanLabel.text = "2. 每日计划"
-                
-                self.title_To_Bottom_Y_Constraint.constant = -10
-            }
-            memMet = .byWord
+        initPickerView()
+        refreshESTTimeLabel()
+    }
+    
+    func refreshESTTimeLabel() {
+        let currentDate = Date()
+        var dateComponent = DateComponents()
+        dateComponent.day = num_days_to_complete[dailyNumWordPickerView.selectedRow(inComponent: 1)]
+        let estDate = Calendar.current.date(byAdding: dateComponent, to: currentDate) ?? Date()
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "YYYY年MM月dd日"
+        let dateStr = dateFormatter.string(from: estDate)
+        DispatchQueue.main.async {
+            self.ESTTime.text = "\(dateStr)"
         }
-        refreshPickerView()
     }
     
     override func didReceiveMemoryWarning()
@@ -213,7 +219,7 @@ class SetMemOptionViewController: UIViewController, UIPickerViewDelegate, UIPick
     // The number of rows of data
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         if component == 0{
-            return num_of_items.count
+            return number_of_words.count
         }else{
             return num_days_to_complete.count
         }
@@ -221,7 +227,7 @@ class SetMemOptionViewController: UIViewController, UIPickerViewDelegate, UIPick
     }
     
     func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
-        var itemLabel:String = String(num_of_items[row])
+        var itemLabel:String = String(number_of_words[row])
         if component != 0{
             itemLabel = "\(num_days_to_complete[row])天"
         }
@@ -230,7 +236,7 @@ class SetMemOptionViewController: UIViewController, UIPickerViewDelegate, UIPick
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         if component == 0{
-            let numOfDayToComplete: Int = itemToDayDict[num_of_items[row]] ?? 0
+            let numOfDayToComplete: Int = itemToDayDict[number_of_words[row]] ?? 0
             
             let selected_second_ind:Int = selectedSecondIndex(numDay: numOfDayToComplete)
             if selected_second_ind >= 0{
@@ -244,6 +250,52 @@ class SetMemOptionViewController: UIViewController, UIPickerViewDelegate, UIPick
                 dailyNumWordPickerView.selectRow(selected_ind, inComponent: 0, animated: true)
             }
         }
+        refreshESTTimeLabel()
+    }
+    
+    func downloadBookJson(book: Book){
+        if Reachability.isConnectedToNetwork(){
+            DispatchQueue.global(qos: .background).async {
+            do {
+                DispatchQueue.main.async {
+                    self.initActivityIndicator(text: "书籍下载中")
+                }
+                if let bookJson = resultsItems[self.bookIndex].get("data") as? LCFile {
+                    let url = URL(string: bookJson.url?.stringValue ?? "")!
+                    let data = try? Data(contentsOf: url)
+
+                    if let jsonData = data {
+                        savejson(fileName: book.identifier, jsonData: jsonData)
+                        currentbook_json_obj = load_json(fileName: book.identifier)
+                        clear_words()
+                        update_words()
+                        get_words()
+                        DispatchQueue.main.async {
+                            self.stopIndicator()
+                            self.dismiss(animated: true, completion: nil)
+                            if let mainPanelVC = self.mainPanelVC{
+                                mainPanelVC.loadLearnController()
+                            }
+                        }
+                    }
+                }
+                }
+            }
+        }else{
+            if non_network_preseted == false{
+                let alertCtl = presentNoNetworkAlert()
+                self.present(alertCtl, animated: true, completion: nil)
+                non_network_preseted = true
+            }
+        }
+        
+    }
+    
+    @IBAction func setMemOption(_ sender: UIButton) {
+        setPreference(key: "memOrder", value: self.memOrd.rawValue)
+        setPreference(key: "current_book_id", value: self.book.identifier)
+        setPreference(key: "number_of_words_per_group", value: number_of_words[dailyNumWordPickerView.selectedRow(inComponent: 0)])
+        downloadBookJson(book: book)
     }
     
 }

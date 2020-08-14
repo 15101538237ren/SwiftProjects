@@ -406,79 +406,18 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
         return  books.count
     }
     
-    func downloadBookJson(index: Int){
-        if Reachability.isConnectedToNetwork(){
-            DispatchQueue.global(qos: .background).async {
-            do {
-                setPreference(key: "current_book_id", value: books[index].identifier)
-                
-                DispatchQueue.main.async {
-                    self.initActivityIndicator(text: "数据下载中")
-                }
-                if let bookJson = resultsItems[index].get("data") as? LCFile {
-                    let url = URL(string: bookJson.url?.stringValue ?? "")!
-                    let data = try? Data(contentsOf: url)
-                    
-                    if let jsonData = data {
-                        savejson(fileName: "current_book", jsonData: jsonData)
-                        currentbook_json_obj = load_json(fileName: "current_book")
-                        clear_words()
-                        update_words()
-                        get_words()
-                        DispatchQueue.main.async {
-                            self.stopIndicator()
-                            self.dismiss(animated: true, completion: nil)
-                            if let mainPanelViewController = self.mainPanelViewController{
-                                mainPanelViewController.loadLearnController()
-                            }
-                        }
-                    }
-                }
-                }
-            }
-        }else{
-            if non_network_preseted == false{
-                let alertCtl = presentNoNetworkAlert()
-                self.present(alertCtl, animated: true, completion: nil)
-                non_network_preseted = true
-            }
-        }
-        
-    }
-    
-    func downloadAlert(index: Int, bookName: String){
-        let monitor = NWPathMonitor()
-        monitor.pathUpdateHandler = { path in
-            if path.usesInterfaceType(.cellular) {
-                print("3G/4G FTW!!!")
-            }else{
-                
-            }
-        }
-        
-        
-        let alertController = UIAlertController(title: "学习\(bookName)?", message: "", preferredStyle: .alert)
-        let okayAction = UIAlertAction(title: "确定", style: .default, handler: { action in
-            self.downloadBookJson(index: index)
-        })
-        let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
-        alertController.addAction(okayAction)
-        alertController.addAction(cancelAction)
-        DispatchQueue.main.async {
-            self.present(alertController, animated: true, completion: nil)
-        }
-    }
-    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
         let SetMemOptionVC = mainStoryBoard.instantiateViewController(withIdentifier: "SetMemOptionVC") as! SetMemOptionViewController
         SetMemOptionVC.modalPresentationStyle = .overCurrentContext
         SetMemOptionVC.book = books[indexPath.row]
+        SetMemOptionVC.bookIndex = indexPath.row
+        SetMemOptionVC.bookVC = self
+        SetMemOptionVC.mainPanelVC = self.mainPanelViewController
         
         DispatchQueue.main.async {
             self.present(SetMemOptionVC, animated: true, completion: nil)
         }
-//        downloadAlert(index: indexPath.row, bookName: books[indexPath.row].name)
     }
     
 }

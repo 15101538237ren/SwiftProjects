@@ -9,6 +9,7 @@ target 'shuaci' do
   pod 'LeanCloud'
   pod 'CropViewController'
   pod 'SwiftTheme'
+  pod 'ReachabilitySwift'
   pod 'SwiftyJSON', '~> 4.0'
   pod 'AAInfographics', :git => 'https://github.com/AAChartModel/AAChartKit-Swift.git'
 end

@@ -9,19 +9,17 @@
 import Foundation
 
 struct VocabularyRecord: Codable {
-    var VocabRecId: String
+    var VocabHead: String
     var BookId:String
-    var WordRank: Int
     var LearnDate: Date?
     var CollectDate: Date?
     var Mastered: Bool
     var MasteredDate: Date?
     var ReviewDUEDate: Date?
     var BehaviorHistory: [Int]
-    init(VocabRecId: String, BookId: String, WordRank: Int, LearnDate: Date?, CollectDate: Date?, Mastered: Bool, MasteredDate: Date?, ReviewDUEDate: Date?, BehaviorHistory: [CardBehavior]) {
-        self.VocabRecId = VocabRecId
+    init(VocabHead: String, BookId: String, WordRank: Int, LearnDate: Date?, CollectDate: Date?, Mastered: Bool, MasteredDate: Date?, ReviewDUEDate: Date?, BehaviorHistory: [CardBehavior]) {
+        self.VocabHead = VocabHead
         self.BookId = BookId
-        self.WordRank = WordRank
         self.LearnDate = LearnDate
         self.CollectDate = CollectDate
         self.Mastered = Mastered

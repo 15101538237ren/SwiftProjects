@@ -432,19 +432,6 @@ func prepareRecordsAndPreference(completionHandler: @escaping CompletionHandler)
     GlobalLearningRecords = loadLearningRecords()
 }
 
-// MARK: - Vocab Util
-func learntVocabRanks() -> [Int]{
-    var vocabRanks:[Int] = []
-    let book_id:String = getPreference(key: "current_book_id") as! String
-    let vocabRecords: [VocabularyRecord] = loadVocabRecords()
-    for vocabRec in vocabRecords{
-        if vocabRec.BookId == book_id{
-            vocabRanks.append(vocabRec.WordRank)
-        }
-    }
-    return vocabRanks
-}
-
 func getVocabIdsFromVocabRecords(VocabRecords: [VocabularyRecord]) -> [String]{
     var VocabIds:[String] = []
     for VocabRecord in VocabRecords{

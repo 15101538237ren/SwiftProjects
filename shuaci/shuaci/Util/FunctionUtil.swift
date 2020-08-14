@@ -524,15 +524,54 @@ func get_words(){
             .url(for: .applicationSupportDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
             .appendingPathComponent(wordsJsonFp)
             if words.count == 0{
-                let word_list = currentbook_json_obj["data"]
-                if !FileManager.default.fileExists(atPath: wordJsonURL.path) {
-                    update_words()
+                if let bookId = getPreference(key: "current_book_id") as? String {
+                    if currentbook_json_obj.count == 0{
+                        currentbook_json_obj = load_json(fileName: bookId)
+                    }
+                    
+                    if !FileManager.default.fileExists(atPath: wordJsonURL.path) {
+                        update_words()
+                    }
+                    
+                    let learnt_vocabRecs:[VocabularyRecord] = loadVocabRecords()
+                    let learnt_word_heads: Set = Set<String>(learnt_vocabRecs.map{ $0.VocabHead })
+                    
+                    let chapters = currentbook_json_obj["chapters"].arrayValue
+                    var words_left:[String] = []
+                    var word_left_chpt_inds: [Int] = []
+                    var word_left_indexs_in_chpt: [Int] = []
+                    
+                    for chpt_idx in 0..<chapters.count{
+                        let chapter = chapters[chpt_idx]
+                        let word_heads = chapter["word_heads"].arrayValue.map {$0.stringValue}
+                        for wid in 0..<word_heads.count{
+                            let word = word_heads[wid]
+                            if !(learnt_word_heads.contains(word)){
+                                words_left.append(word)
+                                word_left_chpt_inds.append(chpt_idx)
+                                word_left_indexs_in_chpt.append(wid)
+                            }
+                        }
+                    }
+                    
+                    let number_of_words_per_group = getPreference(key: "number_of_words_per_group") as! Int
+                    let sampling_number:Int = min(number_of_words_per_group, words_left.count)
+                    
+                    let selectedIndexs:[Int] = loadIntArrayFromFile(filename: wordsJsonFp)
+                    
+                    for ind in 0..<selectedIndexs.count{
+                       let selectedInd = selectedIndexs[ind]
+                       let word_head: String = words_left[selectedInd]
+                       let word_chp_ind: Int = word_left_chpt_inds[selectedInd]
+                       let word_in_chp_ind: Int = word_left_indexs_in_chpt[selectedInd]
+                       let word_data = chapters[word_chp_ind]["data"].arrayValue[word_in_chp_ind].arrayValue
+                        let word_in_data = word_data[0].stringValue
+                        if word_in_data == word_head{
+                            words.append(word_data[1])
+                        }
+                    }
                 }
-                let sampled_ids:[Int] = loadIntArrayFromFile(filename: wordsJsonFp)
                 
-                for i in 0..<sampled_ids.count{
-                    words.append(word_list[sampled_ids[i]])
-                }
             }
         } catch {
             print(error.localizedDescription)
@@ -546,29 +585,66 @@ func clear_words(){
 }
 
 func update_words(){
-    if let _ = getPreference(key: "current_book_id") as? String {
-        let vocabRanks:[Int] = learntVocabRanks()
+    if let bookId = getPreference(key: "current_book_id") as? String {
+        let learnt_vocabRecs:[VocabularyRecord] = loadVocabRecords()
+        let learnt_word_heads: Set = Set<String>(learnt_vocabRecs.map{ $0.VocabHead })
+        
+        let chapters = currentbook_json_obj["chapters"].arrayValue
+        var words_left:[String] = []
+        var word_left_chpt_inds: [Int] = []
+        var word_left_indexs_in_chpt: [Int] = []
+        
+        for chpt_idx in 0..<chapters.count{
+            let chapter = chapters[chpt_idx]
+            let word_heads = chapter["word_heads"].arrayValue.map {$0.stringValue}
+            for wid in 0..<word_heads.count{
+                let word = word_heads[wid]
+                if !(learnt_word_heads.contains(word)){
+                    words_left.append(word)
+                    word_left_chpt_inds.append(chpt_idx)
+                    word_left_indexs_in_chpt.append(wid)
+                }
+            }
+        }
+        
+        let memOrder = getPreference(key: "memOrder") as! Int
         let number_of_words_per_group = getPreference(key: "number_of_words_per_group") as! Int
-        let word_list = currentbook_json_obj["data"]
-        let word_ids = word_list.count == 0 ? [] : Array(0..<word_list.count)
-        var diff_ids:[Int] = word_ids.difference(from: vocabRanks)
-        let sampling_number:Int = min(number_of_words_per_group, diff_ids.count)
+        let sampling_number:Int = min(number_of_words_per_group, words_left.count)
         
         words = []
-        var sampled_ids:[Int] = []//loadIntArrayFromFile(filename: wordsJsonFp)
-        var randomIndex:Int = Int.random(in: 0...(diff_ids.count - 1)) //Int(arc4random_uniform(UInt32(diff_ids.count - 1)))
-        print(diff_ids.count)
-        for _ in 0..<sampling_number{
-            while vocabRanks.contains(getFeildsOfWord(word: word_list[diff_ids[randomIndex]], usphone: true).wordRank) {
-                randomIndex = Int.random(in: 0...(diff_ids.count - 1))//Int(arc4random_uniform(UInt32(diff_ids.count - 1)))
+        var selectedIndexs:[Int] = []
+        if memOrder == 1{//Random
+            //Int(arc4random_uniform(UInt32(diff_ids.count - 1)))
+           for _ in 0..<sampling_number{
+                var randomIndex = Int.random(in: 0...(words_left.count - 1))
+                while selectedIndexs.contains(randomIndex){
+                    randomIndex = Int.random(in: 0...(words_left.count - 1))
+                }
+                selectedIndexs.append(randomIndex)
+           }
+        }else if memOrder == 2{ //Alphabet
+            for ind in 0..<sampling_number{
+               selectedIndexs.append(ind)
             }
-            
-            sampled_ids.append(diff_ids[randomIndex])
-            words.append(word_list[diff_ids[randomIndex]])
-            diff_ids.remove(at: randomIndex)
-            randomIndex = Int.random(in: 0...(diff_ids.count - 1))
+        } else{ //Reversed Alphabet
+            for ind in 0..<sampling_number{
+               selectedIndexs.append(words_left.count - 1 - ind)
+            }
         }
-        saveStringTo(fileName: wordsJsonFp, jsonStr: sampled_ids.map { String($0) }.joined(separator: ","))
+        var selected_word_heads:[String] = []
+        for ind in 0..<sampling_number{
+           let selectedInd = selectedIndexs[ind]
+           let word_head: String = words_left[selectedInd]
+           let word_chp_ind: Int = word_left_chpt_inds[selectedInd]
+           let word_in_chp_ind: Int = word_left_indexs_in_chpt[selectedInd]
+           let word_data = chapters[word_chp_ind]["data"].arrayValue[word_in_chp_ind].arrayValue
+            let word_in_data = word_data[0].stringValue
+            if word_in_data == word_head{
+                words.append(word_data[1])
+                selected_word_heads.append(word_head)
+            }
+        }
+        saveStringTo(fileName: wordsJsonFp, jsonStr: selectedIndexs.map { String($0) }.joined(separator: ","))
     }
 }
 

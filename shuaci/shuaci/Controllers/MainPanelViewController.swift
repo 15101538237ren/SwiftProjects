@@ -117,16 +117,20 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
     }
     
     func downloadBookJson(completionHandler: @escaping CompletionHandler){
-        if fileExist(fileFp: "current_book.json"){
-            completionHandler(true)
-        }
-        else{
-            DispatchQueue.global(qos: .background).async {
-            do {
-                DispatchQueue.main.async {
-                    self.syncLabel.text = "正在下载词书..."
+        if let bookId: String = getPreference(key: "current_book_id") as? String{
+            if fileExist(fileFp: "\(bookId).json"){
+                completionHandler(true)
+                if currentbook_json_obj.count == 0{
+                    currentbook_json_obj = load_json(fileName: bookId)
                 }
-                if let bookId: String = getPreference(key: "current_book_id") as? String{
+            }
+            else{
+                DispatchQueue.global(qos: .background).async {
+                do {
+                    DispatchQueue.main.async {
+                        self.syncLabel.text = "正在下载词书..."
+                    }
+                    
                     let query = LCQuery(className: "Book")
                     query.whereKey("identifier", .equalTo(bookId))
                     _ = query.getFirst() { result in
@@ -137,8 +141,8 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
                                 let data = try? Data(contentsOf: url)
                                 
                                 if let jsonData = data {
-                                    savejson(fileName: "current_book", jsonData: jsonData)
-                                    currentbook_json_obj = load_json(fileName: "current_book")
+                                    savejson(fileName: bookId, jsonData: jsonData)
+                                    currentbook_json_obj = load_json(fileName: bookId)
                                     update_words()
                                     get_words()
                                     completionHandler(true)
@@ -149,13 +153,14 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
                             completionHandler(false)
                         }
                     }
-                }else{
-                    DispatchQueue.main.async {
-                        self.shouldStopRotating = true
-                        self.syncLabel.alpha = 0.0
+                    
                     }
                 }
-                }
+            }
+        }else{
+            DispatchQueue.main.async {
+                self.shouldStopRotating = true
+                self.syncLabel.alpha = 0.0
             }
         }
     }
