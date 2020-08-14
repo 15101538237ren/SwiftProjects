@@ -2252,58 +2252,11 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" spacing="25" translatesAutoresizingMaskIntoConstraints="NO" id="8NP-hh-ymi">
-                                <rect key="frame" x="97.5" y="602" width="219" height="14.5"/>
-                                <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="预计完成时间" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nvZ-WS-9rZ">
-                                        <rect key="frame" x="0.0" y="0.0" width="74" height="14.5"/>
-                                        <fontDescription key="fontDescription" type="system" weight="light" pointSize="12"/>
-                                        <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="                        " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ge6-Dm-g6C">
-                                        <rect key="frame" x="99" y="0.0" width="120" height="14.5"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="120" id="HSc-m6-zh9"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" type="system" weight="light" pointSize="12"/>
-                                        <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                </subviews>
-                            </stackView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="R8f-03-i8D">
-                                <rect key="frame" x="190.5" y="636.5" width="33" height="32"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                <state key="normal" title="设置">
-                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </state>
-                            </button>
-                            <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6R6-S1-K0W">
-                                <rect key="frame" x="20" y="59" width="30" height="30"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="30" id="SbS-5o-RVO"/>
-                                    <constraint firstAttribute="height" constant="30" id="arg-RP-BvO"/>
-                                </constraints>
-                                <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <state key="normal" image="chevron.down" catalog="system">
-                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="large"/>
-                                </state>
-                                <connections>
-                                    <action selector="unwindWithSender:" destination="9dM-Pi-OcM" eventType="touchUpInside" id="Zc1-bv-gxL"/>
-                                </connections>
-                            </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="设置背词方式" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="S2E-Ra-ILu">
-                                <rect key="frame" x="155" y="173.5" width="104" height="20.5"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="XhQ-mC-Rio">
                                 <rect key="frame" x="47" y="234" width="320" height="348"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="7" translatesAutoresizingMaskIntoConstraints="NO" id="ER8-HM-LKA">
-                                        <rect key="frame" x="0.0" y="0.0" width="195" height="31"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="194" height="31"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1. 背词方式" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3cW-G2-boS">
                                                 <rect key="frame" x="0.0" y="0.0" width="71" height="31"/>
@@ -2312,11 +2265,14 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" apportionsSegmentWidthsByContent="YES" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="oTF-Nr-cCj">
-                                                <rect key="frame" x="78" y="0.0" width="117" height="32"/>
+                                                <rect key="frame" x="78" y="0.0" width="116" height="32"/>
                                                 <segments>
                                                     <segment title="按单词"/>
-                                                    <segment title="按章节"/>
+                                                    <segment title="按Unit"/>
                                                 </segments>
+                                                <connections>
+                                                    <action selector="memMethodChanged:" destination="9dM-Pi-OcM" eventType="valueChanged" id="xZP-dM-Ykd"/>
+                                                </connections>
                                             </segmentedControl>
                                         </subviews>
                                     </stackView>
@@ -2336,6 +2292,9 @@
                                                     <segment title="顺序"/>
                                                     <segment title="倒序"/>
                                                 </segments>
+                                                <connections>
+                                                    <action selector="memOrderChanged:" destination="9dM-Pi-OcM" eventType="valueChanged" id="lGb-Fg-Ekl"/>
+                                                </connections>
                                             </segmentedControl>
                                         </subviews>
                                     </stackView>
@@ -2360,7 +2319,7 @@
                                                                 <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="每天背单词" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="phL-hB-Do8">
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="每日单词数" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="phL-hB-Do8">
                                                                 <rect key="frame" x="50" y="8" width="61.5" height="14.5"/>
                                                                 <fontDescription key="fontDescription" type="system" weight="light" pointSize="12"/>
                                                                 <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -2392,6 +2351,53 @@
                                     </stackView>
                                 </subviews>
                             </stackView>
+                            <stackView opaque="NO" contentMode="scaleToFill" spacing="25" translatesAutoresizingMaskIntoConstraints="NO" id="8NP-hh-ymi">
+                                <rect key="frame" x="97.5" y="592" width="219" height="14.5"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="预计完成时间" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nvZ-WS-9rZ">
+                                        <rect key="frame" x="0.0" y="0.0" width="74" height="14.5"/>
+                                        <fontDescription key="fontDescription" type="system" weight="light" pointSize="12"/>
+                                        <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="                        " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ge6-Dm-g6C">
+                                        <rect key="frame" x="99" y="0.0" width="120" height="14.5"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="120" id="HSc-m6-zh9"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" weight="light" pointSize="12"/>
+                                        <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                            </stackView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="R8f-03-i8D">
+                                <rect key="frame" x="190.5" y="626.5" width="33" height="32"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <state key="normal" title="设置">
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                            </button>
+                            <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6R6-S1-K0W">
+                                <rect key="frame" x="20" y="59" width="30" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="30" id="SbS-5o-RVO"/>
+                                    <constraint firstAttribute="height" constant="30" id="arg-RP-BvO"/>
+                                </constraints>
+                                <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal" image="chevron.down" catalog="system">
+                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="large"/>
+                                </state>
+                                <connections>
+                                    <action selector="unwindWithSender:" destination="9dM-Pi-OcM" eventType="touchUpInside" id="Zc1-bv-gxL"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="新概念第一册" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="46t-IM-QFu">
+                                <rect key="frame" x="153" y="158.5" width="108.5" height="25.5"/>
+                                <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="18"/>
+                                <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
@@ -2400,11 +2406,11 @@
                             <constraint firstItem="6R6-S1-K0W" firstAttribute="top" secondItem="SwO-NG-Lc9" secondAttribute="top" constant="15" id="Eur-w6-adG"/>
                             <constraint firstItem="R8f-03-i8D" firstAttribute="centerX" secondItem="W6v-uF-MsG" secondAttribute="centerX" id="Nb3-9o-bb9"/>
                             <constraint firstItem="8NP-hh-ymi" firstAttribute="centerX" secondItem="W6v-uF-MsG" secondAttribute="centerX" id="QJA-Yb-O5k"/>
-                            <constraint firstItem="S2E-Ra-ILu" firstAttribute="centerX" secondItem="W6v-uF-MsG" secondAttribute="centerX" id="Xxe-wl-Jsa"/>
-                            <constraint firstItem="XhQ-mC-Rio" firstAttribute="top" secondItem="S2E-Ra-ILu" secondAttribute="bottom" constant="40" id="iC9-pc-RCy"/>
+                            <constraint firstItem="XhQ-mC-Rio" firstAttribute="top" secondItem="46t-IM-QFu" secondAttribute="bottom" constant="50" id="TZU-P2-l1K"/>
+                            <constraint firstItem="46t-IM-QFu" firstAttribute="centerX" secondItem="W6v-uF-MsG" secondAttribute="centerX" id="eyp-Ww-4H2"/>
                             <constraint firstItem="6R6-S1-K0W" firstAttribute="leading" secondItem="SwO-NG-Lc9" secondAttribute="leading" constant="20" id="iOr-oq-lbx"/>
                             <constraint firstItem="R8f-03-i8D" firstAttribute="top" secondItem="8NP-hh-ymi" secondAttribute="bottom" constant="20" id="pM7-YL-HB7"/>
-                            <constraint firstItem="8NP-hh-ymi" firstAttribute="top" secondItem="XhQ-mC-Rio" secondAttribute="bottom" constant="20" id="uP8-T9-lcZ"/>
+                            <constraint firstItem="8NP-hh-ymi" firstAttribute="top" secondItem="XhQ-mC-Rio" secondAttribute="bottom" constant="10" id="uP8-T9-lcZ"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="SwO-NG-Lc9"/>
                         <connections>
@@ -2412,14 +2418,16 @@
                             <outlet property="ESTTime" destination="Ge6-Dm-g6C" id="AIz-Q4-Fr5"/>
                             <outlet property="backBtn" destination="6R6-S1-K0W" id="uMQ-Mx-3Gq"/>
                             <outlet property="dailyNumWordPickerView" destination="3ds-Cq-HDz" id="WV0-LD-4iL"/>
+                            <outlet property="estDaysLabel" destination="Is3-7B-91u" id="mKB-4k-HUW"/>
                             <outlet property="everayDayPlanView" destination="36X-hw-gyR" id="iKM-UR-mrX"/>
+                            <outlet property="everyDayNumWordLabel" destination="phL-hB-Do8" id="2Ei-1m-6y3"/>
                             <outlet property="everyDayPlanLabel" destination="j4s-sg-dkh" id="g5H-Ot-8fe"/>
                             <outlet property="memMethodLabel" destination="3cW-G2-boS" id="9yZ-bU-OdU"/>
                             <outlet property="memMethodSegCtrl" destination="oTF-Nr-cCj" id="PVI-fF-Xck"/>
                             <outlet property="memOrderLabel" destination="Ot9-VT-elk" id="eIp-kb-db4"/>
                             <outlet property="memOrderSegCtrl" destination="SeM-yE-WzK" id="tMp-HE-gh6"/>
                             <outlet property="setBtn" destination="R8f-03-i8D" id="mlM-Dt-G4q"/>
-                            <outlet property="title" destination="S2E-Ra-ILu" id="wuX-HQ-E0W"/>
+                            <outlet property="title" destination="46t-IM-QFu" id="1Au-h3-frs"/>
                         </connections>
                     </view>
                     <connections>
@@ -2427,13 +2435,16 @@
                         <outlet property="ESTTime" destination="Ge6-Dm-g6C" id="zlf-JP-bcA"/>
                         <outlet property="backBtn" destination="6R6-S1-K0W" id="67Y-We-cBC"/>
                         <outlet property="dailyNumWordPickerView" destination="3ds-Cq-HDz" id="8wI-RG-L7x"/>
+                        <outlet property="estDaysLabel" destination="Is3-7B-91u" id="Rd6-xw-YkO"/>
+                        <outlet property="everyDayNumWordLabel" destination="phL-hB-Do8" id="mAS-tZ-4wm"/>
                         <outlet property="everyDayPlanLabel" destination="j4s-sg-dkh" id="tYc-ZG-9uc"/>
                         <outlet property="memMethodLabel" destination="3cW-G2-boS" id="Vt6-4d-mnu"/>
                         <outlet property="memMethodSegCtrl" destination="oTF-Nr-cCj" id="YCF-hW-0cm"/>
                         <outlet property="memOrderLabel" destination="Ot9-VT-elk" id="zU4-ud-SFp"/>
                         <outlet property="memOrderSegCtrl" destination="SeM-yE-WzK" id="oQU-B2-Qkc"/>
                         <outlet property="setBtn" destination="R8f-03-i8D" id="xHd-sZ-2N6"/>
-                        <outlet property="titleLabel" destination="S2E-Ra-ILu" id="HVa-ls-Dag"/>
+                        <outlet property="titleLabel" destination="46t-IM-QFu" id="URS-LK-deR"/>
+                        <outlet property="title_To_Bottom_Y_Constraint" destination="TZU-P2-l1K" id="VTl-cz-ZC5"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pOA-Vx-yK1" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

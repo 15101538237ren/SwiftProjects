@@ -271,8 +271,11 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
                                     let word_num = item.get("word_num")?.intValue
                                     let recite_user_num = item.get("recite_user_num")?.intValue
                                     let file_sz = item.get("file_sz")?.floatValue
+                                    let nchpt = item.get("nchpt")?.intValue
+                                    let avg_nwchpt = item.get("avg_nwchpt")?.intValue
+                                    let nwchpt = item.get("nwchpt")?.stringValue
                                     
-                                    let book:Book = Book(identifier: identifier ?? "", level1_category: level1_category ?? 0, level2_category: level2_category ?? 0, name: name ?? "", description: desc ?? "", word_num: word_num ?? 0, recite_user_num: recite_user_num ?? 0, file_sz: file_sz ?? 0.0)
+                                    let book:Book = Book(identifier: identifier ?? "", level1_category: level1_category ?? 0, level2_category: level2_category ?? 0, name: name ?? "", description: desc ?? "", word_num: word_num ?? 0, recite_user_num: recite_user_num ?? 0, file_sz: file_sz ?? 0.0, nchpt: nchpt ?? 0, avg_nwchpt: avg_nwchpt ?? 0, nwchpt: nwchpt ?? "")
                                     self.tempBooks.append(book)
                                     self.tempItems.append(item)
                                 }
@@ -325,7 +328,11 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
                                 let recite_user_num = item.get("recite_user_num")?.intValue
                                 let file_sz = item.get("file_sz")?.floatValue
                                 
-                                let book:Book = Book(identifier: identifier ?? "", level1_category: level1_category ?? 0, level2_category: level2_category ?? 0, name: name ?? "", description: desc ?? "", word_num: word_num ?? 0, recite_user_num: recite_user_num ?? 0, file_sz: file_sz ?? 0.0)
+                                let nchpt = item.get("nchpt")?.intValue
+                                let avg_nwchpt = item.get("avg_nwchpt")?.intValue
+                                let nwchpt = item.get("nwchpt")?.stringValue
+                                
+                                let book:Book = Book(identifier: identifier ?? "", level1_category: level1_category ?? 0, level2_category: level2_category ?? 0, name: name ?? "", description: desc ?? "", word_num: word_num ?? 0, recite_user_num: recite_user_num ?? 0, file_sz: file_sz ?? 0.0, nchpt: nchpt ?? 0, avg_nwchpt: avg_nwchpt ?? 0, nwchpt: nwchpt ?? "")
                                 self.tempBooks.append(book)
                                 self.tempItems.append(item)
                             }
@@ -461,10 +468,13 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
             self.present(alertController, animated: true, completion: nil)
         }
     }
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
         let SetMemOptionVC = mainStoryBoard.instantiateViewController(withIdentifier: "SetMemOptionVC") as! SetMemOptionViewController
         SetMemOptionVC.modalPresentationStyle = .overCurrentContext
+        SetMemOptionVC.book = books[indexPath.row]
+        
         DispatchQueue.main.async {
             self.present(SetMemOptionVC, animated: true, completion: nil)
         }
