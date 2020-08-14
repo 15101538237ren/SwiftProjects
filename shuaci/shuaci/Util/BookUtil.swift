@@ -36,14 +36,31 @@ let categories:[Int: [String: [Int: String]]] = [
     8: ["category": [0:"其他"], "subcategory": [0:"全部", 1: "词组", 2: "新概念", 3: "老版词书", 4: "词汇量", 9: "全国等级考试", 10: "其他"]],
 ]
 
-func getCurrentBookIndex() -> Int{
+func getCurrentBook() -> Book?{
     if let bookId = getPreference(key: "current_book_id") as? String {
-        for bid in 0..<global_total_books.count{
-            let book = global_total_books[bid]
-            if book.identifier == bookId{
-                return bid
-            }
+        if currentbook_json_obj.count == 0{
+            currentbook_json_obj = load_json(fileName: bookId)
         }
+        
+        let chapters = currentbook_json_obj["chapters"].arrayValue
+        var word_num:Int = 0
+        for chpt_idx in 0..<chapters.count{
+            let chapter = chapters[chpt_idx]
+            word_num += chapter["word_heads"].arrayValue.count
+        }
+        
+        let level1_category = currentbook_json_obj["level1_category"].intValue
+        let level2_category = currentbook_json_obj["level2_category"].intValue
+        let book_name = currentbook_json_obj["name"].stringValue
+        let description = currentbook_json_obj["description"].stringValue
+        let recite_user_num = currentbook_json_obj["recite_user_num"].intValue
+        let file_sz = currentbook_json_obj["file_sz"].floatValue
+        let nchpt = chapters.count
+        let avg_nwchpt = currentbook_json_obj["avg_nwchpt"].intValue
+        let nwchpt = currentbook_json_obj["nwchpt"].stringValue
+        let book:Book = Book(identifier: bookId, level1_category: level1_category, level2_category: level2_category, name: book_name, description: description, word_num: word_num, recite_user_num: recite_user_num, file_sz: file_sz, nchpt: nchpt, avg_nwchpt: avg_nwchpt, nwchpt: nwchpt)
+
+        return book
     }
-    return -1
+    return nil
 }

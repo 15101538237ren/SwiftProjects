@@ -112,7 +112,7 @@ class EmailLoginViewController: UIViewController {
 //                        UserDefaults.standard.set(lastEmailLoginClickTime, forKey: lastEmailLoginClickTimeKey)
 //                    }
                     
-                    if !emailClickKeySet || (minutesBetweenDates(lastEmailLoginClickTime, Date()) > 1) {
+                    if !emailClickKeySet || (minutesBetweenDates(lastEmailLoginClickTime, Date()) > 0.5) {
                         DispatchQueue.main.async {
                             self.initActivityIndicator(text: "正在登录")
                         }
@@ -179,7 +179,7 @@ class EmailLoginViewController: UIViewController {
                         }
                     }
                     else{
-                        self.presentAlertInView(title: "登录请求太快，请等待1分钟!", message: "", okText: "好")
+                        self.presentAlertInView(title: "登录请求太快，请等待30秒!", message: "", okText: "好")
                     }
                 }else{
                    if non_network_preseted == false{
@@ -222,6 +222,4 @@ class EmailLoginViewController: UIViewController {
             
         }
     }
-    
-    
 }

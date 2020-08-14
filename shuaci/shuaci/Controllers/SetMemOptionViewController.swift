@@ -38,6 +38,7 @@ class SetMemOptionViewController: UIViewController, UIPickerViewDelegate, UIPick
     @IBOutlet weak var dailyNumWordPickerView: UIPickerView!
     
     let number_of_words: [Int] = [10, 20, 30, 40, 50, 100, 150, 200, 300, 400, 500]
+    var number_of_items:[Int] = []
     var num_days_to_complete: [Int] = []
     
     enum memOrder: Int {
@@ -103,8 +104,8 @@ class SetMemOptionViewController: UIViewController, UIPickerViewDelegate, UIPick
     }
     
     func selectedFirstIndex(numWord: Int) -> Int{
-        for i in 0..<number_of_words.count{
-            if number_of_words[i] == numWord{
+        for i in 0..<number_of_items.count{
+            if number_of_items[i] == numWord{
                 return i
             }
         }
@@ -141,10 +142,12 @@ class SetMemOptionViewController: UIViewController, UIPickerViewDelegate, UIPick
     func initPickerView() {
         num_days_to_complete = []
         itemToDayDict = [:]
+        number_of_items = []
         var num_days_to_complete_set: Set = Set<Int>()
         
         for item in number_of_words{
             if item <= book.word_num{
+                number_of_items.append(item)
                 let numDayToComplete:Int = Int((Float(book.word_num) / Float(item)).rounded(.up))
                 num_days_to_complete_set.insert(numDayToComplete)
                 itemToDayDict[item] = numDayToComplete
@@ -166,7 +169,7 @@ class SetMemOptionViewController: UIViewController, UIPickerViewDelegate, UIPick
         
         dailyNumWordPickerView.selectRow(selected_ind, inComponent: 0, animated: true)
         
-        let numOfDayToComplete: Int = itemToDayDict[number_of_words[selected_ind]] ?? 0
+        let numOfDayToComplete: Int = itemToDayDict[number_of_items[selected_ind]] ?? 0
         let selected_second_ind:Int = selectedSecondIndex(numDay: numOfDayToComplete)
         if selected_second_ind >= 0{
             dailyNumWordPickerView.selectRow(selected_second_ind, inComponent: 1, animated: true)
@@ -236,7 +239,7 @@ class SetMemOptionViewController: UIViewController, UIPickerViewDelegate, UIPick
     // The number of rows of data
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         if component == 0{
-            return number_of_words.count
+            return number_of_items.count
         }else{
             return num_days_to_complete.count
         }
@@ -244,7 +247,7 @@ class SetMemOptionViewController: UIViewController, UIPickerViewDelegate, UIPick
     }
     
     func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
-        var itemLabel:String = String(number_of_words[row])
+        var itemLabel:String = String(number_of_items[row])
         if component != 0{
             itemLabel = "\(num_days_to_complete[row])天"
         }
@@ -253,7 +256,7 @@ class SetMemOptionViewController: UIViewController, UIPickerViewDelegate, UIPick
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         if component == 0{
-            let numOfDayToComplete: Int = itemToDayDict[number_of_words[row]] ?? 0
+            let numOfDayToComplete: Int = itemToDayDict[number_of_items[row]] ?? 0
             
             let selected_second_ind:Int = selectedSecondIndex(numDay: numOfDayToComplete)
             if selected_second_ind >= 0{
@@ -277,25 +280,32 @@ class SetMemOptionViewController: UIViewController, UIPickerViewDelegate, UIPick
                 DispatchQueue.main.async {
                     self.initActivityIndicator(text: "书籍下载中")
                 }
-                if let bookJson = resultsItems[self.bookIndex].get("data") as? LCFile {
-                    let url = URL(string: bookJson.url?.stringValue ?? "")!
-                    let data = try? Data(contentsOf: url)
+                if self.bookIndex >= 0 {
+                    if let bookJson = resultsItems[self.bookIndex].get("data") as? LCFile {
+                        let url = URL(string: bookJson.url?.stringValue ?? "")!
+                        let data = try? Data(contentsOf: url)
 
-                    if let jsonData = data {
-                        savejson(fileName: book.identifier, jsonData: jsonData)
-                        currentbook_json_obj = load_json(fileName: book.identifier)
-                        clear_words()
-                        update_words()
-                        get_words()
-                        DispatchQueue.main.async {
-                            self.stopIndicator()
-                            self.dismiss(animated: true, completion: nil)
-                            if let mainPanelVC = self.mainPanelVC{
-                                mainPanelVC.loadLearnController()
+                        if let jsonData = data {
+                            savejson(fileName: book.identifier, jsonData: jsonData)
+                            currentbook_json_obj = load_json(fileName: book.identifier)
+                            clear_words()
+                            update_words()
+                            get_words()
+                            DispatchQueue.main.async {
+                                self.stopIndicator()
+                                self.dismiss(animated: true, completion: {
+                                     () -> Void in
+                                        if let bookVC = self.bookVC{
+                                            bookVC.dismiss(animated: false, completion: { () -> Void in
+                                            if self.mainPanelVC != nil{
+                                                self.mainPanelVC!.loadLearnController()
+                                            }})
+                                        }
+                                })
                             }
                         }
                     }
-                }
+                    }
                 }
             }
         }else{
@@ -320,10 +330,10 @@ class SetMemOptionViewController: UIViewController, UIPickerViewDelegate, UIPick
         {
             if setting_tableView != nil{
                 DispatchQueue.main.async {
-                    let indexPath_in_setting = IndexPath(item: 3, section: 0)
+                    let indexPath_in_setting = IndexPath(row: 3, section: 0)
                     let cell_in_setting = self.setting_tableView!.dequeueReusableCell(withIdentifier: "SettingCell", for: indexPath_in_setting) as! SettingTableViewCell
                     cell_in_setting.valueLabel?.text = "\(number_of_words_per_group)"
-                        self.setting_tableView!.reloadRows(at: [indexPath_in_setting], with: .top)
+                    self.setting_tableView!.reloadRows(at: [indexPath_in_setting], with: .none)
                     self.dismiss(animated: true, completion: nil)
                 }
             }

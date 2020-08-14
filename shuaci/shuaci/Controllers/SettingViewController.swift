@@ -265,13 +265,12 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
                 self.present(booksVC, animated: true, completion: nil)
             }
         case 3:
-            let bookIndex = getCurrentBookIndex()
-            if bookIndex >= 0 {
+            if let book = getCurrentBook() {
                 let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
                 let SetMemOptionVC = mainStoryBoard.instantiateViewController(withIdentifier: "SetMemOptionVC") as! SetMemOptionViewController
                 SetMemOptionVC.modalPresentationStyle = .overCurrentContext
-                SetMemOptionVC.bookIndex = bookIndex
-                SetMemOptionVC.book = global_total_books[bookIndex]
+                SetMemOptionVC.bookIndex = -1
+                SetMemOptionVC.book = book
                 SetMemOptionVC.bookVC = nil
                 SetMemOptionVC.mainPanelVC = nil
                 SetMemOptionVC.setting_tableView = self.tableView

@@ -413,7 +413,7 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
         SetMemOptionVC.book = books[indexPath.row]
         SetMemOptionVC.bookIndex = indexPath.row
         SetMemOptionVC.bookVC = self
-        SetMemOptionVC.mainPanelVC = self.mainPanelViewController
+        SetMemOptionVC.mainPanelVC = mainPanelViewController
         
         DispatchQueue.main.async {
             self.present(SetMemOptionVC, animated: true, completion: nil)
