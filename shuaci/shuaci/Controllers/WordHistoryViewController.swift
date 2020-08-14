@@ -36,7 +36,7 @@ class WordHistoryViewController: UIViewController {
         for key in sortedKeys{
             for idx in 0..<groupedVocabs[key]!.count{
                 if cellIsSelected[key]![idx]{
-                    print(groupedVocabs[key]![idx].VocabRecId)
+                    print(groupedVocabs[key]![idx].VocabHead)
                 }
             }
         }
@@ -161,7 +161,7 @@ extension WordHistoryViewController: UITableViewDataSource, UITableViewDelegate{
         let cell = tableView.dequeueReusableCell(withIdentifier: "vocabHistoryCell", for: indexPath) as! WordHistoryTableViewCell
         cell.backgroundColor = .clear
         let vocab: VocabularyRecord = groupedVocabs[sortedKeys[section]]![row]
-        cell.wordHeadLabel.text = vocab.VocabRecId
+        cell.wordHeadLabel.text = vocab.VocabHead
         let progress: Float = getMasteredProgress(vocab: vocab)
         cell.progressView.progress = progress
         cell.progressView.progressTintColor = progressBarColor(progress: progress)
