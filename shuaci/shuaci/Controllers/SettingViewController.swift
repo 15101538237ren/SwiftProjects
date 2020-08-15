@@ -23,7 +23,7 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
         SettingItem(icon: UIImage(named: "auto_pronunciation") ?? UIImage(), name: "自动发音", value: "开"),
         SettingItem(icon: UIImage(named: "english_american_pronunce") ?? UIImage(), name: "发音类型", value: "美"),
         SettingItem(icon: UIImage(named: "choose_book") ?? UIImage(), name: "选择单词书", value: ""),
-        SettingItem(icon: UIImage(named: "vocab_amount_each_group") ?? UIImage(), name: "设置学习计划", value: "20"),
+        SettingItem(icon: UIImage(named: "vocab_amount_each_group") ?? UIImage(), name: "设置学习计划", value: ""),
         SettingItem(icon: UIImage(named: "learning_reminder") ?? UIImage(), name: "每日提醒", value: ""),
         SettingItem(icon: UIImage(named: "clean_cache") ?? UIImage(), name: "清除缓存", value: "3.25M"),
         SettingItem(icon: UIImage(named: "sync_record") ?? UIImage(), name: "同步学习记录至云端", value: ""),
@@ -195,7 +195,7 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
             let settingItem:SettingItem = settingItems[row]
             cell.iconView?.image = settingItem.icon
             cell.nameLabel?.text = settingItem.name
-            cell.valueLabel?.text = "\(getPreference(key: "number_of_words_per_group") as! Int)"
+            cell.valueLabel?.text = ""
             return cell
         }
             
