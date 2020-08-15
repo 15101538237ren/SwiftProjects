@@ -88,6 +88,7 @@ class LearnWordViewController: UIViewController {
     }
     
     @IBAction func unwind(segue: UIStoryboardSegue) {
+        self.mp3Player?.stop()
         self.dismiss(animated: true, completion: nil)
     }
     

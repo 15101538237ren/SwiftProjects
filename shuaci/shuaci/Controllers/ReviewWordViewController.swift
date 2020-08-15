@@ -92,6 +92,7 @@ class ReviewWordViewController: UIViewController {
     }
     
     @IBAction func ExitReview(_ sender: UIButton) {
+        self.mp3Player?.stop()
         if self.currentIndex > 0{
             let alertController = UIAlertController(title: "是否保存当前复习记录?", message: "", preferredStyle: .alert)
             let okayAction = UIAlertAction(title: "是", style: .default, handler: { action in
