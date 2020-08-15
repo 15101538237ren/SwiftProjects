@@ -8,6 +8,7 @@
 
 import UIKit
 import SwiftTheme
+import SwiftyJSON
 
 class WordHistoryViewController: UIViewController {
     @IBOutlet weak var segmentedControl: UISegmentedControl!
@@ -15,15 +16,36 @@ class WordHistoryViewController: UIViewController {
     @IBOutlet weak var multiSelectionBtn: UIButton!
     @IBOutlet weak var backBtn: UIButton!
     @IBOutlet weak var barTitleLabel: UILabel!
-    @IBOutlet weak var timerImgView: UIImageView!
     var tableISEditing: Bool = false
     var cellIsSelected:[String:[Bool]] = [:]
     let redColor:UIColor = UIColor(red: 168, green: 0, blue: 0, alpha: 1)
+    
+    var AllData:[String:JSON] = [:]
+    var AllData_keys:[String] = []
+    var AllInterp_keys:[String] = []
     
     @IBOutlet weak var reviewSelectionBtn: UIButton!{
         didSet {
             reviewSelectionBtn.layer.cornerRadius = 15.0
             reviewSelectionBtn.layer.masksToBounds = true
+        }
+    }
+    
+    private var DICT_URL: URL = Bundle.main.url(forResource: "DICT.json", withExtension: nil)!
+    
+    func load_DICT(){
+        do {
+           let data = try Data(contentsOf: DICT_URL, options: [])//.mappedIfSafe
+           AllData = try JSON(data: data)["data"].dictionary!
+            let key_arr = try JSON(data: data)["keys"].arrayValue
+            for key in key_arr{
+                let key_str = key.stringValue
+                AllData_keys.append(key_str)
+                AllInterp_keys.append(AllData[key_str]!.stringValue)
+            }
+           print("Load \(DICT_URL) successful!")
+        } catch {
+            print(error.localizedDescription)
         }
     }
     
@@ -117,8 +139,21 @@ class WordHistoryViewController: UIViewController {
         return viewBackgroundColor
     }
     
+    func getMeaningOfVocab(vocab: VocabularyRecord) -> String? {
+        let word = vocab.VocabHead
+        for ik in 0..<AllData_keys.count{
+            let key = AllData_keys[ik]
+            if key.lowercased() == word.lowercased(){
+                return AllInterp_keys[ik].replacingOccurrences(of: "\\n", with: "\n")
+            }
+        }
+        return nil
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        load_DICT()
+        
         view.theme_backgroundColor = "Global.viewBackgroundColor"
         backBtn.theme_tintColor = "Global.backBtnTintColor"
         barTitleLabel.theme_textColor = "Global.barTitleColor"
@@ -183,9 +218,9 @@ extension WordHistoryViewController: UITableViewDataSource, UITableViewDelegate{
             let minuteDiff = dc.minute ?? 0
             let secondDiff = dc.second ?? 0
             var timer_text = ""
-            var negative: String = ""
+            var negative: String = "距复习: "
             if date > dueDate{
-                negative = "-"
+                negative = "已逾期: "
             }
             if dayDiff != 0{
                 timer_text = timer_text + "\(abs(dayDiff))天"
@@ -196,7 +231,7 @@ extension WordHistoryViewController: UITableViewDataSource, UITableViewDelegate{
             if minuteDiff != 0{
                 timer_text = timer_text + "\(abs(minuteDiff))分"
             }
-            if secondDiff != 0{
+            if secondDiff != 0 && dayDiff == 0{
                 timer_text = timer_text + "\(abs(secondDiff))秒"
             }
             if timer_text != ""{
@@ -216,24 +251,23 @@ extension WordHistoryViewController: UITableViewDataSource, UITableViewDelegate{
         let vocab: VocabularyRecord = groupedVocabs[sortedKeys[section]]![row]
         cell.wordHeadLabel.text = vocab.VocabHead
         let progress: Float = getMasteredProgress(vocab: vocab)
-        if let hourDiff = get_hour_difference_between_date_to_vocab_review_due(vocab: vocab){
-            if hourDiff < 1{
-                cell.timerImgView.tintColor = redColor
-            }else if (hourDiff >= 1 && hourDiff < 24){
-                cell.timerImgView.tintColor = .orange
-            }else if (hourDiff >= 24 && hourDiff < 24*3){
-                cell.timerImgView.tintColor = .blue
-            }else if (hourDiff >= 24*3){
-                cell.timerImgView.tintColor = .green
-            }
-        }
         
         if let timerText = get_timer_text_of(vocab: vocab){
             cell.timerLabel.text = timerText
         }
+        if let dueDate = vocab.ReviewDUEDate{
+            let date = Date()
+            if date > dueDate{
+                cell.timerLabel.textColor = redColor
+            }
+        }
         cell.progressView.progress = progress
         cell.progressView.progressTintColor = progressBarColor(progress: progress)
+        cell.medalImgView.tintColor =  progressBarColor(progress: progress)
         cell.masterPercentLabel.text = "\(Int(round(100.0*Double(progress))))%"
+        if let meaning = getMeaningOfVocab(vocab: vocab){
+            cell.wordTransLabel.text = meaning
+        }
         return cell
     }
     

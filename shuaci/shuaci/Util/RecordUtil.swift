@@ -73,8 +73,10 @@ func progressBarColor(progress: Float) -> UIColor{
         return .systemGreen
     } else if progress > 0.4{
         return .systemBlue
-    } else{
+    } else if progress > 0{
         return .systemOrange
+    }else{
+        return .lightGray
     }
 }
 

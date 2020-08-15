@@ -12,15 +12,23 @@ class WordHistoryTableViewCell: UITableViewCell {
     @IBOutlet weak var wordHeadLabel: UILabel!{
         didSet{
             wordHeadLabel.theme_textColor = "TableView.labelTextColor"
+            wordHeadLabel.numberOfLines = 0
         }
     }
+    @IBOutlet weak var wordTransLabel: UILabel!{
+        didSet{
+            wordTransLabel.theme_textColor = "SearchVC.transColor"
+            wordTransLabel.numberOfLines = 0
+        }
+    }
+    
     @IBOutlet weak var timerLabel: UILabel!{
         didSet{
             timerLabel.theme_textColor = "TableView.valueTextColor"
         }
     }
     
-    @IBOutlet weak var timerImgView: UIImageView!
+    @IBOutlet weak var medalImgView: UIImageView!
     
     @IBOutlet weak var masteredUILabel: UILabel!{
         didSet{
