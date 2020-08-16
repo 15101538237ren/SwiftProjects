@@ -38,6 +38,7 @@ class CardUIView: UIView {
     @IBOutlet var X_Constraint: NSLayoutConstraint!
     @IBOutlet var Y_Constraint: NSLayoutConstraint!
     @IBOutlet var wordLabel_Top_Space_Constraint: NSLayoutConstraint!
+    @IBOutlet var meaningLabel_Top_Space_Constraint: NSLayoutConstraint!
     @IBOutlet var rememberImageView: UIImageView?
     @IBOutlet var rememberLabel: UILabel?
     @IBOutlet var collectImageView: UIImageView!

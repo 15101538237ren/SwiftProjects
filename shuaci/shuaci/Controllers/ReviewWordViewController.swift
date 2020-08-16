@@ -62,10 +62,13 @@ class ReviewWordViewController: UIViewController {
             DispatchQueue.main.async {
                 if cardWord.memMethod != ""{
                     card.wordLabel_Top_Space_Constraint.constant = 130
+                    card.meaningLabel_Top_Space_Constraint.constant = 50
                     card.memMethodLabel?.alpha = 1
+                    card.memMethodLabel?.text = "记: \(cardWord.memMethod)"
                 }
                 else{
-                    card.wordLabel_Top_Space_Constraint.constant = 180
+                    card.wordLabel_Top_Space_Constraint.constant = 170
+                    card.meaningLabel_Top_Space_Constraint.constant = 70
                     card.memMethodLabel?.alpha = 0
                 }
             }
@@ -149,10 +152,13 @@ class ReviewWordViewController: UIViewController {
     }
     
     func playMp3GivenWord(word: String){
-        let auto_pronunciation:Bool = getPreference(key: "auto_pronunciation") as! Bool
-        let mp3_url = getWordPronounceURL(word: word)
-        if auto_pronunciation && (mp3_url != nil) {
-            playMp3(url: mp3_url!)
+        if self.currentIndex < review_words.count
+        {
+            let auto_pronunciation:Bool = getPreference(key: "auto_pronunciation") as! Bool
+            let mp3_url = getWordPronounceURL(word: word)
+            if auto_pronunciation && (mp3_url != nil) {
+                playMp3(url: mp3_url!)
+            }
         }
     }
     
@@ -245,7 +251,7 @@ class ReviewWordViewController: UIViewController {
                 self.mainPanelViewController.loadLearnOrReviewFinishController()
             }
         }
-        else if currentIndex < review_words.count - 2{
+        else if currentIndex < review_words.count - 1{
             self.updateProgressLabel(index: self.currentIndex)
             let card = cards[(currentIndex + 1) % 2]
             let word = review_words[(currentIndex + 1) % review_words.count]
@@ -259,13 +265,6 @@ class ReviewWordViewController: UIViewController {
             learnUIView.bringSubviewToFront(next_card)
             resetCard(card: card)
             enableBtns()
-        }
-        else if currentIndex == words.count - 1{
-            self.updateProgressLabel(index: self.currentIndex)
-            let next_card = cards[currentIndex % 2]
-            learnUIView.bringSubviewToFront(next_card)
-            enableBtns()
-            next_card.dragable = !next_card.dragable
         }
         else{
             let card = cards[(currentIndex + 1) % 2]
@@ -342,9 +341,9 @@ class ReviewWordViewController: UIViewController {
                     card_behaviors.append(.remember)
                     
                     let word: String = nextCard.wordLabel?.text ?? ""
+                    self.currentIndex += 1
                     playMp3GivenWord(word: word)
                     
-                    self.currentIndex += 1
                     perform(#selector(moveCard), with: nil, afterDelay: animationDuration)
                     return
                 }
@@ -369,10 +368,10 @@ class ReviewWordViewController: UIViewController {
                     card_behaviors.append(.forget)
                     
                     let word: String = nextCard.wordLabel?.text ?? ""
-                    playMp3GivenWord(word: word)
 
                     sender.view!.frame = card.frame
                     self.currentIndex += 1
+                    playMp3GivenWord(word: word)
                     perform(#selector(moveCard), with: nil, afterDelay: animationDuration)
                     return
                 }
@@ -565,9 +564,9 @@ class ReviewWordViewController: UIViewController {
                         self.card_behaviors.append(.trash)
                     }
                     let word: String = nextCard.wordLabel?.text ?? ""
-                    self.playMp3GivenWord(word: word)
 
                     self.currentIndex += 1
+                    self.playMp3GivenWord(word: word)
                     self.perform(#selector(self.moveCard), with: nil, afterDelay: self.animationDuration)
                 }
             }

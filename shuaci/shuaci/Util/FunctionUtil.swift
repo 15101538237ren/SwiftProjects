@@ -695,9 +695,11 @@ func timeString(time: Int) -> String {
     let hour = time / 3600
     let minute = time / 60 % 60
     let second = time % 60
-
-    // return formated string
-    return String(format: "%02i:%02i:%02i", hour, minute, second)
+    if hour == 0{
+        return String(format: "%02i:%02i", minute, second)
+    }else{
+        return String(format: "%02i:%02i:%02i", hour, minute, second)
+    }
 }
 
 func printDate(date: Date) -> String{

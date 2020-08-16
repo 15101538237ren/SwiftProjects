@@ -24,4 +24,10 @@ class LearnOrReviewFinishUIView: UIView {
     @IBOutlet var titleLabel: UILabel!
     @IBOutlet var numbOfPeopleOnline: UILabel!
     @IBOutlet var dateLabel: UILabel!
+    
+    @IBOutlet weak var dimUIView: UIView!{
+        didSet{
+            dimUIView.backgroundColor = .black
+        }
+    }
 }

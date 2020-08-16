@@ -26,6 +26,7 @@ class LearnOrReviewFinishViewController: UIViewController {
     @IBOutlet var titleLabel: UILabel!
     @IBOutlet var numbOfPeopleOnline: UILabel!
     @IBOutlet var dateLabel: UILabel!
+    @IBOutlet weak var dimUIView: UIView!
     var indicator = UIActivityIndicatorView()
     var strLabel = UILabel()
     let effectView = UIVisualEffectView(effect: UIBlurEffect(style: .regular))
@@ -55,17 +56,27 @@ class LearnOrReviewFinishViewController: UIViewController {
         }
     }
     
+    func addBlurBackgroundView(){
+        dimUIView.alpha = 1.0
+        dimUIView.backgroundColor = .clear
+        let blurEffect = getBlurEffect()
+        let blurEffectView = UIVisualEffectView(effect: blurEffect)
+        blurEffectView.frame = view.bounds
+        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        dimUIView.insertSubview(blurEffectView, at: 0)
+    }
+    
     func initActivityIndicator(text: String) {
         strLabel.removeFromSuperview()
         indicator.removeFromSuperview()
         effectView.removeFromSuperview()
         let height:CGFloat = 46.0
-        strLabel = UILabel(frame: CGRect(x: 50, y: 0, width: 180, height: height))
+        strLabel = UILabel(frame: CGRect(x: 50, y: 0, width: 220, height: height))
         strLabel.text = text
         strLabel.font = .systemFont(ofSize: 14, weight: .medium)
         strLabel.textColor = .darkGray
         strLabel.alpha = 1.0
-        effectView.frame = CGRect(x: view.frame.midX - strLabel.frame.width/2, y: view.frame.midY - strLabel.frame.height/2 , width: 160, height: height)
+        effectView.frame = CGRect(x: view.frame.midX - strLabel.frame.width/2, y: view.frame.midY - strLabel.frame.height/2 , width: 200, height: height)
         effectView.layer.cornerRadius = 15
         effectView.layer.masksToBounds = true
         effectView.backgroundColor = UIColor(red: 244, green: 244, blue: 245, alpha: 1.0)
@@ -86,6 +97,7 @@ class LearnOrReviewFinishViewController: UIViewController {
         self.indicator.hidesWhenStopped = true
         self.effectView.alpha = 0
         self.strLabel.alpha = 0
+        self.dimUIView.alpha = 0
     }
     
     @IBAction func unwind(segue: UIButton) {
@@ -212,7 +224,8 @@ class LearnOrReviewFinishViewController: UIViewController {
     }
     
     func loadScene(){
-        initActivityIndicator(text: "数据加载中..")
+        addBlurBackgroundView()
+        initActivityIndicator(text: "正在加载打卡数据😊..")
         getQoute()
         setTodyWordNum()
         setInsistDay()

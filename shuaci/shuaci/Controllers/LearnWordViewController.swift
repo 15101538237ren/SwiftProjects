@@ -125,11 +125,14 @@ class LearnWordViewController: UIViewController {
     }
     
     func playMp3GivenWord(word: String){
-        let auto_pronunciation:Bool = getPreference(key: "auto_pronunciation") as! Bool
-        
-        let mp3_url = getWordPronounceURL(word: word)
-        if auto_pronunciation && (mp3_url != nil) {
-            playMp3(url: mp3_url!)
+        if self.currentIndex < words.count
+        {
+            let auto_pronunciation:Bool = getPreference(key: "auto_pronunciation") as! Bool
+            
+            let mp3_url = getWordPronounceURL(word: word)
+            if auto_pronunciation && (mp3_url != nil) {
+                playMp3(url: mp3_url!)
+            }
         }
     }
     
@@ -155,17 +158,21 @@ class LearnWordViewController: UIViewController {
     
     
     func setFieldsOfCard(card: CardUIView, cardWord: CardWord, collected: Bool){
-        let numberOfNewlines:Int = cardWord.meaning.components(separatedBy: "\n").count - 1
         var meaningLabelTxt:String = cardWord.meaning
-        if numberOfNewlines > 3{
-            var finalStringArr:[String] = []
-            let meaningArr:[String] = meaningLabelTxt.components(separatedBy: "\n")
+        var finalStringArr:[String] = []
+        let meaningArr:[String] = meaningLabelTxt.components(separatedBy: "\n")
+        if meaningArr.count > 1{
             for mi in 0..<meaningArr.count - 1{
                 if let firstChr = meaningArr[mi + 1].unicodeScalars.first{
                     if firstChr.isASCII{
                         finalStringArr.append("\(meaningArr[mi])\n")
                     }else{
-                        finalStringArr.append("\(meaningArr[mi])；")
+                        if mi == meaningArr.count - 2{
+                            finalStringArr.append("\(meaningArr[mi])")
+                        }
+                        else{
+                            finalStringArr.append("\(meaningArr[mi])；")
+                        }
                     }
                 }
             }
@@ -182,11 +189,13 @@ class LearnWordViewController: UIViewController {
             card.meaningLabel?.text = meaningLabelTxt
             if cardWord.memMethod != ""{
                 card.wordLabel_Top_Space_Constraint.constant = 130
+                card.meaningLabel_Top_Space_Constraint.constant = 50
                 card.memMethodLabel?.alpha = 1
                 card.memMethodLabel?.text = "记: \(cardWord.memMethod)"
             }
             else{
-                card.wordLabel_Top_Space_Constraint.constant = 180
+                card.wordLabel_Top_Space_Constraint.constant = 170
+                card.meaningLabel_Top_Space_Constraint.constant = 70
                 card.memMethodLabel?.alpha = 0
             }
             if collected{
@@ -223,7 +232,7 @@ class LearnWordViewController: UIViewController {
                 self.mainPanelViewController.loadLearnOrReviewFinishController()
             }
         }
-        else if currentIndex < words.count - 2{
+        else if currentIndex < words.count - 1{
             self.updateProgressLabel(index: self.currentIndex)
             let card = cards[(currentIndex + 1) % 2]
             let word = words[(currentIndex + 1) % words.count]
@@ -237,13 +246,6 @@ class LearnWordViewController: UIViewController {
             enableBtns()
             next_card.dragable = !next_card.dragable
             card.dragable = !card.dragable
-        }
-        else if currentIndex == words.count - 1{
-            self.updateProgressLabel(index: self.currentIndex)
-            let next_card = cards[currentIndex % 2]
-            learnUIView.bringSubviewToFront(next_card)
-            enableBtns()
-            next_card.dragable = !next_card.dragable
         }
         else{
             let card = cards[(currentIndex + 1) % 2]
@@ -315,9 +317,9 @@ class LearnWordViewController: UIViewController {
                     card_behaviors.append(.remember)
                     
                     let word: String = nextCard.wordLabel?.text ?? ""
+                    self.currentIndex += 1
                     playMp3GivenWord(word: word)
                     
-                    self.currentIndex += 1
                     perform(#selector(moveCard), with: nil, afterDelay: animationDuration)
                     return
                 }
@@ -342,10 +344,10 @@ class LearnWordViewController: UIViewController {
                     card_behaviors.append(.forget)
                     
                     let word: String = nextCard.wordLabel?.text ?? ""
-                    playMp3GivenWord(word: word)
 
                     sender.view!.frame = card.frame
                     self.currentIndex += 1
+                    playMp3GivenWord(word: word)
                     perform(#selector(moveCard), with: nil, afterDelay: animationDuration)
                     return
                 }
@@ -535,9 +537,9 @@ class LearnWordViewController: UIViewController {
                     }
 
                     let word: String = nextCard.wordLabel?.text ?? ""
+                    self.currentIndex += 1
                     self.playMp3GivenWord(word: word)
 
-                    self.currentIndex += 1
                     self.perform(#selector(self.moveCard), with: nil, afterDelay: self.animationDuration)
                 }
             }
