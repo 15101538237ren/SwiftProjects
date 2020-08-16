@@ -220,7 +220,7 @@ class LearnWordViewController: UIViewController {
             update_words()
             DispatchQueue.main.async {
                 self.dismiss(animated: true, completion: nil)
-                self.mainPanelViewController.loadLearnFinishController()
+                self.mainPanelViewController.loadLearnOrReviewFinishController()
             }
         }
         else if currentIndex < words.count - 1{

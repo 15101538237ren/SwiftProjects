@@ -48,9 +48,51 @@ var GlobalLearningRecords:[LearningRecord] = loadLearningRecords()
 
 // MARK: - Overall Util
 
-func getMinMaxDateOfVocabRecords() -> [Date]{
+func getDatesLearned() -> [Date]{
+    var datesLearned:[Date] = []
+    for lrec in GlobalLearningRecords{
+        datesLearned.append(lrec.EndDate)
+    }
+    return datesLearned
+}
+
+func getDatesReviewed() -> [Date]{
+    var datesReviewed:[Date] = []
+    for lrec in GlobalReviewRecords{
+        datesReviewed.append(lrec.EndDate)
+    }
+    return datesReviewed
+}
+
+func getDaysDaka() -> [String]{
     let formatter = DateFormatter()
-    formatter.dateFormat = "yyyy/MM/dd HH:mm"
+    formatter.dateFormat = "yyyy/MM/dd"
+    var datesDakaSet:Set = Set<String>()
+    var datesDaka:[String] = []
+    let datesLearned = getDatesLearned()
+    for date in datesLearned{
+        let date_str = formatter.string(from: date)
+        datesDakaSet.insert(date_str)
+    }
+    let datesReviewed = getDatesReviewed()
+    for date in datesReviewed{
+        let date_str = formatter.string(from: date)
+        datesDakaSet.insert(date_str)
+    }
+    for dateStr in datesDakaSet{
+        datesDaka.append(dateStr)
+    }
+    return datesDaka
+    
+}
+
+func getNumOfDayInsist() -> Int {
+    let datesDaka = getDaysDaka()
+    return datesDaka.count
+}
+
+
+func getMinMaxDateOfVocabRecords() -> [Date]{
     var minDate = Date()
     for vocab in GlobalVocabRecords{
         if let learnDate = vocab.LearnDate {

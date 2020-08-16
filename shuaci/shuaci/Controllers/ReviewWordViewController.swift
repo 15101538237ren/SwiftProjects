@@ -242,7 +242,7 @@ class ReviewWordViewController: UIViewController {
             saveReviewRecordsFromReview(vocabs_updated: vocabRecordsOfCurrentReview)
             DispatchQueue.main.async {
                 self.dismiss(animated: true, completion: nil)
-                self.mainPanelViewController.loadReviewFinishController()
+                self.mainPanelViewController.loadLearnOrReviewFinishController()
             }
         }
         else if currentIndex < review_words.count - 1{

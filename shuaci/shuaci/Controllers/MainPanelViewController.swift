@@ -341,7 +341,7 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
                                 switch result {
                                 case .success(object: let wallpaper):
                                     // wallpapers 是包含满足条件的 (className: "Wallpaper") 对象的数组
-                                    print("Downloaded \(rand_index)")
+                                    print("Downloaded Wallpaper \(rand_index)")
                                     if let wallpaper_image = wallpaper.get("image") as? LCFile {
                                         //let imgData = photoData.value as! LCData
                                         let url = URL(string: wallpaper_image.url?.stringValue ?? "")!
@@ -620,23 +620,13 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
         }
     }
     
-    func loadLearnFinishController(){
+    func loadLearnOrReviewFinishController(){
         let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Learning", bundle:nil)
-        let learnFinishVC = mainStoryBoard.instantiateViewController(withIdentifier: "learnFinishController") as! LearnFinishViewController
-        learnFinishVC.mainPanelViewController = self
-        learnFinishVC.modalPresentationStyle = .overCurrentContext
+        let learnOrReviewFinishVC = mainStoryBoard.instantiateViewController(withIdentifier: "learnOrReviewFinishController") as! LearnOrReviewFinishViewController
+        learnOrReviewFinishVC.mainPanelViewController = self
+        learnOrReviewFinishVC.modalPresentationStyle = .overCurrentContext
         DispatchQueue.main.async {
-            self.present(learnFinishVC, animated: true, completion: nil)
-        }
-    }
-    
-    func loadReviewFinishController(){
-        let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Learning", bundle:nil)
-        let reviewFinishVC = mainStoryBoard.instantiateViewController(withIdentifier: "reviewFinishController") as! ReviewFinishViewController
-        reviewFinishVC.mainPanelViewController = self
-        reviewFinishVC.modalPresentationStyle = .overCurrentContext
-        DispatchQueue.main.async {
-            self.present(reviewFinishVC, animated: true, completion: nil)
+            self.present(learnOrReviewFinishVC, animated: true, completion: nil)
         }
     }
     
