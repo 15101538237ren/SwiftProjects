@@ -45,7 +45,9 @@ class LearnWordViewController: UIViewController {
     }
     
     override func viewDidLoad() {
-        view.backgroundColor = UIColor(red: 238, green: 241, blue: 245, alpha: 1.0)
+        //view.backgroundColor = UIColor(red: 238, green: 241, blue: 245, alpha: 1.0)
+        
+        view.theme_backgroundColor = "Global.viewBackgroundColor"
         super.viewDidLoad()
         currentLearningRec.StartDate = Date()
     }
