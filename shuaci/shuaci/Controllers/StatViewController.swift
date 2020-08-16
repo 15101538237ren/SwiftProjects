@@ -172,7 +172,7 @@ class StatViewController: UIViewController {
         
         masteredChartView.theme_backgroundColor = "Global.viewBackgroundColor"
         masteredChartView.frame = CGRect(x: 0, y: 0, width: masteredAndLearnedCurveView.bounds.width, height: masteredAndLearnedCurveView.bounds.height)
-        masteredChartView.contentWidth = 2 * masteredAndLearnedCurveView.bounds.width
+        masteredChartView.contentWidth = masteredAndLearnedCurveView.bounds.width
         masteredAndLearnedCurveView.addSubview(masteredChartView)
         masteredChartView.aa_drawChartWithChartOptions(getLearnStatusOptions())
         view.isOpaque = false
