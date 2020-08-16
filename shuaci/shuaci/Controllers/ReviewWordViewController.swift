@@ -245,7 +245,7 @@ class ReviewWordViewController: UIViewController {
                 self.mainPanelViewController.loadLearnOrReviewFinishController()
             }
         }
-        else if currentIndex < review_words.count - 1{
+        else if currentIndex < review_words.count - 2{
             self.updateProgressLabel(index: self.currentIndex)
             let card = cards[(currentIndex + 1) % 2]
             let word = review_words[(currentIndex + 1) % review_words.count]
@@ -259,6 +259,13 @@ class ReviewWordViewController: UIViewController {
             learnUIView.bringSubviewToFront(next_card)
             resetCard(card: card)
             enableBtns()
+        }
+        else if currentIndex == words.count - 1{
+            self.updateProgressLabel(index: self.currentIndex)
+            let next_card = cards[currentIndex % 2]
+            learnUIView.bringSubviewToFront(next_card)
+            enableBtns()
+            next_card.dragable = !next_card.dragable
         }
         else{
             let card = cards[(currentIndex + 1) % 2]

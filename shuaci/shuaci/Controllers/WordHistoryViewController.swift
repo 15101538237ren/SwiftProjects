@@ -231,8 +231,8 @@ extension WordHistoryViewController: UITableViewDataSource, UITableViewDelegate{
             if minuteDiff != 0{
                 timer_text = timer_text + "\(abs(minuteDiff))分"
             }
-            if secondDiff != 0 && dayDiff == 0{
-                timer_text = timer_text + "\(abs(secondDiff))秒"
+            if dayDiff == 0{
+                timer_text = timer_text + String(format: "%02d", abs(secondDiff)) + "秒"
             }
             if timer_text != ""{
                 return "\(negative)\(timer_text)"
