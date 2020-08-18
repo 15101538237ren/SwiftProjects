@@ -92,7 +92,9 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
                     self.view.transform = .identity
                 })
             } else {
-                dismiss(animated: true, completion: nil)
+                DispatchQueue.main.async {
+                    self.dismiss(animated: true, completion: nil)
+                }
             }
         default:
             break
@@ -301,7 +303,7 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         
         if let pickedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage{
-            dismiss(animated: true, completion: nil)
+            picker.dismiss(animated: true, completion: nil)
             let cropVC = CropViewController(image: pickedImage)
             cropVC.delegate = self
             cropVC.aspectRatioPickerButtonHidden = true
@@ -320,16 +322,40 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
         try? cropped_img.jpegData(compressionQuality: 0.8)?.write(to: imageFileURL)
         self.updateUserPhoto()
         self.mainPanelViewController.updateUserPhoto()
-        dismiss(animated: true, completion: nil)
+        
+        DispatchQueue.main.async {
+            self.dismiss(animated: true, completion: nil)
+        }
+        
         if Reachability.isConnectedToNetwork(){
             DispatchQueue.global(qos: .background).async {
             do {
+                let user = LCApplication.default.currentUser!
+                do {
+                    let query = LCQuery(className: "_User")
+                    _ = query.get(user.objectId as! LCStringConvertible) { result in
+                        switch result {
+                            case .success(object: let unauthenticatedUser):
+                                if let old_photo = unauthenticatedUser.get("avatar"){
+                                 let old_file = old_photo as! LCFile
+                                 if let obj_id:String = old_file.objectId?.stringValue{
+                                    let old_photo_file = LCObject(className: "_File", objectId: obj_id as LCStringConvertible)
+                                         old_photo_file.delete()
+                                     print("File with id: \(obj_id) deleted")
+                                     }
+                                }
+                            case .failure(error: let error):
+                                print(error)
+                        }
+                    }
+                }
+                
                 let file = LCFile(payload: .fileURL(fileURL: imageFileURL))
                 _ = file.save { result in
                         switch result {
                         case .success:
                             if let objectId:String = file.objectId?.value {
-                                print("文件保存完成。objectId: \(objectId)")
+                                print("用户头像上传完成。")
                                 self.update_user_photo(file: file)
                             }
                         case .failure(error: let error):
@@ -352,26 +378,37 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
            DispatchQueue.global(qos: .background).async {
            do {
                let user = LCApplication.default.currentUser!
-                   do {
-                       
-                       if let old_photo = user.get("avatar"){
-                           let file = old_photo as! LCFile
-                           let old_photo_file = LCObject(className: "_File", objectId: file.objectId?.value as! LCStringConvertible)
-                           old_photo_file.delete()
-                       }
-                       
-                       try user.set("avatar", value: file)
-                       user.save { (result) in
-                           switch result {
-                           case .success:
-                               break
-                           case .failure(error: let error):
-                               print(error)
-                           }
-                       }
-                   } catch {
-                       print(error)
-                   }
+               do {
+                try user.set("avatar", value: file)
+                user.save { (result) in
+                    switch result {
+                    case .success:
+                        print("Cloud User Photo Saved Successful!")
+                    case .failure(error: let error):
+                        print(error.localizedDescription)
+                    }
+                }
+//                   if let old_photo = user.get("avatar"){
+//                    let old_file = old_photo as! LCFile
+//                    if let obj_id:String = old_file.objectId?.stringValue{
+//                            let old_photo_file = LCObject(className: "_File", objectId: old_file.objectId?.stringValue! as! LCStringConvertible)
+//                            old_photo_file.delete()
+//                        print("File with id: \(obj_id) deleted")
+//                        }
+//                   }
+//
+//                   try user.set("avatar", value: file)
+//                   user.save { (result) in
+//                       switch result {
+//                       case .success:
+//                           break
+//                       case .failure(error: let error):
+//                        print(error.localizedDescription)
+//                       }
+//                   }
+               } catch {
+                   print(error.localizedDescription)
+               }
                }
            }
         }else{

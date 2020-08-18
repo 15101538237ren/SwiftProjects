@@ -21,6 +21,7 @@ class LearnWordViewController: UIViewController {
             }
         }
     }
+    let card_Y_constant:CGFloat = -30
     var card_behaviors:[CardBehavior] = [] //forget: 0, remember: 1, trash: 2
     var card_collect_behaviors: [CardCollectBehavior] = [] //collect: 1, else 0
     @IBOutlet var gestureRecognizers:[UIPanGestureRecognizer]!
@@ -60,10 +61,12 @@ class LearnWordViewController: UIViewController {
             DispatchQueue.main.async {
                 if cardWord.memMethod != ""{
                     card.wordLabel_Top_Space_Constraint.constant = 130
+                    card.meaningLabel_Top_Space_Constraint.constant = 50
                     card.memMethodLabel?.alpha = 1
                 }
                 else{
-                    card.wordLabel_Top_Space_Constraint.constant = 180
+                    card.wordLabel_Top_Space_Constraint.constant = 170
+                    card.meaningLabel_Top_Space_Constraint.constant = 70
                     card.memMethodLabel?.alpha = 0
                 }
             }
@@ -365,7 +368,7 @@ class LearnWordViewController: UIViewController {
             card.alpha = 1
         })
         card.X_Constraint.constant = 0
-        card.Y_Constraint.constant = 0
+        card.Y_Constraint.constant = card_Y_constant
         card.rememberImageView?.alpha = 0
         card.rememberLabel?.alpha = 0.0
         card.transform = .identity
@@ -375,7 +378,7 @@ class LearnWordViewController: UIViewController {
         func resetCard(card: CardUIView)
         {
             card.X_Constraint.constant = 0
-            card.Y_Constraint.constant = 0
+            card.Y_Constraint.constant = card_Y_constant
             card.rememberImageView?.backgroundColor = UIColor.white
             card.rememberImageView?.alpha = 0
             card.rememberLabel?.text = ""
