@@ -100,7 +100,10 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
     var getNextWallpaperCalled = false
     func updateUserPhoto() {
         if let userImage = loadPhoto(name_of_photo: "user_avatar_\(username).jpg") {
-            self.userPhotoBtn.setImage(userImage, for: [])
+            DispatchQueue.main.async {
+                self.userPhotoBtn.setImage(userImage, for: [])
+                self.viewWillAppear(true)
+            }
         }
         else{
             self.getUserPhoto()
@@ -294,6 +297,7 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
                             DispatchQueue.main.async {
                                 // qos' default value is ´DispatchQoS.QoSClass.default`
                                 self.userPhotoBtn.setImage(image, for: [])
+                                self.viewWillAppear(true)
                             }
                         }
                     }

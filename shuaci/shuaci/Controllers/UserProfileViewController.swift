@@ -12,6 +12,11 @@ import CropViewController
 import SwiftTheme
 
 class UserProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, CropViewControllerDelegate , UITableViewDataSource, UITableViewDelegate {
+    
+    var activityIndicator = UIActivityIndicatorView()
+    var activityLabel = UILabel()
+    let activityEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .regular))
+    
     var user = LCApplication.default.currentUser!
     let username = getUserName()
     let settingItems:[SettingItem] = [
@@ -23,6 +28,39 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
 //    ,SettingItem(icon: UIImage(named: "wechat_setting") ?? UIImage(), name: "微 信", value: "未绑定"),
 //    SettingItem(icon: UIImage(named: "qq_setting") ?? UIImage(), name: "QQ", value: "未绑定"),
 //    SettingItem(icon: UIImage(named: "weibo_setting") ?? UIImage(), name: "新浪微博", value: "未绑定")
+    
+    func initActivityIndicator(text: String) {
+        activityLabel.removeFromSuperview()
+        activityIndicator.removeFromSuperview()
+        activityEffectView.removeFromSuperview()
+        let height:CGFloat = 46.0
+        activityLabel = UILabel(frame: CGRect(x: 50, y: 0, width: 200, height: height))
+        activityLabel.text = text
+        activityLabel.font = .systemFont(ofSize: 14, weight: .medium)
+        activityLabel.textColor = .darkGray
+        activityLabel.alpha = 1.0
+        activityEffectView.frame = CGRect(x: view.frame.midX - activityLabel.frame.width/2, y: view.frame.midY - activityLabel.frame.height/2 , width: 220, height: height)
+        activityEffectView.layer.cornerRadius = 15
+        activityEffectView.layer.masksToBounds = true
+        activityEffectView.backgroundColor = UIColor(red: 244, green: 244, blue: 245, alpha: 1.0)
+        
+        activityEffectView.alpha = 1.0
+        activityIndicator = .init(style: .medium)
+        activityIndicator.frame = CGRect(x: 0, y: 0, width: height, height: height)
+        activityIndicator.alpha = 1.0
+        activityIndicator.startAnimating()
+
+        activityEffectView.contentView.addSubview(activityIndicator)
+        activityEffectView.contentView.addSubview(activityLabel)
+        view.addSubview(activityEffectView)
+    }
+    
+    func stopIndicator(){
+        self.activityIndicator.stopAnimating()
+        self.activityIndicator.hidesWhenStopped = true
+        self.activityEffectView.alpha = 0
+        self.activityLabel.alpha = 0
+    }
     
     @IBOutlet var tableView: UITableView!
     @IBOutlet var userPhotoBtn: UIButton!{
@@ -112,7 +150,6 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
     
     func getSetted(row: Int)-> String{
         var textStr: String = "未绑定"
-        user = LCApplication.default.currentUser!
         switch row {
             case 0:
                 if let user_nickname = user.get("nickname")?.stringValue{
@@ -234,7 +271,9 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
     
     func updateUserPhoto() {
         if let userImage = loadPhoto(name_of_photo: "user_avatar_\(username).jpg") {
-            self.userPhotoBtn.setImage(userImage, for: [])
+            DispatchQueue.main.async {
+                self.userPhotoBtn.setImage(userImage, for: [])
+            }
         }
     }
     
@@ -320,10 +359,10 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
         let imageFileURL = getDocumentsDirectory().appendingPathComponent("user_avatar_\(username).jpg")
         let cropped_img = resizeImage(image: image, newWidth: 300.0)
         try? cropped_img.jpegData(compressionQuality: 0.8)?.write(to: imageFileURL)
-        self.updateUserPhoto()
-        self.mainPanelViewController.updateUserPhoto()
         
         DispatchQueue.main.async {
+            cropViewController.dismiss(animated: true, completion: nil)
+            self.initActivityIndicator(text: "头像上传中..")
             self.dismiss(animated: true, completion: nil)
         }
         
@@ -384,30 +423,15 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
                     switch result {
                     case .success:
                         print("Cloud User Photo Saved Successful!")
+                        self.updateUserPhoto()
+                        self.mainPanelViewController.updateUserPhoto()
+                        self.stopIndicator()
                     case .failure(error: let error):
-                        print(error.localizedDescription)
+                        self.stopIndicator()
                     }
                 }
-//                   if let old_photo = user.get("avatar"){
-//                    let old_file = old_photo as! LCFile
-//                    if let obj_id:String = old_file.objectId?.stringValue{
-//                            let old_photo_file = LCObject(className: "_File", objectId: old_file.objectId?.stringValue! as! LCStringConvertible)
-//                            old_photo_file.delete()
-//                        print("File with id: \(obj_id) deleted")
-//                        }
-//                   }
-//
-//                   try user.set("avatar", value: file)
-//                   user.save { (result) in
-//                       switch result {
-//                       case .success:
-//                           break
-//                       case .failure(error: let error):
-//                        print(error.localizedDescription)
-//                       }
-//                   }
                } catch {
-                   print(error.localizedDescription)
+                   self.stopIndicator()
                }
                }
            }
