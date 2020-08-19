@@ -410,7 +410,8 @@ class ReviewWordViewController: UIViewController {
         
         func playMp3(url: URL)
         {
-            if Reachability.isConnectedToNetwork(){
+            let connected = Reachability.isConnectedToNetwork()
+            if connected{
                 DispatchQueue.global(qos: .background).async {
                 do {
                     var downloadTask: URLSessionDownloadTask
@@ -437,7 +438,8 @@ class ReviewWordViewController: UIViewController {
         }
         
         @IBAction func playAudio(_ sender: UIButton) {
-            if Reachability.isConnectedToNetwork(){
+            let connected = Reachability.isConnectedToNetwork()
+            if connected{
                 let word = review_words[currentIndex % review_words.count]
                 let cardWord = getFeildsOfWord(word: word, usphone: getUSPhone())
                 let wordStr: String = cardWord.headWord

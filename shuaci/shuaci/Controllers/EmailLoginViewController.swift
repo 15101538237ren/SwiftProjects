@@ -99,7 +99,8 @@ class EmailLoginViewController: UIViewController {
                 presentAlertInView(title: "密码不能为空!", message: "", okText: "好")
             }
             else{
-                if Reachability.isConnectedToNetwork(){
+                let connected = Reachability.isConnectedToNetwork()
+                if connected{
                     let lastEmailLoginClickTimeKey:String = "lastEmailLoginClickTime1"
                     var lastEmailLoginClickTime = Date()
                     var emailClickKeySet = false
@@ -206,7 +207,8 @@ class EmailLoginViewController: UIViewController {
         navigationController?.navigationBar.shadowImage = UIImage()
         navigationController?.navigationBar.tintColor = .white
         
-        if !Reachability.isConnectedToNetwork(){
+        let connected = Reachability.isConnectedToNetwork()
+        if !connected{
             let alertCtl = presentNoNetworkAlert()
             UIApplication.topViewController()?.present(alertCtl, animated: true, completion: nil)
         }

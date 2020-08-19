@@ -278,7 +278,8 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
     }
     
     @IBAction func logOut(_ sender: UIButton) {
-        if Reachability.isConnectedToNetwork(){
+        let connected = Reachability.isConnectedToNetwork()
+        if connected{
            let alertController = UIAlertController(title: "提示", message: "确定注销?", preferredStyle: .alert)
            let okayAction = UIAlertAction(title: "确定", style: .default, handler: { action in
                LCUser.logOut()
@@ -366,7 +367,8 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
             self.dismiss(animated: true, completion: nil)
         }
         
-        if Reachability.isConnectedToNetwork(){
+        let connected = Reachability.isConnectedToNetwork()
+        if connected{
             DispatchQueue.global(qos: .background).async {
             do {
                 let user = LCApplication.default.currentUser!
@@ -413,7 +415,8 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
     }
     
     func update_user_photo(file: LCFile){
-        if Reachability.isConnectedToNetwork(){
+        let connected = Reachability.isConnectedToNetwork()
+        if connected{
            DispatchQueue.global(qos: .background).async {
            do {
                let user = LCApplication.default.currentUser!

@@ -19,6 +19,10 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
     @IBOutlet var meaningLabel: UILabel!
     @IBOutlet var todayImageView: UIImageView!
     
+    var activityIndicator = UIActivityIndicatorView()
+    var activityLabel = UILabel()
+    let activityEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .regular))
+    
     let username:String = getUserName()
     var mp3Player: AVAudioPlayer?
     @IBOutlet var userPhotoBtn: UIButton!{
@@ -51,6 +55,39 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
             reviewBtn.layer.masksToBounds = true
             reviewBtn.backgroundColor = .clear
         }
+    }
+    
+    func initActivityIndicator(text: String) {
+        activityLabel.removeFromSuperview()
+        activityIndicator.removeFromSuperview()
+        activityEffectView.removeFromSuperview()
+        let height:CGFloat = 46.0
+        activityLabel = UILabel(frame: CGRect(x: 50, y: 0, width: 200, height: height))
+        activityLabel.text = text
+        activityLabel.font = .systemFont(ofSize: 14, weight: .medium)
+        activityLabel.textColor = .darkGray
+        activityLabel.alpha = 1.0
+        activityEffectView.frame = CGRect(x: view.frame.midX - activityLabel.frame.width/2, y: view.frame.midY - activityLabel.frame.height/2 , width: 220, height: height)
+        activityEffectView.layer.cornerRadius = 15
+        activityEffectView.layer.masksToBounds = true
+        activityEffectView.backgroundColor = UIColor(red: 244, green: 244, blue: 245, alpha: 1.0)
+        
+        activityEffectView.alpha = 1.0
+        activityIndicator = .init(style: .medium)
+        activityIndicator.frame = CGRect(x: 0, y: 0, width: height, height: height)
+        activityIndicator.alpha = 1.0
+        activityIndicator.startAnimating()
+
+        activityEffectView.contentView.addSubview(activityIndicator)
+        activityEffectView.contentView.addSubview(activityLabel)
+        view.addSubview(activityEffectView)
+    }
+    
+    func stopIndicator(){
+        self.activityIndicator.stopAnimating()
+        self.activityIndicator.hidesWhenStopped = true
+        self.activityEffectView.alpha = 0
+        self.activityLabel.alpha = 0
     }
     
     func addBlurBtnView(){
@@ -102,7 +139,7 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
         if let userImage = loadPhoto(name_of_photo: "user_avatar_\(username).jpg") {
             DispatchQueue.main.async {
                 self.userPhotoBtn.setImage(userImage, for: [])
-                self.viewWillAppear(true)
+                self.userPhotoBtn.setNeedsDisplay()
             }
         }
         else{
@@ -128,12 +165,9 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
                 }
             }
             else{
+                initActivityIndicator(text: "正在下载您的单词书...")
                 DispatchQueue.global(qos: .background).async {
                 do {
-                    DispatchQueue.main.async {
-                        self.syncLabel.text = "正在下载词书..."
-                    }
-                    
                     let query = LCQuery(className: "Book")
                     query.whereKey("identifier", .equalTo(bookId))
                     _ = query.getFirst() { result in
@@ -167,6 +201,15 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
             }
         }
     }
+    func loadUserPhoto(){
+        if let userImage = loadPhoto(name_of_photo: "user_avatar_\(username).jpg") {
+            self.userPhotoBtn.setImage(userImage, for: [])
+            self.userPhotoBtn.setNeedsDisplay()
+        }
+        else {
+            self.getUserPhoto()
+        }
+    }
     
     func loadSettingAndRecords(){
         DispatchQueue.main.async {
@@ -178,12 +221,19 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
         
         prepareRecordsAndPreference(completionHandler: {success in
             if success{
+                if let theme_category = getPreference(key: "current_theme_category")  as? Int{
+                    ThemeManager.setTheme(plistName: theme_category_to_name[theme_category]!.rawValue, path: .mainBundle)
+                    self.loadTheme()
+                    self.loadUserPhoto()
+                    self.setWallpaper()
+                }
+                
                 self.downloadBookJson(completionHandler: { success in
                     if success{
                         self.loadSettingAndRecordsFinished()
                     }
                     else{
-                        
+                        self.stopIndicator()
                         let ac = UIAlertController(title: "下载正在学的单词书失败，请检查您的网络!", message: "", preferredStyle: .alert)
                         ac.addAction(UIAlertAction(title: "好", style: .default, handler: nil))
                         self.present(ac, animated: true, completion: nil)
@@ -198,12 +248,12 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
         })
     }
     func loadSettingAndRecordsFinished(){
+        get_words()
         DispatchQueue.main.async {
             self.shouldStopRotating = true
             self.syncLabel.alpha = 0.0
+            self.stopIndicator()
         }
-        setWallpaper()
-        get_words()
     }
     
     @objc func image(_ image:UIImage, didFinishSavingWithError error: Error?, contextInfo: UnsafeRawPointer){
@@ -232,25 +282,28 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
         self.isRotating = false
     }
     
+    func loadTheme(){
+        DispatchQueue.main.async {
+            self.syncLabel.theme_textColor = "Global.textColor"
+            self.wordLabel.theme_textColor = "Global.textColor"
+            self.meaningLabel.theme_textColor = "Global.textColor"
+            self.themeBtn.theme_tintColor = "Global.btnTintColor"
+            self.collectBtn.theme_tintColor = "Global.btnTintColor"
+            self.statBtn.theme_tintColor = "Global.btnTintColor"
+            self.settingBtn.theme_tintColor = "Global.btnTintColor"
+            self.searchBtn.theme_tintColor = "Global.btnTintColor"
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        self.syncLabel.theme_textColor = "Global.textColor"
-        self.wordLabel.theme_textColor = "Global.textColor"
-        self.meaningLabel.theme_textColor = "Global.textColor"
-        self.themeBtn.theme_tintColor = "Global.btnTintColor"
-        self.collectBtn.theme_tintColor = "Global.btnTintColor"
-        self.statBtn.theme_tintColor = "Global.btnTintColor"
-        self.settingBtn.theme_tintColor = "Global.btnTintColor"
-        self.searchBtn.theme_tintColor = "Global.btnTintColor"
-        
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(updateBlurBtnView),
             name: NSNotification.Name(rawValue: ThemeUpdateNotification),
             object: nil
         )
-        
+        loadTheme()
         addBlurBtnView()
         if !isKeyPresentInUserDefaults(key: "getNextWallpaperCalled"){
             UserDefaults.standard.set(false, forKey: "getNextWallpaperCalled")
@@ -266,12 +319,7 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
             // 跳到首页
             GlobalUserName = getUserName()
             loadSettingAndRecords()
-            if let userImage = loadPhoto(name_of_photo: "user_avatar_\(username).jpg") {
-                self.userPhotoBtn.setImage(userImage, for: [])
-            }
-            else {
-                self.getUserPhoto()
-            }
+            
 //            updateWallpaperWhenBackScreen()
             
             NotificationCenter.default.addObserver(self, selector: #selector(updateWallpaperWhenBackScreen), name: UIApplication.willEnterForegroundNotification, object: nil)
@@ -284,7 +332,8 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
     
     
     func getUserPhoto(){
-        if Reachability.isConnectedToNetwork(){
+        let connected = Reachability.isConnectedToNetwork()
+        if connected{
             DispatchQueue.global(qos: .background).async {
                 let user = LCApplication.default.currentUser
                 if let photoData = user?.get("avatar") as? LCFile {
@@ -297,7 +346,7 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
                             DispatchQueue.main.async {
                                 // qos' default value is ´DispatchQoS.QoSClass.default`
                                 self.userPhotoBtn.setImage(image, for: [])
-                                self.viewWillAppear(true)
+                                self.userPhotoBtn.setNeedsDisplay()
                             }
                         }
                     }
@@ -320,14 +369,14 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
         UserDefaults.standard.synchronize()
         deletePhoto(name_of_photo: "wallpaper_next.jpg")
         
-        if Reachability.isConnectedToNetwork(){
+        let connected = Reachability.isConnectedToNetwork()
+        if connected{
             DispatchQueue.main.async {
                 self.userPhotoBtn.rotate360Degrees(completionDelegate: self)
                 self.isRotating = true
                 self.syncLabel.alpha = 1.0
                 self.syncLabel.text = "正在更新壁纸..."
             }
-            
             DispatchQueue.global(qos: .background).async{
             do{ //
                 do {
@@ -396,7 +445,8 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
     }
     
     func updateWallpaper(){
-        if Reachability.isConnectedToNetwork(){
+        let connected = Reachability.isConnectedToNetwork()
+        if connected{
             DispatchQueue.global(qos: .background).async{
             do{ //
                 do {
@@ -412,8 +462,8 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
                             _ = savePhoto(image: image, name_of_photo: "wallpaper.jpg")
                         }}
                         
-                        let trans = UserDefaults.standard.string(forKey: "trans_next")
-                        let word = UserDefaults.standard.string(forKey: "word_next")
+                        let trans = UserDefaults.standard.string(forKey: "trans_next") as! String
+                        let word = UserDefaults.standard.string(forKey: "word_next") as! String
                         
                         UserDefaults.standard.removeObject(forKey: "word_next")
                         UserDefaults.standard.removeObject(forKey: "trans_next")
@@ -423,12 +473,7 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
                         UserDefaults.standard.set(trans, forKey: "trans")
                         deletePhoto(name_of_photo: "wallpaper_next.jpg")
                         
-                        DispatchQueue.main.async {
-                            self.todayImageView?.image = image
-                            self.wordLabel.text = word
-                            self.meaningLabel.text = trans
-                            self.view.setNeedsDisplay()
-                        }
+                        self.wallpaperNeedDisplay(image: image ?? UIImage(), word: word, meaning: trans)
                         
                         let count_query = LCQuery(className: "Wallpaper")
                         count_query.whereKey("theme_category", .equalTo(category))
@@ -517,6 +562,17 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
         
     }
     
+    func wallpaperNeedDisplay(image: UIImage, word: String, meaning: String){
+        DispatchQueue.main.async {
+            self.todayImageView?.image = image
+            self.todayImageView?.setNeedsDisplay()
+            self.wordLabel.text = word
+            self.wordLabel.setNeedsDisplay()
+            self.meaningLabel.text = meaning
+            self.meaningLabel.setNeedsDisplay()
+        }
+    }
+    
     func setWallpaper(){
         var current_theme_category:Int = 4
         var last_theme_category:Int = 4
@@ -525,7 +581,7 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
             last_theme_category = getPreference(key: "last_theme_category") as! Int
         }
         
-        if current_theme_category != last_theme_category{
+        if (current_theme_category != last_theme_category){
             let image = UIImage(named: "theme_\(current_theme_category)")
             let wallpaper = default_wallpapers[current_theme_category - 1]
             
@@ -537,11 +593,7 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
             UserDefaults.standard.removeObject(forKey: "trans_next")
             UserDefaults.standard.synchronize()
             deletePhoto(name_of_photo: "wallpaper_next.jpg")
-            DispatchQueue.main.async {
-                self.todayImageView?.image = image
-                self.wordLabel.text = wallpaper.word
-                self.meaningLabel.text = wallpaper.trans
-            }
+            wallpaperNeedDisplay(image: image ?? UIImage(), word: wallpaper.word, meaning: wallpaper.trans)
             setPreference(key: "last_theme_category", value: current_theme_category)
             
             self.getNextWallpaper(category: current_theme_category)
@@ -554,15 +606,11 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
             do {
                 let imageData = try Data(contentsOf: imageFileURL)
                 let image = UIImage(data: imageData)
-                let trans = UserDefaults.standard.string(forKey: "trans")
-                let word = UserDefaults.standard.string(forKey: "word")
+                let trans = UserDefaults.standard.string(forKey: "trans")  as! String
+                let word = UserDefaults.standard.string(forKey: "word") as! String
                 DispatchQueue.global(qos: .background).async {
                 do {
-                    DispatchQueue.main.async {
-                        self.todayImageView?.image = image
-                        self.wordLabel.text = word
-                        self.meaningLabel.text = trans
-                    }
+                    self.wallpaperNeedDisplay(image: image ?? UIImage(), word: word, meaning: trans)
                 }}
             } catch {
                 print("Error loading image : \(error)")
@@ -571,11 +619,7 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
                 let wallpaper = default_wallpapers[current_theme_category - 1]
                 DispatchQueue.global(qos: .background).async {
                 do {
-                    DispatchQueue.main.async {
-                        self.todayImageView?.image = image
-                        self.wordLabel.text = wallpaper.word
-                        self.meaningLabel.text = wallpaper.trans
-                    }
+                    self.wallpaperNeedDisplay(image: image ?? UIImage(), word: wallpaper.word, meaning: wallpaper.trans)
                 }}
                 UserDefaults.standard.set(wallpaper.word, forKey: "word")
                 UserDefaults.standard.set(wallpaper.trans, forKey: "trans")
@@ -640,7 +684,6 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
     
     
     @IBAction func ReciteNewWords(_ sender: UIButton) {
-        
         if let _ = getPreference(key: "current_book_id") as? String{
             loadLearnController()
         }
@@ -687,7 +730,8 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
     
     
     @IBAction func pernounce_word(_ sender: UITapGestureRecognizer) {
-        if Reachability.isConnectedToNetwork(){
+        let connected = Reachability.isConnectedToNetwork()
+        if connected{
             let usphone = getUSPhone() == true ? 0 : 1
             let word:String = wordLabel.text ?? ""
             if word != ""{

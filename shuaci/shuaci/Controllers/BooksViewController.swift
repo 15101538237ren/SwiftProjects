@@ -252,7 +252,8 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
     {
         if books.count > 0{
             stopIndicator()
-            if Reachability.isConnectedToNetwork(){
+            let connected = Reachability.isConnectedToNetwork()
+            if connected{
                 DispatchQueue.global(qos: .background).async {
                 do {
                     let query = LCQuery(className: "Book")
@@ -309,7 +310,8 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
             }
             
         }else{
-            if Reachability.isConnectedToNetwork(){
+            let connected = Reachability.isConnectedToNetwork()
+            if connected{
                 DispatchQueue.global(qos: .background).async {
                 do {
                     let query = LCQuery(className: "Book")

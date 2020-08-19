@@ -9,7 +9,6 @@
 import UIKit
 import LeanCloud
 import SwiftTheme
-import Reachability
 
 class SetMemOptionViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
     @IBOutlet weak var backBtn: UIButton!
@@ -274,7 +273,8 @@ class SetMemOptionViewController: UIViewController, UIPickerViewDelegate, UIPick
     }
     
     func downloadBookJson(book: Book){
-        if Reachability.isConnectedToNetwork(){
+        let connected = Reachability.isConnectedToNetwork()
+        if connected{
             DispatchQueue.global(qos: .background).async {
             do {
                 DispatchQueue.main.async {

@@ -260,7 +260,8 @@ class MainScreenViewController: UIViewController {
     
     func playMp3(url: URL)
     {
-        if Reachability.isConnectedToNetwork(){
+        let connected = Reachability.isConnectedToNetwork()
+        if connected{
             DispatchQueue.global(qos: .background).async {
             do {
                 var downloadTask: URLSessionDownloadTask
@@ -287,7 +288,8 @@ class MainScreenViewController: UIViewController {
     }
     
     @IBAction func playAudio(_ sender: UIButton) {
-        if Reachability.isConnectedToNetwork(){
+        let connected = Reachability.isConnectedToNetwork()
+        if connected{
             let cardWord = cardWords[currentIndex % cardWords.count]
             let wordStr: String = cardWord.headWord
             if let mp3_url = getWordPronounceURL(word: wordStr, fromMainScreen: true){

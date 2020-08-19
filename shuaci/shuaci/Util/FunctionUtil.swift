@@ -21,7 +21,7 @@ var everyDayLearningReminderNotificationIdentifier = "dailyLearningReminder"
 let numberOfContDaysForMasteredAWord = 5 
 
 typealias CompletionHandler = (_ success:Bool) -> Void
-typealias CompletionHandlerWithData = (_ data: Data?) -> Void
+typealias CompletionHandlerWithData = (_ data: Data?, _ fromCloud: Bool) -> Void
 
 
 // MARK: - Common Functions
@@ -81,7 +81,7 @@ func get_vocab_rec_need_to_be_review() -> [VocabularyRecord]{
     var vocab_rec_need_to_be_review:[VocabularyRecord] = []
     
     if GlobalVocabRecords.count == 0{
-        GlobalVocabRecords = loadVocabRecords()
+        loadVocabRecords()
     }
     let current_book_id:String = getPreference(key: "current_book_id") as! String
     let current_time = Date()
@@ -121,7 +121,7 @@ func get_words_need_to_be_review(vocab_rec_need_to_be_review: [VocabularyRecord]
 
 func obtainNextReviewDate() -> Date?{
     if GlobalVocabRecords.count == 0{
-        GlobalVocabRecords = loadVocabRecords()
+        loadVocabRecords()
     }
     if GlobalVocabRecords.count > 0{
         var vocabsNeedReview:[VocabularyRecord] = []
@@ -234,14 +234,16 @@ func load_data_from_file(fileFp: String, recordClass: String, IdKey: String, com
                 .appendingPathComponent(fileFp)
             if FileManager.default.fileExists(atPath: fileURL.path) {
                 data = try Data(contentsOf: fileURL)
-                completionHandlerWithData(data)
+                completionHandlerWithData(data, false)
             }
             else{
-                if Reachability.isConnectedToNetwork(){
+                let connected = Reachability.isConnectedToNetwork()
+                if connected{
                     if let user = LCApplication.default.currentUser{
                         if let recId = user.get(IdKey)?.stringValue{
                             do {
                                 if recId != ""{
+                                    print("\(recordClass), id:\(recId)")
                                     let recordQuery = LCQuery(className: recordClass)
                                     let _ = recordQuery.get(recId) { (result) in
                                         switch result {
@@ -249,32 +251,32 @@ func load_data_from_file(fileFp: String, recordClass: String, IdKey: String, com
                                             let recStr:String = rec.get("jsonStr")!.stringValue!
                                             saveStringTo(fileName: fileFp, jsonStr: recStr)
                                             data = recStr.data(using: .utf8)
-                                            completionHandlerWithData(data)
+                                            completionHandlerWithData(data, true)
                                         case .failure(error: let error):
-                                            completionHandlerWithData(data)
+                                            completionHandlerWithData(data, false)
                                             print(error.localizedDescription)
                                         }
                                     }
                                 }else{
-                                    completionHandlerWithData(data)
+                                    completionHandlerWithData(data, false)
                                 }
                                 
                             }
                         } else {
-                            completionHandlerWithData(data)
+                            completionHandlerWithData(data, false)
                         }
                     } else{
-                        completionHandlerWithData(data)
+                        completionHandlerWithData(data, false)
                     }
                     
                 }
                 else{
-                    completionHandlerWithData(data)
+                    completionHandlerWithData(data, false)
                 }
         }
     }
     catch {
-        completionHandlerWithData(data)
+        completionHandlerWithData(data, false)
         print(error.localizedDescription)
     }
 }
@@ -299,7 +301,8 @@ func setSaveRecordToClouldStatus(key: String, status: Bool){
 
 func saveRecordStringByGivenId(recordClass: String, saveRecordFailedKey: String, recordIdKey: String, username: String, jsonString: String, completionHandler: @escaping CompletionHandler){
     // if ReviewRecordId exist in UserPreference
-    if Reachability.isConnectedToNetwork(){
+    let connected = Reachability.isConnectedToNetwork()
+    if connected{
         let recordId: String = UserDefaults.standard.string(forKey: recordIdKey)!
         DispatchQueue.global(qos: .background).async {
     do {
@@ -340,7 +343,8 @@ func saveRecordStringByGivenId(recordClass: String, saveRecordFailedKey: String,
 }
 
 func saveRecordStringToCloud(recordClass: String, saveRecordFailedKey: String, recordIdKey: String, username: String, jsonString: String, completionHandler: @escaping CompletionHandler){
-    if Reachability.isConnectedToNetwork(){
+    let connected = Reachability.isConnectedToNetwork()
+    if connected{
        DispatchQueue.global(qos: .background).async {
        do {
             if !isKeyPresentInUserDefaults(key: recordIdKey)
@@ -451,7 +455,8 @@ func getWordPronounceURL(word: String, fromMainScreen: Bool = false) -> URL?{
 // MARK: - Book Util
 
 func fetchBooks(){
-    if Reachability.isConnectedToNetwork(){
+    let connected = Reachability.isConnectedToNetwork()
+    if connected{
         DispatchQueue.global(qos: .background).async {
         do {
             let query = LCQuery(className: "Book")
@@ -546,8 +551,8 @@ func get_words(){
                     if !FileManager.default.fileExists(atPath: wordJsonURL.path) {
                         update_words()
                     }
-                    
-                    let learnt_vocabRecs:[VocabularyRecord] = loadVocabRecords()
+                    loadVocabRecords()
+                    let learnt_vocabRecs:[VocabularyRecord] = GlobalVocabRecords
                     let learnt_word_heads: Set = Set<String>(learnt_vocabRecs.map{ $0.VocabHead })
                     
                     let chapters = currentbook_json_obj["chapters"].arrayValue
@@ -597,7 +602,8 @@ func clear_words(){
 
 func update_words(){
     if let bookId = getPreference(key: "current_book_id") as? String {
-        let learnt_vocabRecs:[VocabularyRecord] = loadVocabRecords()
+        loadVocabRecords()
+        let learnt_vocabRecs:[VocabularyRecord] = GlobalVocabRecords
         let learnt_word_heads: Set = Set<String>(learnt_vocabRecs.map{ $0.VocabHead })
         
         let chapters = currentbook_json_obj["chapters"].arrayValue

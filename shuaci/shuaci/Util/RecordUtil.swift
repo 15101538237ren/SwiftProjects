@@ -39,11 +39,9 @@ var vocabRecordsOfCurrentLearning:[VocabularyRecord] = []
 var vocabRecordsOfCurrentReview:[VocabularyRecord] = []
 var currentLearningRec: LearningRecord = initNewLearningRec()
 var currentReviewRec: ReviewRecord = initNewReviewRec()
-
-
-var GlobalReviewRecords:[ReviewRecord] = loadReviewRecords()
-var GlobalVocabRecords:[VocabularyRecord] = loadVocabRecords()
-var GlobalLearningRecords:[LearningRecord] = loadLearningRecords()
+var GlobalReviewRecords:[ReviewRecord] = []
+var GlobalVocabRecords:[VocabularyRecord] = []
+var GlobalLearningRecords:[LearningRecord] = []
 
 
 // MARK: - Overall Util
@@ -471,9 +469,9 @@ func getReviewRecordsOf(date: Date) -> [ReviewRecord]{
 
 func prepareRecordsAndPreference(completionHandler: @escaping CompletionHandler){
     loadPreference(completionHandler: completionHandler)
-    GlobalVocabRecords = loadVocabRecords()
-    GlobalReviewRecords = loadReviewRecords()
-    GlobalLearningRecords = loadLearningRecords()
+    loadVocabRecords()
+    loadReviewRecords()
+    loadLearningRecords()
 }
 
 func getVocabHeadsFromVocabRecords(VocabRecords: [VocabularyRecord]) -> [String]{
@@ -488,21 +486,16 @@ func clearVocabRecordsOfCurrentLearning(){
     vocabRecordsOfCurrentLearning = []
 }
 
-func loadVocabRecords() -> [VocabularyRecord] {
-    var vocabRecords: [VocabularyRecord] =  []
-    
-    load_data_from_file(fileFp: vocabRecordJsonFp, recordClass: vocabRecordClass, IdKey: VocabRecordIdKey,  completionHandlerWithData: { data in
+func loadVocabRecords(){
+    load_data_from_file(fileFp: vocabRecordJsonFp, recordClass: vocabRecordClass, IdKey: VocabRecordIdKey,  completionHandlerWithData: { data, fromCloud in
         do {
             if let data = data {
-                vocabRecords = try decoder.decode([VocabularyRecord].self, from: data)
+                GlobalVocabRecords = try decoder.decode([VocabularyRecord].self, from: data)
             }
         } catch {
             print(error.localizedDescription)
         }
     })
-    
-    
-    return vocabRecords
 }
 
 
@@ -577,18 +570,16 @@ func saveReviewRecordsFromReview(vocabs_updated: [VocabularyRecord]) {
 
 
 
-func loadLearningRecords() -> [LearningRecord]{
-    var learningRecord: [LearningRecord] =  []
-    load_data_from_file(fileFp: learningRecordJsonFp, recordClass: learningRecordClass, IdKey: LearningRecordIdKey,  completionHandlerWithData: { data in
+func loadLearningRecords(){
+    load_data_from_file(fileFp: learningRecordJsonFp, recordClass: learningRecordClass, IdKey: LearningRecordIdKey,  completionHandlerWithData: { data, fromCloud in
         do {
             if let data = data {
-                learningRecord = try decoder.decode([LearningRecord].self, from: data)
+                GlobalLearningRecords = try decoder.decode([LearningRecord].self, from: data)
             }
         } catch {
             print(error.localizedDescription)
         }
     })
-    return learningRecord
 }
 
 func saveLearningRecords(saveToLocal: Bool, saveToCloud: Bool = false, delaySeconds:Double = 0, completionHandler: @escaping CompletionHandler){
@@ -606,19 +597,16 @@ func saveLearningRecords(saveToLocal: Bool, saveToCloud: Bool = false, delaySeco
 
 
 // MARK: - ReviewRecord Util
-func loadReviewRecords() -> [ReviewRecord]{
-    var reviewRecords: [ReviewRecord] =  []
-    
-    load_data_from_file(fileFp: reviewRecordJsonFp, recordClass: reviewRecordClass, IdKey: DefaultPrefIdKey,  completionHandlerWithData: { data in
+func loadReviewRecords(){
+    load_data_from_file(fileFp: reviewRecordJsonFp, recordClass: reviewRecordClass, IdKey: ReviewRecordIdKey,  completionHandlerWithData: { data, fromCloud in
         do {
             if let data = data {
-                reviewRecords = try decoder.decode([ReviewRecord].self, from: data)
+                GlobalReviewRecords = try decoder.decode([ReviewRecord].self, from: data)
             }
         } catch {
             print(error.localizedDescription)
         }
     })
-    return reviewRecords
 }
 
 func saveReviewRecords(saveToLocal: Bool, saveToCloud: Bool = false, delaySeconds:Double = 0, completionHandler: @escaping CompletionHandler){
