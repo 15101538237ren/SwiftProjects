@@ -186,7 +186,7 @@ class LearnWordViewController: UIViewController {
         card.wordLabel?.text = cardWord.headWord
         DispatchQueue.main.async {
             if cardWord.headWord.count >= 10{
-                card.wordLabel?.font = card.wordLabel?.font.withSize(40.0)
+                card.wordLabel?.font = card.wordLabel?.font.withSize(35.0)
             }else{
                 card.wordLabel?.font = card.wordLabel?.font.withSize(45.0)
             }

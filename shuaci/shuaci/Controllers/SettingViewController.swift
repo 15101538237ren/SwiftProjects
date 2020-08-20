@@ -23,7 +23,7 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
         SettingItem(icon: UIImage(named: "auto_pronunciation") ?? UIImage(), name: "自动发音", value: "开"),
         SettingItem(icon: UIImage(named: "english_american_pronunce") ?? UIImage(), name: "发音类型", value: "美"),
         SettingItem(icon: UIImage(named: "choose_book") ?? UIImage(), name: "选择单词书", value: ""),
-        SettingItem(icon: UIImage(named: "vocab_amount_each_group") ?? UIImage(), name: "设置学习计划", value: ""),
+        SettingItem(icon: UIImage(named: "vocab_amount_each_group") ?? UIImage(), name: "设置学习计划", value: "乱序,20个/组"),
         SettingItem(icon: UIImage(named: "learning_reminder") ?? UIImage(), name: "每日提醒", value: ""),
         SettingItem(icon: UIImage(named: "clean_cache") ?? UIImage(), name: "清除缓存", value: "3.25M"),
         SettingItem(icon: UIImage(named: "sync_record") ?? UIImage(), name: "同步学习记录至云端", value: ""),
@@ -137,6 +137,29 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
         return settingItems.count
     }
     
+    func getSettingTextforTableView() -> String {
+        var order = "乱序"
+        if let memOrder = getPreference(key: "memOrder") as? Int{
+            switch memOrder {
+            case 1:
+                order = "乱序"
+            case 2:
+                order = "顺序"
+            case 3:
+                order = "倒序"
+            default:
+                order = "乱序"
+            }
+        }
+        if let number_of_words_per_group = getPreference(key: "number_of_words_per_group") as? Int{
+            return "\(order)  \(number_of_words_per_group)个/组"
+        }
+        else{
+            return "\(order)"
+        }
+        
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let row = indexPath.row
         if  row == 0{
@@ -195,7 +218,7 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
             let settingItem:SettingItem = settingItems[row]
             cell.iconView?.image = settingItem.icon
             cell.nameLabel?.text = settingItem.name
-            cell.valueLabel?.text = ""
+            cell.valueLabel?.text = getSettingTextforTableView()
             return cell
         }
             

@@ -178,12 +178,16 @@ class SetMemOptionViewController: UIViewController, UIPickerViewDelegate, UIPick
             switch memOrder {
             case 1:
                 memOrd = .byRandom
+                memOrderSegCtrl.selectedSegmentIndex = 0
             case 2:
                 memOrd = .byAlphabet
+                memOrderSegCtrl.selectedSegmentIndex = 1
             case 3:
                 memOrd = .byReversedAlphabet
+                memOrderSegCtrl.selectedSegmentIndex = 2
             default:
                 memOrd = .byRandom
+                memOrderSegCtrl.selectedSegmentIndex = 0
             }
         }
     }
@@ -317,6 +321,18 @@ class SetMemOptionViewController: UIViewController, UIPickerViewDelegate, UIPick
         }
         
     }
+    func getSettingTextforTableView(number_of_words_per_group: Int) -> String {
+        var order = "乱序"
+        switch memOrd {
+        case .byRandom:
+            order = "乱序"
+        case .byAlphabet:
+            order = "顺序"
+        case .byReversedAlphabet:
+            order = "倒序"
+        }
+        return "\(order)  \(number_of_words_per_group)个/组"
+    }
     
     @IBAction func setMemOption(_ sender: UIButton) {
         print(self.memOrd.rawValue)
@@ -330,10 +346,11 @@ class SetMemOptionViewController: UIViewController, UIPickerViewDelegate, UIPick
         else
         {
             if setting_tableView != nil{
+                let setText =  getSettingTextforTableView(number_of_words_per_group: number_of_words_per_group)
                 DispatchQueue.main.async {
                     let indexPath_in_setting = IndexPath(row: 3, section: 0)
                     let cell_in_setting = self.setting_tableView!.dequeueReusableCell(withIdentifier: "SettingCell", for: indexPath_in_setting) as! SettingTableViewCell
-                    cell_in_setting.valueLabel?.text = "\(number_of_words_per_group)"
+                    cell_in_setting.valueLabel?.text = setText
                     self.setting_tableView!.reloadRows(at: [indexPath_in_setting], with: .none)
                     self.dismiss(animated: true, completion: nil)
                 }
