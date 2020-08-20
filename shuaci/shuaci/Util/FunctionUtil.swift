@@ -95,26 +95,17 @@ func get_vocab_rec_need_to_be_review() -> [VocabularyRecord]{
     return vocab_rec_need_to_be_review
 }
 
-func build_word_head_to_json_dict() ->[String : JSON]{
-    var word_head_to_json_dict: [String : JSON] = [:]
-    let chapters = currentbook_json_obj["chapters"].arrayValue
-    for chpt_idx in 0..<chapters.count{
-        let chapter = chapters[chpt_idx]
-        let word_heads = chapter["word_heads"].arrayValue.map {$0.stringValue}
-        for wid in 0..<word_heads.count{
-            let word = word_heads[wid]
-            let word_data = chapters[chpt_idx]["data"].arrayValue[wid]
-            word_head_to_json_dict[word] = word_data
-        }
-    }
-    return word_head_to_json_dict
-}
 
 func get_words_need_to_be_review(vocab_rec_need_to_be_review: [VocabularyRecord]) -> [JSON]{
+    let chapters = currentbook_json_obj["chapters"].arrayValue
+    let words_dict = currentbook_json_obj["words"].dictionaryValue
     var review_words:[JSON] = []
-    let word_head_to_json_dict: [String : JSON] = build_word_head_to_json_dict()
     for vocab in vocab_rec_need_to_be_review{
-        review_words.append(word_head_to_json_dict[vocab.VocabHead]!)
+        let ind_arr = words_dict[vocab.VocabHead]!.arrayValue
+        let chpt_idx = ind_arr[0].intValue
+        let word_idx = ind_arr[1].intValue
+        let word_data = chapters[chpt_idx]["data"].arrayValue[word_idx]
+        review_words.append(word_data)
     }
     return review_words
 }
