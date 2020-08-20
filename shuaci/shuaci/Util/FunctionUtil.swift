@@ -23,6 +23,21 @@ let numberOfContDaysForMasteredAWord = 5
 typealias CompletionHandler = (_ success:Bool) -> Void
 typealias CompletionHandlerWithData = (_ data: Data?, _ fromCloud: Bool) -> Void
 
+func hasSpecialCharacters(str: String) -> Bool {
+
+    do {
+        let regex = try NSRegularExpression(pattern: ".*[^A-Za-z0-9+-].*", options: .caseInsensitive)
+        if let _ = regex.firstMatch(in: str, options: NSRegularExpression.MatchingOptions.reportCompletion, range: NSMakeRange(0, str.count)) {
+            return true
+        }
+
+    } catch {
+        debugPrint(error.localizedDescription)
+        return false
+    }
+
+    return false
+}
 
 // MARK: - Common Functions
 
@@ -436,9 +451,11 @@ func getWordPronounceURL(word: String, fromMainScreen: Bool = false) -> URL?{
     let usphone = fromMainScreen ? 0 : (getUSPhone() == true ? 0 : 1)
     if word != ""{
         let replaced_word = word.replacingOccurrences(of: " ", with: "+")
-        let url_string: String = "http://dict.youdao.com/dictvoice?type=\(usphone)&audio=\(replaced_word)"
-        let mp3_url:URL = URL(string: url_string)!
-        return mp3_url
+        if !hasSpecialCharacters(str: replaced_word){
+            let url_string: String = "http://dict.youdao.com/dictvoice?type=\(usphone)&audio=\(replaced_word)"
+            let mp3_url:URL = URL(string: url_string)!
+            return mp3_url
+        }
     }
     return nil
 }
@@ -599,9 +616,10 @@ func update_words(){
         
         let chapters = currentbook_json_obj["chapters"].arrayValue
         var words_left:[String] = []
+        var words_left_dict:[String:Int] = [:]
         var word_left_chpt_inds: [Int] = []
         var word_left_indexs_in_chpt: [Int] = []
-        
+        var word_cnt:Int = 0
         for chpt_idx in 0..<chapters.count{
             let chapter = chapters[chpt_idx]
             let word_heads = chapter["word_heads"].arrayValue.map {$0.stringValue}
@@ -609,16 +627,17 @@ func update_words(){
                 let word = word_heads[wid]
                 if !(learnt_word_heads.contains(word)){
                     words_left.append(word)
+                    words_left_dict[word] = word_cnt
+                    word_cnt += 1
                     word_left_chpt_inds.append(chpt_idx)
                     word_left_indexs_in_chpt.append(wid)
                 }
             }
         }
-        
+        let sorted_words_left = words_left.sorted(by: <)
         let memOrder = getPreference(key: "memOrder") as! Int
         let number_of_words_per_group = getPreference(key: "number_of_words_per_group") as! Int
         let sampling_number:Int = min(number_of_words_per_group, words_left.count)
-        
         words = []
         var selectedIndexs:[Int] = []
         if memOrder == 1{//Random
@@ -640,8 +659,8 @@ func update_words(){
             }
         }
         for ind in 0..<sampling_number{
-           let selectedInd = selectedIndexs[ind]
-           let word_head: String = words_left[selectedInd]
+           let word_head_selected: String = sorted_words_left[selectedIndexs[ind]]
+           let selectedInd: Int = words_left_dict[word_head_selected]!
            let word_chp_ind: Int = word_left_chpt_inds[selectedInd]
            let word_in_chp_ind: Int = word_left_indexs_in_chpt[selectedInd]
            let word_data = chapters[word_chp_ind]["data"].arrayValue[word_in_chp_ind]

@@ -319,6 +319,7 @@ class SetMemOptionViewController: UIViewController, UIPickerViewDelegate, UIPick
     }
     
     @IBAction func setMemOption(_ sender: UIButton) {
+        print(self.memOrd.rawValue)
         setPreference(key: "memOrder", value: self.memOrd.rawValue)
         setPreference(key: "current_book_id", value: self.book.identifier)
         let number_of_words_per_group:Int = number_of_words[dailyNumWordPickerView.selectedRow(inComponent: 0)]
