@@ -331,7 +331,7 @@ class SetMemOptionViewController: UIViewController, UIPickerViewDelegate, UIPick
         case .byReversedAlphabet:
             order = "倒序"
         }
-        return "\(order)  \(number_of_words_per_group)个/组"
+        return "\(order) s \(number_of_words_per_group)个/组"
     }
     
     @IBAction func setMemOption(_ sender: UIButton) {

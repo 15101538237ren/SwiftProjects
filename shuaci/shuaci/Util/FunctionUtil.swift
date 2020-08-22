@@ -425,6 +425,13 @@ enum CardBehavior : Int {
     case trash = 0
 }
 
+enum WordMemStage : Int {
+    case memory = 1
+    case enToCn = 2
+    case cnToEn = 3
+}
+
+
 enum CardCollectBehavior {
     case no
     case yes

@@ -425,16 +425,8 @@
                         <action selector="panCard:" destination="Zsp-9s-jM2" id="I7A-2V-VWp"/>
                     </connections>
                 </panGestureRecognizer>
-                <tapGestureRecognizer id="8zk-Sg-V98">
-                    <connections>
-                        <action selector="flipCard:" destination="Zsp-9s-jM2" id="fNB-Zh-GJ0"/>
-                    </connections>
-                </tapGestureRecognizer>
-                <tapGestureRecognizer id="eao-lg-xmf">
-                    <connections>
-                        <action selector="flipCard:" destination="Zsp-9s-jM2" id="c5y-en-cMa"/>
-                    </connections>
-                </tapGestureRecognizer>
+                <tapGestureRecognizer id="8zk-Sg-V98"/>
+                <tapGestureRecognizer id="eao-lg-xmf"/>
             </objects>
             <point key="canvasLocation" x="-97.101449275362327" y="107.8125"/>
         </scene>
@@ -1008,7 +1000,6 @@
                                     <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="large"/>
                                 </state>
                                 <connections>
-                                    <action selector="unwindWithSegue:" destination="Zsp-9s-jM2" eventType="touchUpInside" id="54s-El-YXb"/>
                                     <action selector="unwindWithSegue:" destination="l79-eC-LHd" eventType="touchUpInside" id="kHe-Ml-WjZ"/>
                                 </connections>
                             </button>
