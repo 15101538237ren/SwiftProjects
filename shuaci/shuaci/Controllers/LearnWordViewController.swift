@@ -27,10 +27,20 @@ class LearnWordViewController: UIViewController {
     @IBOutlet var gestureRecognizers:[UIPanGestureRecognizer]!
     var secondsPST:Int = 0 // number of seconds past after load
     @IBOutlet var timeLabel: UILabel!
-    @IBOutlet var progressLabel: UILabel!
+//    @IBOutlet var progressLabel: UILabel!
+    
+    @IBOutlet var firstMemLeft: UILabel!
+    @IBOutlet var enToCNLeft: UILabel!
+    @IBOutlet var cnToENLeft: UILabel!
+    
+    var firstMemLeftNum: Int = 0
+    var enToCNLeftNum: Int = 0
+    var cnToENLeftNum: Int = 0
+    
     var isCardBack: Bool = false //whether the card is front or back end
     var audioPlayer: AVAudioPlayer?
     var mp3Player: AVAudioPlayer?
+    
     var scaleOfSecondCard:CGFloat = 0.9
     var currentIndex:Int = 0
     let animationDuration = 0.15
@@ -69,11 +79,26 @@ class LearnWordViewController: UIViewController {
         
     }
     
+    func updateWordLeftLabels(){
+        DispatchQueue.main.async {
+            self.firstMemLeft.text = "\(self.firstMemLeftNum)"
+            self.enToCNLeft.text = "\(self.enToCNLeftNum)"
+            self.cnToENLeft.text = "\(self.cnToENLeftNum)"
+        }
+    }
+    
+    func initWordLeftNumbers(){
+        firstMemLeftNum = words.count
+        enToCNLeftNum = 0
+        cnToENLeftNum = 0
+        updateWordLeftLabels()
+    }
     
     override func viewWillAppear(_ animated: Bool){
         setCardBackground()
         initCards()
         initVocabRecords()
+        initWordLeftNumbers()
         let card = cards[0]
         let xshift:CGFloat = card.frame.size.width/8.0
         card.transform = CGAffineTransform(translationX: -xshift, y:0.0).rotated(by: -xshift*0.61/card.center.x)
@@ -85,7 +110,7 @@ class LearnWordViewController: UIViewController {
                                        name: UIApplication.willEnterForegroundNotification,
                                        object: nil)
         startTimer()
-        self.updateProgressLabel(index: self.currentIndex)
+//        self.updateProgressLabel(index: self.currentIndex)
     }
     
     @IBAction func unwind(segue: UIStoryboardSegue) {
@@ -154,11 +179,11 @@ class LearnWordViewController: UIViewController {
         }
     }
     
-    func updateProgressLabel(index: Int){
-        DispatchQueue.main.async {
-            self.progressLabel.text = "\(index + 1)/\(words.count)"
-        }
-    }
+//    func updateProgressLabel(index: Int){
+//        DispatchQueue.main.async {
+//            self.progressLabel.text = "\(index + 1)/\(words.count)"
+//        }
+//    }
     
     func playMp3GivenWord(word: String){
         let auto_pronunciation:Bool = getPreference(key: "auto_pronunciation") as! Bool
@@ -306,6 +331,18 @@ class LearnWordViewController: UIViewController {
         let masteredAction: Bool = mastered[wordIndex]
         let bhv:Int = behavior.intValue
         wordsQArray.enqueue([wordIndex, memStage, bhv]) // record Stage Behavior
+        
+        switch memStage {
+            case WordMemStage.memory.rawValue:
+                firstMemLeftNum -= 1
+            case WordMemStage.enToCn.rawValue:
+                enToCNLeftNum -= 1
+            case WordMemStage.cnToEn.rawValue:
+                cnToENLeftNum -= 1
+            default:
+                print("Nothing")
+        }
+        
         if !masteredAction{
             let cardAction: Int = card_behaviors[wordIndex]!.last!
             if !(memStage == WordMemStage.cnToEn.rawValue && cardAction == CardBehavior.remember.rawValue){
@@ -319,9 +356,20 @@ class LearnWordViewController: UIViewController {
                         nextStage = memStage + 1
                     }
                 }
+                switch nextStage {
+                    case WordMemStage.memory.rawValue:
+                        firstMemLeftNum += 1
+                    case WordMemStage.enToCn.rawValue:
+                        enToCNLeftNum += 1
+                    case WordMemStage.cnToEn.rawValue:
+                        cnToENLeftNum += 1
+                    default:
+                        print("Nothing")
+                }
                 wordsQueue.enqueue([wordIndex, nextStage])
             }
         }
+        updateWordLeftLabels()
         
         if wordsQueue.count > 0{
             let wordQuequeItem = wordsQueue.dequeue()
@@ -350,7 +398,7 @@ class LearnWordViewController: UIViewController {
             
             let wordQuequeItem = currentWordLabelQueue.first!
             let wordIndex: Int = wordQuequeItem[0]
-            self.updateProgressLabel(index: wordIndex)
+//            self.updateProgressLabel(index: wordIndex)
             
             //Prepare Next Card
             if currentWordLabelQueue.count > 1{
@@ -580,6 +628,16 @@ class LearnWordViewController: UIViewController {
             let lastMemStage = valArray[1]
             let cardBehavior = valArray[2]
             
+            switch lastMemStage {
+                case WordMemStage.memory.rawValue:
+                    firstMemLeftNum += 1
+                case WordMemStage.enToCn.rawValue:
+                    enToCNLeftNum += 1
+                case WordMemStage.cnToEn.rawValue:
+                    cnToENLeftNum += 1
+                default:
+                    print("Nothing")
+            }
             
             if cardBehavior == CardBehavior.trash.rawValue{
                 self.mastered[lastWordIndex] = false
@@ -632,10 +690,21 @@ class LearnWordViewController: UIViewController {
             gestureRecognizer.view!.frame = lastCard.frame
             
             if cardBehavior != CardBehavior.trash.rawValue && !(cardBehavior == CardBehavior.remember.rawValue && lastMemStage == WordMemStage.cnToEn.rawValue) && wordsQueue.count > 0{
+                let wordQElement:[Int] = wordsQueue.last!
+                let memStageOfThis:Int = wordQElement[1]
+                switch memStageOfThis {
+                    case WordMemStage.memory.rawValue:
+                        firstMemLeftNum -= 1
+                    case WordMemStage.enToCn.rawValue:
+                        enToCNLeftNum -= 1
+                    case WordMemStage.cnToEn.rawValue:
+                        cnToENLeftNum -= 1
+                    default:
+                        print("Nothing")
+                }
                 wordsQueue.removeLast()
             }
-            
-
+            updateWordLeftLabels()
             currentWordLabelQueue.insert([lastWordIndex, lastMemStage], at: 0)
             
             if currentWordLabelQueue.count > 2{
@@ -649,7 +718,7 @@ class LearnWordViewController: UIViewController {
                 card_behaviors[lastWordIndex]!.removeLast()
             }
             
-            self.updateProgressLabel(index: lastWordIndex)
+//            self.updateProgressLabel(index: lastWordIndex)
             enableBtns()
         }
         else{
