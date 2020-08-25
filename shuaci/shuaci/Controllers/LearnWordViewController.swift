@@ -118,12 +118,22 @@ class LearnWordViewController: UIViewController {
         if card.meaningLabel!.alpha < 1e-5 {
             UIView.animate(withDuration: 1.0, animations: {
                 card.meaningLabel!.alpha = 1.0
-            })
+            }) { (finished) in
+                // fade out
+                UIView.animate(withDuration: 1.0, animations: {
+                    card.memMethodLabel!.alpha = 1.0
+                })
+            }
         }
         if card.wordLabel!.alpha < 1e-5 {
            UIView.animate(withDuration: 1.0, animations: {
                 card.wordLabel!.alpha = 1.0
-            })
+            }) { (finished) in
+                // fade out
+                UIView.animate(withDuration: 1.0, animations: {
+                    card.memMethodLabel!.alpha = 1.0
+                })
+            }
         }
     }
     
@@ -149,14 +159,11 @@ class LearnWordViewController: UIViewController {
     }
     
     func playMp3GivenWord(word: String){
-        if self.currentIndex < words.count
-        {
-            let auto_pronunciation:Bool = getPreference(key: "auto_pronunciation") as! Bool
-            
-            let mp3_url = getWordPronounceURL(word: word)
-            if auto_pronunciation && (mp3_url != nil) {
-                playMp3(url: mp3_url!)
-            }
+        let auto_pronunciation:Bool = getPreference(key: "auto_pronunciation") as! Bool
+        
+        let mp3_url = getWordPronounceURL(word: word)
+        if auto_pronunciation && (mp3_url != nil) {
+            playMp3(url: mp3_url!)
         }
     }
     
@@ -220,6 +227,7 @@ class LearnWordViewController: UIViewController {
             }
             
             card.meaningLabel?.text = meaningLabelTxt
+            
             if cardWord.memMethod != ""{
                 card.wordLabel_Top_Space_Constraint.constant = 130
                 card.meaningLabel_Top_Space_Constraint.constant = 50
@@ -231,6 +239,7 @@ class LearnWordViewController: UIViewController {
                 card.meaningLabel_Top_Space_Constraint.constant = 70
                 card.memMethodLabel?.alpha = 0
             }
+            
             if collected{
                 card.collectImageView.alpha = 1
             }else{
@@ -248,7 +257,9 @@ class LearnWordViewController: UIViewController {
             if memStage > 1{
                 card.memMethodLabel?.alpha = 0
             }else{
-                card.memMethodLabel?.alpha = 1
+                if cardWord.memMethod != ""{
+                    card.memMethodLabel?.alpha = 1
+                }
             }
         }
     }
@@ -478,6 +489,9 @@ class LearnWordViewController: UIViewController {
         card.rememberImageView?.alpha = 0
         card.rememberLabel?.text = ""
         card.rememberLabel?.alpha = 0
+        card.memMethodLabel?.text = ""
+        card.wordLabel?.text = ""
+        card.meaningLabel?.text = ""
         card.layer.removeAllAnimations()
         card.transform = CGAffineTransform.identity.scaledBy(x: scaleOfSecondCard, y: scaleOfSecondCard)
         card.center = CGPoint(x: view.center.x, y: view.center.y)
@@ -602,7 +616,7 @@ class LearnWordViewController: UIViewController {
             let gestureRecognizer = self.gestureRecognizers[currentIndex % 2]
             gestureRecognizer.view!.frame = lastCard.frame
             
-            if cardBehavior != CardBehavior.trash.rawValue && !(cardBehavior == CardBehavior.remember.rawValue && lastMemStage == WordMemStage.cnToEn.rawValue){
+            if cardBehavior != CardBehavior.trash.rawValue && !(cardBehavior == CardBehavior.remember.rawValue && lastMemStage == WordMemStage.cnToEn.rawValue) && wordsQueue.count > 0{
                 wordsQueue.removeLast()
             }
             
