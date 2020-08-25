@@ -425,8 +425,16 @@
                         <action selector="panCard:" destination="Zsp-9s-jM2" id="I7A-2V-VWp"/>
                     </connections>
                 </panGestureRecognizer>
-                <tapGestureRecognizer id="8zk-Sg-V98"/>
-                <tapGestureRecognizer id="eao-lg-xmf"/>
+                <tapGestureRecognizer id="8zk-Sg-V98">
+                    <connections>
+                        <action selector="showfullCard:" destination="Zsp-9s-jM2" id="8Jc-aL-Y5j"/>
+                    </connections>
+                </tapGestureRecognizer>
+                <tapGestureRecognizer id="eao-lg-xmf">
+                    <connections>
+                        <action selector="showfullCard:" destination="Zsp-9s-jM2" id="0td-Jg-hmk"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="-97.101449275362327" y="107.8125"/>
         </scene>
