@@ -79,11 +79,44 @@ class LearnWordViewController: UIViewController {
         
     }
     
-    func updateWordLeftLabels(){
+    func updateWordLeftLabels(currentMemStage: Int){
         DispatchQueue.main.async {
-            self.firstMemLeft.text = "\(self.firstMemLeftNum)"
-            self.enToCNLeft.text = "\(self.enToCNLeftNum)"
-            self.cnToENLeft.text = "\(self.cnToENLeftNum)"
+
+            self.firstMemLeft.textColor = .lightGray
+            self.enToCNLeft.textColor = .lightGray
+            self.cnToENLeft.textColor = .lightGray
+            
+            switch currentMemStage{
+                case WordMemStage.memory.rawValue:
+                    self.firstMemLeft.textColor = .darkGray
+                case WordMemStage.enToCn.rawValue:
+                    self.enToCNLeft.textColor = .darkGray
+                case WordMemStage.cnToEn.rawValue:
+                    self.cnToENLeft.textColor = .darkGray
+                default:
+                    print("Nothing")
+            }
+            
+            let firstMemText = "1. 初记忆  \(self.firstMemLeftNum)"
+            var attributeString: NSMutableAttributedString =  NSMutableAttributedString(string: firstMemText)
+            if self.firstMemLeftNum == 0{
+                attributeString.addAttribute(NSAttributedString.Key.strikethroughStyle, value: 2, range: NSMakeRange(0, attributeString.length))
+            }
+            self.firstMemLeft.attributedText = attributeString
+            
+            let enToCNLeftText = "2. 英忆中  \(self.enToCNLeftNum)"
+            attributeString =  NSMutableAttributedString(string: enToCNLeftText)
+            if self.firstMemLeftNum == 0 &&  self.enToCNLeftNum == 0{
+                attributeString.addAttribute(NSAttributedString.Key.strikethroughStyle, value: 2, range: NSMakeRange(0, attributeString.length))
+            }
+            self.enToCNLeft.attributedText = attributeString
+            
+            let cnToENLeftText = "3. 中忆英  \(self.cnToENLeftNum)"
+            attributeString =  NSMutableAttributedString(string: cnToENLeftText)
+            if self.firstMemLeftNum == 0 &&  self.enToCNLeftNum == 0 && self.cnToENLeftNum == 0 {
+                attributeString.addAttribute(NSAttributedString.Key.strikethroughStyle, value: 2, range: NSMakeRange(0, attributeString.length))
+            }
+            self.cnToENLeft.attributedText = attributeString
         }
     }
     
@@ -91,7 +124,7 @@ class LearnWordViewController: UIViewController {
         firstMemLeftNum = words.count
         enToCNLeftNum = 0
         cnToENLeftNum = 0
-        updateWordLeftLabels()
+        updateWordLeftLabels(currentMemStage : WordMemStage.memory.rawValue)
     }
     
     override func viewWillAppear(_ animated: Bool){
@@ -369,7 +402,6 @@ class LearnWordViewController: UIViewController {
                 wordsQueue.enqueue([wordIndex, nextStage])
             }
         }
-        updateWordLeftLabels()
         
         if wordsQueue.count > 0{
             let wordQuequeItem = wordsQueue.dequeue()
@@ -397,7 +429,8 @@ class LearnWordViewController: UIViewController {
             
             
             let wordQuequeItem = currentWordLabelQueue.first!
-            let wordIndex: Int = wordQuequeItem[0]
+            let memStageCurrent: Int = wordQuequeItem[1]
+            updateWordLeftLabels(currentMemStage: memStageCurrent)
 //            self.updateProgressLabel(index: wordIndex)
             
             //Prepare Next Card
@@ -704,7 +737,7 @@ class LearnWordViewController: UIViewController {
                 }
                 wordsQueue.removeLast()
             }
-            updateWordLeftLabels()
+            updateWordLeftLabels(currentMemStage: lastMemStage)
             currentWordLabelQueue.insert([lastWordIndex, lastMemStage], at: 0)
             
             if currentWordLabelQueue.count > 2{
