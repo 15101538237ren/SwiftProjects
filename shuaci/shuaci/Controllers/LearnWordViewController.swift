@@ -126,6 +126,8 @@ class LearnWordViewController: UIViewController {
             }
         }
         if card.wordLabel!.alpha < 1e-5 {
+           let word: String = card.wordLabel?.text ?? ""
+           playMp3GivenWord(word: word)
            UIView.animate(withDuration: 1.0, animations: {
                 card.wordLabel!.alpha = 1.0
             }) { (finished) in
@@ -289,7 +291,6 @@ class LearnWordViewController: UIViewController {
             if mastered[index] {
                 vocabRecordsOfCurrentLearning[index].Mastered = mastered[index]
             }
-            
             vocabRecordsOfCurrentLearning[index].ReviewDUEDate =  Date().adding(durationVal: firstReviewDelayInMin, durationType: .minute)
             if let bhvs = card_behaviors[index]{
                 vocabRecordsOfCurrentLearning[index].BehaviorHistory = bhvs
@@ -345,6 +346,7 @@ class LearnWordViewController: UIViewController {
             let next_card = cards[currentIndex % 2]
             learnUIView.bringSubviewToFront(next_card)
             next_card.dragable = !next_card.dragable
+            
             
             let wordQuequeItem = currentWordLabelQueue.first!
             let wordIndex: Int = wordQuequeItem[0]
@@ -424,9 +426,15 @@ class LearnWordViewController: UIViewController {
                     }
                     card_behaviors[wordIndex]!.append(CardBehavior.remember.rawValue)
                     
-                    let word: String = nextCard.wordLabel?.text ?? ""
                     self.currentIndex += 1
-                    playMp3GivenWord(word: word)
+                    if currentWordLabelQueue.count > 1{
+                        let memStage: Int  = currentWordLabelQueue[1][1]
+                        if !(memStage == WordMemStage.cnToEn.rawValue){
+                            let word: String = nextCard.wordLabel?.text ?? ""
+                            playMp3GivenWord(word: word)
+                        }
+                    }
+                    
                     perform(#selector(moveCard), with: NSNumber(value: CardBehavior.remember.rawValue), afterDelay: animationDuration)
                     return
                 }
@@ -454,11 +462,16 @@ class LearnWordViewController: UIViewController {
                     }
                     card_behaviors[wordIndex]!.append(CardBehavior.forget.rawValue)
                     
-                    let word: String = nextCard.wordLabel?.text ?? ""
 
                     sender.view!.frame = card.frame
                     self.currentIndex += 1
-                    playMp3GivenWord(word: word)
+                    if currentWordLabelQueue.count > 1{
+                        let memStage: Int  = currentWordLabelQueue[1][1]
+                        if !(memStage == WordMemStage.cnToEn.rawValue){
+                            let word: String = nextCard.wordLabel?.text ?? ""
+                            playMp3GivenWord(word: word)
+                        }
+                    }
                     perform(#selector(moveCard), with: NSNumber(value: CardBehavior.forget.rawValue), afterDelay: animationDuration)
                     return
                 }
@@ -597,8 +610,10 @@ class LearnWordViewController: UIViewController {
             let collect = card_collect_behaviors[lastWordIndex] == .yes ? true: false
             
             setFieldsOfCard(card: lastCard, cardWord: cardWord, collected: collect, memStage: lastMemStage)
-            let wordStr: String = lastCard.wordLabel?.text ?? ""
-            playMp3GivenWord(word: wordStr)
+            if !(lastMemStage == WordMemStage.cnToEn.rawValue){
+                let wordStr: String = lastCard.wordLabel?.text ?? ""
+                playMp3GivenWord(word: wordStr)
+            }
             let direction:CGFloat = cardBehavior == CardBehavior.forget.rawValue ? 1 : -1
             lastCard.center = CGPoint(x:  self.view.center.x + 400 * (direction), y: self.view.center.y + 75)
             lastCard.X_Constraint.constant = lastCard.center.x - self.view.center.x
@@ -687,11 +702,14 @@ class LearnWordViewController: UIViewController {
                     case .trash:
                         self.mastered[wordIndex] = true
                     }
-
-                    let word: String = nextCard.wordLabel?.text ?? ""
                     self.currentIndex += 1
-                    self.playMp3GivenWord(word: word)
-
+                    if self.currentWordLabelQueue.count > 1{
+                        let memStage: Int  = self.currentWordLabelQueue[1][1]
+                        if !(memStage == WordMemStage.cnToEn.rawValue){
+                            let word: String = nextCard.wordLabel?.text ?? ""
+                            self.playMp3GivenWord(word: word)
+                        }
+                    }
                     self.perform(#selector(self.moveCard), with: NSNumber(value: cardBehavior.rawValue), afterDelay: self.animationDuration)
                 }
             }
