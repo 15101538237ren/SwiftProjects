@@ -16,7 +16,6 @@
 		5500541324B822170005AD6F /* setNickNameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5500541224B822170005AD6F /* setNickNameViewController.swift */; };
 		5500541524B8222E0005AD6F /* bindEmailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5500541424B8222E0005AD6F /* bindEmailViewController.swift */; };
 		5500541724B8223E0005AD6F /* bindPhoneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5500541624B8223E0005AD6F /* bindPhoneViewController.swift */; };
-		55020FE424D92A28000E2434 /* DICT.json in Resources */ = {isa = PBXBuildFile; fileRef = 55020FE324D92A27000E2434 /* DICT.json */; };
 		5507D9072479935C0090DD37 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5507D9062479935C0090DD37 /* Reachability.swift */; };
 		551265CB24AEE03F007C333E /* ReviewFinishViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 551265CA24AEE03F007C333E /* ReviewFinishViewController.swift */; };
 		5518B9B8247A2E7600BC8DA4 /* LearnFinishViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5518B9B7247A2E7600BC8DA4 /* LearnFinishViewController.swift */; };
@@ -30,6 +29,8 @@
 		557B66F524CCF47B0068AB05 /* Light_Gray.plist in Resources */ = {isa = PBXBuildFile; fileRef = 557B66F424CCF47B0068AB05 /* Light_Gray.plist */; };
 		557B66F724CCF7660068AB05 /* Dark.plist in Resources */ = {isa = PBXBuildFile; fileRef = 557B66F624CCF7660068AB05 /* Dark.plist */; };
 		558F71EC249C713B0014956F /* NumWordPerGroupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 558F71EB249C713B0014956F /* NumWordPerGroupViewController.swift */; };
+		559B96C124F82DE800516475 /* DICT.json in Resources */ = {isa = PBXBuildFile; fileRef = 559B96C024F82DE800516475 /* DICT.json */; };
+		559B96C324F82FDA00516475 /* WordDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559B96C224F82FDA00516475 /* WordDetailViewController.swift */; };
 		55B0673224E87A8F009DA575 /* LearnOrReviewFinishViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55B0673124E87A8F009DA575 /* LearnOrReviewFinishViewController.swift */; };
 		55B63A2324D530D300B6B8B5 /* SearchWordTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55B63A2224D530D300B6B8B5 /* SearchWordTableViewCell.swift */; };
 		55BFC12824C366A0006DA60B /* ReminderTimePickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55BFC12724C366A0006DA60B /* ReminderTimePickerViewController.swift */; };
@@ -101,7 +102,6 @@
 		5500541224B822170005AD6F /* setNickNameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = setNickNameViewController.swift; sourceTree = "<group>"; };
 		5500541424B8222E0005AD6F /* bindEmailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = bindEmailViewController.swift; sourceTree = "<group>"; };
 		5500541624B8223E0005AD6F /* bindPhoneViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = bindPhoneViewController.swift; sourceTree = "<group>"; };
-		55020FE324D92A27000E2434 /* DICT.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = DICT.json; sourceTree = "<group>"; };
 		5507D9062479935C0090DD37 /* Reachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		551265CA24AEE03F007C333E /* ReviewFinishViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewFinishViewController.swift; sourceTree = "<group>"; };
 		5518B9B7247A2E7600BC8DA4 /* LearnFinishViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearnFinishViewController.swift; sourceTree = "<group>"; };
@@ -115,6 +115,8 @@
 		557B66F424CCF47B0068AB05 /* Light_Gray.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Light_Gray.plist; sourceTree = "<group>"; };
 		557B66F624CCF7660068AB05 /* Dark.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Dark.plist; sourceTree = "<group>"; };
 		558F71EB249C713B0014956F /* NumWordPerGroupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumWordPerGroupViewController.swift; sourceTree = "<group>"; };
+		559B96C024F82DE800516475 /* DICT.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = DICT.json; sourceTree = "<group>"; };
+		559B96C224F82FDA00516475 /* WordDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordDetailViewController.swift; sourceTree = "<group>"; };
 		55B0673124E87A8F009DA575 /* LearnOrReviewFinishViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearnOrReviewFinishViewController.swift; sourceTree = "<group>"; };
 		55B63A1B24D523AB00B6B8B5 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		55B63A2224D530D300B6B8B5 /* SearchWordTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchWordTableViewCell.swift; sourceTree = "<group>"; };
@@ -195,7 +197,7 @@
 		55414C4F24D62957004E4E7D /* DATA */ = {
 			isa = PBXGroup;
 			children = (
-				55020FE324D92A27000E2434 /* DICT.json */,
+				559B96C024F82DE800516475 /* DICT.json */,
 			);
 			path = DATA;
 			sourceTree = "<group>";
@@ -393,6 +395,7 @@
 				55BFC12724C366A0006DA60B /* ReminderTimePickerViewController.swift */,
 				A5AE220024E4E9D500473EA2 /* SetMemOptionViewController.swift */,
 				55B0673124E87A8F009DA575 /* LearnOrReviewFinishViewController.swift */,
+				559B96C224F82FDA00516475 /* WordDetailViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -462,7 +465,7 @@
 				A5134E322467719C008B116D /* Learning.storyboard in Resources */,
 				A56375BC2457745500BA5293 /* HuaKangFangYuan.ttf in Resources */,
 				A5E764D2245DEB8600367C2A /* LoginReg.storyboard in Resources */,
-				55020FE424D92A28000E2434 /* DICT.json in Resources */,
+				559B96C124F82DE800516475 /* DICT.json in Resources */,
 				557B66F524CCF47B0068AB05 /* Light_Gray.plist in Resources */,
 				A58E071224535E5E00C4D914 /* youyuan.ttf in Resources */,
 				557B66F124CCF2700068AB05 /* Night.plist in Resources */,
@@ -556,6 +559,7 @@
 				A5E764D4245E0AD000367C2A /* UserProfileViewController.swift in Sources */,
 				A59EB1D72452A12900F300E1 /* MainScreenViewController.swift in Sources */,
 				A59EB1D32452A12900F300E1 /* AppDelegate.swift in Sources */,
+				559B96C324F82FDA00516475 /* WordDetailViewController.swift in Sources */,
 				5500541524B8222E0005AD6F /* bindEmailViewController.swift in Sources */,
 				A59A0B1A2454C04E000845F2 /* UIColor+Ext.swift in Sources */,
 				55001E1B2491A6D400DF0D0E /* Preference.swift in Sources */,

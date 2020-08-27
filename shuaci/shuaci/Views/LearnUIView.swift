@@ -44,4 +44,5 @@ class LearnUIView: UIView {
     @IBOutlet var firstMemLeft: UILabel!
     @IBOutlet var enToCNLeft: UILabel!
     @IBOutlet var cnToENLeft: UILabel!
+    @IBOutlet var progressLabel: UILabel!
 }
