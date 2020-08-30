@@ -21,6 +21,8 @@ class LearnWordViewController: UIViewController {
             }
         }
     }
+    @IBOutlet var cardDictionaryBtn: [UIButton]!
+
     let card_Y_constant:CGFloat = -30
     var card_behaviors:[Int: [Int]] = [:] //word index: Int , card Behavoirs[forget: 0, remember: 1, trash: 2\]
     var card_collect_behaviors: [CardCollectBehavior] = [] // card Behavoir: (collect: 1, else 0)
@@ -50,6 +52,25 @@ class LearnWordViewController: UIViewController {
     var currentWordLabelQueue:Array<[Int]> = []
     let firstReviewDelayInMin = 60
     var mastered:[Bool] = []
+    
+    private var DICT_URL: URL = Bundle.main.url(forResource: "DICT.json", withExtension: nil)!
+    var Word_indexs_In_Oalecd8:[String:[Int]] = [:]
+    
+    func load_DICT(){
+        do {
+           let data = try Data(contentsOf: DICT_URL, options: [])//.mappedIfSafe
+            let key_arr = try JSON(data: data)["keys"].arrayValue
+            let oalecd8_arr = try JSON(data: data)["oalecd8"].arrayValue
+            for kid in 0..<key_arr.count{
+                let key = key_arr[kid].stringValue
+                Word_indexs_In_Oalecd8[key] = [kid, oalecd8_arr[kid].intValue]
+            }
+           print("Load \(DICT_URL) successful!")
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
+    
     override func viewDidLoad() {
         //view.backgroundColor = UIColor(red: 238, green: 241, blue: 245, alpha: 1.0)
         
@@ -129,6 +150,7 @@ class LearnWordViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool){
         setCardBackground()
+        load_DICT()
         initCards()
         initVocabRecords()
         initWordLeftNumbers()
@@ -279,7 +301,18 @@ class LearnWordViewController: UIViewController {
             meaningLabelTxt = finalStringArr.joined(separator: "")
         }
         card.wordLabel?.text = cardWord.headWord
+        let current_word: String = cardWord.headWord
+        let indexItem:[Int] = Word_indexs_In_Oalecd8[current_word]!
+        let hasValueInOalecd8: Int = indexItem[1]
         DispatchQueue.main.async {
+            if hasValueInOalecd8 == 0{
+                self.cardDictionaryBtn[self.currentIndex % 2].alpha = 0
+            }
+            else
+            {
+                self.cardDictionaryBtn[self.currentIndex % 2].alpha = 1
+            }
+            
             if cardWord.headWord.count >= 10{
                 card.wordLabel?.font = card.wordLabel?.font.withSize(35.0)
             }else{
@@ -624,9 +657,8 @@ class LearnWordViewController: UIViewController {
         @IBAction func playAudio(_ sender: UIButton) {
             let connected = Reachability.isConnectedToNetwork()
             if connected{
-                let word = words[currentIndex % words.count]
-                let cardWord = getFeildsOfWord(word: word, usphone: getUSPhone())
-                let wordStr: String = cardWord.headWord
+                let card = cards[currentIndex % 2]
+                let wordStr: String = card.wordLabel?.text ?? ""
                 if let mp3_url = getWordPronounceURL(word: wordStr){
                     playMp3(url: mp3_url)
                 }
@@ -639,6 +671,25 @@ class LearnWordViewController: UIViewController {
             }
             
         }
+    
+    
+    @IBAction func lookUpDictionary(_ sender: UIButton) {
+        let card = cards[currentIndex % 2]
+        let current_word: String = card.wordLabel?.text ?? ""
+        if current_word != ""{
+            let indexItem:[Int] = Word_indexs_In_Oalecd8[current_word]!
+            let wordIndex: Int = indexItem[0]
+            let hasValueInOalecd8: Int = indexItem[1]
+            if hasValueInOalecd8 == 1{
+                let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+                let WordDetailVC = mainStoryBoard.instantiateViewController(withIdentifier: "WordDetailVC") as! WordDetailViewController
+                WordDetailVC.wordIndex = wordIndex
+                DispatchQueue.main.async {
+                    self.present(WordDetailVC, animated: true, completion: nil)
+                }
+            }
+        }
+    }
     
     func removeLastVocabRecord(index: Int, cardBehavior: CardBehavior){
         vocabRecordsOfCurrentLearning[index].ReviewDUEDate = nil

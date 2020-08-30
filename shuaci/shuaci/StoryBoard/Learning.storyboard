@@ -73,7 +73,7 @@
                                         <color key="backgroundColor" systemColor="systemPinkColor" red="1" green="0.1764705882" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="不熟" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CNe-9a-jFM">
-                                        <rect key="frame" x="70" y="163.5" width="160" height="93.5"/>
+                                        <rect key="frame" x="72" y="171.5" width="156.5" height="77.5"/>
                                         <fontDescription key="fontDescription" name="FangYuan" family="FangYuan" pointSize="80"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
@@ -103,6 +103,23 @@
                                             <constraint firstAttribute="width" constant="22" id="zgd-hP-1Xt"/>
                                         </constraints>
                                     </imageView>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oLA-DH-saS">
+                                        <rect key="frame" x="225" y="381" width="24" height="24"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="24" id="4G6-VI-iST">
+                                                <variation key="heightClass=compact" constant="15"/>
+                                            </constraint>
+                                            <constraint firstAttribute="width" secondItem="oLA-DH-saS" secondAttribute="height" multiplier="1:1" id="cAX-oa-fNg"/>
+                                            <constraint firstAttribute="width" constant="24" id="zwk-HS-5cF">
+                                                <variation key="heightClass=compact" constant="15"/>
+                                            </constraint>
+                                        </constraints>
+                                        <color key="tintColor" red="0.8993865848" green="0.62407978019999999" blue="0.093372721610000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <state key="normal" backgroundImage="dictionary"/>
+                                        <connections>
+                                            <action selector="lookUpDictionary:" destination="Zsp-9s-jM2" eventType="touchUpInside" id="oaF-wJ-gW7"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <gestureRecognizers/>
@@ -111,6 +128,7 @@
                                     <constraint firstAttribute="trailing" secondItem="sBX-Fn-uZu" secondAttribute="trailing" id="0yh-YO-PCY"/>
                                     <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="pp4-e5-7lg" secondAttribute="trailing" constant="30" id="2K9-rg-3YN"/>
                                     <constraint firstItem="XRw-jS-BIz" firstAttribute="centerX" secondItem="5f4-VB-fee" secondAttribute="centerX" id="34h-pe-LM3"/>
+                                    <constraint firstAttribute="bottom" secondItem="oLA-DH-saS" secondAttribute="bottom" constant="15" id="5Dt-oV-DmM"/>
                                     <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="3A7-tH-1cO" secondAttribute="trailing" constant="20" id="5h6-qS-sYC"/>
                                     <constraint firstAttribute="bottom" secondItem="goi-gK-VMq" secondAttribute="bottom" id="5yc-6L-VUO"/>
                                     <constraint firstAttribute="trailing" secondItem="goi-gK-VMq" secondAttribute="trailing" id="CST-jH-yUc"/>
@@ -120,7 +138,9 @@
                                     <constraint firstItem="goi-gK-VMq" firstAttribute="centerX" secondItem="5f4-VB-fee" secondAttribute="centerX" id="Hqd-aL-PJ2"/>
                                     <constraint firstItem="3A7-tH-1cO" firstAttribute="top" secondItem="pp4-e5-7lg" secondAttribute="bottom" constant="30" id="Jka-Nk-1Bu"/>
                                     <constraint firstItem="3A7-tH-1cO" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="5f4-VB-fee" secondAttribute="leading" constant="20" id="JqG-nx-nbB"/>
+                                    <constraint firstItem="CLD-EC-mBS" firstAttribute="leading" secondItem="oLA-DH-saS" secondAttribute="trailing" constant="10" id="Krx-zK-9mH"/>
                                     <constraint firstItem="3A7-tH-1cO" firstAttribute="centerX" secondItem="5f4-VB-fee" secondAttribute="centerX" id="Lqo-cm-Dzh"/>
+                                    <constraint firstItem="oLA-DH-saS" firstAttribute="width" secondItem="oLA-DH-saS" secondAttribute="height" multiplier="1:1" id="N2o-Tx-ShV"/>
                                     <constraint firstItem="pp4-e5-7lg" firstAttribute="centerX" secondItem="5f4-VB-fee" secondAttribute="centerX" id="O3o-Xr-EeV"/>
                                     <constraint firstItem="qLD-aS-Ej2" firstAttribute="top" secondItem="5f4-VB-fee" secondAttribute="top" constant="15" id="P96-Su-bRA"/>
                                     <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="XRw-jS-BIz" secondAttribute="trailing" constant="20" id="TdL-xD-kVZ"/>
@@ -128,6 +148,7 @@
                                         <variation key="heightClass=compact" constant="157.5"/>
                                     </constraint>
                                     <constraint firstAttribute="trailing" secondItem="qLD-aS-Ej2" secondAttribute="trailing" constant="15" id="ZQL-1e-5Zc"/>
+                                    <constraint firstItem="oLA-DH-saS" firstAttribute="width" secondItem="oLA-DH-saS" secondAttribute="height" multiplier="1:1" id="a9H-TE-FA4"/>
                                     <constraint firstItem="sBX-Fn-uZu" firstAttribute="leading" secondItem="5f4-VB-fee" secondAttribute="leading" id="f5M-eC-X5w"/>
                                     <constraint firstAttribute="trailing" secondItem="CLD-EC-mBS" secondAttribute="trailing" constant="15" id="fMt-Ym-ydQ"/>
                                     <constraint firstItem="XRw-jS-BIz" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="5f4-VB-fee" secondAttribute="leading" constant="20" id="fle-vJ-ewx"/>
@@ -199,7 +220,7 @@
                                         <color key="backgroundColor" systemColor="systemPinkColor" red="1" green="0.1764705882" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="不熟" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="86b-WZ-yMf">
-                                        <rect key="frame" x="70" y="163.5" width="160" height="93.5"/>
+                                        <rect key="frame" x="72" y="171.5" width="156.5" height="77.5"/>
                                         <fontDescription key="fontDescription" name="FangYuan" family="FangYuan" pointSize="80"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
@@ -221,6 +242,23 @@
                                             <action selector="playAudio:" destination="Zsp-9s-jM2" eventType="touchUpInside" id="evL-Yv-gNq"/>
                                         </connections>
                                     </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LrA-ji-olE">
+                                        <rect key="frame" x="225" y="381" width="24" height="24"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="24" id="Viw-6i-Fkj">
+                                                <variation key="heightClass=compact" constant="15"/>
+                                            </constraint>
+                                            <constraint firstAttribute="width" constant="24" id="qPB-ZE-QIB">
+                                                <variation key="heightClass=compact" constant="15"/>
+                                            </constraint>
+                                            <constraint firstAttribute="width" secondItem="LrA-ji-olE" secondAttribute="height" multiplier="1:1" id="upd-7S-cux"/>
+                                        </constraints>
+                                        <color key="tintColor" red="0.8993865848" green="0.62407978019999999" blue="0.093372721610000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <state key="normal" backgroundImage="dictionary"/>
+                                        <connections>
+                                            <action selector="lookUpDictionary:" destination="Zsp-9s-jM2" eventType="touchUpInside" id="iqX-QY-Ba2"/>
+                                        </connections>
+                                    </button>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="star" translatesAutoresizingMaskIntoConstraints="NO" id="M8f-KU-3FJ">
                                         <rect key="frame" x="263" y="15" width="22" height="22"/>
                                         <color key="tintColor" systemColor="systemYellowColor" red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -239,8 +277,10 @@
                                     <constraint firstAttribute="trailing" secondItem="M8f-KU-3FJ" secondAttribute="trailing" constant="15" id="3O3-hm-BQJ"/>
                                     <constraint firstItem="ang-Vi-cIz" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="4Lf-nj-uqS" secondAttribute="leading" constant="20" id="49g-uA-WRx"/>
                                     <constraint firstAttribute="trailing" secondItem="MbE-dI-KRO" secondAttribute="trailing" id="9XY-8m-Mpk"/>
+                                    <constraint firstItem="LrA-ji-olE" firstAttribute="width" secondItem="LrA-ji-olE" secondAttribute="height" multiplier="1:1" id="9Z1-ZP-8pn"/>
                                     <constraint firstItem="7bE-xG-5Jq" firstAttribute="top" secondItem="4Lf-nj-uqS" secondAttribute="top" id="BOZ-dQ-XMe"/>
                                     <constraint firstItem="ang-Vi-cIz" firstAttribute="centerX" secondItem="4Lf-nj-uqS" secondAttribute="centerX" id="EIS-kN-wq8"/>
+                                    <constraint firstItem="bu7-kc-oYl" firstAttribute="leading" secondItem="LrA-ji-olE" secondAttribute="trailing" constant="10" id="H5C-m2-3Ie"/>
                                     <constraint firstItem="MbE-dI-KRO" firstAttribute="leading" secondItem="4Lf-nj-uqS" secondAttribute="leading" id="IZn-Qp-0mV"/>
                                     <constraint firstAttribute="trailing" secondItem="bu7-kc-oYl" secondAttribute="trailing" constant="15" id="JqL-Ah-9Br"/>
                                     <constraint firstItem="uOp-nh-aq8" firstAttribute="top" secondItem="ZXg-26-Ir8" secondAttribute="bottom" constant="30" id="JrQ-fE-OVq"/>
@@ -253,6 +293,7 @@
                                     <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="ZXg-26-Ir8" secondAttribute="trailing" constant="30" id="T9l-ZE-6OG"/>
                                     <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="uOp-nh-aq8" secondAttribute="trailing" constant="20" id="TWm-LG-jVQ"/>
                                     <constraint firstAttribute="bottom" secondItem="MbE-dI-KRO" secondAttribute="bottom" id="Trj-aa-KMG"/>
+                                    <constraint firstAttribute="bottom" secondItem="LrA-ji-olE" secondAttribute="bottom" constant="15" id="VHX-Dt-1KG"/>
                                     <constraint firstItem="86b-WZ-yMf" firstAttribute="centerY" secondItem="4Lf-nj-uqS" secondAttribute="centerY" id="VRt-R3-2Id"/>
                                     <constraint firstAttribute="width" constant="300" id="WNW-ag-N9a">
                                         <variation key="heightClass=compact" constant="111"/>
@@ -427,6 +468,8 @@
                         <outletCollection property="cards" destination="5f4-VB-fee" collectionClass="NSMutableArray" id="4Ky-yo-dvR"/>
                         <outletCollection property="gestureRecognizers" destination="2ab-kG-nMs" collectionClass="NSMutableArray" id="taP-bj-UfH"/>
                         <outletCollection property="gestureRecognizers" destination="37i-go-1xq" collectionClass="NSMutableArray" id="aZ2-aU-xii"/>
+                        <outletCollection property="cardDictionaryBtn" destination="LrA-ji-olE" collectionClass="NSMutableArray" id="aOp-HK-fea"/>
+                        <outletCollection property="cardDictionaryBtn" destination="oLA-DH-saS" collectionClass="NSMutableArray" id="bVI-Av-hzC"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5iC-3Y-BDF" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -1142,6 +1185,7 @@
         <image name="chevron.down" catalog="system" width="128" height="72"/>
         <image name="chevron.left" catalog="system" width="96" height="128"/>
         <image name="collect" width="290" height="286"/>
+        <image name="dictionary" width="512" height="512"/>
         <image name="dragon_ball_star_2" width="100" height="101"/>
         <image name="ok" width="326" height="326"/>
         <image name="pass" width="334" height="332"/>
