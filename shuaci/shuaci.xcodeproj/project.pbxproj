@@ -16,6 +16,8 @@
 		5500541324B822170005AD6F /* setNickNameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5500541224B822170005AD6F /* setNickNameViewController.swift */; };
 		5500541524B8222E0005AD6F /* bindEmailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5500541424B8222E0005AD6F /* bindEmailViewController.swift */; };
 		5500541724B8223E0005AD6F /* bindPhoneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5500541624B8223E0005AD6F /* bindPhoneViewController.swift */; };
+		550534F424FD845100246BCA /* WebViewUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 550534F324FD845100246BCA /* WebViewUtil.swift */; };
+		550534F624FD8F1200246BCA /* CardBackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 550534F524FD8F1200246BCA /* CardBackView.swift */; };
 		5507D9072479935C0090DD37 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5507D9062479935C0090DD37 /* Reachability.swift */; };
 		551265CB24AEE03F007C333E /* ReviewFinishViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 551265CA24AEE03F007C333E /* ReviewFinishViewController.swift */; };
 		5518B9B8247A2E7600BC8DA4 /* LearnFinishViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5518B9B7247A2E7600BC8DA4 /* LearnFinishViewController.swift */; };
@@ -102,6 +104,8 @@
 		5500541224B822170005AD6F /* setNickNameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = setNickNameViewController.swift; sourceTree = "<group>"; };
 		5500541424B8222E0005AD6F /* bindEmailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = bindEmailViewController.swift; sourceTree = "<group>"; };
 		5500541624B8223E0005AD6F /* bindPhoneViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = bindPhoneViewController.swift; sourceTree = "<group>"; };
+		550534F324FD845100246BCA /* WebViewUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewUtil.swift; sourceTree = "<group>"; };
+		550534F524FD8F1200246BCA /* CardBackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardBackView.swift; sourceTree = "<group>"; };
 		5507D9062479935C0090DD37 /* Reachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		551265CA24AEE03F007C333E /* ReviewFinishViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewFinishViewController.swift; sourceTree = "<group>"; };
 		5518B9B7247A2E7600BC8DA4 /* LearnFinishViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearnFinishViewController.swift; sourceTree = "<group>"; };
@@ -256,6 +260,7 @@
 				55001E1E2491AFF600DF0D0E /* FunctionUtil.swift */,
 				55001E202491B1FC00DF0D0E /* ThemeUtil.swift */,
 				55001E222491B21A00DF0D0E /* BookUtil.swift */,
+				550534F324FD845100246BCA /* WebViewUtil.swift */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -364,6 +369,7 @@
 				55C7819F24902C4F00C9F33E /* SettingToggleTableViewCell.swift */,
 				55B63A2224D530D300B6B8B5 /* SearchWordTableViewCell.swift */,
 				A5AE21FE24E4E6EF00473EA2 /* SetMemOptionView.swift */,
+				550534F524FD8F1200246BCA /* CardBackView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -533,6 +539,7 @@
 				5507D9072479935C0090DD37 /* Reachability.swift in Sources */,
 				55C781A024902C4F00C9F33E /* SettingToggleTableViewCell.swift in Sources */,
 				A5F59F482453DD3A00D6D717 /* EmailLoginUIView.swift in Sources */,
+				550534F424FD845100246BCA /* WebViewUtil.swift in Sources */,
 				5518B9B8247A2E7600BC8DA4 /* LearnFinishViewController.swift in Sources */,
 				A5134E3624677BF3008B116D /* LearnUIView.swift in Sources */,
 				55B0673224E87A8F009DA575 /* LearnOrReviewFinishViewController.swift in Sources */,
@@ -568,6 +575,7 @@
 				55C5E20224B03A40005D2956 /* StatViewController.swift in Sources */,
 				A5F5154B245F56BF00F06610 /* ThemeCollectionViewCell.swift in Sources */,
 				55BFC12824C366A0006DA60B /* ReminderTimePickerViewController.swift in Sources */,
+				550534F624FD8F1200246BCA /* CardBackView.swift in Sources */,
 				A5F59F462453DC6900D6D717 /* PhoneLoginUIView.swift in Sources */,
 				A5F59F4C2453DDDB00D6D717 /* PhoneLoginViewController.swift in Sources */,
 				A5134E34246772B4008B116D /* LearnWordViewController.swift in Sources */,

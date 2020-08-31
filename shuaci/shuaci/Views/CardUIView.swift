@@ -9,6 +9,7 @@
 import UIKit
 
 class CardUIView: UIView {
+    @IBOutlet var cardBackView: CardBackView?
     @IBOutlet var cardImageView: UIImageView?{
         didSet {
             cardImageView?.layer.cornerRadius = 20.0

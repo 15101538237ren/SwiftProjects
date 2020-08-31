@@ -9,6 +9,7 @@
 import UIKit
 import AVFoundation
 import SwiftyJSON
+import LeanCloud
 
 class LearnWordViewController: UIViewController {
     var mainPanelViewController: MainPanelViewController!
@@ -260,6 +261,8 @@ class LearnWordViewController: UIViewController {
         for index in 0..<cards.count
         {
             let card = cards[index]
+            card.cardBackView?.alpha = 0
+            card.cardBackView?.isUserInteractionEnabled = false
             card.center = CGPoint(x: view.center.x, y: view.center.y)
             let wordIndex: Int = wordsQueue[0][0]
             let memStage:Int = wordsQueue[0][1]
@@ -673,6 +676,57 @@ class LearnWordViewController: UIViewController {
         }
     
     
+    @IBAction func backToCardFront(_ sender: UIButton) {
+        let card = cards[currentIndex % 2]
+        card.cardBackView!.isUserInteractionEnabled = false
+        card.cardBackView!.alpha = 0
+        card.dragable = true
+        UIView.transition(with: card, duration: 0.3, options: .transitionFlipFromLeft, animations: nil, completion: nil)
+    }
+    
+    func load_html(wordHead: String, wordIndex: Int){
+        let connected = Reachability.isConnectedToNetwork()
+        if connected{
+            let card = cards[currentIndex % 2]
+            if let _ = card.cardBackView {
+                card.dragable = false
+                card.cardBackView!.isUserInteractionEnabled = true
+                card.cardBackView!.alpha = 1
+                card.cardBackView!.initActivityIndicator(text: "获取单词中..")
+                card.cardBackView!.wordLabel?.text = wordHead
+                
+                DispatchQueue.global(qos: .background).async {
+                do {
+                    let query = LCQuery(className: "OALECD8")
+                    query.whereKey("word_id" , .equalTo(wordIndex))
+                    _ = query.getFirst { result in
+                        switch result {
+                        case .success(object: let word):
+                            if let html_content = word.get("html_content")?.stringValue
+                            {
+                                let html_final = build_html_with_given_content(html_content: html_content)
+                                card.cardBackView!.webView.loadHTMLString(html_final, baseURL: nil)
+                                card.cardBackView!.stopIndicator()
+                            }else{
+                                card.cardBackView!.stopIndicator()
+                                self.dismiss(animated: true, completion: nil)
+                            }
+                            break
+                        case .failure(error: let error):
+                            print(error)
+                        }
+                    }
+                    }}
+            }
+        }else{
+            if non_network_preseted == false{
+                let alertCtl = presentNoNetworkAlert()
+                self.present(alertCtl, animated: true, completion: nil)
+                non_network_preseted = true
+            }
+        }
+    }
+    
     @IBAction func lookUpDictionary(_ sender: UIButton) {
         let card = cards[currentIndex % 2]
         let current_word: String = card.wordLabel?.text ?? ""
@@ -681,12 +735,8 @@ class LearnWordViewController: UIViewController {
             let wordIndex: Int = indexItem[0]
             let hasValueInOalecd8: Int = indexItem[1]
             if hasValueInOalecd8 == 1{
-                let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
-                let WordDetailVC = mainStoryBoard.instantiateViewController(withIdentifier: "WordDetailVC") as! WordDetailViewController
-                WordDetailVC.wordIndex = wordIndex
-                DispatchQueue.main.async {
-                    self.present(WordDetailVC, animated: true, completion: nil)
-                }
+                UIView.transition(with: card, duration: 0.3, options: .transitionFlipFromRight, animations: nil, completion: nil)
+                load_html(wordHead: current_word, wordIndex: wordIndex)
             }
         }
     }
