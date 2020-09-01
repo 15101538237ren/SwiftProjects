@@ -138,7 +138,7 @@
                                                 </wkWebViewConfiguration>
                                             </wkWebView>
                                             <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="Vie-fx-yb5">
-                                                <rect key="frame" x="87.5" y="91.5" width="125" height="23"/>
+                                                <rect key="frame" x="87.5" y="96.5" width="125" height="23"/>
                                                 <subviews>
                                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="XPQ-W8-7jm">
                                                         <rect key="frame" x="0.0" y="0.0" width="60" height="23"/>
@@ -213,7 +213,7 @@
                                             <constraint firstAttribute="bottom" secondItem="5QH-Cv-LjP" secondAttribute="bottom" id="Q0u-ko-Ycs"/>
                                             <constraint firstItem="mkz-hb-DU6" firstAttribute="top" secondItem="hof-Vi-iyG" secondAttribute="top" constant="30" id="Qzo-3I-63j"/>
                                             <constraint firstItem="KB7-bY-vky" firstAttribute="top" secondItem="hof-Vi-iyG" secondAttribute="top" constant="10" id="SU7-Mz-2ln"/>
-                                            <constraint firstItem="Vie-fx-yb5" firstAttribute="top" secondItem="mkz-hb-DU6" secondAttribute="bottom" constant="15" id="VWT-sZ-gTq"/>
+                                            <constraint firstItem="Vie-fx-yb5" firstAttribute="top" secondItem="mkz-hb-DU6" secondAttribute="bottom" constant="20" id="VWT-sZ-gTq"/>
                                             <constraint firstItem="KB7-bY-vky" firstAttribute="width" secondItem="KB7-bY-vky" secondAttribute="height" multiplier="1:1" id="afj-xi-6Rx"/>
                                             <constraint firstItem="5QH-Cv-LjP" firstAttribute="top" secondItem="hof-Vi-iyG" secondAttribute="top" constant="130" id="dNJ-1M-Jz6"/>
                                             <constraint firstItem="mkz-hb-DU6" firstAttribute="centerX" secondItem="hof-Vi-iyG" secondAttribute="centerX" id="h81-8h-3BB"/>
@@ -382,7 +382,7 @@
                                             <constraint firstAttribute="width" constant="22" id="uPJ-DI-7d2"/>
                                         </constraints>
                                     </imageView>
-                                    <view alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VBV-PM-15B" customClass="CardBackView" customModule="刷词" customModuleProvider="target">
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VBV-PM-15B" customClass="CardBackView" customModule="刷词" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="300" height="420"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Beach" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="elH-aJ-BL0">
@@ -400,7 +400,7 @@
                                                 </wkWebViewConfiguration>
                                             </wkWebView>
                                             <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="Ds9-Sx-IsF">
-                                                <rect key="frame" x="87.5" y="91.5" width="125" height="23"/>
+                                                <rect key="frame" x="87.5" y="96.5" width="125" height="23"/>
                                                 <subviews>
                                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="ABo-Zm-Mru">
                                                         <rect key="frame" x="0.0" y="0.0" width="60" height="23"/>
@@ -481,7 +481,7 @@
                                             <constraint firstAttribute="trailing" secondItem="T4p-j9-C33" secondAttribute="trailing" id="bG7-gW-8D1"/>
                                             <constraint firstItem="AQG-Ta-9xs" firstAttribute="width" secondItem="AQG-Ta-9xs" secondAttribute="height" multiplier="1:1" id="nOh-Qf-RhH"/>
                                             <constraint firstAttribute="trailing" secondItem="AQG-Ta-9xs" secondAttribute="trailing" constant="10" id="nrH-sq-UzM"/>
-                                            <constraint firstItem="Ds9-Sx-IsF" firstAttribute="top" secondItem="elH-aJ-BL0" secondAttribute="bottom" constant="15" id="y6z-jl-Hhr"/>
+                                            <constraint firstItem="Ds9-Sx-IsF" firstAttribute="top" secondItem="elH-aJ-BL0" secondAttribute="bottom" constant="20" id="y6z-jl-Hhr"/>
                                         </constraints>
                                         <connections>
                                             <outlet property="interpIndicator" destination="58u-ga-BIt" id="3EZ-Wc-73G"/>
