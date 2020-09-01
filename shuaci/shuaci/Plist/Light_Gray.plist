@@ -23,10 +23,16 @@
 	</dict>
 	<key>WordHistory</key>
 	<dict>
+		<key>headerViewTextColor</key>
+		<string>#000</string>
+		<key>segmentedCtrlSelectedTintColor</key>
+		<string>#FF7216</string>
+		<key>headerViewBgColor</key>
+		<string>#e5e5e5</string>
 		<key>segTextColor</key>
 		<string>#A9A9A9</string>
 		<key>segCtrlTintColor</key>
-		<string>#d3d3d3</string>
+		<string>#e5e5e5</string>
 	</dict>
 	<key>StatView</key>
 	<dict>
