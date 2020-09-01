@@ -79,8 +79,7 @@ class ReviewFinishViewController: UIViewController {
     }
     
     @IBAction func unwind(segue: UIStoryboardSegue) {
-        self.dismiss(animated: true, completion: nil)
-        
+        self.dismiss(animated: true, completion: nil) 
     }
     
 }

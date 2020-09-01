@@ -16,14 +16,28 @@ let minToChangingWallpaper:CGFloat = 5
 var imageCache = NSCache<NSString, NSURL>()
 let decoder = JSONDecoder()
 var GlobalUserName = ""
-
 var everyDayLearningReminderNotificationIdentifier = "dailyLearningReminder"
 
 let numberOfContDaysForMasteredAWord = 5 
 
 typealias CompletionHandler = (_ success:Bool) -> Void
-typealias CompletionHandlerWithData = (_ data: Data?) -> Void
+typealias CompletionHandlerWithData = (_ data: Data?, _ fromCloud: Bool) -> Void
 
+func hasSpecialCharacters(str: String) -> Bool {
+
+    do {
+        let regex = try NSRegularExpression(pattern: ".*[^A-Za-z0-9+-].*", options: .caseInsensitive)
+        if let _ = regex.firstMatch(in: str, options: NSRegularExpression.MatchingOptions.reportCompletion, range: NSMakeRange(0, str.count)) {
+            return true
+        }
+
+    } catch {
+        debugPrint(error.localizedDescription)
+        return false
+    }
+
+    return false
+}
 
 // MARK: - Common Functions
 
@@ -82,7 +96,7 @@ func get_vocab_rec_need_to_be_review() -> [VocabularyRecord]{
     var vocab_rec_need_to_be_review:[VocabularyRecord] = []
     
     if GlobalVocabRecords.count == 0{
-        GlobalVocabRecords = loadVocabRecords()
+        loadVocabRecords()
     }
     let current_book_id:String = getPreference(key: "current_book_id") as! String
     let current_time = Date()
@@ -96,18 +110,24 @@ func get_vocab_rec_need_to_be_review() -> [VocabularyRecord]{
     return vocab_rec_need_to_be_review
 }
 
+
 func get_words_need_to_be_review(vocab_rec_need_to_be_review: [VocabularyRecord]) -> [JSON]{
+    let chapters = currentbook_json_obj["chapters"].arrayValue
+    let words_dict = currentbook_json_obj["words"].dictionaryValue
     var review_words:[JSON] = []
-    let word_list = currentbook_json_obj["data"]
     for vocab in vocab_rec_need_to_be_review{
-        review_words.append(word_list[vocab.WordRank - 1])
+        let ind_arr = words_dict[vocab.VocabHead]!.arrayValue
+        let chpt_idx = ind_arr[0].intValue
+        let word_idx = ind_arr[1].intValue
+        let word_data = chapters[chpt_idx]["data"].arrayValue[word_idx]
+        review_words.append(word_data)
     }
     return review_words
 }
 
 func obtainNextReviewDate() -> Date?{
     if GlobalVocabRecords.count == 0{
-        GlobalVocabRecords = loadVocabRecords()
+        loadVocabRecords()
     }
     if GlobalVocabRecords.count > 0{
         var vocabsNeedReview:[VocabularyRecord] = []
@@ -220,14 +240,16 @@ func load_data_from_file(fileFp: String, recordClass: String, IdKey: String, com
                 .appendingPathComponent(fileFp)
             if FileManager.default.fileExists(atPath: fileURL.path) {
                 data = try Data(contentsOf: fileURL)
-                completionHandlerWithData(data)
+                completionHandlerWithData(data, false)
             }
             else{
-                if Reachability.isConnectedToNetwork(){
+                let connected = Reachability.isConnectedToNetwork()
+                if connected{
                     if let user = LCApplication.default.currentUser{
                         if let recId = user.get(IdKey)?.stringValue{
                             do {
                                 if recId != ""{
+                                    print("\(recordClass), id:\(recId)")
                                     let recordQuery = LCQuery(className: recordClass)
                                     let _ = recordQuery.get(recId) { (result) in
                                         switch result {
@@ -235,32 +257,32 @@ func load_data_from_file(fileFp: String, recordClass: String, IdKey: String, com
                                             let recStr:String = rec.get("jsonStr")!.stringValue!
                                             saveStringTo(fileName: fileFp, jsonStr: recStr)
                                             data = recStr.data(using: .utf8)
-                                            completionHandlerWithData(data)
+                                            completionHandlerWithData(data, true)
                                         case .failure(error: let error):
-                                            completionHandlerWithData(data)
+                                            completionHandlerWithData(data, false)
                                             print(error.localizedDescription)
                                         }
                                     }
                                 }else{
-                                    completionHandlerWithData(data)
+                                    completionHandlerWithData(data, false)
                                 }
                                 
                             }
                         } else {
-                            completionHandlerWithData(data)
+                            completionHandlerWithData(data, false)
                         }
                     } else{
-                        completionHandlerWithData(data)
+                        completionHandlerWithData(data, false)
                     }
                     
                 }
                 else{
-                    completionHandlerWithData(data)
+                    completionHandlerWithData(data, false)
                 }
         }
     }
     catch {
-        completionHandlerWithData(data)
+        completionHandlerWithData(data, false)
         print(error.localizedDescription)
     }
 }
@@ -285,7 +307,8 @@ func setSaveRecordToClouldStatus(key: String, status: Bool){
 
 func saveRecordStringByGivenId(recordClass: String, saveRecordFailedKey: String, recordIdKey: String, username: String, jsonString: String, completionHandler: @escaping CompletionHandler){
     // if ReviewRecordId exist in UserPreference
-    if Reachability.isConnectedToNetwork(){
+    let connected = Reachability.isConnectedToNetwork()
+    if connected{
         let recordId: String = UserDefaults.standard.string(forKey: recordIdKey)!
         DispatchQueue.global(qos: .background).async {
     do {
@@ -326,7 +349,8 @@ func saveRecordStringByGivenId(recordClass: String, saveRecordFailedKey: String,
 }
 
 func saveRecordStringToCloud(recordClass: String, saveRecordFailedKey: String, recordIdKey: String, username: String, jsonString: String, completionHandler: @escaping CompletionHandler){
-    if Reachability.isConnectedToNetwork(){
+    let connected = Reachability.isConnectedToNetwork()
+    if connected{
        DispatchQueue.global(qos: .background).async {
        do {
             if !isKeyPresentInUserDefaults(key: recordIdKey)
@@ -401,6 +425,13 @@ enum CardBehavior : Int {
     case trash = 0
 }
 
+enum WordMemStage : Int {
+    case memory = 1
+    case enToCn = 2
+    case cnToEn = 3
+}
+
+
 enum CardCollectBehavior {
     case no
     case yes
@@ -427,9 +458,11 @@ func getWordPronounceURL(word: String, fromMainScreen: Bool = false) -> URL?{
     let usphone = fromMainScreen ? 0 : (getUSPhone() == true ? 0 : 1)
     if word != ""{
         let replaced_word = word.replacingOccurrences(of: " ", with: "+")
-        let url_string: String = "http://dict.youdao.com/dictvoice?type=\(usphone)&audio=\(replaced_word)"
-        let mp3_url:URL = URL(string: url_string)!
-        return mp3_url
+        if !hasSpecialCharacters(str: replaced_word){
+            let url_string: String = "http://dict.youdao.com/dictvoice?type=\(usphone)&audio=\(replaced_word)"
+            let mp3_url:URL = URL(string: url_string)!
+            return mp3_url
+        }
     }
     return nil
 }
@@ -437,7 +470,8 @@ func getWordPronounceURL(word: String, fromMainScreen: Bool = false) -> URL?{
 // MARK: - Book Util
 
 func fetchBooks(){
-    if Reachability.isConnectedToNetwork(){
+    let connected = Reachability.isConnectedToNetwork()
+    if connected{
         DispatchQueue.global(qos: .background).async {
         do {
             let query = LCQuery(className: "Book")
@@ -455,8 +489,11 @@ func fetchBooks(){
                         let word_num = item.get("word_num")?.intValue
                         let recite_user_num = item.get("recite_user_num")?.intValue
                         let file_sz = item.get("file_sz")?.floatValue
+                        let nchpt = item.get("nchpt")?.intValue
+                        let avg_nwchpt = item.get("avg_nwchpt")?.intValue
+                        let nwchpt = item.get("nwchpt")?.stringValue
                         
-                        let book:Book = Book(identifier: identifier ?? "", level1_category: level1_category ?? 0, level2_category: level2_category ?? 0, name: name ?? "", description: desc ?? "", word_num: word_num ?? 0, recite_user_num: recite_user_num ?? 0, file_sz: file_sz ?? 0.0)
+                        let book:Book = Book(identifier: identifier ?? "", level1_category: level1_category ?? 0, level2_category: level2_category ?? 0, name: name ?? "", description: desc ?? "", word_num: word_num ?? 0, recite_user_num: recite_user_num ?? 0, file_sz: file_sz ?? 0.0, nchpt: nchpt ?? 0, avg_nwchpt: avg_nwchpt ?? 0, nwchpt: nwchpt ?? "")
                         books.append(book)
                         resultsItems.append(item)
                     }
@@ -521,15 +558,51 @@ func get_words(){
             .url(for: .applicationSupportDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
             .appendingPathComponent(wordsJsonFp)
             if words.count == 0{
-                let word_list = currentbook_json_obj["data"]
-                if !FileManager.default.fileExists(atPath: wordJsonURL.path) {
-                    update_words()
+                if let bookId = getPreference(key: "current_book_id") as? String {
+                    if currentbook_json_obj.count == 0{
+                        currentbook_json_obj = load_json(fileName: bookId)
+                    }
+                    
+                    if !FileManager.default.fileExists(atPath: wordJsonURL.path) {
+                        update_words()
+                    }
+                    loadVocabRecords()
+                    let learnt_vocabRecs:[VocabularyRecord] = GlobalVocabRecords
+                    let learnt_word_heads: Set = Set<String>(learnt_vocabRecs.map{ $0.VocabHead })
+                    
+                    let chapters = currentbook_json_obj["chapters"].arrayValue
+                    var words_left:[String] = []
+                    var word_left_chpt_inds: [Int] = []
+                    var word_left_indexs_in_chpt: [Int] = []
+                    
+                    for chpt_idx in 0..<chapters.count{
+                        let chapter = chapters[chpt_idx]
+                        let word_heads = chapter["word_heads"].arrayValue.map {$0.stringValue}
+                        for wid in 0..<word_heads.count{
+                            let word = word_heads[wid]
+                            if !(learnt_word_heads.contains(word)){
+                                words_left.append(word)
+                                word_left_chpt_inds.append(chpt_idx)
+                                word_left_indexs_in_chpt.append(wid)
+                            }
+                        }
+                    }
+                    
+                    let number_of_words_per_group = getPreference(key: "number_of_words_per_group") as! Int
+                    let sampling_number:Int = min(number_of_words_per_group, words_left.count)
+                    
+                    let selectedIndexs:[Int] = loadIntArrayFromFile(filename: wordsJsonFp)
+                    
+                    for ind in 0..<selectedIndexs.count{
+                       let selectedInd = selectedIndexs[ind]
+                       let word_head: String = words_left[selectedInd]
+                       let word_chp_ind: Int = word_left_chpt_inds[selectedInd]
+                       let word_in_chp_ind: Int = word_left_indexs_in_chpt[selectedInd]
+                       let word_data = chapters[word_chp_ind]["data"].arrayValue[word_in_chp_ind]
+                        words.append(word_data)
+                    }
                 }
-                let sampled_ids:[Int] = loadIntArrayFromFile(filename: wordsJsonFp)
                 
-                for i in 0..<sampled_ids.count{
-                    words.append(word_list[sampled_ids[i]])
-                }
             }
         } catch {
             print(error.localizedDescription)
@@ -543,38 +616,73 @@ func clear_words(){
 }
 
 func update_words(){
-    if let _ = getPreference(key: "current_book_id") as? String {
-        let vocabRanks:[Int] = learntVocabRanks()
-        let number_of_words_per_group = getPreference(key: "number_of_words_per_group") as! Int
-        let word_list = currentbook_json_obj["data"]
-        let word_ids = word_list.count == 0 ? [] : Array(0..<word_list.count)
-        var diff_ids:[Int] = word_ids.difference(from: vocabRanks)
-        let sampling_number:Int = min(number_of_words_per_group, diff_ids.count)
+    if let bookId = getPreference(key: "current_book_id") as? String {
+        loadVocabRecords()
+        let learnt_vocabRecs:[VocabularyRecord] = GlobalVocabRecords
+        let learnt_word_heads: Set = Set<String>(learnt_vocabRecs.map{ $0.VocabHead })
         
-        words = []
-        var sampled_ids:[Int] = []//loadIntArrayFromFile(filename: wordsJsonFp)
-        var randomIndex:Int = Int.random(in: 0...(diff_ids.count - 1)) //Int(arc4random_uniform(UInt32(diff_ids.count - 1)))
-        print(diff_ids.count)
-        for _ in 0..<sampling_number{
-            while vocabRanks.contains(getFeildsOfWord(word: word_list[diff_ids[randomIndex]], usphone: true).wordRank) {
-                randomIndex = Int.random(in: 0...(diff_ids.count - 1))//Int(arc4random_uniform(UInt32(diff_ids.count - 1)))
+        let chapters = currentbook_json_obj["chapters"].arrayValue
+        var words_left:[String] = []
+        var words_left_dict:[String:Int] = [:]
+        var word_left_chpt_inds: [Int] = []
+        var word_left_indexs_in_chpt: [Int] = []
+        var word_cnt:Int = 0
+        for chpt_idx in 0..<chapters.count{
+            let chapter = chapters[chpt_idx]
+            let word_heads = chapter["word_heads"].arrayValue.map {$0.stringValue}
+            for wid in 0..<word_heads.count{
+                let word = word_heads[wid]
+                if !(learnt_word_heads.contains(word)){
+                    words_left.append(word)
+                    words_left_dict[word] = word_cnt
+                    word_cnt += 1
+                    word_left_chpt_inds.append(chpt_idx)
+                    word_left_indexs_in_chpt.append(wid)
+                }
             }
-            
-            sampled_ids.append(diff_ids[randomIndex])
-            words.append(word_list[diff_ids[randomIndex]])
-            diff_ids.remove(at: randomIndex)
-            randomIndex = Int.random(in: 0...(diff_ids.count - 1))
         }
-        saveStringTo(fileName: wordsJsonFp, jsonStr: sampled_ids.map { String($0) }.joined(separator: ","))
+        let sorted_words_left = words_left.sorted(by: <)
+        let memOrder = getPreference(key: "memOrder") as! Int
+        let number_of_words_per_group = getPreference(key: "number_of_words_per_group") as! Int
+        let sampling_number:Int = min(number_of_words_per_group, words_left.count)
+        words = []
+        var selectedIndexs:[Int] = []
+        if memOrder == 1{//Random
+            //Int(arc4random_uniform(UInt32(diff_ids.count - 1)))
+           for _ in 0..<sampling_number{
+                var randomIndex = Int.random(in: 0...(words_left.count - 1))
+                while selectedIndexs.contains(randomIndex){
+                    randomIndex = Int.random(in: 0...(words_left.count - 1))
+                }
+                selectedIndexs.append(randomIndex)
+           }
+        }else if memOrder == 2{ //Alphabet
+            for ind in 0..<sampling_number{
+               selectedIndexs.append(ind)
+            }
+        } else{ //Reversed Alphabet
+            for ind in 0..<sampling_number{
+               selectedIndexs.append(words_left.count - 1 - ind)
+            }
+        }
+        for ind in 0..<sampling_number{
+           let word_head_selected: String = sorted_words_left[selectedIndexs[ind]]
+           let selectedInd: Int = words_left_dict[word_head_selected]!
+           let word_chp_ind: Int = word_left_chpt_inds[selectedInd]
+           let word_in_chp_ind: Int = word_left_indexs_in_chpt[selectedInd]
+           let word_data = chapters[word_chp_ind]["data"].arrayValue[word_in_chp_ind]
+           words.append(word_data)
+        }
+        saveStringTo(fileName: wordsJsonFp, jsonStr: selectedIndexs.map { String($0) }.joined(separator: ","))
     }
 }
 
 func getFeildsOfWord(word: JSON, usphone: Bool) -> CardWord{
-    let wordRank: Int = word["wordRank"].intValue
-    let headWord: String = word["headWord"].stringValue
-    let content = word["content"]["word"]["content"].dictionaryValue
+    let word_data = word.arrayValue
+    let headWord: String = word_data[0].stringValue
+    let content = word_data[1].dictionaryValue
     var meaning = ""
-    if let trans = content["trans"]?.arrayValue
+    if let trans = content["translations"]?.arrayValue
     {
         var stringArr:[String] = []
         for tran in trans{
@@ -585,15 +693,15 @@ func getFeildsOfWord(word: JSON, usphone: Bool) -> CardWord{
             meaning = stringArr.joined(separator: "\n")
         }
     }
-    let phoneType = (usphone == true)  ? "usphone" : "ukphone"
+    let phoneType = (usphone == true)  ? "us_phone" : "uk_phone"
     let phone = content[phoneType]?.stringValue ?? ""
     let accent = (usphone == true)  ? "美" : "英"
     var memMethod = ""
-    if let memDict = content["remMethod"] {
-        memMethod = memDict["val"].stringValue
+    if let memDict = content["remMethod"]{
+        memMethod = memDict.stringValue
     }
     
-    let cardWord = CardWord(wordRank: wordRank, headWord: headWord, meaning: meaning, phone: phone, accent: accent, memMethod: memMethod)
+    let cardWord = CardWord(headWord: headWord, meaning: meaning, phone: phone, accent: accent, memMethod: memMethod)
     return cardWord
 }
 
@@ -610,9 +718,11 @@ func timeString(time: Int) -> String {
     let hour = time / 3600
     let minute = time / 60 % 60
     let second = time % 60
-
-    // return formated string
-    return String(format: "%02i:%02i:%02i", hour, minute, second)
+    if hour == 0{
+        return String(format: "%02i:%02i", minute, second)
+    }else{
+        return String(format: "%02i:%02i:%02i", hour, minute, second)
+    }
 }
 
 func printDate(date: Date) -> String{

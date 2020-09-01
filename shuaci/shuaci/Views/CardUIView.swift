@@ -9,6 +9,7 @@
 import UIKit
 
 class CardUIView: UIView {
+    @IBOutlet var cardBackView: CardBackView?
     @IBOutlet var cardImageView: UIImageView?{
         didSet {
             cardImageView?.layer.cornerRadius = 20.0
@@ -38,6 +39,7 @@ class CardUIView: UIView {
     @IBOutlet var X_Constraint: NSLayoutConstraint!
     @IBOutlet var Y_Constraint: NSLayoutConstraint!
     @IBOutlet var wordLabel_Top_Space_Constraint: NSLayoutConstraint!
+    @IBOutlet var meaningLabel_Top_Space_Constraint: NSLayoutConstraint!
     @IBOutlet var rememberImageView: UIImageView?
     @IBOutlet var rememberLabel: UILabel?
     @IBOutlet var collectImageView: UIImageView!

@@ -39,18 +39,58 @@ var vocabRecordsOfCurrentLearning:[VocabularyRecord] = []
 var vocabRecordsOfCurrentReview:[VocabularyRecord] = []
 var currentLearningRec: LearningRecord = initNewLearningRec()
 var currentReviewRec: ReviewRecord = initNewReviewRec()
-
-
-var GlobalReviewRecords:[ReviewRecord] = loadReviewRecords()
-var GlobalVocabRecords:[VocabularyRecord] = loadVocabRecords()
-var GlobalLearningRecords:[LearningRecord] = loadLearningRecords()
+var GlobalReviewRecords:[ReviewRecord] = []
+var GlobalVocabRecords:[VocabularyRecord] = []
+var GlobalLearningRecords:[LearningRecord] = []
 
 
 // MARK: - Overall Util
 
-func getMinMaxDateOfVocabRecords() -> [Date]{
+func getDatesLearned() -> [Date]{
+    var datesLearned:[Date] = []
+    for lrec in GlobalLearningRecords{
+        datesLearned.append(lrec.EndDate)
+    }
+    return datesLearned
+}
+
+func getDatesReviewed() -> [Date]{
+    var datesReviewed:[Date] = []
+    for lrec in GlobalReviewRecords{
+        datesReviewed.append(lrec.EndDate)
+    }
+    return datesReviewed
+}
+
+func getDaysDaka() -> [String]{
     let formatter = DateFormatter()
-    formatter.dateFormat = "yyyy/MM/dd HH:mm"
+    formatter.dateFormat = "yyyy/MM/dd"
+    var datesDakaSet:Set = Set<String>()
+    var datesDaka:[String] = []
+    let datesLearned = getDatesLearned()
+    for date in datesLearned{
+        let date_str = formatter.string(from: date)
+        datesDakaSet.insert(date_str)
+    }
+    let datesReviewed = getDatesReviewed()
+    for date in datesReviewed{
+        let date_str = formatter.string(from: date)
+        datesDakaSet.insert(date_str)
+    }
+    for dateStr in datesDakaSet{
+        datesDaka.append(dateStr)
+    }
+    return datesDaka
+    
+}
+
+func getNumOfDayInsist() -> Int {
+    let datesDaka = getDaysDaka()
+    return datesDaka.count
+}
+
+
+func getMinMaxDateOfVocabRecords() -> [Date]{
     var minDate = Date()
     for vocab in GlobalVocabRecords{
         if let learnDate = vocab.LearnDate {
@@ -73,8 +113,10 @@ func progressBarColor(progress: Float) -> UIColor{
         return .systemGreen
     } else if progress > 0.4{
         return .systemBlue
-    } else{
+    } else if progress > 0{
         return .systemOrange
+    }else{
+        return .lightGray
     }
 }
 
@@ -275,7 +317,7 @@ func isExactSeqMemory(vocab: VocabularyRecord) -> Bool{
 func getCumulatedMasteredByDate(dates: [Date], byDay: Bool = true, cumulated: Bool = true) -> [Int]{
     var reviewedVocabIdDateDict:[String: Date] = [:]
     for revRec in GlobalReviewRecords{
-        for revId in revRec.VocabRecIds{
+        for revId in revRec.VocabRecHeads{
             reviewedVocabIdDateDict[revId] = revRec.EndDate
         }
     }
@@ -286,8 +328,8 @@ func getCumulatedMasteredByDate(dates: [Date], byDay: Bool = true, cumulated: Bo
         if vocab.Mastered{
             masteredVocabs.append(vocab)
         }
-        else if reviewedVocabIdDateDict.keys.contains(vocab.VocabRecId) && isExactSeqMemory(vocab: vocab){
-            if let date = reviewedVocabIdDateDict[vocab.VocabRecId] {
+        else if reviewedVocabIdDateDict.keys.contains(vocab.VocabHead) && isExactSeqMemory(vocab: vocab){
+            if let date = reviewedVocabIdDateDict[vocab.VocabHead] {
                 datesWithSequentialMemorized.append(date)
             }
         }
@@ -337,11 +379,11 @@ func getCumulatedLearnedByDate(dates: [Date], byDay: Bool = true, cumulated: Boo
         for lrec in GlobalLearningRecords{
             if byDay{
                 if Calendar.current.isDate(lrec.EndDate, inSameDayAs: dates[di]){
-                    cumLearned[di] += lrec.VocabRecIds.count
+                    cumLearned[di] += lrec.VocabRecHeads.count
                 }
             } else{
                 if dates[di].isInSameMonth(as: lrec.EndDate){
-                    cumLearned[di] += lrec.VocabRecIds.count
+                    cumLearned[di] += lrec.VocabRecHeads.count
                 }
             }
             
@@ -427,75 +469,37 @@ func getReviewRecordsOf(date: Date) -> [ReviewRecord]{
 
 func prepareRecordsAndPreference(completionHandler: @escaping CompletionHandler){
     loadPreference(completionHandler: completionHandler)
-    GlobalVocabRecords = loadVocabRecords()
-    GlobalReviewRecords = loadReviewRecords()
-    GlobalLearningRecords = loadLearningRecords()
+    loadVocabRecords()
+    loadReviewRecords()
+    loadLearningRecords()
 }
 
-// MARK: - Vocab Util
-func learntVocabRanks() -> [Int]{
-    var vocabRanks:[Int] = []
-    let book_id:String = getPreference(key: "current_book_id") as! String
-    let vocabRecords: [VocabularyRecord] = loadVocabRecords()
-    for vocabRec in vocabRecords{
-        if vocabRec.BookId == book_id{
-            vocabRanks.append(vocabRec.WordRank)
-        }
-    }
-    return vocabRanks
-}
-
-func getVocabIdsFromVocabRecords(VocabRecords: [VocabularyRecord]) -> [String]{
+func getVocabHeadsFromVocabRecords(VocabRecords: [VocabularyRecord]) -> [String]{
     var VocabIds:[String] = []
     for VocabRecord in VocabRecords{
-        VocabIds.append(VocabRecord.VocabRecId)
+        VocabIds.append(VocabRecord.VocabHead)
     }
     return VocabIds
-}
-
-func getVocabRecordsByRecordIds(VocabRecordIds: [String]) -> [VocabularyRecord]{
-    var VocabRecs:[VocabularyRecord] = []
-    for vocabRecord in GlobalVocabRecords{
-        if VocabRecordIds.contains(vocabRecord.VocabRecId){
-            VocabRecs.append(vocabRecord)
-        }
-    }
-    return VocabRecs
 }
 
 func clearVocabRecordsOfCurrentLearning(){
     vocabRecordsOfCurrentLearning = []
 }
 
-func loadVocabRecords() -> [VocabularyRecord] {
-    var vocabRecords: [VocabularyRecord] =  []
-    
-    load_data_from_file(fileFp: vocabRecordJsonFp, recordClass: vocabRecordClass, IdKey: VocabRecordIdKey,  completionHandlerWithData: { data in
+func loadVocabRecords(){
+    load_data_from_file(fileFp: vocabRecordJsonFp, recordClass: vocabRecordClass, IdKey: VocabRecordIdKey,  completionHandlerWithData: { data, fromCloud in
         do {
             if let data = data {
-                vocabRecords = try decoder.decode([VocabularyRecord].self, from: data)
+                GlobalVocabRecords = try decoder.decode([VocabularyRecord].self, from: data)
             }
         } catch {
             print(error.localizedDescription)
         }
     })
-    
-    
-    return vocabRecords
 }
 
 
 func saveVocabRecords(saveToLocal: Bool, saveToCloud: Bool = false, random_new_word: Bool = false, delaySeconds:Double = 0, completionHandler: @escaping CompletionHandler){
-    var ranks:[String:Int] = [:]
-    for vi in 0..<GlobalVocabRecords.count{
-        let vocab:VocabularyRecord = GlobalVocabRecords[vi]
-        if let _ = ranks[vocab.VocabRecId]{
-            ranks[vocab.VocabRecId]! += 1
-        }else{
-            
-            ranks[vocab.VocabRecId] = 1
-        }
-    }
     let jsonData = try! JSONEncoder().encode(GlobalVocabRecords)
     let jsonString = String(data: jsonData, encoding: .utf8)!
     if saveToLocal || !fileExist(fileFp: vocabRecordJsonFp){
@@ -514,11 +518,11 @@ func saveVocabRecords(saveToLocal: Bool, saveToCloud: Bool = false, random_new_w
 // MARK: - LearningRecord Util
 
 func initNewLearningRec() -> LearningRecord{
-    return LearningRecord.init(StartDate: Date(), EndDate: Date(), VocabRecIds: [])
+    return LearningRecord.init(StartDate: Date(), EndDate: Date(), VocabRecHeads: [])
 }
 
 func initNewReviewRec() -> ReviewRecord{
-    return ReviewRecord.init(StartDate: Date(), EndDate: Date(), VocabRecIds: [])
+    return ReviewRecord.init(StartDate: Date(), EndDate: Date(), VocabRecHeads: [])
 }
 
 func saveLearningRecordsFromLearning() {
@@ -537,14 +541,14 @@ func saveLearningRecordsFromLearning() {
 }
 
 func updateGlobalVocabRecords(vocabs_updated: [VocabularyRecord]){
-    var vocab_new_ids:[String] = []
+    var vocab_new_heads:[String] = []
     for vocab in vocabs_updated{
-        vocab_new_ids.append(vocab.VocabRecId)
+        vocab_new_heads.append(vocab.VocabHead)
     }
     var temp_GlobalVocabRec:[VocabularyRecord] = []
     for vi in 0..<GlobalVocabRecords.count{
         let vocab:VocabularyRecord = GlobalVocabRecords[vi]
-        if !vocab_new_ids.contains(vocab.VocabRecId){
+        if !vocab_new_heads.contains(vocab.VocabHead){
             temp_GlobalVocabRec.append(vocab)
         }
     }
@@ -566,18 +570,16 @@ func saveReviewRecordsFromReview(vocabs_updated: [VocabularyRecord]) {
 
 
 
-func loadLearningRecords() -> [LearningRecord]{
-    var learningRecord: [LearningRecord] =  []
-    load_data_from_file(fileFp: learningRecordJsonFp, recordClass: learningRecordClass, IdKey: LearningRecordIdKey,  completionHandlerWithData: { data in
+func loadLearningRecords(){
+    load_data_from_file(fileFp: learningRecordJsonFp, recordClass: learningRecordClass, IdKey: LearningRecordIdKey,  completionHandlerWithData: { data, fromCloud in
         do {
             if let data = data {
-                learningRecord = try decoder.decode([LearningRecord].self, from: data)
+                GlobalLearningRecords = try decoder.decode([LearningRecord].self, from: data)
             }
         } catch {
             print(error.localizedDescription)
         }
     })
-    return learningRecord
 }
 
 func saveLearningRecords(saveToLocal: Bool, saveToCloud: Bool = false, delaySeconds:Double = 0, completionHandler: @escaping CompletionHandler){
@@ -595,19 +597,16 @@ func saveLearningRecords(saveToLocal: Bool, saveToCloud: Bool = false, delaySeco
 
 
 // MARK: - ReviewRecord Util
-func loadReviewRecords() -> [ReviewRecord]{
-    var reviewRecords: [ReviewRecord] =  []
-    
-    load_data_from_file(fileFp: reviewRecordJsonFp, recordClass: reviewRecordClass, IdKey: DefaultPrefIdKey,  completionHandlerWithData: { data in
+func loadReviewRecords(){
+    load_data_from_file(fileFp: reviewRecordJsonFp, recordClass: reviewRecordClass, IdKey: ReviewRecordIdKey,  completionHandlerWithData: { data, fromCloud in
         do {
             if let data = data {
-                reviewRecords = try decoder.decode([ReviewRecord].self, from: data)
+                GlobalReviewRecords = try decoder.decode([ReviewRecord].self, from: data)
             }
         } catch {
             print(error.localizedDescription)
         }
     })
-    return reviewRecords
 }
 
 func saveReviewRecords(saveToLocal: Bool, saveToCloud: Bool = false, delaySeconds:Double = 0, completionHandler: @escaping CompletionHandler){

@@ -16,7 +16,8 @@
 		5500541324B822170005AD6F /* setNickNameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5500541224B822170005AD6F /* setNickNameViewController.swift */; };
 		5500541524B8222E0005AD6F /* bindEmailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5500541424B8222E0005AD6F /* bindEmailViewController.swift */; };
 		5500541724B8223E0005AD6F /* bindPhoneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5500541624B8223E0005AD6F /* bindPhoneViewController.swift */; };
-		55020FE424D92A28000E2434 /* DICT.json in Resources */ = {isa = PBXBuildFile; fileRef = 55020FE324D92A27000E2434 /* DICT.json */; };
+		550534F424FD845100246BCA /* WebViewUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 550534F324FD845100246BCA /* WebViewUtil.swift */; };
+		550534F624FD8F1200246BCA /* CardBackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 550534F524FD8F1200246BCA /* CardBackView.swift */; };
 		5507D9072479935C0090DD37 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5507D9062479935C0090DD37 /* Reachability.swift */; };
 		551265CB24AEE03F007C333E /* ReviewFinishViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 551265CA24AEE03F007C333E /* ReviewFinishViewController.swift */; };
 		5518B9B8247A2E7600BC8DA4 /* LearnFinishViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5518B9B7247A2E7600BC8DA4 /* LearnFinishViewController.swift */; };
@@ -30,6 +31,9 @@
 		557B66F524CCF47B0068AB05 /* Light_Gray.plist in Resources */ = {isa = PBXBuildFile; fileRef = 557B66F424CCF47B0068AB05 /* Light_Gray.plist */; };
 		557B66F724CCF7660068AB05 /* Dark.plist in Resources */ = {isa = PBXBuildFile; fileRef = 557B66F624CCF7660068AB05 /* Dark.plist */; };
 		558F71EC249C713B0014956F /* NumWordPerGroupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 558F71EB249C713B0014956F /* NumWordPerGroupViewController.swift */; };
+		559B96C124F82DE800516475 /* DICT.json in Resources */ = {isa = PBXBuildFile; fileRef = 559B96C024F82DE800516475 /* DICT.json */; };
+		559B96C324F82FDA00516475 /* WordDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559B96C224F82FDA00516475 /* WordDetailViewController.swift */; };
+		55B0673224E87A8F009DA575 /* LearnOrReviewFinishViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55B0673124E87A8F009DA575 /* LearnOrReviewFinishViewController.swift */; };
 		55B63A2324D530D300B6B8B5 /* SearchWordTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55B63A2224D530D300B6B8B5 /* SearchWordTableViewCell.swift */; };
 		55BFC12824C366A0006DA60B /* ReminderTimePickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55BFC12724C366A0006DA60B /* ReminderTimePickerViewController.swift */; };
 		55C5E20224B03A40005D2956 /* StatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55C5E20124B03A40005D2956 /* StatViewController.swift */; };
@@ -38,7 +42,7 @@
 		55C781A024902C4F00C9F33E /* SettingToggleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55C7819F24902C4F00C9F33E /* SettingToggleTableViewCell.swift */; };
 		55C781A224902F1600C9F33E /* SettingItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55C781A124902F1600C9F33E /* SettingItem.swift */; };
 		55F2B5A0247B053500758113 /* Date+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55F2B59F247B053500758113 /* Date+Ext.swift */; };
-		55F2B5A2247B4A0F00758113 /* LearnFinishUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55F2B5A1247B4A0F00758113 /* LearnFinishUIView.swift */; };
+		55F2B5A2247B4A0F00758113 /* LearnOrReviewFinishUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55F2B5A1247B4A0F00758113 /* LearnOrReviewFinishUIView.swift */; };
 		55F2B5A4247B4B3700758113 /* String+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55F2B5A3247B4B3700758113 /* String+Ext.swift */; };
 		A5134E322467719C008B116D /* Learning.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A5134E312467719C008B116D /* Learning.storyboard */; };
 		A5134E34246772B4008B116D /* LearnWordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5134E33246772B4008B116D /* LearnWordViewController.swift */; };
@@ -100,7 +104,8 @@
 		5500541224B822170005AD6F /* setNickNameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = setNickNameViewController.swift; sourceTree = "<group>"; };
 		5500541424B8222E0005AD6F /* bindEmailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = bindEmailViewController.swift; sourceTree = "<group>"; };
 		5500541624B8223E0005AD6F /* bindPhoneViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = bindPhoneViewController.swift; sourceTree = "<group>"; };
-		55020FE324D92A27000E2434 /* DICT.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = DICT.json; sourceTree = "<group>"; };
+		550534F324FD845100246BCA /* WebViewUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewUtil.swift; sourceTree = "<group>"; };
+		550534F524FD8F1200246BCA /* CardBackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardBackView.swift; sourceTree = "<group>"; };
 		5507D9062479935C0090DD37 /* Reachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		551265CA24AEE03F007C333E /* ReviewFinishViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewFinishViewController.swift; sourceTree = "<group>"; };
 		5518B9B7247A2E7600BC8DA4 /* LearnFinishViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearnFinishViewController.swift; sourceTree = "<group>"; };
@@ -114,6 +119,9 @@
 		557B66F424CCF47B0068AB05 /* Light_Gray.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Light_Gray.plist; sourceTree = "<group>"; };
 		557B66F624CCF7660068AB05 /* Dark.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Dark.plist; sourceTree = "<group>"; };
 		558F71EB249C713B0014956F /* NumWordPerGroupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumWordPerGroupViewController.swift; sourceTree = "<group>"; };
+		559B96C024F82DE800516475 /* DICT.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = DICT.json; sourceTree = "<group>"; };
+		559B96C224F82FDA00516475 /* WordDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordDetailViewController.swift; sourceTree = "<group>"; };
+		55B0673124E87A8F009DA575 /* LearnOrReviewFinishViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearnOrReviewFinishViewController.swift; sourceTree = "<group>"; };
 		55B63A1B24D523AB00B6B8B5 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		55B63A2224D530D300B6B8B5 /* SearchWordTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchWordTableViewCell.swift; sourceTree = "<group>"; };
 		55BFC12724C366A0006DA60B /* ReminderTimePickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderTimePickerViewController.swift; sourceTree = "<group>"; };
@@ -123,7 +131,7 @@
 		55C7819F24902C4F00C9F33E /* SettingToggleTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingToggleTableViewCell.swift; sourceTree = "<group>"; };
 		55C781A124902F1600C9F33E /* SettingItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingItem.swift; sourceTree = "<group>"; };
 		55F2B59F247B053500758113 /* Date+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Ext.swift"; sourceTree = "<group>"; };
-		55F2B5A1247B4A0F00758113 /* LearnFinishUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearnFinishUIView.swift; sourceTree = "<group>"; };
+		55F2B5A1247B4A0F00758113 /* LearnOrReviewFinishUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearnOrReviewFinishUIView.swift; sourceTree = "<group>"; };
 		55F2B5A3247B4B3700758113 /* String+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Ext.swift"; sourceTree = "<group>"; };
 		7904B907E4DC4D8D3DC6FC8C /* Pods_shuaci.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_shuaci.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A175FCA5411DABB0C4A1A6DE /* Pods-shuaci.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-shuaci.debug.xcconfig"; path = "Target Support Files/Pods-shuaci/Pods-shuaci.debug.xcconfig"; sourceTree = "<group>"; };
@@ -193,7 +201,7 @@
 		55414C4F24D62957004E4E7D /* DATA */ = {
 			isa = PBXGroup;
 			children = (
-				55020FE324D92A27000E2434 /* DICT.json */,
+				559B96C024F82DE800516475 /* DICT.json */,
 			);
 			path = DATA;
 			sourceTree = "<group>";
@@ -252,6 +260,7 @@
 				55001E1E2491AFF600DF0D0E /* FunctionUtil.swift */,
 				55001E202491B1FC00DF0D0E /* ThemeUtil.swift */,
 				55001E222491B21A00DF0D0E /* BookUtil.swift */,
+				550534F324FD845100246BCA /* WebViewUtil.swift */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -355,11 +364,12 @@
 				A5DD06DF246267A60051B3E5 /* BookItemTableViewCell.swift */,
 				A5DD06E324626CAA0051B3E5 /* Level2CollectionViewCell.swift */,
 				A5134E3524677BF3008B116D /* LearnUIView.swift */,
-				55F2B5A1247B4A0F00758113 /* LearnFinishUIView.swift */,
+				55F2B5A1247B4A0F00758113 /* LearnOrReviewFinishUIView.swift */,
 				55C7819D24902BAE00C9F33E /* SettingTableViewCell.swift */,
 				55C7819F24902C4F00C9F33E /* SettingToggleTableViewCell.swift */,
 				55B63A2224D530D300B6B8B5 /* SearchWordTableViewCell.swift */,
 				A5AE21FE24E4E6EF00473EA2 /* SetMemOptionView.swift */,
+				550534F524FD8F1200246BCA /* CardBackView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -390,6 +400,8 @@
 				5547AE8724BA37400096B41E /* WordHistoryViewController.swift */,
 				55BFC12724C366A0006DA60B /* ReminderTimePickerViewController.swift */,
 				A5AE220024E4E9D500473EA2 /* SetMemOptionViewController.swift */,
+				55B0673124E87A8F009DA575 /* LearnOrReviewFinishViewController.swift */,
+				559B96C224F82FDA00516475 /* WordDetailViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -459,7 +471,7 @@
 				A5134E322467719C008B116D /* Learning.storyboard in Resources */,
 				A56375BC2457745500BA5293 /* HuaKangFangYuan.ttf in Resources */,
 				A5E764D2245DEB8600367C2A /* LoginReg.storyboard in Resources */,
-				55020FE424D92A28000E2434 /* DICT.json in Resources */,
+				559B96C124F82DE800516475 /* DICT.json in Resources */,
 				557B66F524CCF47B0068AB05 /* Light_Gray.plist in Resources */,
 				A58E071224535E5E00C4D914 /* youyuan.ttf in Resources */,
 				557B66F124CCF2700068AB05 /* Night.plist in Resources */,
@@ -527,8 +539,10 @@
 				5507D9072479935C0090DD37 /* Reachability.swift in Sources */,
 				55C781A024902C4F00C9F33E /* SettingToggleTableViewCell.swift in Sources */,
 				A5F59F482453DD3A00D6D717 /* EmailLoginUIView.swift in Sources */,
+				550534F424FD845100246BCA /* WebViewUtil.swift in Sources */,
 				5518B9B8247A2E7600BC8DA4 /* LearnFinishViewController.swift in Sources */,
 				A5134E3624677BF3008B116D /* LearnUIView.swift in Sources */,
+				55B0673224E87A8F009DA575 /* LearnOrReviewFinishViewController.swift in Sources */,
 				A5DD06DE2462343F0051B3E5 /* Level1CollectionViewCell.swift in Sources */,
 				A5D8B2DF245FD1BC00786F7C /* UIViewExtensions.swift in Sources */,
 				5547AE8A24BA45540096B41E /* WordHistoryTableViewCell.swift in Sources */,
@@ -552,6 +566,7 @@
 				A5E764D4245E0AD000367C2A /* UserProfileViewController.swift in Sources */,
 				A59EB1D72452A12900F300E1 /* MainScreenViewController.swift in Sources */,
 				A59EB1D32452A12900F300E1 /* AppDelegate.swift in Sources */,
+				559B96C324F82FDA00516475 /* WordDetailViewController.swift in Sources */,
 				5500541524B8222E0005AD6F /* bindEmailViewController.swift in Sources */,
 				A59A0B1A2454C04E000845F2 /* UIColor+Ext.swift in Sources */,
 				55001E1B2491A6D400DF0D0E /* Preference.swift in Sources */,
@@ -560,6 +575,7 @@
 				55C5E20224B03A40005D2956 /* StatViewController.swift in Sources */,
 				A5F5154B245F56BF00F06610 /* ThemeCollectionViewCell.swift in Sources */,
 				55BFC12824C366A0006DA60B /* ReminderTimePickerViewController.swift in Sources */,
+				550534F624FD8F1200246BCA /* CardBackView.swift in Sources */,
 				A5F59F462453DC6900D6D717 /* PhoneLoginUIView.swift in Sources */,
 				A5F59F4C2453DDDB00D6D717 /* PhoneLoginViewController.swift in Sources */,
 				A5134E34246772B4008B116D /* LearnWordViewController.swift in Sources */,
@@ -582,7 +598,7 @@
 				55001E212491B1FC00DF0D0E /* ThemeUtil.swift in Sources */,
 				A59EB1D52452A12900F300E1 /* SceneDelegate.swift in Sources */,
 				55C7819C24901AFA00C9F33E /* SettingViewController.swift in Sources */,
-				55F2B5A2247B4A0F00758113 /* LearnFinishUIView.swift in Sources */,
+				55F2B5A2247B4A0F00758113 /* LearnOrReviewFinishUIView.swift in Sources */,
 				5500541724B8223E0005AD6F /* bindPhoneViewController.swift in Sources */,
 				A5E6973E2473404A004CFA70 /* CardWord.swift in Sources */,
 			);

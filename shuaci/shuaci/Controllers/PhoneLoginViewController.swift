@@ -69,7 +69,8 @@ class PhoneLoginViewController: UIViewController {
     @IBAction func loginOrRegister(sender: UIButton){
          let phoneNumber:String = phoneTextField.text!
          let verificationCode:String = verificationCodeTextField.text!
-         if Reachability.isConnectedToNetwork(){
+         let connected = Reachability.isConnectedToNetwork()
+         if connected{
             DispatchQueue.main.async {
                 self.initActivityIndicator(text: "正在登录")
             }
@@ -108,7 +109,8 @@ class PhoneLoginViewController: UIViewController {
         
         let phoneNumber:String = phoneTextField.text!
         
-        if Reachability.isConnectedToNetwork(){
+        let connected = Reachability.isConnectedToNetwork()
+        if connected{
             DispatchQueue.main.async {
                 self.initActivityIndicator(text: "正在发送")
             }
@@ -257,7 +259,8 @@ class PhoneLoginViewController: UIViewController {
         navigationController?.navigationBar.shadowImage = UIImage()
         
         navigationController?.navigationBar.tintColor = .white
-        if !Reachability.isConnectedToNetwork(){
+        let connected = Reachability.isConnectedToNetwork()
+        if !connected{
             let alertCtl = presentNoNetworkAlert()
             UIApplication.topViewController()?.present(alertCtl, animated: true, completion: nil)
         }

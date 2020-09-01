@@ -77,7 +77,8 @@ class ResetPwdViewController: UIViewController {
         
         if !emailSentKeySet || (minutesBetweenDates(lastResetEmailSentTime, Date()) > 2) {
             if let email = email, let _ = regex.firstMatch(in: email, options: [], range: NSRange(location: 0, length: email.count)), email != "" {
-                if Reachability.isConnectedToNetwork(){
+                let connected = Reachability.isConnectedToNetwork()
+                if connected{
                     DispatchQueue.main.async {
                         self.initActivityIndicator(text: "请稍后")
                     }

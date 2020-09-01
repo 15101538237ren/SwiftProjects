@@ -19,8 +19,11 @@ class Book
     var word_num: Int
     var recite_user_num: Int
     var file_sz: Float
+    var nchpt: Int
+    var avg_nwchpt: Int
+    var nwchpt: String
     
-    init(identifier: String, level1_category: Int, level2_category:Int, name:String, description:String, word_num:Int, recite_user_num:Int, file_sz: Float){
+    init(identifier: String, level1_category: Int, level2_category:Int, name:String, description:String, word_num:Int, recite_user_num:Int, file_sz: Float, nchpt: Int, avg_nwchpt: Int, nwchpt: String){
       self.identifier = identifier
       self.level1_category = level1_category
       self.level2_category = level2_category
@@ -29,5 +32,8 @@ class Book
       self.word_num = word_num
       self.recite_user_num = recite_user_num
       self.file_sz =  file_sz
+      self.nchpt =  nchpt
+      self.avg_nwchpt =  avg_nwchpt
+      self.nwchpt =  nwchpt
     }
 }

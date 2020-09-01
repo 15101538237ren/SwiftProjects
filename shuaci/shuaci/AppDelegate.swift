@@ -8,7 +8,6 @@
 
 import UIKit
 import LeanCloud
-import SwiftTheme
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -30,7 +29,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         } catch {
             print(error)
         }
-        ThemeManager.setTheme(plistName: theme_category_to_name[getPreference(key: "current_theme_category") as! Int]!.rawValue, path: .mainBundle)
 //        LCApplication.logLevel = .all
         return true
     }

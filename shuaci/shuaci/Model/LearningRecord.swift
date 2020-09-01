@@ -11,10 +11,10 @@ import Foundation
 struct LearningRecord: Codable {
     var StartDate: Date
     var EndDate: Date
-    var VocabRecIds: [String]
-    init(StartDate: Date, EndDate:Date, VocabRecIds: [String]) {
+    var VocabRecHeads: [String]
+    init(StartDate: Date, EndDate:Date, VocabRecHeads: [String]) {
         self.StartDate = StartDate
         self.EndDate = EndDate
-        self.VocabRecIds = VocabRecIds
+        self.VocabRecHeads = VocabRecHeads
     }
 }

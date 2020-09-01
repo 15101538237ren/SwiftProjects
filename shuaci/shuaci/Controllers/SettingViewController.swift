@@ -23,7 +23,7 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
         SettingItem(icon: UIImage(named: "auto_pronunciation") ?? UIImage(), name: "自动发音", value: "开"),
         SettingItem(icon: UIImage(named: "english_american_pronunce") ?? UIImage(), name: "发音类型", value: "美"),
         SettingItem(icon: UIImage(named: "choose_book") ?? UIImage(), name: "选择单词书", value: ""),
-        SettingItem(icon: UIImage(named: "vocab_amount_each_group") ?? UIImage(), name: "每组单词数", value: "120"),
+        SettingItem(icon: UIImage(named: "vocab_amount_each_group") ?? UIImage(), name: "设置学习计划", value: "乱序,20个/组"),
         SettingItem(icon: UIImage(named: "learning_reminder") ?? UIImage(), name: "每日提醒", value: ""),
         SettingItem(icon: UIImage(named: "clean_cache") ?? UIImage(), name: "清除缓存", value: "3.25M"),
         SettingItem(icon: UIImage(named: "sync_record") ?? UIImage(), name: "同步学习记录至云端", value: ""),
@@ -137,6 +137,29 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
         return settingItems.count
     }
     
+    func getSettingTextforTableView() -> String {
+        var order = "乱序"
+        if let memOrder = getPreference(key: "memOrder") as? Int{
+            switch memOrder {
+            case 1:
+                order = "乱序"
+            case 2:
+                order = "顺序"
+            case 3:
+                order = "倒序"
+            default:
+                order = "乱序"
+            }
+        }
+        if let number_of_words_per_group = getPreference(key: "number_of_words_per_group") as? Int{
+            return "\(order)  \(number_of_words_per_group)个/组"
+        }
+        else{
+            return "\(order)"
+        }
+        
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let row = indexPath.row
         if  row == 0{
@@ -195,7 +218,7 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
             let settingItem:SettingItem = settingItems[row]
             cell.iconView?.image = settingItem.icon
             cell.nameLabel?.text = settingItem.name
-            cell.valueLabel?.text = "\(getPreference(key: "number_of_words_per_group") as! Int)"
+            cell.valueLabel?.text = getSettingTextforTableView()
             return cell
         }
             
@@ -227,6 +250,7 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
         ac.addAction(UIAlertAction(title: "好", style: .default, handler: nil))
         present(ac, animated: true, completion: nil)
     }
+    
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch indexPath.row {
@@ -264,12 +288,19 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
                 self.present(booksVC, animated: true, completion: nil)
             }
         case 3:
-            let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
-            let NumOfWordPopUpVC = mainStoryBoard.instantiateViewController(withIdentifier: "NumOfWordVC") as! NumWordPerGroupViewController
-            NumOfWordPopUpVC.setting_tableView = tableView
-            NumOfWordPopUpVC.modalPresentationStyle = .overCurrentContext
-            DispatchQueue.main.async {
-                self.present(NumOfWordPopUpVC, animated: true, completion: nil)
+            if let book = getCurrentBook() {
+                let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+                let SetMemOptionVC = mainStoryBoard.instantiateViewController(withIdentifier: "SetMemOptionVC") as! SetMemOptionViewController
+                SetMemOptionVC.modalPresentationStyle = .overCurrentContext
+                SetMemOptionVC.bookIndex = -1
+                SetMemOptionVC.book = book
+                SetMemOptionVC.bookVC = nil
+                SetMemOptionVC.mainPanelVC = nil
+                SetMemOptionVC.setting_tableView = self.tableView
+                
+                DispatchQueue.main.async {
+                    self.present(SetMemOptionVC, animated: true, completion: nil)
+                }
             }
         case 4:
             let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
@@ -363,7 +394,8 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     
     @IBAction func logOut(_ sender: UIButton) {
-        if Reachability.isConnectedToNetwork(){
+        let connected = Reachability.isConnectedToNetwork()
+        if connected{
            let alertController = UIAlertController(title: "确定注销?", message: "", preferredStyle: .alert)
            let okayAction = UIAlertAction(title: "确定", style: .default, handler: { action in
                LCUser.logOut()

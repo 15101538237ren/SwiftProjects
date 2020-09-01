@@ -172,7 +172,7 @@ class StatViewController: UIViewController {
         
         masteredChartView.theme_backgroundColor = "Global.viewBackgroundColor"
         masteredChartView.frame = CGRect(x: 0, y: 0, width: masteredAndLearnedCurveView.bounds.width, height: masteredAndLearnedCurveView.bounds.height)
-        masteredChartView.contentWidth = 2 * masteredAndLearnedCurveView.bounds.width
+        masteredChartView.contentWidth = masteredAndLearnedCurveView.bounds.width
         masteredAndLearnedCurveView.addSubview(masteredChartView)
         masteredChartView.aa_drawChartWithChartOptions(getLearnStatusOptions())
         view.isOpaque = false
@@ -197,14 +197,14 @@ class StatViewController: UIViewController {
         var number_of_vocab_today:Int = 0
         var number_of_learning_secs_today: Int = 0
         for lrec in todayLearnRec{
-            number_of_vocab_today += lrec.VocabRecIds.count
+            number_of_vocab_today += lrec.VocabRecHeads.count
             let difference = Calendar.current.dateComponents([.second], from: lrec.StartDate, to: lrec.EndDate)
             if let secondT = difference.second {
                 number_of_learning_secs_today += secondT
             }
         }
         for rrec in todayReviewRec{
-            number_of_vocab_today += rrec.VocabRecIds.count
+            number_of_vocab_today += rrec.VocabRecHeads.count
             let difference = Calendar.current.dateComponents([.second], from: rrec.StartDate, to: rrec.EndDate)
             if let secondT = difference.second {
                 number_of_learning_secs_today += secondT
@@ -214,7 +214,7 @@ class StatViewController: UIViewController {
         var number_of_vocab_cummulated:Int = 0
         var number_of_learning_secs_cummulated: Int = 0
         for lrec in GlobalLearningRecords{
-            number_of_vocab_cummulated += lrec.VocabRecIds.count
+            number_of_vocab_cummulated += lrec.VocabRecHeads.count
             let difference = Calendar.current.dateComponents([.second], from: lrec.StartDate, to: lrec.EndDate)
             if let secondT = difference.second {
                 number_of_learning_secs_cummulated += secondT

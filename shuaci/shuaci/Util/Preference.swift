@@ -8,6 +8,7 @@
 
 import Foundation
 import LeanCloud
+import SwiftTheme
 
 var USER_PREFERENCE: [String : Any?] = [:]
 
@@ -16,23 +17,23 @@ let recordClass = "UserPreference"
 let preferenceJsonFp = "userPreference.json"
 let savePrefToClouldFailedKey = "savePrefToClouldFailed"
 var savePrefToClouldFailed : Bool = getSaveRecordToClouldStatus(key: savePrefToClouldFailedKey)
-
+var loadPrefCalled = false
 // MARK: - Preference
 
 func initPreference(){
     USER_PREFERENCE = [
-    "number_of_words_per_group" : 20,
     "current_book_id" : nil,
     "auto_pronunciation" : true,
     "us_pronunciation" : true,
     "current_theme_category" : 1,
     "last_theme_category" : 1,
-    "reminder_time": ""
+    "reminder_time": "",
+    "number_of_words_per_group" : 20
     ]
 }
 
 func getPreference(key: String) -> Any? {
-    if USER_PREFERENCE.count == 0{
+    if USER_PREFERENCE.count == 0 && !loadPrefCalled {
         loadPreference(completionHandler: {_ in })
     }
     return USER_PREFERENCE[key] ?? nil
@@ -67,14 +68,22 @@ func savePreference(saveToLocal: Bool, saveToCloud: Bool = true, delaySeconds:Do
 }
 
 func loadPreference(completionHandler: @escaping CompletionHandler){
-    load_data_from_file(fileFp: preferenceJsonFp, recordClass: recordClass, IdKey: DefaultPrefIdKey,  completionHandlerWithData: { data in
+    if !loadPrefCalled{
+        loadPrefCalled = true
+        ThemeManager.setTheme(plistName: "Light_White", path: .mainBundle)
+    }
+    
+    load_data_from_file(fileFp: preferenceJsonFp, recordClass: recordClass, IdKey: DefaultPrefIdKey,  completionHandlerWithData: { data, fromCloud in
         do {
             if let data = data {
                 var save_pref: Bool = false
-                if USER_PREFERENCE.count == 0 {
+                if USER_PREFERENCE.count == 0 && fromCloud{
                     save_pref = true
                 }
                 USER_PREFERENCE = try (JSONSerialization.jsonObject(with: data, options: []) as? [String: Any])!
+                if fromCloud{
+                    USER_PREFERENCE["last_theme_category"] = -1
+                }
                 if save_pref {
                     savePreference(saveToLocal: true, saveToCloud: false, completionHandler: {_ in })
                 }

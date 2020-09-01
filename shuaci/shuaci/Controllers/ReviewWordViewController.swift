@@ -62,10 +62,13 @@ class ReviewWordViewController: UIViewController {
             DispatchQueue.main.async {
                 if cardWord.memMethod != ""{
                     card.wordLabel_Top_Space_Constraint.constant = 130
+                    card.meaningLabel_Top_Space_Constraint.constant = 50
                     card.memMethodLabel?.alpha = 1
+                    card.memMethodLabel?.text = "记: \(cardWord.memMethod)"
                 }
                 else{
-                    card.wordLabel_Top_Space_Constraint.constant = 180
+                    card.wordLabel_Top_Space_Constraint.constant = 170
+                    card.meaningLabel_Top_Space_Constraint.constant = 70
                     card.memMethodLabel?.alpha = 0
                 }
             }
@@ -92,6 +95,7 @@ class ReviewWordViewController: UIViewController {
     }
     
     @IBAction func ExitReview(_ sender: UIButton) {
+        self.mp3Player?.stop()
         if self.currentIndex > 0{
             let alertController = UIAlertController(title: "是否保存当前复习记录?", message: "", preferredStyle: .alert)
             let okayAction = UIAlertAction(title: "是", style: .default, handler: { action in
@@ -100,7 +104,7 @@ class ReviewWordViewController: UIViewController {
                 for index in 0 ..< self.currentIndex{
                     currentReivewedRecords.append(vocabRecordsOfCurrentReview[index])
                 }
-                currentReviewRec.VocabRecIds = getVocabIdsFromVocabRecords(VocabRecords: currentReivewedRecords)
+                currentReviewRec.VocabRecHeads = getVocabHeadsFromVocabRecords(VocabRecords: currentReivewedRecords)
                 saveReviewRecordsFromReview(vocabs_updated: currentReivewedRecords)
                 self.dismiss(animated: true, completion: nil)
             })
@@ -148,10 +152,13 @@ class ReviewWordViewController: UIViewController {
     }
     
     func playMp3GivenWord(word: String){
-        let auto_pronunciation:Bool = getPreference(key: "auto_pronunciation") as! Bool
-        let mp3_url = getWordPronounceURL(word: word)
-        if auto_pronunciation && (mp3_url != nil) {
-            playMp3(url: mp3_url!)
+        if self.currentIndex < review_words.count
+        {
+            let auto_pronunciation:Bool = getPreference(key: "auto_pronunciation") as! Bool
+            let mp3_url = getWordPronounceURL(word: word)
+            if auto_pronunciation && (mp3_url != nil) {
+                playMp3(url: mp3_url!)
+            }
         }
     }
     
@@ -177,17 +184,21 @@ class ReviewWordViewController: UIViewController {
     
     
     func setFieldsOfCard(card: CardUIView, cardWord: CardWord, collected: Bool){
-        let numberOfNewlines:Int = cardWord.meaning.components(separatedBy: "\n").count - 1
         var meaningLabelTxt:String = cardWord.meaning
-        if numberOfNewlines > 3{
-            var finalStringArr:[String] = []
-            let meaningArr:[String] = meaningLabelTxt.components(separatedBy: "\n")
+        var finalStringArr:[String] = []
+        let meaningArr:[String] = meaningLabelTxt.components(separatedBy: "\n")
+        if meaningArr.count > 1{
             for mi in 0..<meaningArr.count - 1{
                 if let firstChr = meaningArr[mi + 1].unicodeScalars.first{
                     if firstChr.isASCII{
                         finalStringArr.append("\(meaningArr[mi])\n")
                     }else{
-                        finalStringArr.append("\(meaningArr[mi])；")
+                        if mi == meaningArr.count - 2{
+                            finalStringArr.append("\(meaningArr[mi])")
+                        }
+                        else{
+                            finalStringArr.append("\(meaningArr[mi])；")
+                        }
                     }
                 }
             }
@@ -196,7 +207,7 @@ class ReviewWordViewController: UIViewController {
         card.wordLabel?.text = cardWord.headWord
         DispatchQueue.main.async {
             if cardWord.headWord.count >= 10{
-                card.wordLabel?.font = card.wordLabel?.font.withSize(40.0)
+                card.wordLabel?.font = card.wordLabel?.font.withSize(35.0)
             }else{
                 card.wordLabel?.font = card.wordLabel?.font.withSize(45.0)
             }
@@ -204,11 +215,13 @@ class ReviewWordViewController: UIViewController {
             card.meaningLabel?.text = meaningLabelTxt
             if cardWord.memMethod != ""{
                 card.wordLabel_Top_Space_Constraint.constant = 130
+                card.meaningLabel_Top_Space_Constraint.constant = 50
                 card.memMethodLabel?.alpha = 1
                 card.memMethodLabel?.text = "记: \(cardWord.memMethod)"
             }
             else{
-                card.wordLabel_Top_Space_Constraint.constant = 180
+                card.wordLabel_Top_Space_Constraint.constant = 170
+                card.meaningLabel_Top_Space_Constraint.constant = 70
                 card.memMethodLabel?.alpha = 0
             }
             if collected{
@@ -218,7 +231,6 @@ class ReviewWordViewController: UIViewController {
             }
         }
     }
-    
     func initVocabRecords(){
         vocabRecordsOfCurrentReview = vocab_rec_need_to_be_review
         for index in 0..<review_words.count
@@ -237,11 +249,11 @@ class ReviewWordViewController: UIViewController {
         self.mp3Player?.stop()
         if currentIndex >= review_words.count{
             currentReviewRec.EndDate = Date()
-            currentReviewRec.VocabRecIds = getVocabIdsFromVocabRecords(VocabRecords: vocabRecordsOfCurrentReview)
+            currentReviewRec.VocabRecHeads = getVocabHeadsFromVocabRecords(VocabRecords: vocabRecordsOfCurrentReview)
             saveReviewRecordsFromReview(vocabs_updated: vocabRecordsOfCurrentReview)
             DispatchQueue.main.async {
                 self.dismiss(animated: true, completion: nil)
-                self.mainPanelViewController.loadReviewFinishController()
+                self.mainPanelViewController.loadLearnOrReviewFinishController()
             }
         }
         else if currentIndex < review_words.count - 1{
@@ -334,9 +346,9 @@ class ReviewWordViewController: UIViewController {
                     card_behaviors.append(.remember)
                     
                     let word: String = nextCard.wordLabel?.text ?? ""
+                    self.currentIndex += 1
                     playMp3GivenWord(word: word)
                     
-                    self.currentIndex += 1
                     perform(#selector(moveCard), with: nil, afterDelay: animationDuration)
                     return
                 }
@@ -361,10 +373,10 @@ class ReviewWordViewController: UIViewController {
                     card_behaviors.append(.forget)
                     
                     let word: String = nextCard.wordLabel?.text ?? ""
-                    playMp3GivenWord(word: word)
 
                     sender.view!.frame = card.frame
                     self.currentIndex += 1
+                    playMp3GivenWord(word: word)
                     perform(#selector(moveCard), with: nil, afterDelay: animationDuration)
                     return
                 }
@@ -403,7 +415,8 @@ class ReviewWordViewController: UIViewController {
         
         func playMp3(url: URL)
         {
-            if Reachability.isConnectedToNetwork(){
+            let connected = Reachability.isConnectedToNetwork()
+            if connected{
                 DispatchQueue.global(qos: .background).async {
                 do {
                     var downloadTask: URLSessionDownloadTask
@@ -430,7 +443,8 @@ class ReviewWordViewController: UIViewController {
         }
         
         @IBAction func playAudio(_ sender: UIButton) {
-            if Reachability.isConnectedToNetwork(){
+            let connected = Reachability.isConnectedToNetwork()
+            if connected{
                 let word = review_words[currentIndex % review_words.count]
                 let cardWord = getFeildsOfWord(word: word, usphone: getUSPhone())
                 let wordStr: String = cardWord.headWord
@@ -557,9 +571,9 @@ class ReviewWordViewController: UIViewController {
                         self.card_behaviors.append(.trash)
                     }
                     let word: String = nextCard.wordLabel?.text ?? ""
-                    self.playMp3GivenWord(word: word)
 
                     self.currentIndex += 1
+                    self.playMp3GivenWord(word: word)
                     self.perform(#selector(self.moveCard), with: nil, afterDelay: self.animationDuration)
                 }
             }

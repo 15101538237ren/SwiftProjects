@@ -13,6 +13,7 @@ class SearchViewController: UIViewController {
     var searchResultsInter:[String] = []
     var AllData:[String:JSON] = [:]
     var AllData_keys:[String] = []
+    var Word_indexs_In_Oalecd8:[String:[Int]] = [:]
     var AllInterp_keys:[String] = []
     var searching = false
     let maxNumOfResult = 50
@@ -34,12 +35,14 @@ class SearchViewController: UIViewController {
     func load_DICT(){
         do {
            let data = try Data(contentsOf: DICT_URL, options: [])//.mappedIfSafe
-           AllData = try JSON(data: data)["data"].dictionary!
+            AllData = try JSON(data: data)["data"].dictionary!
             let key_arr = try JSON(data: data)["keys"].arrayValue
-            for key in key_arr{
-                let key_str = key.stringValue
-                AllData_keys.append(key_str)
-                AllInterp_keys.append(AllData[key_str]!.stringValue)
+            let oalecd8_arr = try JSON(data: data)["oalecd8"].arrayValue
+            for kid in 0..<key_arr.count{
+                let key = key_arr[kid].stringValue
+                AllData_keys.append(key)
+                Word_indexs_In_Oalecd8[key] = [kid, oalecd8_arr[kid].intValue]
+                AllInterp_keys.append(AllData[key]!.stringValue)
             }
            print("Load \(DICT_URL) successful!")
         } catch {
@@ -125,6 +128,23 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
 
         return UITableView.automaticDimension
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let selected_word:String = searchResults[indexPath.row]
+        let indexItem:[Int] = Word_indexs_In_Oalecd8[selected_word]!
+        let wordIndex: Int = indexItem[0]
+        let hasValueInOalecd8: Int = indexItem[1]
+        if hasValueInOalecd8 == 1{
+            let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+            let WordDetailVC = mainStoryBoard.instantiateViewController(withIdentifier: "WordDetailVC") as! WordDetailViewController
+            WordDetailVC.wordIndex = wordIndex
+            DispatchQueue.main.async {
+                self.present(WordDetailVC, animated: true, completion: nil)
+            }
+        }else{
+            print("No value")
+        }
     }
 }
 extension SearchViewController: UISearchBarDelegate, UISearchControllerDelegate {

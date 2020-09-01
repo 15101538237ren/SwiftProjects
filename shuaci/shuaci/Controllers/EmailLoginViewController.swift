@@ -99,7 +99,8 @@ class EmailLoginViewController: UIViewController {
                 presentAlertInView(title: "密码不能为空!", message: "", okText: "好")
             }
             else{
-                if Reachability.isConnectedToNetwork(){
+                let connected = Reachability.isConnectedToNetwork()
+                if connected{
                     let lastEmailLoginClickTimeKey:String = "lastEmailLoginClickTime1"
                     var lastEmailLoginClickTime = Date()
                     var emailClickKeySet = false
@@ -112,7 +113,7 @@ class EmailLoginViewController: UIViewController {
 //                        UserDefaults.standard.set(lastEmailLoginClickTime, forKey: lastEmailLoginClickTimeKey)
 //                    }
                     
-                    if !emailClickKeySet || (minutesBetweenDates(lastEmailLoginClickTime, Date()) > 1) {
+                    if !emailClickKeySet || (minutesBetweenDates(lastEmailLoginClickTime, Date()) > 0.5) {
                         DispatchQueue.main.async {
                             self.initActivityIndicator(text: "正在登录")
                         }
@@ -179,7 +180,7 @@ class EmailLoginViewController: UIViewController {
                         }
                     }
                     else{
-                        self.presentAlertInView(title: "登录请求太快，请等待1分钟!", message: "", okText: "好")
+                        self.presentAlertInView(title: "登录请求太快，请等待30秒!", message: "", okText: "好")
                     }
                 }else{
                    if non_network_preseted == false{
@@ -206,7 +207,8 @@ class EmailLoginViewController: UIViewController {
         navigationController?.navigationBar.shadowImage = UIImage()
         navigationController?.navigationBar.tintColor = .white
         
-        if !Reachability.isConnectedToNetwork(){
+        let connected = Reachability.isConnectedToNetwork()
+        if !connected{
             let alertCtl = presentNoNetworkAlert()
             UIApplication.topViewController()?.present(alertCtl, animated: true, completion: nil)
         }
@@ -222,6 +224,4 @@ class EmailLoginViewController: UIViewController {
             
         }
     }
-    
-    
 }
