@@ -110,8 +110,8 @@
                                                             <attributedString key="attributedText">
                                                                 <fragment content="单词">
                                                                     <attributes>
-                                                                        <font key="NSFont" metaFont="menu" size="14"/>
-                                                                        <font key="NSOriginalFont" metaFont="menu" size="14"/>
+                                                                        <font key="NSFont" metaFont="system" size="14"/>
+                                                                        <font key="NSOriginalFont" metaFont="system" size="14"/>
                                                                         <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" lineSpacing="1.5" tighteningFactorForTruncation="0.0"/>
                                                                     </attributes>
                                                                 </fragment>
@@ -1280,11 +1280,12 @@
                                     <action selector="segControlChanged:" destination="wM5-zn-OKs" eventType="valueChanged" id="s9p-U8-Rbs"/>
                                 </connections>
                             </segmentedControl>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="singleLineEtched" rowHeight="100" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="h2P-AZ-csD">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="singleLineEtched" rowHeight="100" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="h2P-AZ-csD">
                                 <rect key="frame" x="0.0" y="148" width="414" height="654"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="vocabHistoryCell" rowHeight="100" id="QQk-1l-7eS" customClass="WordHistoryTableViewCell" customModule="刷词" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="414" height="100"/>
+                                        <rect key="frame" x="0.0" y="55.5" width="414" height="100"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="QQk-1l-7eS" id="BXv-D2-FcI">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="100"/>
@@ -1293,7 +1294,7 @@
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="AMQ-JB-XIg">
                                                     <rect key="frame" x="20" y="26.5" width="86.5" height="47.5"/>
                                                     <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="vocabulary" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gBR-9h-OCQ">
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="vocabulary" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gBR-9h-OCQ">
                                                             <rect key="frame" x="0.0" y="0.0" width="86.5" height="20.5"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" relation="lessThanOrEqual" constant="180" id="sTF-WC-ytT"/>
@@ -1302,7 +1303,7 @@
                                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ioo-s1-f83">
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ioo-s1-f83">
                                                             <rect key="frame" x="0.0" y="30.5" width="86.5" height="17"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" relation="lessThanOrEqual" constant="180" id="XZM-SJ-y6s"/>
@@ -1310,8 +1311,8 @@
                                                             <attributedString key="attributedText">
                                                                 <fragment content="单词">
                                                                     <attributes>
-                                                                        <font key="NSFont" metaFont="menu" size="14"/>
-                                                                        <font key="NSOriginalFont" metaFont="menu" size="14"/>
+                                                                        <font key="NSFont" metaFont="system" size="14"/>
+                                                                        <font key="NSOriginalFont" metaFont="system" size="14"/>
                                                                         <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" lineSpacing="1.5" tighteningFactorForTruncation="0.0"/>
                                                                     </attributes>
                                                                 </fragment>
@@ -1321,27 +1322,16 @@
                                                     </subviews>
                                                 </stackView>
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="9" translatesAutoresizingMaskIntoConstraints="NO" id="BNv-VJ-1OQ">
-                                                    <rect key="frame" x="263.5" y="16" width="125.5" height="68"/>
+                                                    <rect key="frame" x="262" y="16" width="127" height="68"/>
                                                     <subviews>
-                                                        <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="h6r-px-pPQ">
-                                                            <rect key="frame" x="0.0" y="0.0" width="125.5" height="17"/>
-                                                            <subviews>
-                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="距复习: 1天20时3分" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0ws-Ij-sgU">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="125.5" height="17"/>
-                                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                                    <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                                    <nil key="highlightedColor"/>
-                                                                </label>
-                                                            </subviews>
-                                                        </stackView>
                                                         <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="dtz-HO-cXB">
-                                                            <rect key="frame" x="0.0" y="26" width="125.5" height="42"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="127" height="47"/>
                                                             <subviews>
                                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="YZs-jU-cbG">
-                                                                    <rect key="frame" x="0.0" y="5" width="95.5" height="32"/>
+                                                                    <rect key="frame" x="0.0" y="7.5" width="127" height="32"/>
                                                                     <subviews>
                                                                         <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9zk-ZE-5VN">
-                                                                            <rect key="frame" x="0.0" y="0.0" width="95.5" height="26"/>
+                                                                            <rect key="frame" x="0.0" y="0.0" width="127" height="26"/>
                                                                             <subviews>
                                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="已掌握: " lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JuU-Ne-vEF">
                                                                                     <rect key="frame" x="0.0" y="0.0" width="55" height="26"/>
@@ -1354,19 +1344,19 @@
                                                                                     <nil key="highlightedColor"/>
                                                                                 </label>
                                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="12%" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pkU-6V-bEJ">
-                                                                                    <rect key="frame" x="55" y="0.0" width="40.5" height="26"/>
+                                                                                    <rect key="frame" x="55" y="0.0" width="72" height="26"/>
                                                                                     <constraints>
                                                                                         <constraint firstAttribute="height" constant="26" id="6KF-zt-BNP"/>
                                                                                         <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="35" id="Hpp-2j-z7l"/>
                                                                                     </constraints>
-                                                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
                                                                                     <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                                     <nil key="highlightedColor"/>
                                                                                 </label>
                                                                             </subviews>
                                                                         </stackView>
                                                                         <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.20000000000000001" translatesAutoresizingMaskIntoConstraints="NO" id="iQZ-PQ-e2z">
-                                                                            <rect key="frame" x="0.0" y="30" width="95.5" height="2"/>
+                                                                            <rect key="frame" x="0.0" y="30" width="127" height="2"/>
                                                                             <color key="tintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                             <constraints>
                                                                                 <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="80" id="q76-NT-X52"/>
@@ -1374,13 +1364,17 @@
                                                                         </progressView>
                                                                     </subviews>
                                                                 </stackView>
-                                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="medal" translatesAutoresizingMaskIntoConstraints="NO" id="aIf-nr-SeX">
-                                                                    <rect key="frame" x="105.5" y="11" width="20" height="20"/>
-                                                                    <constraints>
-                                                                        <constraint firstAttribute="width" constant="20" id="59H-hG-DFR"/>
-                                                                        <constraint firstAttribute="height" constant="20" id="oHE-Zm-MAh"/>
-                                                                    </constraints>
-                                                                </imageView>
+                                                            </subviews>
+                                                        </stackView>
+                                                        <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="h6r-px-pPQ">
+                                                            <rect key="frame" x="0.0" y="56" width="127" height="12"/>
+                                                            <subviews>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="距复习: 1天20时3分" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0ws-Ij-sgU">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="127" height="12"/>
+                                                                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="10"/>
+                                                                    <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
                                                             </subviews>
                                                         </stackView>
                                                     </subviews>
@@ -1400,7 +1394,6 @@
                                         <connections>
                                             <outlet property="masterPercentLabel" destination="pkU-6V-bEJ" id="2HX-85-5BF"/>
                                             <outlet property="masteredUILabel" destination="JuU-Ne-vEF" id="Ilw-Az-t9Z"/>
-                                            <outlet property="medalImgView" destination="aIf-nr-SeX" id="wJa-Uf-lDq"/>
                                             <outlet property="progressView" destination="iQZ-PQ-e2z" id="Q3K-uo-4NU"/>
                                             <outlet property="timerLabel" destination="0ws-Ij-sgU" id="gmF-4p-ksw"/>
                                             <outlet property="wordHeadLabel" destination="gBR-9h-OCQ" id="l5Q-EM-EBf"/>
@@ -2512,7 +2505,6 @@
         <image name="lock" width="150" height="150"/>
         <image name="logout" width="133" height="41"/>
         <image name="magnifyingglass" catalog="system" width="128" height="115"/>
-        <image name="medal" width="470" height="470"/>
         <image name="phone" width="28" height="28"/>
         <image name="rate" width="512" height="512"/>
         <image name="seo" width="512" height="512"/>

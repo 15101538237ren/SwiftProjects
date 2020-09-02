@@ -23,6 +23,16 @@
 	</dict>
 	<key>WordHistory</key>
 	<dict>
+		<key>overdueTextColor</key>
+		<string>#920912</string>
+		<key>LowProgressBarColor</key>
+		<string>#676767</string>
+		<key>MiddleLowProgressBarColor</key>
+		<string>#f99326</string>
+		<key>MiddleHighProgressBarColor</key>
+		<string>#157df9</string>
+		<key>HighProgressBarColor</key>
+		<string>#3cc25e</string>
 		<key>headerViewTextColor</key>
 		<string>#000</string>
 		<key>segmentedCtrlSelectedTintColor</key>

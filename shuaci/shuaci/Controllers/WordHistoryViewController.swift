@@ -116,6 +116,7 @@ class WordHistoryViewController: UIViewController, UIGestureRecognizerDelegate {
                 break
         }
         sortedKeys = Array(groupedVocabs.keys).sorted(by: >)
+        sectionsExpanded = []
         for idx in 0..<sortedKeys.count{
             if idx == 0 {
                 sectionsExpanded.append(true)
@@ -234,14 +235,14 @@ extension WordHistoryViewController: UITableViewDataSource, UITableViewDelegate{
             if date > dueDate{
                 negative = "已逾期: "
             }
-            if dayDiff != 0{
+            if (dayDiff != 0){
                 timer_text = timer_text + "\(abs(dayDiff))天"
             }
-            if hourDiff != 0{
-                timer_text = timer_text + "\(abs(hourDiff))小时"
+            if (hourDiff > 0 || dayDiff != 0){
+                timer_text = timer_text + String(format: "%02d", abs(hourDiff)) + "小时"
             }
-            if minuteDiff != 0{
-                timer_text = timer_text + "\(abs(minuteDiff))分"
+            if (minuteDiff > 0  || hourDiff > 0 || dayDiff != 0) {
+                timer_text = timer_text + String(format: "%02d", abs(minuteDiff)) + "分"
             }
             if dayDiff == 0{
                 timer_text = timer_text + String(format: "%02d", abs(secondDiff)) + "秒"
@@ -264,18 +265,34 @@ extension WordHistoryViewController: UITableViewDataSource, UITableViewDelegate{
         cell.wordHeadLabel.text = vocab.VocabHead
         let progress: Float = getMasteredProgress(vocab: vocab)
         
-        if let timerText = get_timer_text_of(vocab: vocab){
-            cell.timerLabel.text = timerText
+        if segmentedControl.selectedSegmentIndex == 2{
+            cell.timerLabel.alpha = 0
+        }else{
+            cell.timerLabel.alpha = 1
+            if let timerText = get_timer_text_of(vocab: vocab){
+                cell.timerLabel.text = timerText
+            }
         }
+        
         if let dueDate = vocab.ReviewDUEDate{
             let date = Date()
             if date > dueDate{
-                cell.timerLabel.textColor = redColor
+                cell.timerLabel.theme_textColor = "WordHistory.overdueTextColor"
             }
         }
         cell.progressView.progress = progress
-        cell.progressView.progressTintColor = progressBarColor(progress: progress)
-        cell.medalImgView.tintColor =  progressBarColor(progress: progress)
+        cell.progressView.transform = .init(scaleX: 1, y: 2)
+        
+        if progress > 0.8{
+            cell.progressView.theme_progressTintColor = "WordHistory.HighProgressBarColor"
+        } else if progress > 0.4{
+            cell.progressView.theme_progressTintColor = "WordHistory.MiddleHighProgressBarColor"
+        } else if progress > 0{
+            cell.progressView.theme_progressTintColor = "WordHistory.MiddleLowProgressBarColor"
+        }else{
+            cell.progressView.theme_progressTintColor = "WordHistory.LowProgressBarColor"
+        }
+        
         cell.masterPercentLabel.text = "\(Int(round(100.0*Double(progress))))%"
         if let meaning = getMeaningOfVocab(vocab: vocab){
             cell.wordTransLabel.text = meaning
@@ -294,6 +311,7 @@ extension WordHistoryViewController: UITableViewDataSource, UITableViewDelegate{
         let header_label = UILabel()
         
         header_label.text = "\(sortedKeys[section].components(separatedBy: "-")[0]) (\(groupedVocabsCount)词)"
+        header_label.font = UIFont.boldSystemFont(ofSize: 16)
         header_label.frame = CGRect(x: 20, y: -5, width: 200, height: 40)
         header_label.textAlignment = .left
         header_label.theme_textColor = "WordHistory.headerViewTextColor"
@@ -308,6 +326,10 @@ extension WordHistoryViewController: UITableViewDataSource, UITableViewDelegate{
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return headerViewHeight
+    }
+    
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        1.0
     }
     
     @objc func handleHeaderTap(_ sender: CustomTapGestureRecognizer) {
@@ -367,7 +389,6 @@ extension WordHistoryViewController: UITableViewDataSource, UITableViewDelegate{
         }
         cellIsSelected[sortedKeys[section]]![row].toggle()
     }
-    
 }
 
 class CustomTapGestureRecognizer: UITapGestureRecognizer {

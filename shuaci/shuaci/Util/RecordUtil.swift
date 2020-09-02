@@ -108,18 +108,6 @@ enum DateType {
     case collect
 }
 
-func progressBarColor(progress: Float) -> UIColor{
-    if progress > 0.8{
-        return .systemGreen
-    } else if progress > 0.4{
-        return .systemBlue
-    } else if progress > 0{
-        return .systemOrange
-    }else{
-        return .lightGray
-    }
-}
-
 func getMasteredProgress(vocab: VocabularyRecord) -> Float{
     if vocab.Mastered{
         return Float(1.0)
