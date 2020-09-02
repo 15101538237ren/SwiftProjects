@@ -36,6 +36,7 @@ class SetMemOptionViewController: UIViewController, UIPickerViewDelegate, UIPick
     var dayToItemDict: [Int: Int] = [:]
     @IBOutlet weak var dailyNumWordPickerView: UIPickerView!
     
+    var viewTranslation = CGPoint(x: 0, y: 0)
     let number_of_words: [Int] = [10, 20, 30, 40, 50, 100, 150, 200, 300, 400, 500]
     var number_of_items:[Int] = []
     var num_days_to_complete: [Int] = []
@@ -124,6 +125,29 @@ class SetMemOptionViewController: UIViewController, UIPickerViewDelegate, UIPick
         dismiss(animated: true, completion: nil)
     }
     
+    @objc func handleSlideDismiss(sender: UIPanGestureRecognizer) {
+        switch sender.state {
+        case .changed:
+            viewTranslation = sender.translation(in: view)
+            if viewTranslation.y > 0 {
+                UIView.animate(withDuration: 0.2, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+                    self.view.transform = CGAffineTransform(translationX: 0, y: self.viewTranslation.y)
+                })
+            }
+        case .ended:
+            if viewTranslation.y < 200 {
+                UIView.animate(withDuration: 0.2, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+                    self.view.transform = .identity
+                })
+            } else {
+                dismiss(animated: true, completion: nil)
+            }
+        default:
+            break
+        }
+    }
+    
+    
     func addBlurBackgroundView(){
         let blurEffect = getBlurEffect()
         let blurEffectView = UIVisualEffectView(effect: blurEffect)
@@ -197,6 +221,9 @@ class SetMemOptionViewController: UIViewController, UIPickerViewDelegate, UIPick
         view.backgroundColor = .clear
         addBlurBackgroundView()
         view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleDismiss)))
+        
+        view.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(handleSlideDismiss(sender:))))
+        
         view.isUserInteractionEnabled = true
         
         backBtn.theme_tintColor = "Global.backBtnTintColor"

@@ -28,8 +28,6 @@ class WordHistoryTableViewCell: UITableViewCell {
         }
     }
     
-    @IBOutlet weak var medalImgView: UIImageView!
-    
     @IBOutlet weak var masteredUILabel: UILabel!{
         didSet{
             masteredUILabel.theme_textColor = "TableView.valueTextColor"

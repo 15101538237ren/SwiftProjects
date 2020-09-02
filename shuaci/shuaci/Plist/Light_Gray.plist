@@ -23,10 +23,26 @@
 	</dict>
 	<key>WordHistory</key>
 	<dict>
+		<key>overdueTextColor</key>
+		<string>#920912</string>
+		<key>LowProgressBarColor</key>
+		<string>#676767</string>
+		<key>MiddleLowProgressBarColor</key>
+		<string>#f99326</string>
+		<key>MiddleHighProgressBarColor</key>
+		<string>#157df9</string>
+		<key>HighProgressBarColor</key>
+		<string>#3cc25e</string>
+		<key>headerViewTextColor</key>
+		<string>#000</string>
+		<key>segmentedCtrlSelectedTintColor</key>
+		<string>#FF7216</string>
+		<key>headerViewBgColor</key>
+		<string>#e5e5e5</string>
 		<key>segTextColor</key>
 		<string>#A9A9A9</string>
 		<key>segCtrlTintColor</key>
-		<string>#d3d3d3</string>
+		<string>#e5e5e5</string>
 	</dict>
 	<key>StatView</key>
 	<dict>
