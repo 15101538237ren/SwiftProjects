@@ -164,7 +164,6 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
         let row = indexPath.row
         if  row == 0{
             let cell = tableView.dequeueReusableCell(withIdentifier: "SettingToggleCell", for: indexPath) as! SettingToggleTableViewCell
-
             cell.backgroundColor = .clear
             cell.separatorInset = UIEdgeInsets(top: 0, left: cell.bounds.size.width, bottom: 0, right: 0)
             let settingItem:SettingItem = settingItems[row]
@@ -188,7 +187,6 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
         }
         else if row == 1{
             let cell = tableView.dequeueReusableCell(withIdentifier: "SettingToggleCell", for: indexPath) as! SettingToggleTableViewCell
-
             cell.backgroundColor = .clear
             cell.separatorInset = UIEdgeInsets(top: 0, left: cell.bounds.size.width, bottom: 0, right: 0);
             let settingItem:SettingItem = settingItems[row]
@@ -212,7 +210,7 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
         }
         else if row == 3{
             let cell = tableView.dequeueReusableCell(withIdentifier: "SettingCell", for: indexPath) as! SettingTableViewCell
-
+            
             cell.backgroundColor = .clear
             cell.separatorInset = UIEdgeInsets(top: 0, left: cell.bounds.size.width, bottom: 0, right: 0)
             let settingItem:SettingItem = settingItems[row]
@@ -224,6 +222,7 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
             
         else{
             let cell = tableView.dequeueReusableCell(withIdentifier: "SettingCell", for: indexPath) as! SettingTableViewCell
+            
             cell.backgroundColor = .clear
             cell.separatorInset = UIEdgeInsets(top: 0, left: cell.bounds.size.width, bottom: 0, right: 0);
             let settingItem:SettingItem = settingItems[row]

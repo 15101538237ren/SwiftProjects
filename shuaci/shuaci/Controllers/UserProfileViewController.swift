@@ -12,7 +12,12 @@ import CropViewController
 import SwiftTheme
 
 class UserProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, CropViewControllerDelegate , UITableViewDataSource, UITableViewDelegate {
-    
+    @IBOutlet var dimUIView: UIView!{
+        didSet {
+            dimUIView.theme_alpha = "MainPanel.dimAlpha"
+            dimUIView.theme_backgroundColor = "Global.viewBackgroundColor"
+        }
+    }
     var activityIndicator = UIActivityIndicatorView()
     var activityLabel = UILabel()
     let activityEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .regular))

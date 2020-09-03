@@ -77,8 +77,6 @@
 		<key>valueTextColor</key>
 		<string>#555555</string>
 	</dict>
-	<key>LearningVC</key>
-	<dict/>
 	<key>Global</key>
 	<dict>
 		<key>blurEffectStyle</key>
@@ -95,6 +93,19 @@
 		<string>#FFF</string>
 		<key>textColor</key>
 		<string>#FFF</string>
+	</dict>
+	<key>LearningVC</key>
+	<dict>
+		<key>MasteredBgColor</key>
+		<string>#007bff</string>
+		<key>RememberBgColor</key>
+		<string>#34c759</string>
+		<key>ForgetBgColor</key>
+		<string>#ff2d55</string>
+		<key>TextLabelColor</key>
+		<string>#d7d7d7</string>
+		<key>DarkerTextLabelColor</key>
+		<string>#808080</string>
 	</dict>
 </dict>
 </plist>

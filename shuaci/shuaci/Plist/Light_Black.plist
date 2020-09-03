@@ -94,5 +94,18 @@
 		<key>textColor</key>
 		<string>#5c616b</string>
 	</dict>
+	<key>LearningVC</key>
+	<dict>
+		<key>MasteredBgColor</key>
+		<string>#007bff</string>
+		<key>RememberBgColor</key>
+		<string>#34c759</string>
+		<key>ForgetBgColor</key>
+		<string>#ff2d55</string>
+		<key>TextLabelColor</key>
+		<string>#d7d7d7</string>
+		<key>DarkerTextLabelColor</key>
+		<string>#808080</string>
+	</dict>
 </dict>
 </plist>

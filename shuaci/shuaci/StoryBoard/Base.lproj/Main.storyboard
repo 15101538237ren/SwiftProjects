@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="868-VL-FJO">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.3" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="868-VL-FJO">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
@@ -110,8 +110,8 @@
                                                             <attributedString key="attributedText">
                                                                 <fragment content="单词">
                                                                     <attributes>
-                                                                        <font key="NSFont" metaFont="system" size="14"/>
-                                                                        <font key="NSOriginalFont" metaFont="system" size="14"/>
+                                                                        <font key="NSFont" metaFont="menu" size="14"/>
+                                                                        <font key="NSOriginalFont" metaFont="menu" size="14"/>
                                                                         <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" lineSpacing="1.5" tighteningFactorForTruncation="0.0"/>
                                                                     </attributes>
                                                                 </fragment>
@@ -715,6 +715,14 @@
                                     </button>
                                 </subviews>
                             </stackView>
+                            <view userInteractionEnabled="NO" alpha="0.10000000149011612" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="L06-Rm-BfF">
+                                <rect key="frame" x="157" y="108" width="100" height="100"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="100" id="A73-0X-Unx"/>
+                                    <constraint firstAttribute="width" constant="100" id="mcL-Qq-vM5"/>
+                                </constraints>
+                            </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="50" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="pSb-Wp-d1D">
                                 <rect key="frame" x="0.0" y="258" width="414" height="174"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
@@ -736,6 +744,14 @@
                                                         <constraint firstAttribute="height" constant="40" id="ng0-A2-od6"/>
                                                     </constraints>
                                                 </imageView>
+                                                <view userInteractionEnabled="NO" alpha="0.10000000149011612" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hVR-6Q-LKT">
+                                                    <rect key="frame" x="20" y="5" width="40" height="40"/>
+                                                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="40" id="I9p-1h-tZY"/>
+                                                        <constraint firstAttribute="width" constant="40" id="qER-qt-JMM"/>
+                                                    </constraints>
+                                                </view>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="发音类型" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fy5-yR-wd5">
                                                     <rect key="frame" x="75" y="15" width="69.5" height="20.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -754,7 +770,10 @@
                                                 </label>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstItem="Fy5-yR-wd5" firstAttribute="leading" secondItem="hVR-6Q-LKT" secondAttribute="trailing" constant="15" id="Gl7-sY-C87"/>
                                                 <constraint firstItem="Fy5-yR-wd5" firstAttribute="leading" secondItem="PBm-SJ-jTD" secondAttribute="trailing" constant="15" id="HY5-BX-EKQ"/>
+                                                <constraint firstItem="hVR-6Q-LKT" firstAttribute="leading" secondItem="iks-mj-bAm" secondAttribute="leading" constant="20" id="OuS-Vp-b5P"/>
+                                                <constraint firstItem="hVR-6Q-LKT" firstAttribute="centerY" secondItem="iks-mj-bAm" secondAttribute="centerY" id="Rop-87-jcE"/>
                                                 <constraint firstItem="PBm-SJ-jTD" firstAttribute="centerY" secondItem="iks-mj-bAm" secondAttribute="centerY" id="VAk-lG-Pdf"/>
                                                 <constraint firstItem="p9k-Wp-nJi" firstAttribute="centerY" secondItem="iks-mj-bAm" secondAttribute="centerY" id="YZd-jE-VpO"/>
                                                 <constraint firstItem="Fy5-yR-wd5" firstAttribute="centerY" secondItem="iks-mj-bAm" secondAttribute="centerY" id="bns-GW-Ktd"/>
@@ -763,6 +782,7 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
+                                            <outlet property="dimUIView" destination="hVR-6Q-LKT" id="nls-zY-sxx"/>
                                             <outlet property="iconView" destination="PBm-SJ-jTD" id="2RA-XY-U6d"/>
                                             <outlet property="nameLabel" destination="Fy5-yR-wd5" id="X3L-8X-ADf"/>
                                             <outlet property="valueLabel" destination="p9k-Wp-nJi" id="p9J-MH-BCx"/>
@@ -811,9 +831,11 @@
                             <constraint firstItem="pSb-Wp-d1D" firstAttribute="top" secondItem="RjZ-Pt-3aX" secondAttribute="bottom" constant="30" id="Koy-Zz-pCq"/>
                             <constraint firstItem="RjZ-Pt-3aX" firstAttribute="top" secondItem="gb7-Wa-3gm" secondAttribute="bottom" constant="25" id="Lzf-x6-grq"/>
                             <constraint firstItem="Agh-jn-UNO" firstAttribute="top" secondItem="Jka-6J-Yzs" secondAttribute="top" constant="10" id="QHV-mY-bXy"/>
+                            <constraint firstItem="L06-Rm-BfF" firstAttribute="top" secondItem="gb7-Wa-3gm" secondAttribute="bottom" constant="25" id="Xcu-V3-rrO"/>
                             <constraint firstItem="QeT-z8-m5t" firstAttribute="top" secondItem="pSb-Wp-d1D" secondAttribute="bottom" constant="20" id="a6r-uZ-D4W"/>
                             <constraint firstItem="gb7-Wa-3gm" firstAttribute="centerX" secondItem="FKa-ic-A48" secondAttribute="centerX" id="b4M-Z8-PvI"/>
                             <constraint firstItem="Jka-6J-Yzs" firstAttribute="trailing" secondItem="pSb-Wp-d1D" secondAttribute="trailing" id="cVn-sI-9Jk"/>
+                            <constraint firstItem="L06-Rm-BfF" firstAttribute="centerX" secondItem="FKa-ic-A48" secondAttribute="centerX" id="fOv-xV-pYp"/>
                             <constraint firstItem="RjZ-Pt-3aX" firstAttribute="centerX" secondItem="FKa-ic-A48" secondAttribute="centerX" id="glm-Qb-mCi"/>
                             <constraint firstItem="Agh-jn-UNO" firstAttribute="leading" secondItem="Jka-6J-Yzs" secondAttribute="leading" constant="10" id="iJL-fR-Wpb"/>
                             <constraint firstItem="gb7-Wa-3gm" firstAttribute="top" secondItem="Jka-6J-Yzs" secondAttribute="top" constant="13" id="mbJ-3K-kZR"/>
@@ -833,13 +855,14 @@
                         <outlet property="backBtn" destination="Agh-jn-UNO" id="MQI-FW-zKc"/>
                         <outlet property="barTitleLabel" destination="gb7-Wa-3gm" id="pvO-wF-D03"/>
                         <outlet property="cameraIconBtn" destination="xgU-dS-aoX" id="pLT-fq-fRl"/>
+                        <outlet property="dimUIView" destination="L06-Rm-BfF" id="3Mh-2q-qDa"/>
                         <outlet property="tableView" destination="pSb-Wp-d1D" id="URY-Ry-5wb"/>
                         <outlet property="userPhotoBtn" destination="PMR-c1-71Z" id="RTe-b0-o3E"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Pop-3i-92j" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1583" y="89"/>
+            <point key="canvasLocation" x="1582.608695652174" y="88.392857142857139"/>
         </scene>
         <!--Bind Email View Controller-->
         <scene sceneID="9CD-k9-NVt">
@@ -1311,8 +1334,8 @@
                                                             <attributedString key="attributedText">
                                                                 <fragment content="单词">
                                                                     <attributes>
-                                                                        <font key="NSFont" metaFont="system" size="14"/>
-                                                                        <font key="NSOriginalFont" metaFont="system" size="14"/>
+                                                                        <font key="NSFont" metaFont="menu" size="14"/>
+                                                                        <font key="NSOriginalFont" metaFont="menu" size="14"/>
                                                                         <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" lineSpacing="1.5" tighteningFactorForTruncation="0.0"/>
                                                                     </attributes>
                                                                 </fragment>
@@ -1961,6 +1984,14 @@
                                                         <constraint firstAttribute="height" constant="40" id="oMj-NY-7Z3"/>
                                                     </constraints>
                                                 </imageView>
+                                                <view userInteractionEnabled="NO" alpha="0.10000000149011612" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hAb-5D-bfb">
+                                                    <rect key="frame" x="20" y="5" width="40" height="40"/>
+                                                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="40" id="pDO-QG-Mlb"/>
+                                                        <constraint firstAttribute="width" constant="40" id="xtQ-h4-Ejy"/>
+                                                    </constraints>
+                                                </view>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="自动发音" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="exJ-Dh-LQc">
                                                     <rect key="frame" x="75" y="15" width="69.5" height="20.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -1991,13 +2022,17 @@
                                             <constraints>
                                                 <constraint firstItem="bAg-Zh-lGs" firstAttribute="centerY" secondItem="3cZ-AU-DgI" secondAttribute="centerY" id="BPk-Az-q4N"/>
                                                 <constraint firstItem="exJ-Dh-LQc" firstAttribute="centerY" secondItem="3cZ-AU-DgI" secondAttribute="centerY" id="HNX-wL-QpM"/>
+                                                <constraint firstItem="exJ-Dh-LQc" firstAttribute="leading" secondItem="hAb-5D-bfb" secondAttribute="trailing" constant="15" id="JIP-1C-aEe"/>
                                                 <constraint firstAttribute="trailing" secondItem="NuJ-to-20E" secondAttribute="trailing" constant="30" id="Kym-Wm-yTR"/>
                                                 <constraint firstItem="bAg-Zh-lGs" firstAttribute="leading" secondItem="3cZ-AU-DgI" secondAttribute="leading" constant="20" id="Lug-tH-5VM"/>
+                                                <constraint firstItem="hAb-5D-bfb" firstAttribute="centerY" secondItem="3cZ-AU-DgI" secondAttribute="centerY" id="Mxa-lC-gnd"/>
                                                 <constraint firstItem="NuJ-to-20E" firstAttribute="centerY" secondItem="3cZ-AU-DgI" secondAttribute="centerY" id="ldI-lc-ksM"/>
+                                                <constraint firstItem="hAb-5D-bfb" firstAttribute="leading" secondItem="3cZ-AU-DgI" secondAttribute="leading" constant="20" id="tlM-Sy-xZg"/>
                                                 <constraint firstItem="exJ-Dh-LQc" firstAttribute="leading" secondItem="bAg-Zh-lGs" secondAttribute="trailing" constant="15" id="yHz-ZF-rIl"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
+                                            <outlet property="dimUIView" destination="hAb-5D-bfb" id="ldl-ee-Blb"/>
                                             <outlet property="iconView" destination="bAg-Zh-lGs" id="eg2-hH-Kyf"/>
                                             <outlet property="leftValueLabel" destination="JfL-3L-W7R" id="Fes-cO-mpp"/>
                                             <outlet property="nameLabel" destination="exJ-Dh-LQc" id="Z1z-Xo-gQg"/>
@@ -2035,17 +2070,29 @@
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <view userInteractionEnabled="NO" alpha="0.10000000149011612" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RFa-GY-LIQ">
+                                                    <rect key="frame" x="20" y="5" width="40" height="40"/>
+                                                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="40" id="usb-HW-ljm"/>
+                                                        <constraint firstAttribute="height" constant="40" id="xL7-8L-uLk"/>
+                                                    </constraints>
+                                                </view>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstItem="RFa-GY-LIQ" firstAttribute="leading" secondItem="0rp-0v-BZf" secondAttribute="leading" constant="20" id="2lc-WC-zJw"/>
                                                 <constraint firstItem="RmH-W6-kdr" firstAttribute="leading" secondItem="0rp-0v-BZf" secondAttribute="leading" constant="20" id="D4l-x4-tYE"/>
+                                                <constraint firstItem="RFa-GY-LIQ" firstAttribute="centerY" secondItem="0rp-0v-BZf" secondAttribute="centerY" id="Lh6-hP-Xim"/>
                                                 <constraint firstItem="RmH-W6-kdr" firstAttribute="centerY" secondItem="0rp-0v-BZf" secondAttribute="centerY" id="LiG-db-KdT"/>
                                                 <constraint firstItem="LUj-AR-JfL" firstAttribute="leading" secondItem="RmH-W6-kdr" secondAttribute="trailing" constant="15" id="YMP-0I-PUi"/>
                                                 <constraint firstAttribute="trailing" secondItem="2v2-PL-WGz" secondAttribute="trailing" id="boU-DQ-3cZ"/>
+                                                <constraint firstItem="LUj-AR-JfL" firstAttribute="leading" secondItem="RFa-GY-LIQ" secondAttribute="trailing" constant="15" id="fYx-sJ-fwR"/>
                                                 <constraint firstItem="2v2-PL-WGz" firstAttribute="centerY" secondItem="0rp-0v-BZf" secondAttribute="centerY" id="gFa-dP-OCF"/>
                                                 <constraint firstItem="LUj-AR-JfL" firstAttribute="centerY" secondItem="0rp-0v-BZf" secondAttribute="centerY" id="vjV-D4-Dow"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
+                                            <outlet property="dimUIView" destination="RFa-GY-LIQ" id="xG5-bg-D4w"/>
                                             <outlet property="iconView" destination="RmH-W6-kdr" id="YIb-jE-OGD"/>
                                             <outlet property="nameLabel" destination="LUj-AR-JfL" id="BVw-vT-bqW"/>
                                             <outlet property="valueLabel" destination="2v2-PL-WGz" id="jtK-Nd-mFq"/>

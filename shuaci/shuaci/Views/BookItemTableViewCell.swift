@@ -17,7 +17,7 @@ class BookItemTableViewCell: UITableViewCell {
     }
     @IBOutlet weak var dimUIView: UIView!{
         didSet{
-            dimUIView.backgroundColor = .black
+            dimUIView.theme_backgroundColor = "Global.viewBackgroundColor"
             dimUIView.theme_alpha = "MainPanel.dimAlpha"
         }
     }

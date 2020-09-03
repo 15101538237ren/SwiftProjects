@@ -24,7 +24,7 @@ class ThemeCollectionViewCell: UICollectionViewCell {
     @IBOutlet var dimUIView: UIView!{
         didSet {
             dimUIView.layer.cornerRadius = 15.0
-            dimUIView.backgroundColor = .black
+            dimUIView.theme_backgroundColor = "Global.viewBackgroundColor"
             dimUIView.theme_alpha = "MainPanel.dimAlpha"
         }
     }

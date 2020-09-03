@@ -9,6 +9,12 @@
 import UIKit
 
 class SettingToggleTableViewCell: UITableViewCell {
+    @IBOutlet var dimUIView: UIView!{
+        didSet {
+            dimUIView.theme_alpha = "MainPanel.dimAlpha"
+            dimUIView.theme_backgroundColor = "Global.viewBackgroundColor"
+        }
+    }
     @IBOutlet var iconView: UIImageView!{
         didSet {
             iconView.layer.cornerRadius = iconView.layer.frame.width/2.0

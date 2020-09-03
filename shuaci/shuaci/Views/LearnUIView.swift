@@ -7,8 +7,15 @@
 //
 
 import UIKit
+import SwiftTheme
 
 class LearnUIView: UIView {
+    @IBOutlet var dimUIView: UIView!{
+        didSet {
+            dimUIView.theme_alpha = "MainPanel.dimAlpha"
+            dimUIView.theme_backgroundColor = "Global.viewBackgroundColor"
+        }
+    }
     @IBOutlet var undoBtn: UIButton!{
         didSet {
             undoBtn.layer.cornerRadius = undoBtn.layer.frame.width/2.0
@@ -40,9 +47,30 @@ class LearnUIView: UIView {
         }
     }
     
-    @IBOutlet var timeLabel: UILabel!
-    @IBOutlet var firstMemLeft: UILabel!
-    @IBOutlet var enToCNLeft: UILabel!
-    @IBOutlet var cnToENLeft: UILabel!
+    @IBOutlet var timeLabel: UILabel!{
+        didSet{
+            timeLabel.theme_textColor = "LearningVC.TextLabelColor"
+        }
+    }
+    @IBOutlet var firstMemLeft: UILabel!{
+        didSet{
+            firstMemLeft.theme_textColor = "LearningVC.TextLabelColor"
+        }
+    }
+    @IBOutlet var enToCNLeft: UILabel!{
+        didSet{
+            enToCNLeft.theme_textColor = "LearningVC.TextLabelColor"
+        }
+    }
+    @IBOutlet var cnToENLeft: UILabel!{
+        didSet{
+            cnToENLeft.theme_textColor = "LearningVC.TextLabelColor"
+        }
+    }
     @IBOutlet var progressLabel: UILabel!
+    @IBOutlet var backBtn: UIButton!{
+        didSet{
+            backBtn.theme_tintColor = "Global.backBtnTintColor"
+        }
+    }
 }

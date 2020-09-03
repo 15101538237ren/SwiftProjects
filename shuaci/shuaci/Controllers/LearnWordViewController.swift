@@ -10,6 +10,7 @@ import UIKit
 import AVFoundation
 import SwiftyJSON
 import LeanCloud
+import SwiftTheme
 
 class LearnWordViewController: UIViewController {
     var mainPanelViewController: MainPanelViewController!
@@ -22,6 +23,7 @@ class LearnWordViewController: UIViewController {
             }
         }
     }
+    
     @IBOutlet var cardDictionaryBtn: [UIButton]!
 
     let card_Y_constant:CGFloat = -30
@@ -72,6 +74,21 @@ class LearnWordViewController: UIViewController {
         }
     }
     
+    func getCardActionColor(cardBehavior: CardBehavior) -> UIColor{
+        var themeKeyPath:String = ""
+        switch cardBehavior {
+        case .remember:
+            themeKeyPath = "LearningVC.RememberBgColor"
+        case .forget:
+            themeKeyPath = "LearningVC.ForgetBgColor"
+        case .trash:
+            themeKeyPath = "LearningVC.MasteredBgColor"
+        }
+        
+        let cardBgColor = ThemeManager.currentTheme?.value(forKeyPath: themeKeyPath) as! String
+        return UIColor(hex: cardBgColor) ?? .systemGreen
+    }
+    
     override func viewDidLoad() {
         //view.backgroundColor = UIColor(red: 238, green: 241, blue: 245, alpha: 1.0)
         
@@ -104,17 +121,17 @@ class LearnWordViewController: UIViewController {
     func updateWordLeftLabels(currentMemStage: Int){
         DispatchQueue.main.async {
 
-            self.firstMemLeft.textColor = .lightGray
-            self.enToCNLeft.textColor = .lightGray
-            self.cnToENLeft.textColor = .lightGray
+            self.firstMemLeft.theme_textColor = "LearningVC.TextLabelColor"
+            self.enToCNLeft.theme_textColor = "LearningVC.TextLabelColor"
+            self.cnToENLeft.theme_textColor = "LearningVC.TextLabelColor"
             
             switch currentMemStage{
                 case WordMemStage.memory.rawValue:
-                    self.firstMemLeft.textColor = .darkGray
+                    self.firstMemLeft.theme_textColor = "LearningVC.DarkerTextLabelColor"
                 case WordMemStage.enToCn.rawValue:
-                    self.enToCNLeft.textColor = .darkGray
+                    self.enToCNLeft.theme_textColor = "LearningVC.DarkerTextLabelColor"
                 case WordMemStage.cnToEn.rawValue:
-                    self.cnToENLeft.textColor = .darkGray
+                    self.cnToENLeft.theme_textColor = "LearningVC.DarkerTextLabelColor"
                 default:
                     print("Nothing")
             }
@@ -261,6 +278,8 @@ class LearnWordViewController: UIViewController {
         for index in 0..<cards.count
         {
             let card = cards[index]
+            card.dimUIView!.alpha = 0
+            card.dimUIView!.theme_backgroundColor = "Global.viewBackgroundColor"
             card.cardBackView?.alpha = 0
             card.cardBackView?.isUserInteractionEnabled = false
             card.center = CGPoint(x: view.center.x, y: view.center.y)
@@ -460,6 +479,7 @@ class LearnWordViewController: UIViewController {
             enableBtns()
             
             let next_card = cards[currentIndex % 2]
+            next_card.dimUIView!.theme_alpha = "MainPanel.dimAlpha"
             learnUIView.bringSubviewToFront(next_card)
             next_card.dragable = !next_card.dragable
             
@@ -502,12 +522,12 @@ class LearnWordViewController: UIViewController {
             
             if xFromCenter > 0
             {
-                card.rememberImageView?.backgroundColor = UIColor.systemPink
+                card.rememberImageView?.backgroundColor = getCardActionColor(cardBehavior: .forget)
                 card.rememberLabel?.text = "不熟"
             }
             else
             {
-                card.rememberImageView?.backgroundColor = UIColor.systemGreen
+                card.rememberImageView?.backgroundColor = getCardActionColor(cardBehavior: .remember)
                 card.rememberLabel?.text = "会了"
             }
             card.rememberImageView?.alpha = 0.7 + (abs(xFromCenter) / view.center.x) * 0.3
@@ -810,6 +830,11 @@ class LearnWordViewController: UIViewController {
             lastCard.center = CGPoint(x:  self.view.center.x + 400 * (direction), y: self.view.center.y + 75)
             lastCard.X_Constraint.constant = lastCard.center.x - self.view.center.x
             lastCard.Y_Constraint.constant = lastCard.center.y - self.view.center.y
+            
+            if currentIndex == 0
+            {
+                lastCard.dimUIView!.theme_alpha = "MainPanel.dimAlpha"
+            }
             learnUIView.bringSubviewToFront(lastCard)
             lastCard.alpha = 0
             UIView.animate(withDuration: animationDuration, animations:
@@ -819,6 +844,7 @@ class LearnWordViewController: UIViewController {
                 lastCard.Y_Constraint.constant = lastCard.center.y - self.view.center.y
                 lastCard.alpha = 1
             })
+            
             
             let gestureRecognizer = self.gestureRecognizers[currentIndex % 2]
             gestureRecognizer.view!.frame = lastCard.frame
@@ -862,7 +888,7 @@ class LearnWordViewController: UIViewController {
     }
     
     @IBAction func masterThisCard(_ sender: UIButton) {
-        cardAnimation(rememberLabelText: "掌握", backgroundColor: .systemBlue, cardBehavior: .trash)
+        cardAnimation(rememberLabelText: "掌握", backgroundColor:  getCardActionColor(cardBehavior: .trash), cardBehavior: .trash)
     }
     
     func cardAnimation(rememberLabelText: String, backgroundColor: UIColor, cardBehavior: CardBehavior){
@@ -920,7 +946,7 @@ class LearnWordViewController: UIViewController {
     }
     
     @IBAction func learntTheCard(_ sender: UIButton) {
-        cardAnimation(rememberLabelText: "会了", backgroundColor: .systemGreen, cardBehavior: .remember)
+        cardAnimation(rememberLabelText: "会了", backgroundColor:  getCardActionColor(cardBehavior: .remember), cardBehavior: .remember)
     }
     
     func disableBtns(){
@@ -948,7 +974,7 @@ class LearnWordViewController: UIViewController {
     }
     
     @IBAction func cardDifficultToLearn(_ sender: UIButton) {
-        cardAnimation(rememberLabelText: "不熟", backgroundColor: .systemPink, cardBehavior: .forget)
+        cardAnimation(rememberLabelText: "不熟", backgroundColor:  getCardActionColor(cardBehavior: .forget), cardBehavior: .forget)
     }
     
     @IBAction func addWordToCollection(_ sender: UIButton) {

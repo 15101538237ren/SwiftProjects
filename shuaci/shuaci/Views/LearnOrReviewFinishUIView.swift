@@ -27,7 +27,7 @@ class LearnOrReviewFinishUIView: UIView {
     
     @IBOutlet weak var dimUIView: UIView!{
         didSet{
-            dimUIView.backgroundColor = .black
+            dimUIView.theme_backgroundColor = "Global.viewBackgroundColor"
         }
     }
 }
