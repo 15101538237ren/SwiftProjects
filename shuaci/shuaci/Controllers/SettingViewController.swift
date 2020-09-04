@@ -20,17 +20,17 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
     
     var mainPanelViewController: MainPanelViewController!
     let settingItems:[SettingItem] = [
-        SettingItem(icon: UIImage(named: "auto_pronunciation") ?? UIImage(), name: "自动发音", value: "开"),
-        SettingItem(icon: UIImage(named: "english_american_pronunce") ?? UIImage(), name: "发音类型", value: "美"),
-        SettingItem(icon: UIImage(named: "choose_book") ?? UIImage(), name: "选择单词书", value: ""),
-        SettingItem(icon: UIImage(named: "vocab_amount_each_group") ?? UIImage(), name: "设置学习计划", value: "乱序,20个/组"),
-        SettingItem(icon: UIImage(named: "learning_reminder") ?? UIImage(), name: "每日提醒", value: ""),
-        SettingItem(icon: UIImage(named: "clean_cache") ?? UIImage(), name: "清除缓存", value: "3.25M"),
-        SettingItem(icon: UIImage(named: "sync_record") ?? UIImage(), name: "同步学习记录至云端", value: ""),
-        SettingItem(icon: UIImage(named: "rate_app") ?? UIImage(), name: "评价应用", value: "v1.0.0"),
-        SettingItem(icon: UIImage(named: "feedback") ?? UIImage(), name: "意见反馈", value: ""),
-        SettingItem(icon: UIImage(named: "share_app") ?? UIImage(), name: "推荐给好友", value: ""),
-        SettingItem(icon: UIImage(named: "q_and_a") ?? UIImage(), name: "常见问题", value: "")
+        SettingItem(symbol_name : "auto_pronunciation", name: "自动发音", value: "开"),
+        SettingItem(symbol_name : "english_american_pronunce", name: "发音类型", value: "美"),
+        SettingItem(symbol_name : "book", name: "选择单词书", value: ""),
+        SettingItem(symbol_name : "scope", name: "设置学习计划", value: "乱序,20个/组"),
+        SettingItem(symbol_name : "alarm", name: "每日提醒", value: ""),
+        SettingItem(symbol_name : "clean", name: "清除缓存", value: "3.25M"),
+        SettingItem(symbol_name : "arrow.2.circlepath", name: "同步学习记录至云端", value: ""),
+        SettingItem(symbol_name : "rate_app", name: "评价应用", value: "v1.0.0"),
+        SettingItem(symbol_name : "bubble.left.and.bubble.right", name: "意见反馈", value: ""),
+        SettingItem(symbol_name : "share", name: "推荐给好友", value: ""),
+        SettingItem(symbol_name : "q_and_a", name: "常见问题", value: "")
     ]
     @IBOutlet var tableView: UITableView!
     
@@ -168,6 +168,7 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
             cell.separatorInset = UIEdgeInsets(top: 0, left: cell.bounds.size.width, bottom: 0, right: 0)
             let settingItem:SettingItem = settingItems[row]
             cell.iconView?.image = settingItem.icon
+            cell.iconView.theme_tintColor = "Global.settingIconTintColor"
             cell.nameLabel?.text = settingItem.name
             cell.leftValueLabel?.text = "关"
             cell.rightValueLabel?.text = "开"
@@ -192,6 +193,7 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
             let settingItem:SettingItem = settingItems[row]
             cell.toggleSwitch.addTarget(self, action: #selector(pronunceStyleSwitched), for: UIControl.Event.valueChanged)
             cell.iconView?.image = settingItem.icon
+            cell.iconView.theme_tintColor = "Global.settingIconTintColor"
             cell.nameLabel?.text = settingItem.name
             cell.leftValueLabel?.text = "美"
             cell.rightValueLabel?.text = "英"
@@ -215,6 +217,7 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
             cell.separatorInset = UIEdgeInsets(top: 0, left: cell.bounds.size.width, bottom: 0, right: 0)
             let settingItem:SettingItem = settingItems[row]
             cell.iconView?.image = settingItem.icon
+            cell.iconView.theme_tintColor = "Global.settingIconTintColor"
             cell.nameLabel?.text = settingItem.name
             cell.valueLabel?.text = getSettingTextforTableView()
             return cell
@@ -227,6 +230,7 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
             cell.separatorInset = UIEdgeInsets(top: 0, left: cell.bounds.size.width, bottom: 0, right: 0);
             let settingItem:SettingItem = settingItems[row]
             cell.iconView?.image = settingItem.icon
+            cell.iconView.theme_tintColor = "Global.settingIconTintColor"
             cell.nameLabel?.text = settingItem.name
             cell.valueLabel?.text = row == 4 ? getPreference(key: "reminder_time") as? String ?? "" : settingItem.value
             return cell
@@ -390,25 +394,6 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
         composer.setSubject("「刷词」意见反馈")
         composer.setMessageBody("", isHTML: false)
         present(composer, animated: true)
-    }
-    
-    @IBAction func logOut(_ sender: UIButton) {
-        let connected = Reachability.isConnectedToNetwork()
-        if connected{
-           let alertController = UIAlertController(title: "确定注销?", message: "", preferredStyle: .alert)
-           let okayAction = UIAlertAction(title: "确定", style: .default, handler: { action in
-               LCUser.logOut()
-               self.dismiss(animated: false, completion: nil)
-               self.mainPanelViewController.showLoginScreen()
-           })
-           let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
-           alertController.addAction(okayAction)
-           alertController.addAction(cancelAction)
-           self.present(alertController, animated: true, completion: nil)
-        }else{
-            let alertCtl = presentNoNetworkAlert()
-            self.present(alertCtl, animated: true, completion: nil)
-        }
     }
 
 }

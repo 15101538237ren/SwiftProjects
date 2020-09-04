@@ -1,7 +1,7 @@
 {
   "images" : [
     {
-      "filename" : "feedback.png",
+      "filename" : "share.pdf",
       "idiom" : "universal",
       "scale" : "1x"
     },
@@ -20,6 +20,7 @@
   },
   "properties" : {
     "compression-type" : "lossless",
-    "template-rendering-intent" : "original"
+    "preserves-vector-representation" : true,
+    "template-rendering-intent" : "template"
   }
 }

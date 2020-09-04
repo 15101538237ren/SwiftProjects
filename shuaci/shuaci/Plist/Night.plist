@@ -62,6 +62,10 @@
 	</dict>
 	<key>TableView</key>
 	<dict>
+		<key>switchOnTintColor</key>
+		<string>#ebf0eb</string>
+		<key>switchThumbTintColor</key>
+		<string>#686868</string>
 		<key>descriptionTextColor</key>
 		<string>#6c6c6c</string>
 		<key>separatorColor</key>
@@ -79,6 +83,12 @@
 	</dict>
 	<key>Global</key>
 	<dict>
+		<key>logOutTextColor</key>
+		<string>#ebf0eb</string>
+		<key>logOutBtnBgColor</key>
+		<string>#686868</string>
+		<key>settingIconTintColor</key>
+		<string>#686868</string>
 		<key>blurEffectStyle</key>
 		<string>dark</string>
 		<key>viewBackgroundColor</key>

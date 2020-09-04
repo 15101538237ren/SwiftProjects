@@ -12,22 +12,23 @@ import CropViewController
 import SwiftTheme
 
 class UserProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, CropViewControllerDelegate , UITableViewDataSource, UITableViewDelegate {
-    @IBOutlet var dimUIView: UIView!{
-        didSet {
-            dimUIView.theme_alpha = "MainPanel.dimAlpha"
-            dimUIView.theme_backgroundColor = "Global.viewBackgroundColor"
-        }
-    }
     var activityIndicator = UIActivityIndicatorView()
     var activityLabel = UILabel()
     let activityEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .regular))
-    
+    @IBOutlet var logoutBtn: UIButton!{
+        didSet{
+            logoutBtn.theme_backgroundColor = "Global.logOutBtnBgColor"
+            logoutBtn.theme_setTitleColor("Global.logOutTextColor", forState: .normal)
+            logoutBtn.layer.cornerRadius = 9.0
+            logoutBtn.layer.masksToBounds = true
+        }
+    }
     var user = LCApplication.default.currentUser!
     let username = getUserName()
     let settingItems:[SettingItem] = [
-        SettingItem(icon: UIImage(named: "nickname") ?? UIImage(), name: "昵 称", value: "未设置"),
-        SettingItem(icon: UIImage(named: "email") ?? UIImage(), name: "邮 箱", value: "未绑定"),
-        SettingItem(icon: UIImage(named: "cell_phone") ?? UIImage(), name: "手 机", value: "未绑定")
+        SettingItem(symbol_name : "person", name: "昵 称", value: "未设置"),
+        SettingItem(symbol_name : "envelope", name: "邮 箱", value: "未绑定"),
+        SettingItem(symbol_name : "phone", name: "手 机", value: "未绑定")
     ]
     
 //    ,SettingItem(icon: UIImage(named: "wechat_setting") ?? UIImage(), name: "微 信", value: "未绑定"),
@@ -193,6 +194,7 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
         cell.separatorInset = UIEdgeInsets(top: 0, left: cell.bounds.size.width, bottom: 0, right: 0);
         let settingItem:SettingItem = settingItems[row]
         cell.iconView?.image = settingItem.icon
+        cell.iconView.theme_tintColor = "Global.settingIconTintColor"
         cell.nameLabel?.text = settingItem.name
         let textStr: String = getSetted(row: row)
         cell.valueLabel?.theme_textColor = ["未验证", "未设置", "未绑定"].contains(textStr) ? "TableView.switchOnTextColor" : "TableView.switchOffTextColor"
