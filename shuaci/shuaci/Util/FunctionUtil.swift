@@ -12,7 +12,7 @@ import LeanCloud
 import SwiftyJSON
 
 // MARK: - Global Variables
-let minToChangingWallpaper:CGFloat = 5
+let minToChangingWallpaper:CGFloat = 0.5
 var imageCache = NSCache<NSString, NSURL>()
 let decoder = JSONDecoder()
 var GlobalUserName = ""
