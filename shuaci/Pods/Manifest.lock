@@ -14,7 +14,6 @@ PODS:
     - LeanCloud/Foundation (= 17.5.2)
     - Starscream (~> 3.1)
     - SwiftProtobuf (~> 1.8)
-  - ReachabilitySwift (5.0.0)
   - Starscream (3.1.1)
   - SwiftProtobuf (1.8.0)
   - SwiftTheme (0.5.2)
@@ -24,7 +23,6 @@ DEPENDENCIES:
   - AAInfographics (from `https://github.com/AAChartModel/AAChartKit-Swift.git`)
   - CropViewController
   - LeanCloud
-  - ReachabilitySwift
   - SwiftTheme
   - SwiftyJSON (~> 4.0)
 
@@ -34,7 +32,6 @@ SPEC REPOS:
     - CropViewController
     - GRDB.swift
     - LeanCloud
-    - ReachabilitySwift
     - Starscream
     - SwiftProtobuf
     - SwiftTheme
@@ -55,12 +52,11 @@ SPEC CHECKSUMS:
   CropViewController: 1aac40093c5739e60d992b04724a55d12a689a4c
   GRDB.swift: 8cc3ab7c8b8b4ac1761deb8dca4b51c1c9d429f8
   LeanCloud: cbb1c70dbc9a858992e69510d17ba716695e69f5
-  ReachabilitySwift: 985039c6f7b23a1da463388634119492ff86c825
   Starscream: 4bb2f9942274833f7b4d296a55504dcfc7edb7b0
   SwiftProtobuf: 2cbd9409689b7df170d82a92a33443c8e3e14a70
   SwiftTheme: 8b02c479bb4441b2b6790ac126e961b1b6fb0932
   SwiftyJSON: 6faa0040f8b59dead0ee07436cbf76b73c08fd08
 
-PODFILE CHECKSUM: 7d8f7d8aaf68560ba897b08c5a30f480701ef4dc
+PODFILE CHECKSUM: 1737cbae2e4ea1fb12bea26962c0e1cbcf092b46
 
 COCOAPODS: 1.9.3
