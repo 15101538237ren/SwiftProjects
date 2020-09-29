@@ -394,7 +394,7 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
                                 switch result {
                                 case .success(object: let wallpaper):
                                     // wallpapers 是包含满足条件的 (className: "Wallpaper") 对象的数组
-                                    print("Downloaded Wallpaper \(rand_index)")
+//                                    print("Downloaded Wallpaper \(rand_index)")
                                     if let wallpaper_image = wallpaper.get("image") as? LCFile {
                                         //let imgData = photoData.value as! LCData
                                         let url = URL(string: wallpaper_image.url?.stringValue ?? "")!
@@ -502,7 +502,7 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
                                                 if let imageData = data {
                                                     if let image = UIImage(data: imageData){
                                                         _ = savePhoto(image: image, name_of_photo: "wallpaper_next.jpg")
-                                                        print("Downloaded \(rand_index)")
+//                                                        print("Downloaded \(rand_index)")
                                                         
                                                         let word = wallpaper.word?.stringValue
                                                         let trans = wallpaper.trans?.stringValue
