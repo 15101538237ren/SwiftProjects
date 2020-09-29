@@ -322,7 +322,7 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
             
 //            updateWallpaperWhenBackScreen()
             
-            NotificationCenter.default.addObserver(self, selector: #selector(updateWallpaperWhenBackScreen), name: UIApplication.willEnterForegroundNotification, object: nil)
+            NotificationCenter.default.addObserver(self, selector: #selector(updateWallpaper), name: UIApplication.willEnterForegroundNotification, object: nil)
         } else {
             // 显示注册或登录页面
             showLoginScreen()
@@ -394,7 +394,7 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
                                 switch result {
                                 case .success(object: let wallpaper):
                                     // wallpapers 是包含满足条件的 (className: "Wallpaper") 对象的数组
-                                    print("Downloaded Wallpaper \(rand_index)")
+//                                    print("Downloaded Wallpaper \(rand_index)")
                                     if let wallpaper_image = wallpaper.get("image") as? LCFile {
                                         //let imgData = photoData.value as! LCData
                                         let url = URL(string: wallpaper_image.url?.stringValue ?? "")!
@@ -410,6 +410,9 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
                                                     
                                                     UserDefaults.standard.set(word, forKey: "word_next")
                                                     UserDefaults.standard.set(trans, forKey: "trans_next")
+                                                    
+                                                    self.getNextWallpaperCalled = true
+                                                    UserDefaults.standard.set(true, forKey: "getNextWallpaperCalled")
                                                 }
                                             }
                                         }}
@@ -444,7 +447,7 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
         }
     }
     
-    func updateWallpaper(){
+    @objc func updateWallpaper(){
         let connected = Reachability.isConnectedToNetwork()
         if connected{
             DispatchQueue.global(qos: .background).async{
@@ -454,6 +457,7 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
                     let imageFileURL = getDocumentsDirectory().appendingPathComponent("wallpaper_next.jpg")
                     do {
                         self.getNextWallpaperCalled = false
+                        UserDefaults.standard.set(false, forKey: "getNextWallpaperCalled")
                         let imageData = try Data(contentsOf: imageFileURL)
                         let image = UIImage(data: imageData)!
                         
@@ -488,8 +492,6 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
                                 _ = query.getFirst { result in
                                     switch result {
                                     case .success(object: let wallpaper):
-                                        // wallpapers 是包含满足条件的 (className: "Wallpaper") 对象的数组
-                                        
                                         if let wallpaper_image = wallpaper.get("image") as? LCFile {
                                             //let imgData = photoData.value as! LCData
                                             let url = URL(string: wallpaper_image.url?.stringValue ?? "")!
@@ -500,13 +502,14 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
                                                 if let imageData = data {
                                                     if let image = UIImage(data: imageData){
                                                         _ = savePhoto(image: image, name_of_photo: "wallpaper_next.jpg")
-                                                        print("Downloaded \(rand_index)")
+//                                                        print("Downloaded \(rand_index)")
                                                         
                                                         let word = wallpaper.word?.stringValue
                                                         let trans = wallpaper.trans?.stringValue
                                                         UserDefaults.standard.set(word, forKey: "word_next")
                                                         UserDefaults.standard.set(trans, forKey: "trans_next")
-                                                        UserDefaults.standard.set(Date(), forKey: "lastUpdateTime")
+                                                        self.getNextWallpaperCalled = true
+                                                        UserDefaults.standard.set(true, forKey: "getNextWallpaperCalled")
                                                     }
                                                 }
                                             }}
@@ -515,6 +518,9 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
                                         break
                                     case .failure(error: let error):
                                         print(error.localizedDescription)
+                                        if !self.getNextWallpaperCalled{
+                                            self.getNextWallpaper(category: category)
+                                        }
                                     }
                                 }
                             }
@@ -525,9 +531,6 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
                         print(error.localizedDescription)
                         if !self.getNextWallpaperCalled{
                             self.getNextWallpaper(category: category)
-                            self.getNextWallpaperCalled = true
-                            UserDefaults.standard.set(true, forKey: "getNextWallpaperCalled")
-                            
                         }
                     }
                 }
@@ -545,23 +548,6 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
         }
     }
     
-    @objc func updateWallpaperWhenBackScreen(){
-        let lastUpdateTimeKey:String = "lastUpdateTime"
-        var lastUpdateTime = Date()
-        if isKeyPresentInUserDefaults(key: lastUpdateTimeKey){
-            lastUpdateTime = UserDefaults.standard.object(forKey: lastUpdateTimeKey) as! Date
-        }
-        else
-        {
-            UserDefaults.standard.set(lastUpdateTime, forKey: lastUpdateTimeKey)
-        }
-        
-       if minutesBetweenDates(lastUpdateTime, Date()) > minToChangingWallpaper {
-              self.updateWallpaper()
-          }
-        
-    }
-    
     func wallpaperNeedDisplay(image: UIImage, word: String, meaning: String){
         DispatchQueue.main.async {
             self.todayImageView?.image = image
@@ -576,12 +562,14 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
     func setWallpaper(){
         var current_theme_category:Int = 4
         var last_theme_category:Int = 4
-        if let current_category = getPreference(key: "current_theme_category") as? Int {
+        if let current_category = getPreference(key: "current_theme_category") as? Int
+        {
             current_theme_category = current_category
             last_theme_category = getPreference(key: "last_theme_category") as! Int
         }
         
-        if (current_theme_category != last_theme_category){
+        if (current_theme_category != last_theme_category)
+        {
             let image = UIImage(named: "theme_\(current_theme_category)")
             let wallpaper = default_wallpapers[current_theme_category - 1]
             
@@ -597,11 +585,9 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
             setPreference(key: "last_theme_category", value: current_theme_category)
             
             self.getNextWallpaper(category: current_theme_category)
-            getNextWallpaperCalled = true
-            UserDefaults.standard.set(true, forKey: "getNextWallpaperCalled")
-            UserDefaults.standard.set(Date(), forKey: "lastUpdateTime")
         }
-        else{
+        else
+        {
             let imageFileURL = getDocumentsDirectory().appendingPathComponent("wallpaper.jpg")
             do {
                 let imageData = try Data(contentsOf: imageFileURL)
@@ -626,14 +612,9 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
                 
                 if !getNextWallpaperCalled{
                     self.getNextWallpaper(category: current_theme_category)
-                    getNextWallpaperCalled = true
-                    UserDefaults.standard.set(true, forKey: "getNextWallpaperCalled")
                 }
+            }
         }
-
-        UserDefaults.standard.set(Date(), forKey: "lastUpdateTime")
-        }
-        
     }
     
     override func viewWillAppear(_ animated: Bool){

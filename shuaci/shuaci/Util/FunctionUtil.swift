@@ -527,7 +527,7 @@ func deletePhoto(name_of_photo: String){
     if FileManager.default.fileExists(atPath: imageFileURL.path) {
         do {
             try FileManager.default.removeItem(at: imageFileURL)
-            print("\(name_of_photo) deleted")
+//            print("\(name_of_photo) deleted")
         } catch {
             print("Error deleting Image : \(error)")
         }
