@@ -319,9 +319,6 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
             // 跳到首页
             GlobalUserName = getUserName()
             loadSettingAndRecords()
-            
-//            updateWallpaperWhenBackScreen()
-            
             NotificationCenter.default.addObserver(self, selector: #selector(updateWallpaper), name: UIApplication.willEnterForegroundNotification, object: nil)
         } else {
             // 显示注册或登录页面
