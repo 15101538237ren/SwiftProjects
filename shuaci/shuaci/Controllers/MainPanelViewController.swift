@@ -456,25 +456,29 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
                         self.getNextWallpaperCalled = false
                         UserDefaults.standard.set(false, forKey: "getNextWallpaperCalled")
                         let imageData = try Data(contentsOf: imageFileURL)
-                        let image = UIImage(data: imageData)!
                         
-                        DispatchQueue.global(qos: .background).async{
-                        do{
-                            _ = savePhoto(image: image, name_of_photo: "wallpaper.jpg")
-                        }}
                         
-                        let trans = UserDefaults.standard.string(forKey: "trans_next") as! String
-                        let word = UserDefaults.standard.string(forKey: "word_next") as! String
-                        
-                        UserDefaults.standard.removeObject(forKey: "word_next")
-                        UserDefaults.standard.removeObject(forKey: "trans_next")
-                        UserDefaults.standard.synchronize()
-                        
-                        UserDefaults.standard.set(word, forKey: "word")
-                        UserDefaults.standard.set(trans, forKey: "trans")
-                        deletePhoto(name_of_photo: "wallpaper_next.jpg")
-                        
-                        self.wallpaperNeedDisplay(image: image ?? UIImage(), word: word, meaning: trans)
+                        if let trans = UserDefaults.standard.string(forKey: "trans_next")
+                        {
+                            if let word = UserDefaults.standard.string(forKey: "word_next")
+                            {
+                                if let image = UIImage(data: imageData){
+                                    DispatchQueue.global(qos: .background).async{
+                                    do{
+                                        _ = savePhoto(image: image, name_of_photo: "wallpaper.jpg")
+                                    }}
+                                    
+                                    UserDefaults.standard.removeObject(forKey: "word_next")
+                                    UserDefaults.standard.removeObject(forKey: "trans_next")
+                                    UserDefaults.standard.synchronize()
+                                    
+                                    UserDefaults.standard.set(word, forKey: "word")
+                                    UserDefaults.standard.set(trans, forKey: "trans")
+                                    deletePhoto(name_of_photo: "wallpaper_next.jpg")
+                                    self.wallpaperNeedDisplay(image: image, word: word, meaning: trans)
+                                }
+                            }
+                        }
                         
                         let count_query = LCQuery(className: "Wallpaper")
                         count_query.whereKey("theme_category", .equalTo(category))
@@ -589,8 +593,8 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
             do {
                 let imageData = try Data(contentsOf: imageFileURL)
                 let image = UIImage(data: imageData)
-                let trans = UserDefaults.standard.string(forKey: "trans")  as! String
-                let word = UserDefaults.standard.string(forKey: "word") as! String
+                let trans = UserDefaults.standard.string(forKey: "trans")!
+                let word = UserDefaults.standard.string(forKey: "word")!
                 DispatchQueue.global(qos: .background).async {
                 do {
                     self.wallpaperNeedDisplay(image: image ?? UIImage(), word: word, meaning: trans)
@@ -615,7 +619,7 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
     }
     
     override func viewWillAppear(_ animated: Bool){
-        if let user = LCApplication.default.currentUser {
+        if LCApplication.default.currentUser != nil {
             setWallpaper()
             self.updateUserPhoto()
             get_words()

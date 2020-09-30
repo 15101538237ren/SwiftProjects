@@ -71,24 +71,27 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
         self.tableView.reloadData()
     }
     
+    
     func initActivityIndicator(text: String) {
         activityLabel.removeFromSuperview()
         activityIndicator.removeFromSuperview()
         activityEffectView.removeFromSuperview()
-        let height:CGFloat = 46.0
-        activityLabel = UILabel(frame: CGRect(x: 50, y: 0, width: 200, height: height))
+        let height:CGFloat = 72.0
+        activityLabel = UILabel(frame: CGRect(x: 48, y: 0, width: 180, height: height))
         activityLabel.text = text
+        activityLabel.numberOfLines = 0
         activityLabel.font = .systemFont(ofSize: 14, weight: .medium)
         activityLabel.textColor = .darkGray
         activityLabel.alpha = 1.0
-        activityEffectView.frame = CGRect(x: view.frame.midX - activityLabel.frame.width/2, y: view.frame.midY - activityLabel.frame.height/2 , width: 220, height: height)
+        activityEffectView.frame = CGRect(x: view.frame.midX - activityLabel.frame.width/2, y: view.frame.midY - activityLabel.frame.height/2 , width: 200, height: height)
         activityEffectView.layer.cornerRadius = 15
         activityEffectView.layer.masksToBounds = true
         activityEffectView.backgroundColor = UIColor(red: 244, green: 244, blue: 245, alpha: 1.0)
         
         activityEffectView.alpha = 1.0
         activityIndicator = .init(style: .medium)
-        activityIndicator.frame = CGRect(x: 0, y: 0, width: height, height: height)
+        let indicatorWidth:CGFloat = 46
+        activityIndicator.frame = CGRect(x: 0, y: indicatorWidth/4, width: indicatorWidth, height: indicatorWidth)
         activityIndicator.alpha = 1.0
         activityIndicator.startAnimating()
 
@@ -102,6 +105,18 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
         self.activityIndicator.hidesWhenStopped = true
         self.activityEffectView.alpha = 0
         self.activityLabel.alpha = 0
+    }
+    
+    func disableElementsWhenSynchronizing(){
+        self.backBtn.isUserInteractionEnabled = false
+        self.tableView.isUserInteractionEnabled = false
+        self.view.isUserInteractionEnabled = false
+    }
+    
+    func enableElementsAfterSynchronization(){
+        self.backBtn.isUserInteractionEnabled = true
+        self.tableView.isUserInteractionEnabled = true
+        self.view.isUserInteractionEnabled = true
     }
     
     
@@ -314,21 +329,23 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
                 self.present(reminderTimePickerVC, animated: true, completion: nil)
             }
         case 6:
-            initActivityIndicator(text: "正在上传设置..")
+            disableElementsWhenSynchronizing()
+            initActivityIndicator(text: "正在同步【设置】\n请勿退出!")
             savePreference(saveToLocal: false, saveToCloud: true, completionHandler: {_ in
                 DispatchQueue.main.async {
-                self.activityLabel.text = "正在上传学习记录..."
+                self.activityLabel.text = "正在同步【学习记录】\n请勿退出!"
                 }})
             
             saveVocabRecords(saveToLocal: false, saveToCloud: true, random_new_word: false, delaySeconds: 1.0, completionHandler: {_ in })
             saveLearningRecords(saveToLocal: false, saveToCloud: true, delaySeconds: 1.5, completionHandler: {_ in })
             saveReviewRecords(saveToLocal: false, saveToCloud: true, delaySeconds: 2.0, completionHandler: {success in
-                var successMessage: String = "上传成功!"
+                var successMessage: String = "记录上传成功!"
                 if !success {
-                    successMessage = "上传失败，请稍后再试.."
+                    successMessage = "上传失败，请稍后再试。"
                 }
                 DispatchQueue.main.async {
                     self.stopIndicator()
+                    self.enableElementsAfterSynchronization()
                     let ac = UIAlertController(title: "\(successMessage)", message: "", preferredStyle: .alert)
                     ac.addAction(UIAlertAction(title: "好", style: .default, handler: nil))
                     self.present(ac, animated: true, completion: nil)
