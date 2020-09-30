@@ -32,11 +32,11 @@ var themes:[Theme] = [
     Theme(name: "蓝 色", background: "7_Blue", category: 7),
     Theme(name: "紫 色", background: "10_Purple", category: 10),
     Theme(name: "棕 色", background: "9_Brown", category: 9),
-    Theme(name: "夜 晚", background: "3_Night", category: 3)
+    Theme(name: "深 夜", background: "3_Night", category: 3)
 ]
 
 var default_wallpapers:[Wallpaper] = [
-    Wallpaper(word: "peony", trans: "牡丹", category: 1), //Light
+    Wallpaper(word: "calendar", trans: "日历", category: 1), //Light
     Wallpaper(word: "firework", trans: "烟花", category: 2), //Dark
     Wallpaper(word: "moon", trans: "月球", category: 3), //Black
     Wallpaper(word: "leaf", trans: "叶子", category: 4), // Green
