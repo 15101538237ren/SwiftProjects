@@ -431,7 +431,6 @@ enum WordMemStage : Int {
     case cnToEn = 3
 }
 
-
 enum CardCollectBehavior {
     case no
     case yes
