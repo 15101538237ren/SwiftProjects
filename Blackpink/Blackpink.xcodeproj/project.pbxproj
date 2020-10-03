@@ -7,10 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		55B908CC25290DC200CD5438 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55B908CB25290DC200CD5438 /* MainViewController.swift */; };
+		55B908D3252910CA00CD5438 /* MainCollectionCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55B908D2252910CA00CD5438 /* MainCollectionCellView.swift */; };
+		55B908DC252914AB00CD5438 /* GlobalConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55B908DB252914AB00CD5438 /* GlobalConstant.swift */; };
+		55B908E1252914FB00CD5438 /* GlobalEnums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55B908E0252914FB00CD5438 /* GlobalEnums.swift */; };
 		C35165CE2527A34D0060707C /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C35165CD2527A34D0060707C /* CloudKit.framework */; };
 		C3AB465C25279FBB00ACC7BB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3AB465B25279FBB00ACC7BB /* AppDelegate.swift */; };
 		C3AB465E25279FBB00ACC7BB /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3AB465D25279FBB00ACC7BB /* SceneDelegate.swift */; };
-		C3AB466025279FBB00ACC7BB /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3AB465F25279FBB00ACC7BB /* ViewController.swift */; };
 		C3AB466325279FBB00ACC7BB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C3AB466125279FBB00ACC7BB /* Main.storyboard */; };
 		C3AB466525279FBD00ACC7BB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C3AB466425279FBD00ACC7BB /* Assets.xcassets */; };
 		C3AB466825279FBD00ACC7BB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C3AB466625279FBD00ACC7BB /* LaunchScreen.storyboard */; };
@@ -36,12 +39,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		55B908CB25290DC200CD5438 /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		55B908D2252910CA00CD5438 /* MainCollectionCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCollectionCellView.swift; sourceTree = "<group>"; };
+		55B908DB252914AB00CD5438 /* GlobalConstant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalConstant.swift; sourceTree = "<group>"; };
+		55B908E0252914FB00CD5438 /* GlobalEnums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalEnums.swift; sourceTree = "<group>"; };
 		C35165CB2527A34A0060707C /* Blackpink.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Blackpink.entitlements; sourceTree = "<group>"; };
 		C35165CD2527A34D0060707C /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		C3AB465825279FBB00ACC7BB /* Blackpink.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Blackpink.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C3AB465B25279FBB00ACC7BB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C3AB465D25279FBB00ACC7BB /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		C3AB465F25279FBB00ACC7BB /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		C3AB466225279FBB00ACC7BB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		C3AB466425279FBD00ACC7BB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C3AB466725279FBD00ACC7BB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -80,6 +86,31 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		55B908D0252910A300CD5438 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				55B908CB25290DC200CD5438 /* MainViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		55B908D1252910AB00CD5438 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				55B908D2252910CA00CD5438 /* MainCollectionCellView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		55B908DA2529149900CD5438 /* Global */ = {
+			isa = PBXGroup;
+			children = (
+				55B908DB252914AB00CD5438 /* GlobalConstant.swift */,
+				55B908E0252914FB00CD5438 /* GlobalEnums.swift */,
+			);
+			path = Global;
+			sourceTree = "<group>";
+		};
 		C35165CC2527A34D0060707C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -112,10 +143,12 @@
 		C3AB465A25279FBB00ACC7BB /* Blackpink */ = {
 			isa = PBXGroup;
 			children = (
+				55B908DA2529149900CD5438 /* Global */,
+				55B908D1252910AB00CD5438 /* Views */,
+				55B908D0252910A300CD5438 /* Controllers */,
 				C35165CB2527A34A0060707C /* Blackpink.entitlements */,
 				C3AB465B25279FBB00ACC7BB /* AppDelegate.swift */,
 				C3AB465D25279FBB00ACC7BB /* SceneDelegate.swift */,
-				C3AB465F25279FBB00ACC7BB /* ViewController.swift */,
 				C3AB466125279FBB00ACC7BB /* Main.storyboard */,
 				C3AB466425279FBD00ACC7BB /* Assets.xcassets */,
 				C3AB466625279FBD00ACC7BB /* LaunchScreen.storyboard */,
@@ -272,9 +305,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C3AB466025279FBB00ACC7BB /* ViewController.swift in Sources */,
+				55B908CC25290DC200CD5438 /* MainViewController.swift in Sources */,
+				55B908DC252914AB00CD5438 /* GlobalConstant.swift in Sources */,
 				C3AB465C25279FBB00ACC7BB /* AppDelegate.swift in Sources */,
+				55B908E1252914FB00CD5438 /* GlobalEnums.swift in Sources */,
 				C3AB465E25279FBB00ACC7BB /* SceneDelegate.swift in Sources */,
+				55B908D3252910CA00CD5438 /* MainCollectionCellView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -380,7 +416,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -435,7 +471,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
