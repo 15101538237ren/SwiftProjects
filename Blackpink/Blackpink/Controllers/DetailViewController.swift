@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import AVFoundation
 
 class DetailViewController: UIViewController {
     //Outlet Variables
@@ -104,8 +105,7 @@ class DetailViewController: UIViewController {
     
     @objc func downloadImgViewTapped(tapGestureRecognizer: UITapGestureRecognizer)
     {
-        let tappedImage = tapGestureRecognizer.view as! UIImageView
-
+        UIImageWriteToSavedPhotosAlbum(image, self, #selector(image(_:didFinishSavingWithError:contextInfo:)), nil)
     }
     
     func addGestureRcgToLockScreen(){
@@ -158,6 +158,19 @@ class DetailViewController: UIViewController {
         homeInPreview = true
         hideButtons()
         showHomeScreenPreview()
+    }
+    
+    @objc func image(_ image:UIImage, didFinishSavingWithError error: Error?, contextInfo: UnsafeRawPointer){
+        if let error = error {
+            let ac = UIAlertController(title: "Error: \(error.localizedDescription)", message: "", preferredStyle: .alert)
+            ac.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            present(ac, animated: true, completion: nil)
+        }
+        else{
+            let ac = UIAlertController(title: "Saved Successful!", message: "", preferredStyle: .alert)
+            ac.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            present(ac, animated: true, completion: nil)
+        }
     }
     
     @IBAction func unwind(_ sender: UIButton) {
