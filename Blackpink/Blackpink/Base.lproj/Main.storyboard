@@ -244,7 +244,10 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="g06-le-4xL">
+                            <imageView clipsSubviews="YES" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="g06-le-4xL">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                            </imageView>
+                            <imageView clipsSubviews="YES" alpha="0.0" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="LockScreen" translatesAutoresizingMaskIntoConstraints="NO" id="h9b-gG-vMH" userLabel="LockScreen">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qsj-1H-Ho2">
@@ -300,6 +303,18 @@
                                     </imageView>
                                 </subviews>
                             </stackView>
+                            <imageView clipsSubviews="YES" alpha="0.0" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="HomeScreenLower" translatesAutoresizingMaskIntoConstraints="NO" id="6XQ-2y-tKt">
+                                <rect key="frame" x="0.0" y="756" width="414" height="106"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="6XQ-2y-tKt" secondAttribute="height" multiplier="125:32" id="UE0-cj-akw"/>
+                                </constraints>
+                            </imageView>
+                            <imageView clipsSubviews="YES" alpha="0.0" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="HomeScreenUpper" translatesAutoresizingMaskIntoConstraints="NO" id="PUl-7z-SR6">
+                                <rect key="frame" x="0.0" y="44" width="414" height="612.5"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="PUl-7z-SR6" secondAttribute="height" multiplier="375:555" id="vKw-mn-ocF"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="pbK-6R-qKn"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -308,16 +323,34 @@
                             <constraint firstItem="g06-le-4xL" firstAttribute="centerX" secondItem="Qji-Cb-WEe" secondAttribute="centerX" id="Am3-bO-Vv9"/>
                             <constraint firstItem="qsj-1H-Ho2" firstAttribute="top" secondItem="pbK-6R-qKn" secondAttribute="top" constant="20" id="BDQ-mt-a4N"/>
                             <constraint firstItem="pbK-6R-qKn" firstAttribute="bottom" secondItem="7ic-xr-VIP" secondAttribute="bottom" constant="15" id="FNu-uf-nyc"/>
+                            <constraint firstItem="h9b-gG-vMH" firstAttribute="leading" secondItem="pbK-6R-qKn" secondAttribute="leading" id="Ige-tE-rtz"/>
                             <constraint firstItem="g06-le-4xL" firstAttribute="leading" secondItem="pbK-6R-qKn" secondAttribute="leading" id="LLg-TD-mZI"/>
+                            <constraint firstItem="h9b-gG-vMH" firstAttribute="top" secondItem="Qji-Cb-WEe" secondAttribute="top" id="LTV-97-c3y"/>
                             <constraint firstItem="g06-le-4xL" firstAttribute="top" secondItem="Qji-Cb-WEe" secondAttribute="top" id="OAo-SB-j4f"/>
+                            <constraint firstItem="PUl-7z-SR6" firstAttribute="top" secondItem="pbK-6R-qKn" secondAttribute="top" id="Op2-9h-BuS"/>
+                            <constraint firstItem="pbK-6R-qKn" firstAttribute="trailing" secondItem="PUl-7z-SR6" secondAttribute="trailing" id="WGx-YF-B12"/>
+                            <constraint firstAttribute="bottom" secondItem="h9b-gG-vMH" secondAttribute="bottom" id="de3-i3-ifW"/>
+                            <constraint firstItem="6XQ-2y-tKt" firstAttribute="leading" secondItem="pbK-6R-qKn" secondAttribute="leading" id="ecX-Wf-Rym"/>
+                            <constraint firstItem="pbK-6R-qKn" firstAttribute="trailing" secondItem="6XQ-2y-tKt" secondAttribute="trailing" id="epz-4x-3SA"/>
+                            <constraint firstItem="pbK-6R-qKn" firstAttribute="bottom" secondItem="6XQ-2y-tKt" secondAttribute="bottom" id="hVW-ZX-PKR"/>
+                            <constraint firstItem="PUl-7z-SR6" firstAttribute="leading" secondItem="pbK-6R-qKn" secondAttribute="leading" id="iMT-cA-Cih"/>
                             <constraint firstAttribute="bottom" secondItem="g06-le-4xL" secondAttribute="bottom" id="inV-5r-wLM"/>
                             <constraint firstItem="qsj-1H-Ho2" firstAttribute="leading" secondItem="pbK-6R-qKn" secondAttribute="leading" constant="15" id="jiS-ux-fBd"/>
+                            <constraint firstItem="pbK-6R-qKn" firstAttribute="trailing" secondItem="h9b-gG-vMH" secondAttribute="trailing" id="wMS-qa-nDm"/>
                             <constraint firstItem="7ic-xr-VIP" firstAttribute="centerX" secondItem="Qji-Cb-WEe" secondAttribute="centerX" id="xnY-Sv-1Q1"/>
                             <constraint firstItem="g06-le-4xL" firstAttribute="centerY" secondItem="Qji-Cb-WEe" secondAttribute="centerY" id="z4g-47-xWr"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="backBtn" destination="qsj-1H-Ho2" id="zbn-cC-FFG"/>
+                        <outlet property="downloadImgV" destination="StF-BV-V6j" id="zD5-6K-jqf"/>
+                        <outlet property="homeScreenImgV" destination="6rJ-Eh-mS2" id="tg3-0M-Bnm"/>
+                        <outlet property="homeScreenLowerPreviewImgV" destination="6XQ-2y-tKt" id="UTo-6W-Nn0"/>
+                        <outlet property="homeScreenUpperPreviewImgV" destination="PUl-7z-SR6" id="LJV-aL-b89"/>
                         <outlet property="imageView" destination="g06-le-4xL" id="9z9-kj-Ong"/>
+                        <outlet property="likeImgV" destination="GSA-Mq-KPv" id="VSo-bh-k6T"/>
+                        <outlet property="lockScreenImgV" destination="0RG-ef-LGW" id="kco-zA-SpI"/>
+                        <outlet property="lockScreenPreviewImgV" destination="h9b-gG-vMH" id="GJ8-2x-mkv"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="heC-Hv-DcU" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -326,6 +359,9 @@
         </scene>
     </scenes>
     <resources>
+        <image name="HomeScreenLower" width="612" height="792"/>
+        <image name="HomeScreenUpper" width="612" height="792"/>
+        <image name="LockScreen" width="375" height="694"/>
         <image name="arrow.up.arrow.down" catalog="system" width="128" height="98"/>
         <image name="background-logo" width="250" height="544"/>
         <image name="black-pink-logo" width="141" height="33"/>
