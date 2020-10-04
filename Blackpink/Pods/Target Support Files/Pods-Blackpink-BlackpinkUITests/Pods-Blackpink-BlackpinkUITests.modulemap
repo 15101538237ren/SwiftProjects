@@ -1,0 +1,6 @@
+framework module Pods_Blackpink_BlackpinkUITests {
+  umbrella header "Pods-Blackpink-BlackpinkUITests-umbrella.h"
+
+  export *
+  module * { export * }
+}

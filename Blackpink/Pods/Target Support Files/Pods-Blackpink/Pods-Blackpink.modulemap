@@ -1,0 +1,6 @@
+framework module Pods_Blackpink {
+  umbrella header "Pods-Blackpink-umbrella.h"
+
+  export *
+  module * { export * }
+}

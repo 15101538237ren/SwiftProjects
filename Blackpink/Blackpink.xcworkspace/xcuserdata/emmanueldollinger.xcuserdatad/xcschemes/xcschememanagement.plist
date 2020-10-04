@@ -3,13 +3,13 @@
 <plist version="1.0">
 <dict>
 	<key>SchemeUserState</key>
-	<dict/>
-	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>C3AB465725279FBB00ACC7BB</key>
+		<key>Blackpink.xcscheme</key>
 		<dict>
-			<key>primary</key>
+			<key>isShown</key>
 			<true/>
+			<key>orderHint</key>
+			<integer>4</integer>
 		</dict>
 	</dict>
 </dict>
