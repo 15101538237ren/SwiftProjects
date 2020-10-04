@@ -91,7 +91,6 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
                 }
             }
         }
-        
     }
     
     @objc func load(){
@@ -108,7 +107,6 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
         let query = CKQuery(recordType: "Wallpaper", predicate: predicate)
         let sortDescriptor = getSortDescriptor(sortType: sortType)
         query.sortDescriptors = [sortDescriptor]
-        print(queryCursor==nil)
         let queryOperation = queryCursor == nil ? CKQueryOperation(query: query): CKQueryOperation(cursor: queryCursor!)
         
         queryOperation.desiredKeys = ["likes"]
@@ -141,26 +139,26 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
         return wallpapers.count
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "mainCollectionViewCell", for: indexPath) as! MainCollectionCellView
-        
-        let wallpaper = wallpapers[indexPath.row]
-        
-        if let likes: Int = wallpaper.object(forKey: "likes") as? Int{
-            DispatchQueue.main.async {
-                cell.likeLabel.text = self.likesToString(likes: likes)
-            }
+    func setCellImageCompletionHandler(cell: MainCollectionCellView?, image: UIImage) -> Void{
+        if let cell = cell{
+            cell.imageV.image = image
+            cell.setNeedsLayout()
         }
-        
-        if let imageFileURL = imageCache.object(forKey: wallpaper.recordID) {
+    }
+    
+    func  getCellWallpaperByRecordID(cell:MainCollectionCellView?, recordId: CKRecord.ID, completion: @escaping (MainCollectionCellView?, UIImage) -> Void){
+        if let imageFileURL = imageCache.object(forKey: recordId) {
             print("Get image from cache")
             if let imageData = try? Data.init(contentsOf: imageFileURL as URL) {
-                cell.imageV.image = UIImage(data: imageData)
+                let image = UIImage(data: imageData) ?? UIImage()
+                DispatchQueue.main.async {
+                    completion(cell, image)
+                }
             }
         } else{
             let cloudContainer = CKContainer.init(identifier: icloudContainerID)
             let publicDatabase = cloudContainer.publicCloudDatabase
-            let fetchRecordsImageOperation = CKFetchRecordsOperation(recordIDs: [wallpaper.recordID])
+            let fetchRecordsImageOperation = CKFetchRecordsOperation(recordIDs: [recordId])
             fetchRecordsImageOperation.desiredKeys = ["image"]
             fetchRecordsImageOperation.queuePriority = .veryHigh
             
@@ -176,19 +174,32 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
                         let imageAsset = image as? CKAsset {
 
                         if let imageData = try? Data.init(contentsOf: imageAsset.fileURL!) {
-
+                            
                             // Replace the placeholder image with the restaurant image
+                            let image = UIImage(data: imageData) ?? UIImage()
                             DispatchQueue.main.async {
-                                cell.imageV.image = UIImage(data:imageData)
-                                cell.setNeedsLayout()
+                                completion(cell, image)
                             }
-                            self.imageCache.setObject(imageAsset.fileURL! as NSURL, forKey: wallpaper.recordID)
-                            print("Loaded image for cell \(indexPath.row)")
+                            self.imageCache.setObject(imageAsset.fileURL! as NSURL, forKey: recordId)
                         }
                     }
                 }
             publicDatabase.add(fetchRecordsImageOperation)
         }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "mainCollectionViewCell", for: indexPath) as! MainCollectionCellView
+        
+        let wallpaper = wallpapers[indexPath.row]
+        
+        if let likes: Int = wallpaper.object(forKey: "likes") as? Int{
+            DispatchQueue.main.async {
+                cell.likeLabel.text = self.likesToString(likes: likes)
+            }
+        }
+        let recordId = wallpaper.recordID
+        getCellWallpaperByRecordID(cell: cell, recordId: recordId, completion: setCellImageCompletionHandler(cell:image:))
         return cell
     }
     
@@ -202,5 +213,21 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top: cellPadding,left: cellPadding, bottom: cellPadding,right: cellPadding)
+    }
+    
+    func loadDetailVC(cell: MainCollectionCellView?, image: UIImage) -> Void{
+        let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+        let detailVC = mainStoryBoard.instantiateViewController(withIdentifier: "detailVC") as! DetailViewController
+        detailVC.image = image
+        detailVC.modalPresentationStyle = .overCurrentContext
+        DispatchQueue.main.async {
+            self.present(detailVC, animated: true, completion: nil)
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let wallpaper = wallpapers[indexPath.row]
+        let recordId = wallpaper.recordID
+        getCellWallpaperByRecordID(cell: nil, recordId: recordId, completion: loadDetailVC(cell:image:))
     }
 }
