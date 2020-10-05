@@ -129,7 +129,7 @@ class SoloViewController: UIViewController, UICollectionViewDelegate, UICollecti
         let imageTintColor = UIColor(red: 26, green: 25, blue: 25, alpha: 1.0)
         let actions = [
             PopMenuDefaultAction(title: "Sort by likes", image: UIImage(named: "heart-fill-icon"), color: imageTintColor),
-            PopMenuDefaultAction(title: "Sort by Date", image: UIImage(named: "calendar-icon"), color: imageTintColor)
+            PopMenuDefaultAction(title: "Sort by date", image: UIImage(named: "calendar-icon"), color: imageTintColor)
         ]
         let menuVC = PopMenuViewController(sourceView:sender, actions: actions)
         menuVC.delegate = self
