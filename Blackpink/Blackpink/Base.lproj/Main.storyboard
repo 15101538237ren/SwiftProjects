@@ -392,7 +392,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Tpn-VF-9Er">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="155"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="175"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kbo-bM-5dq">
                                         <rect key="frame" x="20" y="64" width="30" height="30"/>
@@ -426,20 +426,20 @@
                                             <action selector="presentPopMenu:" destination="v8Q-aO-Cg7" eventType="touchUpInside" id="vOO-a1-LoL"/>
                                         </connections>
                                     </button>
-                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="6" translatesAutoresizingMaskIntoConstraints="NO" id="JSD-Dm-Yqe">
-                                        <rect key="frame" x="174.5" y="60" width="65" height="86"/>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="JSD-Dm-Yqe">
+                                        <rect key="frame" x="167" y="60" width="80" height="109.5"/>
                                         <subviews>
                                             <button opaque="NO" userInteractionEnabled="NO" tag="4" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WdW-iX-3Tb">
-                                                <rect key="frame" x="0.0" y="0.0" width="65" height="65"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="80" height="80"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="65" id="CiS-qe-D9c"/>
-                                                    <constraint firstAttribute="width" constant="65" id="cNC-jF-we8"/>
+                                                    <constraint firstAttribute="height" constant="80" id="CiS-qe-D9c"/>
+                                                    <constraint firstAttribute="width" constant="80" id="cNC-jF-we8"/>
                                                 </constraints>
                                                 <state key="normal" title="Button" image="rose"/>
                                             </button>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rosé" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aPk-ky-YNK">
-                                                <rect key="frame" x="15.5" y="71" width="34.5" height="15"/>
-                                                <fontDescription key="fontDescription" name="ArialHebrew-Bold" family="Arial Hebrew" pointSize="14"/>
+                                                <rect key="frame" x="18" y="90" width="44.5" height="19.5"/>
+                                                <fontDescription key="fontDescription" name="ArialHebrew-Bold" family="Arial Hebrew" pointSize="18"/>
                                                 <color key="textColor" red="0.22745174169999999" green="0.22745099660000001" blue="0.22744870189999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
@@ -453,12 +453,12 @@
                                     <constraint firstItem="kbo-bM-5dq" firstAttribute="top" secondItem="Tpn-VF-9Er" secondAttribute="top" constant="64" id="PMP-8G-GAG"/>
                                     <constraint firstItem="JSD-Dm-Yqe" firstAttribute="centerX" secondItem="Tpn-VF-9Er" secondAttribute="centerX" id="TcI-gb-AhC"/>
                                     <constraint firstItem="JSD-Dm-Yqe" firstAttribute="top" secondItem="Tpn-VF-9Er" secondAttribute="top" constant="60" id="d6F-g7-7HB"/>
-                                    <constraint firstAttribute="height" constant="155" id="fCq-Fa-fLz"/>
+                                    <constraint firstAttribute="height" constant="175" id="fCq-Fa-fLz"/>
                                     <constraint firstItem="R8N-pA-Usi" firstAttribute="top" secondItem="Tpn-VF-9Er" secondAttribute="top" constant="64" id="nrh-Hy-b8h"/>
                                 </constraints>
                             </view>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="B9p-bb-HMP">
-                                <rect key="frame" x="0.0" y="155" width="414" height="741"/>
+                                <rect key="frame" x="0.0" y="175" width="414" height="721"/>
                                 <color key="backgroundColor" red="0.1019346341" green="0.10209711639999999" blue="0.094140551980000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="2" minimumInteritemSpacing="1.5" id="PiY-6t-BBG">
                                     <size key="itemSize" width="163" height="331"/>
