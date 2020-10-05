@@ -7,15 +7,6 @@ target 'Blackpink' do
 
   # Pods for Blackpink
   pod "UILoadControl"
-  target 'BlackpinkTests' do
-    inherit! :search_paths
-    # Pods for testin
-    pod "UILoadControl"
-  end
-
-  target 'BlackpinkUITests' do
-    # Pods for testing
-    pod "UILoadControl"
-  end
+  pod 'NewPopMenu', '~> 2.0'
 
 end

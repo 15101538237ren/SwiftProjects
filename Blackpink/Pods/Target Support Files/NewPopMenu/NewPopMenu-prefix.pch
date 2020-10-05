@@ -10,7 +10,3 @@
 #endif
 #endif
 
-
-FOUNDATION_EXPORT double Pods_BlackpinkTestsVersionNumber;
-FOUNDATION_EXPORT const unsigned char Pods_BlackpinkTestsVersionString[];
-

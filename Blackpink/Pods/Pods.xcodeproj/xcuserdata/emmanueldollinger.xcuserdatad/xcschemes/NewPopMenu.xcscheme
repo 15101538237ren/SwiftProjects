@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "356A04DD4DBC3E69668A13197F4C3EC3"
-               BuildableName = "Pods_BlackpinkTests.framework"
-               BlueprintName = "Pods-BlackpinkTests"
+               BlueprintIdentifier = "8CC7F28675174E65A4EB204EBB5DC19A"
+               BuildableName = "PopMenu.framework"
+               BlueprintName = "NewPopMenu"
                ReferencedContainer = "container:Pods.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>

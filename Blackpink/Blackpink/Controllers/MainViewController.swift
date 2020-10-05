@@ -8,6 +8,7 @@
 import UIKit
 import CloudKit
 import UILoadControl
+import PopMenu
 
 class MainViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate {
     // Outlet Variables
@@ -102,6 +103,19 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
         spinner.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([spinner.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 200.0), spinner.centerXAnchor.constraint(equalTo: view.centerXAnchor)])
         spinner.startAnimating()
+    }
+    
+    @IBAction func presentPopMenu(_ sender: UIButton) {
+        let imageTintColor = UIColor(red: 26, green: 25, blue: 25, alpha: 1.0)
+        let actions = [
+            PopMenuDefaultAction(title: "Sort by likes", image: UIImage(named: "heart-fill-icon"), color: imageTintColor),
+            PopMenuDefaultAction(title: "Sort by Date", image: UIImage(named: "calendar-icon"), color: imageTintColor)
+        ]
+        let menuVC = PopMenuViewController(sourceView:sender, actions: actions)
+        menuVC.delegate = self
+        let backgroundColor = UIColor(red: 246, green: 188, blue: 223, alpha: 1.0)
+        menuVC.appearance.popMenuColor.backgroundColor = .solid(fill: backgroundColor)
+        self.present(menuVC, animated: true, completion: nil)
     }
     
     func getSortDescriptor(sortType: SortType) -> NSSortDescriptor {
@@ -300,4 +314,28 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
         let recordId = wallpaper.recordID
         getCellWallpaperByRecordID(cell: nil, recordId: recordId, record: wallpaper, completion: loadDetailVC(cell:image:record:))
     }
+}
+
+extension MainViewController: PopMenuViewControllerDelegate {
+
+    // This will be called when a pop menu action was selected
+    func popMenuDidSelectItem(_ popMenuViewController: PopMenuViewController, at index: Int) {
+        var sortTypeChanged:Bool = false
+        if index == 0{
+            if sortType != .byLike{
+                sortType = .byLike
+                sortTypeChanged = true
+            }
+        }else{
+            if sortType != .byModifiedDate{
+                sortType = .byModifiedDate
+                sortTypeChanged = true
+            }
+        }
+        if sortTypeChanged{
+            sortWallpapers()
+            collectionView.reloadData()
+        }
+    }
+
 }

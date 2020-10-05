@@ -3,50 +3,45 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		03B61343EA179ED39E77006AE19177ED /* Pods-BlackpinkTests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 33819359FE319151B865FF486B8485C0 /* Pods-BlackpinkTests-dummy.m */; };
+		12232B4992FF44F9E743704426A5C34D /* Haptics.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3DB1BF16EE6C5C484DE39BA5E19BCDC /* Haptics.swift */; };
 		22A8219489AA23B46BFF4A098DD9223A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 436BAA54A31999B53B3CC7115C55FE50 /* Foundation.framework */; };
-		42203B259A10380BCEBDBB12E0FDE2D6 /* Pods-BlackpinkTests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = FC6D114A179E5C993094656C7422E66D /* Pods-BlackpinkTests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		46D12956A20717723EF722E2F5861BFE /* UILoadControl-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F45A067A921FA2C032968814899C062 /* UILoadControl-dummy.m */; };
-		5B39EF80A1649448093EB8972F233554 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 436BAA54A31999B53B3CC7115C55FE50 /* Foundation.framework */; };
-		5F5958051D8E84BA390C12853EC328D5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 436BAA54A31999B53B3CC7115C55FE50 /* Foundation.framework */; };
-		65480B527C08B23086B86D6F9DF32B4E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 436BAA54A31999B53B3CC7115C55FE50 /* Foundation.framework */; };
-		6E5183CB35AB893DCB4B24E56D5DBDC6 /* Pods-Blackpink-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = B41BD66438761A7CEB8355EF8360C08D /* Pods-Blackpink-dummy.m */; };
+		38D50292AA7EA95649349CCAB704C71B /* Pods-Blackpink-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 8B9B9505743A3FED126E54DECF9F0232 /* Pods-Blackpink-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		3E174AEDC606B2A5414781F343E1AD8A /* NewPopMenu-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = D296FC693F88786D8845FA0B812DDE32 /* NewPopMenu-dummy.m */; };
+		4129C5ADD2A59209D49838407095D1F8 /* PopMenuAppearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4BADCD36F30FDBC030B3CCB34B491D9 /* PopMenuAppearance.swift */; };
+		4654EB063C3477E876157222A074356D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 436BAA54A31999B53B3CC7115C55FE50 /* Foundation.framework */; };
+		46D12956A20717723EF722E2F5861BFE /* UILoadControl-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 54111D70B6D7DBA1BEA0DE1C79BEC420 /* UILoadControl-dummy.m */; };
+		4F4BEA1FDCD1F8D56807FEB6A4673FB5 /* PopMenu.h in Headers */ = {isa = PBXBuildFile; fileRef = B2C82141BDEA55D455EAD2AB5DA5255E /* PopMenu.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		50A08628631D1513E3DB94DAFA0A4BC0 /* PopMenuPresentAnimationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058B4E4EC4BC21014AA7CCB130331DB2 /* PopMenuPresentAnimationController.swift */; };
+		5BCDEE546CC934C24A7FA1C8EEDD4755 /* PopMenuGradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73EF1A63405C54649D3D1CF458223344 /* PopMenuGradientView.swift */; };
 		74D80757B3B6138539EE9892889D06C6 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 312B988EF117AE4DE76A268D970131FE /* UIKit.framework */; };
-		A4E126B5ADDC3488CC269071257B03E3 /* UILoadControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = C590E3EDB63E9CC1F4F993BA6C7A869C /* UILoadControl.swift */; };
-		D2D251729ED2AABDF2943BE10B4F22CB /* UILoadControl-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = F43F9B249818BCFCF94F25EDE6557987 /* UILoadControl-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		D9E3E6C23AC275DE1FD5505F115D239F /* Pods-Blackpink-BlackpinkUITests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = A35DCFE1F974527D43115D20FC9ED5FC /* Pods-Blackpink-BlackpinkUITests-dummy.m */; };
-		E816A30DFAE3401F160E8D3467C09F06 /* Pods-Blackpink-BlackpinkUITests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = DB736A4BAD7F78E737B7889B24330F35 /* Pods-Blackpink-BlackpinkUITests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		EA9A6B00070041D8B7C2683258F80709 /* Pods-Blackpink-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 51C6864A13EFA0FB279A9C4E5DDF0F68 /* Pods-Blackpink-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		F2715B2F8BB394E309BED4C0640E9C17 /* UILoadControl_UIScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13DC31CD37D71DC7387EB0CF71F8F035 /* UILoadControl_UIScrollView.swift */; };
+		890FDAEBC2E2916F225E7D0DC57CCF26 /* NewPopMenu-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 66B7A38E074D99BF83B1B8D83278ACA7 /* NewPopMenu-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9C6CEFAE327908F6310B15348E31AEA4 /* PopMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F02339EB8C52547773123DC06F0B358 /* PopMenuViewController.swift */; };
+		A4E126B5ADDC3488CC269071257B03E3 /* UILoadControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7956291D9EF2F7FABD19AD442C07E4F /* UILoadControl.swift */; };
+		B3F5FB8B429B244ADBE2F9A204FFE5F6 /* Pods-Blackpink-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 33C1E0A42DC33BB9CD35FAE6EB13B3ED /* Pods-Blackpink-dummy.m */; };
+		C28F1A38EFFD963EA921344DD4FE52D0 /* PopMenuAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEA592AC51EC5D6730B789381C6DEAA4 /* PopMenuAction.swift */; };
+		D2D251729ED2AABDF2943BE10B4F22CB /* UILoadControl-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 4EBACF1AAD9E86F9AF1754D5B3A82EA3 /* UILoadControl-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D2FA5F7FFA44C4859818073FC97E0083 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 312B988EF117AE4DE76A268D970131FE /* UIKit.framework */; };
+		DC4FBA009BD68DB0F36A765203AD6650 /* UIView+Shadows.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E778E1B9B896A5EAFF921ED5808C76 /* UIView+Shadows.swift */; };
+		E2F45457159D8A54C8981974405714D7 /* PopMenuManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D8A080C811C52372CCD014702F6CB93 /* PopMenuManager.swift */; };
+		EA75E23AACB80AACCF1565E8D267883E /* UIColor+Contrast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70976F92C5E5677A98DE7DD9E237D41D /* UIColor+Contrast.swift */; };
+		ED0D720BCEDDB4E9E581E6E8FB6E6E5B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 436BAA54A31999B53B3CC7115C55FE50 /* Foundation.framework */; };
+		F2715B2F8BB394E309BED4C0640E9C17 /* UILoadControl_UIScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 773F8594996E0092DF1AF8CDBE9EE190 /* UILoadControl_UIScrollView.swift */; };
+		FE2CE2A5D99C4FEC6BEFB477793111C3 /* PopMenuDismissAnimationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49A1D10D9CB67454C8A2E29D6369B0BB /* PopMenuDismissAnimationController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		24F66E0C98164545B20397AB4B4ECE31 /* PBXContainerItemProxy */ = {
+		7249E1FAA36E3FB4AB236992592A2F8A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = F3B72C056C83F5B0ED3A8E65678A1B10;
-			remoteInfo = "Pods-Blackpink";
+			remoteGlobalIDString = 8CC7F28675174E65A4EB204EBB5DC19A;
+			remoteInfo = NewPopMenu;
 		};
-		5E67A8ACD08E22F9CF284DA6993F25A1 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 9E50973EECDF5CAC627F73748F98D4FF;
-			remoteInfo = UILoadControl;
-		};
-		ADDC03F3181814CC8BC952B0DA0F0987 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 9E50973EECDF5CAC627F73748F98D4FF;
-			remoteInfo = UILoadControl;
-		};
-		C1A42BC345DEEBE25AA7B7531D8FF128 /* PBXContainerItemProxy */ = {
+		AD30105B723A038D89D8E1FC8310D8C7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
 			proxyType = 1;
@@ -56,73 +51,65 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		05359DE38ADA82616172B31C93BBE984 /* Pods-Blackpink-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-Blackpink-Info.plist"; sourceTree = "<group>"; };
-		13DC31CD37D71DC7387EB0CF71F8F035 /* UILoadControl_UIScrollView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = UILoadControl_UIScrollView.swift; path = Pod/Classes/UILoadControl_UIScrollView.swift; sourceTree = "<group>"; };
-		18052E19027EBAA0A493B4479F1D5A08 /* Pods-Blackpink-BlackpinkUITests-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-Blackpink-BlackpinkUITests-frameworks.sh"; sourceTree = "<group>"; };
-		1BF1134441AA68F31E42749D44B9A565 /* Pods-Blackpink-BlackpinkUITests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-Blackpink-BlackpinkUITests-acknowledgements.plist"; sourceTree = "<group>"; };
-		213CA2E17F1DC9102EC8BD542CCC545A /* UILoadControl.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = UILoadControl.release.xcconfig; sourceTree = "<group>"; };
-		2533A7CA8FB78A4867336904BF9EFFC6 /* Pods-Blackpink.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Blackpink.release.xcconfig"; sourceTree = "<group>"; };
-		27860FF1EA91EC7334BA6315EF102EC3 /* UILoadControl-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "UILoadControl-Info.plist"; sourceTree = "<group>"; };
-		308332C4293CEDCD8D3896CBD714448E /* Pods-Blackpink-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-Blackpink-acknowledgements.markdown"; sourceTree = "<group>"; };
+		0194AB93D49810D902CF59B75B33A578 /* Pods-Blackpink-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-Blackpink-acknowledgements.markdown"; sourceTree = "<group>"; };
+		058B4E4EC4BC21014AA7CCB130331DB2 /* PopMenuPresentAnimationController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PopMenuPresentAnimationController.swift; path = PopMenu/Transitions/PopMenuPresentAnimationController.swift; sourceTree = "<group>"; };
+		0C62ABBA89D7924343728E0DE9A71ED2 /* Pods-Blackpink-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-Blackpink-Info.plist"; sourceTree = "<group>"; };
+		1F02339EB8C52547773123DC06F0B358 /* PopMenuViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PopMenuViewController.swift; path = "PopMenu/View Controller & Views/PopMenuViewController.swift"; sourceTree = "<group>"; };
+		28E1751172DA437DBEC736206FEF6CA8 /* Pods-Blackpink-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-Blackpink-acknowledgements.plist"; sourceTree = "<group>"; };
+		30C0AC0FCD24EDBCF583F1EA5103B0F9 /* Pods-Blackpink-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-Blackpink-frameworks.sh"; sourceTree = "<group>"; };
 		312B988EF117AE4DE76A268D970131FE /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS12.2.sdk/System/Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
-		33819359FE319151B865FF486B8485C0 /* Pods-BlackpinkTests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-BlackpinkTests-dummy.m"; sourceTree = "<group>"; };
-		3FD3A2151B7CB8AC7174F5D538ED8B7B /* Pods_Blackpink_BlackpinkUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_Blackpink_BlackpinkUITests.framework; path = "Pods-Blackpink-BlackpinkUITests.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		33C1E0A42DC33BB9CD35FAE6EB13B3ED /* Pods-Blackpink-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-Blackpink-dummy.m"; sourceTree = "<group>"; };
+		3D8A080C811C52372CCD014702F6CB93 /* PopMenuManager.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PopMenuManager.swift; path = PopMenu/Classes/PopMenuManager.swift; sourceTree = "<group>"; };
 		436BAA54A31999B53B3CC7115C55FE50 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS12.2.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
-		4594BB939386A2EF411246B78F2193F6 /* Pods-Blackpink-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-Blackpink-frameworks.sh"; sourceTree = "<group>"; };
-		45FC37B9529B5BF57DC4DA78930BCDEA /* UILoadControl.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = UILoadControl.modulemap; sourceTree = "<group>"; };
-		4BEEAC8264B2885FF4D47EA24B27AB10 /* Pods-Blackpink-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-Blackpink-acknowledgements.plist"; sourceTree = "<group>"; };
-		4F7B1D68D4C871E12FE7F7C96AF90D5A /* Pods-Blackpink-BlackpinkUITests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-Blackpink-BlackpinkUITests.modulemap"; sourceTree = "<group>"; };
-		51C6864A13EFA0FB279A9C4E5DDF0F68 /* Pods-Blackpink-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-Blackpink-umbrella.h"; sourceTree = "<group>"; };
-		5B452D800F9732F69E3054EF79380DC9 /* Pods-Blackpink-BlackpinkUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Blackpink-BlackpinkUITests.release.xcconfig"; sourceTree = "<group>"; };
-		62ECDB3D9D06ADA1904849AB94EFB89D /* Pods-Blackpink-BlackpinkUITests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-Blackpink-BlackpinkUITests-acknowledgements.markdown"; sourceTree = "<group>"; };
-		686F3B0802161BCD9AFF928552DE0D4C /* Pods_BlackpinkTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_BlackpinkTests.framework; path = "Pods-BlackpinkTests.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
-		6B2BB5029BA807504E45B6C2B93F65C7 /* Pods-BlackpinkTests-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-BlackpinkTests-frameworks.sh"; sourceTree = "<group>"; };
+		4773E284D519438EADFFFEC9F73E6330 /* Pods-Blackpink.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Blackpink.release.xcconfig"; sourceTree = "<group>"; };
+		49A1D10D9CB67454C8A2E29D6369B0BB /* PopMenuDismissAnimationController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PopMenuDismissAnimationController.swift; path = PopMenu/Transitions/PopMenuDismissAnimationController.swift; sourceTree = "<group>"; };
+		4EBACF1AAD9E86F9AF1754D5B3A82EA3 /* UILoadControl-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "UILoadControl-umbrella.h"; sourceTree = "<group>"; };
+		54111D70B6D7DBA1BEA0DE1C79BEC420 /* UILoadControl-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "UILoadControl-dummy.m"; sourceTree = "<group>"; };
+		58A5EFB7ECEFC9E9954A06B578F3BE6F /* NewPopMenu-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "NewPopMenu-Info.plist"; sourceTree = "<group>"; };
+		59131750A4DAE5E1378A7217D8E09A28 /* NewPopMenu.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = NewPopMenu.debug.xcconfig; sourceTree = "<group>"; };
+		5BBB795E8DB6A92B5B56412DDB175DCD /* UILoadControl.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = UILoadControl.release.xcconfig; sourceTree = "<group>"; };
+		66B7A38E074D99BF83B1B8D83278ACA7 /* NewPopMenu-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "NewPopMenu-umbrella.h"; sourceTree = "<group>"; };
+		69E778E1B9B896A5EAFF921ED5808C76 /* UIView+Shadows.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "UIView+Shadows.swift"; path = "PopMenu/Classes/Helpers/UIView+Shadows.swift"; sourceTree = "<group>"; };
 		6E05A788A4FFA447ACE04B7F545656A1 /* Pods_Blackpink.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_Blackpink.framework; path = "Pods-Blackpink.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
-		76EB14C52979DB93B009496EAC6C76E6 /* UILoadControl.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = UILoadControl.debug.xcconfig; sourceTree = "<group>"; };
-		7B6F2D203E6DDB557B6CAF592B19E7FD /* UILoadControl-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "UILoadControl-prefix.pch"; sourceTree = "<group>"; };
-		7EF2B663DFC6E2D78B5DA1AE1E0D1B84 /* Pods-BlackpinkTests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-BlackpinkTests.modulemap"; sourceTree = "<group>"; };
+		70976F92C5E5677A98DE7DD9E237D41D /* UIColor+Contrast.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "UIColor+Contrast.swift"; path = "PopMenu/Classes/Helpers/UIColor+Contrast.swift"; sourceTree = "<group>"; };
+		73EF1A63405C54649D3D1CF458223344 /* PopMenuGradientView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PopMenuGradientView.swift; path = PopMenu/Classes/Helpers/PopMenuGradientView.swift; sourceTree = "<group>"; };
+		773F8594996E0092DF1AF8CDBE9EE190 /* UILoadControl_UIScrollView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = UILoadControl_UIScrollView.swift; path = Pod/Classes/UILoadControl_UIScrollView.swift; sourceTree = "<group>"; };
+		7DD999B56861AEA025C4E583DEC6A6CD /* Pods-Blackpink.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-Blackpink.modulemap"; sourceTree = "<group>"; };
+		8B9B9505743A3FED126E54DECF9F0232 /* Pods-Blackpink-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-Blackpink-umbrella.h"; sourceTree = "<group>"; };
+		9533E76ECB7729140F3BB189D0FB1772 /* UILoadControl-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "UILoadControl-prefix.pch"; sourceTree = "<group>"; };
 		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
-		9EFCACDBD29A52A1AFAE39DDCC65989B /* Pods-Blackpink.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-Blackpink.modulemap"; sourceTree = "<group>"; };
-		9F45A067A921FA2C032968814899C062 /* UILoadControl-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "UILoadControl-dummy.m"; sourceTree = "<group>"; };
-		A35DCFE1F974527D43115D20FC9ED5FC /* Pods-Blackpink-BlackpinkUITests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-Blackpink-BlackpinkUITests-dummy.m"; sourceTree = "<group>"; };
-		A446605AA740A78DF0CAC11D9238754E /* Pods-BlackpinkTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-BlackpinkTests.release.xcconfig"; sourceTree = "<group>"; };
-		A9FA2BF16409501CA33D000CC0E23620 /* Pods-BlackpinkTests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-BlackpinkTests-acknowledgements.markdown"; sourceTree = "<group>"; };
-		ABEC9F61AD2179717426DB03893DBC3F /* Pods-Blackpink-BlackpinkUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Blackpink-BlackpinkUITests.debug.xcconfig"; sourceTree = "<group>"; };
-		B41BD66438761A7CEB8355EF8360C08D /* Pods-Blackpink-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-Blackpink-dummy.m"; sourceTree = "<group>"; };
-		BD70F6B7481C3DC718585C6E9D961452 /* Pods-BlackpinkTests-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-BlackpinkTests-Info.plist"; sourceTree = "<group>"; };
-		C590E3EDB63E9CC1F4F993BA6C7A869C /* UILoadControl.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = UILoadControl.swift; path = Pod/Classes/UILoadControl.swift; sourceTree = "<group>"; };
-		DB736A4BAD7F78E737B7889B24330F35 /* Pods-Blackpink-BlackpinkUITests-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-Blackpink-BlackpinkUITests-umbrella.h"; sourceTree = "<group>"; };
-		E0EC266F6832758F7F89B0F49EC708F4 /* Pods-Blackpink.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Blackpink.debug.xcconfig"; sourceTree = "<group>"; };
-		E243D505EE7B322E7125265CCACED873 /* Pods-BlackpinkTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-BlackpinkTests.debug.xcconfig"; sourceTree = "<group>"; };
-		E53EE1580EEFCD1586902AC8A849B1DC /* Pods-BlackpinkTests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-BlackpinkTests-acknowledgements.plist"; sourceTree = "<group>"; };
-		F43F9B249818BCFCF94F25EDE6557987 /* UILoadControl-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "UILoadControl-umbrella.h"; sourceTree = "<group>"; };
+		A180902BC7B0DB7205AC3E291399CA96 /* UILoadControl-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "UILoadControl-Info.plist"; sourceTree = "<group>"; };
+		B2C82141BDEA55D455EAD2AB5DA5255E /* PopMenu.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PopMenu.h; path = PopMenu/PopMenu.h; sourceTree = "<group>"; };
+		B5845959FB68D220731D7EC0A3504303 /* NewPopMenu-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "NewPopMenu-prefix.pch"; sourceTree = "<group>"; };
+		BB9F085B83443B75B2DC41CF5AC93CEB /* PopMenu.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = PopMenu.framework; path = NewPopMenu.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		BD724CF3592651DD9D47064ECB28F730 /* UILoadControl.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = UILoadControl.debug.xcconfig; sourceTree = "<group>"; };
+		C4BADCD36F30FDBC030B3CCB34B491D9 /* PopMenuAppearance.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PopMenuAppearance.swift; path = PopMenu/Classes/PopMenuAppearance.swift; sourceTree = "<group>"; };
+		D296FC693F88786D8845FA0B812DDE32 /* NewPopMenu-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "NewPopMenu-dummy.m"; sourceTree = "<group>"; };
+		D78639DD303BE09F296F45615906F639 /* UILoadControl.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = UILoadControl.modulemap; sourceTree = "<group>"; };
+		D7956291D9EF2F7FABD19AD442C07E4F /* UILoadControl.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = UILoadControl.swift; path = Pod/Classes/UILoadControl.swift; sourceTree = "<group>"; };
+		EE0DC561199CC8CBF111D38829D9F163 /* NewPopMenu.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = NewPopMenu.modulemap; sourceTree = "<group>"; };
+		EEA592AC51EC5D6730B789381C6DEAA4 /* PopMenuAction.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PopMenuAction.swift; path = "PopMenu/View Controller & Views/PopMenuAction.swift"; sourceTree = "<group>"; };
+		F3DB1BF16EE6C5C484DE39BA5E19BCDC /* Haptics.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Haptics.swift; path = PopMenu/Classes/Helpers/Haptics.swift; sourceTree = "<group>"; };
 		F54A3C504AE7A4C6C1953576C5D40F56 /* UILoadControl.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = UILoadControl.framework; path = UILoadControl.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		F8C58984AF7A04CCFBA2D9EF0F62E6C6 /* Pods-Blackpink-BlackpinkUITests-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-Blackpink-BlackpinkUITests-Info.plist"; sourceTree = "<group>"; };
-		FC6D114A179E5C993094656C7422E66D /* Pods-BlackpinkTests-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-BlackpinkTests-umbrella.h"; sourceTree = "<group>"; };
+		FBA2BF0FAEFE94B319C02FDFE1A7CAAE /* NewPopMenu.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = NewPopMenu.release.xcconfig; sourceTree = "<group>"; };
+		FF704ADB0395554E74BBDB5729A4ADCE /* Pods-Blackpink.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Blackpink.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		0FE5EDAD86D65874F8A12FD62D023352 /* Frameworks */ = {
+		5122C211E7CE85D9D3E2B4624AF65798 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5B39EF80A1649448093EB8972F233554 /* Foundation.framework in Frameworks */,
+				4654EB063C3477E876157222A074356D /* Foundation.framework in Frameworks */,
+				D2FA5F7FFA44C4859818073FC97E0083 /* UIKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		9181EA388E4D6C511B6B4D0F64D9BCF6 /* Frameworks */ = {
+		CDC5F4F924B25619FAC64CE82069359B /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				65480B527C08B23086B86D6F9DF32B4E /* Foundation.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		B5ECD6242F3B35FA056550767B112820 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				5F5958051D8E84BA390C12853EC328D5 /* Foundation.framework in Frameworks */,
+				ED0D720BCEDDB4E9E581E6E8FB6E6E5B /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -146,82 +133,90 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		4007E87CA3A552F8B73BB7F96C3EC308 /* Pods-BlackpinkTests */ = {
+		3BBF1B500C89D0C9C6E703166F3CFE60 /* Pods-Blackpink */ = {
 			isa = PBXGroup;
 			children = (
-				7EF2B663DFC6E2D78B5DA1AE1E0D1B84 /* Pods-BlackpinkTests.modulemap */,
-				A9FA2BF16409501CA33D000CC0E23620 /* Pods-BlackpinkTests-acknowledgements.markdown */,
-				E53EE1580EEFCD1586902AC8A849B1DC /* Pods-BlackpinkTests-acknowledgements.plist */,
-				33819359FE319151B865FF486B8485C0 /* Pods-BlackpinkTests-dummy.m */,
-				6B2BB5029BA807504E45B6C2B93F65C7 /* Pods-BlackpinkTests-frameworks.sh */,
-				BD70F6B7481C3DC718585C6E9D961452 /* Pods-BlackpinkTests-Info.plist */,
-				FC6D114A179E5C993094656C7422E66D /* Pods-BlackpinkTests-umbrella.h */,
-				E243D505EE7B322E7125265CCACED873 /* Pods-BlackpinkTests.debug.xcconfig */,
-				A446605AA740A78DF0CAC11D9238754E /* Pods-BlackpinkTests.release.xcconfig */,
+				7DD999B56861AEA025C4E583DEC6A6CD /* Pods-Blackpink.modulemap */,
+				0194AB93D49810D902CF59B75B33A578 /* Pods-Blackpink-acknowledgements.markdown */,
+				28E1751172DA437DBEC736206FEF6CA8 /* Pods-Blackpink-acknowledgements.plist */,
+				33C1E0A42DC33BB9CD35FAE6EB13B3ED /* Pods-Blackpink-dummy.m */,
+				30C0AC0FCD24EDBCF583F1EA5103B0F9 /* Pods-Blackpink-frameworks.sh */,
+				0C62ABBA89D7924343728E0DE9A71ED2 /* Pods-Blackpink-Info.plist */,
+				8B9B9505743A3FED126E54DECF9F0232 /* Pods-Blackpink-umbrella.h */,
+				FF704ADB0395554E74BBDB5729A4ADCE /* Pods-Blackpink.debug.xcconfig */,
+				4773E284D519438EADFFFEC9F73E6330 /* Pods-Blackpink.release.xcconfig */,
 			);
-			name = "Pods-BlackpinkTests";
-			path = "Target Support Files/Pods-BlackpinkTests";
+			name = "Pods-Blackpink";
+			path = "Target Support Files/Pods-Blackpink";
 			sourceTree = "<group>";
 		};
-		70C5AC6FCC54CBBD91EB95DCEC2AFFF4 /* Targets Support Files */ = {
+		45F0E0F0041E2AEDDD55C229BCAE613E /* Support Files */ = {
 			isa = PBXGroup;
 			children = (
-				E2749AF1EF4367E176C90B87D5E56962 /* Pods-Blackpink */,
-				8CE12426F6283DF9AF92A9B9AF6F09A7 /* Pods-Blackpink-BlackpinkUITests */,
-				4007E87CA3A552F8B73BB7F96C3EC308 /* Pods-BlackpinkTests */,
+				EE0DC561199CC8CBF111D38829D9F163 /* NewPopMenu.modulemap */,
+				D296FC693F88786D8845FA0B812DDE32 /* NewPopMenu-dummy.m */,
+				58A5EFB7ECEFC9E9954A06B578F3BE6F /* NewPopMenu-Info.plist */,
+				B5845959FB68D220731D7EC0A3504303 /* NewPopMenu-prefix.pch */,
+				66B7A38E074D99BF83B1B8D83278ACA7 /* NewPopMenu-umbrella.h */,
+				59131750A4DAE5E1378A7217D8E09A28 /* NewPopMenu.debug.xcconfig */,
+				FBA2BF0FAEFE94B319C02FDFE1A7CAAE /* NewPopMenu.release.xcconfig */,
 			);
-			name = "Targets Support Files";
+			name = "Support Files";
+			path = "../Target Support Files/NewPopMenu";
 			sourceTree = "<group>";
 		};
-		75146DA8D2B870D7A7A265199065BE1C /* Support Files */ = {
+		527E6096D89AFFABDD968E9999F3E0F4 /* Support Files */ = {
 			isa = PBXGroup;
 			children = (
-				45FC37B9529B5BF57DC4DA78930BCDEA /* UILoadControl.modulemap */,
-				9F45A067A921FA2C032968814899C062 /* UILoadControl-dummy.m */,
-				27860FF1EA91EC7334BA6315EF102EC3 /* UILoadControl-Info.plist */,
-				7B6F2D203E6DDB557B6CAF592B19E7FD /* UILoadControl-prefix.pch */,
-				F43F9B249818BCFCF94F25EDE6557987 /* UILoadControl-umbrella.h */,
-				76EB14C52979DB93B009496EAC6C76E6 /* UILoadControl.debug.xcconfig */,
-				213CA2E17F1DC9102EC8BD542CCC545A /* UILoadControl.release.xcconfig */,
+				D78639DD303BE09F296F45615906F639 /* UILoadControl.modulemap */,
+				54111D70B6D7DBA1BEA0DE1C79BEC420 /* UILoadControl-dummy.m */,
+				A180902BC7B0DB7205AC3E291399CA96 /* UILoadControl-Info.plist */,
+				9533E76ECB7729140F3BB189D0FB1772 /* UILoadControl-prefix.pch */,
+				4EBACF1AAD9E86F9AF1754D5B3A82EA3 /* UILoadControl-umbrella.h */,
+				BD724CF3592651DD9D47064ECB28F730 /* UILoadControl.debug.xcconfig */,
+				5BBB795E8DB6A92B5B56412DDB175DCD /* UILoadControl.release.xcconfig */,
 			);
 			name = "Support Files";
 			path = "../Target Support Files/UILoadControl";
 			sourceTree = "<group>";
 		};
-		8CE12426F6283DF9AF92A9B9AF6F09A7 /* Pods-Blackpink-BlackpinkUITests */ = {
+		5ACC2B1C013A2C13B9EDDD6D810CB695 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				4F7B1D68D4C871E12FE7F7C96AF90D5A /* Pods-Blackpink-BlackpinkUITests.modulemap */,
-				62ECDB3D9D06ADA1904849AB94EFB89D /* Pods-Blackpink-BlackpinkUITests-acknowledgements.markdown */,
-				1BF1134441AA68F31E42749D44B9A565 /* Pods-Blackpink-BlackpinkUITests-acknowledgements.plist */,
-				A35DCFE1F974527D43115D20FC9ED5FC /* Pods-Blackpink-BlackpinkUITests-dummy.m */,
-				18052E19027EBAA0A493B4479F1D5A08 /* Pods-Blackpink-BlackpinkUITests-frameworks.sh */,
-				F8C58984AF7A04CCFBA2D9EF0F62E6C6 /* Pods-Blackpink-BlackpinkUITests-Info.plist */,
-				DB736A4BAD7F78E737B7889B24330F35 /* Pods-Blackpink-BlackpinkUITests-umbrella.h */,
-				ABEC9F61AD2179717426DB03893DBC3F /* Pods-Blackpink-BlackpinkUITests.debug.xcconfig */,
-				5B452D800F9732F69E3054EF79380DC9 /* Pods-Blackpink-BlackpinkUITests.release.xcconfig */,
-			);
-			name = "Pods-Blackpink-BlackpinkUITests";
-			path = "Target Support Files/Pods-Blackpink-BlackpinkUITests";
-			sourceTree = "<group>";
-		};
-		9138A8A773698CDE29E54614FF3C6698 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				DCDF29DC643F8E6F8F35E4A3AC67917F /* UILoadControl */,
+				792AE1209A24A61A3EF0748A2092E0EE /* NewPopMenu */,
+				D0C51C158F2FD071B3FC5496407B2184 /* UILoadControl */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
 		};
-		CA2ED7CDAC67108D2AF102F57FA7AB53 /* Products */ = {
+		675DC109EDF8392EFF1F86CEBB7B72EA /* Products */ = {
 			isa = PBXGroup;
 			children = (
 				6E05A788A4FFA447ACE04B7F545656A1 /* Pods_Blackpink.framework */,
-				3FD3A2151B7CB8AC7174F5D538ED8B7B /* Pods_Blackpink_BlackpinkUITests.framework */,
-				686F3B0802161BCD9AFF928552DE0D4C /* Pods_BlackpinkTests.framework */,
+				BB9F085B83443B75B2DC41CF5AC93CEB /* PopMenu.framework */,
 				F54A3C504AE7A4C6C1953576C5D40F56 /* UILoadControl.framework */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		792AE1209A24A61A3EF0748A2092E0EE /* NewPopMenu */ = {
+			isa = PBXGroup;
+			children = (
+				F3DB1BF16EE6C5C484DE39BA5E19BCDC /* Haptics.swift */,
+				B2C82141BDEA55D455EAD2AB5DA5255E /* PopMenu.h */,
+				EEA592AC51EC5D6730B789381C6DEAA4 /* PopMenuAction.swift */,
+				C4BADCD36F30FDBC030B3CCB34B491D9 /* PopMenuAppearance.swift */,
+				49A1D10D9CB67454C8A2E29D6369B0BB /* PopMenuDismissAnimationController.swift */,
+				73EF1A63405C54649D3D1CF458223344 /* PopMenuGradientView.swift */,
+				3D8A080C811C52372CCD014702F6CB93 /* PopMenuManager.swift */,
+				058B4E4EC4BC21014AA7CCB130331DB2 /* PopMenuPresentAnimationController.swift */,
+				1F02339EB8C52547773123DC06F0B358 /* PopMenuViewController.swift */,
+				70976F92C5E5677A98DE7DD9E237D41D /* UIColor+Contrast.swift */,
+				69E778E1B9B896A5EAFF921ED5808C76 /* UIView+Shadows.swift */,
+				45F0E0F0041E2AEDDD55C229BCAE613E /* Support Files */,
+			);
+			name = NewPopMenu;
+			path = NewPopMenu;
 			sourceTree = "<group>";
 		};
 		CF1408CF629C7361332E53B88F7BD30C = {
@@ -229,38 +224,21 @@
 			children = (
 				9D940727FF8FB9C785EB98E56350EF41 /* Podfile */,
 				1628BF05B4CAFDCC3549A101F5A10A17 /* Frameworks */,
-				9138A8A773698CDE29E54614FF3C6698 /* Pods */,
-				CA2ED7CDAC67108D2AF102F57FA7AB53 /* Products */,
-				70C5AC6FCC54CBBD91EB95DCEC2AFFF4 /* Targets Support Files */,
+				5ACC2B1C013A2C13B9EDDD6D810CB695 /* Pods */,
+				675DC109EDF8392EFF1F86CEBB7B72EA /* Products */,
+				FBC9A9CBF93F15ED647CECEEBFA5DEE1 /* Targets Support Files */,
 			);
 			sourceTree = "<group>";
 		};
-		DCDF29DC643F8E6F8F35E4A3AC67917F /* UILoadControl */ = {
+		D0C51C158F2FD071B3FC5496407B2184 /* UILoadControl */ = {
 			isa = PBXGroup;
 			children = (
-				C590E3EDB63E9CC1F4F993BA6C7A869C /* UILoadControl.swift */,
-				13DC31CD37D71DC7387EB0CF71F8F035 /* UILoadControl_UIScrollView.swift */,
-				75146DA8D2B870D7A7A265199065BE1C /* Support Files */,
+				D7956291D9EF2F7FABD19AD442C07E4F /* UILoadControl.swift */,
+				773F8594996E0092DF1AF8CDBE9EE190 /* UILoadControl_UIScrollView.swift */,
+				527E6096D89AFFABDD968E9999F3E0F4 /* Support Files */,
 			);
 			name = UILoadControl;
 			path = UILoadControl;
-			sourceTree = "<group>";
-		};
-		E2749AF1EF4367E176C90B87D5E56962 /* Pods-Blackpink */ = {
-			isa = PBXGroup;
-			children = (
-				9EFCACDBD29A52A1AFAE39DDCC65989B /* Pods-Blackpink.modulemap */,
-				308332C4293CEDCD8D3896CBD714448E /* Pods-Blackpink-acknowledgements.markdown */,
-				4BEEAC8264B2885FF4D47EA24B27AB10 /* Pods-Blackpink-acknowledgements.plist */,
-				B41BD66438761A7CEB8355EF8360C08D /* Pods-Blackpink-dummy.m */,
-				4594BB939386A2EF411246B78F2193F6 /* Pods-Blackpink-frameworks.sh */,
-				05359DE38ADA82616172B31C93BBE984 /* Pods-Blackpink-Info.plist */,
-				51C6864A13EFA0FB279A9C4E5DDF0F68 /* Pods-Blackpink-umbrella.h */,
-				E0EC266F6832758F7F89B0F49EC708F4 /* Pods-Blackpink.debug.xcconfig */,
-				2533A7CA8FB78A4867336904BF9EFFC6 /* Pods-Blackpink.release.xcconfig */,
-			);
-			name = "Pods-Blackpink";
-			path = "Target Support Files/Pods-Blackpink";
 			sourceTree = "<group>";
 		};
 		E2983683FD097A93297E2F5D4E382B36 /* iOS */ = {
@@ -270,6 +248,14 @@
 				312B988EF117AE4DE76A268D970131FE /* UIKit.framework */,
 			);
 			name = iOS;
+			sourceTree = "<group>";
+		};
+		FBC9A9CBF93F15ED647CECEEBFA5DEE1 /* Targets Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				3BBF1B500C89D0C9C6E703166F3CFE60 /* Pods-Blackpink */,
+			);
+			name = "Targets Support Files";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -283,70 +269,42 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		4311E9E562D2284BD3B91BEE72BB939E /* Headers */ = {
+		A873E236F3991384AF740271C1E68AD7 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E816A30DFAE3401F160E8D3467C09F06 /* Pods-Blackpink-BlackpinkUITests-umbrella.h in Headers */,
+				890FDAEBC2E2916F225E7D0DC57CCF26 /* NewPopMenu-umbrella.h in Headers */,
+				4F4BEA1FDCD1F8D56807FEB6A4673FB5 /* PopMenu.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		4BBDA13D8D2BF9019970E90F4862FD3E /* Headers */ = {
+		FE814DD1EFE1A563A12892BCAF417795 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				42203B259A10380BCEBDBB12E0FDE2D6 /* Pods-BlackpinkTests-umbrella.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		C1F065B577805DCBE4C2E5463059CA16 /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				EA9A6B00070041D8B7C2683258F80709 /* Pods-Blackpink-umbrella.h in Headers */,
+				38D50292AA7EA95649349CCAB704C71B /* Pods-Blackpink-umbrella.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		1B350BDBB69F0AD548E79320A03C6E7B /* Pods-Blackpink-BlackpinkUITests */ = {
+		8CC7F28675174E65A4EB204EBB5DC19A /* NewPopMenu */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 85825EB5D9C06EB9AB82BBC08F5331C3 /* Build configuration list for PBXNativeTarget "Pods-Blackpink-BlackpinkUITests" */;
+			buildConfigurationList = 4FD78AC9E303E70617FC6DCD1D5C96E2 /* Build configuration list for PBXNativeTarget "NewPopMenu" */;
 			buildPhases = (
-				4311E9E562D2284BD3B91BEE72BB939E /* Headers */,
-				D5D0B54A34989AF1BF42F84045969E8B /* Sources */,
-				B5ECD6242F3B35FA056550767B112820 /* Frameworks */,
-				D48F5344C6A8CE97B86CFA6F75E3D329 /* Resources */,
+				A873E236F3991384AF740271C1E68AD7 /* Headers */,
+				5918E2C36C7041BA5BF8C36004E2940A /* Sources */,
+				5122C211E7CE85D9D3E2B4624AF65798 /* Frameworks */,
+				70C6C90F3AE336E7B5C9859EED299A1D /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				839C0EBF2A53917CB76073F25D401211 /* PBXTargetDependency */,
 			);
-			name = "Pods-Blackpink-BlackpinkUITests";
-			productName = "Pods-Blackpink-BlackpinkUITests";
-			productReference = 3FD3A2151B7CB8AC7174F5D538ED8B7B /* Pods_Blackpink_BlackpinkUITests.framework */;
-			productType = "com.apple.product-type.framework";
-		};
-		356A04DD4DBC3E69668A13197F4C3EC3 /* Pods-BlackpinkTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 0943369086AB843900995F57086F98F3 /* Build configuration list for PBXNativeTarget "Pods-BlackpinkTests" */;
-			buildPhases = (
-				4BBDA13D8D2BF9019970E90F4862FD3E /* Headers */,
-				51D1C1DC89168CEC770F8ABD98F675DD /* Sources */,
-				9181EA388E4D6C511B6B4D0F64D9BCF6 /* Frameworks */,
-				EC79605D6A66DE736CCEA5D2B7216B64 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				FBE1BF46E6CE2B43CC9CD70E12B0B5FD /* PBXTargetDependency */,
-				39480BFD9CDF9C7D783C2670070D9C01 /* PBXTargetDependency */,
-			);
-			name = "Pods-BlackpinkTests";
-			productName = "Pods-BlackpinkTests";
-			productReference = 686F3B0802161BCD9AFF928552DE0D4C /* Pods_BlackpinkTests.framework */;
+			name = NewPopMenu;
+			productName = NewPopMenu;
+			productReference = BB9F085B83443B75B2DC41CF5AC93CEB /* PopMenu.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		9E50973EECDF5CAC627F73748F98D4FF /* UILoadControl */ = {
@@ -369,17 +327,18 @@
 		};
 		F3B72C056C83F5B0ED3A8E65678A1B10 /* Pods-Blackpink */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 4B7FA4E70ED1E47C0082D0645BC132E2 /* Build configuration list for PBXNativeTarget "Pods-Blackpink" */;
+			buildConfigurationList = F8CC8E51927E7E89A0CAF610CD4CB304 /* Build configuration list for PBXNativeTarget "Pods-Blackpink" */;
 			buildPhases = (
-				C1F065B577805DCBE4C2E5463059CA16 /* Headers */,
-				52009C5BEDEB094F716925C130307DF2 /* Sources */,
-				0FE5EDAD86D65874F8A12FD62D023352 /* Frameworks */,
-				976A615CEB76F56EA15A0A92A045AD48 /* Resources */,
+				FE814DD1EFE1A563A12892BCAF417795 /* Headers */,
+				1B6E1CDA9BB25FA63811E428C3351411 /* Sources */,
+				CDC5F4F924B25619FAC64CE82069359B /* Frameworks */,
+				2C3A98719C3A4F3E61A57BFD45886067 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				29FF1C16751183FD610B3E62E73B8561 /* PBXTargetDependency */,
+				2EC46445F168E9945FFDA327603BFD89 /* PBXTargetDependency */,
+				71839A907F7749EACFED114FDD56C21D /* PBXTargetDependency */,
 			);
 			name = "Pods-Blackpink";
 			productName = "Pods-Blackpink";
@@ -396,7 +355,7 @@
 				LastUpgradeCheck = 1100;
 			};
 			buildConfigurationList = 4821239608C13582E20E6DA73FD5F1F9 /* Build configuration list for PBXProject "Pods" */;
-			compatibilityVersion = "Xcode 9.3";
+			compatibilityVersion = "Xcode 10.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -404,41 +363,33 @@
 				Base,
 			);
 			mainGroup = CF1408CF629C7361332E53B88F7BD30C;
-			productRefGroup = CA2ED7CDAC67108D2AF102F57FA7AB53 /* Products */;
+			productRefGroup = 675DC109EDF8392EFF1F86CEBB7B72EA /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
+				8CC7F28675174E65A4EB204EBB5DC19A /* NewPopMenu */,
 				F3B72C056C83F5B0ED3A8E65678A1B10 /* Pods-Blackpink */,
-				1B350BDBB69F0AD548E79320A03C6E7B /* Pods-Blackpink-BlackpinkUITests */,
-				356A04DD4DBC3E69668A13197F4C3EC3 /* Pods-BlackpinkTests */,
 				9E50973EECDF5CAC627F73748F98D4FF /* UILoadControl */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		2C3A98719C3A4F3E61A57BFD45886067 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		70C6C90F3AE336E7B5C9859EED299A1D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		799C42C3FA07156B0F8924DF598E6FB0 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		976A615CEB76F56EA15A0A92A045AD48 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		D48F5344C6A8CE97B86CFA6F75E3D329 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		EC79605D6A66DE736CCEA5D2B7216B64 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -458,56 +409,46 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		51D1C1DC89168CEC770F8ABD98F675DD /* Sources */ = {
+		1B6E1CDA9BB25FA63811E428C3351411 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				03B61343EA179ED39E77006AE19177ED /* Pods-BlackpinkTests-dummy.m in Sources */,
+				B3F5FB8B429B244ADBE2F9A204FFE5F6 /* Pods-Blackpink-dummy.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		52009C5BEDEB094F716925C130307DF2 /* Sources */ = {
+		5918E2C36C7041BA5BF8C36004E2940A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6E5183CB35AB893DCB4B24E56D5DBDC6 /* Pods-Blackpink-dummy.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		D5D0B54A34989AF1BF42F84045969E8B /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				D9E3E6C23AC275DE1FD5505F115D239F /* Pods-Blackpink-BlackpinkUITests-dummy.m in Sources */,
+				12232B4992FF44F9E743704426A5C34D /* Haptics.swift in Sources */,
+				3E174AEDC606B2A5414781F343E1AD8A /* NewPopMenu-dummy.m in Sources */,
+				C28F1A38EFFD963EA921344DD4FE52D0 /* PopMenuAction.swift in Sources */,
+				4129C5ADD2A59209D49838407095D1F8 /* PopMenuAppearance.swift in Sources */,
+				FE2CE2A5D99C4FEC6BEFB477793111C3 /* PopMenuDismissAnimationController.swift in Sources */,
+				5BCDEE546CC934C24A7FA1C8EEDD4755 /* PopMenuGradientView.swift in Sources */,
+				E2F45457159D8A54C8981974405714D7 /* PopMenuManager.swift in Sources */,
+				50A08628631D1513E3DB94DAFA0A4BC0 /* PopMenuPresentAnimationController.swift in Sources */,
+				9C6CEFAE327908F6310B15348E31AEA4 /* PopMenuViewController.swift in Sources */,
+				EA75E23AACB80AACCF1565E8D267883E /* UIColor+Contrast.swift in Sources */,
+				DC4FBA009BD68DB0F36A765203AD6650 /* UIView+Shadows.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		29FF1C16751183FD610B3E62E73B8561 /* PBXTargetDependency */ = {
+		2EC46445F168E9945FFDA327603BFD89 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = NewPopMenu;
+			target = 8CC7F28675174E65A4EB204EBB5DC19A /* NewPopMenu */;
+			targetProxy = 7249E1FAA36E3FB4AB236992592A2F8A /* PBXContainerItemProxy */;
+		};
+		71839A907F7749EACFED114FDD56C21D /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = UILoadControl;
 			target = 9E50973EECDF5CAC627F73748F98D4FF /* UILoadControl */;
-			targetProxy = 5E67A8ACD08E22F9CF284DA6993F25A1 /* PBXContainerItemProxy */;
-		};
-		39480BFD9CDF9C7D783C2670070D9C01 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = UILoadControl;
-			target = 9E50973EECDF5CAC627F73748F98D4FF /* UILoadControl */;
-			targetProxy = C1A42BC345DEEBE25AA7B7531D8FF128 /* PBXContainerItemProxy */;
-		};
-		839C0EBF2A53917CB76073F25D401211 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = UILoadControl;
-			target = 9E50973EECDF5CAC627F73748F98D4FF /* UILoadControl */;
-			targetProxy = ADDC03F3181814CC8BC952B0DA0F0987 /* PBXContainerItemProxy */;
-		};
-		FBE1BF46E6CE2B43CC9CD70E12B0B5FD /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "Pods-Blackpink";
-			target = F3B72C056C83F5B0ED3A8E65678A1B10 /* Pods-Blackpink */;
-			targetProxy = 24F66E0C98164545B20397AB4B4ECE31 /* PBXContainerItemProxy */;
+			targetProxy = AD30105B723A038D89D8E1FC8310D8C7 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -572,12 +513,10 @@
 			};
 			name = Release;
 		};
-		1F99CA034DDDD9C2A7F29D9690C896AB /* Release */ = {
+		217F77D0CAB800627F8588F37F85E2E2 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A446605AA740A78DF0CAC11D9238754E /* Pods-BlackpinkTests.release.xcconfig */;
+			baseConfigurationReference = FBA2BF0FAEFE94B319C02FDFE1A7CAAE /* NewPopMenu.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
-				CLANG_ENABLE_OBJC_WEAK = NO;
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
@@ -587,23 +526,22 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = "Target Support Files/Pods-BlackpinkTests/Pods-BlackpinkTests-Info.plist";
+				GCC_PREFIX_HEADER = "Target Support Files/NewPopMenu/NewPopMenu-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/NewPopMenu/NewPopMenu-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MACH_O_TYPE = staticlib;
-				MODULEMAP_FILE = "Target Support Files/Pods-BlackpinkTests/Pods-BlackpinkTests.modulemap";
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				MODULEMAP_FILE = "Target Support Files/NewPopMenu/NewPopMenu.modulemap";
+				PRODUCT_MODULE_NAME = PopMenu;
+				PRODUCT_NAME = PopMenu;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -611,9 +549,9 @@
 			};
 			name = Release;
 		};
-		26A04DAD5BCDEF94D4D0805AC1ED2A3B /* Release */ = {
+		22EE74167F1C13FC43C238B69FFEA789 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2533A7CA8FB78A4867336904BF9EFFC6 /* Pods-Blackpink.release.xcconfig */;
+			baseConfigurationReference = 4773E284D519438EADFFFEC9F73E6330 /* Pods-Blackpink.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				CLANG_ENABLE_OBJC_WEAK = NO;
@@ -650,12 +588,10 @@
 			};
 			name = Release;
 		};
-		51B7E2A250EDEE3F6A715DEF1C2CDFC5 /* Release */ = {
+		323D2FE9D54C529D93C8E711E4758613 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5B452D800F9732F69E3054EF79380DC9 /* Pods-Blackpink-BlackpinkUITests.release.xcconfig */;
+			baseConfigurationReference = 59131750A4DAE5E1378A7217D8E09A28 /* NewPopMenu.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
-				CLANG_ENABLE_OBJC_WEAK = NO;
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
@@ -665,71 +601,31 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = "Target Support Files/Pods-Blackpink-BlackpinkUITests/Pods-Blackpink-BlackpinkUITests-Info.plist";
+				GCC_PREFIX_HEADER = "Target Support Files/NewPopMenu/NewPopMenu-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/NewPopMenu/NewPopMenu-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MACH_O_TYPE = staticlib;
-				MODULEMAP_FILE = "Target Support Files/Pods-Blackpink-BlackpinkUITests/Pods-Blackpink-BlackpinkUITests.modulemap";
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				MODULEMAP_FILE = "Target Support Files/NewPopMenu/NewPopMenu.modulemap";
+				PRODUCT_MODULE_NAME = PopMenu;
+				PRODUCT_NAME = PopMenu;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Release;
-		};
-		5BE69A09FA089A64C312A0BF88ADDF3A /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = ABEC9F61AD2179717426DB03893DBC3F /* Pods-Blackpink-BlackpinkUITests.debug.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
-				CLANG_ENABLE_OBJC_WEAK = NO;
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = "Target Support Files/Pods-Blackpink-BlackpinkUITests/Pods-Blackpink-BlackpinkUITests-Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				MACH_O_TYPE = staticlib;
-				MODULEMAP_FILE = "Target Support Files/Pods-Blackpink-BlackpinkUITests/Pods-Blackpink-BlackpinkUITests.modulemap";
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
 			name = Debug;
 		};
-		A30E14D374121F195799C494FB170307 /* Debug */ = {
+		5BCEFFFD429822E384BA66B78A691151 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E0EC266F6832758F7F89B0F49EC708F4 /* Pods-Blackpink.debug.xcconfig */;
+			baseConfigurationReference = FF704ADB0395554E74BBDB5729A4ADCE /* Pods-Blackpink.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				CLANG_ENABLE_OBJC_WEAK = NO;
@@ -752,44 +648,6 @@
 				);
 				MACH_O_TYPE = staticlib;
 				MODULEMAP_FILE = "Target Support Files/Pods-Blackpink/Pods-Blackpink.modulemap";
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Debug;
-		};
-		A9412F7CF47F7B1F8EE05EF793E16495 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = E243D505EE7B322E7125265CCACED873 /* Pods-BlackpinkTests.debug.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
-				CLANG_ENABLE_OBJC_WEAK = NO;
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = "Target Support Files/Pods-BlackpinkTests/Pods-BlackpinkTests-Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				MACH_O_TYPE = staticlib;
-				MODULEMAP_FILE = "Target Support Files/Pods-BlackpinkTests/Pods-BlackpinkTests.modulemap";
 				OTHER_LDFLAGS = "";
 				OTHER_LIBTOOLFLAGS = "";
 				PODS_ROOT = "$(SRCROOT)";
@@ -805,7 +663,7 @@
 		};
 		EC586418905C7E54BE5FACDB105DEEED /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 213CA2E17F1DC9102EC8BD542CCC545A /* UILoadControl.release.xcconfig */;
+			baseConfigurationReference = 5BBB795E8DB6A92B5B56412DDB175DCD /* UILoadControl.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -905,7 +763,7 @@
 		};
 		F6AC6D1BC5103ED07DF9057E9F818B7C /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 76EB14C52979DB93B009496EAC6C76E6 /* UILoadControl.debug.xcconfig */;
+			baseConfigurationReference = BD724CF3592651DD9D47064ECB28F730 /* UILoadControl.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -941,15 +799,6 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		0943369086AB843900995F57086F98F3 /* Build configuration list for PBXNativeTarget "Pods-BlackpinkTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				A9412F7CF47F7B1F8EE05EF793E16495 /* Debug */,
-				1F99CA034DDDD9C2A7F29D9690C896AB /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		4821239608C13582E20E6DA73FD5F1F9 /* Build configuration list for PBXProject "Pods" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -959,11 +808,11 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		4B7FA4E70ED1E47C0082D0645BC132E2 /* Build configuration list for PBXNativeTarget "Pods-Blackpink" */ = {
+		4FD78AC9E303E70617FC6DCD1D5C96E2 /* Build configuration list for PBXNativeTarget "NewPopMenu" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				A30E14D374121F195799C494FB170307 /* Debug */,
-				26A04DAD5BCDEF94D4D0805AC1ED2A3B /* Release */,
+				323D2FE9D54C529D93C8E711E4758613 /* Debug */,
+				217F77D0CAB800627F8588F37F85E2E2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -977,11 +826,11 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		85825EB5D9C06EB9AB82BBC08F5331C3 /* Build configuration list for PBXNativeTarget "Pods-Blackpink-BlackpinkUITests" */ = {
+		F8CC8E51927E7E89A0CAF610CD4CB304 /* Build configuration list for PBXNativeTarget "Pods-Blackpink" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				5BE69A09FA089A64C312A0BF88ADDF3A /* Debug */,
-				51B7E2A250EDEE3F6A715DEF1C2CDFC5 /* Release */,
+				5BCEFFFD429822E384BA66B78A691151 /* Debug */,
+				22EE74167F1C13FC43C238B69FFEA789 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

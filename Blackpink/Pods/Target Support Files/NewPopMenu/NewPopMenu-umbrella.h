@@ -10,7 +10,8 @@
 #endif
 #endif
 
+#import "PopMenu.h"
 
-FOUNDATION_EXPORT double Pods_Blackpink_BlackpinkUITestsVersionNumber;
-FOUNDATION_EXPORT const unsigned char Pods_Blackpink_BlackpinkUITestsVersionString[];
+FOUNDATION_EXPORT double PopMenuVersionNumber;
+FOUNDATION_EXPORT const unsigned char PopMenuVersionString[];
 

@@ -1,16 +1,20 @@
 PODS:
+  - NewPopMenu (2.1.2)
   - UILoadControl (2.1.0)
 
 DEPENDENCIES:
+  - NewPopMenu (~> 2.0)
   - UILoadControl
 
 SPEC REPOS:
   trunk:
+    - NewPopMenu
     - UILoadControl
 
 SPEC CHECKSUMS:
+  NewPopMenu: c6129e08e8192f6257ceb5f9a4357e1b59c6e2e7
   UILoadControl: e742ddbe4c67ba1f13b00b7d462d4141307d021f
 
-PODFILE CHECKSUM: 99446e580961637204391739f0c3f3f05048fc79
+PODFILE CHECKSUM: ae86ed7607e4e0f1c4620b5f024b6f53880eab54
 
 COCOAPODS: 1.9.3

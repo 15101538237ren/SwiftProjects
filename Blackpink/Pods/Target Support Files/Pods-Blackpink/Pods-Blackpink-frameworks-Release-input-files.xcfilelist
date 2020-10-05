@@ -1,2 +1,3 @@
 ${PODS_ROOT}/Target Support Files/Pods-Blackpink/Pods-Blackpink-frameworks.sh
+${BUILT_PRODUCTS_DIR}/NewPopMenu/PopMenu.framework
 ${BUILT_PRODUCTS_DIR}/UILoadControl/UILoadControl.framework
