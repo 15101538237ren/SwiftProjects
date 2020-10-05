@@ -61,3 +61,20 @@ func removeLikedRecordId(recordName: String) {
     }
     saveLikedRecordIds(recordIds: newRecordIds)
 }
+
+func getCategoryByIntValue(category: Int) -> WallpaperCategory{
+    switch category {
+        case WallpaperCategory.Group.rawValue:
+            return WallpaperCategory.Group
+        case WallpaperCategory.Lisa.rawValue:
+            return WallpaperCategory.Lisa
+        case WallpaperCategory.Jisoo.rawValue:
+            return WallpaperCategory.Jisoo
+        case WallpaperCategory.Rose.rawValue:
+            return WallpaperCategory.Rose
+        case WallpaperCategory.Jennie.rawValue:
+            return WallpaperCategory.Jennie
+    default:
+        return WallpaperCategory.Group
+    }
+}

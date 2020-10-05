@@ -1,8 +1,8 @@
 //
-//  ViewController.swift
+//  SoloViewController.swift
 //  Blackpink
 //
-//  Created by Honglei Ren on 10/2/20.
+//  Created by Honglei on 10/4/20.
 //
 
 import UIKit
@@ -10,33 +10,18 @@ import CloudKit
 import UILoadControl
 import PopMenu
 
-class MainViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate {
+
+class SoloViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate {
     // Outlet Variables
     @IBOutlet weak var collectionView: UICollectionView!
-    @IBOutlet var soloBtns: [UIButton]!{
+    @IBOutlet var soloBtn: UIButton!{
         didSet{
-            for soloBtn in soloBtns{
-                soloBtn.layer.cornerRadius = soloBtn.layer.frame.width/2.0
-                soloBtn.layer.masksToBounds = true
-            }
+            soloBtn.layer.cornerRadius = soloBtn.layer.frame.width/2.0
+            soloBtn.layer.masksToBounds = true
         }
     }
     
-    
-    @IBAction func loadSoloVC(_ sender: UIButton) {
-        let category: WallpaperCategory = getCategoryByIntValue(category: sender.tag)
-        if category != .Group{
-            let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
-            let soloVC = mainStoryBoard.instantiateViewController(withIdentifier: "soloVC") as! SoloViewController
-            
-            soloVC.currentWallpaperCategory = category
-            soloVC.modalPresentationStyle = .fullScreen
-            
-            DispatchQueue.main.async {
-                self.present(soloVC, animated: true, completion: nil)
-            }
-        }
-    }
+    @IBOutlet var soloBtnLabel: UILabel!
     
     // Variables
     var spinner = UIActivityIndicatorView()
@@ -45,9 +30,10 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
     var refreshControl: UIRefreshControl?
     var queryCursor: CKQueryOperation.Cursor? = nil
     var loaded: Bool = false
-    // Constants
     
-    let currentWallpaperCategory:WallpaperCategory = .Group
+    // Constants
+    var currentWallpaperCategory:WallpaperCategory!
+    
     let cloudContainer = CKContainer.init(identifier: icloudContainerID)
     var likedRecordIds:[String] = getLikedRecordIds()
     // Functions
@@ -59,7 +45,29 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
         collectionView.loadControl = UILoadControl(target: self, action: #selector(load))
         collectionView.loadControl?.heightLimit = 100.0 //The default is 80.0
         initSpinnerAndRefreshControl()
+        setSoloBtnImage()
         load()
+    }
+    
+    func setSoloBtnImage(){
+        var imageName = ""
+        switch currentWallpaperCategory {
+            case .Lisa:
+                imageName =  "lisa"
+            case .Jisoo:
+                imageName =  "jisoo"
+            case .Rose:
+                imageName =  "rose"
+            case .Jennie:
+                imageName =  "jennie"
+        default:
+            imageName =  "lisa"
+        }
+        let image = UIImage(named: imageName) ?? UIImage()
+        DispatchQueue.main.async { [self] in
+            soloBtnLabel.text = imageName == "rose" ? "Rosé" : imageName.capitalized
+            soloBtn.setImage(image, for: .normal)
+        }
     }
     
     func getIndexPathOfRecordId(recordId: String) -> IndexPath?{
@@ -326,9 +334,13 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
         let recordId = wallpaper.recordID
         getCellWallpaperByRecordID(cell: nil, recordId: recordId, record: wallpaper, completion: loadDetailVC(cell:image:record:))
     }
+    
+    @IBAction func unwind(_ sender: UIButton) {
+        self.dismiss(animated: true, completion: nil)
+    }
 }
 
-extension MainViewController: PopMenuViewControllerDelegate {
+extension SoloViewController: PopMenuViewControllerDelegate {
 
     // This will be called when a pop menu action was selected
     func popMenuDidSelectItem(_ popMenuViewController: PopMenuViewController, at index: Int) {
@@ -351,3 +363,4 @@ extension MainViewController: PopMenuViewControllerDelegate {
     }
 
 }
+
