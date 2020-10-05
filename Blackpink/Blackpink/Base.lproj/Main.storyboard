@@ -293,8 +293,8 @@
                                             <constraint firstAttribute="width" constant="35" id="oRu-2A-6qa"/>
                                         </constraints>
                                     </imageView>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="photo.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="6rJ-Eh-mS2">
-                                        <rect key="frame" x="195" y="1" width="35" height="32.5"/>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="house.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="6rJ-Eh-mS2">
+                                        <rect key="frame" x="195" y="0.0" width="35" height="35"/>
                                         <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="35" id="8zH-54-rPO"/>
@@ -307,6 +307,14 @@
                                 <rect key="frame" x="0.0" y="756" width="414" height="106"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="6XQ-2y-tKt" secondAttribute="height" multiplier="125:32" id="UE0-cj-akw"/>
+                                </constraints>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.0" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="heart" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="Wnq-xs-H12">
+                                <rect key="frame" x="177" y="419.5" width="60" height="57.5"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="qmb-p2-etZ"/>
+                                    <constraint firstAttribute="width" constant="60" id="uBA-Jp-GTJ"/>
                                 </constraints>
                             </imageView>
                             <imageView clipsSubviews="YES" alpha="0.0" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="HomeScreenUpper" translatesAutoresizingMaskIntoConstraints="NO" id="PUl-7z-SR6">
@@ -326,12 +334,14 @@
                             <constraint firstItem="h9b-gG-vMH" firstAttribute="leading" secondItem="pbK-6R-qKn" secondAttribute="leading" id="Ige-tE-rtz"/>
                             <constraint firstItem="g06-le-4xL" firstAttribute="leading" secondItem="pbK-6R-qKn" secondAttribute="leading" id="LLg-TD-mZI"/>
                             <constraint firstItem="h9b-gG-vMH" firstAttribute="top" secondItem="Qji-Cb-WEe" secondAttribute="top" id="LTV-97-c3y"/>
+                            <constraint firstItem="Wnq-xs-H12" firstAttribute="centerY" secondItem="Qji-Cb-WEe" secondAttribute="centerY" id="NbK-sr-Vdi"/>
                             <constraint firstItem="g06-le-4xL" firstAttribute="top" secondItem="Qji-Cb-WEe" secondAttribute="top" id="OAo-SB-j4f"/>
                             <constraint firstItem="PUl-7z-SR6" firstAttribute="top" secondItem="pbK-6R-qKn" secondAttribute="top" id="Op2-9h-BuS"/>
                             <constraint firstItem="pbK-6R-qKn" firstAttribute="trailing" secondItem="PUl-7z-SR6" secondAttribute="trailing" id="WGx-YF-B12"/>
                             <constraint firstAttribute="bottom" secondItem="h9b-gG-vMH" secondAttribute="bottom" id="de3-i3-ifW"/>
                             <constraint firstItem="6XQ-2y-tKt" firstAttribute="leading" secondItem="pbK-6R-qKn" secondAttribute="leading" id="ecX-Wf-Rym"/>
                             <constraint firstItem="pbK-6R-qKn" firstAttribute="trailing" secondItem="6XQ-2y-tKt" secondAttribute="trailing" id="epz-4x-3SA"/>
+                            <constraint firstItem="Wnq-xs-H12" firstAttribute="centerX" secondItem="Qji-Cb-WEe" secondAttribute="centerX" id="hFL-HJ-80Z"/>
                             <constraint firstItem="pbK-6R-qKn" firstAttribute="bottom" secondItem="6XQ-2y-tKt" secondAttribute="bottom" id="hVW-ZX-PKR"/>
                             <constraint firstItem="PUl-7z-SR6" firstAttribute="leading" secondItem="pbK-6R-qKn" secondAttribute="leading" id="iMT-cA-Cih"/>
                             <constraint firstAttribute="bottom" secondItem="g06-le-4xL" secondAttribute="bottom" id="inV-5r-wLM"/>
@@ -348,6 +358,7 @@
                         <outlet property="homeScreenLowerPreviewImgV" destination="6XQ-2y-tKt" id="UTo-6W-Nn0"/>
                         <outlet property="homeScreenUpperPreviewImgV" destination="PUl-7z-SR6" id="LJV-aL-b89"/>
                         <outlet property="imageView" destination="g06-le-4xL" id="9z9-kj-Ong"/>
+                        <outlet property="largeHeartImgV" destination="Wnq-xs-H12" id="Dpd-DK-Bve"/>
                         <outlet property="likeImgV" destination="GSA-Mq-KPv" id="VSo-bh-k6T"/>
                         <outlet property="lockScreenImgV" destination="0RG-ef-LGW" id="kco-zA-SpI"/>
                         <outlet property="lockScreenPreviewImgV" destination="h9b-gG-vMH" id="GJ8-2x-mkv"/>
@@ -368,12 +379,12 @@
         <image name="chevron.backward" catalog="system" width="96" height="128"/>
         <image name="heart" catalog="system" width="128" height="109"/>
         <image name="heart-icon" width="512" height="512"/>
+        <image name="house.fill" catalog="system" width="128" height="106"/>
         <image name="jennie" width="997" height="1003"/>
         <image name="jisoo" width="614" height="621"/>
         <image name="lisa" width="749" height="754"/>
         <image name="lock.fill" catalog="system" width="128" height="128"/>
         <image name="menu" width="384" height="384"/>
-        <image name="photo.fill" catalog="system" width="128" height="93"/>
         <image name="rose" width="560" height="569"/>
         <image name="square.and.arrow.down" catalog="system" width="121" height="128"/>
         <systemColor name="systemBackgroundColor">

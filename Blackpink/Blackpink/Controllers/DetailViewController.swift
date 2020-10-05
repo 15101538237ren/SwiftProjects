@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import CloudKit
 import AVFoundation
 
 class DetailViewController: UIViewController {
@@ -20,6 +21,7 @@ class DetailViewController: UIViewController {
             homeScreenLowerPreviewImgV.layer.masksToBounds = true
         }
     }
+    @IBOutlet weak var largeHeartImgV: UIImageView!
     @IBOutlet weak var likeImgV: UIImageView!
     @IBOutlet weak var downloadImgV: UIImageView!
     @IBOutlet weak var lockScreenImgV: UIImageView!
@@ -27,8 +29,15 @@ class DetailViewController: UIViewController {
     
     // Variables
     var image: UIImage!
+    var category: Int!
+    var record: CKRecord!
+    var db: CKDatabase!
     var lockInPreview: Bool = false
     var homeInPreview: Bool = false
+    var liked: Bool = false
+    
+    let likedRecordIds:[String] = getLikedRecordIds()
+    let scaleForAnimation: CGFloat = 2
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,6 +52,10 @@ class DetailViewController: UIViewController {
     func initVC(){
         DispatchQueue.main.async {
             self.imageView.image = self.image
+            if self.likedRecordIds.contains(self.record.recordID.recordName){
+                self.likeImgV.image = UIImage(systemName: "heart.fill") ?? UIImage(named: "heart-fill-icon")
+                self.liked = true
+            }
         }
     }
     
@@ -92,9 +105,54 @@ class DetailViewController: UIViewController {
         likeImgV.addGestureRecognizer(tapGestureRecognizer)
     }
     
+    func toggleLikeBtn() {
+        liked.toggle()
+        likeChangedRecordId = record.recordID.recordName
+        let tmp_image = liked ? UIImage(systemName: "heart.fill") ?? UIImage(named: "heart-fill-icon") : UIImage(systemName: "heart") ?? UIImage(named: "heart-icon")
+        likeImgV.image = tmp_image
+        largeHeartImgV.image = tmp_image
+        
+        UIView.animate(withDuration: 0.25, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 5, options: .curveEaseInOut, animations: {
+            self.largeHeartImgV.alpha = 1.0
+            self.largeHeartImgV.transform = self.largeHeartImgV.transform.scaledBy(x: self.scaleForAnimation, y: self.scaleForAnimation)
+            }, completion: { _ in
+                UIView.animate(withDuration: 0.2, animations: {
+                    self.largeHeartImgV.alpha = 0.0
+                    self.largeHeartImgV.transform = .identity
+                })
+        })
+        
+        if liked{
+            addLikedRecordId(recordName: record.recordID.recordName)
+        }else{
+            removeLikedRecordId(recordName: record.recordID.recordName)
+        }
+    }
+    
     @objc func likeImgViewTapped(tapGestureRecognizer: UITapGestureRecognizer)
     {
-        let tappedImage = tapGestureRecognizer.view as! UIImageView
+        let offset:Int = liked ? -1 : 1
+        if let likes: Int = record.object(forKey: "likes") as? Int{
+            let connected = Reachability.isConnectedToNetwork()
+            if connected{
+                record["likes"] = likes + offset as CKRecordValue
+                db.save(record) { record, error in
+                        DispatchQueue.main.async {
+                            if error == nil {
+                                self.toggleLikeBtn()
+                            } else {
+                                let ac = UIAlertController(title: "Error", message: "Error for like, \(error!.localizedDescription)", preferredStyle: .alert)
+                                ac.addAction(UIAlertAction(title: "OK", style: .default))
+                                self.present(ac, animated: true)
+                            }
+                        }
+                    }
+            }else{
+                let alertCtl = presentNoNetworkAlert()
+                self.present(alertCtl, animated: true, completion: nil)
+            }
+        }
+        
     }
     
     func addGestureRcgToDownload(){

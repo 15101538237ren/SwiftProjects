@@ -359,6 +359,8 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
 
     }
     
+    
+    
     func getNextWallpaper(category: Int){
         
         UserDefaults.standard.removeObject(forKey: "word_next")

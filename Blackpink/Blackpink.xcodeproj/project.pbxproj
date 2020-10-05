@@ -12,6 +12,9 @@
 		55B908D3252910CA00CD5438 /* MainCollectionCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55B908D2252910CA00CD5438 /* MainCollectionCellView.swift */; };
 		55B908DC252914AB00CD5438 /* GlobalConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55B908DB252914AB00CD5438 /* GlobalConstant.swift */; };
 		55B908E1252914FB00CD5438 /* GlobalEnums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55B908E0252914FB00CD5438 /* GlobalEnums.swift */; };
+		55BA59C9252A8538009646DA /* GlobalVariables.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55BA59C8252A8538009646DA /* GlobalVariables.swift */; };
+		55BA59CC252A9473009646DA /* GlobalMethods.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55BA59CB252A9473009646DA /* GlobalMethods.swift */; };
+		55BA59D4252AA7AF009646DA /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55BA59D3252AA7AF009646DA /* Reachability.swift */; };
 		B9B1C4E57EFCAA395A1AC635 /* Pods_Blackpink.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0DF809AE5709B1E9625BAEFE /* Pods_Blackpink.framework */; };
 		C35165CE2527A34D0060707C /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C35165CD2527A34D0060707C /* CloudKit.framework */; };
 		C3AB465C25279FBB00ACC7BB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3AB465B25279FBB00ACC7BB /* AppDelegate.swift */; };
@@ -30,6 +33,9 @@
 		55B908D2252910CA00CD5438 /* MainCollectionCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCollectionCellView.swift; sourceTree = "<group>"; };
 		55B908DB252914AB00CD5438 /* GlobalConstant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalConstant.swift; sourceTree = "<group>"; };
 		55B908E0252914FB00CD5438 /* GlobalEnums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalEnums.swift; sourceTree = "<group>"; };
+		55BA59C8252A8538009646DA /* GlobalVariables.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalVariables.swift; sourceTree = "<group>"; };
+		55BA59CB252A9473009646DA /* GlobalMethods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalMethods.swift; sourceTree = "<group>"; };
+		55BA59D3252AA7AF009646DA /* Reachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		681F14E078BB43C8B650E165 /* Pods-Blackpink-BlackpinkUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Blackpink-BlackpinkUITests.release.xcconfig"; path = "Target Support Files/Pods-Blackpink-BlackpinkUITests/Pods-Blackpink-BlackpinkUITests.release.xcconfig"; sourceTree = "<group>"; };
 		6CB589A081498D3791678084 /* Pods-Blackpink.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Blackpink.release.xcconfig"; path = "Target Support Files/Pods-Blackpink/Pods-Blackpink.release.xcconfig"; sourceTree = "<group>"; };
 		9B6819D7D066065FC77F2FA1 /* Pods_BlackpinkTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BlackpinkTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -86,8 +92,18 @@
 			children = (
 				55B908DB252914AB00CD5438 /* GlobalConstant.swift */,
 				55B908E0252914FB00CD5438 /* GlobalEnums.swift */,
+				55BA59C8252A8538009646DA /* GlobalVariables.swift */,
+				55BA59CB252A9473009646DA /* GlobalMethods.swift */,
 			);
 			path = Global;
+			sourceTree = "<group>";
+		};
+		55BA59D2252AA79D009646DA /* Util */ = {
+			isa = PBXGroup;
+			children = (
+				55BA59D3252AA7AF009646DA /* Reachability.swift */,
+			);
+			path = Util;
 			sourceTree = "<group>";
 		};
 		82D3D48AB8362B73ECCAA095 /* Pods */ = {
@@ -137,6 +153,7 @@
 		C3AB465A25279FBB00ACC7BB /* Blackpink */ = {
 			isa = PBXGroup;
 			children = (
+				55BA59D2252AA79D009646DA /* Util */,
 				55B908DA2529149900CD5438 /* Global */,
 				55B908D1252910AB00CD5438 /* Views */,
 				55B908D0252910A300CD5438 /* Controllers */,
@@ -285,10 +302,13 @@
 			files = (
 				55B908CC25290DC200CD5438 /* MainViewController.swift in Sources */,
 				55B908DC252914AB00CD5438 /* GlobalConstant.swift in Sources */,
+				55BA59C9252A8538009646DA /* GlobalVariables.swift in Sources */,
 				C3AB465C25279FBB00ACC7BB /* AppDelegate.swift in Sources */,
 				55B908E1252914FB00CD5438 /* GlobalEnums.swift in Sources */,
 				C3AB465E25279FBB00ACC7BB /* SceneDelegate.swift in Sources */,
+				55BA59CC252A9473009646DA /* GlobalMethods.swift in Sources */,
 				55B908D3252910CA00CD5438 /* MainCollectionCellView.swift in Sources */,
+				55BA59D4252AA7AF009646DA /* Reachability.swift in Sources */,
 				5584308B2529934F00AE2BF9 /* DetailViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

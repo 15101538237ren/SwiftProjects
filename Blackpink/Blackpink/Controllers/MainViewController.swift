@@ -35,7 +35,8 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
     let numberOfItemsPerRow:CGFloat = 3
     let currentWallpaperCategory:WallpaperCategory = .Group
     let resultLimit:Int = 27
-    
+    let cloudContainer = CKContainer.init(identifier: icloudContainerID)
+    var likedRecordIds:[String] = getLikedRecordIds()
     // Functions
     
     override func viewDidLoad() {
@@ -46,6 +47,46 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
         collectionView.loadControl?.heightLimit = 100.0 //The default is 80.0
         initSpinnerAndRefreshControl()
         load()
+    }
+    
+    func getIndexPathOfRecordId(recordId: String) -> IndexPath?{
+        for idx in 0..<wallpapers.count{
+            if (wallpapers[idx].recordID.recordName == recordId){
+                let indexPath = IndexPath(row: idx, section: 0)
+                return indexPath
+            }
+        }
+        return nil
+    }
+    
+    func sortWallpapers(){
+        switch sortType {
+            case .byModifiedDate:
+                wallpapers = wallpapers.sorted {
+                    ($0.value(forKey: "modificationDate") as! Date) > ($1.value(forKey: "modificationDate") as! Date)
+                }
+            case .byLike:
+                wallpapers = wallpapers.sorted {
+                    ($0.value(forKey: "likes") as! Int) > ($1.value(forKey: "likes") as! Int)
+                }
+        }
+    }
+    
+    override func viewWillAppear(_ animated: Bool){
+        if likeChangedRecordId != ""{
+            likedRecordIds = getLikedRecordIds()
+            sortWallpapers()
+            collectionView.reloadData()
+            likeChangedRecordId = ""
+        }
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        let connected = Reachability.isConnectedToNetwork()
+        if !connected{
+            let alertCtl = presentNoNetworkAlert()
+            self.present(alertCtl, animated: true, completion: nil)
+        }
     }
     
     func initSpinnerAndRefreshControl() {
@@ -72,53 +113,65 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
         }
     }
     
+    func stopLoadingAnimation(){
+        DispatchQueue.main.async {
+            self.spinner.stopAnimating()
+            self.collectionView.loadControl?.endLoading()
+            if let refreshControl = self.refreshControl {
+                if refreshControl.isRefreshing{
+                    refreshControl.endRefreshing()
+                }
+            }
+        }
+    }
     func completionHandlerAfterLoad(error: Error?, cursor: CKQueryOperation.Cursor?) -> Void{
         if error != nil{
             print("Error in load Wallpapers: \(error?.localizedDescription ?? "")")
+            stopLoadingAnimation()
         } else{
             loaded = true
             if let cursor = cursor {
                 queryCursor = cursor
             }
+            stopLoadingAnimation()
             DispatchQueue.main.async {
-                self.spinner.stopAnimating()
                 self.collectionView.reloadData()
-                self.collectionView.loadControl?.endLoading()
-                if let refreshControl = self.refreshControl {
-                    if refreshControl.isRefreshing{
-                        refreshControl.endRefreshing()
-                    }
-                }
             }
         }
     }
     
     @objc func load(){
-        if loaded && queryCursor == nil{
-            self.completionHandlerAfterLoad(error: nil, cursor: nil)
-            return
+        let connected = Reachability.isConnectedToNetwork()
+        if connected{
+            if loaded && queryCursor == nil{
+                self.completionHandlerAfterLoad(error: nil, cursor: nil)
+                return
+            }
+            collectionView.reloadData()
+            //Fetch data using Convienence API
+            let publicDatabase = cloudContainer.publicCloudDatabase
+            
+            let predicate = NSPredicate(format: "issued = 1 AND category = \(currentWallpaperCategory.rawValue)")
+            let query = CKQuery(recordType: "Wallpaper", predicate: predicate)
+            let sortDescriptor = getSortDescriptor(sortType: sortType)
+            query.sortDescriptors = [sortDescriptor]
+            let queryOperation = queryCursor == nil ? CKQueryOperation(query: query): CKQueryOperation(cursor: queryCursor!)
+            
+            queryOperation.desiredKeys = ["likes"]
+            queryOperation.queuePriority = .veryHigh
+            queryOperation.resultsLimit = resultLimit
+            queryOperation.recordFetchedBlock = { (record) -> Void in
+                self.wallpapers.append(record)
+            }
+            queryOperation.queryCompletionBlock = {(cursor, error) -> Void in
+                self.completionHandlerAfterLoad(error: error, cursor: cursor)
+            }
+            publicDatabase.add(queryOperation)
         }
-        collectionView.reloadData()
-        //Fetch data using Convienence API
-        let cloudContainer = CKContainer.init(identifier: icloudContainerID)
-        let publicDatabase = cloudContainer.publicCloudDatabase
-        
-        let predicate = NSPredicate(format: "issued = 1 AND category = \(currentWallpaperCategory.rawValue)")
-        let query = CKQuery(recordType: "Wallpaper", predicate: predicate)
-        let sortDescriptor = getSortDescriptor(sortType: sortType)
-        query.sortDescriptors = [sortDescriptor]
-        let queryOperation = queryCursor == nil ? CKQueryOperation(query: query): CKQueryOperation(cursor: queryCursor!)
-        
-        queryOperation.desiredKeys = ["likes"]
-        queryOperation.queuePriority = .veryHigh
-        queryOperation.resultsLimit = resultLimit
-        queryOperation.recordFetchedBlock = { (record) -> Void in
-            self.wallpapers.append(record)
+        else
+        {
+            stopLoadingAnimation()
         }
-        queryOperation.queryCompletionBlock = {(cursor, error) -> Void in
-            self.completionHandlerAfterLoad(error: error, cursor: cursor)
-        }
-        publicDatabase.add(queryOperation)
     }
     
     //update loadControl when user scrolls de tableView
@@ -139,20 +192,19 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
         return wallpapers.count
     }
     
-    func setCellImageCompletionHandler(cell: MainCollectionCellView?, image: UIImage) -> Void{
+    func setCellImageCompletionHandler(cell: MainCollectionCellView?, image: UIImage, record: CKRecord) -> Void{
         if let cell = cell{
             cell.imageV.image = image
             cell.setNeedsLayout()
         }
     }
     
-    func  getCellWallpaperByRecordID(cell:MainCollectionCellView?, recordId: CKRecord.ID, completion: @escaping (MainCollectionCellView?, UIImage) -> Void){
+    func  getCellWallpaperByRecordID(cell:MainCollectionCellView?, recordId: CKRecord.ID, record: CKRecord, completion: @escaping (MainCollectionCellView?, UIImage, CKRecord) -> Void){
         if let imageFileURL = imageCache.object(forKey: recordId) {
-            print("Get image from cache")
             if let imageData = try? Data.init(contentsOf: imageFileURL as URL) {
                 let image = UIImage(data: imageData) ?? UIImage()
                 DispatchQueue.main.async {
-                    completion(cell, image)
+                    completion(cell, image, record)
                 }
             }
         } else{
@@ -163,13 +215,13 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
             fetchRecordsImageOperation.queuePriority = .veryHigh
             
             fetchRecordsImageOperation.perRecordCompletionBlock = {
-                    (record, recordID, error) -> Void in
+                    (recordNested, recordID, error) -> Void in
                     if let error = error {
                         print("Failed to get image: \(error.localizedDescription)")
                         return
                     }
 
-                    if let wallpaperRecord = record,
+                    if let wallpaperRecord = recordNested,
                         let image = wallpaperRecord.object(forKey: "image"),
                         let imageAsset = image as? CKAsset {
 
@@ -178,7 +230,7 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
                             // Replace the placeholder image with the restaurant image
                             let image = UIImage(data: imageData) ?? UIImage()
                             DispatchQueue.main.async {
-                                completion(cell, image)
+                                completion(cell, image, record)
                             }
                             self.imageCache.setObject(imageAsset.fileURL! as NSURL, forKey: recordId)
                         }
@@ -199,7 +251,18 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
             }
         }
         let recordId = wallpaper.recordID
-        getCellWallpaperByRecordID(cell: cell, recordId: recordId, completion: setCellImageCompletionHandler(cell:image:))
+        
+        if likedRecordIds.contains(recordId.recordName){
+            DispatchQueue.main.async {
+                cell.heartV.image = UIImage(systemName: "heart.fill") ?? UIImage(named: "heart-fill-icon")
+            }
+        }else{
+            DispatchQueue.main.async {
+                cell.heartV.image = UIImage(systemName: "heart") ?? UIImage(named: "heart-icon")
+            }
+        }
+        
+        getCellWallpaperByRecordID(cell: cell, recordId: recordId, record: wallpaper, completion: setCellImageCompletionHandler(cell:image:record:))
         return cell
     }
     
@@ -215,11 +278,18 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
         return UIEdgeInsets(top: cellPadding,left: cellPadding, bottom: cellPadding,right: cellPadding)
     }
     
-    func loadDetailVC(cell: MainCollectionCellView?, image: UIImage) -> Void{
+    func loadDetailVC(cell: MainCollectionCellView?, image: UIImage, record: CKRecord) -> Void{
         let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
         let detailVC = mainStoryBoard.instantiateViewController(withIdentifier: "detailVC") as! DetailViewController
+        
+        let publicDatabase = cloudContainer.publicCloudDatabase
+        
         detailVC.image = image
-        detailVC.modalPresentationStyle = .overCurrentContext
+        detailVC.record = record
+        detailVC.db = publicDatabase
+        detailVC.category = currentWallpaperCategory.rawValue
+        detailVC.modalPresentationStyle = .fullScreen
+        
         DispatchQueue.main.async {
             self.present(detailVC, animated: true, completion: nil)
         }
@@ -228,6 +298,6 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let wallpaper = wallpapers[indexPath.row]
         let recordId = wallpaper.recordID
-        getCellWallpaperByRecordID(cell: nil, recordId: recordId, completion: loadDetailVC(cell:image:))
+        getCellWallpaperByRecordID(cell: nil, recordId: recordId, record: wallpaper, completion: loadDetailVC(cell:image:record:))
     }
 }
