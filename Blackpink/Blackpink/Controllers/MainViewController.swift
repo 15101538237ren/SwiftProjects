@@ -43,7 +43,7 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
     var spinner = UIActivityIndicatorView()
     var wallpapers:[CKRecord] = []
     var sortType:SortType = .byLike
-    var refreshControl: UIRefreshControl?
+    private let refreshControl = UIRefreshControl()
     var queryCursor: CKQueryOperation.Cursor? = nil
     var loaded: Bool = false
     // Constants
@@ -104,10 +104,10 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
     }
     
     func initSpinnerAndRefreshControl() {
-        refreshControl = UIRefreshControl()
-        refreshControl?.backgroundColor = .white
-        refreshControl?.tintColor = .gray
-        refreshControl?.addTarget(self, action: #selector(load), for: UIControl.Event.valueChanged)
+        refreshControl.backgroundColor = BlackPinkPink
+        refreshControl.tintColor = .lightGray
+        collectionView.refreshControl = refreshControl
+        refreshControl.addTarget(self, action: #selector(load), for: UIControl.Event.valueChanged)
         spinner.style = .medium
         spinner.hidesWhenStopped = true
         view.addSubview(spinner)
@@ -145,22 +145,18 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
             self.spinner.stopAnimating()
             self.collectionView.loadControl?.endLoading()
             
-            if let refreshControl = self.refreshControl {
-                if refreshControl.isRefreshing{
-                    refreshControl.endRefreshing()
-                }
+            if self.refreshControl.isRefreshing{
+                self.refreshControl.endRefreshing()
             }
         }
     }
     func completionHandlerAfterLoad(error: Error?, cursor: CKQueryOperation.Cursor?) -> Void{
+        queryCursor = cursor
         if error != nil{
             print("Error in load Wallpapers: \(error?.localizedDescription ?? "")")
             stopLoadingAnimation()
         } else{
             loaded = true
-            if let cursor = cursor {
-                queryCursor = cursor
-            }
             stopLoadingAnimation()
             DispatchQueue.main.async {
                 self.collectionView.reloadData()

@@ -11,7 +11,7 @@ import UIKit
 let icloudContainerID: String = "iCloud.com.hongleir.Blackpink"
 let likeIdsKey: String = "LIKE_IDS"
 let separator: String = ","
-let resultLimit:Int = 27
+let resultLimit:Int = 12
 let cellBoarder:CGFloat = CGFloat(0.75)
 let numberOfItemsPerRow:CGFloat = CGFloat(3)
 let BlackPinkBlack = UIColor(red: 26, green: 25, blue: 25, alpha: 1.0)

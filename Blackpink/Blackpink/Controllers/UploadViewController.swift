@@ -117,15 +117,6 @@ class UploadViewController: UIViewController, UINavigationControllerDelegate {
     
     func selectImage() {
         let photoSourceController = UIAlertController(title: "", message: "Please select wallpaper" , preferredStyle: .actionSheet)
-        let cameraAction = UIAlertAction(title: "Camera", style: .default, handler: {
-            (action) in
-            if UIImagePickerController.isSourceTypeAvailable(.camera){
-                let imagePicker = UIImagePickerController()
-                imagePicker.sourceType = .camera
-                imagePicker.delegate = self
-                self.present(imagePicker, animated: true, completion: nil)
-            }
-        })
         let photoLibraryAction = UIAlertAction(title: "Photo Library" , style: .default, handler: {
             (action) in
             if UIImagePickerController.isSourceTypeAvailable(.photoLibrary){
@@ -137,7 +128,6 @@ class UploadViewController: UIViewController, UINavigationControllerDelegate {
         })
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         
-        photoSourceController.addAction(cameraAction)
         photoSourceController.addAction(photoLibraryAction)
         photoSourceController.addAction(cancelAction)
         present(photoSourceController, animated: true, completion: nil)
@@ -187,7 +177,7 @@ class UploadViewController: UIViewController, UINavigationControllerDelegate {
                 DispatchQueue.main.async {
                     if error == nil {
                         try? FileManager.default.removeItem(at: imageFileURL)
-                        let ac = UIAlertController(title: "Upload Successful!", message: "", preferredStyle: .alert)
+                        let ac = UIAlertController(title: "Upload successful, we will review the quality of the wallpaper and make public ASAP!", message: "", preferredStyle: .alert)
                         ac.addAction(UIAlertAction(title: "OK", style: .default, handler:
                             {_ in
                             self.dismiss(animated: true, completion: nil)
