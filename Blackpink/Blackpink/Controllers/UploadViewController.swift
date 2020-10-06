@@ -11,18 +11,39 @@ import PopMenu
 
 class UploadViewController: UIViewController, UINavigationControllerDelegate {
     
-    @IBOutlet weak var uploadBtnV: UIImageView!
-    @IBOutlet var chooseImgV: UIImageView!{
+    var indicator = UIActivityIndicatorView()
+    var strLabel = UILabel()
+    let effectView = UIVisualEffectView(effect: UIBlurEffect(style: .regular))
+    
+    @IBOutlet weak var uploadBtn: UIButton!{
         didSet{
-            chooseImgV.layer.cornerRadius = 10.0
-            chooseImgV.layer.masksToBounds = true
+            uploadBtn.layer.cornerRadius = 10.0
+            uploadBtn.layer.masksToBounds = true
+            uploadBtn.setTitleColor(BlackPinkBlack, for: .normal)
+            uploadBtn.setTitleColor(.lightGray, for: .disabled)
+            uploadBtn.layer.borderWidth = 3
+            uploadBtn.layer.borderColor = UIColor.lightGray.cgColor
+        }
+    }
+    @IBOutlet var chooseImgBtn: UIButton!{
+        didSet{
+            chooseImgBtn.layer.cornerRadius = 10.0
+            chooseImgBtn.layer.masksToBounds = true
+            chooseImgBtn.setTitleColor(BlackPinkBlack, for: .normal)
+            chooseImgBtn.setTitleColor(.lightGray, for: .disabled)
+            chooseImgBtn.layer.borderWidth = 3
+            chooseImgBtn.layer.borderColor = BlackPinkBlack.cgColor
         }
     }
     
-    @IBOutlet var chooseCategoryImgV: UIImageView!{
+    @IBOutlet var chooseCategoryBtn: UIButton!{
         didSet{
-            chooseCategoryImgV.layer.cornerRadius = 10.0
-            chooseCategoryImgV.layer.masksToBounds = true
+            chooseCategoryBtn.layer.cornerRadius = 10.0
+            chooseCategoryBtn.layer.masksToBounds = true
+            chooseCategoryBtn.setTitleColor(BlackPinkBlack, for: .normal)
+            chooseCategoryBtn.setTitleColor(.lightGray, for: .disabled)
+            chooseCategoryBtn.layer.borderWidth = 3
+            chooseCategoryBtn.layer.borderColor = BlackPinkBlack.cgColor
         }
     }
     
@@ -43,6 +64,38 @@ class UploadViewController: UIViewController, UINavigationControllerDelegate {
     var imageToUpload: UIImage?
     var currentWallpaperCategory:Int? = nil
     
+    func initActivityIndicator(text: String) {
+        strLabel.removeFromSuperview()
+        indicator.removeFromSuperview()
+        effectView.removeFromSuperview()
+        let height:CGFloat = 46.0
+        strLabel = UILabel(frame: CGRect(x: 50, y: 0, width: 180, height: height))
+        strLabel.text = text
+        strLabel.font = .systemFont(ofSize: 14, weight: .medium)
+        strLabel.textColor = .darkGray
+        strLabel.alpha = 1.0
+        effectView.frame = CGRect(x: view.frame.midX - strLabel.frame.width/2, y: view.frame.midY - strLabel.frame.height/2 , width: 160, height: height)
+        effectView.layer.cornerRadius = 15
+        effectView.layer.masksToBounds = true
+        effectView.backgroundColor = UIColor(red: 244, green: 244, blue: 245, alpha: 1.0)
+        
+        effectView.alpha = 1.0
+        indicator = .init(style: .medium)
+        indicator.frame = CGRect(x: 0, y: 0, width: height, height: height)
+        indicator.alpha = 1.0
+        indicator.startAnimating()
+
+        effectView.contentView.addSubview(indicator)
+        effectView.contentView.addSubview(strLabel)
+        view.addSubview(effectView)
+    }
+    
+    func stopIndicator(){
+        self.indicator.stopAnimating()
+        self.indicator.hidesWhenStopped = true
+        self.effectView.alpha = 0
+        self.strLabel.alpha = 0
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,26 +103,11 @@ class UploadViewController: UIViewController, UINavigationControllerDelegate {
     }
     
     func addGestureRcgToImageViews(){
-        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(chooseImgVTapped(tapGestureRecognizer:)))
-        chooseImgV.addGestureRecognizer(tapGestureRecognizer)
-        
-        let tapGestureRecognizer2 = UITapGestureRecognizer(target: self, action: #selector(presentPopMenu))
-        chooseCategoryImgV.addGestureRecognizer(tapGestureRecognizer2)
-        
-        let tapGestureRecognizer3 = UITapGestureRecognizer(target: self, action: #selector(loadPreviewVC))
-        imgV.addGestureRecognizer(tapGestureRecognizer3)
-        
-        let tapGestureRecognizer4 = UITapGestureRecognizer(target: self, action: #selector(upload))
-        uploadBtnV.addGestureRecognizer(tapGestureRecognizer4)
-        
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(loadPreviewVC))
+        imgV.addGestureRecognizer(tapGestureRecognizer)
     }
     
-    @objc func chooseImgVTapped(tapGestureRecognizer: UITapGestureRecognizer)
-    {
-        selectImage()
-    }
-    
-    @objc func upload()
+    @IBAction func upload(sender: UIButton)
     {
         if imageToUpload == nil{
             let ac = getAlert(title: "Please click [Choose Image] to select image first!", message: "", okText: "OK")
@@ -84,7 +122,7 @@ class UploadViewController: UIViewController, UINavigationControllerDelegate {
         uploadImage(image: imageToUpload!, category: currentWallpaperCategory!)
     }
     
-    @objc func presentPopMenu() {
+    @IBAction func presentPopMenu(sender: UIButton) {
         let actions = [
             PopMenuDefaultAction(title: "Group", image: UIImage(named: "group")),
             PopMenuDefaultAction(title: "Lisa", image: UIImage(named: "lisa")),
@@ -115,7 +153,7 @@ class UploadViewController: UIViewController, UINavigationControllerDelegate {
         }
     }
     
-    func selectImage() {
+    @IBAction func selectImage(sender: UIButton) {
         let photoSourceController = UIAlertController(title: "", message: "Please select wallpaper" , preferredStyle: .actionSheet)
         let photoLibraryAction = UIAlertAction(title: "Photo Library" , style: .default, handler: {
             (action) in
@@ -145,10 +183,31 @@ class UploadViewController: UIViewController, UINavigationControllerDelegate {
         self.dismiss(animated: true, completion: nil)
     }
     
+    func updateUploadBtn(){
+        if fieldsAllInput(){
+            uploadBtn.isEnabled = true
+            uploadBtn.layer.borderColor = BlackPinkBlack.cgColor
+        }else{
+            uploadBtn.isEnabled = false
+            uploadBtn.layer.borderColor = UIColor.lightGray.cgColor
+        }
+    }
+    
     func uploadImage(image:UIImage, category: Int) -> Void {
         let connected = Reachability.isConnectedToNetwork()
         if connected
         {
+            
+            DispatchQueue.main.async { [self] in
+                uploadBtn.isEnabled = false
+                chooseImgBtn.isEnabled = false
+                chooseCategoryBtn.isEnabled = false
+                uploadBtn.layer.borderColor = UIColor.lightGray.cgColor
+                chooseImgBtn.layer.borderColor = UIColor.lightGray.cgColor
+                chooseCategoryBtn.layer.borderColor = UIColor.lightGray.cgColor
+                initActivityIndicator(text: "Uploading")
+            }
+            
             // Prepare the record to save
             let record = CKRecord(recordType: "Wallpaper")
             record.setValue(category, forKey: "category")
@@ -174,8 +233,9 @@ class UploadViewController: UIViewController, UINavigationControllerDelegate {
             publicDatabase.save(record, completionHandler: { (record, error) -> Void  in
                 // Remove temp file
                 
-                DispatchQueue.main.async {
+                DispatchQueue.main.async { [self] in
                     if error == nil {
+                        stopIndicator()
                         try? FileManager.default.removeItem(at: imageFileURL)
                         let ac = UIAlertController(title: "Upload successful, we will review the quality of the wallpaper and make public ASAP!", message: "", preferredStyle: .alert)
                         ac.addAction(UIAlertAction(title: "OK", style: .default, handler:
@@ -205,9 +265,7 @@ extension UploadViewController: UIImagePickerControllerDelegate{
             imageToUpload = pickedImage
             DispatchQueue.main.async { [self] in
                 imgV.image = imageToUpload
-                if fieldsAllInput(){
-                    uploadBtnV.tintColor = BlackPinkBlack
-                }
+                updateUploadBtn()
             }
         }
     }
@@ -222,9 +280,7 @@ extension UploadViewController: PopMenuViewControllerDelegate {
         let image = UIImage(named: imageName) ?? UIImage()
         DispatchQueue.main.async { [self] in
             categoryImgV.image = image
-            if fieldsAllInput(){
-                uploadBtnV.tintColor = BlackPinkBlack
-            }
+            updateUploadBtn()
         }
     }
 }
