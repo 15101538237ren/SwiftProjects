@@ -1,7 +1,7 @@
 {
   "images" : [
     {
-      "filename" : "uploadButton.pdf",
+      "filename" : "group.jpg",
       "idiom" : "universal",
       "scale" : "1x"
     },
@@ -20,7 +20,6 @@
   },
   "properties" : {
     "compression-type" : "lossless",
-    "preserves-vector-representation" : true,
-    "template-rendering-intent" : "template"
+    "template-rendering-intent" : "original"
   }
 }

@@ -17,6 +17,7 @@
 		55BA59D4252AA7AF009646DA /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55BA59D3252AA7AF009646DA /* Reachability.swift */; };
 		55BBE978252AE27000A40812 /* UIColor+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55BBE977252AE27000A40812 /* UIColor+Ext.swift */; };
 		55BBE97B252AE4ED00A40812 /* SoloViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55BBE97A252AE4ED00A40812 /* SoloViewController.swift */; };
+		55C2A411252CFBE80060BB7B /* ImagePreviewVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55C2A410252CFBE80060BB7B /* ImagePreviewVC.swift */; };
 		55D9F4E3252BFC160005C9B4 /* MenuItemTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55D9F4E2252BFC160005C9B4 /* MenuItemTableViewCell.swift */; };
 		55D9F4E6252BFDF20005C9B4 /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55D9F4E5252BFDF20005C9B4 /* MenuViewController.swift */; };
 		55D9F4E9252BFE550005C9B4 /* MenuItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55D9F4E8252BFE550005C9B4 /* MenuItem.swift */; };
@@ -45,6 +46,7 @@
 		55BA59D3252AA7AF009646DA /* Reachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		55BBE977252AE27000A40812 /* UIColor+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Ext.swift"; sourceTree = "<group>"; };
 		55BBE97A252AE4ED00A40812 /* SoloViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoloViewController.swift; sourceTree = "<group>"; };
+		55C2A410252CFBE80060BB7B /* ImagePreviewVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePreviewVC.swift; sourceTree = "<group>"; };
 		55D9F4E2252BFC160005C9B4 /* MenuItemTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuItemTableViewCell.swift; sourceTree = "<group>"; };
 		55D9F4E5252BFDF20005C9B4 /* MenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
 		55D9F4E8252BFE550005C9B4 /* MenuItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuItem.swift; sourceTree = "<group>"; };
@@ -93,6 +95,7 @@
 				55D9F4E5252BFDF20005C9B4 /* MenuViewController.swift */,
 				55D9F4EB252C0AFD0005C9B4 /* LikedViewController.swift */,
 				55D9F4F2252C18120005C9B4 /* UploadViewController.swift */,
+				55C2A410252CFBE80060BB7B /* ImagePreviewVC.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -338,6 +341,7 @@
 				C3AB465C25279FBB00ACC7BB /* AppDelegate.swift in Sources */,
 				55BBE978252AE27000A40812 /* UIColor+Ext.swift in Sources */,
 				55B908E1252914FB00CD5438 /* GlobalEnums.swift in Sources */,
+				55C2A411252CFBE80060BB7B /* ImagePreviewVC.swift in Sources */,
 				55D9F4E3252BFC160005C9B4 /* MenuItemTableViewCell.swift in Sources */,
 				55D9F4E9252BFE550005C9B4 /* MenuItem.swift in Sources */,
 				C3AB465E25279FBB00ACC7BB /* SceneDelegate.swift in Sources */,

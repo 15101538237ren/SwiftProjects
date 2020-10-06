@@ -351,5 +351,4 @@ extension MainViewController: PopMenuViewControllerDelegate {
             collectionView.reloadData()
         }
     }
-
 }

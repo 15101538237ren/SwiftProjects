@@ -50,22 +50,10 @@ class SoloViewController: UIViewController, UICollectionViewDelegate, UICollecti
     }
     
     func setSoloBtnImage(){
-        var imageName = ""
-        switch currentWallpaperCategory {
-            case .Lisa:
-                imageName =  "lisa"
-            case .Jisoo:
-                imageName =  "jisoo"
-            case .Rose:
-                imageName =  "rose"
-            case .Jennie:
-                imageName =  "jennie"
-        default:
-            imageName =  "lisa"
-        }
+        let imageName = getSoloImageNameByCategory(category: currentWallpaperCategory)
         let image = UIImage(named: imageName) ?? UIImage()
         DispatchQueue.main.async { [self] in
-            soloBtnLabel.text = imageName == "rose" ? "Rosé" : imageName.capitalized
+            soloBtnLabel.text = imageName ==  "rose" ? "Rosé" : imageName.capitalized
             soloBtn.setImage(image, for: .normal)
         }
     }

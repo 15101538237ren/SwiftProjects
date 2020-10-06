@@ -10,7 +10,7 @@ import CloudKit
 import UIKit
 
 
-func presentAlert(title: String, message: String, okText: String) -> UIAlertController{
+func getAlert(title: String, message: String, okText: String) -> UIAlertController{
     let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
     let okayAction = UIAlertAction(title: okText, style: .cancel, handler: nil)
     alertController.addAction(okayAction)
@@ -18,7 +18,7 @@ func presentAlert(title: String, message: String, okText: String) -> UIAlertCont
 }
 
 func presentNoNetworkAlert() -> UIAlertController{
-    return presentAlert(title: "No Network", message: "No network, please check your connection!", okText: "OK")
+    return getAlert(title: "No Network", message: "No network, please check your connection!", okText: "OK")
 }
 
 func isKeyInUserDefaults(key: String) -> Bool {
@@ -86,4 +86,38 @@ func getTransitionFromRight() -> CATransition{
     transition.subtype = CATransitionSubtype.fromRight
     transition.timingFunction = CAMediaTimingFunction(name:CAMediaTimingFunctionName.easeInEaseOut)
     return transition
+}
+
+func convertIntToCategory(categoryInt: Int)-> WallpaperCategory{
+    switch categoryInt {
+    case 1:
+        return .Group
+    case 2:
+        return .Lisa
+    case 3:
+        return .Jisoo
+    case 4:
+        return .Rose
+    case 5:
+        return .Jennie
+    default:
+        return .Group
+    }
+}
+
+func getSoloImageNameByCategory(category: WallpaperCategory) -> String{
+    var imageName = ""
+    switch category {
+        case .Lisa:
+            imageName =  "lisa"
+        case .Jisoo:
+            imageName =  "jisoo"
+        case .Rose:
+            imageName =  "rose"
+        case .Jennie:
+            imageName =  "jennie"
+        case .Group:
+            imageName = "group"
+    }
+    return imageName
 }

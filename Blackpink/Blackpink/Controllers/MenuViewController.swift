@@ -14,7 +14,6 @@ class MenuViewController: UIViewController, UITableViewDataSource, UITableViewDe
         MenuItem(icon_name: "heart-fill-icon", name: "Liked"),
         MenuItem(icon_name: "like", name: "Rate Us"),
         MenuItem(icon_name: "feedback", name: "Feedback"),
-        MenuItem(icon_name: "question", name: "FAQ"),
     ]
     
     @IBOutlet var tableView: UITableView!
