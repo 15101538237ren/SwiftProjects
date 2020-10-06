@@ -7,91 +7,137 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		12232B4992FF44F9E743704426A5C34D /* Haptics.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3DB1BF16EE6C5C484DE39BA5E19BCDC /* Haptics.swift */; };
+		08B5B89F28224381711F45A680C292D9 /* SideMenu-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D1755BAACD77A84E67E25E06DD5098D /* SideMenu-dummy.m */; };
+		09A0A5D3733F69E93F553ABBCF02FB77 /* SideMenuTransitionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6433B7899418250A336F6CCFB9A363F7 /* SideMenuTransitionController.swift */; };
+		10EA0E90D770D615BD791453ECF01532 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 436BAA54A31999B53B3CC7115C55FE50 /* Foundation.framework */; };
+		12232B4992FF44F9E743704426A5C34D /* Haptics.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2E10BDE877CCC3AFDF76F5A46992F86 /* Haptics.swift */; };
 		22A8219489AA23B46BFF4A098DD9223A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 436BAA54A31999B53B3CC7115C55FE50 /* Foundation.framework */; };
-		38D50292AA7EA95649349CCAB704C71B /* Pods-Blackpink-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 8B9B9505743A3FED126E54DECF9F0232 /* Pods-Blackpink-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		3E174AEDC606B2A5414781F343E1AD8A /* NewPopMenu-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = D296FC693F88786D8845FA0B812DDE32 /* NewPopMenu-dummy.m */; };
-		4129C5ADD2A59209D49838407095D1F8 /* PopMenuAppearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4BADCD36F30FDBC030B3CCB34B491D9 /* PopMenuAppearance.swift */; };
+		27D830F1CAC60B99CC0A135F583BFFF2 /* SideMenuPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47276CCCC844C8F943985467F63A818E /* SideMenuPresentationController.swift */; };
+		283BADFAD7DE3B7B56738DD132624A1F /* Pods-Blackpink-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 8B9B9505743A3FED126E54DECF9F0232 /* Pods-Blackpink-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		2ED518A3FA8DCBE08E621AC5C32844A9 /* SideMenuPushCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E00C77EA6250920F85DF8368963A3CD5 /* SideMenuPushCoordinator.swift */; };
+		3846AFE38D1B63A9F0D9073C4ABC6DAA /* SideMenuNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200D5F8BBFD4E2C0C7CE4C3EA01E822F /* SideMenuNavigationController.swift */; };
+		3D2DE7DD1F72AEAFD7557DCB56510B14 /* Pods-Blackpink-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 33C1E0A42DC33BB9CD35FAE6EB13B3ED /* Pods-Blackpink-dummy.m */; };
+		3E174AEDC606B2A5414781F343E1AD8A /* NewPopMenu-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 3ADAC667348CDDEB7AE37498CF2E42E1 /* NewPopMenu-dummy.m */; };
+		3E18B004D34ED5441A193684EEB25BD3 /* SideMenuPresentationStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64C12D7E872C413081DA909662A8CF74 /* SideMenuPresentationStyle.swift */; };
+		4129C5ADD2A59209D49838407095D1F8 /* PopMenuAppearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = F86D7E6D543652C663B3AC455952343F /* PopMenuAppearance.swift */; };
 		4654EB063C3477E876157222A074356D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 436BAA54A31999B53B3CC7115C55FE50 /* Foundation.framework */; };
-		46D12956A20717723EF722E2F5861BFE /* UILoadControl-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 54111D70B6D7DBA1BEA0DE1C79BEC420 /* UILoadControl-dummy.m */; };
-		4F4BEA1FDCD1F8D56807FEB6A4673FB5 /* PopMenu.h in Headers */ = {isa = PBXBuildFile; fileRef = B2C82141BDEA55D455EAD2AB5DA5255E /* PopMenu.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		50A08628631D1513E3DB94DAFA0A4BC0 /* PopMenuPresentAnimationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058B4E4EC4BC21014AA7CCB130331DB2 /* PopMenuPresentAnimationController.swift */; };
-		5BCDEE546CC934C24A7FA1C8EEDD4755 /* PopMenuGradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73EF1A63405C54649D3D1CF458223344 /* PopMenuGradientView.swift */; };
+		46D12956A20717723EF722E2F5861BFE /* UILoadControl-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 7FD43871E0AE8ED03A039BEB5B7C1D31 /* UILoadControl-dummy.m */; };
+		4E88B70410F6837FBD463EA4B6C33155 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA269BDAEF0C56990256E4C3EBD8987B /* Extensions.swift */; };
+		4F4BEA1FDCD1F8D56807FEB6A4673FB5 /* PopMenu.h in Headers */ = {isa = PBXBuildFile; fileRef = 869A94F1F4C1DD0EA68A9FCE97D31526 /* PopMenu.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		50A08628631D1513E3DB94DAFA0A4BC0 /* PopMenuPresentAnimationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434F7D8B3104C7E14B67DA3DBDFF114D /* PopMenuPresentAnimationController.swift */; };
+		5BCDEE546CC934C24A7FA1C8EEDD4755 /* PopMenuGradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 521038260EDAE0901D9AD9294A103ED1 /* PopMenuGradientView.swift */; };
 		74D80757B3B6138539EE9892889D06C6 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 312B988EF117AE4DE76A268D970131FE /* UIKit.framework */; };
-		890FDAEBC2E2916F225E7D0DC57CCF26 /* NewPopMenu-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 66B7A38E074D99BF83B1B8D83278ACA7 /* NewPopMenu-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		9C6CEFAE327908F6310B15348E31AEA4 /* PopMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F02339EB8C52547773123DC06F0B358 /* PopMenuViewController.swift */; };
-		A4E126B5ADDC3488CC269071257B03E3 /* UILoadControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7956291D9EF2F7FABD19AD442C07E4F /* UILoadControl.swift */; };
-		B3F5FB8B429B244ADBE2F9A204FFE5F6 /* Pods-Blackpink-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 33C1E0A42DC33BB9CD35FAE6EB13B3ED /* Pods-Blackpink-dummy.m */; };
-		C28F1A38EFFD963EA921344DD4FE52D0 /* PopMenuAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEA592AC51EC5D6730B789381C6DEAA4 /* PopMenuAction.swift */; };
-		D2D251729ED2AABDF2943BE10B4F22CB /* UILoadControl-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 4EBACF1AAD9E86F9AF1754D5B3A82EA3 /* UILoadControl-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		77AF2098DDCCAAE0CE4A20725C466905 /* SideMenuManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895B9AD7B928258D72175C27A35F829A /* SideMenuManager.swift */; };
+		890FDAEBC2E2916F225E7D0DC57CCF26 /* NewPopMenu-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 726FCAADE9260C52848E9EAFCE10C74C /* NewPopMenu-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		890FF25D0CCFF9BADECBA64DCCEFF4FF /* SideMenuAnimationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77BAF42D7FDE749064A64C6FEFEB7497 /* SideMenuAnimationController.swift */; };
+		8C06632AA14D12278B1277AC0CC6A0B2 /* SideMenuInteractionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB388AD504B2B8FBA303844AE900BB44 /* SideMenuInteractionController.swift */; };
+		905A503F069C27E841BAD9F4EFD4F1AF /* Protected.swift in Sources */ = {isa = PBXBuildFile; fileRef = A976AF930D202DB76CA006CF60D7A72C /* Protected.swift */; };
+		9C6CEFAE327908F6310B15348E31AEA4 /* PopMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E9788CB0B5A527002E93FF87AFEAD2E /* PopMenuViewController.swift */; };
+		A4E126B5ADDC3488CC269071257B03E3 /* UILoadControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0C87254744717D2404447C7C96888BB /* UILoadControl.swift */; };
+		B27B12C5D2EF1BE7B3CBBBC8FA98110E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 436BAA54A31999B53B3CC7115C55FE50 /* Foundation.framework */; };
+		C28F1A38EFFD963EA921344DD4FE52D0 /* PopMenuAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = F585E6638E94115DED54438EC93ADB09 /* PopMenuAction.swift */; };
+		C798DA148F7F666F393F2009DDF73E35 /* Initializable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3445A39CC82B8185203F9B50D22D3095 /* Initializable.swift */; };
+		C96A55C2A869A97AC4CA628A7F2A2A21 /* UITableViewVibrantCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 999D507C3F6C8FC53708944D3439478F /* UITableViewVibrantCell.swift */; };
+		D1BD7393C7934049B3E51D9C5A5CD8A0 /* Print.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FADD38B8CACF8E5C5DDE2041DDCD2E6 /* Print.swift */; };
+		D2D251729ED2AABDF2943BE10B4F22CB /* UILoadControl-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 40DE82CB6A367E68F40AF4DA9E344101 /* UILoadControl-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D2FA5F7FFA44C4859818073FC97E0083 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 312B988EF117AE4DE76A268D970131FE /* UIKit.framework */; };
-		DC4FBA009BD68DB0F36A765203AD6650 /* UIView+Shadows.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E778E1B9B896A5EAFF921ED5808C76 /* UIView+Shadows.swift */; };
-		E2F45457159D8A54C8981974405714D7 /* PopMenuManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D8A080C811C52372CCD014702F6CB93 /* PopMenuManager.swift */; };
-		EA75E23AACB80AACCF1565E8D267883E /* UIColor+Contrast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70976F92C5E5677A98DE7DD9E237D41D /* UIColor+Contrast.swift */; };
-		ED0D720BCEDDB4E9E581E6E8FB6E6E5B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 436BAA54A31999B53B3CC7115C55FE50 /* Foundation.framework */; };
-		F2715B2F8BB394E309BED4C0640E9C17 /* UILoadControl_UIScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 773F8594996E0092DF1AF8CDBE9EE190 /* UILoadControl_UIScrollView.swift */; };
-		FE2CE2A5D99C4FEC6BEFB477793111C3 /* PopMenuDismissAnimationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49A1D10D9CB67454C8A2E29D6369B0BB /* PopMenuDismissAnimationController.swift */; };
+		D3D22BB8C279DC03EA91BFE3F5412477 /* Deprecations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51D54B228787A91E8978642206485AA8 /* Deprecations.swift */; };
+		D777716F0B6C0754B7B0230531743BC4 /* SideMenu-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = A0E7E3CB4B85EB5C3479C3AEF9EEB8FA /* SideMenu-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DC4FBA009BD68DB0F36A765203AD6650 /* UIView+Shadows.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24E8E1DBF286D7D1DD583A94E19C400A /* UIView+Shadows.swift */; };
+		E2F45457159D8A54C8981974405714D7 /* PopMenuManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03614144EA9E038729884667A85B15A8 /* PopMenuManager.swift */; };
+		EA75E23AACB80AACCF1565E8D267883E /* UIColor+Contrast.swift in Sources */ = {isa = PBXBuildFile; fileRef = E06FFAE4547465C619003B0D8F2ABFC4 /* UIColor+Contrast.swift */; };
+		F2715B2F8BB394E309BED4C0640E9C17 /* UILoadControl_UIScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C8D24B6BF159E581A6519D4E9070E1 /* UILoadControl_UIScrollView.swift */; };
+		FE2CE2A5D99C4FEC6BEFB477793111C3 /* PopMenuDismissAnimationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D39D702DC5E22B0A1C6BF7CCCF850C6 /* PopMenuDismissAnimationController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		7249E1FAA36E3FB4AB236992592A2F8A /* PBXContainerItemProxy */ = {
+		3E25EC525E586DD9FBE8990CE1E15749 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 8CC7F28675174E65A4EB204EBB5DC19A;
-			remoteInfo = NewPopMenu;
+			remoteGlobalIDString = C4A0A7D8591B67FB75E2E8D215E3735B;
+			remoteInfo = SideMenu;
 		};
-		AD30105B723A038D89D8E1FC8310D8C7 /* PBXContainerItemProxy */ = {
+		628A15D5B77DB53CE102CAAC3E04BDF3 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 9E50973EECDF5CAC627F73748F98D4FF;
 			remoteInfo = UILoadControl;
 		};
+		E590265CFAEC55A11EE9655E9FF4EAE6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8CC7F28675174E65A4EB204EBB5DC19A;
+			remoteInfo = NewPopMenu;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		001C75CAFF733E8B0B0DE83DAD4B5466 /* UILoadControl.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = UILoadControl.release.xcconfig; sourceTree = "<group>"; };
 		0194AB93D49810D902CF59B75B33A578 /* Pods-Blackpink-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-Blackpink-acknowledgements.markdown"; sourceTree = "<group>"; };
-		058B4E4EC4BC21014AA7CCB130331DB2 /* PopMenuPresentAnimationController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PopMenuPresentAnimationController.swift; path = PopMenu/Transitions/PopMenuPresentAnimationController.swift; sourceTree = "<group>"; };
+		03614144EA9E038729884667A85B15A8 /* PopMenuManager.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PopMenuManager.swift; path = PopMenu/Classes/PopMenuManager.swift; sourceTree = "<group>"; };
+		09223D3AFAF828322940E59FFF5E8440 /* UILoadControl-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "UILoadControl-Info.plist"; sourceTree = "<group>"; };
 		0C62ABBA89D7924343728E0DE9A71ED2 /* Pods-Blackpink-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-Blackpink-Info.plist"; sourceTree = "<group>"; };
-		1F02339EB8C52547773123DC06F0B358 /* PopMenuViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PopMenuViewController.swift; path = "PopMenu/View Controller & Views/PopMenuViewController.swift"; sourceTree = "<group>"; };
+		154A396F9D05413A708E60D9DA1C735D /* NewPopMenu-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "NewPopMenu-Info.plist"; sourceTree = "<group>"; };
+		17A91A85FDAD00E258D502746BFDEC92 /* UILoadControl.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = UILoadControl.modulemap; sourceTree = "<group>"; };
+		19C8D24B6BF159E581A6519D4E9070E1 /* UILoadControl_UIScrollView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = UILoadControl_UIScrollView.swift; path = Pod/Classes/UILoadControl_UIScrollView.swift; sourceTree = "<group>"; };
+		1F6D0BF8C6F9C01C5280154C956E1576 /* NewPopMenu.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = NewPopMenu.modulemap; sourceTree = "<group>"; };
+		1FADD38B8CACF8E5C5DDE2041DDCD2E6 /* Print.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Print.swift; path = Pod/Classes/Print.swift; sourceTree = "<group>"; };
+		200D5F8BBFD4E2C0C7CE4C3EA01E822F /* SideMenuNavigationController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SideMenuNavigationController.swift; path = Pod/Classes/SideMenuNavigationController.swift; sourceTree = "<group>"; };
+		24E8E1DBF286D7D1DD583A94E19C400A /* UIView+Shadows.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "UIView+Shadows.swift"; path = "PopMenu/Classes/Helpers/UIView+Shadows.swift"; sourceTree = "<group>"; };
+		265B27659DD84800B6EEE73C590D752D /* SideMenu.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = SideMenu.release.xcconfig; sourceTree = "<group>"; };
 		28E1751172DA437DBEC736206FEF6CA8 /* Pods-Blackpink-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-Blackpink-acknowledgements.plist"; sourceTree = "<group>"; };
 		30C0AC0FCD24EDBCF583F1EA5103B0F9 /* Pods-Blackpink-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-Blackpink-frameworks.sh"; sourceTree = "<group>"; };
 		312B988EF117AE4DE76A268D970131FE /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS12.2.sdk/System/Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
+		319D06AA0D1D0BA345459C039040A1ED /* SideMenu.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = SideMenu.framework; path = SideMenu.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		33C1E0A42DC33BB9CD35FAE6EB13B3ED /* Pods-Blackpink-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-Blackpink-dummy.m"; sourceTree = "<group>"; };
-		3D8A080C811C52372CCD014702F6CB93 /* PopMenuManager.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PopMenuManager.swift; path = PopMenu/Classes/PopMenuManager.swift; sourceTree = "<group>"; };
+		3445A39CC82B8185203F9B50D22D3095 /* Initializable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Initializable.swift; path = Pod/Classes/Initializable.swift; sourceTree = "<group>"; };
+		3ADAC667348CDDEB7AE37498CF2E42E1 /* NewPopMenu-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "NewPopMenu-dummy.m"; sourceTree = "<group>"; };
+		3D39D702DC5E22B0A1C6BF7CCCF850C6 /* PopMenuDismissAnimationController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PopMenuDismissAnimationController.swift; path = PopMenu/Transitions/PopMenuDismissAnimationController.swift; sourceTree = "<group>"; };
+		40DE82CB6A367E68F40AF4DA9E344101 /* UILoadControl-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "UILoadControl-umbrella.h"; sourceTree = "<group>"; };
+		434F7D8B3104C7E14B67DA3DBDFF114D /* PopMenuPresentAnimationController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PopMenuPresentAnimationController.swift; path = PopMenu/Transitions/PopMenuPresentAnimationController.swift; sourceTree = "<group>"; };
 		436BAA54A31999B53B3CC7115C55FE50 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS12.2.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
+		47276CCCC844C8F943985467F63A818E /* SideMenuPresentationController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SideMenuPresentationController.swift; path = Pod/Classes/SideMenuPresentationController.swift; sourceTree = "<group>"; };
 		4773E284D519438EADFFFEC9F73E6330 /* Pods-Blackpink.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Blackpink.release.xcconfig"; sourceTree = "<group>"; };
-		49A1D10D9CB67454C8A2E29D6369B0BB /* PopMenuDismissAnimationController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PopMenuDismissAnimationController.swift; path = PopMenu/Transitions/PopMenuDismissAnimationController.swift; sourceTree = "<group>"; };
-		4EBACF1AAD9E86F9AF1754D5B3A82EA3 /* UILoadControl-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "UILoadControl-umbrella.h"; sourceTree = "<group>"; };
-		54111D70B6D7DBA1BEA0DE1C79BEC420 /* UILoadControl-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "UILoadControl-dummy.m"; sourceTree = "<group>"; };
-		58A5EFB7ECEFC9E9954A06B578F3BE6F /* NewPopMenu-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "NewPopMenu-Info.plist"; sourceTree = "<group>"; };
-		59131750A4DAE5E1378A7217D8E09A28 /* NewPopMenu.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = NewPopMenu.debug.xcconfig; sourceTree = "<group>"; };
-		5BBB795E8DB6A92B5B56412DDB175DCD /* UILoadControl.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = UILoadControl.release.xcconfig; sourceTree = "<group>"; };
-		66B7A38E074D99BF83B1B8D83278ACA7 /* NewPopMenu-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "NewPopMenu-umbrella.h"; sourceTree = "<group>"; };
-		69E778E1B9B896A5EAFF921ED5808C76 /* UIView+Shadows.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "UIView+Shadows.swift"; path = "PopMenu/Classes/Helpers/UIView+Shadows.swift"; sourceTree = "<group>"; };
+		51D54B228787A91E8978642206485AA8 /* Deprecations.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Deprecations.swift; path = Pod/Classes/Deprecations.swift; sourceTree = "<group>"; };
+		521038260EDAE0901D9AD9294A103ED1 /* PopMenuGradientView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PopMenuGradientView.swift; path = PopMenu/Classes/Helpers/PopMenuGradientView.swift; sourceTree = "<group>"; };
+		52B61A6079617233D07124E38D0D099B /* NewPopMenu.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = NewPopMenu.release.xcconfig; sourceTree = "<group>"; };
+		6433B7899418250A336F6CCFB9A363F7 /* SideMenuTransitionController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SideMenuTransitionController.swift; path = Pod/Classes/SideMenuTransitionController.swift; sourceTree = "<group>"; };
+		64C12D7E872C413081DA909662A8CF74 /* SideMenuPresentationStyle.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SideMenuPresentationStyle.swift; path = Pod/Classes/SideMenuPresentationStyle.swift; sourceTree = "<group>"; };
+		6D1755BAACD77A84E67E25E06DD5098D /* SideMenu-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "SideMenu-dummy.m"; sourceTree = "<group>"; };
 		6E05A788A4FFA447ACE04B7F545656A1 /* Pods_Blackpink.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_Blackpink.framework; path = "Pods-Blackpink.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
-		70976F92C5E5677A98DE7DD9E237D41D /* UIColor+Contrast.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "UIColor+Contrast.swift"; path = "PopMenu/Classes/Helpers/UIColor+Contrast.swift"; sourceTree = "<group>"; };
-		73EF1A63405C54649D3D1CF458223344 /* PopMenuGradientView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PopMenuGradientView.swift; path = PopMenu/Classes/Helpers/PopMenuGradientView.swift; sourceTree = "<group>"; };
-		773F8594996E0092DF1AF8CDBE9EE190 /* UILoadControl_UIScrollView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = UILoadControl_UIScrollView.swift; path = Pod/Classes/UILoadControl_UIScrollView.swift; sourceTree = "<group>"; };
+		726FCAADE9260C52848E9EAFCE10C74C /* NewPopMenu-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "NewPopMenu-umbrella.h"; sourceTree = "<group>"; };
+		77BAF42D7FDE749064A64C6FEFEB7497 /* SideMenuAnimationController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SideMenuAnimationController.swift; path = Pod/Classes/SideMenuAnimationController.swift; sourceTree = "<group>"; };
 		7DD999B56861AEA025C4E583DEC6A6CD /* Pods-Blackpink.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-Blackpink.modulemap"; sourceTree = "<group>"; };
+		7EE37B9250F9C22A7690D39C9D80CE26 /* SideMenu-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SideMenu-prefix.pch"; sourceTree = "<group>"; };
+		7F7DCE7594692F607066B394BD2C04D5 /* SideMenu-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "SideMenu-Info.plist"; sourceTree = "<group>"; };
+		7FD43871E0AE8ED03A039BEB5B7C1D31 /* UILoadControl-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "UILoadControl-dummy.m"; sourceTree = "<group>"; };
+		869A94F1F4C1DD0EA68A9FCE97D31526 /* PopMenu.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PopMenu.h; path = PopMenu/PopMenu.h; sourceTree = "<group>"; };
+		895B9AD7B928258D72175C27A35F829A /* SideMenuManager.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SideMenuManager.swift; path = Pod/Classes/SideMenuManager.swift; sourceTree = "<group>"; };
 		8B9B9505743A3FED126E54DECF9F0232 /* Pods-Blackpink-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-Blackpink-umbrella.h"; sourceTree = "<group>"; };
-		9533E76ECB7729140F3BB189D0FB1772 /* UILoadControl-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "UILoadControl-prefix.pch"; sourceTree = "<group>"; };
+		8E9788CB0B5A527002E93FF87AFEAD2E /* PopMenuViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PopMenuViewController.swift; path = "PopMenu/View Controller & Views/PopMenuViewController.swift"; sourceTree = "<group>"; };
+		97E1C7019E718FEE0096B2AC31F4FA6F /* SideMenu.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = SideMenu.debug.xcconfig; sourceTree = "<group>"; };
+		999D507C3F6C8FC53708944D3439478F /* UITableViewVibrantCell.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = UITableViewVibrantCell.swift; path = Pod/Classes/UITableViewVibrantCell.swift; sourceTree = "<group>"; };
 		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
-		A180902BC7B0DB7205AC3E291399CA96 /* UILoadControl-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "UILoadControl-Info.plist"; sourceTree = "<group>"; };
-		B2C82141BDEA55D455EAD2AB5DA5255E /* PopMenu.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PopMenu.h; path = PopMenu/PopMenu.h; sourceTree = "<group>"; };
-		B5845959FB68D220731D7EC0A3504303 /* NewPopMenu-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "NewPopMenu-prefix.pch"; sourceTree = "<group>"; };
+		A0E7E3CB4B85EB5C3479C3AEF9EEB8FA /* SideMenu-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SideMenu-umbrella.h"; sourceTree = "<group>"; };
+		A903926253119291F54A5C54015A5282 /* NewPopMenu.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = NewPopMenu.debug.xcconfig; sourceTree = "<group>"; };
+		A976AF930D202DB76CA006CF60D7A72C /* Protected.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Protected.swift; path = Pod/Classes/Protected.swift; sourceTree = "<group>"; };
+		AA269BDAEF0C56990256E4C3EBD8987B /* Extensions.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Extensions.swift; path = Pod/Classes/Extensions.swift; sourceTree = "<group>"; };
+		B0C87254744717D2404447C7C96888BB /* UILoadControl.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = UILoadControl.swift; path = Pod/Classes/UILoadControl.swift; sourceTree = "<group>"; };
+		B2E10BDE877CCC3AFDF76F5A46992F86 /* Haptics.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Haptics.swift; path = PopMenu/Classes/Helpers/Haptics.swift; sourceTree = "<group>"; };
 		BB9F085B83443B75B2DC41CF5AC93CEB /* PopMenu.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = PopMenu.framework; path = NewPopMenu.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		BD724CF3592651DD9D47064ECB28F730 /* UILoadControl.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = UILoadControl.debug.xcconfig; sourceTree = "<group>"; };
-		C4BADCD36F30FDBC030B3CCB34B491D9 /* PopMenuAppearance.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PopMenuAppearance.swift; path = PopMenu/Classes/PopMenuAppearance.swift; sourceTree = "<group>"; };
-		D296FC693F88786D8845FA0B812DDE32 /* NewPopMenu-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "NewPopMenu-dummy.m"; sourceTree = "<group>"; };
-		D78639DD303BE09F296F45615906F639 /* UILoadControl.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = UILoadControl.modulemap; sourceTree = "<group>"; };
-		D7956291D9EF2F7FABD19AD442C07E4F /* UILoadControl.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = UILoadControl.swift; path = Pod/Classes/UILoadControl.swift; sourceTree = "<group>"; };
-		EE0DC561199CC8CBF111D38829D9F163 /* NewPopMenu.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = NewPopMenu.modulemap; sourceTree = "<group>"; };
-		EEA592AC51EC5D6730B789381C6DEAA4 /* PopMenuAction.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PopMenuAction.swift; path = "PopMenu/View Controller & Views/PopMenuAction.swift"; sourceTree = "<group>"; };
-		F3DB1BF16EE6C5C484DE39BA5E19BCDC /* Haptics.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Haptics.swift; path = PopMenu/Classes/Helpers/Haptics.swift; sourceTree = "<group>"; };
+		BE1E9DE14908259A93DE068333840F84 /* SideMenu.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = SideMenu.modulemap; sourceTree = "<group>"; };
+		C565EDD9B606A998A42535BFC292E119 /* NewPopMenu-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "NewPopMenu-prefix.pch"; sourceTree = "<group>"; };
+		DE34E3AAB446B48128A5712E74B155BC /* UILoadControl-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "UILoadControl-prefix.pch"; sourceTree = "<group>"; };
+		E00C77EA6250920F85DF8368963A3CD5 /* SideMenuPushCoordinator.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SideMenuPushCoordinator.swift; path = Pod/Classes/SideMenuPushCoordinator.swift; sourceTree = "<group>"; };
+		E06FFAE4547465C619003B0D8F2ABFC4 /* UIColor+Contrast.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "UIColor+Contrast.swift"; path = "PopMenu/Classes/Helpers/UIColor+Contrast.swift"; sourceTree = "<group>"; };
+		E2185874FEC98B4726BDA129AF08E2F6 /* UILoadControl.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = UILoadControl.debug.xcconfig; sourceTree = "<group>"; };
+		EB388AD504B2B8FBA303844AE900BB44 /* SideMenuInteractionController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SideMenuInteractionController.swift; path = Pod/Classes/SideMenuInteractionController.swift; sourceTree = "<group>"; };
 		F54A3C504AE7A4C6C1953576C5D40F56 /* UILoadControl.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = UILoadControl.framework; path = UILoadControl.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		FBA2BF0FAEFE94B319C02FDFE1A7CAAE /* NewPopMenu.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = NewPopMenu.release.xcconfig; sourceTree = "<group>"; };
+		F585E6638E94115DED54438EC93ADB09 /* PopMenuAction.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PopMenuAction.swift; path = "PopMenu/View Controller & Views/PopMenuAction.swift"; sourceTree = "<group>"; };
+		F86D7E6D543652C663B3AC455952343F /* PopMenuAppearance.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PopMenuAppearance.swift; path = PopMenu/Classes/PopMenuAppearance.swift; sourceTree = "<group>"; };
 		FF704ADB0395554E74BBDB5729A4ADCE /* Pods-Blackpink.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Blackpink.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -105,11 +151,19 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		CDC5F4F924B25619FAC64CE82069359B /* Frameworks */ = {
+		9C725C50268AA4151FEA3D921F767A4A /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				ED0D720BCEDDB4E9E581E6E8FB6E6E5B /* Foundation.framework in Frameworks */,
+				10EA0E90D770D615BD791453ECF01532 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D9D87C2BC8D3C4B8382407D4C6B16014 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B27B12C5D2EF1BE7B3CBBBC8FA98110E /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -125,6 +179,42 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0177010BB90C7307E43F25771236D289 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				6E05A788A4FFA447ACE04B7F545656A1 /* Pods_Blackpink.framework */,
+				BB9F085B83443B75B2DC41CF5AC93CEB /* PopMenu.framework */,
+				319D06AA0D1D0BA345459C039040A1ED /* SideMenu.framework */,
+				F54A3C504AE7A4C6C1953576C5D40F56 /* UILoadControl.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		01CF216C23514204C7787D876A3466F4 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				4D1D916B66C702659F8DEC24C6A90296 /* NewPopMenu */,
+				510C2D0C10CEEBB2F0209EAD96888D9D /* SideMenu */,
+				8E1A2AD7E80DA68488CE095712C54184 /* UILoadControl */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		05F4172279CA63E8EE024E8744E8BADE /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				BE1E9DE14908259A93DE068333840F84 /* SideMenu.modulemap */,
+				6D1755BAACD77A84E67E25E06DD5098D /* SideMenu-dummy.m */,
+				7F7DCE7594692F607066B394BD2C04D5 /* SideMenu-Info.plist */,
+				7EE37B9250F9C22A7690D39C9D80CE26 /* SideMenu-prefix.pch */,
+				A0E7E3CB4B85EB5C3479C3AEF9EEB8FA /* SideMenu-umbrella.h */,
+				97E1C7019E718FEE0096B2AC31F4FA6F /* SideMenu.debug.xcconfig */,
+				265B27659DD84800B6EEE73C590D752D /* SideMenu.release.xcconfig */,
+			);
+			name = "Support Files";
+			path = "../Target Support Files/SideMenu";
+			sourceTree = "<group>";
+		};
 		1628BF05B4CAFDCC3549A101F5A10A17 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -150,73 +240,58 @@
 			path = "Target Support Files/Pods-Blackpink";
 			sourceTree = "<group>";
 		};
-		45F0E0F0041E2AEDDD55C229BCAE613E /* Support Files */ = {
+		4D1D916B66C702659F8DEC24C6A90296 /* NewPopMenu */ = {
 			isa = PBXGroup;
 			children = (
-				EE0DC561199CC8CBF111D38829D9F163 /* NewPopMenu.modulemap */,
-				D296FC693F88786D8845FA0B812DDE32 /* NewPopMenu-dummy.m */,
-				58A5EFB7ECEFC9E9954A06B578F3BE6F /* NewPopMenu-Info.plist */,
-				B5845959FB68D220731D7EC0A3504303 /* NewPopMenu-prefix.pch */,
-				66B7A38E074D99BF83B1B8D83278ACA7 /* NewPopMenu-umbrella.h */,
-				59131750A4DAE5E1378A7217D8E09A28 /* NewPopMenu.debug.xcconfig */,
-				FBA2BF0FAEFE94B319C02FDFE1A7CAAE /* NewPopMenu.release.xcconfig */,
-			);
-			name = "Support Files";
-			path = "../Target Support Files/NewPopMenu";
-			sourceTree = "<group>";
-		};
-		527E6096D89AFFABDD968E9999F3E0F4 /* Support Files */ = {
-			isa = PBXGroup;
-			children = (
-				D78639DD303BE09F296F45615906F639 /* UILoadControl.modulemap */,
-				54111D70B6D7DBA1BEA0DE1C79BEC420 /* UILoadControl-dummy.m */,
-				A180902BC7B0DB7205AC3E291399CA96 /* UILoadControl-Info.plist */,
-				9533E76ECB7729140F3BB189D0FB1772 /* UILoadControl-prefix.pch */,
-				4EBACF1AAD9E86F9AF1754D5B3A82EA3 /* UILoadControl-umbrella.h */,
-				BD724CF3592651DD9D47064ECB28F730 /* UILoadControl.debug.xcconfig */,
-				5BBB795E8DB6A92B5B56412DDB175DCD /* UILoadControl.release.xcconfig */,
-			);
-			name = "Support Files";
-			path = "../Target Support Files/UILoadControl";
-			sourceTree = "<group>";
-		};
-		5ACC2B1C013A2C13B9EDDD6D810CB695 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				792AE1209A24A61A3EF0748A2092E0EE /* NewPopMenu */,
-				D0C51C158F2FD071B3FC5496407B2184 /* UILoadControl */,
-			);
-			name = Pods;
-			sourceTree = "<group>";
-		};
-		675DC109EDF8392EFF1F86CEBB7B72EA /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				6E05A788A4FFA447ACE04B7F545656A1 /* Pods_Blackpink.framework */,
-				BB9F085B83443B75B2DC41CF5AC93CEB /* PopMenu.framework */,
-				F54A3C504AE7A4C6C1953576C5D40F56 /* UILoadControl.framework */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		792AE1209A24A61A3EF0748A2092E0EE /* NewPopMenu */ = {
-			isa = PBXGroup;
-			children = (
-				F3DB1BF16EE6C5C484DE39BA5E19BCDC /* Haptics.swift */,
-				B2C82141BDEA55D455EAD2AB5DA5255E /* PopMenu.h */,
-				EEA592AC51EC5D6730B789381C6DEAA4 /* PopMenuAction.swift */,
-				C4BADCD36F30FDBC030B3CCB34B491D9 /* PopMenuAppearance.swift */,
-				49A1D10D9CB67454C8A2E29D6369B0BB /* PopMenuDismissAnimationController.swift */,
-				73EF1A63405C54649D3D1CF458223344 /* PopMenuGradientView.swift */,
-				3D8A080C811C52372CCD014702F6CB93 /* PopMenuManager.swift */,
-				058B4E4EC4BC21014AA7CCB130331DB2 /* PopMenuPresentAnimationController.swift */,
-				1F02339EB8C52547773123DC06F0B358 /* PopMenuViewController.swift */,
-				70976F92C5E5677A98DE7DD9E237D41D /* UIColor+Contrast.swift */,
-				69E778E1B9B896A5EAFF921ED5808C76 /* UIView+Shadows.swift */,
-				45F0E0F0041E2AEDDD55C229BCAE613E /* Support Files */,
+				B2E10BDE877CCC3AFDF76F5A46992F86 /* Haptics.swift */,
+				869A94F1F4C1DD0EA68A9FCE97D31526 /* PopMenu.h */,
+				F585E6638E94115DED54438EC93ADB09 /* PopMenuAction.swift */,
+				F86D7E6D543652C663B3AC455952343F /* PopMenuAppearance.swift */,
+				3D39D702DC5E22B0A1C6BF7CCCF850C6 /* PopMenuDismissAnimationController.swift */,
+				521038260EDAE0901D9AD9294A103ED1 /* PopMenuGradientView.swift */,
+				03614144EA9E038729884667A85B15A8 /* PopMenuManager.swift */,
+				434F7D8B3104C7E14B67DA3DBDFF114D /* PopMenuPresentAnimationController.swift */,
+				8E9788CB0B5A527002E93FF87AFEAD2E /* PopMenuViewController.swift */,
+				E06FFAE4547465C619003B0D8F2ABFC4 /* UIColor+Contrast.swift */,
+				24E8E1DBF286D7D1DD583A94E19C400A /* UIView+Shadows.swift */,
+				FAC56285BEE65AA66EAF6665FD16FC9B /* Support Files */,
 			);
 			name = NewPopMenu;
 			path = NewPopMenu;
+			sourceTree = "<group>";
+		};
+		510C2D0C10CEEBB2F0209EAD96888D9D /* SideMenu */ = {
+			isa = PBXGroup;
+			children = (
+				51D54B228787A91E8978642206485AA8 /* Deprecations.swift */,
+				AA269BDAEF0C56990256E4C3EBD8987B /* Extensions.swift */,
+				3445A39CC82B8185203F9B50D22D3095 /* Initializable.swift */,
+				1FADD38B8CACF8E5C5DDE2041DDCD2E6 /* Print.swift */,
+				A976AF930D202DB76CA006CF60D7A72C /* Protected.swift */,
+				77BAF42D7FDE749064A64C6FEFEB7497 /* SideMenuAnimationController.swift */,
+				EB388AD504B2B8FBA303844AE900BB44 /* SideMenuInteractionController.swift */,
+				895B9AD7B928258D72175C27A35F829A /* SideMenuManager.swift */,
+				200D5F8BBFD4E2C0C7CE4C3EA01E822F /* SideMenuNavigationController.swift */,
+				47276CCCC844C8F943985467F63A818E /* SideMenuPresentationController.swift */,
+				64C12D7E872C413081DA909662A8CF74 /* SideMenuPresentationStyle.swift */,
+				E00C77EA6250920F85DF8368963A3CD5 /* SideMenuPushCoordinator.swift */,
+				6433B7899418250A336F6CCFB9A363F7 /* SideMenuTransitionController.swift */,
+				999D507C3F6C8FC53708944D3439478F /* UITableViewVibrantCell.swift */,
+				05F4172279CA63E8EE024E8744E8BADE /* Support Files */,
+			);
+			name = SideMenu;
+			path = SideMenu;
+			sourceTree = "<group>";
+		};
+		8E1A2AD7E80DA68488CE095712C54184 /* UILoadControl */ = {
+			isa = PBXGroup;
+			children = (
+				B0C87254744717D2404447C7C96888BB /* UILoadControl.swift */,
+				19C8D24B6BF159E581A6519D4E9070E1 /* UILoadControl_UIScrollView.swift */,
+				DBEA37A949FADABE23023BDBE5B14634 /* Support Files */,
+			);
+			name = UILoadControl;
+			path = UILoadControl;
 			sourceTree = "<group>";
 		};
 		CF1408CF629C7361332E53B88F7BD30C = {
@@ -224,21 +299,25 @@
 			children = (
 				9D940727FF8FB9C785EB98E56350EF41 /* Podfile */,
 				1628BF05B4CAFDCC3549A101F5A10A17 /* Frameworks */,
-				5ACC2B1C013A2C13B9EDDD6D810CB695 /* Pods */,
-				675DC109EDF8392EFF1F86CEBB7B72EA /* Products */,
+				01CF216C23514204C7787D876A3466F4 /* Pods */,
+				0177010BB90C7307E43F25771236D289 /* Products */,
 				FBC9A9CBF93F15ED647CECEEBFA5DEE1 /* Targets Support Files */,
 			);
 			sourceTree = "<group>";
 		};
-		D0C51C158F2FD071B3FC5496407B2184 /* UILoadControl */ = {
+		DBEA37A949FADABE23023BDBE5B14634 /* Support Files */ = {
 			isa = PBXGroup;
 			children = (
-				D7956291D9EF2F7FABD19AD442C07E4F /* UILoadControl.swift */,
-				773F8594996E0092DF1AF8CDBE9EE190 /* UILoadControl_UIScrollView.swift */,
-				527E6096D89AFFABDD968E9999F3E0F4 /* Support Files */,
+				17A91A85FDAD00E258D502746BFDEC92 /* UILoadControl.modulemap */,
+				7FD43871E0AE8ED03A039BEB5B7C1D31 /* UILoadControl-dummy.m */,
+				09223D3AFAF828322940E59FFF5E8440 /* UILoadControl-Info.plist */,
+				DE34E3AAB446B48128A5712E74B155BC /* UILoadControl-prefix.pch */,
+				40DE82CB6A367E68F40AF4DA9E344101 /* UILoadControl-umbrella.h */,
+				E2185874FEC98B4726BDA129AF08E2F6 /* UILoadControl.debug.xcconfig */,
+				001C75CAFF733E8B0B0DE83DAD4B5466 /* UILoadControl.release.xcconfig */,
 			);
-			name = UILoadControl;
-			path = UILoadControl;
+			name = "Support Files";
+			path = "../Target Support Files/UILoadControl";
 			sourceTree = "<group>";
 		};
 		E2983683FD097A93297E2F5D4E382B36 /* iOS */ = {
@@ -248,6 +327,21 @@
 				312B988EF117AE4DE76A268D970131FE /* UIKit.framework */,
 			);
 			name = iOS;
+			sourceTree = "<group>";
+		};
+		FAC56285BEE65AA66EAF6665FD16FC9B /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				1F6D0BF8C6F9C01C5280154C956E1576 /* NewPopMenu.modulemap */,
+				3ADAC667348CDDEB7AE37498CF2E42E1 /* NewPopMenu-dummy.m */,
+				154A396F9D05413A708E60D9DA1C735D /* NewPopMenu-Info.plist */,
+				C565EDD9B606A998A42535BFC292E119 /* NewPopMenu-prefix.pch */,
+				726FCAADE9260C52848E9EAFCE10C74C /* NewPopMenu-umbrella.h */,
+				A903926253119291F54A5C54015A5282 /* NewPopMenu.debug.xcconfig */,
+				52B61A6079617233D07124E38D0D099B /* NewPopMenu.release.xcconfig */,
+			);
+			name = "Support Files";
+			path = "../Target Support Files/NewPopMenu";
 			sourceTree = "<group>";
 		};
 		FBC9A9CBF93F15ED647CECEEBFA5DEE1 /* Targets Support Files */ = {
@@ -261,6 +355,14 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
+		28761BD3C505CCB36997450A19676357 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D777716F0B6C0754B7B0230531743BC4 /* SideMenu-umbrella.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		3B7F48242AE8A73AC5946C22E12CFA86 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -278,11 +380,11 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		FE814DD1EFE1A563A12892BCAF417795 /* Headers */ = {
+		A959C34C673900EA64CE2DD6EB6608AA /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				38D50292AA7EA95649349CCAB704C71B /* Pods-Blackpink-umbrella.h in Headers */,
+				283BADFAD7DE3B7B56738DD132624A1F /* Pods-Blackpink-umbrella.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -325,20 +427,39 @@
 			productReference = F54A3C504AE7A4C6C1953576C5D40F56 /* UILoadControl.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		F3B72C056C83F5B0ED3A8E65678A1B10 /* Pods-Blackpink */ = {
+		C4A0A7D8591B67FB75E2E8D215E3735B /* SideMenu */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = F8CC8E51927E7E89A0CAF610CD4CB304 /* Build configuration list for PBXNativeTarget "Pods-Blackpink" */;
+			buildConfigurationList = 92707F899E1CD6FD63DCC66A3882B68C /* Build configuration list for PBXNativeTarget "SideMenu" */;
 			buildPhases = (
-				FE814DD1EFE1A563A12892BCAF417795 /* Headers */,
-				1B6E1CDA9BB25FA63811E428C3351411 /* Sources */,
-				CDC5F4F924B25619FAC64CE82069359B /* Frameworks */,
-				2C3A98719C3A4F3E61A57BFD45886067 /* Resources */,
+				28761BD3C505CCB36997450A19676357 /* Headers */,
+				8B7A6B51F5DD73DE3F3F294B1BF713BE /* Sources */,
+				D9D87C2BC8D3C4B8382407D4C6B16014 /* Frameworks */,
+				E880A6A8817A45BC1BDE085DEC3399E0 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				2EC46445F168E9945FFDA327603BFD89 /* PBXTargetDependency */,
-				71839A907F7749EACFED114FDD56C21D /* PBXTargetDependency */,
+			);
+			name = SideMenu;
+			productName = SideMenu;
+			productReference = 319D06AA0D1D0BA345459C039040A1ED /* SideMenu.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		F3B72C056C83F5B0ED3A8E65678A1B10 /* Pods-Blackpink */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2D163DD4651B00192254E96F4361F9C0 /* Build configuration list for PBXNativeTarget "Pods-Blackpink" */;
+			buildPhases = (
+				A959C34C673900EA64CE2DD6EB6608AA /* Headers */,
+				2A054B3B6E0DB40391A5B657B612B0E3 /* Sources */,
+				9C725C50268AA4151FEA3D921F767A4A /* Frameworks */,
+				C836E0DFD514D43BB69512D32C2C27B8 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				7F1BC9FC8C0146E7C59ABD5F650FF04D /* PBXTargetDependency */,
+				0EA56E5F118FB2851FC715AB616BAD8B /* PBXTargetDependency */,
+				8EDFFEF492ADD7FC8202AAEFE5F30A73 /* PBXTargetDependency */,
 			);
 			name = "Pods-Blackpink";
 			productName = "Pods-Blackpink";
@@ -363,25 +484,19 @@
 				Base,
 			);
 			mainGroup = CF1408CF629C7361332E53B88F7BD30C;
-			productRefGroup = 675DC109EDF8392EFF1F86CEBB7B72EA /* Products */;
+			productRefGroup = 0177010BB90C7307E43F25771236D289 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
 				8CC7F28675174E65A4EB204EBB5DC19A /* NewPopMenu */,
 				F3B72C056C83F5B0ED3A8E65678A1B10 /* Pods-Blackpink */,
+				C4A0A7D8591B67FB75E2E8D215E3735B /* SideMenu */,
 				9E50973EECDF5CAC627F73748F98D4FF /* UILoadControl */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		2C3A98719C3A4F3E61A57BFD45886067 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		70C6C90F3AE336E7B5C9859EED299A1D /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -390,6 +505,20 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		799C42C3FA07156B0F8924DF598E6FB0 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C836E0DFD514D43BB69512D32C2C27B8 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E880A6A8817A45BC1BDE085DEC3399E0 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -409,11 +538,11 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		1B6E1CDA9BB25FA63811E428C3351411 /* Sources */ = {
+		2A054B3B6E0DB40391A5B657B612B0E3 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B3F5FB8B429B244ADBE2F9A204FFE5F6 /* Pods-Blackpink-dummy.m in Sources */,
+				3D2DE7DD1F72AEAFD7557DCB56510B14 /* Pods-Blackpink-dummy.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -435,20 +564,48 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		8B7A6B51F5DD73DE3F3F294B1BF713BE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D3D22BB8C279DC03EA91BFE3F5412477 /* Deprecations.swift in Sources */,
+				4E88B70410F6837FBD463EA4B6C33155 /* Extensions.swift in Sources */,
+				C798DA148F7F666F393F2009DDF73E35 /* Initializable.swift in Sources */,
+				D1BD7393C7934049B3E51D9C5A5CD8A0 /* Print.swift in Sources */,
+				905A503F069C27E841BAD9F4EFD4F1AF /* Protected.swift in Sources */,
+				08B5B89F28224381711F45A680C292D9 /* SideMenu-dummy.m in Sources */,
+				890FF25D0CCFF9BADECBA64DCCEFF4FF /* SideMenuAnimationController.swift in Sources */,
+				8C06632AA14D12278B1277AC0CC6A0B2 /* SideMenuInteractionController.swift in Sources */,
+				77AF2098DDCCAAE0CE4A20725C466905 /* SideMenuManager.swift in Sources */,
+				3846AFE38D1B63A9F0D9073C4ABC6DAA /* SideMenuNavigationController.swift in Sources */,
+				27D830F1CAC60B99CC0A135F583BFFF2 /* SideMenuPresentationController.swift in Sources */,
+				3E18B004D34ED5441A193684EEB25BD3 /* SideMenuPresentationStyle.swift in Sources */,
+				2ED518A3FA8DCBE08E621AC5C32844A9 /* SideMenuPushCoordinator.swift in Sources */,
+				09A0A5D3733F69E93F553ABBCF02FB77 /* SideMenuTransitionController.swift in Sources */,
+				C96A55C2A869A97AC4CA628A7F2A2A21 /* UITableViewVibrantCell.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		2EC46445F168E9945FFDA327603BFD89 /* PBXTargetDependency */ = {
+		0EA56E5F118FB2851FC715AB616BAD8B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = SideMenu;
+			target = C4A0A7D8591B67FB75E2E8D215E3735B /* SideMenu */;
+			targetProxy = 3E25EC525E586DD9FBE8990CE1E15749 /* PBXContainerItemProxy */;
+		};
+		7F1BC9FC8C0146E7C59ABD5F650FF04D /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = NewPopMenu;
 			target = 8CC7F28675174E65A4EB204EBB5DC19A /* NewPopMenu */;
-			targetProxy = 7249E1FAA36E3FB4AB236992592A2F8A /* PBXContainerItemProxy */;
+			targetProxy = E590265CFAEC55A11EE9655E9FF4EAE6 /* PBXContainerItemProxy */;
 		};
-		71839A907F7749EACFED114FDD56C21D /* PBXTargetDependency */ = {
+		8EDFFEF492ADD7FC8202AAEFE5F30A73 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = UILoadControl;
 			target = 9E50973EECDF5CAC627F73748F98D4FF /* UILoadControl */;
-			targetProxy = AD30105B723A038D89D8E1FC8310D8C7 /* PBXContainerItemProxy */;
+			targetProxy = 628A15D5B77DB53CE102CAAC3E04BDF3 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -513,9 +670,46 @@
 			};
 			name = Release;
 		};
+		1C8A687A8AC1620ECDFCDED2FAC17C9E /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 265B27659DD84800B6EEE73C590D752D /* SideMenu.release.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "Target Support Files/SideMenu/SideMenu-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/SideMenu/SideMenu-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MODULEMAP_FILE = "Target Support Files/SideMenu/SideMenu.modulemap";
+				PRODUCT_MODULE_NAME = SideMenu;
+				PRODUCT_NAME = SideMenu;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
 		217F77D0CAB800627F8588F37F85E2E2 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = FBA2BF0FAEFE94B319C02FDFE1A7CAAE /* NewPopMenu.release.xcconfig */;
+			baseConfigurationReference = 52B61A6079617233D07124E38D0D099B /* NewPopMenu.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -549,7 +743,78 @@
 			};
 			name = Release;
 		};
-		22EE74167F1C13FC43C238B69FFEA789 /* Release */ = {
+		323D2FE9D54C529D93C8E711E4758613 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = A903926253119291F54A5C54015A5282 /* NewPopMenu.debug.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "Target Support Files/NewPopMenu/NewPopMenu-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/NewPopMenu/NewPopMenu-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MODULEMAP_FILE = "Target Support Files/NewPopMenu/NewPopMenu.modulemap";
+				PRODUCT_MODULE_NAME = PopMenu;
+				PRODUCT_NAME = PopMenu;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		45B6D36435972CBBC59A481A20E44C4A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 97E1C7019E718FEE0096B2AC31F4FA6F /* SideMenu.debug.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "Target Support Files/SideMenu/SideMenu-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/SideMenu/SideMenu-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MODULEMAP_FILE = "Target Support Files/SideMenu/SideMenu.modulemap";
+				PRODUCT_MODULE_NAME = SideMenu;
+				PRODUCT_NAME = SideMenu;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		D9986434B3DD40746F0BA3D40F7EB5BF /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 4773E284D519438EADFFFEC9F73E6330 /* Pods-Blackpink.release.xcconfig */;
 			buildSettings = {
@@ -588,42 +853,7 @@
 			};
 			name = Release;
 		};
-		323D2FE9D54C529D93C8E711E4758613 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 59131750A4DAE5E1378A7217D8E09A28 /* NewPopMenu.debug.xcconfig */;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				GCC_PREFIX_HEADER = "Target Support Files/NewPopMenu/NewPopMenu-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/NewPopMenu/NewPopMenu-Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				MODULEMAP_FILE = "Target Support Files/NewPopMenu/NewPopMenu.modulemap";
-				PRODUCT_MODULE_NAME = PopMenu;
-				PRODUCT_NAME = PopMenu;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 4.2;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Debug;
-		};
-		5BCEFFFD429822E384BA66B78A691151 /* Debug */ = {
+		DEEBB50C461C8343F6630012760F5BEE /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = FF704ADB0395554E74BBDB5729A4ADCE /* Pods-Blackpink.debug.xcconfig */;
 			buildSettings = {
@@ -663,7 +893,7 @@
 		};
 		EC586418905C7E54BE5FACDB105DEEED /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5BBB795E8DB6A92B5B56412DDB175DCD /* UILoadControl.release.xcconfig */;
+			baseConfigurationReference = 001C75CAFF733E8B0B0DE83DAD4B5466 /* UILoadControl.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -763,7 +993,7 @@
 		};
 		F6AC6D1BC5103ED07DF9057E9F818B7C /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BD724CF3592651DD9D47064ECB28F730 /* UILoadControl.debug.xcconfig */;
+			baseConfigurationReference = E2185874FEC98B4726BDA129AF08E2F6 /* UILoadControl.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -799,6 +1029,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		2D163DD4651B00192254E96F4361F9C0 /* Build configuration list for PBXNativeTarget "Pods-Blackpink" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DEEBB50C461C8343F6630012760F5BEE /* Debug */,
+				D9986434B3DD40746F0BA3D40F7EB5BF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		4821239608C13582E20E6DA73FD5F1F9 /* Build configuration list for PBXProject "Pods" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -826,11 +1065,11 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		F8CC8E51927E7E89A0CAF610CD4CB304 /* Build configuration list for PBXNativeTarget "Pods-Blackpink" */ = {
+		92707F899E1CD6FD63DCC66A3882B68C /* Build configuration list for PBXNativeTarget "SideMenu" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				5BCEFFFD429822E384BA66B78A691151 /* Debug */,
-				22EE74167F1C13FC43C238B69FFEA789 /* Release */,
+				45B6D36435972CBBC59A481A20E44C4A /* Debug */,
+				1C8A687A8AC1620ECDFCDED2FAC17C9E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

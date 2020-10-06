@@ -78,3 +78,12 @@ func getCategoryByIntValue(category: Int) -> WallpaperCategory{
         return WallpaperCategory.Group
     }
 }
+
+func getTransitionFromRight() -> CATransition{
+    let transition = CATransition()
+    transition.duration = 0.3
+    transition.type = CATransitionType.push
+    transition.subtype = CATransitionSubtype.fromRight
+    transition.timingFunction = CAMediaTimingFunction(name:CAMediaTimingFunctionName.easeInEaseOut)
+    return transition
+}

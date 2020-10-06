@@ -126,14 +126,14 @@ class SoloViewController: UIViewController, UICollectionViewDelegate, UICollecti
     }
     
     @IBAction func presentPopMenu(_ sender: UIButton) {
-        let imageTintColor = UIColor(red: 26, green: 25, blue: 25, alpha: 1.0)
+        let imageTintColor = BlackPinkBlack
         let actions = [
             PopMenuDefaultAction(title: "Sort by likes", image: UIImage(named: "heart-fill-icon"), color: imageTintColor),
             PopMenuDefaultAction(title: "Sort by date", image: UIImage(named: "calendar-icon"), color: imageTintColor)
         ]
         let menuVC = PopMenuViewController(sourceView:sender, actions: actions)
         menuVC.delegate = self
-        let backgroundColor = UIColor(red: 246, green: 188, blue: 223, alpha: 1.0)
+        let backgroundColor = BlackPinkPink
         menuVC.appearance.popMenuColor.backgroundColor = .solid(fill: backgroundColor)
         self.present(menuVC, animated: true, completion: nil)
     }
@@ -277,6 +277,9 @@ class SoloViewController: UIViewController, UICollectionViewDelegate, UICollecti
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "mainCollectionViewCell", for: indexPath) as! MainCollectionCellView
         
+        cell.layer.borderColor = BlackPinkBlack.cgColor
+        cell.layer.borderWidth = cellBoarder
+        
         let wallpaper = wallpapers[indexPath.row]
         
         if let likes: Int = wallpaper.object(forKey: "likes") as? Int{
@@ -302,14 +305,14 @@ class SoloViewController: UIViewController, UICollectionViewDelegate, UICollecti
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
 
-        let width = (collectionView.frame.size.width -  (numberOfItemsPerRow + 1) * cellPadding) / numberOfItemsPerRow
-        
-        let height = (collectionView.frame.size.height - (numberOfItemsPerRow + 1) * cellPadding) / 3.0
+        let width = collectionView.frame.size.width / numberOfItemsPerRow
+        let height = collectionView.frame.size.height / 3.0
         return CGSize(width: width, height: height)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: cellPadding,left: cellPadding, bottom: cellPadding,right: cellPadding)
+        let inset = UIEdgeInsets(top: 0,left: 0, bottom: 0,right: 0)
+        return inset
     }
     
     func loadDetailVC(cell: MainCollectionCellView?, image: UIImage, record: CKRecord) -> Void{
@@ -321,7 +324,6 @@ class SoloViewController: UIViewController, UICollectionViewDelegate, UICollecti
         detailVC.image = image
         detailVC.record = record
         detailVC.db = publicDatabase
-        detailVC.category = currentWallpaperCategory.rawValue
         detailVC.modalPresentationStyle = .fullScreen
         
         DispatchQueue.main.async {

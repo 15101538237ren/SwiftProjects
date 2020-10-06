@@ -29,7 +29,6 @@ class DetailViewController: UIViewController {
     
     // Variables
     var image: UIImage!
-    var category: Int!
     var record: CKRecord!
     var db: CKDatabase!
     var lockInPreview: Bool = false

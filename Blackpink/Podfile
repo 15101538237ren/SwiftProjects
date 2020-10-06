@@ -8,5 +8,5 @@ target 'Blackpink' do
   # Pods for Blackpink
   pod "UILoadControl"
   pod 'NewPopMenu', '~> 2.0'
-
+  pod 'SideMenu', '~> 6.0'
 end

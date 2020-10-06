@@ -12,6 +12,11 @@
 		<key>Pods-Blackpink.xcscheme</key>
 		<dict>
 			<key>isShown</key>
+			<true/>
+		</dict>
+		<key>SideMenu.xcscheme</key>
+		<dict>
+			<key>isShown</key>
 			<false/>
 		</dict>
 		<key>UILoadControl.xcscheme</key>
