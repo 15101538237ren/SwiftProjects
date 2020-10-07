@@ -70,3 +70,6 @@
 /* Uploading */
 "Uploading" = "アップロード";
 
+/* Running the application, I agree to the terms of user agreement */
+"Running the application, I agree to 「the terms of user agreement」" = "アプリケーションを実行し、「ユーザー契約の条件」に同意します";
+

@@ -582,38 +582,10 @@
                                     <action selector="start:" destination="Spc-Gt-csV" eventType="touchUpInside" id="xZY-q7-7b5"/>
                                 </connections>
                             </button>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" usesAttributedText="YES" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ye1-hq-oyE">
-                                <rect key="frame" x="97" y="637.66666666666663" width="220" height="48.333333333333371"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="220" id="bBK-tZ-y64"/>
-                                </constraints>
-                                <attributedString key="attributedText">
-                                    <fragment content="Running the application, I agree to ">
-                                        <attributes>
-                                            <color key="NSColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                            <font key="NSFont" size="14" name="ArialMT"/>
-                                            <real key="NSKern" value="0.0"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" defaultTabInterval="1" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO"/>
-                                        </attributes>
-                                    </fragment>
-                                    <fragment content="the terms of user agreement">
-                                        <attributes>
-                                            <color key="NSColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                            <font key="NSFont" size="14" name="ArialMT"/>
-                                            <real key="NSKern" value="0.0"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" defaultTabInterval="1" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO"/>
-                                            <integer key="NSUnderline" value="1"/>
-                                        </attributes>
-                                    </fragment>
-                                    <fragment content=".">
-                                        <attributes>
-                                            <color key="NSColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                            <font key="NSFont" size="14" name="ArialMT"/>
-                                            <real key="NSKern" value="0.0"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" defaultTabInterval="1" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO"/>
-                                        </attributes>
-                                    </fragment>
-                                </attributedString>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" textAlignment="center" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ye1-hq-oyE">
+                                <rect key="frame" x="100" y="653.66666666666663" width="214" height="32.333333333333371"/>
+                                <color key="textColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <fontDescription key="fontDescription" name="ArialMT" family="Arial" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="WALLPAPERS" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UVM-9o-nXm">
@@ -634,7 +606,9 @@
                             <constraint firstItem="zHf-lM-S5p" firstAttribute="centerX" secondItem="Mae-6g-9xt" secondAttribute="centerX" id="oFI-Jz-h75"/>
                             <constraint firstItem="UVM-9o-nXm" firstAttribute="centerX" secondItem="Mae-6g-9xt" secondAttribute="centerX" id="tyL-UI-cGE"/>
                             <constraint firstItem="UVM-9o-nXm" firstAttribute="top" secondItem="5Jr-fP-fbJ" secondAttribute="bottom" constant="30" id="unU-ZS-S5g"/>
+                            <constraint firstItem="0IH-Wu-5SY" firstAttribute="trailing" secondItem="ye1-hq-oyE" secondAttribute="trailing" constant="100" id="vWk-DJ-BPE"/>
                             <constraint firstItem="ye1-hq-oyE" firstAttribute="centerX" secondItem="Mae-6g-9xt" secondAttribute="centerX" id="vvQ-0U-3hE"/>
+                            <constraint firstItem="ye1-hq-oyE" firstAttribute="leading" secondItem="0IH-Wu-5SY" secondAttribute="leading" constant="100" id="xYL-GF-YWY"/>
                         </constraints>
                     </view>
                     <connections>

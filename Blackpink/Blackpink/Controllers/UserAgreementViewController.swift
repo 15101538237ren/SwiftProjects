@@ -17,7 +17,12 @@ class UserAgreementViewController: UIViewController {
             startBtn.layer.borderColor = BlackPinkBlack.cgColor
         }
     }
-    @IBOutlet var txtView: UITextView!
+    @IBOutlet var txtView: UITextView!{
+        didSet{
+            txtView.text = AgreementTxt
+            txtView.textColor = .white
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()

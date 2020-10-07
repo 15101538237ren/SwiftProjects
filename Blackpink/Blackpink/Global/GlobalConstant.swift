@@ -59,4 +59,5 @@ let GroupTxt = NSLocalizedString("Group", comment: "Group")
 let PhotoLibTxt = NSLocalizedString("Photo Library", comment: "Photo Library")
 
 let CancelTxt = NSLocalizedString("Cancel", comment: "Cancel")
+let AgreementTxt = NSLocalizedString("Running the application, I agree to 「the terms of user agreement」", comment: "Running the application, I agree to 「the terms of user agreement」")
 

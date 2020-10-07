@@ -1,5 +1,5 @@
 /* 「BlackPink Wallpaper App」FeedBack */
-"「BlackPink Wallpaper App」FeedBack" = "「BlackPink 벽지 신청」피드백";
+"「BlackPink Wallpaper App」FeedBack" = "BlackPink 벽지 신청」피드백";
 
 /* Can not send email, please check the network or your email setting! */
 "Can not send email, please check the network or your email setting!" = "이메일을 보낼 수 없습니다. 네트워크 또는 이메일 설정을 확인하세요!";
@@ -70,3 +70,5 @@
 /* Uploading */
 "Uploading" = "업로드";
 
+/* Running the application, I agree to the terms of user agreement */
+"Running the application, I agree to 「the terms of user agreement」" = "응용 프로그램을 실행하고 이용 약관에 동의합니다";
