@@ -9,6 +9,7 @@ import UIKit
 import CloudKit
 import UILoadControl
 import PopMenu
+import Localize_Swift
 
 class MainViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate {
     // Outlet Variables
@@ -122,8 +123,8 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
     @IBAction func presentPopMenu(_ sender: UIButton) {
         let imageTintColor = BlackPinkBlack
         let actions = [
-            PopMenuDefaultAction(title: "Sort by likes", image: UIImage(named: "heart-fill-icon"), color: imageTintColor),
-            PopMenuDefaultAction(title: "Sort by date", image: UIImage(named: "calendar-icon"), color: imageTintColor)
+            PopMenuDefaultAction(title: SortByLikesTxt, image: UIImage(named: "heart-fill-icon"), color: imageTintColor),
+            PopMenuDefaultAction(title: SortByDateTxt, image: UIImage(named: "calendar-icon"), color: imageTintColor)
         ]
         let menuVC = PopMenuViewController(sourceView:sender, actions: actions)
         menuVC.delegate = self

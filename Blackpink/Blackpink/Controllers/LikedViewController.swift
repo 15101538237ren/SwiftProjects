@@ -53,7 +53,7 @@ class LikedViewController: UIViewController, UICollectionViewDelegate, UICollect
         wallpapers = wallpapers.filter { wallpaper in
             let likeNum = wallpaper.value(forKey: "likes") as! Int
             return likeNum > 0
-          } // filtered is ["hello", "world", "this", "list", "strings"]
+          }
         switch sortType {
             case .byModifiedDate:
                 wallpapers = wallpapers.sorted {
@@ -101,8 +101,8 @@ class LikedViewController: UIViewController, UICollectionViewDelegate, UICollect
     @IBAction func presentPopMenu(_ sender: UIButton) {
         let imageTintColor = BlackPinkBlack
         let actions = [
-            PopMenuDefaultAction(title: "Sort by likes", image: UIImage(named: "heart-fill-icon"), color: imageTintColor),
-            PopMenuDefaultAction(title: "Sort by date", image: UIImage(named: "calendar-icon"), color: imageTintColor)
+            PopMenuDefaultAction(title: SortByLikesTxt, image: UIImage(named: "heart-fill-icon"), color: imageTintColor),
+            PopMenuDefaultAction(title: SortByDateTxt, image: UIImage(named: "calendar-icon"), color: imageTintColor)
         ]
         let menuVC = PopMenuViewController(sourceView:sender, actions: actions)
         menuVC.delegate = self
@@ -132,7 +132,7 @@ class LikedViewController: UIViewController, UICollectionViewDelegate, UICollect
     func completionHandlerAfterLoad(error: Error?, cursor: CKQueryOperation.Cursor?) -> Void{
         queryCursor = cursor
         if error != nil{
-            print("Error in load Wallpapers: \(error?.localizedDescription ?? "")")
+            print("\(ErrorPrefix): \(error?.localizedDescription ?? "")")
             stopLoadingAnimation()
         } else{
             loaded = true

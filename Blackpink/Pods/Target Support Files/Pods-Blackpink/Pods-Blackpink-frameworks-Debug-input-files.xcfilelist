@@ -1,4 +1,5 @@
 ${PODS_ROOT}/Target Support Files/Pods-Blackpink/Pods-Blackpink-frameworks.sh
+${BUILT_PRODUCTS_DIR}/Localize-Swift/Localize_Swift.framework
 ${BUILT_PRODUCTS_DIR}/NewPopMenu/PopMenu.framework
 ${BUILT_PRODUCTS_DIR}/SideMenu/SideMenu.framework
 ${BUILT_PRODUCTS_DIR}/UILoadControl/UILoadControl.framework

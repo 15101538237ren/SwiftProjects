@@ -145,8 +145,8 @@ class DetailViewController: UIViewController {
                             if error == nil {
                                 self.toggleLikeBtn()
                             } else {
-                                let ac = UIAlertController(title: "Error", message: "Error for like, \(error!.localizedDescription)", preferredStyle: .alert)
-                                ac.addAction(UIAlertAction(title: "OK", style: .default))
+                                let ac = UIAlertController(title: ErrorPrefix, message: "\(ErrorPrefix): \(error!.localizedDescription)", preferredStyle: .alert)
+                                ac.addAction(UIAlertAction(title: OKMsg, style: .default))
                                 self.present(ac, animated: true)
                             }
                         }
@@ -228,13 +228,13 @@ class DetailViewController: UIViewController {
     
     @objc func image(_ image:UIImage, didFinishSavingWithError error: Error?, contextInfo: UnsafeRawPointer){
         if let error = error {
-            let ac = UIAlertController(title: "Error: \(error.localizedDescription)", message: "", preferredStyle: .alert)
-            ac.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            let ac = UIAlertController(title: "\(ErrorPrefix) \(error.localizedDescription)", message: "", preferredStyle: .alert)
+            ac.addAction(UIAlertAction(title: OKMsg, style: .default, handler: nil))
             present(ac, animated: true, completion: nil)
         }
         else{
-            let ac = UIAlertController(title: "Saved Successful!", message: "", preferredStyle: .alert)
-            ac.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            let ac = UIAlertController(title: SavedSuccessTxt, message: "", preferredStyle: .alert)
+            ac.addAction(UIAlertAction(title: OKMsg, style: .default, handler: nil))
             present(ac, animated: true, completion: nil)
         }
     }

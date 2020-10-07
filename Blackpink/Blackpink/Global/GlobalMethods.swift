@@ -18,7 +18,7 @@ func getAlert(title: String, message: String, okText: String) -> UIAlertControll
 }
 
 func presentNoNetworkAlert() -> UIAlertController{
-    return getAlert(title: "No Network", message: "No network, please check your connection!", okText: "OK")
+    return getAlert(title: NoNetworkPrefix, message: "\(NoNetworkPrefix), \(NoNetworkMsg)", okText: OKMsg)
 }
 
 func isKeyInUserDefaults(key: String) -> Bool {
@@ -45,7 +45,6 @@ func getLikedRecordIds() -> [String] {
 func saveLikedRecordIds(recordIds : [String]){
     let joinedIdsStr = recordIds.joined(separator: separator)
     UserDefaults.standard.set(joinedIdsStr, forKey: likeIdsKey)
-//    print("Saved liked record successful!")
 }
 
 func addLikedRecordId(recordName : String){

@@ -110,12 +110,12 @@ class UploadViewController: UIViewController, UINavigationControllerDelegate {
     @IBAction func upload(sender: UIButton)
     {
         if imageToUpload == nil{
-            let ac = getAlert(title: "Please click [Choose Image] to select image first!", message: "", okText: "OK")
+            let ac = getAlert(title: ChooseImgMsg, message: "", okText: OKMsg)
             self.present(ac, animated: true, completion: nil)
             return
         }
         if currentWallpaperCategory == nil{
-            let ac = getAlert(title: "Please click [Select Category] to select the category of the wallpaper", message: "!", okText: "OK")
+            let ac = getAlert(title: ChooseCategoryMsg, message: "", okText: OKMsg)
             self.present(ac, animated: true, completion: nil)
             return
         }
@@ -124,7 +124,7 @@ class UploadViewController: UIViewController, UINavigationControllerDelegate {
     
     @IBAction func presentPopMenu(sender: UIButton) {
         let actions = [
-            PopMenuDefaultAction(title: "Group", image: UIImage(named: "group")),
+            PopMenuDefaultAction(title: GroupTxt, image: UIImage(named: "group")),
             PopMenuDefaultAction(title: "Lisa", image: UIImage(named: "lisa")),
             PopMenuDefaultAction(title: "Jisoo", image: UIImage(named: "jisoo")),
             PopMenuDefaultAction(title: "Rosé", image: UIImage(named: "rose")),
@@ -154,8 +154,8 @@ class UploadViewController: UIViewController, UINavigationControllerDelegate {
     }
     
     @IBAction func selectImage(sender: UIButton) {
-        let photoSourceController = UIAlertController(title: "", message: "Please select wallpaper" , preferredStyle: .actionSheet)
-        let photoLibraryAction = UIAlertAction(title: "Photo Library" , style: .default, handler: {
+        let photoSourceController = UIAlertController(title: ChooseWallpaperMsg, message:"" , preferredStyle: .actionSheet)
+        let photoLibraryAction = UIAlertAction(title: PhotoLibTxt , style: .default, handler: {
             (action) in
             if UIImagePickerController.isSourceTypeAvailable(.photoLibrary){
                 let imagePicker = UIImagePickerController()
@@ -164,7 +164,7 @@ class UploadViewController: UIViewController, UINavigationControllerDelegate {
                 self.present(imagePicker, animated: true, completion: nil)
             }
         })
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        let cancelAction = UIAlertAction(title: CancelTxt, style: .cancel, handler: nil)
         
         photoSourceController.addAction(photoLibraryAction)
         photoSourceController.addAction(cancelAction)
@@ -208,7 +208,7 @@ class UploadViewController: UIViewController, UINavigationControllerDelegate {
             uploadBtn.layer.borderColor = UIColor.lightGray.cgColor
             chooseImgBtn.layer.borderColor = UIColor.lightGray.cgColor
             chooseCategoryBtn.layer.borderColor = UIColor.lightGray.cgColor
-            initActivityIndicator(text: "Uploading")
+            initActivityIndicator(text: UploadingTxt)
         }
     }
     
@@ -258,16 +258,16 @@ class UploadViewController: UIViewController, UINavigationControllerDelegate {
                     if error == nil {
                         enableButtonsAndEndIndicator()
                         try? FileManager.default.removeItem(at: imageFileURL)
-                        let ac = UIAlertController(title: "Upload successful, we will review the quality of the wallpaper and make public ASAP!", message: "", preferredStyle: .alert)
-                        ac.addAction(UIAlertAction(title: "OK", style: .default, handler:
+                        let ac = UIAlertController(title: UploadSuccessTxt, message: "", preferredStyle: .alert)
+                        ac.addAction(UIAlertAction(title: OKMsg, style: .default, handler:
                             {_ in
                             self.dismiss(animated: true, completion: nil)
                         }))
                         self.present(ac, animated: true)
                     } else {
                         enableButtonsAndEndIndicator()
-                        let ac = UIAlertController(title: "Error", message: "Error in uploading, \(error!.localizedDescription)", preferredStyle: .alert)
-                        ac.addAction(UIAlertAction(title: "OK", style: .default))
+                        let ac = UIAlertController(title: ErrorPrefix, message: "\(ErrorPrefix): \(error!.localizedDescription)", preferredStyle: .alert)
+                        ac.addAction(UIAlertAction(title: OKMsg, style: .default))
                         self.present(ac, animated: true)
                     }
                 }

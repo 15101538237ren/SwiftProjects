@@ -1,24 +1,33 @@
 PODS:
+  - Localize-Swift (3.2.0):
+    - Localize-Swift/LocalizeSwiftCore (= 3.2.0)
+    - Localize-Swift/UIKit (= 3.2.0)
+  - Localize-Swift/LocalizeSwiftCore (3.2.0)
+  - Localize-Swift/UIKit (3.2.0):
+    - Localize-Swift/LocalizeSwiftCore
   - NewPopMenu (2.1.2)
   - SideMenu (6.4.9)
   - UILoadControl (2.1.0)
 
 DEPENDENCIES:
+  - Localize-Swift
   - NewPopMenu (~> 2.0)
   - SideMenu (~> 6.0)
   - UILoadControl
 
 SPEC REPOS:
   trunk:
+    - Localize-Swift
     - NewPopMenu
     - SideMenu
     - UILoadControl
 
 SPEC CHECKSUMS:
+  Localize-Swift: 6f4475136bdb0d7b2882ea3d4ea919d70142b232
   NewPopMenu: c6129e08e8192f6257ceb5f9a4357e1b59c6e2e7
   SideMenu: 8ef57a3cfc024a2d3fc1c036c7fe98537baec9e0
   UILoadControl: e742ddbe4c67ba1f13b00b7d462d4141307d021f
 
-PODFILE CHECKSUM: cab7fadfc42fc621f82831a29176a1bbeee6b601
+PODFILE CHECKSUM: 0b975fe81b7ae68c16f472b951689f3fa041bbb6
 
 COCOAPODS: 1.9.3

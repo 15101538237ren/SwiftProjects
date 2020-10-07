@@ -10,10 +10,10 @@ import MessageUI
 
 class MenuViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     let menuItems:[MenuItem] = [
-        MenuItem(icon_name: "upload", name: "Upload"),
-        MenuItem(icon_name: "heart-fill-icon", name: "Liked"),
-        MenuItem(icon_name: "like", name: "Rate Us"),
-        MenuItem(icon_name: "feedback", name: "Feedback"),
+        MenuItem(icon_name: "upload", name: UploadBtnTxt),
+        MenuItem(icon_name: "heart-fill-icon", name: LikedTxt),
+        MenuItem(icon_name: "like", name: RateUsTxt),
+        MenuItem(icon_name: "feedback", name: FeedBackTxt),
     ]
     
     @IBOutlet var tableView: UITableView!
@@ -82,15 +82,15 @@ class MenuViewController: UIViewController, UITableViewDataSource, UITableViewDe
     
     func showFeedBackMailComposer(){
         guard MFMailComposeViewController.canSendMail() else{
-            let ac = UIAlertController(title: "Send Failed", message: "Can not send email, please check the network or your email setting!", preferredStyle: .alert)
-            ac.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            let ac = UIAlertController(title: SendFailedTxt, message: SendFailedMsg, preferredStyle: .alert)
+            ac.addAction(UIAlertAction(title: OKMsg, style: .default, handler: nil))
             present(ac, animated: true, completion: nil)
             return
         }
         let composer = MFMailComposeViewController()
         composer.mailComposeDelegate = self
         composer.setToRecipients(["blackpink_wp@outlook.com"])
-        composer.setSubject("「BlackPink Wallpaper App」FeedBack")
+        composer.setSubject(EmailTheme)
         composer.setMessageBody("", isHTML: false)
         present(composer, animated: true)
     }
@@ -118,8 +118,8 @@ extension MenuViewController : MFMailComposeViewControllerDelegate{
         }
         controller.dismiss(animated: true, completion: {
             if feedback_sent == true{
-                let ac = UIAlertController(title: "Feedback Sent", message: "Thanks for your feedback, we will consider it carefully and reply to you if needed!", preferredStyle: .alert)
-                ac.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                let ac = UIAlertController(title: SendSuccessTxt, message: SendSuccessMsg, preferredStyle: .alert)
+                ac.addAction(UIAlertAction(title: OKMsg, style: .default, handler: nil))
                 self.present(ac, animated: true, completion: nil)
             }
         })
