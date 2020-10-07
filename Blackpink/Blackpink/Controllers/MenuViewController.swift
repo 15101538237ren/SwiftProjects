@@ -73,8 +73,6 @@ class MenuViewController: UIViewController, UITableViewDataSource, UITableViewDe
             loadUploadVC()
         case 1:
             loadLikedVC()
-        case 2:
-            AppStoreReviewManager.requestReviewIfAppropriate()
         case 3:
             showFeedBackMailComposer()
         default:
@@ -84,7 +82,7 @@ class MenuViewController: UIViewController, UITableViewDataSource, UITableViewDe
     
     func showFeedBackMailComposer(){
         guard MFMailComposeViewController.canSendMail() else{
-            let ac = UIAlertController(title: "Send Failed", message: "Can not send email, please check the network!", preferredStyle: .alert)
+            let ac = UIAlertController(title: "Send Failed", message: "Can not send email, please check the network or your email setting!", preferredStyle: .alert)
             ac.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
             present(ac, animated: true, completion: nil)
             return

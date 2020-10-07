@@ -146,7 +146,7 @@ class LikedViewController: UIViewController, UICollectionViewDelegate, UICollect
     @objc func load(){
         let connected = Reachability.isConnectedToNetwork()
         if connected{
-            if loaded && queryCursor == nil{
+            if (loaded && queryCursor == nil) || (likedRecordIds.count == 0){
                 self.completionHandlerAfterLoad(error: nil, cursor: nil)
                 return
             }
@@ -154,6 +154,7 @@ class LikedViewController: UIViewController, UICollectionViewDelegate, UICollect
             //Fetch data using Convienence API
             let publicDatabase = cloudContainer.publicCloudDatabase
             var recordReferences:[CKRecord.Reference] = []
+            print(likedRecordIds)
             for recordName in likedRecordIds{
                 let recordRef = CKRecord.Reference(recordID: CKRecord.ID(recordName: recordName), action: .none)
                 recordReferences.append(recordRef)

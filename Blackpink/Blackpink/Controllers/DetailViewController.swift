@@ -94,7 +94,7 @@ class DetailViewController: UIViewController {
             hideHomeScreenPreview()
             homeInPreview.toggle()
         }
-        if backBtn.alpha < 0.5{
+        if backBtn.alpha < 0.05{
             showButtons()
         }
     }

@@ -31,7 +31,10 @@ func getLikedRecordIds() -> [String] {
         let rec_ids = idString.components(separatedBy: separator)
         var recordIds:[String] = []
         for rec_id in rec_ids{
-            recordIds.append(rec_id)
+            if rec_id != ""
+            {
+                recordIds.append(rec_id)
+            }
         }
         return recordIds
     }else{

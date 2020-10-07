@@ -168,6 +168,13 @@ class UploadViewController: UIViewController, UINavigationControllerDelegate {
         
         photoSourceController.addAction(photoLibraryAction)
         photoSourceController.addAction(cancelAction)
+        
+        // For ipad
+        if let popoverController = photoSourceController.popoverPresentationController{
+            popoverController.sourceView = chooseImgBtn
+            popoverController.sourceRect = chooseImgBtn.bounds
+        }
+        
         present(photoSourceController, animated: true, completion: nil)
     }
     
