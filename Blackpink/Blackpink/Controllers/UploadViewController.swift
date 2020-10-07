@@ -256,7 +256,7 @@ class UploadViewController: UIViewController, UINavigationControllerDelegate {
                 
                 DispatchQueue.main.async { [self] in
                     if error == nil {
-                        stopIndicator()
+                        enableButtonsAndEndIndicator()
                         try? FileManager.default.removeItem(at: imageFileURL)
                         let ac = UIAlertController(title: "Upload successful, we will review the quality of the wallpaper and make public ASAP!", message: "", preferredStyle: .alert)
                         ac.addAction(UIAlertAction(title: "OK", style: .default, handler:
