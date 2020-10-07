@@ -61,7 +61,20 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
         collectionView.loadControl = UILoadControl(target: self, action: #selector(load))
         collectionView.loadControl?.heightLimit = 100.0 //The default is 80.0
         initSpinnerAndRefreshControl()
+        checkLoadUserAgreeVC()
         load()
+    }
+    
+    func checkLoadUserAgreeVC(){
+        if !isKeyInUserDefaults(key: fisrtTimeKey) {
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let userAgreementVC = storyboard.instantiateViewController(withIdentifier: "userAgreementVC") as! UserAgreementViewController
+            userAgreementVC.modalPresentationStyle = .fullScreen
+            
+            DispatchQueue.main.async {
+                self.present(userAgreementVC, animated: true, completion: nil)
+            }
+        }
     }
     
     func getIndexPathOfRecordId(recordId: String) -> IndexPath?{

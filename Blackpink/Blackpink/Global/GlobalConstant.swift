@@ -8,9 +8,11 @@
 import Foundation
 import UIKit
 
+let userAgreementURL = "https://www.apple.com"
 let minimumReviewWorthyActionCount = 5
 let icloudContainerID: String = "iCloud.com.hongleir.Blackpink"
 let likeIdsKey: String = "LIKE_IDS"
+let fisrtTimeKey: String = "FIRST_TIME"
 let separator: String = ","
 let resultLimit:Int = 12
 let cellBoarder:CGFloat = CGFloat(0.75)
