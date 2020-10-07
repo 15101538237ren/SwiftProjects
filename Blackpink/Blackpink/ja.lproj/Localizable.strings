@@ -1,0 +1,72 @@
+/* 「BlackPink Wallpaper App」FeedBack */
+"「BlackPink Wallpaper App」FeedBack" = "「BlackPink 壁紙アプリ」フィードバック";
+
+/* Can not send email, please check the network or your email setting! */
+"Can not send email, please check the network or your email setting!" = "メールを送信できません。ネットワークまたはメール設定を確認してください。";
+
+/* Cancel */
+"Cancel" = "キャンセル";
+
+/* Error */
+"Error" = "エラー";
+
+/* Feedback */
+"Feedback" = "フィードバック";
+
+/* Feedback Sent */
+"Feedback Sent" = "送信されたフィードバック";
+
+/* Group */
+"Group" = "グループ";
+
+/* Liked */
+"Liked" = "好き";
+
+/* No Network */
+"No Network" = "ネットワーク接続なし";
+
+/* OK */
+"OK" = "OK";
+
+/* Photo Library */
+"Photo Library" = "フォトライブラリ";
+
+/* please check your connection! */
+"please check your connection!" = "ネットワークを確認してください";
+
+/* Please click [Choose Image] to select image first! */
+"Please click [Choose Image] to select image first!" = "[画像を選択]をクリックして、最初に画像を選択してください。";
+
+/* Please click [Select Category] to select the category of the wallpaper! */
+"Please click [Select Category] to select the category of the wallpaper!" = "[カテゴリ選択]をクリックして壁紙のカテゴリを選択してください！";
+
+/* Please select wallpaper */
+"Please select wallpaper" = "壁紙を選択してください";
+
+/* Rate Us */
+"Rate Us" = "評価";
+
+/* Saved Successful! */
+"Saved Successful!" = "正常に保存されました";
+
+/* Send Failed */
+"Send Failed" = "送信に失敗しました";
+
+/* Sort by date */
+"Sort by date" = "日付けで並び替え";
+
+/* Sort by likes */
+"Sort by likes" = "いいねで並べ替え";
+
+/* Thanks for your feedback, we will consider it carefully and reply to you if needed! */
+"Thanks for your feedback, we will consider it carefully and reply to you if needed!" = "フィードバックをお寄せいただきありがとうございます。慎重に検討し、必要に応じて返信いたします。";
+
+/* Upload */
+"Upload" = "アップロード";
+
+/* Upload successful, we will review the quality of the wallpaper and make public ASAP! */
+"Upload successful, we will review the quality of the wallpaper and make public ASAP!" = "アップロードは成功しました。壁紙の品質を確認し、できるだけ早く公開します。";
+
+/* Uploading */
+"Uploading" = "アップロード";
+

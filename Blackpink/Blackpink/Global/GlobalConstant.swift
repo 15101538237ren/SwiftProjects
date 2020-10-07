@@ -22,41 +22,41 @@ let BlackPinkPink = UIColor(red: 246, green: 188, blue: 223, alpha: 1.0)
 let categoryNames:[String] = ["Group", "Lisa", "Jisoo", "Rosé", "Jennie"]
 
 //Alert Txt
-let OKMsg = "OK".localized()
-let ErrorPrefix = "Error".localized()
+let OKMsg = NSLocalizedString("OK", comment: "OK")
+let ErrorPrefix = NSLocalizedString("Error", comment: "Error")
 
-let NoNetworkPrefix = "No Network".localized()
-let NoNetworkMsg = "please check your connection!".localized()
+let NoNetworkPrefix = NSLocalizedString("No Network", comment: "No Network")
+let NoNetworkMsg = NSLocalizedString("please check your connection!", comment: "please check your connection!")
 
-let SendFailedTxt = "Send Failed".localized()
-let SendFailedMsg = "Can not send email, please check the network or your email setting!".localized()
+let SendFailedTxt = NSLocalizedString("Send Failed", comment: "Send Failed")
+let SendFailedMsg = NSLocalizedString("Can not send email, please check the network or your email setting!", comment: "Can not send email, please check the network or your email setting!")
 
-let SendSuccessTxt = "Feedback Sent".localized()
-let SendSuccessMsg = "Thanks for your feedback, we will consider it carefully and reply to you if needed!".localized()
+let SendSuccessTxt = NSLocalizedString("Feedback Sent", comment: "Feedback Sent")
+let SendSuccessMsg = NSLocalizedString("Thanks for your feedback, we will consider it carefully and reply to you if needed!", comment: "Thanks for your feedback, we will consider it carefully and reply to you if needed!")
 
-let EmailTheme = "「BlackPink Wallpaper App」FeedBack".localized()
+let EmailTheme = NSLocalizedString("「BlackPink Wallpaper App」FeedBack", comment: "「BlackPink Wallpaper App」FeedBack")
 
-let ChooseImgMsg = "Please click [Choose Image] to select image first!".localized()
+let ChooseImgMsg = NSLocalizedString("Please click [Choose Image] to select image first!", comment: "Please click [Choose Image] to select image first!")
 
-let ChooseCategoryMsg = "Please click [Select Category] to select the category of the wallpaper!".localized()
+let ChooseCategoryMsg = NSLocalizedString("Please click [Select Category] to select the category of the wallpaper!", comment: "Please click [Select Category] to select the category of the wallpaper!")
 
-let ChooseWallpaperMsg = "Please select wallpaper".localized()
+let ChooseWallpaperMsg = NSLocalizedString("Please select wallpaper", comment: "Please select wallpaper")
 
-let SavedSuccessTxt = "Saved Successful!".localized()
-let UploadSuccessTxt = "Upload successful, we will review the quality of the wallpaper and make public ASAP!".localized()
+let SavedSuccessTxt = NSLocalizedString("Saved Successful!", comment: "Saved Successful!")
+let UploadSuccessTxt = NSLocalizedString("Upload successful, we will review the quality of the wallpaper and make public ASAP!", comment: "Upload successful, we will review the quality of the wallpaper and make public ASAP!")
 
 //UI Text
-let UploadBtnTxt = "Upload".localized()
-let UploadingTxt = "Uploading".localized()
-let LikedTxt = "Liked".localized()
-let RateUsTxt = "Rate Us".localized()
-let FeedBackTxt = "Feedback".localized()
+let UploadBtnTxt = NSLocalizedString("Upload", comment: "Upload")
+let UploadingTxt = NSLocalizedString("Uploading", comment: "Uploading")
+let LikedTxt = NSLocalizedString("Liked", comment: "Liked")
+let RateUsTxt = NSLocalizedString("Rate Us", comment: "Rate Us")
+let FeedBackTxt = NSLocalizedString("Feedback", comment: "Feedback")
 
-let SortByLikesTxt = "Sort by likes".localized()
-let SortByDateTxt = "Sort by date".localized()
+let SortByLikesTxt = NSLocalizedString("Sort by likes", comment: "Sort by likes")
+let SortByDateTxt = NSLocalizedString("Sort by date", comment: "Sort by date")
 
-let GroupTxt = "Group".localized()
-let PhotoLibTxt = "Photo Library".localized()
+let GroupTxt = NSLocalizedString("Group", comment: "Group")
+let PhotoLibTxt = NSLocalizedString("Photo Library", comment: "Photo Library")
 
-let CancelTxt = "Cancel".localized()
+let CancelTxt = NSLocalizedString("Cancel", comment: "Cancel")
 

@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.2" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 http://docs.oasis-open.org/xliff/v1.2/os/xliff-core-1.2-strict.xsd">
+  <file original="Blackpink/Base.lproj/Main.storyboard" source-language="en" target-language="zh-Hant" datatype="plaintext">
+    <header>
+      <tool tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="12.0.1" build-num="12A7300"/>
+    </header>
+    <body>
+      <trans-unit id="8p4-ZF-9UD.text" xml:space="preserve">
+        <source>Label</source>
+        <target>標籤</target>
+        <note>Class = "UILabel"; text = "Label"; ObjectID = "8p4-ZF-9UD";</note>
+      </trans-unit>
+      <trans-unit id="9pk-x8-dm5.normalTitle" xml:space="preserve">
+        <source>Button</source>
+        <target>按鈕</target>
+        <note>Class = "UIButton"; normalTitle = "Button"; ObjectID = "9pk-x8-dm5";</note>
+      </trans-unit>
+      <trans-unit id="EjB-3w-0bb.normalTitle" xml:space="preserve">
+        <source>1. Choose Image</source>
+        <target>1. 選擇圖片</target>
+        <note>Class = "UIButton"; normalTitle = "1. Choose Image"; ObjectID = "EjB-3w-0bb";</note>
+      </trans-unit>
+      <trans-unit id="GEK-jO-wCC.text" xml:space="preserve">
+        <source>Rosé</source>
+        <target>Rosé</target>
+        <note>Class = "UILabel"; text = "Rosé"; ObjectID = "GEK-jO-wCC";</note>
+      </trans-unit>
+      <trans-unit id="HVg-6V-zKf.text" xml:space="preserve">
+        <source>Label</source>
+        <target>標籤</target>
+        <note>Class = "UILabel"; text = "Label"; ObjectID = "HVg-6V-zKf";</note>
+      </trans-unit>
+      <trans-unit id="JjC-Pg-9b1.text" xml:space="preserve">
+        <source>Upload</source>
+        <target>上傳</target>
+        <note>Class = "UILabel"; text = "Upload"; ObjectID = "JjC-Pg-9b1";</note>
+      </trans-unit>
+      <trans-unit id="JpL-kU-36y.normalTitle" xml:space="preserve">
+        <source>Button</source>
+        <target>按鈕</target>
+        <note>Class = "UIButton"; normalTitle = "Button"; ObjectID = "JpL-kU-36y";</note>
+      </trans-unit>
+      <trans-unit id="RcE-xY-sD0.text" xml:space="preserve">
+        <source>Jisoo</source>
+        <target>Jisoo</target>
+        <note>Class = "UILabel"; text = "Jisoo"; ObjectID = "RcE-xY-sD0";</note>
+      </trans-unit>
+      <trans-unit id="TrQ-2M-L2E.text" xml:space="preserve">
+        <source>Jennie</source>
+        <target>Jennie</target>
+        <note>Class = "UILabel"; text = "Jennie"; ObjectID = "TrQ-2M-L2E";</note>
+      </trans-unit>
+      <trans-unit id="U0c-dn-rhI.normalTitle" xml:space="preserve">
+        <source>Button</source>
+        <target>按鈕</target>
+        <note>Class = "UIButton"; normalTitle = "Button"; ObjectID = "U0c-dn-rhI";</note>
+      </trans-unit>
+      <trans-unit id="UVM-9o-nXm.text" xml:space="preserve">
+        <source>WALLPAPERS</source>
+        <target>WALLPAPERS</target>
+        <note>Class = "UILabel"; text = "WALLPAPERS"; ObjectID = "UVM-9o-nXm";</note>
+      </trans-unit>
+      <trans-unit id="WdW-iX-3Tb.normalTitle" xml:space="preserve">
+        <source>Button</source>
+        <target>按鈕</target>
+        <note>Class = "UIButton"; normalTitle = "Button"; ObjectID = "WdW-iX-3Tb";</note>
+      </trans-unit>
+      <trans-unit id="YGc-C1-pHY.text" xml:space="preserve">
+        <source>Menu</source>
+        <target>菜單</target>
+        <note>Class = "UILabel"; text = "Menu"; ObjectID = "YGc-C1-pHY";</note>
+      </trans-unit>
+      <trans-unit id="aPk-ky-YNK.text" xml:space="preserve">
+        <source>Rosé</source>
+        <target>Rosé</target>
+        <note>Class = "UILabel"; text = "Rosé"; ObjectID = "aPk-ky-YNK";</note>
+      </trans-unit>
+      <trans-unit id="dfI-8Q-SLs.text" xml:space="preserve">
+        <source>Liked</source>
+        <target>收藏</target>
+        <note>Class = "UILabel"; text = "Liked"; ObjectID = "dfI-8Q-SLs";</note>
+      </trans-unit>
+      <trans-unit id="gBI-bD-sHu.text" xml:space="preserve">
+        <source>Lisa</source>
+        <target>Lisa</target>
+        <note>Class = "UILabel"; text = "Lisa"; ObjectID = "gBI-bD-sHu";</note>
+      </trans-unit>
+      <trans-unit id="inj-q8-gNu.normalTitle" xml:space="preserve">
+        <source>Button</source>
+        <target>按鈕</target>
+        <note>Class = "UIButton"; normalTitle = "Button"; ObjectID = "inj-q8-gNu";</note>
+      </trans-unit>
+      <trans-unit id="ixf-jp-JIP.normalTitle" xml:space="preserve">
+        <source>2. Select Category</source>
+        <target>2. 選擇壁紙類別</target>
+        <note>Class = "UIButton"; normalTitle = "2. Select Category"; ObjectID = "ixf-jp-JIP";</note>
+      </trans-unit>
+      <trans-unit id="lIo-w1-gHl.text" xml:space="preserve">
+        <source>Label</source>
+        <target>標籤</target>
+        <note>Class = "UILabel"; text = "Label"; ObjectID = "lIo-w1-gHl";</note>
+      </trans-unit>
+      <trans-unit id="phD-o2-9lm.normalTitle" xml:space="preserve">
+        <source>Button</source>
+        <target>按鈕</target>
+        <note>Class = "UIButton"; normalTitle = "Button"; ObjectID = "phD-o2-9lm";</note>
+      </trans-unit>
+      <trans-unit id="wEm-1b-RcH.normalTitle" xml:space="preserve">
+        <source>3. Upload</source>
+        <target>3. 上傳</target>
+        <note>Class = "UIButton"; normalTitle = "3. Upload"; ObjectID = "wEm-1b-RcH";</note>
+      </trans-unit>
+      <trans-unit id="zHf-lM-S5p.normalTitle" xml:space="preserve">
+        <source>Start</source>
+        <target>開始</target>
+        <note>Class = "UIButton"; normalTitle = "Start"; ObjectID = "zHf-lM-S5p";</note>
+      </trans-unit>
+    </body>
+  </file>
+  <file original="Blackpink/en.lproj/InfoPlist.strings" datatype="plaintext" source-language="en" target-language="zh-Hant">
+    <header>
+      <tool tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="12.0.1" build-num="12A7300"/>
+    </header>
+    <body>
+      <trans-unit id="CFBundleName" xml:space="preserve">
+        <source>Blackpink</source>
+        <note>Bundle name</note>
+      </trans-unit>
+      <trans-unit id="NSPhotoLibraryAddUsageDescription" xml:space="preserve">
+        <source>We need to the permission to access your album for saving your favorite wallpapers</source>
+        <target>我們訪問您的相冊來保存您喜歡的壁紙</target>
+        <note>Privacy - Photo Library Additions Usage Description</note>
+      </trans-unit>
+    </body>
+  </file>
+  <file original="Blackpink/en.lproj/Localizable.strings" datatype="plaintext" source-language="en" target-language="zh-Hant">
+    <header>
+      <tool tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="12.0.1" build-num="12A7300"/>
+    </header>
+    <body>
+      <trans-unit id="Can not send email, please check the network or your email setting!" xml:space="preserve">
+        <source>Can not send email, please check the network or your email setting!</source>
+        <target>無法發送電子郵件，請檢查網絡或您的電子郵件設置！</target>
+        <note>Can not send email, please check the network or your email setting!</note>
+      </trans-unit>
+      <trans-unit id="Cancel" xml:space="preserve">
+        <source>Cancel</source>
+        <target>取消</target>
+        <note>Cancel</note>
+      </trans-unit>
+      <trans-unit id="Error" xml:space="preserve">
+        <source>Error</source>
+        <target>錯誤</target>
+        <note>Error</note>
+      </trans-unit>
+      <trans-unit id="Feedback" xml:space="preserve">
+        <source>Feedback</source>
+        <target>反饋</target>
+        <note>Feedback</note>
+      </trans-unit>
+      <trans-unit id="Feedback Sent" xml:space="preserve">
+        <source>Feedback Sent</source>
+        <target>反饋已發送</target>
+        <note>Feedback Sent</note>
+      </trans-unit>
+      <trans-unit id="Group" xml:space="preserve">
+        <source>Group</source>
+        <target>團體</target>
+        <note>Group</note>
+      </trans-unit>
+      <trans-unit id="Liked" xml:space="preserve">
+        <source>Liked</source>
+        <target>收藏</target>
+        <note>Liked</note>
+      </trans-unit>
+      <trans-unit id="No Network" xml:space="preserve">
+        <source>No Network</source>
+        <target>沒有網絡</target>
+        <note>No Network</note>
+      </trans-unit>
+      <trans-unit id="OK" xml:space="preserve">
+        <source>OK</source>
+        <target>好的</target>
+        <note>OK</note>
+      </trans-unit>
+      <trans-unit id="Photo Library" xml:space="preserve">
+        <source>Photo Library</source>
+        <target>圖片庫</target>
+        <note>Photo Library</note>
+      </trans-unit>
+      <trans-unit id="Please click [Choose Image] to select image first!" xml:space="preserve">
+        <source>Please click [Choose Image] to select image first!</source>
+        <target>請首先單擊[選擇圖像]來選擇壁紙！</target>
+        <note>Please click [Choose Image] to select image first!</note>
+      </trans-unit>
+      <trans-unit id="Please click [Select Category] to select the category of the wallpaper!" xml:space="preserve">
+        <source>Please click [Select Category] to select the category of the wallpaper!</source>
+        <target>請單擊[選擇牆紙類別]選擇牆紙的類別！</target>
+        <note>Please click [Select Category] to select the category of the wallpaper!</note>
+      </trans-unit>
+      <trans-unit id="Please select wallpaper" xml:space="preserve">
+        <source>Please select wallpaper</source>
+        <target>請選擇牆紙</target>
+        <note>Please select wallpaper</note>
+      </trans-unit>
+      <trans-unit id="Rate Us" xml:space="preserve">
+        <source>Rate Us</source>
+        <target>評價我們</target>
+        <note>Rate Us</note>
+      </trans-unit>
+      <trans-unit id="Saved Successful!" xml:space="preserve">
+        <source>Saved Successful!</source>
+        <target>保存成功!</target>
+        <note>Saved Successful!</note>
+      </trans-unit>
+      <trans-unit id="Send Failed" xml:space="preserve">
+        <source>Send Failed</source>
+        <target>發送失敗</target>
+        <note>Send Failed</note>
+      </trans-unit>
+      <trans-unit id="Sort by date" xml:space="preserve">
+        <source>Sort by date</source>
+        <target>按日期排序</target>
+        <note>Sort by date</note>
+      </trans-unit>
+      <trans-unit id="Sort by likes" xml:space="preserve">
+        <source>Sort by likes</source>
+        <target>按喜歡排序</target>
+        <note>Sort by likes</note>
+      </trans-unit>
+      <trans-unit id="Thanks for your feedback, we will consider it carefully and reply to you if needed!" xml:space="preserve">
+        <source>Thanks for your feedback, we will consider it carefully and reply to you if needed!</source>
+        <target>感謝您的反饋，我們會認真考慮並在需要時給您答复！</target>
+        <note>Thanks for your feedback, we will consider it carefully and reply to you if needed!</note>
+      </trans-unit>
+      <trans-unit id="Upload" xml:space="preserve">
+        <source>Upload</source>
+        <target>上傳</target>
+        <note>Upload</note>
+      </trans-unit>
+      <trans-unit id="Upload successful, we will review the quality of the wallpaper and make public ASAP!" xml:space="preserve">
+        <source>Upload successful, we will review the quality of the wallpaper and make public ASAP!</source>
+        <target>上傳成功，我們將檢查壁紙的質量並儘快公開!</target>
+        <note>Upload successful, we will review the quality of the wallpaper and make public ASAP!</note>
+      </trans-unit>
+      <trans-unit id="Uploading" xml:space="preserve">
+        <source>Uploading</source>
+        <target>上傳中</target>
+        <note>Uploading</note>
+      </trans-unit>
+      <trans-unit id="please check your connection!" xml:space="preserve">
+        <source>please check your connection!</source>
+        <target>請檢查網絡連接!</target>
+        <note>please check your connection!</note>
+      </trans-unit>
+      <trans-unit id="「BlackPink Wallpaper App」FeedBack" xml:space="preserve">
+        <source>「BlackPink Wallpaper App」FeedBack</source>
+        <target>「BlackPink 壁紙應用」反饋</target>
+        <note>「BlackPink Wallpaper App」FeedBack</note>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

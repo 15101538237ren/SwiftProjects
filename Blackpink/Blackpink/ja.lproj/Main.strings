@@ -1,0 +1,66 @@
+/* Class = "UILabel"; text = "Label"; ObjectID = "8p4-ZF-9UD"; */
+"8p4-ZF-9UD.text" = "Label";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "9pk-x8-dm5"; */
+"9pk-x8-dm5.normalTitle" = "Button";
+
+/* Class = "UILabel"; text = "Rosé"; ObjectID = "aPk-ky-YNK"; */
+"aPk-ky-YNK.text" = "Rosé";
+
+/* Class = "UILabel"; text = "Liked"; ObjectID = "dfI-8Q-SLs"; */
+"dfI-8Q-SLs.text" = "好き";
+
+/* Class = "UIButton"; normalTitle = "1. Choose Image"; ObjectID = "EjB-3w-0bb"; */
+"EjB-3w-0bb.normalTitle" = "1. 画像を選択";
+
+/* Class = "UILabel"; text = "Lisa"; ObjectID = "gBI-bD-sHu"; */
+"gBI-bD-sHu.text" = "Lisa";
+
+/* Class = "UILabel"; text = "Rosé"; ObjectID = "GEK-jO-wCC"; */
+"GEK-jO-wCC.text" = "Rosé";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "HVg-6V-zKf"; */
+"HVg-6V-zKf.text" = "Label";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "inj-q8-gNu"; */
+"inj-q8-gNu.normalTitle" = "Button";
+
+/* Class = "UIButton"; normalTitle = "2. Select Category"; ObjectID = "ixf-jp-JIP"; */
+"ixf-jp-JIP.normalTitle" = "2. カテゴリを選んでください";
+
+/* Class = "UILabel"; text = "Upload"; ObjectID = "JjC-Pg-9b1"; */
+"JjC-Pg-9b1.text" = "アップロード";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "JpL-kU-36y"; */
+"JpL-kU-36y.normalTitle" = "Button";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "lIo-w1-gHl"; */
+"lIo-w1-gHl.text" = "Label";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "phD-o2-9lm"; */
+"phD-o2-9lm.normalTitle" = "Button";
+
+/* Class = "UILabel"; text = "Jisoo"; ObjectID = "RcE-xY-sD0"; */
+"RcE-xY-sD0.text" = "Jisoo";
+
+/* Class = "UILabel"; text = "Jennie"; ObjectID = "TrQ-2M-L2E"; */
+"TrQ-2M-L2E.text" = "Jennie";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "U0c-dn-rhI"; */
+"U0c-dn-rhI.normalTitle" = "Button";
+
+/* Class = "UILabel"; text = "WALLPAPERS"; ObjectID = "UVM-9o-nXm"; */
+"UVM-9o-nXm.text" = "WALLPAPERS";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "WdW-iX-3Tb"; */
+"WdW-iX-3Tb.normalTitle" = "Button";
+
+/* Class = "UIButton"; normalTitle = "3. Upload"; ObjectID = "wEm-1b-RcH"; */
+"wEm-1b-RcH.normalTitle" = "3. アップロード";
+
+/* Class = "UILabel"; text = "Menu"; ObjectID = "YGc-C1-pHY"; */
+"YGc-C1-pHY.text" = "メニュー";
+
+/* Class = "UIButton"; normalTitle = "Start"; ObjectID = "zHf-lM-S5p"; */
+"zHf-lM-S5p.normalTitle" = "開始";
+

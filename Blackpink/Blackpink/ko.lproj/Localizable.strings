@@ -1,0 +1,72 @@
+/* 「BlackPink Wallpaper App」FeedBack */
+"「BlackPink Wallpaper App」FeedBack" = "「BlackPink 벽지 신청」피드백";
+
+/* Can not send email, please check the network or your email setting! */
+"Can not send email, please check the network or your email setting!" = "이메일을 보낼 수 없습니다. 네트워크 또는 이메일 설정을 확인하세요!";
+
+/* Cancel */
+"Cancel" = "취소";
+
+/* Error */
+"Error" = "오류";
+
+/* Feedback */
+"Feedback" = "피드백";
+
+/* Feedback Sent */
+"Feedback Sent" = "피드백을 보냈습니다.";
+
+/* Group */
+"Group" = "그룹";
+
+/* Liked */
+"Liked" = "즐겨 찾기";
+
+/* No Network */
+"No Network" = "인터넷 없음";
+
+/* OK */
+"OK" = "OK";
+
+/* Photo Library */
+"Photo Library" = "사진 라이브러리";
+
+/* please check your connection! */
+"please check your connection!" = "네트워크 연결을 확인하십시오!";
+
+/* Please click [Choose Image] to select image first! */
+"Please click [Choose Image] to select image first!" = "배경 화면을 먼저 선택하려면 [이미지 선택]을 클릭하세요!";
+
+/* Please click [Select Category] to select the category of the wallpaper! */
+"Please click [Select Category] to select the category of the wallpaper!" = "배경 화면 카테고리를 선택하려면 [카테고리 선택]을 클릭하세요!";
+
+/* Please select wallpaper */
+"Please select wallpaper" = "배경 화면을 선택하세요";
+
+/* Rate Us */
+"Rate Us" = "평가";
+
+/* Saved Successful! */
+"Saved Successful!" = "성공적으로 저장되었습니다!";
+
+/* Send Failed */
+"Send Failed" = "보내지 못했습니다";
+
+/* Sort by date */
+"Sort by date" = "날짜순으로 정렬";
+
+/* Sort by likes */
+"Sort by likes" = "좋아요로 정렬";
+
+/* Thanks for your feedback, we will consider it carefully and reply to you if needed! */
+"Thanks for your feedback, we will consider it carefully and reply to you if needed!" = "의견을 보내 주셔서 감사합니다. 필요한 경우 진지하게 고려하고 답변을 드리겠습니다!";
+
+/* Upload */
+"Upload" = "업로드";
+
+/* Upload successful, we will review the quality of the wallpaper and make public ASAP! */
+"Upload successful, we will review the quality of the wallpaper and make public ASAP!" = "업로드가 성공적으로 이루어졌습니다. 바탕 화면의 품질을 확인하고 최대한 빨리 공개하겠습니다!";
+
+/* Uploading */
+"Uploading" = "업로드";
+

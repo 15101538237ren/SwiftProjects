@@ -1,0 +1,4 @@
+/* Bundle name */
+"CFBundleName" = "Blackpink";
+/* Privacy - Photo Library Additions Usage Description */
+"NSPhotoLibraryAddUsageDescription" = "We need to the permission to access your album for saving your favorite wallpapers";
