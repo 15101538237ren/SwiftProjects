@@ -200,21 +200,35 @@ class UploadViewController: UIViewController, UINavigationControllerDelegate {
         }
     }
     
+    func disableButtonsAndStartIndicator(){
+        DispatchQueue.main.async { [self] in
+            uploadBtn.isEnabled = false
+            chooseImgBtn.isEnabled = false
+            chooseCategoryBtn.isEnabled = false
+            uploadBtn.layer.borderColor = UIColor.lightGray.cgColor
+            chooseImgBtn.layer.borderColor = UIColor.lightGray.cgColor
+            chooseCategoryBtn.layer.borderColor = UIColor.lightGray.cgColor
+            initActivityIndicator(text: "Uploading")
+        }
+    }
+    
+    func enableButtonsAndEndIndicator(){
+        DispatchQueue.main.async { [self] in
+            uploadBtn.isEnabled = true
+            chooseImgBtn.isEnabled = true
+            chooseCategoryBtn.isEnabled = true
+            uploadBtn.layer.borderColor = BlackPinkBlack.cgColor
+            chooseImgBtn.layer.borderColor = BlackPinkBlack.cgColor
+            chooseCategoryBtn.layer.borderColor = BlackPinkBlack.cgColor
+            stopIndicator()
+        }
+    }
+    
     func uploadImage(image:UIImage, category: Int) -> Void {
         let connected = Reachability.isConnectedToNetwork()
         if connected
         {
-            
-            DispatchQueue.main.async { [self] in
-                uploadBtn.isEnabled = false
-                chooseImgBtn.isEnabled = false
-                chooseCategoryBtn.isEnabled = false
-                uploadBtn.layer.borderColor = UIColor.lightGray.cgColor
-                chooseImgBtn.layer.borderColor = UIColor.lightGray.cgColor
-                chooseCategoryBtn.layer.borderColor = UIColor.lightGray.cgColor
-                initActivityIndicator(text: "Uploading")
-            }
-            
+            disableButtonsAndStartIndicator()
             // Prepare the record to save
             let record = CKRecord(recordType: "Wallpaper")
             record.setValue(category, forKey: "category")
@@ -251,6 +265,7 @@ class UploadViewController: UIViewController, UINavigationControllerDelegate {
                         }))
                         self.present(ac, animated: true)
                     } else {
+                        enableButtonsAndEndIndicator()
                         let ac = UIAlertController(title: "Error", message: "Error in uploading, \(error!.localizedDescription)", preferredStyle: .alert)
                         ac.addAction(UIAlertAction(title: "OK", style: .default))
                         self.present(ac, animated: true)
