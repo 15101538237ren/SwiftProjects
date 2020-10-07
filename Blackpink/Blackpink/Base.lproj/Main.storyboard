@@ -533,7 +533,7 @@
                     <userDefinedRuntimeAttributes>
                         <userDefinedRuntimeAttribute type="boolean" keyPath="leftSide" value="YES"/>
                         <userDefinedRuntimeAttribute type="number" keyPath="menuWidth">
-                            <real key="value" value="210"/>
+                            <real key="value" value="260"/>
                         </userDefinedRuntimeAttribute>
                         <userDefinedRuntimeAttribute type="number" keyPath="presentDuration">
                             <real key="value" value="0.29999999999999999"/>
@@ -617,7 +617,7 @@
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="WALLPAPERS" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UVM-9o-nXm">
-                                <rect key="frame" x="135.66666666666669" y="303.66666666666669" width="142.66666666666669" height="20.666666666666686"/>
+                                <rect key="frame" x="135.66666666666666" y="303.66666666666669" width="142.99999999999997" height="21"/>
                                 <fontDescription key="fontDescription" name="Copperplate-Bold" family="Copperplate" pointSize="20"/>
                                 <color key="textColor" red="0.098163686690000002" green="0.094097428019999999" blue="0.094125516709999996" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <nil key="highlightedColor"/>
@@ -821,7 +821,7 @@
                                 </connections>
                             </button>
                             <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="qvl-Re-uOk">
-                                <rect key="frame" x="147.66666666666666" y="20" width="118.66666666666666" height="33.666666666666657"/>
+                                <rect key="frame" x="147.66666666666666" y="19.999999999999996" width="118.66666666666666" height="33.666666666666657"/>
                                 <subviews>
                                     <button opaque="NO" userInteractionEnabled="NO" tag="4" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JpL-kU-36y">
                                         <rect key="frame" x="0.0" y="2" width="30" height="30"/>
@@ -932,11 +932,11 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EjB-3w-0bb">
                                 <rect key="frame" x="107" y="87" width="200" height="50"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="200" id="clY-3a-rwW"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="200" id="clY-3a-rwW"/>
                                     <constraint firstAttribute="height" constant="50" id="dc6-se-fDI"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="AvenirNext-Bold" family="Avenir Next" pointSize="21"/>
-                                <state key="normal" title="1. Choose Image">
+                                <state key="normal" title="  1. Choose Image  ">
                                     <color key="titleColor" red="0.1019346341" green="0.10209711639999999" blue="0.094140551980000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 </state>
                                 <connections>
@@ -947,10 +947,10 @@
                                 <rect key="frame" x="97" y="434" width="220" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="ZQJ-UT-yh1"/>
-                                    <constraint firstAttribute="width" constant="220" id="saX-Au-Wy1"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="220" id="saX-Au-Wy1"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="AvenirNext-Bold" family="Avenir Next" pointSize="21"/>
-                                <state key="normal" title="2. Select Category">
+                                <state key="normal" title="  2. Select Category  ">
                                     <color key="titleColor" red="0.1019346341" green="0.10209711639999999" blue="0.094140551980000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 </state>
                                 <connections>
@@ -960,11 +960,11 @@
                             <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wEm-1b-RcH">
                                 <rect key="frame" x="137" y="589" width="140" height="50"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="140" id="7ES-aw-Hf6"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="140" id="7ES-aw-Hf6"/>
                                     <constraint firstAttribute="height" constant="50" id="nVt-y0-2Ev"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="AvenirNext-Bold" family="Avenir Next" pointSize="21"/>
-                                <state key="normal" title="3. Upload">
+                                <state key="normal" title="  3. Upload  ">
                                     <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                                 <connections>
