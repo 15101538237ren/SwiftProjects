@@ -23,6 +23,7 @@ class LikedViewController: UIViewController, UICollectionViewDelegate, UICollect
     var queryCursor: CKQueryOperation.Cursor? = nil
     var loaded: Bool = false
     
+    
     // Constants
     let cloudContainer = CKContainer.init(identifier: icloudContainerID)
     var likedRecordIds:[String] = getLikedRecordIds()

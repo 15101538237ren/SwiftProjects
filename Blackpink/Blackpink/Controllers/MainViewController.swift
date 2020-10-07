@@ -95,6 +95,7 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
         }
     }
     
+    
     override func viewDidAppear(_ animated: Bool) {
         let connected = Reachability.isConnectedToNetwork()
         if !connected{

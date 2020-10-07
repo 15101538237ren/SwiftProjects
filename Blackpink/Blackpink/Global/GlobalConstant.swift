@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 
+let minimumReviewWorthyActionCount = 5
 let icloudContainerID: String = "iCloud.com.hongleir.Blackpink"
 let likeIdsKey: String = "LIKE_IDS"
 let separator: String = ","

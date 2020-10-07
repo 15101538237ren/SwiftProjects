@@ -73,6 +73,8 @@ class MenuViewController: UIViewController, UITableViewDataSource, UITableViewDe
             loadUploadVC()
         case 1:
             loadLikedVC()
+        case 2:
+            AppStoreReviewManager.requestReviewIfAppropriate()
         case 3:
             showFeedBackMailComposer()
         default:

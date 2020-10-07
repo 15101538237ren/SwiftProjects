@@ -34,6 +34,7 @@ class DetailViewController: UIViewController {
     var lockInPreview: Bool = false
     var homeInPreview: Bool = false
     var liked: Bool = false
+    var reviewFuncCalled: Bool = false
     
     let likedRecordIds:[String] = getLikedRecordIds()
     let scaleForAnimation: CGFloat = 2
@@ -126,6 +127,10 @@ class DetailViewController: UIViewController {
         }else{
             removeLikedRecordId(recordName: record.recordID.recordName)
         }
+        if !reviewFuncCalled{
+            AppStoreReviewManager.requestReviewIfAppropriate()
+            reviewFuncCalled = true
+        }
     }
     
     @objc func likeImgViewTapped(tapGestureRecognizer: UITapGestureRecognizer)
@@ -163,6 +168,10 @@ class DetailViewController: UIViewController {
     @objc func downloadImgViewTapped(tapGestureRecognizer: UITapGestureRecognizer)
     {
         UIImageWriteToSavedPhotosAlbum(image, self, #selector(image(_:didFinishSavingWithError:contextInfo:)), nil)
+        if !reviewFuncCalled{
+            AppStoreReviewManager.requestReviewIfAppropriate()
+            reviewFuncCalled = true
+        }
     }
     
     func addGestureRcgToLockScreen(){
