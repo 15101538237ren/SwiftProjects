@@ -9,7 +9,6 @@ import UIKit
 import CloudKit
 import UILoadControl
 import PopMenu
-import Localize_Swift
 
 class MainViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate {
     // Outlet Variables
