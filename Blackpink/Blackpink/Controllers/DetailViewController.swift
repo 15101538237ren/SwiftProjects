@@ -14,6 +14,8 @@ class DetailViewController: UIViewController {
     @IBOutlet weak var backBtn: UIButton!
     @IBOutlet var imageView: UIImageView!
     @IBOutlet var lockScreenPreviewImgV: UIImageView!
+    @IBOutlet var homeScreenPreviewImgVForIpad: UIImageView!
+    @IBOutlet var lockScreenPreviewImgVForIpad: UIImageView!
     @IBOutlet var homeScreenUpperPreviewImgV: UIImageView!
     @IBOutlet var homeScreenLowerPreviewImgV: UIImageView!{
         didSet{
@@ -181,14 +183,26 @@ class DetailViewController: UIViewController {
     }
     
     func showLockScreenPreview(){
-        DispatchQueue.main.async {
-            self.lockScreenPreviewImgV.alpha = 1.0
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            DispatchQueue.main.async {
+                self.lockScreenPreviewImgVForIpad.alpha = 1.0
+            }
+        }else{
+            DispatchQueue.main.async {
+                self.lockScreenPreviewImgV.alpha = 1.0
+            }
         }
     }
     
     func hideLockScreenPreview(){
-        DispatchQueue.main.async {
-            self.lockScreenPreviewImgV.alpha = 0
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            DispatchQueue.main.async {
+                self.lockScreenPreviewImgVForIpad.alpha = 0
+            }
+        }else{
+            DispatchQueue.main.async {
+                self.lockScreenPreviewImgV.alpha = 0
+            }
         }
     }
     
@@ -206,16 +220,28 @@ class DetailViewController: UIViewController {
     }
     
     func showHomeScreenPreview(){
-        DispatchQueue.main.async {
-            self.homeScreenUpperPreviewImgV.alpha = 1
-            self.homeScreenLowerPreviewImgV.alpha = 1
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            DispatchQueue.main.async {
+                self.homeScreenPreviewImgVForIpad.alpha = 1
+            }
+        }else{
+            DispatchQueue.main.async {
+                self.homeScreenUpperPreviewImgV.alpha = 1
+                self.homeScreenLowerPreviewImgV.alpha = 1
+            }
         }
     }
     
     func hideHomeScreenPreview(){
-        DispatchQueue.main.async {
-            self.homeScreenUpperPreviewImgV.alpha = 0
-            self.homeScreenLowerPreviewImgV.alpha = 0
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            DispatchQueue.main.async {
+                self.homeScreenPreviewImgVForIpad.alpha = 0
+            }
+        }else{
+            DispatchQueue.main.async {
+                self.homeScreenUpperPreviewImgV.alpha = 0
+                self.homeScreenLowerPreviewImgV.alpha = 0
+            }
         }
     }
     
