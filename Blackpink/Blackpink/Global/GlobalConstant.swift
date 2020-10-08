@@ -8,7 +8,9 @@
 import Foundation
 import UIKit
 
-let userAgreementURL = "https://www.apple.com"
+let userAgreementURLRoot = "https://hongleir.wixsite.com"
+let userAgreementURLPath = "/resume/post/blackpink-wallpaper-full-hd-使用条款和隐私政策"
+let productURL = URL(string: "https://itunes.apple.com/app/id1534961852")
 let minimumReviewWorthyActionCount = 5
 let icloudContainerID: String = "iCloud.com.hongleir.Blackpink"
 let likeIdsKey: String = "LIKE_IDS"

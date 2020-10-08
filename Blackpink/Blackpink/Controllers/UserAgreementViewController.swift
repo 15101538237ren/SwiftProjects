@@ -40,8 +40,10 @@ class UserAgreementViewController: UIViewController {
     }
     
     @objc func loadUserAgreement() -> Void{
-        if let url = URL(string: userAgreementURL) {
-            UIApplication.shared.open(url)
-        }
+        var urlcomps = URLComponents(string: userAgreementURLRoot)!
+        urlcomps.path = userAgreementURLPath
+        let url = urlcomps.url!
+        UIApplication.shared.open(url)
+        print(url)
     }
 }

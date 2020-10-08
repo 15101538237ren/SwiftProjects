@@ -67,12 +67,34 @@ class MenuViewController: UIViewController, UITableViewDataSource, UITableViewDe
         }
     }
     
+    func requestWriteReview(){
+        if let url = productURL{
+            // 1.
+            var components = URLComponents(url: url, resolvingAgainstBaseURL: false)
+
+            // 2.
+            components?.queryItems = [
+              URLQueryItem(name: "action", value: "write-review")
+            ]
+
+            // 3.
+            guard let writeReviewURL = components?.url else {
+              return
+            }
+
+            // 4.
+            UIApplication.shared.open(writeReviewURL)
+        }
+    }
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch indexPath.row {
         case 0:
             loadUploadVC()
         case 1:
             loadLikedVC()
+        case 2:
+            requestWriteReview()
         case 3:
             showFeedBackMailComposer()
         default:
