@@ -232,7 +232,7 @@ class UploadViewController: UIViewController, UINavigationControllerDelegate {
             // Prepare the record to save
             let record = CKRecord(recordType: "Wallpaper")
             record.setValue(category, forKey: "category")
-            record.setValue(1, forKey: "issued")
+            record.setValue(0, forKey: "issued")
             record.setValue(0, forKey: "likes")
 
             // Resize the image

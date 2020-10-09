@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		551C8A392530079A00927566 /* ManageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 551C8A382530079A00927566 /* ManageViewController.swift */; };
+		551C8A402530176C00927566 /* ManageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 551C8A3F2530176C00927566 /* ManageCollectionViewCell.swift */; };
 		552A826C252E781A00C162E9 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 552A826A252E781A00C162E9 /* InfoPlist.strings */; };
 		552A826F252E781A00C162E9 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 552A826D252E781A00C162E9 /* Localizable.strings */; };
 		5584308B2529934F00AE2BF9 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5584308A2529934F00AE2BF9 /* DetailViewController.swift */; };
@@ -41,6 +43,8 @@
 		0DF809AE5709B1E9625BAEFE /* Pods_Blackpink.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Blackpink.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		23F841F85F3AA67E39008463 /* Pods-Blackpink-BlackpinkUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Blackpink-BlackpinkUITests.debug.xcconfig"; path = "Target Support Files/Pods-Blackpink-BlackpinkUITests/Pods-Blackpink-BlackpinkUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		39820C8A5A4E9A8C8DA14D91 /* Pods-BlackpinkTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BlackpinkTests.release.xcconfig"; path = "Target Support Files/Pods-BlackpinkTests/Pods-BlackpinkTests.release.xcconfig"; sourceTree = "<group>"; };
+		551C8A382530079A00927566 /* ManageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageViewController.swift; sourceTree = "<group>"; };
+		551C8A3F2530176C00927566 /* ManageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageCollectionViewCell.swift; sourceTree = "<group>"; };
 		552A8261252E6A6B00C162E9 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Main.strings"; sourceTree = "<group>"; };
 		552A8262252E6A6B00C162E9 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
 		552A8264252E6A7D00C162E9 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Main.strings; sourceTree = "<group>"; };
@@ -121,6 +125,7 @@
 				55D9F4F2252C18120005C9B4 /* UploadViewController.swift */,
 				55C2A410252CFBE80060BB7B /* ImagePreviewVC.swift */,
 				55D52D0F252E3EB40089F504 /* UserAgreementViewController.swift */,
+				551C8A382530079A00927566 /* ManageViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -130,6 +135,7 @@
 			children = (
 				55B908D2252910CA00CD5438 /* MainCollectionCellView.swift */,
 				55D9F4E2252BFC160005C9B4 /* MenuItemTableViewCell.swift */,
+				551C8A3F2530176C00927566 /* ManageCollectionViewCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -368,6 +374,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				55B908CC25290DC200CD5438 /* MainViewController.swift in Sources */,
+				551C8A402530176C00927566 /* ManageCollectionViewCell.swift in Sources */,
 				55D9F4F3252C18120005C9B4 /* UploadViewController.swift in Sources */,
 				55B908DC252914AB00CD5438 /* GlobalConstant.swift in Sources */,
 				55D52D10252E3EB40089F504 /* UserAgreementViewController.swift in Sources */,
@@ -380,6 +387,7 @@
 				55C2A411252CFBE80060BB7B /* ImagePreviewVC.swift in Sources */,
 				55D9F4E3252BFC160005C9B4 /* MenuItemTableViewCell.swift in Sources */,
 				55C2A414252D3B5D0060BB7B /* AppStoreReviewManager.swift in Sources */,
+				551C8A392530079A00927566 /* ManageViewController.swift in Sources */,
 				55D9F4E9252BFE550005C9B4 /* MenuItem.swift in Sources */,
 				C3AB465E25279FBB00ACC7BB /* SceneDelegate.swift in Sources */,
 				55BA59CC252A9473009646DA /* GlobalMethods.swift in Sources */,

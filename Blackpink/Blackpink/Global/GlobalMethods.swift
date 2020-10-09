@@ -123,3 +123,27 @@ func getSoloImageNameByCategory(category: WallpaperCategory) -> String{
     }
     return imageName
 }
+
+func getSoloImageNameByInt(category: Int) -> String{
+    if (category == 1){
+        return "group"
+    }
+    else if (category == 2)
+    {
+        return "lisa"
+    }
+    else if (category == 3)
+    {
+        return "jisoo"
+    }
+    else if (category == 4)
+    {
+        return "rose"
+    }
+    else if (category == 5)
+    {
+        return "jennie"
+    }
+    
+    return "group"
+}

@@ -9,7 +9,7 @@ import UIKit
 import MessageUI
 
 class MenuViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
-    let menuItems:[MenuItem] = [
+    var menuItems:[MenuItem] = [
         MenuItem(icon_name: "upload", name: UploadBtnTxt),
         MenuItem(icon_name: "heart-fill-icon", name: LikedTxt),
         MenuItem(icon_name: "like", name: RateUsTxt),
@@ -17,15 +17,22 @@ class MenuViewController: UIViewController, UITableViewDataSource, UITableViewDe
     ]
     
     @IBOutlet var tableView: UITableView!
-
+    var addManageItem: Bool? = true
     override func viewDidLoad() {
         super.viewDidLoad()
+        addManageToMenu()
         tableView.delegate = self
         tableView.dataSource = self
         tableView.backgroundColor = .clear
         view.isOpaque = false
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         navigationController?.navigationBar.shadowImage = UIImage()
+    }
+    
+    func addManageToMenu(){
+        if addManageItem != nil{
+            menuItems.append(MenuItem(icon_name: "manager", name: ManageTxt))
+        }
     }
         
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -87,6 +94,18 @@ class MenuViewController: UIViewController, UITableViewDataSource, UITableViewDe
         }
     }
     
+    func showManageVC(){
+        let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+        let manageVC = mainStoryBoard.instantiateViewController(withIdentifier: "manageVC") as! ManageViewController
+        
+        let transition = getTransitionFromRight()
+        view.window!.layer.add(transition, forKey: kCATransition)
+        manageVC.modalPresentationStyle = .fullScreen
+        DispatchQueue.main.async {
+            self.present(manageVC, animated: false, completion: nil)
+        }
+    }
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch indexPath.row {
         case 0:
@@ -97,6 +116,8 @@ class MenuViewController: UIViewController, UITableViewDataSource, UITableViewDe
             requestWriteReview()
         case 3:
             showFeedBackMailComposer()
+        case 4:
+            showManageVC()
         default:
             break
         }

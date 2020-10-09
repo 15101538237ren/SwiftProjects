@@ -61,5 +61,15 @@ let GroupTxt = NSLocalizedString("Group", comment: "Group")
 let PhotoLibTxt = NSLocalizedString("Photo Library", comment: "Photo Library")
 
 let CancelTxt = NSLocalizedString("Cancel", comment: "Cancel")
+let SelectTxt = NSLocalizedString("Select", comment: "Select")
+let ManageTxt = NSLocalizedString("Manage", comment: "Manage")
+let RejectTxt = NSLocalizedString("Reject", comment: "Reject")
+let ApproveTxt = NSLocalizedString("Approve", comment: "Approve")
 let AgreementTxt = NSLocalizedString("Running the application, I agree to 「The Terms of User Agreement」", comment: "Running the application, I agree to 「The Terms of User Agreement」")
+
+let selectedItemDeletedTxt = NSLocalizedString("Selected Items Deleted!", comment: "Selected Items Deleted!")
+
+let pleaseClickSelectTxt = NSLocalizedString("Please Click [Select] and select items first!", comment: "Please Click [Select] and select items first!")
+
+let selectedItemApprovedTxt = NSLocalizedString("Selected Items Approved!", comment: "Selected Items Approved!")
 
