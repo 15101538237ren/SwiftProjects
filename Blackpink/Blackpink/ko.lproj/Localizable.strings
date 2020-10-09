@@ -72,3 +72,25 @@
 
 /* Running the application, I agree to the terms of user agreement */
 "Running the application, I agree to 「The Terms of User Agreement」」" = "응용 프로그램을 실행하고 이용 약관에 동의합니다";
+
+/* Manage */
+"Manage" = "조치";
+
+/* Reject */
+"Reject" = "폐물";
+
+/* Approve */
+"Approve" = "승인";
+
+/* Selected Items Deleted */
+"Selected Items Deleted!" = "선택한 배경 화면이 삭제되었습니다!";
+
+
+/* Selected Items Approved! */
+"Selected Items Approved!" = "선택한 배경 화면이 승인되었습니다!";
+
+/* Please Click [Select] and select items first! */
+"Please Click [Select] and select items first!" = "먼저 [선택]을 클릭하고 배경 화면을 선택하세요!";
+
+/* Code To Unlock*/
+"Code To Unlock" = "암호";

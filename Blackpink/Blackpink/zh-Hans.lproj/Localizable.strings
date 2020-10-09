@@ -71,4 +71,27 @@
 "Uploading" = "上传中";
 
 /* Running the application, I agree to the terms of user agreement */
-"Running the application, I agree to 「The Terms of User Agreement」" = "運行該應用程序，我同意「用戶協議條款」";
+"Running the application, I agree to 「The Terms of User Agreement」" = "运行该应用程序，我同意「用户协议的条款」";
+
+/* Manage */
+"Manage" = "管理";
+
+/* Reject */
+"Reject" = "拒绝";
+
+/* Approve */
+"Approve" = "批准";
+
+/* Selected Items Deleted */
+"Selected Items Deleted!" = "所选壁纸已删除!";
+
+
+/* Selected Items Approved! */
+"Selected Items Approved!" = "所选壁纸已批准!";
+
+
+/* Please Click [Select] and select items first! */
+"Please Click [Select] and select items first!" = "请先单击[选择]并选择壁纸!";
+
+/* Code To Unlock*/
+"Code To Unlock" = "解锁密码";

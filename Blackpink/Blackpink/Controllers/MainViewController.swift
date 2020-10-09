@@ -9,10 +9,12 @@ import UIKit
 import CloudKit
 import UILoadControl
 import PopMenu
+import CryptoSwift
+import PMAlertController
 
 class MainViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate {
     // Outlet Variables
-    @IBOutlet weak var upperView: UIView!
+    @IBOutlet weak var logoImgV: UIView!
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet var soloBtns: [UIButton]!{
         didSet{
@@ -22,7 +24,6 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
             }
         }
     }
-    
     
     @IBAction func loadSoloVC(_ sender: UIButton) {
         let category: WallpaperCategory = getCategoryByIntValue(category: sender.tag)
@@ -61,6 +62,7 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
         collectionView.loadControl?.heightLimit = 100.0 //The default is 80.0
         initSpinnerAndRefreshControl()
         checkLoadUserAgreeVC()
+        addGestureRcgToLogo()
         load()
     }
     
@@ -114,6 +116,50 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
         if !connected{
             let alertCtl = presentNoNetworkAlert()
             self.present(alertCtl, animated: true, completion: nil)
+        }
+    }
+    
+    func addGestureRcgToLogo(){
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(DetectWhetherToPresentForm))
+        logoImgV.addGestureRecognizer(tapGestureRecognizer)
+    }
+    
+    func presentFormAlert(){
+        let alertVC = PMAlertController(title: nil, description: nil, image: nil, style: .alert)
+        alertVC.addTextField { (textField) in
+            textField?.placeholder = pwdHolderTxt
+        }
+        alertVC.addAction(PMAlertAction(title: CancelTxt, style: .cancel, action: { () in
+            numberOfTimeTappedInIndexLogo = 0
+        }))
+
+        alertVC.addAction(PMAlertAction(title: OKMsg, style: .default, action: { () in
+            if let pwd = alertVC.textFields[0].text{
+                let pwdEncrypted = pwd.md5()
+                if pwdEncrypted == pwdMd5{
+                    allowToShowMenu = true
+                    numberOfTimeTappedInIndexLogo = 0
+                }
+            }
+        }))
+        alertVC.alertView.layer.cornerRadius = 12.0
+        alertVC.alertView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width * 0.6, height: self.view.frame.height * 0.5)
+        alertVC.alertView.backgroundColor = BlackPinkPink
+        
+        alertVC.headerViewTopSpaceConstraint.constant = 0
+        alertVC.alertContentStackViewLeadingConstraint.constant = 30
+        alertVC.alertContentStackViewTrailingConstraint.constant = 30
+        alertVC.alertContentStackViewTopConstraint.constant = 0
+        alertVC.alertActionStackViewTopConstraint.constant = 20
+        
+        self.present(alertVC, animated: true, completion: nil)
+    }
+    
+    @objc func DetectWhetherToPresentForm() -> Void{
+        if numberOfTimeTappedInIndexLogo < numOfTapToShowManageForm{
+            numberOfTimeTappedInIndexLogo += 1
+        }else{
+            presentFormAlert()
         }
     }
     

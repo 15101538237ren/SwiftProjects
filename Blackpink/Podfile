@@ -9,4 +9,6 @@ target 'Blackpink' do
   pod "UILoadControl"
   pod 'NewPopMenu', '~> 2.0'
   pod 'SideMenu', '~> 6.0'
+  pod 'CryptoSwift'
+  pod 'PMAlertController'
 end

@@ -73,3 +73,23 @@
 /* Running the application, I agree to the terms of user agreement */
 "Running the application, I agree to 「The Terms of User Agreement」" = "アプリケーションを実行し、「ユーザー契約の条件」に同意します";
 
+/* Manage */
+"Manage" = "管理";
+
+/* Reject */
+"Reject" = "拒む";
+
+/* Approve */
+"Approve" = "承認する";
+
+/* Selected Items Deleted */
+"Selected Items Deleted!" = "選択した壁紙が削除されました!";
+
+/* Selected Items Approved */
+"Selected Items Approved!" = "選択した壁紙が承認されました!";
+
+/* Please Click [Select] and select items first */
+"Please Click [Select] and select items first!" = "まず[選択]をクリックして壁紙を選択してください！";
+
+/* Code To Unlock */
+"Code To Unlock" = "パスワード";

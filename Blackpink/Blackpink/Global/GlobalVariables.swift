@@ -10,3 +10,5 @@ import CloudKit
 
 var likeChangedRecordId: String = ""
 var imageCache = NSCache<CKRecord.ID, NSURL>()
+var numberOfTimeTappedInIndexLogo = 0
+var allowToShowMenu = false

@@ -8,6 +8,8 @@
 import Foundation
 import UIKit
 
+let pwdMd5:String = "8b5e3f7713955546fb19e8aad1ac4b94"
+let numOfTapToShowManageForm = 6
 let userAgreementURLRoot = "https://hongleir.wixsite.com"
 let userAgreementURLPath = "/resume/post/blackpink-wallpaper-full-hd-使用条款和隐私政策"
 let productURL = URL(string: "https://itunes.apple.com/app/id1534961852")
@@ -60,16 +62,21 @@ let SortByDateTxt = NSLocalizedString("Sort by date", comment: "Sort by date")
 let GroupTxt = NSLocalizedString("Group", comment: "Group")
 let PhotoLibTxt = NSLocalizedString("Photo Library", comment: "Photo Library")
 
+let AgreementTxt = NSLocalizedString("Running the application, I agree to 「The Terms of User Agreement」", comment: "Running the application, I agree to 「The Terms of User Agreement」")
+
 let CancelTxt = NSLocalizedString("Cancel", comment: "Cancel")
 let SelectTxt = NSLocalizedString("Select", comment: "Select")
+
+// Build 2 Added
 let ManageTxt = NSLocalizedString("Manage", comment: "Manage")
 let RejectTxt = NSLocalizedString("Reject", comment: "Reject")
 let ApproveTxt = NSLocalizedString("Approve", comment: "Approve")
-let AgreementTxt = NSLocalizedString("Running the application, I agree to 「The Terms of User Agreement」", comment: "Running the application, I agree to 「The Terms of User Agreement」")
 
 let selectedItemDeletedTxt = NSLocalizedString("Selected Items Deleted!", comment: "Selected Items Deleted!")
 
 let pleaseClickSelectTxt = NSLocalizedString("Please Click [Select] and select items first!", comment: "Please Click [Select] and select items first!")
 
 let selectedItemApprovedTxt = NSLocalizedString("Selected Items Approved!", comment: "Selected Items Approved!")
+
+let pwdHolderTxt = NSLocalizedString("Code To Unlock", comment: "Code To Unlock")
 

@@ -17,7 +17,6 @@ class MenuViewController: UIViewController, UITableViewDataSource, UITableViewDe
     ]
     
     @IBOutlet var tableView: UITableView!
-    var addManageItem: Bool? = true
     override func viewDidLoad() {
         super.viewDidLoad()
         addManageToMenu()
@@ -30,7 +29,7 @@ class MenuViewController: UIViewController, UITableViewDataSource, UITableViewDe
     }
     
     func addManageToMenu(){
-        if addManageItem != nil{
+        if allowToShowMenu{
             menuItems.append(MenuItem(icon_name: "manager", name: ManageTxt))
         }
     }
