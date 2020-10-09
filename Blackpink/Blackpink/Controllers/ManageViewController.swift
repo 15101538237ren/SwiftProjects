@@ -31,7 +31,7 @@ class ManageViewController: UIViewController, UICollectionViewDelegate, UICollec
             rejectBtn.setTitleColor( UIColor.systemRed, for: .normal)
             rejectBtn.setTitleColor(.lightGray, for: .disabled)
             rejectBtn.layer.borderWidth = 3
-            rejectBtn.layer.borderColor = UIColor.systemRed.cgColor
+            rejectBtn.layer.borderColor = UIColor.lightGray.cgColor
             rejectBtn.setTitle(RejectTxt, for: .normal)
         }
     }
@@ -43,7 +43,7 @@ class ManageViewController: UIViewController, UICollectionViewDelegate, UICollec
             approveBtn.setTitleColor(UIColor.systemGreen, for: .normal)
             approveBtn.setTitleColor(.lightGray, for: .disabled)
             approveBtn.layer.borderWidth = 3
-            approveBtn.layer.borderColor = UIColor.systemGreen.cgColor
+            approveBtn.layer.borderColor = UIColor.lightGray.cgColor
             approveBtn.setTitle(ApproveTxt, for: .normal)
         }
     }
@@ -65,12 +65,20 @@ class ManageViewController: UIViewController, UICollectionViewDelegate, UICollec
                     selectBtn.setTitle(CancelTxt, for: .normal)
                     selectBtn.setTitleColor( UIColor.systemBlue, for: .normal)
                     collectionView.allowsMultipleSelection = true
+                    approveBtn.layer.borderColor = UIColor.systemGreen.cgColor
+                    rejectBtn.layer.borderColor = UIColor.systemRed.cgColor
+                    approveBtn.isEnabled = true
+                    rejectBtn.isEnabled = true
                 }
             case .view:
                 DispatchQueue.main.async { [self] in
                     selectBtn.setTitle(SelectTxt, for: .normal)
                     selectBtn.setTitleColor( UIColor.black, for: .normal)
                     collectionView.allowsMultipleSelection = false
+                    approveBtn.layer.borderColor = UIColor.lightGray.cgColor
+                    rejectBtn.layer.borderColor = UIColor.lightGray.cgColor
+                    approveBtn.isEnabled = false
+                    rejectBtn.isEnabled = false
                 }
             }
             var indexToDelete:[IndexPath] = []

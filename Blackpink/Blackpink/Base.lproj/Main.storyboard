@@ -1241,7 +1241,7 @@
                                     <action selector="unwind:" destination="PWT-3o-Eac" eventType="touchUpInside" id="tuA-oP-oPU"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eFh-ta-Mx7">
+                            <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eFh-ta-Mx7">
                                 <rect key="frame" x="224" y="817" width="160" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="GXI-eB-JEn"/>
@@ -1256,7 +1256,7 @@
                                     <action selector="selectImageWithSender:" destination="v0z-3m-ZaN" eventType="touchUpInside" id="gw1-rd-cBA"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="amK-Rv-LcF">
+                            <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="amK-Rv-LcF">
                                 <rect key="frame" x="30" y="817" width="160" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="0TY-xt-wMd"/>
