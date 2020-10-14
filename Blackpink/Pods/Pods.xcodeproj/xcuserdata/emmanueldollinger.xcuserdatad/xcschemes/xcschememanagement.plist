@@ -27,7 +27,7 @@
 		<key>Pods-Blackpink.xcscheme</key>
 		<dict>
 			<key>isShown</key>
-			<false/>
+			<true/>
 		</dict>
 		<key>SideMenu.xcscheme</key>
 		<dict>

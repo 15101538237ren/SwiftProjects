@@ -14,7 +14,7 @@ import PMAlertController
 
 class MainViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate {
     // Outlet Variables
-    @IBOutlet weak var logoImgV: UIView!
+    @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet var soloBtns: [UIButton]!{
         didSet{
@@ -121,7 +121,7 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
     
     func addGestureRcgToLogo(){
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(DetectWhetherToPresentForm))
-        logoImgV.addGestureRecognizer(tapGestureRecognizer)
+        titleLabel.addGestureRecognizer(tapGestureRecognizer)
     }
     
     func presentFormAlert(){
