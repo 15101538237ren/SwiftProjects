@@ -200,6 +200,22 @@ class UploadViewController: UIViewController, UINavigationControllerDelegate {
         }
     }
     
+    func setDefaultSetting(){
+        DispatchQueue.main.async { [self] in
+            stopIndicator()
+            uploadBtn.isEnabled = false
+            chooseImgBtn.isEnabled = true
+            chooseCategoryBtn.isEnabled = true
+            uploadBtn.layer.borderColor = UIColor.lightGray.cgColor
+            chooseImgBtn.layer.borderColor = BlackPinkBlack.cgColor
+            chooseCategoryBtn.layer.borderColor = BlackPinkBlack.cgColor
+            categoryImgV.image = UIImage(named: "profile-user")
+            imgV.image = UIImage(named: "imageForUpload")
+        }
+        imageToUpload = nil
+        currentWallpaperCategory = nil
+    }
+    
     func disableButtonsAndStartIndicator(){
         DispatchQueue.main.async { [self] in
             uploadBtn.isEnabled = false
@@ -256,14 +272,7 @@ class UploadViewController: UIViewController, UINavigationControllerDelegate {
                 
                 DispatchQueue.main.async { [self] in
                     if error == nil {
-                        enableButtonsAndEndIndicator()
-                        try? FileManager.default.removeItem(at: imageFileURL)
-                        let ac = UIAlertController(title: UploadSuccessTxt, message: "", preferredStyle: .alert)
-                        ac.addAction(UIAlertAction(title: OKMsg, style: .default, handler:
-                            {_ in
-                            self.dismiss(animated: true, completion: nil)
-                        }))
-                        self.present(ac, animated: true)
+                        setDefaultSetting()
                     } else {
                         enableButtonsAndEndIndicator()
                         let ac = UIAlertController(title: ErrorPrefix, message: "\(ErrorPrefix): \(error!.localizedDescription)", preferredStyle: .alert)
