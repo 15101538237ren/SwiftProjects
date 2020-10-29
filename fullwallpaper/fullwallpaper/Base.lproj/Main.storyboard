@@ -10,8 +10,8 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
-        <array key="Charlize.ttf">
-            <string>Charlize</string>
+        <array key="Damion-Regular.ttf">
+            <string>Damion</string>
         </array>
     </customFonts>
     <scenes>
@@ -27,8 +27,8 @@
                                 <rect key="frame" x="0.0" y="44" width="414" height="50"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Category" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Jno-NO-4PK">
-                                        <rect key="frame" x="168.5" y="8.5" width="77" height="33.5"/>
-                                        <fontDescription key="fontDescription" name="Charlize" family="Charlize" pointSize="24"/>
+                                        <rect key="frame" x="165.5" y="8" width="83" height="34.5"/>
+                                        <fontDescription key="fontDescription" name="Damion" family="Damion" pointSize="25"/>
                                         <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
@@ -78,8 +78,8 @@
                                 <rect key="frame" x="0.0" y="44" width="414" height="50"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Wallpapers" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xs0-xa-AkM">
-                                        <rect key="frame" x="157" y="9" width="100" height="32"/>
-                                        <fontDescription key="fontDescription" name="Charlize" family="Charlize" pointSize="23"/>
+                                        <rect key="frame" x="155" y="8" width="104" height="34.5"/>
+                                        <fontDescription key="fontDescription" name="Damion" family="Damion" pointSize="25"/>
                                         <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
@@ -179,8 +179,33 @@
                     <view key="view" contentMode="scaleToFill" id="aUl-5r-WY0">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8Hp-mK-RHK">
+                                <rect key="frame" x="0.0" y="44" width="414" height="50"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Collection" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Na-ID-kMb">
+                                        <rect key="frame" x="163.5" y="7.5" width="87" height="35"/>
+                                        <fontDescription key="fontDescription" name="Damion" family="Damion" pointSize="25"/>
+                                        <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="50" id="JUt-Vc-rwn"/>
+                                    <constraint firstItem="3Na-ID-kMb" firstAttribute="centerX" secondItem="8Hp-mK-RHK" secondAttribute="centerX" id="NAF-1X-NMk"/>
+                                    <constraint firstItem="3Na-ID-kMb" firstAttribute="centerY" secondItem="8Hp-mK-RHK" secondAttribute="centerY" id="P74-Qd-B2W"/>
+                                    <constraint firstAttribute="height" constant="50" id="b5W-me-eNo"/>
+                                </constraints>
+                            </view>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="efN-7g-pxy"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="8Hp-mK-RHK" firstAttribute="top" secondItem="efN-7g-pxy" secondAttribute="top" id="CGq-tc-D5n"/>
+                            <constraint firstItem="8Hp-mK-RHK" firstAttribute="trailing" secondItem="efN-7g-pxy" secondAttribute="trailing" id="MeD-91-3Cu"/>
+                            <constraint firstItem="8Hp-mK-RHK" firstAttribute="leading" secondItem="efN-7g-pxy" secondAttribute="leading" id="qum-Lc-ffW"/>
+                        </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="" image="square.3.stack.3d" catalog="system" id="UJL-Rl-hta"/>
                 </viewController>
@@ -221,8 +246,34 @@
                     <view key="view" contentMode="scaleToFill" id="YLF-qZ-GC5">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QIV-2p-OML">
+                                <rect key="frame" x="0.0" y="44" width="414" height="50"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Setting" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="olD-6J-6IY">
+                                        <rect key="frame" x="174" y="7.5" width="66" height="35"/>
+                                        <fontDescription key="fontDescription" name="Damion" family="Damion" pointSize="25"/>
+                                        <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstItem="olD-6J-6IY" firstAttribute="centerY" secondItem="QIV-2p-OML" secondAttribute="centerY" id="8X4-EX-Vjv"/>
+                                    <constraint firstAttribute="height" relation="lessThanOrEqual" constant="50" id="DTS-iu-lMH"/>
+                                    <constraint firstAttribute="height" constant="50" id="Gme-ub-sxs"/>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="50" id="Ogf-wK-FQi"/>
+                                    <constraint firstItem="olD-6J-6IY" firstAttribute="centerX" secondItem="QIV-2p-OML" secondAttribute="centerX" id="cOI-7e-w1t"/>
+                                </constraints>
+                            </view>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="1G4-TB-Wqf"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="QIV-2p-OML" firstAttribute="leading" secondItem="1G4-TB-Wqf" secondAttribute="leading" id="WVH-g0-Jcs"/>
+                            <constraint firstItem="QIV-2p-OML" firstAttribute="top" secondItem="1G4-TB-Wqf" secondAttribute="top" id="fAv-cU-oBe"/>
+                            <constraint firstAttribute="trailing" secondItem="QIV-2p-OML" secondAttribute="trailing" id="z3W-0a-lL6"/>
+                        </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="" image="gearshape" catalog="system" id="m0W-IK-UUG"/>
                 </viewController>
