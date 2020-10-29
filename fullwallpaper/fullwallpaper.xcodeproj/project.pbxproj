@@ -7,19 +7,23 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5577BE0B254A8767008A1F14 /* WallpaperCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5577BE0A254A8767008A1F14 /* WallpaperCollectionViewCell.swift */; };
+		5577BE10254A88F0008A1F14 /* GlobalConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5577BE0F254A88F0008A1F14 /* GlobalConstant.swift */; };
 		55F39927254A624D0094A477 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55F39926254A624D0094A477 /* AppDelegate.swift */; };
 		55F39929254A624D0094A477 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55F39928254A624D0094A477 /* SceneDelegate.swift */; };
-		55F3992B254A624D0094A477 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55F3992A254A624D0094A477 /* ViewController.swift */; };
+		55F3992B254A624D0094A477 /* WallpaperVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55F3992A254A624D0094A477 /* WallpaperVC.swift */; };
 		55F3992E254A624D0094A477 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 55F3992C254A624D0094A477 /* Main.storyboard */; };
 		55F39930254A624D0094A477 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 55F3992F254A624D0094A477 /* Assets.xcassets */; };
 		55F39933254A624D0094A477 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 55F39931254A624D0094A477 /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5577BE0A254A8767008A1F14 /* WallpaperCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WallpaperCollectionViewCell.swift; sourceTree = "<group>"; };
+		5577BE0F254A88F0008A1F14 /* GlobalConstant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalConstant.swift; sourceTree = "<group>"; };
 		55F39923254A624D0094A477 /* fullwallpaper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = fullwallpaper.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		55F39926254A624D0094A477 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		55F39928254A624D0094A477 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		55F3992A254A624D0094A477 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		55F3992A254A624D0094A477 /* WallpaperVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WallpaperVC.swift; sourceTree = "<group>"; };
 		55F3992D254A624D0094A477 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		55F3992F254A624D0094A477 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		55F39932254A624D0094A477 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -37,6 +41,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5577BE0E254A88E1008A1F14 /* Global */ = {
+			isa = PBXGroup;
+			children = (
+				5577BE0F254A88F0008A1F14 /* GlobalConstant.swift */,
+			);
+			path = Global;
+			sourceTree = "<group>";
+		};
 		55F3991A254A624D0094A477 = {
 			isa = PBXGroup;
 			children = (
@@ -56,15 +68,41 @@
 		55F39925254A624D0094A477 /* fullwallpaper */ = {
 			isa = PBXGroup;
 			children = (
+				5577BE0E254A88E1008A1F14 /* Global */,
+				55F39942254A7CE00094A477 /* Fonts */,
+				55F3993E254A7B810094A477 /* Views */,
+				55F3993D254A7B790094A477 /* Controllers */,
 				55F39926254A624D0094A477 /* AppDelegate.swift */,
 				55F39928254A624D0094A477 /* SceneDelegate.swift */,
-				55F3992A254A624D0094A477 /* ViewController.swift */,
 				55F3992C254A624D0094A477 /* Main.storyboard */,
 				55F3992F254A624D0094A477 /* Assets.xcassets */,
 				55F39931254A624D0094A477 /* LaunchScreen.storyboard */,
 				55F39934254A624D0094A477 /* Info.plist */,
 			);
 			path = fullwallpaper;
+			sourceTree = "<group>";
+		};
+		55F3993D254A7B790094A477 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				55F3992A254A624D0094A477 /* WallpaperVC.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		55F3993E254A7B810094A477 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				5577BE0A254A8767008A1F14 /* WallpaperCollectionViewCell.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		55F39942254A7CE00094A477 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Fonts;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -137,7 +175,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				55F3992B254A624D0094A477 /* ViewController.swift in Sources */,
+				55F3992B254A624D0094A477 /* WallpaperVC.swift in Sources */,
+				5577BE10254A88F0008A1F14 /* GlobalConstant.swift in Sources */,
+				5577BE0B254A8767008A1F14 /* WallpaperCollectionViewCell.swift in Sources */,
 				55F39927254A624D0094A477 /* AppDelegate.swift in Sources */,
 				55F39929254A624D0094A477 /* SceneDelegate.swift in Sources */,
 			);
