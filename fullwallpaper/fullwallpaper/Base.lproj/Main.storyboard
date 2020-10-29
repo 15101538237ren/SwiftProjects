@@ -9,6 +9,11 @@
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <array key="Charlize.ttf">
+            <string>Charlize</string>
+        </array>
+    </customFonts>
     <scenes>
         <!--View Controller-->
         <scene sceneID="24p-MU-Gkd">
@@ -22,28 +27,28 @@
                                 <rect key="frame" x="0.0" y="44" width="414" height="50"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Category" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Jno-NO-4PK">
-                                        <rect key="frame" x="162" y="5" width="90" height="30.5"/>
-                                        <fontDescription key="fontDescription" name="SnellRoundhand-Bold" family="Snell Roundhand" pointSize="24"/>
-                                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <rect key="frame" x="168.5" y="8.5" width="77" height="33.5"/>
+                                        <fontDescription key="fontDescription" name="Charlize" family="Charlize" pointSize="24"/>
+                                        <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="magnifyingglass" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="4Ke-qw-UsV">
-                                        <rect key="frame" x="368" y="6" width="26" height="28"/>
+                                        <rect key="frame" x="370" y="13" width="24" height="24"/>
                                         <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="30" id="BZ4-ll-K1h"/>
-                                            <constraint firstAttribute="width" constant="26" id="kN1-mL-v9b"/>
+                                            <constraint firstAttribute="height" constant="26" id="BZ4-ll-K1h"/>
+                                            <constraint firstAttribute="width" constant="24" id="kN1-mL-v9b"/>
                                         </constraints>
                                         <preferredSymbolConfiguration key="preferredSymbolConfiguration" weight="light"/>
                                     </imageView>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
+                                    <constraint firstItem="4Ke-qw-UsV" firstAttribute="centerY" secondItem="m0h-Pf-yk9" secondAttribute="centerY" id="0pC-Px-cER"/>
                                     <constraint firstAttribute="height" constant="50" id="7Nc-ZG-1Yt"/>
-                                    <constraint firstItem="4Ke-qw-UsV" firstAttribute="top" secondItem="m0h-Pf-yk9" secondAttribute="top" constant="5" id="Gf8-hE-ckN"/>
+                                    <constraint firstItem="Jno-NO-4PK" firstAttribute="centerY" secondItem="m0h-Pf-yk9" secondAttribute="centerY" id="T59-1J-qVL"/>
                                     <constraint firstItem="Jno-NO-4PK" firstAttribute="centerX" secondItem="m0h-Pf-yk9" secondAttribute="centerX" id="W60-2n-fdg"/>
                                     <constraint firstAttribute="trailing" secondItem="4Ke-qw-UsV" secondAttribute="trailing" constant="20" id="nnd-tS-HvL"/>
-                                    <constraint firstItem="Jno-NO-4PK" firstAttribute="top" secondItem="m0h-Pf-yk9" secondAttribute="top" constant="5" id="u5S-ri-kMO"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -73,31 +78,31 @@
                                 <rect key="frame" x="0.0" y="44" width="414" height="50"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Wallpapers" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xs0-xa-AkM">
-                                        <rect key="frame" x="151" y="5" width="112.5" height="30.5"/>
-                                        <fontDescription key="fontDescription" name="SnellRoundhand-Bold" family="Snell Roundhand" pointSize="24"/>
-                                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <rect key="frame" x="157" y="9" width="100" height="32"/>
+                                        <fontDescription key="fontDescription" name="Charlize" family="Charlize" pointSize="23"/>
+                                        <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
-                                    <constraint firstItem="Xs0-xa-AkM" firstAttribute="top" secondItem="6T9-p8-o4n" secondAttribute="top" constant="5" id="EZf-k1-dxD"/>
                                     <constraint firstAttribute="height" constant="50" id="Ewo-Vw-qDQ"/>
+                                    <constraint firstItem="Xs0-xa-AkM" firstAttribute="centerY" secondItem="6T9-p8-o4n" secondAttribute="centerY" id="QPb-MJ-mB0"/>
                                     <constraint firstItem="Xs0-xa-AkM" firstAttribute="centerX" secondItem="6T9-p8-o4n" secondAttribute="centerX" id="aW3-F4-IAX"/>
                                 </constraints>
                             </view>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="BI1-eP-PZB">
                                 <rect key="frame" x="0.0" y="94" width="414" height="719"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="BIr-iv-atS">
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="BIr-iv-atS">
                                     <size key="itemSize" width="163" height="331"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                                    <inset key="sectionInset" minX="10" minY="10" maxX="10" maxY="10"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="wallpaperCollectionViewCell" id="dDA-Ib-X7H" customClass="WallpaperCollectionViewCell" customModule="fullwallpaper" customModuleProvider="target">
-                                        <rect key="frame" x="10" y="10" width="163" height="331"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="163" height="331"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="vW6-on-fcN">
                                             <rect key="frame" x="0.0" y="0.0" width="163" height="331"/>

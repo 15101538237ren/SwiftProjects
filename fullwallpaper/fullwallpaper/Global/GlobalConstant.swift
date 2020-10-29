@@ -8,6 +8,6 @@
 import Foundation
 import UIKit
 
-let numberOfItemsPerRow:CGFloat = CGFloat(2)
-let cellSpacing:CGFloat = CGFloat(10)
-let cellHeightWidthRatio:CGFloat = CGFloat(2.03)
+let numberOfItemsPerRow:CGFloat = CGFloat(3)
+let cellSpacing:CGFloat = CGFloat(2)
+let cellHeightWidthRatio:CGFloat = CGFloat(1.5)

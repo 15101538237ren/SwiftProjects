@@ -8,12 +8,7 @@
 import UIKit
 
 class WallpaperCollectionViewCell: UICollectionViewCell {
-    @IBOutlet var imageV: UIImageView!{
-        didSet{
-            imageV.layer.cornerRadius = 12
-            imageV.layer.masksToBounds = true
-        }
-    }
+    @IBOutlet var imageV: UIImageView!
     @IBOutlet var heartV: UIImageView!
     @IBOutlet var likeLabel: UILabel!
 }

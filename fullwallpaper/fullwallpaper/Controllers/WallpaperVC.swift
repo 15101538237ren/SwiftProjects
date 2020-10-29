@@ -12,10 +12,18 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
     
     @IBOutlet weak var collectionView: UICollectionView!
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    func setupCollectionView() {
+        let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
+        layout.minimumInteritemSpacing = cellSpacing
+        layout.minimumLineSpacing = cellSpacing
+        collectionView.collectionViewLayout = layout
         collectionView.dataSource = self
         collectionView.delegate = self
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setupCollectionView()
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -31,7 +39,7 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
 
-        let width = (collectionView.frame.size.width - (numberOfItemsPerRow + 1) * cellSpacing) / numberOfItemsPerRow
+        let width = (collectionView.frame.size.width - (numberOfItemsPerRow - 1) * cellSpacing) / numberOfItemsPerRow
         let height = width * cellHeightWidthRatio
         return CGSize(width: width, height: height)
     }
