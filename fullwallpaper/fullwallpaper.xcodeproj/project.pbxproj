@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		55537E2E254B2572005081CF /* ClickerScript-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 55537E2D254B2572005081CF /* ClickerScript-Regular.ttf */; };
+		55537E31254B341C005081CF /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55537E30254B341C005081CF /* TabBarController.swift */; };
+		55537E34254B3ECD005081CF /* CategoryVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55537E33254B3ECD005081CF /* CategoryVC.swift */; };
+		55537E37254B3F1D005081CF /* CategoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55537E36254B3F1D005081CF /* CategoryTableViewCell.swift */; };
 		5577BE0B254A8767008A1F14 /* WallpaperCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5577BE0A254A8767008A1F14 /* WallpaperCollectionViewCell.swift */; };
 		5577BE10254A88F0008A1F14 /* GlobalConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5577BE0F254A88F0008A1F14 /* GlobalConstant.swift */; };
 		55F39927254A624D0094A477 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55F39926254A624D0094A477 /* AppDelegate.swift */; };
@@ -20,6 +23,9 @@
 
 /* Begin PBXFileReference section */
 		55537E2D254B2572005081CF /* ClickerScript-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ClickerScript-Regular.ttf"; sourceTree = "<group>"; };
+		55537E30254B341C005081CF /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
+		55537E33254B3ECD005081CF /* CategoryVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryVC.swift; sourceTree = "<group>"; };
+		55537E36254B3F1D005081CF /* CategoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryTableViewCell.swift; sourceTree = "<group>"; };
 		5577BE0A254A8767008A1F14 /* WallpaperCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WallpaperCollectionViewCell.swift; sourceTree = "<group>"; };
 		5577BE0F254A88F0008A1F14 /* GlobalConstant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalConstant.swift; sourceTree = "<group>"; };
 		55F39923254A624D0094A477 /* fullwallpaper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = fullwallpaper.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -88,6 +94,8 @@
 			isa = PBXGroup;
 			children = (
 				55F3992A254A624D0094A477 /* WallpaperVC.swift */,
+				55537E30254B341C005081CF /* TabBarController.swift */,
+				55537E33254B3ECD005081CF /* CategoryVC.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -96,6 +104,7 @@
 			isa = PBXGroup;
 			children = (
 				5577BE0A254A8767008A1F14 /* WallpaperCollectionViewCell.swift */,
+				55537E36254B3F1D005081CF /* CategoryTableViewCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -179,11 +188,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				55537E34254B3ECD005081CF /* CategoryVC.swift in Sources */,
 				55F3992B254A624D0094A477 /* WallpaperVC.swift in Sources */,
 				5577BE10254A88F0008A1F14 /* GlobalConstant.swift in Sources */,
 				5577BE0B254A8767008A1F14 /* WallpaperCollectionViewCell.swift in Sources */,
+				55537E31254B341C005081CF /* TabBarController.swift in Sources */,
 				55F39927254A624D0094A477 /* AppDelegate.swift in Sources */,
 				55F39929254A624D0094A477 /* SceneDelegate.swift in Sources */,
+				55537E37254B3F1D005081CF /* CategoryTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
