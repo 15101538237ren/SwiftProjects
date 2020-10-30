@@ -8,7 +8,6 @@
 import UIKit
 
 class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate {
-
     
     @IBOutlet weak var collectionView: UICollectionView!
     
@@ -27,14 +26,26 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
         setupCollectionView()
     }
 
+    func loadDetailVC(image: UIImage) -> Void{
+        let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+        let detailVC = mainStoryBoard.instantiateViewController(withIdentifier: "detailVC") as! WallpaperDetailVC
+        
+        detailVC.image = image
+        detailVC.modalPresentationStyle = .overCurrentContext
+        
+        DispatchQueue.main.async {
+            self.present(detailVC, animated: true, completion: nil)
+        }
+    }
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 12
+        return 21
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "wallpaperCollectionViewCell", for: indexPath) as! WallpaperCollectionViewCell
-        
-        cell.imageV.image = UIImage(named: "wallpaper")
+        let row = indexPath.row + 1
+        cell.imageV.image = UIImage(named: "\(row)")
         return cell
     }
     
@@ -43,6 +54,13 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
         let width = (collectionView.frame.size.width - (numberOfItemsPerRow - 1) * cellSpacing) / numberOfItemsPerRow
         let height = width * cellHeightWidthRatio
         return CGSize(width: width, height: height)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let row = indexPath.row + 1
+        if let image = UIImage(named: "\(row)"){
+            loadDetailVC(image: image)
+        }
     }
     
 }

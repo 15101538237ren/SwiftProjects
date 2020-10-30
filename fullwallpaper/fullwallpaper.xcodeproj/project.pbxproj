@@ -11,6 +11,7 @@
 		55537E31254B341C005081CF /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55537E30254B341C005081CF /* TabBarController.swift */; };
 		55537E34254B3ECD005081CF /* CategoryVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55537E33254B3ECD005081CF /* CategoryVC.swift */; };
 		55537E37254B3F1D005081CF /* CategoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55537E36254B3F1D005081CF /* CategoryTableViewCell.swift */; };
+		55537E3A254BBEE4005081CF /* WallpaperDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55537E39254BBEE4005081CF /* WallpaperDetailVC.swift */; };
 		5577BE0B254A8767008A1F14 /* WallpaperCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5577BE0A254A8767008A1F14 /* WallpaperCollectionViewCell.swift */; };
 		5577BE10254A88F0008A1F14 /* GlobalConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5577BE0F254A88F0008A1F14 /* GlobalConstant.swift */; };
 		55F39927254A624D0094A477 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55F39926254A624D0094A477 /* AppDelegate.swift */; };
@@ -26,6 +27,7 @@
 		55537E30254B341C005081CF /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		55537E33254B3ECD005081CF /* CategoryVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryVC.swift; sourceTree = "<group>"; };
 		55537E36254B3F1D005081CF /* CategoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryTableViewCell.swift; sourceTree = "<group>"; };
+		55537E39254BBEE4005081CF /* WallpaperDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WallpaperDetailVC.swift; sourceTree = "<group>"; };
 		5577BE0A254A8767008A1F14 /* WallpaperCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WallpaperCollectionViewCell.swift; sourceTree = "<group>"; };
 		5577BE0F254A88F0008A1F14 /* GlobalConstant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalConstant.swift; sourceTree = "<group>"; };
 		55F39923254A624D0094A477 /* fullwallpaper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = fullwallpaper.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -96,6 +98,7 @@
 				55F3992A254A624D0094A477 /* WallpaperVC.swift */,
 				55537E30254B341C005081CF /* TabBarController.swift */,
 				55537E33254B3ECD005081CF /* CategoryVC.swift */,
+				55537E39254BBEE4005081CF /* WallpaperDetailVC.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -190,6 +193,7 @@
 			files = (
 				55537E34254B3ECD005081CF /* CategoryVC.swift in Sources */,
 				55F3992B254A624D0094A477 /* WallpaperVC.swift in Sources */,
+				55537E3A254BBEE4005081CF /* WallpaperDetailVC.swift in Sources */,
 				5577BE10254A88F0008A1F14 /* GlobalConstant.swift in Sources */,
 				5577BE0B254A8767008A1F14 /* WallpaperCollectionViewCell.swift in Sources */,
 				55537E31254B341C005081CF /* TabBarController.swift in Sources */,

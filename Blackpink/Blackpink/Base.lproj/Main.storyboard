@@ -1308,7 +1308,7 @@
         <image name="LockScreen" width="375" height="694"/>
         <image name="arrow.up.arrow.down" catalog="system" width="128" height="98"/>
         <image name="background-logo" width="250" height="544"/>
-        <image name="black-pink-logo" width="141" height="33"/>
+        <image name="black-pink-logo" width="534" height="150"/>
         <image name="check" width="478" height="478"/>
         <image name="heart" catalog="system" width="128" height="109"/>
         <image name="heart-fill-icon" width="512" height="512"/>
