@@ -62,6 +62,5 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
             loadDetailVC(image: image)
         }
     }
-    
 }
 

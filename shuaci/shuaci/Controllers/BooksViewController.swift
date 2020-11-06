@@ -394,7 +394,7 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
                     cell.setNeedsLayout()
                 }
 
-            } 
+        }
         cell.backgroundColor = .clear
         return cell
     }

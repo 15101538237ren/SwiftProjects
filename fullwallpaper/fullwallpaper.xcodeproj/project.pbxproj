@@ -3,17 +3,22 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		347F50FE7725D399E70DD317 /* Pods_fullwallpaper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 10DD94CFAF8E4BE4C42864FA /* Pods_fullwallpaper.framework */; };
+		55370FAC2553B5700003CAD5 /* GlobalFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55370FAB2553B5700003CAD5 /* GlobalFunctions.swift */; };
+		55370FAF2553B5800003CAD5 /* GlobalVariables.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55370FAE2553B5800003CAD5 /* GlobalVariables.swift */; };
+		55370FB22553B5A10003CAD5 /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55370FB12553B5A10003CAD5 /* Category.swift */; };
+		55370FBD2553B7130003CAD5 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55370FBC2553B7130003CAD5 /* Reachability.swift */; };
 		55537E2E254B2572005081CF /* ClickerScript-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 55537E2D254B2572005081CF /* ClickerScript-Regular.ttf */; };
 		55537E31254B341C005081CF /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55537E30254B341C005081CF /* TabBarController.swift */; };
 		55537E34254B3ECD005081CF /* CategoryVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55537E33254B3ECD005081CF /* CategoryVC.swift */; };
 		55537E37254B3F1D005081CF /* CategoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55537E36254B3F1D005081CF /* CategoryTableViewCell.swift */; };
 		55537E3A254BBEE4005081CF /* WallpaperDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55537E39254BBEE4005081CF /* WallpaperDetailVC.swift */; };
 		5577BE0B254A8767008A1F14 /* WallpaperCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5577BE0A254A8767008A1F14 /* WallpaperCollectionViewCell.swift */; };
-		5577BE10254A88F0008A1F14 /* GlobalConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5577BE0F254A88F0008A1F14 /* GlobalConstant.swift */; };
+		5577BE10254A88F0008A1F14 /* GlobalConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5577BE0F254A88F0008A1F14 /* GlobalConstants.swift */; };
 		55F39927254A624D0094A477 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55F39926254A624D0094A477 /* AppDelegate.swift */; };
 		55F39929254A624D0094A477 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55F39928254A624D0094A477 /* SceneDelegate.swift */; };
 		55F3992B254A624D0094A477 /* WallpaperVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55F3992A254A624D0094A477 /* WallpaperVC.swift */; };
@@ -23,13 +28,20 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0C7D111B56BE41451438404E /* Pods-fullwallpaper.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-fullwallpaper.debug.xcconfig"; path = "Target Support Files/Pods-fullwallpaper/Pods-fullwallpaper.debug.xcconfig"; sourceTree = "<group>"; };
+		10DD94CFAF8E4BE4C42864FA /* Pods_fullwallpaper.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_fullwallpaper.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		393206362709D374CF5A3AF9 /* Pods-fullwallpaper.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-fullwallpaper.release.xcconfig"; path = "Target Support Files/Pods-fullwallpaper/Pods-fullwallpaper.release.xcconfig"; sourceTree = "<group>"; };
+		55370FAB2553B5700003CAD5 /* GlobalFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalFunctions.swift; sourceTree = "<group>"; };
+		55370FAE2553B5800003CAD5 /* GlobalVariables.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalVariables.swift; sourceTree = "<group>"; };
+		55370FB12553B5A10003CAD5 /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
+		55370FBC2553B7130003CAD5 /* Reachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		55537E2D254B2572005081CF /* ClickerScript-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ClickerScript-Regular.ttf"; sourceTree = "<group>"; };
 		55537E30254B341C005081CF /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		55537E33254B3ECD005081CF /* CategoryVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryVC.swift; sourceTree = "<group>"; };
 		55537E36254B3F1D005081CF /* CategoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryTableViewCell.swift; sourceTree = "<group>"; };
 		55537E39254BBEE4005081CF /* WallpaperDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WallpaperDetailVC.swift; sourceTree = "<group>"; };
 		5577BE0A254A8767008A1F14 /* WallpaperCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WallpaperCollectionViewCell.swift; sourceTree = "<group>"; };
-		5577BE0F254A88F0008A1F14 /* GlobalConstant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalConstant.swift; sourceTree = "<group>"; };
+		5577BE0F254A88F0008A1F14 /* GlobalConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalConstants.swift; sourceTree = "<group>"; };
 		55F39923254A624D0094A477 /* fullwallpaper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = fullwallpaper.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		55F39926254A624D0094A477 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		55F39928254A624D0094A477 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -45,16 +57,51 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				347F50FE7725D399E70DD317 /* Pods_fullwallpaper.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1CC78923427563132D934FFC /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				0C7D111B56BE41451438404E /* Pods-fullwallpaper.debug.xcconfig */,
+				393206362709D374CF5A3AF9 /* Pods-fullwallpaper.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		55370FB42553B5A90003CAD5 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				55370FB12553B5A10003CAD5 /* Category.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		55370FBA2553B7020003CAD5 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
+		55370FBB2553B70B0003CAD5 /* Util */ = {
+			isa = PBXGroup;
+			children = (
+				55370FBC2553B7130003CAD5 /* Reachability.swift */,
+			);
+			path = Util;
+			sourceTree = "<group>";
+		};
 		5577BE0E254A88E1008A1F14 /* Global */ = {
 			isa = PBXGroup;
 			children = (
-				5577BE0F254A88F0008A1F14 /* GlobalConstant.swift */,
+				5577BE0F254A88F0008A1F14 /* GlobalConstants.swift */,
+				55370FAB2553B5700003CAD5 /* GlobalFunctions.swift */,
+				55370FAE2553B5800003CAD5 /* GlobalVariables.swift */,
 			);
 			path = Global;
 			sourceTree = "<group>";
@@ -64,6 +111,8 @@
 			children = (
 				55F39925254A624D0094A477 /* fullwallpaper */,
 				55F39924254A624D0094A477 /* Products */,
+				1CC78923427563132D934FFC /* Pods */,
+				7251BC76C5EE1D501D93AD04 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -78,6 +127,9 @@
 		55F39925254A624D0094A477 /* fullwallpaper */ = {
 			isa = PBXGroup;
 			children = (
+				55370FBB2553B70B0003CAD5 /* Util */,
+				55370FBA2553B7020003CAD5 /* Extension */,
+				55370FB42553B5A90003CAD5 /* Model */,
 				5577BE0E254A88E1008A1F14 /* Global */,
 				55F39942254A7CE00094A477 /* Fonts */,
 				55F3993E254A7B810094A477 /* Views */,
@@ -120,6 +172,14 @@
 			path = Fonts;
 			sourceTree = "<group>";
 		};
+		7251BC76C5EE1D501D93AD04 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				10DD94CFAF8E4BE4C42864FA /* Pods_fullwallpaper.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -127,9 +187,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 55F39937254A624D0094A477 /* Build configuration list for PBXNativeTarget "fullwallpaper" */;
 			buildPhases = (
+				DB32B64519C5981620ECB276 /* [CP] Check Pods Manifest.lock */,
 				55F3991F254A624D0094A477 /* Sources */,
 				55F39920254A624D0094A477 /* Frameworks */,
 				55F39921254A624D0094A477 /* Resources */,
+				8DDB3117ADC3BA9F4BC5F44C /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -186,20 +248,66 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		8DDB3117ADC3BA9F4BC5F44C /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-fullwallpaper/Pods-fullwallpaper-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-fullwallpaper/Pods-fullwallpaper-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-fullwallpaper/Pods-fullwallpaper-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		DB32B64519C5981620ECB276 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-fullwallpaper-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		55F3991F254A624D0094A477 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				55537E34254B3ECD005081CF /* CategoryVC.swift in Sources */,
+				55370FAF2553B5800003CAD5 /* GlobalVariables.swift in Sources */,
 				55F3992B254A624D0094A477 /* WallpaperVC.swift in Sources */,
 				55537E3A254BBEE4005081CF /* WallpaperDetailVC.swift in Sources */,
-				5577BE10254A88F0008A1F14 /* GlobalConstant.swift in Sources */,
+				5577BE10254A88F0008A1F14 /* GlobalConstants.swift in Sources */,
 				5577BE0B254A8767008A1F14 /* WallpaperCollectionViewCell.swift in Sources */,
 				55537E31254B341C005081CF /* TabBarController.swift in Sources */,
 				55F39927254A624D0094A477 /* AppDelegate.swift in Sources */,
 				55F39929254A624D0094A477 /* SceneDelegate.swift in Sources */,
 				55537E37254B3F1D005081CF /* CategoryTableViewCell.swift in Sources */,
+				55370FAC2553B5700003CAD5 /* GlobalFunctions.swift in Sources */,
+				55370FB22553B5A10003CAD5 /* Category.swift in Sources */,
+				55370FBD2553B7130003CAD5 /* Reachability.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -343,6 +451,7 @@
 		};
 		55F39938254A624D0094A477 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0C7D111B56BE41451438404E /* Pods-fullwallpaper.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -362,6 +471,7 @@
 		};
 		55F39939254A624D0094A477 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 393206362709D374CF5A3AF9 /* Pods-fullwallpaper.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;

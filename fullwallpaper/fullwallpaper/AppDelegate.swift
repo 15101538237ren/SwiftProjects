@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import LeanCloud
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -13,9 +14,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        do {
+            var configuration = LCApplication.Configuration.default
+            configuration.HTTPURLCache = URLCache(
+                // 内存缓存容量，100 MB
+                memoryCapacity: 100 * 1024 * 1024,
+                // 磁盘缓存容量，100 MB
+                diskCapacity: 100 * 1024 * 1024,
+                // `nil` 表示使用系统默认的缓存路径，你也可以自定义路径
+                diskPath: nil)
+            
+            try LCApplication.default.set(
+                id: "Y3wzJERyrbjHzR7exzMChF7I-gzGzoHsz",
+                key: "cVvbrIE2rMLLziICGIvM52c8",
+                serverURL: "https://y3wzjery.lc-cn-n1-shared.com",
+                configuration: configuration)
+        } catch {
+            print(error)
+        }
         return true
     }
+    
 
     // MARK: UISceneSession Lifecycle
 

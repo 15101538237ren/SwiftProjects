@@ -10,6 +10,7 @@ import UIKit
 class CategoryTableViewCell: UITableViewCell {
     @IBOutlet var titleLabel: UILabel!
     @IBOutlet var imageV: UIImageView!
+    @IBOutlet var imgPlaceholder: UIImageView!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
