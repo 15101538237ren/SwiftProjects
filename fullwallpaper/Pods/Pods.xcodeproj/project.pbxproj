@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -27,7 +27,6 @@
 		0FA6AC7AD982B3FBB23ADBDC843BFEF6 /* Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 571E18CEAF3335777E9335B9A963452A /* Utility.swift */; };
 		1208E81DA8B532D0646D627B50290EB6 /* AFError.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBD94D0BAF9868167E2B13F3BC507FF6 /* AFError.swift */; };
 		127B73ED07BAAAF187DD9C92DE5DBBB9 /* SQLRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 782EF0DCB09730DE52585BA8452DD5DD /* SQLRequest.swift */; };
-		13EBE5751451A7AF189721DB375196EE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F5D04FB92803384BF613A491DF85BF5B /* Foundation.framework */; };
 		1467768EBCD38A784E9DE43BF01F13DE /* FTS5TokenizerDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C1DECD54CCA6889477C187456E829C /* FTS5TokenizerDescriptor.swift */; };
 		14FE904D3F48D37C203D0EDE8C702D55 /* Application.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC09C0745A06422FA0180F6C4E81BDE4 /* Application.swift */; };
 		15DE51F3CDF7BB36697ED5A320D1BCFC /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A150083CB980730438D70FBA26D3790 /* String.swift */; };
@@ -64,6 +63,7 @@
 		27E59A11A2743B0595CDE3A08675EAE1 /* DispatchQueue+Alamofire.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DFD950AA949A7737CB57084184632FC /* DispatchQueue+Alamofire.swift */; };
 		2812C8D5F795504C8E2B9DE2EF180E46 /* DatabaseValueConvertible+ReferenceConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22CF4E050CB66FE5C540693EEAC35A2A /* DatabaseValueConvertible+ReferenceConvertible.swift */; };
 		28A6D1B47CADE9D212B64389D2E8A9BA /* Null.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1344658181815F75A8B286E1C934BDA0 /* Null.swift */; };
+		28B3474140031990B68ACD21D69DE5E7 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A91E7ADC3176A27FC1B048A7FDFBE6C /* Foundation.framework */; };
 		2A723A02D28719CD9ECFA7555D18197B /* any.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = B121C4EC186F9BCC60F6788AE90B1EDC /* any.pb.swift */; };
 		2AA9FA08F02F3250BE7388D8712A49F5 /* IMConversationQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2E18241C6783FDC446F7BFB96F2B74 /* IMConversationQuery.swift */; };
 		2B04D504E95B63D38B863D657DFE8F42 /* UUID.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35E3C2635176187AF72C1696CD8F98B7 /* UUID.swift */; };
@@ -121,8 +121,8 @@
 		447FE15DD0507C6D00D432B5CADF0FEA /* DatabaseFunction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 252AB9152E797612F3FC32A7BE89433B /* DatabaseFunction.swift */; };
 		45B8CC1C61E7A0BB28CFA8CE7C12FEBC /* MultipartFormData.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB2A297641853FC8852E96D5A5CE9281 /* MultipartFormData.swift */; };
 		4609E9BFDA13ECFF562C7908123028CE /* Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = 474ABB9F751A7C1175386AD286BDC8E9 /* Response.swift */; };
+		464450D037D17ED5EE2322E180A6A9F5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A91E7ADC3176A27FC1B048A7FDFBE6C /* Foundation.framework */; };
 		473890444C795D1B63319A46227DDF9C /* Fetch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30ECEA1DB6DB1D09E0FD88A9F0BC99DB /* Fetch.swift */; };
-		476D5F33E25386C60D6BD75C4FA97C67 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F5D04FB92803384BF613A491DF85BF5B /* Foundation.framework */; };
 		47A666EE01E2CA9105D5D7DFC4CA3B9C /* descriptor.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 775146E6CFD613C6F43ACFD1505393D4 /* descriptor.pb.swift */; };
 		47FDBBBD2704901588C3A7C56BBC502D /* ServerTrustEvaluation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 791337B7D2A165B5A181F8616C030C94 /* ServerTrustEvaluation.swift */; };
 		48EE4DE5766E320FBC17E39462C74C40 /* FTS3Pattern.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8450A525A4B9617C8662CAB7377826A /* FTS3Pattern.swift */; };
@@ -137,6 +137,7 @@
 		4DD801DC5EF7B1EB131B37D451AF0ADC /* ms.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 820457DE7AFB04F95FB3CC5B0AC4F91D /* ms.lproj */; };
 		4E7FDE7038BEF5C081DC8851577437F0 /* SwiftProtobuf.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9EC26205BF0411F32F2FF85C6E6751EC /* SwiftProtobuf.framework */; };
 		519AA311E9592824CA100F37AB3DF261 /* DatabaseCollation.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC92872991FD6D478B5790ADAE12DA0E /* DatabaseCollation.swift */; };
+		52064842C72C236B48BBE7BFE987C39D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A91E7ADC3176A27FC1B048A7FDFBE6C /* Foundation.framework */; };
 		53AEC70573D6DDE01B417CC8D9D8C226 /* TableRecord+QueryInterfaceRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADF4B43C0E759708E16236429E869C33 /* TableRecord+QueryInterfaceRequest.swift */; };
 		54146A0C93FFD5489B89E6B2C3D53BB3 /* DatabaseValueConvertible+Decodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF3D6EE9163F85AE9EA3C12791F55A0E /* DatabaseValueConvertible+Decodable.swift */; };
 		5432E97ADC8ECC603E8C4CB16A3E7485 /* IMLocalStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E4C5E904A3C426113DAC43E82958C4F /* IMLocalStorage.swift */; };
@@ -159,7 +160,6 @@
 		5E9118644621BA6C5CE210E2ED85E91F /* DatabaseSnapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70F4B4201B45D0E7B5E98DA0E42161B /* DatabaseSnapshot.swift */; };
 		5F8C5067D4307745B5BBD8B4300B6A6B /* RemoveDuplicates.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBB1E71335B512649A0DDC1A6237C776 /* RemoveDuplicates.swift */; };
 		5FB284F5D38D25863441AE473BD6CCB8 /* Runtime.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A2BA79F050CD9F0266E9F873792B0F3 /* Runtime.swift */; };
-		5FD47F1B7AC9C45D410A3319A76927B2 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F5D04FB92803384BF613A491DF85BF5B /* Foundation.framework */; };
 		6008D4AFE428ECF7816651C2810DB50A /* Inflections+English.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E9B00394A1E9DBA54289FBB56A3572 /* Inflections+English.swift */; };
 		6022338FDF8FB6C64E7A78750AE88A76 /* ThemeManager+Plist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E3B42B756FA36227281F9ECEC943852 /* ThemeManager+Plist.swift */; };
 		6055608DF6992410E36B26255E67E7B5 /* Message+BinaryAdditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20E20AFBC7A86D971DCB29B46C8622ED /* Message+BinaryAdditions.swift */; };
@@ -171,7 +171,6 @@
 		61B913671F1FF37803988EFDC143B09A /* IMClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = C844DC77E3DFD60F11918290A2B03856 /* IMClient.swift */; };
 		626EC2030603CE865AF5FCF100BF2FD4 /* fi.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 83CB142D396BAA9AD8932F93F97571BB /* fi.lproj */; };
 		629E6A42BACAD312A0C775DCE29B7A51 /* Database+Statements.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DFD82FEB2EF3F516824519FBA3DC144 /* Database+Statements.swift */; };
-		6322C17970C077ED3E2755952AEA654E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F5D04FB92803384BF613A491DF85BF5B /* Foundation.framework */; };
 		63EDAA484F6C96BE3CFDA83CC10F8DE9 /* Starscream-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EEBD69C1458F1737B30152E6472186B /* Starscream-dummy.m */; };
 		63FED2F8BBC789EFB38432773257055D /* Starscream.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 679FF59B9DE21F646626DF35EA0AC111 /* Starscream.framework */; };
 		64246D7F479EC745426F57BD5E4D559B /* FTS3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258FB19F2481A74FDAFEC55FDDE18A22 /* FTS3.swift */; };
@@ -191,7 +190,6 @@
 		6EC327D1CB4F0983BCE7C19E4E965A26 /* DatabaseReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 284DE893210A5253ABAAD71A8BF2F952 /* DatabaseReader.swift */; };
 		6EF06E164BCE894ECF4DD582ACC110A8 /* BinaryEncodingSizeVisitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BBC45C9240B18A949D496259138CD45 /* BinaryEncodingSizeVisitor.swift */; };
 		709CE866104CB038A44479AA2CB27D0A /* SerializedDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86C9A0580CC620EF8FA5B9E715748FC7 /* SerializedDatabase.swift */; };
-		7242E6152BB598944F403D775D62A107 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F5D04FB92803384BF613A491DF85BF5B /* Foundation.framework */; };
 		72EC2712926E6D28B52360D9AC41668F /* AlamofireExtended.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A90AC1EAD780909050F6C3156EDD8C2 /* AlamofireExtended.swift */; };
 		73190E2F42EDDBEFDCA1F7F2556C47FA /* ro.lproj in Resources */ = {isa = PBXBuildFile; fileRef = CAECA5DE8B27EBD50F892DEA75CCB0C1 /* ro.lproj */; };
 		74999C09FEDEE6E579C03C50C293FF97 /* DatabaseValueConvertible+Encodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37B0988706F0353522E16683EA012E60 /* DatabaseValueConvertible+Encodable.swift */; };
@@ -205,6 +203,7 @@
 		78779A8005F0C528ED48F58E5DB4E792 /* TOCropViewConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = C3932B97BE67367B5F1DC53FF81122AA /* TOCropViewConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		788B6D20210841BF66FFBD1C88B6469C /* FTS4.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6618E2E49C245D559EC000AAEA00AAE /* FTS4.swift */; };
 		78CFA7709D1824539CE864B9A9CB2BDA /* SMSClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79E942463A65C6C399F66DD0C5D44DB1 /* SMSClient.swift */; };
+		78D61D628FB1413CB01AF87A37C2C1B5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A91E7ADC3176A27FC1B048A7FDFBE6C /* Foundation.framework */; };
 		791081D5B6F50031E56F22D89E7D4A8B /* ExtensibleMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 639E397F06135722AFC5B128D934411C /* ExtensibleMessage.swift */; };
 		7923309C961E2C3BF073EED15F837BD9 /* JSONMapEncodingVisitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAF6B3A76A7AED4774B6878B09BC411A /* JSONMapEncodingVisitor.swift */; };
 		79FAC11C5E6C00684E5FA12AB9F77CFB /* Relation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 026DCBCA1F5EEAF23D92E84760961718 /* Relation.swift */; };
@@ -223,7 +222,6 @@
 		80D4F43258B827329507E83BD6EB2171 /* ThemeBarStylePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A1958810705C54156A9CF053B43D8C4 /* ThemeBarStylePicker.swift */; };
 		825860CDFAC10CEACD40359B9B2D4B34 /* FTS5WrapperTokenizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB9DBBCA95E27ED26D2556D7577DA0DE /* FTS5WrapperTokenizer.swift */; };
 		82D9F2DE6B48C135011DF82805923710 /* ThemeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 292CCA0DB8564325F6FCDF4BC113B395 /* ThemeManager.swift */; };
-		82EE2CE19BD98A32335383D7217F0336 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F5D04FB92803384BF613A491DF85BF5B /* Foundation.framework */; };
 		832906F2C35985A053F6E542A75215DE /* Base.lproj in Resources */ = {isa = PBXBuildFile; fileRef = BFE000B97C85EAA3F894913F6D0B7D33 /* Base.lproj */; };
 		83AB127787DF4DD814A4DB1DDD5EE995 /* FileUploader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9866CE419848DCBF67D0177212A0C465 /* FileUploader.swift */; };
 		8442A0687D5AF61B504677C314020394 /* UnknownStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 799BA60301996651DD5D6315D48C3C90 /* UnknownStorage.swift */; };
@@ -236,6 +234,7 @@
 		8788CE3225588EB2594B0FF021C0FF59 /* Google_Protobuf_Any+Registry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A95FC195EDC25A11454DE4895439CF0 /* Google_Protobuf_Any+Registry.swift */; };
 		8819E22B8E826DCD61545A8FD7AAC74C /* CropViewController-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 855D2344FE76372BEAAC093CA9655CEC /* CropViewController-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		884F412B7D46E6F71D152F90C9B812DD /* DatabaseValueConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A472569071521D049A9ED74AB073891 /* DatabaseValueConvertible.swift */; };
+		88F93E2FA7821D71A581342B7E09D353 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A91E7ADC3176A27FC1B048A7FDFBE6C /* Foundation.framework */; };
 		89B2D7E34AF8FCFD3B9A97304BFB36B6 /* Number.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CA543FB6BDE690434308D773B182A74 /* Number.swift */; };
 		8AA937910F87915DE700CAB6C868689E /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = A93ECE7A760063CE5109426623F121E7 /* Notifications.swift */; };
 		8B5F5C1DE4E15BB46C7020D8434B5AE9 /* Version.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C02D9C1ED1C5A6027C23BD036BBD910 /* Version.swift */; };
@@ -255,10 +254,10 @@
 		927DB23C860BC6FFA16E728326437C3F /* ko.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 7DD426E1840453719AD3BF7D19409C38 /* ko.lproj */; };
 		9308A5FA7335876094C3DAC98A3A0BF3 /* GRDB.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D20E27FE5869FC2385A8ABB74C079D1 /* GRDB.framework */; };
 		93FF5020B772A136656769D37FC2C07A /* it.lproj in Resources */ = {isa = PBXBuildFile; fileRef = D26DABEB4FDED2B51248FF78B824A21F /* it.lproj */; };
-		94DC59F98EF079B2B2BBBE9C3915B913 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F5D04FB92803384BF613A491DF85BF5B /* Foundation.framework */; };
 		956403B29EEA4915B03238FB7BF7030D /* FetchableRecord+TableRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2D4BD18A73FE976EDC467571BD494B2 /* FetchableRecord+TableRecord.swift */; };
 		9593882B84AFC280417FBB92260E4875 /* Bool.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39375767A7985864A6F0E573FCA4B63 /* Bool.swift */; };
 		95C2AEA85A49BE2CA5FB8E50A638B974 /* SQLInterpolation+QueryInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = C514069DCFE8591248C96F25B0F127B1 /* SQLInterpolation+QueryInterface.swift */; };
+		965A6033C6B16F303AB6D5D149C0081E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A91E7ADC3176A27FC1B048A7FDFBE6C /* Foundation.framework */; };
 		96D1F559C96FFAF39DABE2A57515C457 /* DatabaseDateComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F6290F5579AA39E610DF49438A281A2 /* DatabaseDateComponents.swift */; };
 		971F89D9CA9262C0AB74D53F4E680FB2 /* HTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8141DD34D8182B34A038E545378F7B51 /* HTTPClient.swift */; };
 		972EE70A21A0E51CB468560F7367C075 /* vi.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 94259E53C71464E9FD8A3CD075AD8ACF /* vi.lproj */; };
@@ -283,10 +282,10 @@
 		A22569C311EE5D283D35EE64BEC8153E /* UILabel+TextAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 956FD3798CCBB64F7BFF8FFB3A7C1E25 /* UILabel+TextAttributes.swift */; };
 		A34AA1570659FDC716D51DADE7FEB0BE /* ValueReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00D52ACEF5979F6B78952890558BF06F /* ValueReducer.swift */; };
 		A46DE6B3E934C7E3FD3623BB1105041B /* SQLOrdering.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3C6C37FFC5FC7390B8825928B9F5BD3 /* SQLOrdering.swift */; };
+		A738C2A39C0150BBA7EA5EC19B95F03E /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BBD7759EA76C84D802FC9633CFBE8C78 /* CFNetwork.framework */; };
 		A761F97D4EC47EED02F793A03262E162 /* UIImage+CropRotate.h in Headers */ = {isa = PBXBuildFile; fileRef = CAF3B27E6AB93572FF896A93DBEF84D5 /* UIImage+CropRotate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A7ED1B64B6EA7C129C92238FD3148905 /* SwiftTheme-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = B716204543A2CA3B1CA3926F6311AD53 /* SwiftTheme-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A95BAC757D46130C1B2F2BD6D0C00F9C /* grdb_config.h in Headers */ = {isa = PBXBuildFile; fileRef = 0C8749A452C2363106FCABB2A8CFDADA /* grdb_config.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		A9C7B29D4878F1690BBE3F8195CF0313 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 587B5C3CE06B1F23055478116F3A8E67 /* CFNetwork.framework */; };
 		AA911EEF0FD64BE91E0A4BD88B33B4D8 /* QueryInterfaceRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C8934E73E22344C00A2693AAC7404A6 /* QueryInterfaceRequest.swift */; };
 		AA9E189890D9044E8DF9D01F08AE065D /* TextFormatDecodingError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 332EAB4E5290F7D2043CFDCAEB3A1D8E /* TextFormatDecodingError.swift */; };
 		AAAACA40649587D6398AF516A01D8E1C /* URL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03160D416AB5F7A3DD9AD00AF196D39B /* URL.swift */; };
@@ -325,7 +324,6 @@
 		C1FC64A170FA5134E2148A72568E386A /* timestamp.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70B3EB7087C08AB4317C0123538D6C41 /* timestamp.pb.swift */; };
 		C235F967E9D7954463ABC28FED6D372B /* SSLClientCertificate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B0E763062D293AC59A7B82751111AC0 /* SSLClientCertificate.swift */; };
 		C27B4C5EE829A5D659EA4D6EEBB1BFDD /* source_context.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22B9C80CB1DACD7FD6D43B87B4FAAA93 /* source_context.pb.swift */; };
-		C297AC9431379391C114794AFD4F9778 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F5D04FB92803384BF613A491DF85BF5B /* Foundation.framework */; };
 		C2A01164A94231B258FAFDEF19139040 /* DatabaseRegion.swift in Sources */ = {isa = PBXBuildFile; fileRef = E95EA143D56CD4FF6BCD7EDB3548ED96 /* DatabaseRegion.swift */; };
 		C2DC4D021F180C8BD42879CFE7A5ABA1 /* TOCropToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A9AE51CE2E10398E6CC29C595075C2A /* TOCropToolbar.m */; };
 		C2F9D8D9BF0062B76DE2372FA2EE0C30 /* ThemeBlurEffectPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B28F19B1A2EBE242ECA0652CDB0C17 /* ThemeBlurEffectPicker.swift */; };
@@ -348,9 +346,9 @@
 		CC562E77F6F309E4B2CA2CEA250A73E3 /* TOCropViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A5068A1C2379F5A84830A40B4FBE62B /* TOCropViewController.m */; };
 		CCE10F2555F057B9B168D7ADB027C74E /* en.lproj in Resources */ = {isa = PBXBuildFile; fileRef = A789AD3A0B31E5A32EBA89B8DE6B37B9 /* en.lproj */; };
 		CD5FF74BE8CD6D5AB31E4F594143B3F7 /* FTS5Tokenizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 218F1B1C87C80C1E6E1DC4E9712C46AD /* FTS5Tokenizer.swift */; };
-		CDF94B0ACFF14BF1E2F2BCF0F5DCA44D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F5D04FB92803384BF613A491DF85BF5B /* Foundation.framework */; };
 		CEB5391DBDD51AFAABB2711106B88D24 /* SimpleExtensionMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04FC5E1716958118B33439F9FDD41389 /* SimpleExtensionMap.swift */; };
 		D03F1F02DE8606E6057D57866611BEBF /* MultipartUpload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E1A367754873E92695AE983D3BE45E5 /* MultipartUpload.swift */; };
+		D0518D673EBDCC3F62D47BF326159E66 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A91E7ADC3176A27FC1B048A7FDFBE6C /* Foundation.framework */; };
 		D14066FAE94E304798E43651E5886D13 /* ParameterEncoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FFBBB11934A37CFBC6FA352DB222B9E /* ParameterEncoding.swift */; };
 		D184252C17838D6F7776FD5BB5123933 /* NSNumber.swift in Sources */ = {isa = PBXBuildFile; fileRef = B32AB99D0738E6D7C7D0469FCD3C01C0 /* NSNumber.swift */; };
 		D2177A082796BEE1CA886B3FCE61962C /* NameMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0998F34B5F0F84AC9C7CBC3992C385E /* NameMap.swift */; };
@@ -372,6 +370,7 @@
 		DA542117D3AFEBD66EDA6118A548C246 /* SwiftProtobuf-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = EB9FD09B8B09D1D04396217D4573C266 /* SwiftProtobuf-dummy.m */; };
 		DA72433331E8CDED55DA14D9001B2CE6 /* FTS5.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59931185F83F30657EE4CBF7975B4B35 /* FTS5.swift */; };
 		DC627AFC5B585686898B014184AFCABD /* AuthenticationInterceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A087099911E1B76EF9016D9A641ED3 /* AuthenticationInterceptor.swift */; };
+		DDC24C6F558ED73A56FBD821AE178538 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A91E7ADC3176A27FC1B048A7FDFBE6C /* Foundation.framework */; };
 		DE88EB20972B559BBC963BF5AA129081 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC04DB42FBDDC5EAD4E954B2C5238B7B /* Data.swift */; };
 		DF03947650345EA91D8F21754D0B9DEC /* GRDB.swift-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = F2D657B4FA0A41DD02E6759B6DB324E1 /* GRDB.swift-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DF7A7B3D21760F88961F22853A7933D1 /* TOCropOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DE51E4DE9D9CBDA8D677ACA00E88E35 /* TOCropOverlayView.m */; };
@@ -410,6 +409,7 @@
 		F52B60A1A343D01D03C74B87B74762DB /* SQLInterpolation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21F1E40111A639E15FCF1E88A38584A /* SQLInterpolation.swift */; };
 		F5DA1CC3C6D8D0E33819FD0A4DF9A010 /* UITextField+PlaceholderAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1670C2F0723387B526973FE19DFAA9DB /* UITextField+PlaceholderAttributes.swift */; };
 		F65B64AF3BEEAB6E4B57932D885C6C8A /* LeanCloud-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = ACF266FCEC40C2CB060DA8B101B94BBB /* LeanCloud-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F6B16DC8CADA07287C6A372AC8AD787C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A91E7ADC3176A27FC1B048A7FDFBE6C /* Foundation.framework */; };
 		F70EF854395CDE981A8336E4FF0310FE /* URLSessionConfiguration+Alamofire.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31D3B4575134D3A135D94493129C1C64 /* URLSessionConfiguration+Alamofire.swift */; };
 		F710DA25E2C780F979A7CF17F8851866 /* zh-Hant.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 6EE12119D451D529385ADF1D8F390E31 /* zh-Hant.lproj */; };
 		F7F29B0957743B548DFB6C6B18D005F3 /* TOCropViewControllerTransitioning.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D309E432CBF38A7700A522E3326EFB7 /* TOCropViewControllerTransitioning.m */; };
@@ -679,7 +679,6 @@
 		54FD1082BBCD8FDB66C683C32519CAF9 /* ThemeActivityIndicatorViewStylePicker.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ThemeActivityIndicatorViewStylePicker.swift; path = Sources/ThemeActivityIndicatorViewStylePicker.swift; sourceTree = "<group>"; };
 		571E18CEAF3335777E9335B9A963452A /* Utility.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Utility.swift; path = Sources/Foundation/Utility.swift; sourceTree = "<group>"; };
 		57C48B9E4A5AFEC7B8C75899728C718B /* Object.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Object.swift; path = Sources/Foundation/Object.swift; sourceTree = "<group>"; };
-		587B5C3CE06B1F23055478116F3A8E67 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS14.0.sdk/System/Library/Frameworks/CFNetwork.framework; sourceTree = DEVELOPER_DIR; };
 		58B66D96020712B4272BEEA89E36C62F /* TextFormatDecoder.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = TextFormatDecoder.swift; path = Sources/SwiftProtobuf/TextFormatDecoder.swift; sourceTree = "<group>"; };
 		597847D67C9EBB130CEAD0ED5C49F422 /* WireFormat.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = WireFormat.swift; path = Sources/SwiftProtobuf/WireFormat.swift; sourceTree = "<group>"; };
 		59907F1EC9E3F88DF97FF1CCB2823C6B /* Google_Protobuf_Timestamp+Extensions.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "Google_Protobuf_Timestamp+Extensions.swift"; path = "Sources/SwiftProtobuf/Google_Protobuf_Timestamp+Extensions.swift"; sourceTree = "<group>"; };
@@ -710,6 +709,7 @@
 		679FF59B9DE21F646626DF35EA0AC111 /* Starscream.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Starscream.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6839B1598549A04DA5D976F36D44C2D0 /* LockedBox.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = LockedBox.swift; path = GRDB/Utils/LockedBox.swift; sourceTree = "<group>"; };
 		6A52994FF614CF69BCDE66CAA5843918 /* SwiftyJSON-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "SwiftyJSON-Info.plist"; sourceTree = "<group>"; };
+		6A91E7ADC3176A27FC1B048A7FDFBE6C /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS12.2.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		6A95FC195EDC25A11454DE4895439CF0 /* Google_Protobuf_Any+Registry.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "Google_Protobuf_Any+Registry.swift"; path = "Sources/SwiftProtobuf/Google_Protobuf_Any+Registry.swift"; sourceTree = "<group>"; };
 		6B7F1B0F43EADB83FE7925E60E7B7918 /* TOCroppedImageAttributes.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = TOCroppedImageAttributes.h; path = "Objective-C/TOCropViewController/Models/TOCroppedImageAttributes.h"; sourceTree = "<group>"; };
 		6C49E3D329F1061C3E22ADDBD1344D42 /* ProtoNameProviding.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ProtoNameProviding.swift; path = Sources/SwiftProtobuf/ProtoNameProviding.swift; sourceTree = "<group>"; };
@@ -863,6 +863,7 @@
 		B96D84CEC9DB2A7C05835192BC6BC93D /* TOCropView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = TOCropView.m; path = "Objective-C/TOCropViewController/Views/TOCropView.m"; sourceTree = "<group>"; };
 		B9B28F19B1A2EBE242ECA0652CDB0C17 /* ThemeBlurEffectPicker.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ThemeBlurEffectPicker.swift; path = Sources/ThemeBlurEffectPicker.swift; sourceTree = "<group>"; };
 		BB3200DD88C4E4693CAB3B0B539D9F89 /* ProtobufMap.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ProtobufMap.swift; path = Sources/SwiftProtobuf/ProtobufMap.swift; sourceTree = "<group>"; };
+		BBD7759EA76C84D802FC9633CFBE8C78 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS12.2.sdk/System/Library/Frameworks/CFNetwork.framework; sourceTree = DEVELOPER_DIR; };
 		BE2DD3A9D1A22FFA79F969F4D25F4267 /* Installation.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Installation.swift; path = Sources/Foundation/Installation.swift; sourceTree = "<group>"; };
 		BFE000B97C85EAA3F894913F6D0B7D33 /* Base.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = Base.lproj; path = "Objective-C/TOCropViewController/Resources/Base.lproj"; sourceTree = "<group>"; };
 		C0C996F0AA5D3958BF4CEEF51A674B4F /* LeanCloud-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "LeanCloud-prefix.pch"; sourceTree = "<group>"; };
@@ -964,7 +965,6 @@
 		F44F19F5F251C7A7B7881214D1E5530B /* DatabaseMigrator.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = DatabaseMigrator.swift; path = GRDB/Migration/DatabaseMigrator.swift; sourceTree = "<group>"; };
 		F51CF425E5CBBC41CD9F0AB81AD64FE2 /* id.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = id.lproj; path = "Objective-C/TOCropViewController/Resources/id.lproj"; sourceTree = "<group>"; };
 		F5A426417686E214FF5D471E8C39AE0F /* Column.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Column.swift; path = GRDB/QueryInterface/SQL/Column.swift; sourceTree = "<group>"; };
-		F5D04FB92803384BF613A491DF85BF5B /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS14.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		F62BFDD66DDD25F0294B8C1B4242CB8A /* GRDB.swift-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "GRDB.swift-dummy.m"; sourceTree = "<group>"; };
 		F643E76F6415A5C90F6909FB5F9B1DFC /* TOCroppedImageAttributes.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = TOCroppedImageAttributes.m; path = "Objective-C/TOCropViewController/Models/TOCroppedImageAttributes.m"; sourceTree = "<group>"; };
 		F6ABEC694D2D7E3F4A163232B0090287 /* Cursor.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Cursor.swift; path = GRDB/Core/Cursor.swift; sourceTree = "<group>"; };
@@ -981,7 +981,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5FD47F1B7AC9C45D410A3319A76927B2 /* Foundation.framework in Frameworks */,
+				78D61D628FB1413CB01AF87A37C2C1B5 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -990,7 +990,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				423C2707446B51F8895427A0B8E283BC /* Alamofire.framework in Frameworks */,
-				7242E6152BB598944F403D775D62A107 /* Foundation.framework in Frameworks */,
+				965A6033C6B16F303AB6D5D149C0081E /* Foundation.framework in Frameworks */,
 				9308A5FA7335876094C3DAC98A3A0BF3 /* GRDB.framework in Frameworks */,
 				63FED2F8BBC789EFB38432773257055D /* Starscream.framework in Frameworks */,
 				4E7FDE7038BEF5C081DC8851577437F0 /* SwiftProtobuf.framework in Frameworks */,
@@ -1001,7 +1001,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				82EE2CE19BD98A32335383D7217F0336 /* Foundation.framework in Frameworks */,
+				28B3474140031990B68ACD21D69DE5E7 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1009,7 +1009,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6322C17970C077ED3E2755952AEA654E /* Foundation.framework in Frameworks */,
+				52064842C72C236B48BBE7BFE987C39D /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1017,7 +1017,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				13EBE5751451A7AF189721DB375196EE /* Foundation.framework in Frameworks */,
+				D0518D673EBDCC3F62D47BF326159E66 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1025,7 +1025,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				94DC59F98EF079B2B2BBBE9C3915B913 /* Foundation.framework in Frameworks */,
+				DDC24C6F558ED73A56FBD821AE178538 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1033,8 +1033,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A9C7B29D4878F1690BBE3F8195CF0313 /* CFNetwork.framework in Frameworks */,
-				476D5F33E25386C60D6BD75C4FA97C67 /* Foundation.framework in Frameworks */,
+				A738C2A39C0150BBA7EA5EC19B95F03E /* CFNetwork.framework in Frameworks */,
+				F6B16DC8CADA07287C6A372AC8AD787C /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1042,7 +1042,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CDF94B0ACFF14BF1E2F2BCF0F5DCA44D /* Foundation.framework in Frameworks */,
+				88F93E2FA7821D71A581342B7E09D353 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1050,7 +1050,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C297AC9431379391C114794AFD4F9778 /* Foundation.framework in Frameworks */,
+				464450D037D17ED5EE2322E180A6A9F5 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1178,7 +1178,7 @@
 				8D20E27FE5869FC2385A8ABB74C079D1 /* GRDB.framework */,
 				679FF59B9DE21F646626DF35EA0AC111 /* Starscream.framework */,
 				9EC26205BF0411F32F2FF85C6E6751EC /* SwiftProtobuf.framework */,
-				D0DD0CFD5D05B704075449D124FD6293 /* iOS */,
+				9C0B024A855965F5267C39178FA3957B /* iOS */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -1521,6 +1521,15 @@
 			path = "../Target Support Files/CropViewController";
 			sourceTree = "<group>";
 		};
+		9C0B024A855965F5267C39178FA3957B /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				BBD7759EA76C84D802FC9633CFBE8C78 /* CFNetwork.framework */,
+				6A91E7ADC3176A27FC1B048A7FDFBE6C /* Foundation.framework */,
+			);
+			name = iOS;
+			sourceTree = "<group>";
+		};
 		AEEB4E43831470D1C80C51A32D4FCE07 /* SwiftProtobuf */ = {
 			isa = PBXGroup;
 			children = (
@@ -1682,15 +1691,6 @@
 				DF668FC9BF68EA5E86E145D8C4B69E08 /* Products */,
 				41C9D2A83C0F28460E1276417B23977D /* Targets Support Files */,
 			);
-			sourceTree = "<group>";
-		};
-		D0DD0CFD5D05B704075449D124FD6293 /* iOS */ = {
-			isa = PBXGroup;
-			children = (
-				587B5C3CE06B1F23055478116F3A8E67 /* CFNetwork.framework */,
-				F5D04FB92803384BF613A491DF85BF5B /* Foundation.framework */,
-			);
-			name = iOS;
 			sourceTree = "<group>";
 		};
 		D1E524E9E542D347705F98A865515257 /* Starscream */ = {
@@ -2047,7 +2047,7 @@
 				LastUpgradeCheck = 1100;
 			};
 			buildConfigurationList = 4821239608C13582E20E6DA73FD5F1F9 /* Build configuration list for PBXProject "Pods" */;
-			compatibilityVersion = "Xcode 9.3";
+			compatibilityVersion = "Xcode 10.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -2676,10 +2676,11 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		053C0D8E131F86FBF81F399861824757 /* Debug */ = {
+		009DB1577F07B2FF797B78F2D1142134 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 06D78A8BA2F1A8D4BBD1A9D532320DB3 /* SwiftTheme.debug.xcconfig */;
+			baseConfigurationReference = 3D58E67986B4706C38B4B8F793B7C5BA /* SwiftyJSON.debug.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
@@ -2688,8 +2689,8 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				GCC_PREFIX_HEADER = "Target Support Files/SwiftTheme/SwiftTheme-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/SwiftTheme/SwiftTheme-Info.plist";
+				GCC_PREFIX_HEADER = "Target Support Files/SwiftyJSON/SwiftyJSON-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/SwiftyJSON/SwiftyJSON-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -2697,43 +2698,9 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MODULEMAP_FILE = "Target Support Files/SwiftTheme/SwiftTheme.modulemap";
-				PRODUCT_MODULE_NAME = SwiftTheme;
-				PRODUCT_NAME = SwiftTheme;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 5.1;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Debug;
-		};
-		14A7293399B05C7D2A791852C37A37E3 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 955CFC392C7BBBBB77E6FFED77258D46 /* GRDB.swift.debug.xcconfig */;
-			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				GCC_PREFIX_HEADER = "Target Support Files/GRDB.swift/GRDB.swift-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/GRDB.swift/GRDB.swift-Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				MODULEMAP_FILE = "Target Support Files/GRDB.swift/GRDB.swift.modulemap";
-				PRODUCT_MODULE_NAME = GRDB;
-				PRODUCT_NAME = GRDB;
+				MODULEMAP_FILE = "Target Support Files/SwiftyJSON/SwiftyJSON.modulemap";
+				PRODUCT_MODULE_NAME = SwiftyJSON;
+				PRODUCT_NAME = SwiftyJSON;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
@@ -2744,10 +2711,11 @@
 			};
 			name = Debug;
 		};
-		35E70E5B207575F5DD1B4245184C7C15 /* Release */ = {
+		091A879AD03297D11CAF587734626B64 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4C7A689A8265D52AE581E7AB5AF207BB /* SwiftProtobuf.release.xcconfig */;
+			baseConfigurationReference = B4EB3225CB1D007ABA73D4EE7709DCEE /* CropViewController.release.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
@@ -2756,8 +2724,8 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				GCC_PREFIX_HEADER = "Target Support Files/SwiftProtobuf/SwiftProtobuf-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/SwiftProtobuf/SwiftProtobuf-Info.plist";
+				GCC_PREFIX_HEADER = "Target Support Files/CropViewController/CropViewController-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/CropViewController/CropViewController-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -2765,9 +2733,9 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MODULEMAP_FILE = "Target Support Files/SwiftProtobuf/SwiftProtobuf.modulemap";
-				PRODUCT_MODULE_NAME = SwiftProtobuf;
-				PRODUCT_NAME = SwiftProtobuf;
+				MODULEMAP_FILE = "Target Support Files/CropViewController/CropViewController.modulemap";
+				PRODUCT_MODULE_NAME = CropViewController;
+				PRODUCT_NAME = CropViewController;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
@@ -2779,61 +2747,11 @@
 			};
 			name = Release;
 		};
-		40F5A1FF361FE8776320043099C5C9EE /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 03F92698B3D87E87D46A0DFFAD7992E1 /* Starscream.release.xcconfig */;
-			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				GCC_PREFIX_HEADER = "Target Support Files/Starscream/Starscream-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/Starscream/Starscream-Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				MODULEMAP_FILE = "Target Support Files/Starscream/Starscream.modulemap";
-				PRODUCT_MODULE_NAME = Starscream;
-				PRODUCT_NAME = Starscream;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Release;
-		};
-		4C3CD9349F96891A3320A488823FE6A7 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 369AF6A8808F38D270FEECDEBC7B043D /* CropViewController.debug.xcconfig */;
-			buildSettings = {
-				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/CropViewController";
-				IBSC_MODULE = CropViewController;
-				INFOPLIST_FILE = "Target Support Files/CropViewController/ResourceBundle-TOCropViewControllerBundle-CropViewController-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				PRODUCT_NAME = TOCropViewControllerBundle;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				WRAPPER_EXTENSION = bundle;
-			};
-			name = Debug;
-		};
-		501C4DDF76F727E13770D67E891EDEF3 /* Release */ = {
+		0C9896C7563CB84B32833F4506F3096C /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E9E2691D86F2684EC306DBE11DCBA4C3 /* SwiftyJSON.release.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
@@ -2865,10 +2783,106 @@
 			};
 			name = Release;
 		};
-		58E921FF9626C4CB65C6EADD53424059 /* Release */ = {
+		0FD7F113C5A82181EDC6A7A7BB45996A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 955CFC392C7BBBBB77E6FFED77258D46 /* GRDB.swift.debug.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "Target Support Files/GRDB.swift/GRDB.swift-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/GRDB.swift/GRDB.swift-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MODULEMAP_FILE = "Target Support Files/GRDB.swift/GRDB.swift.modulemap";
+				PRODUCT_MODULE_NAME = GRDB;
+				PRODUCT_NAME = GRDB;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		1422B121EAEAEA11307496903FA623C6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"POD_CONFIGURATION_RELEASE=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRIP_INSTALLED_PRODUCT = NO;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+				SYMROOT = "${SRCROOT}/../build";
+			};
+			name = Release;
+		};
+		208646FBB8B4EBF342C035AEF3DAFB50 /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 4BA190FC08624233C0B263E9A1D6819A /* SwiftTheme.release.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
@@ -2900,11 +2914,84 @@
 			};
 			name = Release;
 		};
-		7E81E76DAAE2CE8F82E7232E12AD4A12 /* Debug */ = {
+		2AF9765AC01D63CE0B8BE9ECCD5DB782 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 32CBCC62818B7534EEFC774CDDE754B6 /* Alamofire.debug.xcconfig */;
+			baseConfigurationReference = E01606DF035BF906A5FD1669E725AD05 /* LeanCloud.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "Target Support Files/LeanCloud/LeanCloud-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/LeanCloud/LeanCloud-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MODULEMAP_FILE = "Target Support Files/LeanCloud/LeanCloud.modulemap";
+				PRODUCT_MODULE_NAME = LeanCloud;
+				PRODUCT_NAME = LeanCloud;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		342BC5C94AB8E709AD42B21372EBFB60 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4C7A689A8265D52AE581E7AB5AF207BB /* SwiftProtobuf.release.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "Target Support Files/SwiftProtobuf/SwiftProtobuf-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/SwiftProtobuf/SwiftProtobuf-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MODULEMAP_FILE = "Target Support Files/SwiftProtobuf/SwiftProtobuf.modulemap";
+				PRODUCT_MODULE_NAME = SwiftProtobuf;
+				PRODUCT_NAME = SwiftProtobuf;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		48FD2B4E815CEB933B18D313E9E9EF64 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = D158DAD3D8706229498254DA9F2E3F28 /* Alamofire.release.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
@@ -2930,15 +3017,88 @@
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
 				SWIFT_VERSION = 5.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		56750FED7A7696457DD8C35861A452BE /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 832C6D57C438828E202080A452777BCF /* GRDB.swift.release.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "Target Support Files/GRDB.swift/GRDB.swift-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/GRDB.swift/GRDB.swift-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MODULEMAP_FILE = "Target Support Files/GRDB.swift/GRDB.swift.modulemap";
+				PRODUCT_MODULE_NAME = GRDB;
+				PRODUCT_NAME = GRDB;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		59A651A61660356086B9CFACC6FCB393 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 369AF6A8808F38D270FEECDEBC7B043D /* CropViewController.debug.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "Target Support Files/CropViewController/CropViewController-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/CropViewController/CropViewController-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MODULEMAP_FILE = "Target Support Files/CropViewController/CropViewController.modulemap";
+				PRODUCT_MODULE_NAME = CropViewController;
+				PRODUCT_NAME = CropViewController;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
 			name = Debug;
 		};
-		82395CD200CCA7FA867524A87E06386D /* Debug */ = {
+		8FE0C4EA8A61D8DD8789E1401246963B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 529AD93B03029E69130BA600522BD97D /* SwiftProtobuf.debug.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
@@ -2969,11 +3129,300 @@
 			};
 			name = Debug;
 		};
-		8DE5143C03248BB6CD542DE3963D6F3A /* Debug */ = {
+		93513A0B192B75AC535B63CC26D852C8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 03F92698B3D87E87D46A0DFFAD7992E1 /* Starscream.release.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "Target Support Files/Starscream/Starscream-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/Starscream/Starscream-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MODULEMAP_FILE = "Target Support Files/Starscream/Starscream.modulemap";
+				PRODUCT_MODULE_NAME = Starscream;
+				PRODUCT_NAME = Starscream;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		9B17ECDAC9AE3C02E8736A605B40CFDC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 06D78A8BA2F1A8D4BBD1A9D532320DB3 /* SwiftTheme.debug.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "Target Support Files/SwiftTheme/SwiftTheme-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/SwiftTheme/SwiftTheme-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MODULEMAP_FILE = "Target Support Files/SwiftTheme/SwiftTheme.modulemap";
+				PRODUCT_MODULE_NAME = SwiftTheme;
+				PRODUCT_NAME = SwiftTheme;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 5.1;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		9E2102A461C3D189D4A738F6C23ED07B /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = B4EB3225CB1D007ABA73D4EE7709DCEE /* CropViewController.release.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/CropViewController";
+				IBSC_MODULE = CropViewController;
+				INFOPLIST_FILE = "Target Support Files/CropViewController/ResourceBundle-TOCropViewControllerBundle-CropViewController-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				PRODUCT_NAME = TOCropViewControllerBundle;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Release;
+		};
+		BF29D97E7C55FFF8D1415B5AD8D904B1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8D9A9BE0FB198EB56D75290601BB8D47 /* Starscream.debug.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "Target Support Files/Starscream/Starscream-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/Starscream/Starscream-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MODULEMAP_FILE = "Target Support Files/Starscream/Starscream.modulemap";
+				PRODUCT_MODULE_NAME = Starscream;
+				PRODUCT_NAME = Starscream;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		C9994DB245C167706C7A99238B03E0F4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 369AF6A8808F38D270FEECDEBC7B043D /* CropViewController.debug.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/CropViewController";
+				IBSC_MODULE = CropViewController;
+				INFOPLIST_FILE = "Target Support Files/CropViewController/ResourceBundle-TOCropViewControllerBundle-CropViewController-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				PRODUCT_NAME = TOCropViewControllerBundle;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Debug;
+		};
+		D165A61CC6ED1D4C98AD5EE19A59BA3E /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = EB9EDCB91DECF6195EE46188A7D0EC9A /* LeanCloud.release.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "Target Support Files/LeanCloud/LeanCloud-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/LeanCloud/LeanCloud-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MODULEMAP_FILE = "Target Support Files/LeanCloud/LeanCloud.modulemap";
+				PRODUCT_MODULE_NAME = LeanCloud;
+				PRODUCT_NAME = LeanCloud;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		DE52FB41CD05EAA16677684289BA273F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 07FEB0424D68B006FA083C25E0174211 /* Pods-fullwallpaper.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = "Target Support Files/Pods-fullwallpaper/Pods-fullwallpaper-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-fullwallpaper/Pods-fullwallpaper.modulemap";
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		E713FF401F172E2F6D6E17493B20D9DC /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = D7DB45A0BA143D9DD0CCCD165D347FA1 /* Pods-fullwallpaper.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = "Target Support Files/Pods-fullwallpaper/Pods-fullwallpaper-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-fullwallpaper/Pods-fullwallpaper.modulemap";
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		E73BFB7433831CF292FADF6B2CB7AC3B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 32CBCC62818B7534EEFC774CDDE754B6 /* Alamofire.debug.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "Target Support Files/Alamofire/Alamofire-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/Alamofire/Alamofire-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MODULEMAP_FILE = "Target Support Files/Alamofire/Alamofire.modulemap";
+				PRODUCT_MODULE_NAME = Alamofire;
+				PRODUCT_NAME = Alamofire;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 5.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		ED7888FA6713EABBF66D26A8003AD1CA /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -2996,7 +3445,6 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -3035,446 +3483,14 @@
 			};
 			name = Debug;
 		};
-		91B8237C754B2EE739230188597175A5 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 369AF6A8808F38D270FEECDEBC7B043D /* CropViewController.debug.xcconfig */;
-			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				GCC_PREFIX_HEADER = "Target Support Files/CropViewController/CropViewController-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/CropViewController/CropViewController-Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				MODULEMAP_FILE = "Target Support Files/CropViewController/CropViewController.modulemap";
-				PRODUCT_MODULE_NAME = CropViewController;
-				PRODUCT_NAME = CropViewController;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Debug;
-		};
-		9BB1C2AD64C4DF178209F9CF8B97F5F4 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 832C6D57C438828E202080A452777BCF /* GRDB.swift.release.xcconfig */;
-			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				GCC_PREFIX_HEADER = "Target Support Files/GRDB.swift/GRDB.swift-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/GRDB.swift/GRDB.swift-Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				MODULEMAP_FILE = "Target Support Files/GRDB.swift/GRDB.swift.modulemap";
-				PRODUCT_MODULE_NAME = GRDB;
-				PRODUCT_NAME = GRDB;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Release;
-		};
-		9DD33DED219DF36D17BEBDE4D8670641 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = D7DB45A0BA143D9DD0CCCD165D347FA1 /* Pods-fullwallpaper.release.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
-				CLANG_ENABLE_OBJC_WEAK = NO;
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = "Target Support Files/Pods-fullwallpaper/Pods-fullwallpaper-Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				MACH_O_TYPE = staticlib;
-				MODULEMAP_FILE = "Target Support Files/Pods-fullwallpaper/Pods-fullwallpaper.modulemap";
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Release;
-		};
-		9E406C6AAF85E580207CD97B0044DEAB /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_COMMA = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INFINITE_RECURSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
-				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
-				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
-				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
-				CLANG_WARN_STRICT_PROTOTYPES = YES;
-				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				ENABLE_NS_ASSERTIONS = NO;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu11;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"POD_CONFIGURATION_RELEASE=1",
-					"$(inherited)",
-				);
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
-				MTL_ENABLE_DEBUG_INFO = NO;
-				MTL_FAST_MATH = YES;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				STRIP_INSTALLED_PRODUCT = NO;
-				SWIFT_COMPILATION_MODE = wholemodule;
-				SWIFT_OPTIMIZATION_LEVEL = "-O";
-				SWIFT_VERSION = 5.0;
-				SYMROOT = "${SRCROOT}/../build";
-			};
-			name = Release;
-		};
-		A6D1856327C32BF7B667BB2BEEAC10FA /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3D58E67986B4706C38B4B8F793B7C5BA /* SwiftyJSON.debug.xcconfig */;
-			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				GCC_PREFIX_HEADER = "Target Support Files/SwiftyJSON/SwiftyJSON-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/SwiftyJSON/SwiftyJSON-Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				MODULEMAP_FILE = "Target Support Files/SwiftyJSON/SwiftyJSON.modulemap";
-				PRODUCT_MODULE_NAME = SwiftyJSON;
-				PRODUCT_NAME = SwiftyJSON;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Debug;
-		};
-		B2B442839C4F87FDE92ABDB293CF3CED /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = EB9EDCB91DECF6195EE46188A7D0EC9A /* LeanCloud.release.xcconfig */;
-			buildSettings = {
-				CLANG_ENABLE_OBJC_WEAK = NO;
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				GCC_PREFIX_HEADER = "Target Support Files/LeanCloud/LeanCloud-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/LeanCloud/LeanCloud-Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				MODULEMAP_FILE = "Target Support Files/LeanCloud/LeanCloud.modulemap";
-				PRODUCT_MODULE_NAME = LeanCloud;
-				PRODUCT_NAME = LeanCloud;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Release;
-		};
-		BCAC530778CAA37BE0A5504108660645 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = D158DAD3D8706229498254DA9F2E3F28 /* Alamofire.release.xcconfig */;
-			buildSettings = {
-				CLANG_ENABLE_OBJC_WEAK = NO;
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				GCC_PREFIX_HEADER = "Target Support Files/Alamofire/Alamofire-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/Alamofire/Alamofire-Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				MODULEMAP_FILE = "Target Support Files/Alamofire/Alamofire.modulemap";
-				PRODUCT_MODULE_NAME = Alamofire;
-				PRODUCT_NAME = Alamofire;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 5.2;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Release;
-		};
-		D98E20489D94AA3312E1EEBACBD9ECF8 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = B4EB3225CB1D007ABA73D4EE7709DCEE /* CropViewController.release.xcconfig */;
-			buildSettings = {
-				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/CropViewController";
-				IBSC_MODULE = CropViewController;
-				INFOPLIST_FILE = "Target Support Files/CropViewController/ResourceBundle-TOCropViewControllerBundle-CropViewController-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				PRODUCT_NAME = TOCropViewControllerBundle;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				WRAPPER_EXTENSION = bundle;
-			};
-			name = Release;
-		};
-		E45CD89720F119A57BF353AF45D9AA74 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 07FEB0424D68B006FA083C25E0174211 /* Pods-fullwallpaper.debug.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
-				CLANG_ENABLE_OBJC_WEAK = NO;
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = "Target Support Files/Pods-fullwallpaper/Pods-fullwallpaper-Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				MACH_O_TYPE = staticlib;
-				MODULEMAP_FILE = "Target Support Files/Pods-fullwallpaper/Pods-fullwallpaper.modulemap";
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Debug;
-		};
-		ECC2A902B0955DB23B950DF798DA7292 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = B4EB3225CB1D007ABA73D4EE7709DCEE /* CropViewController.release.xcconfig */;
-			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				GCC_PREFIX_HEADER = "Target Support Files/CropViewController/CropViewController-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/CropViewController/CropViewController-Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				MODULEMAP_FILE = "Target Support Files/CropViewController/CropViewController.modulemap";
-				PRODUCT_MODULE_NAME = CropViewController;
-				PRODUCT_NAME = CropViewController;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Release;
-		};
-		EF565B666AB3E5B64B45897CDA4B7F50 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = E01606DF035BF906A5FD1669E725AD05 /* LeanCloud.debug.xcconfig */;
-			buildSettings = {
-				CLANG_ENABLE_OBJC_WEAK = NO;
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				GCC_PREFIX_HEADER = "Target Support Files/LeanCloud/LeanCloud-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/LeanCloud/LeanCloud-Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				MODULEMAP_FILE = "Target Support Files/LeanCloud/LeanCloud.modulemap";
-				PRODUCT_MODULE_NAME = LeanCloud;
-				PRODUCT_NAME = LeanCloud;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Debug;
-		};
-		FB8EC93779439B6B70A438EA132DBB25 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8D9A9BE0FB198EB56D75290601BB8D47 /* Starscream.debug.xcconfig */;
-			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				GCC_PREFIX_HEADER = "Target Support Files/Starscream/Starscream-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/Starscream/Starscream-Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				MODULEMAP_FILE = "Target Support Files/Starscream/Starscream.modulemap";
-				PRODUCT_MODULE_NAME = Starscream;
-				PRODUCT_NAME = Starscream;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Debug;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
 		4821239608C13582E20E6DA73FD5F1F9 /* Build configuration list for PBXProject "Pods" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				8DE5143C03248BB6CD542DE3963D6F3A /* Debug */,
-				9E406C6AAF85E580207CD97B0044DEAB /* Release */,
+				ED7888FA6713EABBF66D26A8003AD1CA /* Debug */,
+				1422B121EAEAEA11307496903FA623C6 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -3482,8 +3498,8 @@
 		4C059009F070A3EDEDB8A85EEAA300D0 /* Build configuration list for PBXNativeTarget "CropViewController" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				91B8237C754B2EE739230188597175A5 /* Debug */,
-				ECC2A902B0955DB23B950DF798DA7292 /* Release */,
+				59A651A61660356086B9CFACC6FCB393 /* Debug */,
+				091A879AD03297D11CAF587734626B64 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -3491,8 +3507,8 @@
 		5712C7B8284F11200242CC86A8ED50E0 /* Build configuration list for PBXNativeTarget "CropViewController-TOCropViewControllerBundle" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				4C3CD9349F96891A3320A488823FE6A7 /* Debug */,
-				D98E20489D94AA3312E1EEBACBD9ECF8 /* Release */,
+				C9994DB245C167706C7A99238B03E0F4 /* Debug */,
+				9E2102A461C3D189D4A738F6C23ED07B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -3500,8 +3516,8 @@
 		62468BF9C7EDA172E951A24083C3ECA7 /* Build configuration list for PBXNativeTarget "SwiftyJSON" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				A6D1856327C32BF7B667BB2BEEAC10FA /* Debug */,
-				501C4DDF76F727E13770D67E891EDEF3 /* Release */,
+				009DB1577F07B2FF797B78F2D1142134 /* Debug */,
+				0C9896C7563CB84B32833F4506F3096C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -3509,8 +3525,8 @@
 		78E219AC01CD5AFED663C9AB28280801 /* Build configuration list for PBXNativeTarget "Alamofire" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				7E81E76DAAE2CE8F82E7232E12AD4A12 /* Debug */,
-				BCAC530778CAA37BE0A5504108660645 /* Release */,
+				E73BFB7433831CF292FADF6B2CB7AC3B /* Debug */,
+				48FD2B4E815CEB933B18D313E9E9EF64 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -3518,8 +3534,8 @@
 		AB258E435EEA78D533E674B67488E21B /* Build configuration list for PBXNativeTarget "GRDB.swift" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				14A7293399B05C7D2A791852C37A37E3 /* Debug */,
-				9BB1C2AD64C4DF178209F9CF8B97F5F4 /* Release */,
+				0FD7F113C5A82181EDC6A7A7BB45996A /* Debug */,
+				56750FED7A7696457DD8C35861A452BE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -3527,8 +3543,8 @@
 		B40C586257524DDF3419553297005F82 /* Build configuration list for PBXNativeTarget "Pods-fullwallpaper" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				E45CD89720F119A57BF353AF45D9AA74 /* Debug */,
-				9DD33DED219DF36D17BEBDE4D8670641 /* Release */,
+				DE52FB41CD05EAA16677684289BA273F /* Debug */,
+				E713FF401F172E2F6D6E17493B20D9DC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -3536,8 +3552,8 @@
 		BA8387C8D23202119B434A46077BEFE7 /* Build configuration list for PBXNativeTarget "SwiftTheme" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				053C0D8E131F86FBF81F399861824757 /* Debug */,
-				58E921FF9626C4CB65C6EADD53424059 /* Release */,
+				9B17ECDAC9AE3C02E8736A605B40CFDC /* Debug */,
+				208646FBB8B4EBF342C035AEF3DAFB50 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -3545,8 +3561,8 @@
 		C67526EDC42C866145F7D63A8ACD1697 /* Build configuration list for PBXNativeTarget "SwiftProtobuf" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				82395CD200CCA7FA867524A87E06386D /* Debug */,
-				35E70E5B207575F5DD1B4245184C7C15 /* Release */,
+				8FE0C4EA8A61D8DD8789E1401246963B /* Debug */,
+				342BC5C94AB8E709AD42B21372EBFB60 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -3554,8 +3570,8 @@
 		D2852F7C3057E930AF8BAD73C59BAB88 /* Build configuration list for PBXNativeTarget "LeanCloud" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				EF565B666AB3E5B64B45897CDA4B7F50 /* Debug */,
-				B2B442839C4F87FDE92ABDB293CF3CED /* Release */,
+				2AF9765AC01D63CE0B8BE9ECCD5DB782 /* Debug */,
+				D165A61CC6ED1D4C98AD5EE19A59BA3E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -3563,8 +3579,8 @@
 		DDCB6FC34E03B518BA31DEA8AC702610 /* Build configuration list for PBXNativeTarget "Starscream" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				FB8EC93779439B6B70A438EA132DBB25 /* Debug */,
-				40F5A1FF361FE8776320043099C5C9EE /* Release */,
+				BF29D97E7C55FFF8D1415B5AD8D904B1 /* Debug */,
+				93513A0B192B75AC535B63CC26D852C8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

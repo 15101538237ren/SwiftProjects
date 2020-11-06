@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import SwiftyJSON
 
 func presentAlert(title: String, message: String, okText: String) -> UIAlertController{
     let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
@@ -61,15 +62,15 @@ func loadPhoto(cacheType: CacheType, photoName: String) -> UIImage?{
             let imageData = try Data(contentsOf: imageFileURL)
             return UIImage(data: imageData)
         } catch {
-            print("Error loading image : \(error)")
+            
         }
     }
     return nil
 }
 
 
-func saveJson(fileName: String, jsonStr: String){
-    let cacheDir = getCacheDirName(cacheType: .json)
+func saveStringTo(cacheType: CacheType, fileName: String, jsonStr: String){
+    let cacheDir = getCacheDirName(cacheType: cacheType)
     
     if let documentDirectory = FileManager.default.urls(for: .documentDirectory,
                                                         in: .userDomainMask).first {
@@ -77,9 +78,7 @@ func saveJson(fileName: String, jsonStr: String){
         do {
             try FileManager.default.createDirectory(at: cacheDirUrl, withIntermediateDirectories: true)
             let pathWithFilename = documentDirectory.appendingPathComponent(cacheDir, isDirectory: true).appendingPathComponent(fileName)
-            try jsonStr.write(to: pathWithFilename,
-                                 atomically: true,
-                                 encoding: .utf8)
+            try jsonStr.write(to: pathWithFilename, atomically: true, encoding: String.Encoding.utf8)
             print("write \(fileName) successful!")
         } catch {
             print(error.localizedDescription)
@@ -87,7 +86,8 @@ func saveJson(fileName: String, jsonStr: String){
     }
 }
 
-func loadJson(fileName: String) -> Data?{
+
+func loadJson(fileName: String) -> JSON?{
     
     let cacheDir = getCacheDirName(cacheType: .json)
     
@@ -96,11 +96,11 @@ func loadJson(fileName: String) -> Data?{
         do {
             let pathWithFilename = documentDirectory.appendingPathComponent(cacheDir, isDirectory: true).appendingPathComponent(fileName)
             let data = try Data(contentsOf: pathWithFilename, options: .mappedIfSafe)
+            let json = try JSON(data: data)
             print("load \(fileName).json successful!")
-            return data
+            return json
         } catch {
             print(error.localizedDescription)
-            print("HI")
         }
     }
     return nil

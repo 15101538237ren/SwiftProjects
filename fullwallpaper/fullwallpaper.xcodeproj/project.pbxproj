@@ -25,6 +25,7 @@
 		55F3992E254A624D0094A477 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 55F3992C254A624D0094A477 /* Main.storyboard */; };
 		55F39930254A624D0094A477 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 55F3992F254A624D0094A477 /* Assets.xcassets */; };
 		55F39933254A624D0094A477 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 55F39931254A624D0094A477 /* LaunchScreen.storyboard */; };
+		C303B9E825551BD1005C7A50 /* UIImageView+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = C303B9E725551BD1005C7A50 /* UIImageView+Ext.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -50,6 +51,7 @@
 		55F3992F254A624D0094A477 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		55F39932254A624D0094A477 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		55F39934254A624D0094A477 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C303B9E725551BD1005C7A50 /* UIImageView+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Ext.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,13 +81,6 @@
 				55370FB12553B5A10003CAD5 /* Category.swift */,
 			);
 			path = Model;
-			sourceTree = "<group>";
-		};
-		55370FBA2553B7020003CAD5 /* Extension */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Extension;
 			sourceTree = "<group>";
 		};
 		55370FBB2553B70B0003CAD5 /* Util */ = {
@@ -127,8 +122,8 @@
 		55F39925254A624D0094A477 /* fullwallpaper */ = {
 			isa = PBXGroup;
 			children = (
+				C303B9E625551BAF005C7A50 /* Extensions */,
 				55370FBB2553B70B0003CAD5 /* Util */,
-				55370FBA2553B7020003CAD5 /* Extension */,
 				55370FB42553B5A90003CAD5 /* Model */,
 				5577BE0E254A88E1008A1F14 /* Global */,
 				55F39942254A7CE00094A477 /* Fonts */,
@@ -178,6 +173,14 @@
 				10DD94CFAF8E4BE4C42864FA /* Pods_fullwallpaper.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		C303B9E625551BAF005C7A50 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				C303B9E725551BD1005C7A50 /* UIImageView+Ext.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -301,6 +304,7 @@
 				55537E3A254BBEE4005081CF /* WallpaperDetailVC.swift in Sources */,
 				5577BE10254A88F0008A1F14 /* GlobalConstants.swift in Sources */,
 				5577BE0B254A8767008A1F14 /* WallpaperCollectionViewCell.swift in Sources */,
+				C303B9E825551BD1005C7A50 /* UIImageView+Ext.swift in Sources */,
 				55537E31254B341C005081CF /* TabBarController.swift in Sources */,
 				55F39927254A624D0094A477 /* AppDelegate.swift in Sources */,
 				55F39929254A624D0094A477 /* SceneDelegate.swift in Sources */,

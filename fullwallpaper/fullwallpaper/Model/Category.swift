@@ -11,8 +11,10 @@ import UIKit
 struct Category: Codable {
     var name: String
     var eng: String
-    init(name: String, eng: String) {
+    var coverUrl: String
+    init(name: String, eng: String, coverUrl: String) {
         self.name = name
         self.eng = eng
+        self.coverUrl = coverUrl
     }
 }

@@ -13,8 +13,6 @@ class CategoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     //Variables
     var indicator = UIActivityIndicatorView()
-    var strLabel = UILabel()
-    let effectView = UIVisualEffectView(effect: UIBlurEffect(style: .regular))
     
     var categories:[Category] = []
     
@@ -31,81 +29,49 @@ class CategoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     }
     
     func initActivityIndicator(text: String) {
-        strLabel.removeFromSuperview()
         indicator.removeFromSuperview()
-        effectView.removeFromSuperview()
         let height:CGFloat = 46.0
-        strLabel = UILabel(frame: CGRect(x: 50, y: 0, width: 180, height: height))
-        strLabel.text = text
-        strLabel.font = .systemFont(ofSize: 14, weight: .medium)
-        strLabel.textColor = .darkGray
-        strLabel.alpha = 1.0
-        effectView.frame = CGRect(x: view.frame.midX - strLabel.frame.width/2, y: view.frame.midY - strLabel.frame.height/2 , width: 160, height: height)
-        effectView.layer.cornerRadius = 15
-        effectView.layer.masksToBounds = true
-        effectView.backgroundColor = UIColor(red: 244, green: 244, blue: 245, alpha: 1.0)
-        
-        effectView.alpha = 1.0
         indicator = .init(style: .medium)
-        indicator.frame = CGRect(x: 0, y: 0, width: height, height: height)
+        indicator.color = .lightGray
+        indicator.frame = CGRect(x: view.frame.midX - height/2, y: view.frame.midY - height/2, width: height, height: height)
         indicator.alpha = 1.0
         indicator.startAnimating()
-
-        effectView.contentView.addSubview(indicator)
-        effectView.contentView.addSubview(strLabel)
-        view.addSubview(effectView)
+        view.addSubview(indicator)
     }
     
     func stopIndicator(){
         self.indicator.stopAnimating()
         self.indicator.hidesWhenStopped = true
-        self.effectView.alpha = 0
-        self.strLabel.alpha = 0
     }
     
     func loadCategoryFromLocal(){
-        do {
-            if let jsonData = loadJson(fileName: categoryJsonFileName){
-                let jsonDecoder = JSONDecoder()
-                categories = try jsonDecoder.decode([Category].self, from: jsonData)
+        if let json_objects = loadJson(fileName: categoryJsonFileName){
+            categories = []
+            let json_arr = json_objects.arrayValue
+            for json_obj in json_arr{
+                let coverUrl = json_obj["coverUrl"].stringValue
+                let name = json_obj["name"].stringValue
+                let eng = json_obj["eng"].stringValue
+                let category = Category(name: name, eng: eng, coverUrl: coverUrl)
+                categories.append(category)
             }
-        } catch {
-            print(error.localizedDescription)
+            self.tableView.reloadData()
+            self.stopIndicator()
         }
     }
     
     func encodeSaveJson(){
-        let jsonEncoder = JSONEncoder()
         do {
-            print(categories)
-            let jsonData = try jsonEncoder.encode(categories)
-            if let jsonStr = String(data: jsonData, encoding: String.Encoding.utf16){
-                saveJson(fileName: categoryJsonFileName, jsonStr: jsonStr)
+            let jsonData: Data = try JSONEncoder().encode(categories)
+            if let jsonString = String(data: jsonData, encoding: .utf8){
+                saveStringTo(cacheType: .json, fileName: categoryJsonFileName, jsonStr: jsonString)
+            }else{
+                print("Error in Saving json, Nil Json String!")
             }
+        }catch {
+            print(error.localizedDescription)
         }
-        catch {
-            print("Error in Saving image : \(error)")
-        }
-    }
-    
-    func loadImagesFromCloud(results: [LCObject]){
-        for rid in 0..<results.count{
-            let res = results[rid]
-            if let cover_file = res.get("cover") as? LCFile {
-                let name = res.get("name")?.stringValue ?? ""
-                let url = URL(string: cover_file.url?.stringValue ?? "")!
-                let data = try? Data(contentsOf: url)
-                if let imageData = data {
-                    if let image = UIImage(data: imageData){
-                        savePhoto(image: image, photoName: "\(name).jpg")
-                        let indexPath = IndexPath(row: rid, section: 0)
-                        DispatchQueue.main.async {
-                            self.tableView.reloadRows(at: [indexPath], with: .automatic)
-                        }
-                    }
-                }
-            }
-        }
+        
     }
     
     func loadCategories()
@@ -119,7 +85,7 @@ class CategoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
             return
         }
         
-        DispatchQueue.global(qos: .background).async { [self] in
+        DispatchQueue.global(qos: .utility).async { [self] in
         do {
             let query = LCQuery(className: "Category")
             let updated_count = query.count()
@@ -133,15 +99,52 @@ class CategoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
                             let res = results[rid]
                             let name = res.get("name")?.stringValue ?? ""
                             let eng = res.get("eng")?.stringValue ?? ""
-                            let category = Category(name: name, eng: eng)
-                            categories.append(category)
+                            
+                            if let file = res.get("cover") as? LCFile {
+                                let category = Category(name: name, eng: eng, coverUrl: file.url!.stringValue!)
+                                
+                                if let imageData = file.dataValue {
+                                    if let image = UIImage(data: imageData){
+                                        savePhoto(image: image, photoName: "\(categories[rid].eng).jpg")
+                                        let indexPath = IndexPath(row: rid, section: 0)
+                                        DispatchQueue.main.async {
+                                            self.tableView.reloadRows(at: [indexPath], with: .none)
+                                        }
+                                    }
+                                }
+                                categories.append(category)
+                            }
                         }
-                        encodeSaveJson()
                         DispatchQueue.main.async {
                             self.tableView.reloadData()
                             self.stopIndicator()
                         }
-                        loadImagesFromCloud(results: results)
+                        
+                        for cid in 0..<categories.count{
+                            let category = categories[cid]
+                            URLSession.shared.dataTask(with: NSURL(string: category.coverUrl)! as URL, completionHandler: { (data, response, error) -> Void in
+
+                                if let error = error {
+                                    print(error.localizedDescription)
+                                }
+                                if let data = data{
+                                    if let image = UIImage(data: data){
+                                        savePhoto(image: image, photoName: "\(category.eng).jpg")
+                                        
+                                        DispatchQueue.main.async(execute: { () -> Void in
+                                            let indexPath = IndexPath(row: cid, section: 0)
+                                            DispatchQueue.main.async {
+                                                self.tableView.reloadRows(at: [indexPath], with: .none)
+                                            }
+                                        })
+                                    }
+                                }
+                                
+                            }).resume()
+                        }
+                        
+                        encodeSaveJson()
+                        
                         break
                     case .failure(error: let error):
                         print(error.localizedDescription)
@@ -152,6 +155,31 @@ class CategoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         }
     }
 
+    func loadImageWithObjId(row:Int, nameOfCategory: String, objId: String){
+        DispatchQueue.global(qos: .utility).async { [self] in
+            do {
+                let query = LCQuery(className: "_File")
+                let _ = query.get(objId) { (result) in
+                    switch result {
+                    case .success(object: let file):
+                        let url = URL(string: file.url?.stringValue ?? "")!
+                        let data = try? Data(contentsOf: url)
+                        if let imageData = data {
+                            if let image = UIImage(data: imageData){
+                                savePhoto(image: image, photoName: "\(nameOfCategory).jpg")
+                                let indexPath = IndexPath(row: row, section: 0)
+                                DispatchQueue.main.async {
+                                    self.tableView.reloadRows(at: [indexPath], with: .none)
+                                }
+                            }
+                        }
+                    case .failure(error: let error):
+                        print(error.localizedDescription)
+                    }
+                }
+            }
+        }
+    }
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
@@ -166,7 +194,7 @@ class CategoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         let row: Int = indexPath.row
         cell.titleLabel.text = categories[row].name
         
-        if let image = loadPhoto(cacheType: .image, photoName: "\(categories[row].name).jpg"){
+        if let image = loadPhoto(cacheType: .image, photoName: "\(categories[row].eng).jpg"){
             DispatchQueue.main.async {
                 cell.imgPlaceholder.alpha = 0
                 cell.imageV.alpha = 1

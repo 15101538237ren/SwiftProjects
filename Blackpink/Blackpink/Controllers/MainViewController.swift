@@ -210,6 +210,7 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
             }
         }
     }
+    
     func completionHandlerAfterLoad(error: Error?, cursor: CKQueryOperation.Cursor?) -> Void{
         queryCursor = cursor
         if error != nil{
