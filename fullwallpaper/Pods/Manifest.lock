@@ -13,6 +13,7 @@ PODS:
     - LeanCloud/Foundation (= 17.5.5)
     - Starscream (~> 3.1)
     - SwiftProtobuf (~> 1.8)
+  - Nuke (9.1.2)
   - Starscream (3.1.1)
   - SwiftProtobuf (1.9.0)
   - SwiftTheme (0.5.2)
@@ -21,6 +22,7 @@ PODS:
 DEPENDENCIES:
   - CropViewController
   - LeanCloud
+  - Nuke (~> 9.0)
   - SwiftTheme
   - SwiftyJSON (~> 4.0)
 
@@ -30,6 +32,7 @@ SPEC REPOS:
     - CropViewController
     - GRDB.swift
     - LeanCloud
+    - Nuke
     - Starscream
     - SwiftProtobuf
     - SwiftTheme
@@ -40,11 +43,12 @@ SPEC CHECKSUMS:
   CropViewController: 1aac40093c5739e60d992b04724a55d12a689a4c
   GRDB.swift: 8cc3ab7c8b8b4ac1761deb8dca4b51c1c9d429f8
   LeanCloud: efbefbbc19c58ff6133a54a0d4980b844482f816
+  Nuke: dd2e6be6a34c042a7861e190632781d11f253026
   Starscream: 4bb2f9942274833f7b4d296a55504dcfc7edb7b0
   SwiftProtobuf: ecbec1be9036d15655f6b3443a1c4ea693c97932
   SwiftTheme: 8b02c479bb4441b2b6790ac126e961b1b6fb0932
   SwiftyJSON: 6faa0040f8b59dead0ee07436cbf76b73c08fd08
 
-PODFILE CHECKSUM: e0d23df90ca149cce5e72e4393f8e0c26ac22357
+PODFILE CHECKSUM: 07e418353dd7e838f462db29c9c2fd5815765af3
 
 COCOAPODS: 1.9.3

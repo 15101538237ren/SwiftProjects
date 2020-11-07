@@ -7,6 +7,14 @@
 
 import Foundation
 import UIKit
+import Nuke
+
+let options = ImageLoadingOptions(
+    placeholder: UIImage(named: "placeholder"),
+    transition: .fadeIn(duration: 0.33)
+)
+
+let numberOfWallpapersEachPage:Int = 30
 
 let numberOfItemsPerRow:CGFloat = CGFloat(3)
 let cellSpacing:CGFloat = CGFloat(2)

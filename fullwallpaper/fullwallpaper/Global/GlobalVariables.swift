@@ -7,4 +7,4 @@
 
 import Foundation
 
-var categorys:[Category] = []
+var imageCache = NSCache<NSString, NSString>()

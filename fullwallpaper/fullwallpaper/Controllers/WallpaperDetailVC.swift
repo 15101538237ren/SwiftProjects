@@ -7,6 +7,7 @@
 
 import UIKit
 import AVFoundation
+import Nuke
 
 class WallpaperDetailVC: UIViewController {
 
@@ -28,7 +29,7 @@ class WallpaperDetailVC: UIViewController {
     @IBOutlet weak var homeScreenImgV: UIImageView!
     
     // Variables
-    var image: UIImage!
+    var imageUrl: URL!
     var lockInPreview: Bool = false
     var homeInPreview: Bool = false
     var liked: Bool = false
@@ -37,14 +38,8 @@ class WallpaperDetailVC: UIViewController {
     let scaleForAnimation: CGFloat = 2
     override func viewDidLoad() {
         super.viewDidLoad()
-        initVC()
+        Nuke.loadImage(with: imageUrl, options: options, into: imageView)
         addGestureRcg()
-    }
-    
-    func initVC(){
-        DispatchQueue.main.async {
-            self.imageView.image = self.image
-        }
     }
     
     func addGestureRcg(){
@@ -160,7 +155,9 @@ class WallpaperDetailVC: UIViewController {
     
     @objc func downloadImgViewTapped(tapGestureRecognizer: UITapGestureRecognizer)
     {
-        UIImageWriteToSavedPhotosAlbum(image, self, #selector(image(_:didFinishSavingWithError:contextInfo:)), nil)
+        if let image = imageView.image{
+            UIImageWriteToSavedPhotosAlbum(image, self, #selector(image(_:didFinishSavingWithError:contextInfo:)), nil)
+        }
     }
     
     func addGestureRcgToLockScreen(){

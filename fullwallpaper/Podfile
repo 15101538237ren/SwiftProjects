@@ -5,6 +5,7 @@ target 'fullwallpaper' do
   # Comment the next line if you don't want to use dynamic frameworks
   use_frameworks!
   pod 'LeanCloud'
+  pod 'Nuke', '~> 9.0'
   pod 'SwiftTheme'
   pod 'SwiftyJSON', '~> 4.0'
   pod 'CropViewController'

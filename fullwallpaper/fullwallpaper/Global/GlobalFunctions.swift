@@ -34,40 +34,6 @@ func getDocumentsDirectory() -> URL {
     return paths[0]
 }
 
-func savePhoto(image: UIImage, photoName: String){
-    let cacheDir = getCacheDirName(cacheType: .image)
-    
-    if let documentDirectory = FileManager.default.urls(for: .documentDirectory,
-                                                        in: .userDomainMask).first {
-    let cacheDirUrl = documentDirectory.appendingPathComponent(cacheDir, isDirectory: true)
-        do {
-            try FileManager.default.createDirectory(at: cacheDirUrl, withIntermediateDirectories: true)
-            let imageFileURL = getDocumentsDirectory().appendingPathComponent(cacheDir, isDirectory: true).appendingPathComponent(photoName)
-            try? image.jpegData(compressionQuality: 0.8)?.write(to: imageFileURL)
-        } catch {
-            print("Error in Saving image : \(error)")
-        }
-    }
-}
-
-func loadPhoto(cacheType: CacheType, photoName: String) -> UIImage?{
-    let cacheDir = getCacheDirName(cacheType: cacheType)
-    
-    if let documentDirectory = FileManager.default.urls(for: .documentDirectory,
-                                                        in: .userDomainMask).first {
-    let cacheDirUrl = documentDirectory.appendingPathComponent(cacheDir, isDirectory: true)
-        do {
-            try FileManager.default.createDirectory(at: cacheDirUrl, withIntermediateDirectories: true)
-            let imageFileURL = getDocumentsDirectory().appendingPathComponent(cacheDir, isDirectory: true).appendingPathComponent(photoName)
-            let imageData = try Data(contentsOf: imageFileURL)
-            return UIImage(data: imageData)
-        } catch {
-            
-        }
-    }
-    return nil
-}
-
 
 func saveStringTo(cacheType: CacheType, fileName: String, jsonStr: String){
     let cacheDir = getCacheDirName(cacheType: cacheType)
@@ -85,7 +51,6 @@ func saveStringTo(cacheType: CacheType, fileName: String, jsonStr: String){
         }
     }
 }
-
 
 func loadJson(fileName: String) -> JSON?{
     
@@ -105,3 +70,4 @@ func loadJson(fileName: String) -> JSON?{
     }
     return nil
 }
+

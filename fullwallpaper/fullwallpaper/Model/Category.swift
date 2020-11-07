@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import UIKit
 
 struct Category: Codable {
     var name: String

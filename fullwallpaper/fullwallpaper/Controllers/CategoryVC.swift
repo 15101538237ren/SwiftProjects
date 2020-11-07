@@ -8,6 +8,8 @@
 import UIKit
 import LeanCloud
 import SwiftyJSON
+import Nuke
+
 
 class CategoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
@@ -18,17 +20,16 @@ class CategoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     @IBOutlet var tableView: UITableView!
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tableView.delegate = self
         self.tableView.dataSource = self
         self.tableView.separatorColor = .clear
-        initActivityIndicator(text: loadingTxt)
+        initActivityIndicator()
         loadCategories()
     }
     
-    func initActivityIndicator(text: String) {
+    func initActivityIndicator() {
         indicator.removeFromSuperview()
         let height:CGFloat = 46.0
         indicator = .init(style: .medium)
@@ -102,45 +103,12 @@ class CategoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
                             
                             if let file = res.get("cover") as? LCFile {
                                 let category = Category(name: name, eng: eng, coverUrl: file.url!.stringValue!)
-                                
-                                if let imageData = file.dataValue {
-                                    if let image = UIImage(data: imageData){
-                                        savePhoto(image: image, photoName: "\(categories[rid].eng).jpg")
-                                        let indexPath = IndexPath(row: rid, section: 0)
-                                        DispatchQueue.main.async {
-                                            self.tableView.reloadRows(at: [indexPath], with: .none)
-                                        }
-                                    }
-                                }
                                 categories.append(category)
                             }
                         }
                         DispatchQueue.main.async {
                             self.tableView.reloadData()
                             self.stopIndicator()
-                        }
-                        
-                        for cid in 0..<categories.count{
-                            let category = categories[cid]
-                            URLSession.shared.dataTask(with: NSURL(string: category.coverUrl)! as URL, completionHandler: { (data, response, error) -> Void in
-
-                                if let error = error {
-                                    print(error.localizedDescription)
-                                }
-                                if let data = data{
-                                    if let image = UIImage(data: data){
-                                        savePhoto(image: image, photoName: "\(category.eng).jpg")
-                                        
-                                        DispatchQueue.main.async(execute: { () -> Void in
-                                            let indexPath = IndexPath(row: cid, section: 0)
-                                            DispatchQueue.main.async {
-                                                self.tableView.reloadRows(at: [indexPath], with: .none)
-                                            }
-                                        })
-                                    }
-                                }
-                                
-                            }).resume()
                         }
                         
                         encodeSaveJson()
@@ -155,32 +123,6 @@ class CategoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         }
     }
 
-    func loadImageWithObjId(row:Int, nameOfCategory: String, objId: String){
-        DispatchQueue.global(qos: .utility).async { [self] in
-            do {
-                let query = LCQuery(className: "_File")
-                let _ = query.get(objId) { (result) in
-                    switch result {
-                    case .success(object: let file):
-                        let url = URL(string: file.url?.stringValue ?? "")!
-                        let data = try? Data(contentsOf: url)
-                        if let imageData = data {
-                            if let image = UIImage(data: imageData){
-                                savePhoto(image: image, photoName: "\(nameOfCategory).jpg")
-                                let indexPath = IndexPath(row: row, section: 0)
-                                DispatchQueue.main.async {
-                                    self.tableView.reloadRows(at: [indexPath], with: .none)
-                                }
-                            }
-                        }
-                    case .failure(error: let error):
-                        print(error.localizedDescription)
-                    }
-                }
-            }
-        }
-    }
-    
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
@@ -193,17 +135,8 @@ class CategoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         let cell = tableView.dequeueReusableCell(withIdentifier: "categoryTableViewCell", for: indexPath) as! CategoryTableViewCell
         let row: Int = indexPath.row
         cell.titleLabel.text = categories[row].name
-        
-        if let image = loadPhoto(cacheType: .image, photoName: "\(categories[row].eng).jpg"){
-            DispatchQueue.main.async {
-                cell.imgPlaceholder.alpha = 0
-                cell.imageV.alpha = 1
-                cell.titleLabel.alpha = 1
-                cell.imageV.image = image
-                cell.setNeedsLayout()
-            }
-        }
-        
+        let imgUrl = URL(string: categories[row].coverUrl)!
+        Nuke.loadImage(with: imgUrl, options: options, into: cell.imageV)
         return cell
     }
 }
