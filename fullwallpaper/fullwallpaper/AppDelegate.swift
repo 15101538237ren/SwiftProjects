@@ -7,11 +7,11 @@
 
 import UIKit
 import LeanCloud
+import SwiftTheme
+
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
-
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         do {
@@ -32,6 +32,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         } catch {
             print(error)
         }
+        
+        ThemeManager.setTheme(plistName: "Light", path: .mainBundle)
+        
         return true
     }
     
