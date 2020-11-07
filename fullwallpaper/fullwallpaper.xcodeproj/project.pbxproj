@@ -27,6 +27,7 @@
 		55F39933254A624D0094A477 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 55F39931254A624D0094A477 /* LaunchScreen.storyboard */; };
 		C303B9E825551BD1005C7A50 /* UIImageView+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = C303B9E725551BD1005C7A50 /* UIImageView+Ext.swift */; };
 		C38E1DFD255662E4004D008A /* Wallpaper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C38E1DFC255662E4004D008A /* Wallpaper.swift */; };
+		C3C3565325570EB7006F137B /* CategoryCollectionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C3565225570EB7006F137B /* CategoryCollectionVC.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -54,6 +55,7 @@
 		55F39934254A624D0094A477 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C303B9E725551BD1005C7A50 /* UIImageView+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Ext.swift"; sourceTree = "<group>"; };
 		C38E1DFC255662E4004D008A /* Wallpaper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Wallpaper.swift; sourceTree = "<group>"; };
+		C3C3565225570EB7006F137B /* CategoryCollectionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCollectionVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -149,6 +151,7 @@
 				55537E30254B341C005081CF /* TabBarController.swift */,
 				55537E33254B3ECD005081CF /* CategoryVC.swift */,
 				55537E39254BBEE4005081CF /* WallpaperDetailVC.swift */,
+				C3C3565225570EB7006F137B /* CategoryCollectionVC.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -309,6 +312,7 @@
 				5577BE0B254A8767008A1F14 /* WallpaperCollectionViewCell.swift in Sources */,
 				C303B9E825551BD1005C7A50 /* UIImageView+Ext.swift in Sources */,
 				55537E31254B341C005081CF /* TabBarController.swift in Sources */,
+				C3C3565325570EB7006F137B /* CategoryCollectionVC.swift in Sources */,
 				55F39927254A624D0094A477 /* AppDelegate.swift in Sources */,
 				55F39929254A624D0094A477 /* SceneDelegate.swift in Sources */,
 				55537E37254B3F1D005081CF /* CategoryTableViewCell.swift in Sources */,

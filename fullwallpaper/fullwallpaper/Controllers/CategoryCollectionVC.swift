@@ -1,22 +1,26 @@
 //
-//  ViewController.swift
+//  CategoryCollectionVC.swift
 //  fullwallpaper
 //
-//  Created by Honglei on 10/28/20.
+//  Created by Honglei Ren on 11/7/20.
 //
 
 import UIKit
 import LeanCloud
 import Nuke
 
-class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate {
-    
+class CategoryCollectionVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate {
+
     //Variables
     var indicator = UIActivityIndicatorView()
     
     var wallpapers:[Wallpaper] = []
     
+    var category: String!
+    
     @IBOutlet weak var collectionView: UICollectionView!
+    
+    @IBOutlet weak var titleLabel: UILabel!
     
     func setupCollectionView() {
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
@@ -65,6 +69,9 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
     
     func loadWallpapers()
     {
+        DispatchQueue.main.async {
+            self.titleLabel.text = self.category.capitalized
+        }
         if !Reachability.isConnectedToNetwork(){
             let alertCtl = presentNoNetworkAlert()
             self.stopIndicator()
@@ -75,6 +82,7 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
         DispatchQueue.global(qos: .utility).async { [self] in
         do {
             let query = LCQuery(className: "Wallpaper")
+            query.whereKey("category", .equalTo(category))
             let updated_count = query.count()
             print("Fetched \(updated_count.intValue) wallpapers")
             if wallpapers.count != updated_count.intValue{
@@ -85,12 +93,10 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
                         for rid in 0..<results.count{
                             let res = results[rid]
                             let name = res.get("name")?.stringValue ?? ""
-                            let category = res.get("category")?.stringValue ?? ""
                             
                             if let file = res.get("img") as? LCFile {
                                 let imgUrl = file.url!.stringValue!
                                 let wallpaper = Wallpaper(name: name, category: category, imgUrl: imgUrl)
-                                
                                 wallpapers.append(wallpaper)
                             }
                         }
@@ -137,5 +143,8 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
             loadDetailVC(imageUrl: imgUrl)
         }
     }
+    
+    @IBAction func unwind(_ sender: UIButton) {
+        self.dismiss(animated: true, completion: nil)
+    }
 }
-

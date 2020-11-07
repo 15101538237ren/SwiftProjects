@@ -90,7 +90,7 @@ class CategoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         do {
             let query = LCQuery(className: "Category")
             let updated_count = query.count()
-            print(updated_count)
+            print("Fetched \(updated_count.intValue) categories")
             if categories.count != updated_count.intValue{
                 _ = query.find() { result in
                     switch result {
@@ -118,6 +118,10 @@ class CategoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
                         print(error.localizedDescription)
                     }
                 }
+            }else{
+                DispatchQueue.main.async {
+                    self.stopIndicator()
+                }
             }
         }
         }
@@ -138,5 +142,21 @@ class CategoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         let imgUrl = URL(string: categories[row].coverUrl)!
         Nuke.loadImage(with: imgUrl, options: options, into: cell.imageV)
         return cell
+    }
+    
+    func loadCategoryCollectionVC(category: String){
+        let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+        let categoryCollectionVC = mainStoryBoard.instantiateViewController(withIdentifier: "categoryCollectionVC") as! CategoryCollectionVC
+        
+        categoryCollectionVC.category = category
+        categoryCollectionVC.modalPresentationStyle = .overCurrentContext
+        
+        DispatchQueue.main.async {
+            self.present(categoryCollectionVC, animated: true, completion: nil)
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        loadCategoryCollectionVC(category: categories[indexPath.row].eng)
     }
 }
