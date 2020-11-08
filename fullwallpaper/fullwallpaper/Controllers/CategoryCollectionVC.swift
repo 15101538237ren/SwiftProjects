@@ -18,6 +18,7 @@ class CategoryCollectionVC: UIViewController, UICollectionViewDelegate, UICollec
     var wallpapers:[Wallpaper] = []
     
     var category: String!
+    var NoNetWork: Bool = false
     
     @IBOutlet weak var collectionView: UICollectionView!
     
@@ -76,6 +77,7 @@ class CategoryCollectionVC: UIViewController, UICollectionViewDelegate, UICollec
             self.titleLabel.text = self.category.capitalized
         }
         if !Reachability.isConnectedToNetwork(){
+            self.NoNetWork = true
             self.reloadEmptyStateForCollectionView(self.collectionView)
             self.stopIndicator()
             return
@@ -104,6 +106,7 @@ class CategoryCollectionVC: UIViewController, UICollectionViewDelegate, UICollec
                         }
                         
                         DispatchQueue.main.async {
+                            self.NoNetWork = false
                             self.collectionView.reloadData()
                             self.reloadEmptyStateForCollectionView(self.collectionView)
                             self.stopIndicator()
@@ -116,6 +119,7 @@ class CategoryCollectionVC: UIViewController, UICollectionViewDelegate, UICollec
                 }
             }else{
                 DispatchQueue.main.async {
+                    self.NoNetWork = false
                     self.reloadEmptyStateForCollectionView(self.collectionView)
                     self.stopIndicator()
                 }
@@ -155,9 +159,10 @@ class CategoryCollectionVC: UIViewController, UICollectionViewDelegate, UICollec
     // MARK: - Empty State Data Source
     
     var emptyStateTitle: NSAttributedString {
-        let attrs = [NSAttributedString.Key.foregroundColor: UIColor.lightGray,
+            let attrs = [NSAttributedString.Key.foregroundColor: UIColor.lightGray,
                          NSAttributedString.Key.font: UIFont.systemFont(ofSize: 18)]
-            return NSAttributedString(string: "没有数据，请检查网络！", attributes: attrs)
+            let title: String = NoNetWork ? "没有数据，请检查网络！" : "没有数据"
+            return NSAttributedString(string: title, attributes: attrs)
         }
     func emptyStateViewWillShow(view: UIView) {
         guard let emptyView = view as? UIEmptyStateView else { return }

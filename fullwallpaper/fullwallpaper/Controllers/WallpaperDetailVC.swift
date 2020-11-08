@@ -21,6 +21,14 @@ class WallpaperDetailVC: UIViewController {
     @IBOutlet weak var downloadImgV: UIImageView!
     @IBOutlet weak var lockScreenImgV: UIImageView!
     @IBOutlet weak var homeScreenImgV: UIImageView!
+    @IBOutlet weak var dimUIView: UIView!{
+        didSet{
+            dimUIView.layer.cornerRadius = 15.0
+            dimUIView.layer.masksToBounds = true
+            dimUIView.alpha = dimUIViewAlpha
+            dimUIView.backgroundColor = .black
+        }
+    }
     
     // Variables
     var imageUrl: URL!
@@ -77,6 +85,7 @@ class WallpaperDetailVC: UIViewController {
             self.downloadImgV.alpha = 0
             self.lockScreenImgV.alpha = 0
             self.homeScreenImgV.alpha = 0
+            self.dimUIView.alpha = 0
         }
     }
     
@@ -88,6 +97,7 @@ class WallpaperDetailVC: UIViewController {
             self.downloadImgV.alpha = 1
             self.lockScreenImgV.alpha = 1
             self.homeScreenImgV.alpha = 1
+            self.dimUIView.alpha = dimUIViewAlpha
         }
     }
     

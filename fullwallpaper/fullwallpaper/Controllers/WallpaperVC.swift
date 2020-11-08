@@ -16,6 +16,7 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
     var indicator = UIActivityIndicatorView()
     
     var wallpapers:[Wallpaper] = []
+    var NoNetWork:Bool = false
     
     @IBOutlet weak var collectionView: UICollectionView!
     
@@ -71,6 +72,7 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
     {
         if !Reachability.isConnectedToNetwork(){
             self.stopIndicator()
+            NoNetWork = true
             self.reloadEmptyStateForCollectionView(self.collectionView)
             return
         }
@@ -100,6 +102,7 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
                         
                         DispatchQueue.main.async {
                             self.collectionView.reloadData()
+                            self.NoNetWork = false
                             self.reloadEmptyStateForCollectionView(self.collectionView)
                             self.stopIndicator()
                         }
@@ -111,6 +114,7 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
                 }
             }else{
                 DispatchQueue.main.async {
+                    self.NoNetWork = false
                     self.reloadEmptyStateForCollectionView(self.collectionView)
                     self.stopIndicator()
                 }
@@ -146,9 +150,10 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
     // MARK: - Empty State Data Source
     
     var emptyStateTitle: NSAttributedString {
-        let attrs = [NSAttributedString.Key.foregroundColor: UIColor.lightGray,
+            let attrs = [NSAttributedString.Key.foregroundColor: UIColor.lightGray,
                          NSAttributedString.Key.font: UIFont.systemFont(ofSize: 18)]
-            return NSAttributedString(string: "没有数据，请检查网络！", attributes: attrs)
+            let title: String = NoNetWork ? "没有数据，请检查网络！" : "没有数据"
+            return NSAttributedString(string: title, attributes: attrs)
         }
     func emptyStateViewWillShow(view: UIView) {
         guard let emptyView = view as? UIEmptyStateView else { return }

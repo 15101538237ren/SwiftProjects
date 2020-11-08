@@ -14,6 +14,7 @@ let options = ImageLoadingOptions(
     transition: .fadeIn(duration: 0.33)
 )
 
+let dimUIViewAlpha:CGFloat = 0.1
 let numberOfWallpapersEachPage:Int = 30
 
 let numberOfItemsPerRow:CGFloat = CGFloat(3)

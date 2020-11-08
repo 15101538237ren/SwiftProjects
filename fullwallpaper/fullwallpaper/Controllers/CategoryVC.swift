@@ -16,6 +16,7 @@ class CategoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate, 
     
     //Variables
     var indicator = UIActivityIndicatorView()
+    var NoNetWork:Bool = false
     
     var categories:[Category] = []
     
@@ -85,6 +86,7 @@ class CategoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate, 
         loadCategoryFromLocal()
         
         if !Reachability.isConnectedToNetwork(){
+            NoNetWork = true
             self.reloadEmptyStateForTableView(self.tableView)
             self.stopIndicator()
             return
@@ -112,6 +114,7 @@ class CategoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate, 
                         }
                         DispatchQueue.main.async {
                             self.tableView.reloadData()
+                            self.NoNetWork = false
                             self.reloadEmptyStateForTableView(self.tableView)
                             self.stopIndicator()
                         }
@@ -125,6 +128,7 @@ class CategoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate, 
                 }
             }else{
                 DispatchQueue.main.async {
+                    self.NoNetWork = false
                     self.reloadEmptyStateForTableView(self.tableView)
                     self.stopIndicator()
                 }
@@ -168,9 +172,10 @@ class CategoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate, 
     // MARK: - Empty State Data Source
     
     var emptyStateTitle: NSAttributedString {
-        let attrs = [NSAttributedString.Key.foregroundColor: UIColor.lightGray,
+            let attrs = [NSAttributedString.Key.foregroundColor: UIColor.lightGray,
                          NSAttributedString.Key.font: UIFont.systemFont(ofSize: 18)]
-            return NSAttributedString(string: "没有数据，请检查网络！", attributes: attrs)
+            let title: String = NoNetWork ? "没有数据，请检查网络！" : "没有数据"
+            return NSAttributedString(string: title, attributes: attrs)
         }
     func emptyStateViewWillShow(view: UIView) {
         guard let emptyView = view as? UIEmptyStateView else { return }

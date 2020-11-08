@@ -13,7 +13,8 @@ import Nuke
 class SettingVC: UIViewController , UITableViewDataSource, UITableViewDelegate {
     let settingItems:[[SettingItem]] = [
         [SettingItem(symbol_name : "user", name: "登录 / 注册")],
-        [SettingItem(symbol_name : "membership", name: "会员权益")],
+        [SettingItem(symbol_name : "membership", name: "会员权益"),
+         SettingItem(symbol_name : "restore", name: "恢复购买")],
         [SettingItem(symbol_name : "theme", name: "主题"),
          SettingItem(symbol_name : "clean", name: "清空壁纸缓存")],
         [SettingItem(symbol_name : "rate", name: "评价我们"),
