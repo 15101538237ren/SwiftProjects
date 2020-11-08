@@ -15,13 +15,7 @@ class WallpaperDetailVC: UIViewController {
     @IBOutlet weak var backBtn: UIButton!
     @IBOutlet var imageView: UIImageView!
     @IBOutlet var lockScreenPreviewImgV: UIImageView!
-    @IBOutlet var homeScreenUpperPreviewImgV: UIImageView!
-    @IBOutlet var homeScreenLowerPreviewImgV: UIImageView!{
-        didSet{
-            homeScreenLowerPreviewImgV.layer.cornerRadius = 15
-            homeScreenLowerPreviewImgV.layer.masksToBounds = true
-        }
-    }
+    @IBOutlet var homeScreenPreviewImgV: UIImageView!
     @IBOutlet weak var largeHeartImgV: UIImageView!
     @IBOutlet weak var likeImgV: UIImageView!
     @IBOutlet weak var downloadImgV: UIImageView!
@@ -193,15 +187,13 @@ class WallpaperDetailVC: UIViewController {
     
     func showHomeScreenPreview(){
         DispatchQueue.main.async {
-            self.homeScreenUpperPreviewImgV.alpha = 1
-            self.homeScreenLowerPreviewImgV.alpha = 1
+            self.homeScreenPreviewImgV.alpha = 1
         }
     }
     
     func hideHomeScreenPreview(){
         DispatchQueue.main.async {
-            self.homeScreenUpperPreviewImgV.alpha = 0
-            self.homeScreenLowerPreviewImgV.alpha = 0
+            self.homeScreenPreviewImgV.alpha = 0
         }
     }
     

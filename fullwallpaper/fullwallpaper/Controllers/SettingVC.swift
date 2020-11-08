@@ -51,7 +51,7 @@ class SettingVC: UIViewController , UITableViewDataSource, UITableViewDelegate {
             let bottomBorder = CALayer()
 
             bottomBorder.frame = CGRect(x: 0.0, y: cell.contentView.frame.size.height - separatorHeight, width: cell.contentView.frame.size.width, height: separatorHeight)
-            bottomBorder.backgroundColor = UIColor(white: 0.9, alpha: 1.0).cgColor
+            bottomBorder.backgroundColor = UIColor(white: 0.92, alpha: 1.0).cgColor
             
             cell.contentView.layer.addSublayer(bottomBorder)
         }
