@@ -9,9 +9,10 @@ import UIKit
 import LeanCloud
 import SwiftyJSON
 import Nuke
+import UIEmptyState
 
 
-class CategoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class CategoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UIEmptyStateDataSource, UIEmptyStateDelegate {
     
     //Variables
     var indicator = UIActivityIndicatorView()
@@ -24,7 +25,10 @@ class CategoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         super.viewDidLoad()
         self.tableView.delegate = self
         self.tableView.dataSource = self
+        emptyStateDataSource = self
+        emptyStateDelegate = self
         self.tableView.separatorColor = .clear
+        self.tableView.tableFooterView = UIView(frame: CGRect.zero)
         initActivityIndicator()
         loadCategories()
     }
@@ -57,6 +61,7 @@ class CategoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
                 categories.append(category)
             }
             self.tableView.reloadData()
+            self.reloadEmptyStateForTableView(self.tableView)
             self.stopIndicator()
         }
     }
@@ -80,9 +85,8 @@ class CategoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         loadCategoryFromLocal()
         
         if !Reachability.isConnectedToNetwork(){
-            let alertCtl = presentNoNetworkAlert()
+            self.reloadEmptyStateForTableView(self.tableView)
             self.stopIndicator()
-            self.present(alertCtl, animated: true, completion: nil)
             return
         }
         
@@ -108,6 +112,7 @@ class CategoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
                         }
                         DispatchQueue.main.async {
                             self.tableView.reloadData()
+                            self.reloadEmptyStateForTableView(self.tableView)
                             self.stopIndicator()
                         }
                         
@@ -120,6 +125,7 @@ class CategoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
                 }
             }else{
                 DispatchQueue.main.async {
+                    self.reloadEmptyStateForTableView(self.tableView)
                     self.stopIndicator()
                 }
             }
@@ -158,5 +164,17 @@ class CategoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         loadCategoryCollectionVC(category: categories[indexPath.row].eng)
+    }
+    // MARK: - Empty State Data Source
+    
+    var emptyStateTitle: NSAttributedString {
+        let attrs = [NSAttributedString.Key.foregroundColor: UIColor.lightGray,
+                         NSAttributedString.Key.font: UIFont.systemFont(ofSize: 18)]
+            return NSAttributedString(string: "没有数据，请检查网络！", attributes: attrs)
+        }
+    func emptyStateViewWillShow(view: UIView) {
+        guard let emptyView = view as? UIEmptyStateView else { return }
+        emptyView.contentView.layer.borderColor = UIColor.clear.cgColor
+        emptyView.contentView.layer.backgroundColor = UIColor.clear.cgColor
     }
 }

@@ -18,6 +18,7 @@ PODS:
   - SwiftProtobuf (1.9.0)
   - SwiftTheme (0.5.2)
   - SwiftyJSON (4.3.0)
+  - UIEmptyState (4.0.1)
 
 DEPENDENCIES:
   - CropViewController
@@ -25,6 +26,7 @@ DEPENDENCIES:
   - Nuke (~> 9.0)
   - SwiftTheme
   - SwiftyJSON (~> 4.0)
+  - UIEmptyState
 
 SPEC REPOS:
   trunk:
@@ -37,6 +39,7 @@ SPEC REPOS:
     - SwiftProtobuf
     - SwiftTheme
     - SwiftyJSON
+    - UIEmptyState
 
 SPEC CHECKSUMS:
   Alamofire: c1ca147559e730bfb2182c8c7aafbdd90a867987
@@ -48,7 +51,8 @@ SPEC CHECKSUMS:
   SwiftProtobuf: ecbec1be9036d15655f6b3443a1c4ea693c97932
   SwiftTheme: 8b02c479bb4441b2b6790ac126e961b1b6fb0932
   SwiftyJSON: 6faa0040f8b59dead0ee07436cbf76b73c08fd08
+  UIEmptyState: 767376694d9402452fb3c0a5a5283176c6a53c92
 
-PODFILE CHECKSUM: 07e418353dd7e838f462db29c9c2fd5815765af3
+PODFILE CHECKSUM: 1b9a645f618c1fd19b40c70b134101ba6eb172b0
 
 COCOAPODS: 1.9.3

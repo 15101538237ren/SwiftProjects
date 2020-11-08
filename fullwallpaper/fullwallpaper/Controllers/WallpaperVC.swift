@@ -8,8 +8,9 @@
 import UIKit
 import LeanCloud
 import Nuke
+import UIEmptyState
 
-class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate {
+class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate, UIEmptyStateDataSource, UIEmptyStateDelegate {
     
     //Variables
     var indicator = UIActivityIndicatorView()
@@ -26,6 +27,9 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
         collectionView.collectionViewLayout = layout
         collectionView.dataSource = self
         collectionView.delegate = self
+        emptyStateDataSource = self
+        emptyStateDelegate = self
+        
     }
     
     override func viewDidLoad() {
@@ -66,9 +70,8 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
     func loadWallpapers()
     {
         if !Reachability.isConnectedToNetwork(){
-            let alertCtl = presentNoNetworkAlert()
             self.stopIndicator()
-            self.present(alertCtl, animated: true, completion: nil)
+            self.reloadEmptyStateForCollectionView(self.collectionView)
             return
         }
         
@@ -97,6 +100,7 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
                         
                         DispatchQueue.main.async {
                             self.collectionView.reloadData()
+                            self.reloadEmptyStateForCollectionView(self.collectionView)
                             self.stopIndicator()
                         }
                         
@@ -107,6 +111,7 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
                 }
             }else{
                 DispatchQueue.main.async {
+                    self.reloadEmptyStateForCollectionView(self.collectionView)
                     self.stopIndicator()
                 }
             }
@@ -136,6 +141,19 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
         if let imgUrl = URL(string: wallpapers[indexPath.row].imgUrl){
             loadDetailVC(imageUrl: imgUrl)
         }
+    }
+    
+    // MARK: - Empty State Data Source
+    
+    var emptyStateTitle: NSAttributedString {
+        let attrs = [NSAttributedString.Key.foregroundColor: UIColor.lightGray,
+                         NSAttributedString.Key.font: UIFont.systemFont(ofSize: 18)]
+            return NSAttributedString(string: "没有数据，请检查网络！", attributes: attrs)
+        }
+    func emptyStateViewWillShow(view: UIView) {
+        guard let emptyView = view as? UIEmptyStateView else { return }
+        emptyView.contentView.layer.borderColor = UIColor.clear.cgColor
+        emptyView.contentView.layer.backgroundColor = UIColor.clear.cgColor
     }
 }
 

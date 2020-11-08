@@ -8,8 +8,9 @@
 import UIKit
 import LeanCloud
 import Nuke
+import UIEmptyState
 
-class CategoryCollectionVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate {
+class CategoryCollectionVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate, UIEmptyStateDataSource, UIEmptyStateDelegate{
 
     //Variables
     var indicator = UIActivityIndicatorView()
@@ -30,6 +31,8 @@ class CategoryCollectionVC: UIViewController, UICollectionViewDelegate, UICollec
         collectionView.collectionViewLayout = layout
         collectionView.dataSource = self
         collectionView.delegate = self
+        emptyStateDataSource = self
+        emptyStateDelegate = self
     }
     
     override func viewDidLoad() {
@@ -73,9 +76,8 @@ class CategoryCollectionVC: UIViewController, UICollectionViewDelegate, UICollec
             self.titleLabel.text = self.category.capitalized
         }
         if !Reachability.isConnectedToNetwork(){
-            let alertCtl = presentNoNetworkAlert()
+            self.reloadEmptyStateForCollectionView(self.collectionView)
             self.stopIndicator()
-            self.present(alertCtl, animated: true, completion: nil)
             return
         }
         
@@ -103,6 +105,7 @@ class CategoryCollectionVC: UIViewController, UICollectionViewDelegate, UICollec
                         
                         DispatchQueue.main.async {
                             self.collectionView.reloadData()
+                            self.reloadEmptyStateForCollectionView(self.collectionView)
                             self.stopIndicator()
                         }
                         
@@ -113,6 +116,7 @@ class CategoryCollectionVC: UIViewController, UICollectionViewDelegate, UICollec
                 }
             }else{
                 DispatchQueue.main.async {
+                    self.reloadEmptyStateForCollectionView(self.collectionView)
                     self.stopIndicator()
                 }
             }
@@ -146,5 +150,18 @@ class CategoryCollectionVC: UIViewController, UICollectionViewDelegate, UICollec
     
     @IBAction func unwind(_ sender: UIButton) {
         self.dismiss(animated: true, completion: nil)
+    }
+    
+    // MARK: - Empty State Data Source
+    
+    var emptyStateTitle: NSAttributedString {
+        let attrs = [NSAttributedString.Key.foregroundColor: UIColor.lightGray,
+                         NSAttributedString.Key.font: UIFont.systemFont(ofSize: 18)]
+            return NSAttributedString(string: "没有数据，请检查网络！", attributes: attrs)
+        }
+    func emptyStateViewWillShow(view: UIView) {
+        guard let emptyView = view as? UIEmptyStateView else { return }
+        emptyView.contentView.layer.borderColor = UIColor.clear.cgColor
+        emptyView.contentView.layer.backgroundColor = UIColor.clear.cgColor
     }
 }
