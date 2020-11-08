@@ -7,13 +7,15 @@
 
 import UIKit
 import SwiftTheme
+import MessageUI
+import Nuke
 
 class SettingVC: UIViewController , UITableViewDataSource, UITableViewDelegate {
     let settingItems:[[SettingItem]] = [
         [SettingItem(symbol_name : "user", name: "登录 / 注册")],
         [SettingItem(symbol_name : "membership", name: "会员权益")],
         [SettingItem(symbol_name : "theme", name: "主题"),
-         SettingItem(symbol_name : "clean", name: "清空缓存")],
+         SettingItem(symbol_name : "clean", name: "清空壁纸缓存")],
         [SettingItem(symbol_name : "rate", name: "评价我们"),
          SettingItem(symbol_name : "share", name: "分享给朋友"),
          SettingItem(symbol_name : "feedback", name: "意见反馈")],
@@ -57,6 +59,27 @@ class SettingVC: UIViewController , UITableViewDataSource, UITableViewDelegate {
         }
         
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        switch indexPath.section {
+        case 2:
+            switch indexPath.row {
+                case 1:
+                    cleanImageCache()
+                default:
+                    break
+            }
+        case 3:
+            switch indexPath.row {
+                case 2:
+                    showFeedBackMailComposer()
+                default:
+                    break
+            }
+        default:
+            break
+        }
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
@@ -107,5 +130,59 @@ class SettingVC: UIViewController , UITableViewDataSource, UITableViewDelegate {
                 cell.backgroundView = testView
             }
         }
+    }
+    
+    func showFeedBackMailComposer(){
+        guard MFMailComposeViewController.canSendMail() else{
+            let ac = UIAlertController(title: "无法使用邮箱", message: "请检查您的网络或者邮箱设置。", preferredStyle: .alert)
+            ac.addAction(UIAlertAction(title: "好", style: .default, handler: nil))
+            present(ac, animated: true, completion: nil)
+            return
+        }
+        let composer = MFMailComposeViewController()
+        composer.mailComposeDelegate = self
+        composer.setToRecipients(["fullwallpaper@outlook.com"])
+        composer.setSubject("「全面屏壁纸」反馈")
+        composer.setMessageBody("", isHTML: false)
+        present(composer, animated: true)
+    }
+    
+    func cleanImageCache() {
+        Nuke.ImageCache.shared.removeAll()
+        Nuke.DataLoader.sharedUrlCache.removeAllCachedResponses()
+        let ac = UIAlertController(title: "缓存清除成功", message: "", preferredStyle: .alert)
+        ac.addAction(UIAlertAction(title: "好", style: .default, handler: nil))
+        present(ac, animated: true, completion: nil)
+    }
+    
+}
+
+
+extension SettingVC : MFMailComposeViewControllerDelegate{
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+        if let _ = error {
+            controller.dismiss(animated: true, completion: nil)
+        }
+        var feedback_sent = false
+        switch result {
+        case .cancelled:
+            print("User Canceled")
+        case .failed:
+            print("Send Failed")
+        case .saved:
+            print("Draft Saved")
+        case .sent:
+            print("Send Successful!")
+            feedback_sent = true
+        default:
+            print("")
+        }
+        controller.dismiss(animated: true, completion: {
+            if feedback_sent == true{
+                let ac = UIAlertController(title: "反馈已发送", message: "感谢您的反馈，我们会认真考虑并在需要时给您回复。", preferredStyle: .alert)
+                ac.addAction(UIAlertAction(title: "好", style: .default, handler: nil))
+                self.present(ac, animated: true, completion: nil)
+            }
+        })
     }
 }
