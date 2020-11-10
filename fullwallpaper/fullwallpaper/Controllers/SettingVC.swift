@@ -139,7 +139,7 @@ class SettingVC: UIViewController , UITableViewDataSource, UITableViewDelegate {
     func showLoginOrRegisterVC() {
         let LoginRegStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
         let loginOrRegisterVC = LoginRegStoryBoard.instantiateViewController(withIdentifier: "loginOrRegisterVC") as! LoginOrRegisterVC
-        loginOrRegisterVC.modalPresentationStyle = .fullScreen
+        loginOrRegisterVC.modalPresentationStyle = .overCurrentContext
         DispatchQueue.main.async {
             self.present(loginOrRegisterVC, animated: true, completion: nil)
         }
