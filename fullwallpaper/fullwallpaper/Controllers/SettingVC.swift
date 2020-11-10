@@ -9,6 +9,7 @@ import UIKit
 import SwiftTheme
 import MessageUI
 import Nuke
+import LeanCloud
 
 class SettingVC: UIViewController , UITableViewDataSource, UITableViewDelegate {
     let settingItems:[[SettingItem]] = [
@@ -64,6 +65,8 @@ class SettingVC: UIViewController , UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch indexPath.section {
+        case 0:
+            showLoginOrRegisterVC()
         case 2:
             switch indexPath.row {
                 case 1:
@@ -130,6 +133,15 @@ class SettingVC: UIViewController , UITableViewDataSource, UITableViewDelegate {
                 testView.backgroundColor = .clear
                 cell.backgroundView = testView
             }
+        }
+    }
+    
+    func showLoginOrRegisterVC() {
+        let LoginRegStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+        let loginOrRegisterVC = LoginRegStoryBoard.instantiateViewController(withIdentifier: "loginOrRegisterVC") as! LoginOrRegisterVC
+        loginOrRegisterVC.modalPresentationStyle = .fullScreen
+        DispatchQueue.main.async {
+            self.present(loginOrRegisterVC, animated: true, completion: nil)
         }
     }
     

@@ -193,6 +193,7 @@ class EmailLoginViewController: UIViewController {
             }
             
         }
+    
     func showMainPanel() {
         DispatchQueue.main.async {
             self.dismiss(animated: false, completion: {
@@ -201,6 +202,7 @@ class EmailLoginViewController: UIViewController {
             })
         }
     }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)

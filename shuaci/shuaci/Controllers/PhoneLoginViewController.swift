@@ -8,6 +8,7 @@
 
 import UIKit
 import LeanCloud
+
 class PhoneLoginViewController: UIViewController {
     @IBOutlet var phoneTextField: UITextField!
     @IBOutlet var verificationCodeTextField: UITextField!
@@ -15,7 +16,6 @@ class PhoneLoginViewController: UIViewController {
     @IBOutlet var phoneLoginBtn: UIButton!
     var verificationCodeSent = false
     var mainScreenVC: MainScreenViewController!
-    
     var indicator = UIActivityIndicatorView()
     var strLabel = UILabel()
     let effectView = UIVisualEffectView(effect: UIBlurEffect(style: .regular))
@@ -146,7 +146,7 @@ class PhoneLoginViewController: UIViewController {
                             alertController.addAction(cancelAction)
                             self.present(alertController, animated: true, completion: nil)
                         default:
-                            self.presentAlert(title: "登录失败，请稍后重试", message: error.reason?.stringValue ?? "", okText: "好")
+                            self.presentAlert(title: "发送失败", message: error.reason?.stringValue ?? "", okText: "好")
                         }
                 }
             }
@@ -265,4 +265,5 @@ class PhoneLoginViewController: UIViewController {
             UIApplication.topViewController()?.present(alertCtl, animated: true, completion: nil)
         }
     }
+    
 }

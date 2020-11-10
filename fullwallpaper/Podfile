@@ -9,7 +9,10 @@ target 'fullwallpaper' do
   pod 'SwiftTheme'
   pod 'SwiftyJSON', '~> 4.0'
   pod 'CropViewController'
+  pod 'SwiftValidators'
   pod 'UIEmptyState'
+  pod 'PhoneNumberKit'
+  pod 'CountryPickerView'
   # Pods for fullwallpaper
 
 end

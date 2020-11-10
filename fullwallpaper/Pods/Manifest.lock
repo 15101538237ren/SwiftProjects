@@ -1,5 +1,6 @@
 PODS:
   - Alamofire (5.2.0)
+  - CountryPickerView (3.1.3)
   - CropViewController (2.5.2)
   - GRDB.swift (4.14.0):
     - GRDB.swift/standard (= 4.14.0)
@@ -14,45 +15,61 @@ PODS:
     - Starscream (~> 3.1)
     - SwiftProtobuf (~> 1.8)
   - Nuke (9.1.2)
+  - PhoneNumberKit (3.3.1):
+    - PhoneNumberKit/PhoneNumberKitCore (= 3.3.1)
+    - PhoneNumberKit/UIKit (= 3.3.1)
+  - PhoneNumberKit/PhoneNumberKitCore (3.3.1)
+  - PhoneNumberKit/UIKit (3.3.1):
+    - PhoneNumberKit/PhoneNumberKitCore
   - Starscream (3.1.1)
   - SwiftProtobuf (1.9.0)
   - SwiftTheme (0.5.2)
+  - SwiftValidators (9.0.2)
   - SwiftyJSON (4.3.0)
   - UIEmptyState (4.0.1)
 
 DEPENDENCIES:
+  - CountryPickerView
   - CropViewController
   - LeanCloud
   - Nuke (~> 9.0)
+  - PhoneNumberKit
   - SwiftTheme
+  - SwiftValidators
   - SwiftyJSON (~> 4.0)
   - UIEmptyState
 
 SPEC REPOS:
   trunk:
     - Alamofire
+    - CountryPickerView
     - CropViewController
     - GRDB.swift
     - LeanCloud
     - Nuke
+    - PhoneNumberKit
     - Starscream
     - SwiftProtobuf
     - SwiftTheme
+    - SwiftValidators
     - SwiftyJSON
     - UIEmptyState
 
 SPEC CHECKSUMS:
   Alamofire: c1ca147559e730bfb2182c8c7aafbdd90a867987
+  CountryPickerView: 383c09949f7455de9892db7ce3400b10da090150
   CropViewController: 1aac40093c5739e60d992b04724a55d12a689a4c
   GRDB.swift: 8cc3ab7c8b8b4ac1761deb8dca4b51c1c9d429f8
   LeanCloud: efbefbbc19c58ff6133a54a0d4980b844482f816
   Nuke: dd2e6be6a34c042a7861e190632781d11f253026
+  PhoneNumberKit: ff153d5e299f6da566cb73c6aa71e354933b2932
   Starscream: 4bb2f9942274833f7b4d296a55504dcfc7edb7b0
   SwiftProtobuf: ecbec1be9036d15655f6b3443a1c4ea693c97932
   SwiftTheme: 8b02c479bb4441b2b6790ac126e961b1b6fb0932
+  SwiftValidators: 9be131cdfadb9a29d31e637c947c7306877bf1d4
   SwiftyJSON: 6faa0040f8b59dead0ee07436cbf76b73c08fd08
   UIEmptyState: 767376694d9402452fb3c0a5a5283176c6a53c92
 
-PODFILE CHECKSUM: 1b9a645f618c1fd19b40c70b134101ba6eb172b0
+PODFILE CHECKSUM: 2228aff1b7d4e5b6bdf7b3b41aaca3ed024ffe1f
 
 COCOAPODS: 1.9.3

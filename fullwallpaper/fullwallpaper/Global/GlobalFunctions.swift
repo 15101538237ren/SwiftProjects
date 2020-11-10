@@ -9,6 +9,20 @@ import Foundation
 import UIKit
 import SwiftyJSON
 
+func isKeyPresentInUserDefaults(key: String) -> Bool {
+    return UserDefaults.standard.object(forKey: key) != nil
+}
+
+func minutesBetweenDates(_ oldDate: Date, _ newDate: Date) -> CGFloat {
+
+    //get both times sinces refrenced date and divide by 60 to get minutes
+    let newDateMinutes = newDate.timeIntervalSinceReferenceDate/60
+    let oldDateMinutes = oldDate.timeIntervalSinceReferenceDate/60
+
+    //then return the difference
+    return CGFloat(newDateMinutes - oldDateMinutes)
+}
+
 func presentAlert(title: String, message: String, okText: String) -> UIAlertController{
     let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
     let okayAction = UIAlertAction(title: okText, style: .cancel, handler: nil)
