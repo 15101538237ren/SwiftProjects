@@ -1,7 +1,7 @@
 {
   "images" : [
     {
-      "filename" : "loginBackground.jpg",
+      "filename" : "wide_image_placeholder.pdf",
       "idiom" : "universal",
       "scale" : "1x"
     },
@@ -20,6 +20,7 @@
   },
   "properties" : {
     "compression-type" : "lossless",
+    "preserves-vector-representation" : true,
     "template-rendering-intent" : "original"
   }
 }

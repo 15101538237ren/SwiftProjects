@@ -44,23 +44,39 @@ class SettingVC: UIViewController , UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "settingTableViewCell", for: indexPath) as! SettingTableViewCell
-        
         let section: Int = indexPath.section
         let row: Int = indexPath.row
-        cell.imgView.image = settingItems[section][row].icon
-        cell.titleLbl.text = settingItems[section][row].name
-        
-        if row != settingItems[section].count - 1{
-            let bottomBorder = CALayer()
+        if !(section == 2 && row == 1){
+            let cell = tableView.dequeueReusableCell(withIdentifier: "settingTableViewCell", for: indexPath) as! SettingTableViewCell
+            cell.imgView.image = settingItems[section][row].icon
+            cell.titleLbl.text = settingItems[section][row].name
+            if row != settingItems[section].count - 1{
+                let bottomBorder = CALayer()
 
-            bottomBorder.frame = CGRect(x: 0.0, y: cell.contentView.frame.size.height - separatorHeight, width: cell.contentView.frame.size.width, height: separatorHeight)
-            bottomBorder.backgroundColor = UIColor(white: 0.92, alpha: 1.0).cgColor
+                bottomBorder.frame = CGRect(x: 0.0, y: cell.contentView.frame.size.height - separatorHeight, width: cell.contentView.frame.size.width, height: separatorHeight)
+                bottomBorder.backgroundColor = UIColor(white: 0.92, alpha: 1.0).cgColor
+                
+                cell.contentView.layer.addSublayer(bottomBorder)
+            }
+            return cell
+        } else{
+            let cell = tableView.dequeueReusableCell(withIdentifier: "settingTableViewCellWithValue", for: indexPath) as! SettingTableViewCellWithValue
+            cell.imgView.image = settingItems[section][row].icon
+            cell.titleLbl.text = settingItems[section][row].name
+            let currentDiskUsageInBytes: Int = Nuke.DataLoader.sharedUrlCache.currentDiskUsage
+            let bytesOfMB:Float = 1024*1024
+            cell.labelValue.text = String(format: "%.0fMB", Float(currentDiskUsageInBytes)/bytesOfMB)
+            if row != settingItems[section].count - 1{
+                let bottomBorder = CALayer()
+
+                bottomBorder.frame = CGRect(x: 0.0, y: cell.contentView.frame.size.height - separatorHeight, width: cell.contentView.frame.size.width, height: separatorHeight)
+                bottomBorder.backgroundColor = UIColor(white: 0.92, alpha: 1.0).cgColor
+                
+                cell.contentView.layer.addSublayer(bottomBorder)
+            }
             
-            cell.contentView.layer.addSublayer(bottomBorder)
+            return cell
         }
-        
-        return cell
     }
     
     func presentAlertInView(title: String, message: String, okText: String){
@@ -171,10 +187,15 @@ class SettingVC: UIViewController , UITableViewDataSource, UITableViewDelegate {
     }
     
     func cleanImageCache() {
+        let indexPath:IndexPath = IndexPath(row: 1, section: 2)
         Nuke.ImageCache.shared.removeAll()
         Nuke.DataLoader.sharedUrlCache.removeAllCachedResponses()
         let ac = UIAlertController(title: "缓存清除成功", message: "", preferredStyle: .alert)
-        ac.addAction(UIAlertAction(title: "好", style: .default, handler: nil))
+        ac.addAction(UIAlertAction(title: "好", style: .default, handler: { _ in
+                DispatchQueue.main.async {
+                    self.tableView.reloadRows(at: [indexPath], with: .automatic)
+                }
+        }))
         present(ac, animated: true, completion: nil)
     }
     

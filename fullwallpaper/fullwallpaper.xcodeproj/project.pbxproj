@@ -23,8 +23,9 @@
 		55F39929254A624D0094A477 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55F39928254A624D0094A477 /* SceneDelegate.swift */; };
 		55F3992B254A624D0094A477 /* WallpaperVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55F3992A254A624D0094A477 /* WallpaperVC.swift */; };
 		55F3992E254A624D0094A477 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 55F3992C254A624D0094A477 /* Main.storyboard */; };
-		55F39930254A624D0094A477 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 55F3992F254A624D0094A477 /* Assets.xcassets */; };
 		55F39933254A624D0094A477 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 55F39931254A624D0094A477 /* LaunchScreen.storyboard */; };
+		C3770DA9255CF99700D240CB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 55F3992F254A624D0094A477 /* Assets.xcassets */; };
+		C3770DCE255D143F00D240CB /* SettingTableViewCellWithValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3770DCD255D143F00D240CB /* SettingTableViewCellWithValue.swift */; };
 		C38564EF255A4D870059E429 /* LoginOrRegisterVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C38564EE255A4D870059E429 /* LoginOrRegisterVC.swift */; };
 		C3871DF0255A6CA7001DF6C4 /* EmailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3871DEF255A6CA7001DF6C4 /* EmailVC.swift */; };
 		C38E1DFD255662E4004D008A /* Wallpaper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C38E1DFC255662E4004D008A /* Wallpaper.swift */; };
@@ -60,6 +61,7 @@
 		55F3992F254A624D0094A477 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		55F39932254A624D0094A477 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		55F39934254A624D0094A477 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C3770DCD255D143F00D240CB /* SettingTableViewCellWithValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingTableViewCellWithValue.swift; sourceTree = "<group>"; };
 		C38564EE255A4D870059E429 /* LoginOrRegisterVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginOrRegisterVC.swift; sourceTree = "<group>"; };
 		C3871DEF255A6CA7001DF6C4 /* EmailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailVC.swift; sourceTree = "<group>"; };
 		C38E1DFC255662E4004D008A /* Wallpaper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Wallpaper.swift; sourceTree = "<group>"; };
@@ -181,6 +183,7 @@
 				5577BE0A254A8767008A1F14 /* WallpaperCollectionViewCell.swift */,
 				55537E36254B3F1D005081CF /* CategoryTableViewCell.swift */,
 				C3C3565525571DA7006F137B /* SettingTableViewCell.swift */,
+				C3770DCD255D143F00D240CB /* SettingTableViewCellWithValue.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -281,7 +284,7 @@
 				C3E09BDB255CBE1600C4F238 /* AiNiChuanYueRenHai.ttf in Resources */,
 				55F39933254A624D0094A477 /* LaunchScreen.storyboard in Resources */,
 				C3C3565D2557247F006F137B /* Light.plist in Resources */,
-				55F39930254A624D0094A477 /* Assets.xcassets in Resources */,
+				C3770DA9255CF99700D240CB /* Assets.xcassets in Resources */,
 				55537E2E254B2572005081CF /* ClickerScript-Regular.ttf in Resources */,
 				55F3992E254A624D0094A477 /* Main.storyboard in Resources */,
 			);
@@ -340,6 +343,7 @@
 				C3871DF0255A6CA7001DF6C4 /* EmailVC.swift in Sources */,
 				C3C3565925572154006F137B /* SettingVC.swift in Sources */,
 				55370FAF2553B5800003CAD5 /* GlobalVariables.swift in Sources */,
+				C3770DCE255D143F00D240CB /* SettingTableViewCellWithValue.swift in Sources */,
 				55F3992B254A624D0094A477 /* WallpaperVC.swift in Sources */,
 				55537E3A254BBEE4005081CF /* WallpaperDetailVC.swift in Sources */,
 				5577BE10254A88F0008A1F14 /* GlobalConstants.swift in Sources */,

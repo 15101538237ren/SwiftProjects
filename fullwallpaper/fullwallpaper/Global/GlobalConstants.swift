@@ -9,8 +9,13 @@ import Foundation
 import UIKit
 import Nuke
 
-let options = ImageLoadingOptions(
-    placeholder: UIImage(named: "placeholder"),
+let wallpaperLoadingOptions = ImageLoadingOptions(
+    placeholder: UIImage(named: "image_placeholder"),
+    transition: .fadeIn(duration: 0.33)
+)
+
+let categoryLoadingOptions = ImageLoadingOptions(
+    placeholder: UIImage(named: "wide_image_placeholder"),
     transition: .fadeIn(duration: 0.33)
 )
 

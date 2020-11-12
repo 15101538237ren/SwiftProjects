@@ -13,6 +13,7 @@ class WallpaperCollectionViewCell: UICollectionViewCell {
     @IBOutlet var likeLabel: UILabel!
     @IBOutlet var proBtn: UIButton!{
         didSet{
+            proBtn.alpha = 0
             proBtn.layer.cornerRadius = 4
             proBtn.layer.masksToBounds = true
         }

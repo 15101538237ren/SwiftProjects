@@ -135,7 +135,7 @@ class CategoryCollectionVC: UIViewController, UICollectionViewDelegate, UICollec
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "wallpaperCollectionViewCell", for: indexPath) as! WallpaperCollectionViewCell
         let imgUrl = URL(string: wallpapers[indexPath.row].imgUrl)!
-        Nuke.loadImage(with: imgUrl, options: options, into: cell.imageV)
+        Nuke.loadImage(with: imgUrl, options: wallpaperLoadingOptions, into: cell.imageV)
         return cell
     }
     

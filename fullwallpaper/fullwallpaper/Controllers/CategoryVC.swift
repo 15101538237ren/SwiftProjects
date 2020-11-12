@@ -150,7 +150,7 @@ class CategoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate, 
         let row: Int = indexPath.row
         cell.titleLabel.text = categories[row].name
         let imgUrl = URL(string: categories[row].coverUrl)!
-        Nuke.loadImage(with: imgUrl, options: options, into: cell.imageV)
+        Nuke.loadImage(with: imgUrl, options: categoryLoadingOptions, into: cell.imageV)
         return cell
     }
     
