@@ -35,6 +35,10 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if let _ = LCApplication.default.currentUser {
+            LCUser.logOut()
+        }
         setupCollectionView()
         initActivityIndicator()
         loadWallpapers()

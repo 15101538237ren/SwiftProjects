@@ -10,9 +10,18 @@ import LeanCloud
 import SwiftValidators
 
 class EmailVC: UIViewController {
+    let silverColor:UIColor = UIColor(red: 192, green: 192, blue: 192, alpha: 1)
     
-    @IBOutlet var emailTextField: UITextField!
-    @IBOutlet var passwordField: UITextField!
+    @IBOutlet var emailTextField: UITextField!{
+        didSet{
+            emailTextField.attributedPlaceholder = NSAttributedString(string: "邮 箱",attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
+        }
+    }
+    @IBOutlet var passwordField: UITextField!{
+        didSet{
+            passwordField.attributedPlaceholder = NSAttributedString(string: "密 码",attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
+        }
+    }
     @IBOutlet var forgotPwdBtn: UIButton!
     @IBOutlet var emailLoginBtn: UIButton!{
         didSet {
@@ -20,6 +29,27 @@ class EmailVC: UIViewController {
             emailLoginBtn.layer.masksToBounds = true
         }
     }
+    @IBOutlet var emailStackView: UIStackView!
+    @IBOutlet var resetStackView: UIStackView!{
+        didSet{
+            resetStackView.alpha = 0
+        }
+    }
+    
+    
+    @IBOutlet var resetEmailTextField: UITextField!{
+        didSet{
+            resetEmailTextField.attributedPlaceholder = NSAttributedString(string: "邮 箱",attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
+        }
+    }
+    @IBOutlet var resetPwdBtn: UIButton!{
+        didSet {
+            resetPwdBtn.layer.cornerRadius = 9.0
+            resetPwdBtn.layer.masksToBounds = true
+        }
+    }
+    
+    var viewTranslation = CGPoint(x: 0, y: 0)
     
     var indicator = UIActivityIndicatorView()
     var strLabel = UILabel()
@@ -65,8 +95,29 @@ class EmailVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        view.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(handleDismiss)))
+    }
+    
+    @objc func handleDismiss(sender: UIPanGestureRecognizer) {
+        switch sender.state {
+        case .changed:
+            viewTranslation = sender.translation(in: view)
+            if viewTranslation.y > 0 {
+                UIView.animate(withDuration: 0.2, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+                    self.view.transform = CGAffineTransform(translationX: 0, y: self.viewTranslation.y)
+                })
+            }
+        case .ended:
+            if viewTranslation.y < 200 {
+                UIView.animate(withDuration: 0.2, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+                    self.view.transform = .identity
+                })
+            } else {
+                dismiss(animated: true, completion: nil)
+            }
+        default:
+            break
+        }
     }
     
     @IBAction func loginOrRegister(sender: UIButton){
@@ -103,6 +154,7 @@ class EmailVC: UIViewController {
             if connected{
                 var lastEmailLoginClickTime = Date()
                 var emailClickKeySet = false
+                
                 if isKeyPresentInUserDefaults(key: "lastEmailLoginClickTime"){
                     lastEmailLoginClickTime = UserDefaults.standard.object(forKey: "lastEmailLoginClickTime") as! Date
                     emailClickKeySet = true
@@ -120,6 +172,7 @@ class EmailVC: UIViewController {
                             UserDefaults.standard.set(Date(), forKey: "lastEmailLoginClickTime")
                             DispatchQueue.main.async {
                                 self.stopIndicator()
+                                self.dismiss(animated: true, completion: nil)
                             }
                             //登录成功
                             
@@ -168,6 +221,8 @@ class EmailVC: UIViewController {
                                 self.present(alertController, animated: true, completion: nil)
                             case 210:
                                 self.presentAlertInView(title: "密码不正确!", message: "", okText: "好")
+                            case 216:
+                                self.presentAlertInView(title: "请前往邮箱，并完成验证", message: "", okText: "好")
                             case 400:
                                 self.presentAlertInView(title: "密码不正确!", message: "", okText: "好")
                             default:
@@ -187,18 +242,91 @@ class EmailVC: UIViewController {
             
         }
     
+    @IBAction func resetPwd(sender: UIButton){
+        self.view.endEditing(true)
+        let email:String? = resetEmailTextField.text
+        
+        let lastResetEmailSentTimeKey:String = "lastResetEmailSentTime"
+        var lastResetEmailSentTime = Date()
+        var emailSentKeySet = false
+        
+        if isKeyPresentInUserDefaults(key: lastResetEmailSentTimeKey){
+            lastResetEmailSentTime = UserDefaults.standard.object(forKey: lastResetEmailSentTimeKey) as! Date
+            emailSentKeySet = true
+        }
+        
+        if !emailSentKeySet || (minutesBetweenDates(lastResetEmailSentTime, Date()) > 1) {
+            if let email = email, Validator.isEmail().apply(email){
+                
+                let connected = Reachability.isConnectedToNetwork()
+                if connected {
+                    DispatchQueue.main.async {
+                        self.initActivityIndicator(text: "发送中")
+                    }
+                    _ = LCUser.requestPasswordReset(email: email) { (result) in
+                        DispatchQueue.main.async {
+                            self.stopIndicator()
+                        }
+                        
+                        switch result {
+                        case .success:
+                            
+                            let alertController = UIAlertController(title: "密码重置邮件已发送至\(email)!", message: "", preferredStyle: .alert)
+                            let okayAction = UIAlertAction(title: "好", style: .cancel, handler: {_ in
+                                DispatchQueue.main.async {
+                                    self.dismiss(animated: true, completion: nil)
+                                }
+                            })
+                            alertController.addAction(okayAction)
+                            self.present(alertController, animated: true)
+                            
+                            UserDefaults.standard.set(Date(), forKey: lastResetEmailSentTimeKey)
+                            
+                        case .failure(error: let error):
+                            switch error.code {
+                            case 205:
+                                self.presentAlertInView(title: "该邮箱尚未注册!", message: "", okText: "好")
+                            default:
+                                self.presentAlertInView(title: error.reason?.stringValue ?? "出现错误，请检查并重试", message: "", okText: "好")
+                            }
+                        }
+                    }
+                }else{
+                    let alertCtl = presentNoNetworkAlert()
+                    self.present(alertCtl, animated: true, completion: nil)
+                }
+                
+            }
+            else{
+                presentAlertInView(title: "邮箱格式不正确!", message: "", okText: "好")
+                return
+            }
+        } else{
+            presentAlertInView(title: "邮件已发送，如需重新发送，请等待1分钟!", message: "", okText: "好")
+            return
+        }
+        
+        
+    }
+    
     @IBAction func unwind(_ sender: UIButton) {
         self.dismiss(animated: true, completion: nil)
     }
     
-    @IBAction func forgetPwd(_ sender: UIButton) {
-        let storyBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
-        let resetPwdVC = storyBoard.instantiateViewController(withIdentifier: "resetPwdVC") as! ResetPwdViewController
-        resetPwdVC.modalPresentationStyle = .fullScreen
-        DispatchQueue.main.async {
-            self.present(resetPwdVC, animated: true, completion: nil)
+    
+    func showResetViews(){
+        DispatchQueue.main.async { [self] in
+            forgotPwdBtn.alpha = 0
+            emailLoginBtn.alpha = 0
+            emailStackView.alpha = 0
             
+            resetStackView.alpha = 1
+            resetPwdBtn.alpha = 1
         }
+    }
+    
+    @IBAction func forgetPwd(_ sender: UIButton) {
+        showResetViews()
     }
 
 }

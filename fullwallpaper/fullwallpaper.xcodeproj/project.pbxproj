@@ -27,7 +27,6 @@
 		55F39933254A624D0094A477 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 55F39931254A624D0094A477 /* LaunchScreen.storyboard */; };
 		C38564EF255A4D870059E429 /* LoginOrRegisterVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C38564EE255A4D870059E429 /* LoginOrRegisterVC.swift */; };
 		C3871DF0255A6CA7001DF6C4 /* EmailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3871DEF255A6CA7001DF6C4 /* EmailVC.swift */; };
-		C3871DF3255A72D4001DF6C4 /* ResetPwdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3871DF2255A72D4001DF6C4 /* ResetPwdViewController.swift */; };
 		C38E1DFD255662E4004D008A /* Wallpaper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C38E1DFC255662E4004D008A /* Wallpaper.swift */; };
 		C3C3565325570EB7006F137B /* CategoryCollectionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C3565225570EB7006F137B /* CategoryCollectionVC.swift */; };
 		C3C3565625571DA7006F137B /* SettingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C3565525571DA7006F137B /* SettingTableViewCell.swift */; };
@@ -35,6 +34,7 @@
 		C3C3565D2557247F006F137B /* Light.plist in Resources */ = {isa = PBXBuildFile; fileRef = C3C3565C2557247F006F137B /* Light.plist */; };
 		C3C3566025572489006F137B /* Dark.plist in Resources */ = {isa = PBXBuildFile; fileRef = C3C3565F25572489006F137B /* Dark.plist */; };
 		C3C3566325573B03006F137B /* SettingItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C3566225573B03006F137B /* SettingItem.swift */; };
+		C3E09BDB255CBE1600C4F238 /* AiNiChuanYueRenHai.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C3E09BDA255CBE1600C4F238 /* AiNiChuanYueRenHai.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -62,7 +62,6 @@
 		55F39934254A624D0094A477 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C38564EE255A4D870059E429 /* LoginOrRegisterVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginOrRegisterVC.swift; sourceTree = "<group>"; };
 		C3871DEF255A6CA7001DF6C4 /* EmailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailVC.swift; sourceTree = "<group>"; };
-		C3871DF2255A72D4001DF6C4 /* ResetPwdViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPwdViewController.swift; sourceTree = "<group>"; };
 		C38E1DFC255662E4004D008A /* Wallpaper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Wallpaper.swift; sourceTree = "<group>"; };
 		C3C3565225570EB7006F137B /* CategoryCollectionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCollectionVC.swift; sourceTree = "<group>"; };
 		C3C3565525571DA7006F137B /* SettingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingTableViewCell.swift; sourceTree = "<group>"; };
@@ -70,6 +69,7 @@
 		C3C3565C2557247F006F137B /* Light.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Light.plist; sourceTree = "<group>"; };
 		C3C3565F25572489006F137B /* Dark.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Dark.plist; sourceTree = "<group>"; };
 		C3C3566225573B03006F137B /* SettingItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingItem.swift; sourceTree = "<group>"; };
+		C3E09BDA255CBE1600C4F238 /* AiNiChuanYueRenHai.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = AiNiChuanYueRenHai.ttf; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -171,7 +171,6 @@
 				C3C3565825572154006F137B /* SettingVC.swift */,
 				C38564EE255A4D870059E429 /* LoginOrRegisterVC.swift */,
 				C3871DEF255A6CA7001DF6C4 /* EmailVC.swift */,
-				C3871DF2255A72D4001DF6C4 /* ResetPwdViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -189,6 +188,7 @@
 		55F39942254A7CE00094A477 /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
+				C3E09BDA255CBE1600C4F238 /* AiNiChuanYueRenHai.ttf */,
 				55537E2D254B2572005081CF /* ClickerScript-Regular.ttf */,
 			);
 			path = Fonts;
@@ -278,6 +278,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C3C3566025572489006F137B /* Dark.plist in Resources */,
+				C3E09BDB255CBE1600C4F238 /* AiNiChuanYueRenHai.ttf in Resources */,
 				55F39933254A624D0094A477 /* LaunchScreen.storyboard in Resources */,
 				C3C3565D2557247F006F137B /* Light.plist in Resources */,
 				55F39930254A624D0094A477 /* Assets.xcassets in Resources */,
@@ -339,7 +340,6 @@
 				C3871DF0255A6CA7001DF6C4 /* EmailVC.swift in Sources */,
 				C3C3565925572154006F137B /* SettingVC.swift in Sources */,
 				55370FAF2553B5800003CAD5 /* GlobalVariables.swift in Sources */,
-				C3871DF3255A72D4001DF6C4 /* ResetPwdViewController.swift in Sources */,
 				55F3992B254A624D0094A477 /* WallpaperVC.swift in Sources */,
 				55537E3A254BBEE4005081CF /* WallpaperDetailVC.swift in Sources */,
 				5577BE10254A88F0008A1F14 /* GlobalConstants.swift in Sources */,

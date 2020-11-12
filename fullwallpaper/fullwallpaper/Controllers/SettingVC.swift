@@ -63,10 +63,20 @@ class SettingVC: UIViewController , UITableViewDataSource, UITableViewDelegate {
         return cell
     }
     
+    func presentAlertInView(title: String, message: String, okText: String){
+        let alertController = presentAlert(title: title, message: message, okText: okText)
+        self.present(alertController, animated: true)
+    }
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch indexPath.section {
         case 0:
-            showLoginOrRegisterVC()
+            if let _ = LCApplication.default.currentUser {
+                self.presentAlertInView(title: "用户已登录!", message: "", okText: "好")
+            } else {
+                // 显示注册或登录页面
+                showLoginOrRegisterVC()
+            }
         case 2:
             switch indexPath.row {
                 case 1:
@@ -138,10 +148,10 @@ class SettingVC: UIViewController , UITableViewDataSource, UITableViewDelegate {
     
     func showLoginOrRegisterVC() {
         let LoginRegStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
-        let loginOrRegisterVC = LoginRegStoryBoard.instantiateViewController(withIdentifier: "loginOrRegisterVC") as! LoginOrRegisterVC
-        loginOrRegisterVC.modalPresentationStyle = .fullScreen
+        let emailVC = LoginRegStoryBoard.instantiateViewController(withIdentifier: "emailVC") as! EmailVC
+        emailVC.modalPresentationStyle = .overCurrentContext
         DispatchQueue.main.async {
-            self.present(loginOrRegisterVC, animated: true, completion: nil)
+            self.present(emailVC, animated: true, completion: nil)
         }
     }
     
