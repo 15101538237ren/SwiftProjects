@@ -30,6 +30,7 @@ class LoginOrRegisterVC: UIViewController, CountryPickerViewDelegate, CountryPic
         }
     }
     
+    var viewTranslation = CGPoint(x: 0, y: 0)
     var verificationCodeSent = false
     var dialCode: String = "+86"
     var countryCode: String = "CN"
@@ -71,12 +72,38 @@ class LoginOrRegisterVC: UIViewController, CountryPickerViewDelegate, CountryPic
         self.strLabel.alpha = 0
     }
     
+    @objc func handleDismiss(sender: UIPanGestureRecognizer) {
+        switch sender.state {
+        case .changed:
+            viewTranslation = sender.translation(in: view)
+            
+            if viewTranslation.y > 0 {
+                UIView.animate(withDuration: 0.2, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+                    self.view.transform = CGAffineTransform(translationX: 0, y: self.viewTranslation.y)
+                })
+            }
+        case .ended:
+            if viewTranslation.y < 200 {
+                UIView.animate(withDuration: 0.2, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+                    self.view.transform = .identity
+                })
+            } else {
+                DispatchQueue.main.async {
+                    self.dismiss(animated: true, completion: nil)
+                }
+            }
+        default:
+            break
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         countryPickerView.delegate = self
         countryPickerView.dataSource = self
         countryPickerView.showCountryCodeInView = false
         getVerificationCodeBtn.addTarget(self, action: #selector(verificationBtnTimeChange), for: .touchUpInside)
+        view.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(handleDismiss)))
     }
     
     func presentAlert(title: String, message: String, okText: String){
@@ -238,15 +265,6 @@ class LoginOrRegisterVC: UIViewController, CountryPickerViewDelegate, CountryPic
     func countryPickerView(_ countryPickerView: CountryPickerView, didSelectCountry country: Country) {
         self.dialCode = country.phoneCode
         self.countryCode = country.code
-    }
-    
-    @IBAction func emailLogin(_ sender: UIButton) {
-        let LoginRegStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
-        let emailVC = LoginRegStoryBoard.instantiateViewController(withIdentifier: "emailVC") as! EmailVC
-        emailVC.modalPresentationStyle = .fullScreen
-        DispatchQueue.main.async {
-            self.present(emailVC, animated: true, completion: nil)
-        }
     }
     
     @IBAction func unwind(_ sender: UIButton) {
