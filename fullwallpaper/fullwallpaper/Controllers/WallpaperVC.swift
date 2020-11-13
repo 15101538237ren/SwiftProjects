@@ -9,6 +9,7 @@ import UIKit
 import LeanCloud
 import Nuke
 import UIEmptyState
+import PopMenu
 
 class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate, UIEmptyStateDataSource, UIEmptyStateDelegate {
     
@@ -17,6 +18,7 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
     
     var wallpapers:[Wallpaper] = []
     var NoNetWork:Bool = false
+    var sortType:SortType = .byLike
     
     @IBOutlet weak var collectionView: UICollectionView!
     
@@ -163,6 +165,57 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
         guard let emptyView = view as? UIEmptyStateView else { return }
         emptyView.contentView.layer.borderColor = UIColor.clear.cgColor
         emptyView.contentView.layer.backgroundColor = UIColor.clear.cgColor
+    }
+    
+    @IBAction func presentPopMenu(_ sender: UIButton) {
+        let iconWidthHeight:CGFloat = 20
+        let popAction = PopMenuDefaultAction(title: "最热壁纸", image: UIImage(named: "heart-fill-icon"), color: UIColor.darkGray)
+        let latestAction = PopMenuDefaultAction(title: "最新壁纸", image: UIImage(named: "calendar-icon"), color: UIColor.darkGray)
+        let uploadAction = PopMenuDefaultAction(title: "上传壁纸", image: UIImage(named: "upload"), color: UIColor.darkGray)
+        
+        popAction.iconWidthHeight = iconWidthHeight
+        latestAction.iconWidthHeight = iconWidthHeight
+        uploadAction.iconWidthHeight = iconWidthHeight
+        
+        let menuVC = PopMenuViewController(sourceView:sender, actions: [popAction, latestAction, uploadAction])
+        menuVC.delegate = self
+        menuVC.appearance.popMenuFont = .systemFont(ofSize: 15, weight: .regular)
+        
+        menuVC.appearance.popMenuColor.backgroundColor = .solid(fill: UIColor(red: 128, green: 128, blue: 128, alpha: 1))
+        self.present(menuVC, animated: true, completion: nil)
+    }
+    
+    func loadUploadVC() -> Void{
+        let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+        let uploadVC = mainStoryBoard.instantiateViewController(withIdentifier: "uploadVC") as! UploadWallpaperVC
+        
+        uploadVC.modalPresentationStyle = .fullScreen
+        
+        DispatchQueue.main.async {
+            self.present(uploadVC, animated: true, completion: nil)
+        }
+    }
+}
+
+extension WallpaperVC: PopMenuViewControllerDelegate {
+
+    // This will be called when a pop menu action was selected
+    func popMenuDidSelectItem(_ popMenuViewController: PopMenuViewController, at index: Int) {
+        var sortTypeChanged:Bool = false
+        if index == 0{
+            if sortType != .byLike{
+                sortType = .byLike
+                sortTypeChanged = true
+            }
+        }else if index == 1{
+            if sortType != .byCreateDate{
+                sortType = .byCreateDate
+                sortTypeChanged = true
+            }
+        }
+        else{
+            loadUploadVC()
+        }
     }
 }
 

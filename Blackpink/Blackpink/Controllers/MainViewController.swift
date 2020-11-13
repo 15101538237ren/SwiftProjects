@@ -186,7 +186,6 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
         ]
         let menuVC = PopMenuViewController(sourceView:sender, actions: actions)
         menuVC.delegate = self
-        let backgroundColor = BlackPinkPink
         menuVC.appearance.popMenuColor.backgroundColor = .solid(fill: backgroundColor)
         self.present(menuVC, animated: true, completion: nil)
     }

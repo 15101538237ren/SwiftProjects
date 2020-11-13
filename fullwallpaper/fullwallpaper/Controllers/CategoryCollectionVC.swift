@@ -169,4 +169,22 @@ class CategoryCollectionVC: UIViewController, UICollectionViewDelegate, UICollec
         emptyView.contentView.layer.borderColor = UIColor.clear.cgColor
         emptyView.contentView.layer.backgroundColor = UIColor.clear.cgColor
     }
+    
+    func loadUploadVC() -> Void{
+        let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+        
+        let uploadVC = mainStoryBoard.instantiateViewController(withIdentifier: "uploadVC") as! UploadWallpaperVC
+        
+        uploadVC.modalPresentationStyle = .fullScreen
+        
+        DispatchQueue.main.async {
+            self.present(uploadVC, animated: true, completion: nil)
+        }
+    }
+    
+    
+    @IBAction func selectWallpaper(_ sender: UIButton) {
+        loadUploadVC()
+    }
+    
 }
