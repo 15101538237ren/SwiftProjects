@@ -11,3 +11,9 @@ enum SortType {
     case byLike
     case byCreateDate
 }
+
+enum DisplayMode {
+    case Plain
+    case LockScreen
+    case HomeScreen
+}

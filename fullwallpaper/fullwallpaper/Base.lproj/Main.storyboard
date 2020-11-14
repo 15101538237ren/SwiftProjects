@@ -841,7 +841,7 @@
                                             <action selector="unwind:" destination="gIY-j6-DLu" eventType="touchUpInside" id="iqR-Ud-vpi"/>
                                         </connections>
                                     </button>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="iPhoneX" translatesAutoresizingMaskIntoConstraints="NO" id="Wad-uF-0hq">
+                                    <imageView clipsSubviews="YES" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="iPhoneX" translatesAutoresizingMaskIntoConstraints="NO" id="Wad-uF-0hq">
                                         <rect key="frame" x="368" y="10" width="26" height="30"/>
                                         <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
@@ -922,7 +922,7 @@
                                     <constraint firstAttribute="width" constant="220" id="H9F-xi-Y7J"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" returnKeyType="done"/>
                             </textField>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="5o8-Nx-Qtg"/>
@@ -930,7 +930,6 @@
                         <constraints>
                             <constraint firstItem="pP8-6p-BXd" firstAttribute="leading" secondItem="5o8-Nx-Qtg" secondAttribute="leading" id="Dns-U8-JvX"/>
                             <constraint firstItem="Kqs-Lw-UB6" firstAttribute="centerX" secondItem="jqz-dD-BRY" secondAttribute="centerX" id="ImV-I3-7Rt"/>
-                            <constraint firstItem="O2M-QS-5fm" firstAttribute="width" secondItem="O2M-QS-5fm" secondAttribute="height" multiplier="375:812" id="JYc-Ki-qkt"/>
                             <constraint firstItem="pP8-6p-BXd" firstAttribute="trailing" secondItem="5o8-Nx-Qtg" secondAttribute="trailing" id="VCt-yM-mzJ"/>
                             <constraint firstItem="ueC-dU-hb7" firstAttribute="top" secondItem="Kqs-Lw-UB6" secondAttribute="bottom" constant="30" id="YAx-pC-Xwd"/>
                             <constraint firstItem="y9o-WQ-MKc" firstAttribute="top" secondItem="pP8-6p-BXd" secondAttribute="bottom" constant="15" id="ZXZ-fc-Nwl"/>
@@ -945,6 +944,7 @@
                     <connections>
                         <outlet property="captionTextField" destination="y9o-WQ-MKc" id="xLd-Ey-XaT"/>
                         <outlet property="maskImgView" destination="O2M-QS-5fm" id="QBq-Kw-Mnz"/>
+                        <outlet property="previewImgView" destination="Wad-uF-0hq" id="G7I-d0-14f"/>
                         <outlet property="selectCategoryBtn" destination="udS-o9-AhX" id="cvl-2C-QxK"/>
                         <outlet property="submitBtn" destination="JSq-LP-jzd" id="VZG-VM-8LC"/>
                         <outlet property="wallpaperImgView" destination="Kqs-Lw-UB6" id="0PO-zV-SiH"/>

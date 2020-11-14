@@ -8,6 +8,14 @@
 import Foundation
 import UIKit
 import Nuke
+import JGProgressHUD
+
+
+//Constants
+let hud = JGProgressHUD(style: .light)
+
+let screenWidth:CGFloat = 828
+let screenHeight:CGFloat = 1792
 
 let wallpaperLoadingOptions = ImageLoadingOptions(
     placeholder: UIImage(named: "image_placeholder"),

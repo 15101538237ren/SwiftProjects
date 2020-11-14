@@ -10,11 +10,12 @@ import LeanCloud
 import Nuke
 import UIEmptyState
 import PopMenu
+import CropViewController
 
-class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate, UIEmptyStateDataSource, UIEmptyStateDelegate {
+class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate, UIEmptyStateDataSource, UIEmptyStateDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, CropViewControllerDelegate {
     
     //Variables
-    var indicator = UIActivityIndicatorView()
+    var imagePicker = UIImagePickerController()
     
     var wallpapers:[Wallpaper] = []
     var NoNetWork:Bool = false
@@ -42,24 +43,8 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
             LCUser.logOut()
         }
         setupCollectionView()
-        initActivityIndicator()
+        initIndicator(view: self.view)
         loadWallpapers()
-    }
-    
-    func initActivityIndicator() {
-        indicator.removeFromSuperview()
-        let height:CGFloat = 46.0
-        indicator = .init(style: .medium)
-        indicator.color = .lightGray
-        indicator.frame = CGRect(x: view.frame.midX - height/2, y: view.frame.midY - height/2, width: height, height: height)
-        indicator.alpha = 1.0
-        indicator.startAnimating()
-        view.addSubview(indicator)
-    }
-    
-    func stopIndicator(){
-        self.indicator.stopAnimating()
-        self.indicator.hidesWhenStopped = true
     }
 
     func loadDetailVC(imageUrl: URL) -> Void{
@@ -77,7 +62,7 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
     func loadWallpapers()
     {
         if !Reachability.isConnectedToNetwork(){
-            self.stopIndicator()
+            stopIndicator()
             NoNetWork = true
             self.reloadEmptyStateForCollectionView(self.collectionView)
             return
@@ -110,7 +95,7 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
                             self.collectionView.reloadData()
                             self.NoNetWork = false
                             self.reloadEmptyStateForCollectionView(self.collectionView)
-                            self.stopIndicator()
+                            stopIndicator()
                         }
                         
                         break
@@ -122,7 +107,7 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
                 DispatchQueue.main.async {
                     self.NoNetWork = false
                     self.reloadEmptyStateForCollectionView(self.collectionView)
-                    self.stopIndicator()
+                    stopIndicator()
                 }
             }
         }
@@ -189,33 +174,79 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
         let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
         let uploadVC = mainStoryBoard.instantiateViewController(withIdentifier: "uploadVC") as! UploadWallpaperVC
         
-        uploadVC.modalPresentationStyle = .fullScreen
+        uploadVC.modalPresentationStyle = .overCurrentContext
         
         DispatchQueue.main.async {
             self.present(uploadVC, animated: true, completion: nil)
         }
     }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        if let pickedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage{
+            DispatchQueue.main.async {
+                picker.dismiss(animated: true, completion: nil)
+                self.presentCropViewController(image: pickedImage)
+            }
+        }
+    }
+    
+    func presentCropViewController(image: UIImage) {
+        let cropController = CropViewController(image: image)
+        cropController.title = "「缩放」或「拖拽」来调整"
+        cropController.doneButtonTitle = "确定"
+        cropController.cancelButtonTitle = "取消"
+        cropController.delegate = self
+        cropController.imageCropFrame = CGRect(x: 0, y: 0, width: screenWidth, height: screenHeight)
+        cropController.rotateButtonsHidden = true
+        cropController.rotateClockwiseButtonHidden = true
+        cropController.resetButtonHidden = true
+        cropController.aspectRatioLockEnabled = true
+        cropController.resetAspectRatioEnabled = false
+        cropController.aspectRatioPickerButtonHidden = true
+        present(cropController, animated: true, completion: nil)
+    }
+    
+    func cropViewController(_ cropViewController: CropViewController, didCropToImage image: UIImage, withRect cropRect: CGRect, angle: Int) {
+        // 'image' is the newly cropped version of the original image
+        let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+        let uploadVC = mainStoryBoard.instantiateViewController(withIdentifier: "uploadVC") as! UploadWallpaperVC
+        uploadVC.wallpaper = image
+        uploadVC.modalPresentationStyle = .overCurrentContext
+        
+        DispatchQueue.main.async {
+            cropViewController.dismiss(animated: true, completion: nil)
+            self.present(uploadVC, animated: true, completion: nil)
+        }
+    }
+    
+    func selectImage() {
+        if UIImagePickerController.isSourceTypeAvailable(.photoLibrary){
+            imagePicker.sourceType = .photoLibrary
+            imagePicker.delegate = self
+            imagePicker.mediaTypes = ["public.image"]
+            self.present(imagePicker, animated: true, completion: nil)
+        }
+    }
+    
 }
 
 extension WallpaperVC: PopMenuViewControllerDelegate {
 
     // This will be called when a pop menu action was selected
     func popMenuDidSelectItem(_ popMenuViewController: PopMenuViewController, at index: Int) {
-        var sortTypeChanged:Bool = false
         if index == 0{
             if sortType != .byLike{
                 sortType = .byLike
-                sortTypeChanged = true
             }
         }else if index == 1{
             if sortType != .byCreateDate{
                 sortType = .byCreateDate
-                sortTypeChanged = true
             }
         }
         else{
-            loadUploadVC()
+            self.dismiss(animated: false, completion: {
+                self.selectImage()
+            })
         }
     }
 }
-

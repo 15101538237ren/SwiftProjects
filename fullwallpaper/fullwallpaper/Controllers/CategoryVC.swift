@@ -10,12 +10,12 @@ import LeanCloud
 import SwiftyJSON
 import Nuke
 import UIEmptyState
+import JGProgressHUD
 
 
 class CategoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UIEmptyStateDataSource, UIEmptyStateDelegate {
     
     //Variables
-    var indicator = UIActivityIndicatorView()
     var NoNetWork:Bool = false
     
     var categories:[Category] = []
@@ -30,24 +30,8 @@ class CategoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate, 
         emptyStateDelegate = self
         self.tableView.separatorColor = .clear
         self.tableView.tableFooterView = UIView(frame: CGRect.zero)
-        initActivityIndicator()
+        initIndicator(view: self.view)
         loadCategories()
-    }
-    
-    func initActivityIndicator() {
-        indicator.removeFromSuperview()
-        let height:CGFloat = 46.0
-        indicator = .init(style: .medium)
-        indicator.color = .lightGray
-        indicator.frame = CGRect(x: view.frame.midX - height/2, y: view.frame.midY - height/2, width: height, height: height)
-        indicator.alpha = 1.0
-        indicator.startAnimating()
-        view.addSubview(indicator)
-    }
-    
-    func stopIndicator(){
-        self.indicator.stopAnimating()
-        self.indicator.hidesWhenStopped = true
     }
     
     func loadCategoryFromLocal(){
@@ -63,7 +47,7 @@ class CategoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate, 
             }
             self.tableView.reloadData()
             self.reloadEmptyStateForTableView(self.tableView)
-            self.stopIndicator()
+            stopIndicator()
         }
     }
     
@@ -88,7 +72,7 @@ class CategoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate, 
         if !Reachability.isConnectedToNetwork(){
             NoNetWork = true
             self.reloadEmptyStateForTableView(self.tableView)
-            self.stopIndicator()
+            stopIndicator()
             return
         }
         
@@ -116,7 +100,7 @@ class CategoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate, 
                             self.tableView.reloadData()
                             self.NoNetWork = false
                             self.reloadEmptyStateForTableView(self.tableView)
-                            self.stopIndicator()
+                            stopIndicator()
                         }
                         
                         encodeSaveJson()
@@ -130,7 +114,7 @@ class CategoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate, 
                 DispatchQueue.main.async {
                     self.NoNetWork = false
                     self.reloadEmptyStateForTableView(self.tableView)
-                    self.stopIndicator()
+                    stopIndicator()
                 }
             }
         }

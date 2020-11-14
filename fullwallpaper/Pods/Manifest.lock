@@ -5,6 +5,7 @@ PODS:
   - GRDB.swift (4.14.0):
     - GRDB.swift/standard (= 4.14.0)
   - GRDB.swift/standard (4.14.0)
+  - JGProgressHUD (2.2)
   - LeanCloud (17.5.5):
     - LeanCloud/RTM (= 17.5.5)
   - LeanCloud/Foundation (17.5.5):
@@ -32,6 +33,7 @@ PODS:
 DEPENDENCIES:
   - CountryPickerView
   - CropViewController
+  - JGProgressHUD
   - LeanCloud
   - NewPopMenu (~> 2.0)
   - Nuke (~> 9.0)
@@ -47,6 +49,7 @@ SPEC REPOS:
     - CountryPickerView
     - CropViewController
     - GRDB.swift
+    - JGProgressHUD
     - LeanCloud
     - NewPopMenu
     - Nuke
@@ -63,6 +66,7 @@ SPEC CHECKSUMS:
   CountryPickerView: 383c09949f7455de9892db7ce3400b10da090150
   CropViewController: 1aac40093c5739e60d992b04724a55d12a689a4c
   GRDB.swift: 8cc3ab7c8b8b4ac1761deb8dca4b51c1c9d429f8
+  JGProgressHUD: d83d7a981b85d11205e19ff8ad5bb9c40571c847
   LeanCloud: efbefbbc19c58ff6133a54a0d4980b844482f816
   NewPopMenu: c6129e08e8192f6257ceb5f9a4357e1b59c6e2e7
   Nuke: dd2e6be6a34c042a7861e190632781d11f253026
@@ -74,6 +78,6 @@ SPEC CHECKSUMS:
   SwiftyJSON: 6faa0040f8b59dead0ee07436cbf76b73c08fd08
   UIEmptyState: 767376694d9402452fb3c0a5a5283176c6a53c92
 
-PODFILE CHECKSUM: 7f5fc8a20a03b2ca5f64c856d1585b49f72569f5
+PODFILE CHECKSUM: f36a18f550fe5904f0f6d24c12e8a218ca627215
 
 COCOAPODS: 1.9.3

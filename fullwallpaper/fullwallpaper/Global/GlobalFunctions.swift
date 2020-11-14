@@ -8,6 +8,29 @@
 import Foundation
 import UIKit
 import SwiftyJSON
+import JGProgressHUD
+
+func initIndicator(view: UIView){
+    hud.textLabel.text = "加载中"
+    hud.textLabel.textColor = .darkGray
+    hud.backgroundColor = .clear
+    hud.show(in: view)
+}
+
+func stopIndicator(){
+    hud.dismiss()
+}
+
+func getNextDisplayMode(mode: DisplayMode) -> DisplayMode{
+    switch mode {
+    case .Plain:
+        return .LockScreen
+    case .LockScreen:
+        return .HomeScreen
+    case .HomeScreen:
+        return .Plain
+    }
+}
 
 func isKeyPresentInUserDefaults(key: String) -> Bool {
     return UserDefaults.standard.object(forKey: key) != nil

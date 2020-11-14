@@ -13,7 +13,6 @@ import UIEmptyState
 class CategoryCollectionVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate, UIEmptyStateDataSource, UIEmptyStateDelegate{
 
     //Variables
-    var indicator = UIActivityIndicatorView()
     
     var wallpapers:[Wallpaper] = []
     
@@ -39,24 +38,8 @@ class CategoryCollectionVC: UIViewController, UICollectionViewDelegate, UICollec
     override func viewDidLoad() {
         super.viewDidLoad()
         setupCollectionView()
-        initActivityIndicator()
+        initIndicator(view: self.view)
         loadWallpapers()
-    }
-    
-    func initActivityIndicator() {
-        indicator.removeFromSuperview()
-        let height:CGFloat = 46.0
-        indicator = .init(style: .medium)
-        indicator.color = .lightGray
-        indicator.frame = CGRect(x: view.frame.midX - height/2, y: view.frame.midY - height/2, width: height, height: height)
-        indicator.alpha = 1.0
-        indicator.startAnimating()
-        view.addSubview(indicator)
-    }
-    
-    func stopIndicator(){
-        self.indicator.stopAnimating()
-        self.indicator.hidesWhenStopped = true
     }
 
     func loadDetailVC(imageUrl: URL) -> Void{
@@ -79,7 +62,7 @@ class CategoryCollectionVC: UIViewController, UICollectionViewDelegate, UICollec
         if !Reachability.isConnectedToNetwork(){
             self.NoNetWork = true
             self.reloadEmptyStateForCollectionView(self.collectionView)
-            self.stopIndicator()
+            stopIndicator()
             return
         }
         
@@ -109,7 +92,7 @@ class CategoryCollectionVC: UIViewController, UICollectionViewDelegate, UICollec
                             self.NoNetWork = false
                             self.collectionView.reloadData()
                             self.reloadEmptyStateForCollectionView(self.collectionView)
-                            self.stopIndicator()
+                            stopIndicator()
                         }
                         
                         break
@@ -121,7 +104,7 @@ class CategoryCollectionVC: UIViewController, UICollectionViewDelegate, UICollec
                 DispatchQueue.main.async {
                     self.NoNetWork = false
                     self.reloadEmptyStateForCollectionView(self.collectionView)
-                    self.stopIndicator()
+                    stopIndicator()
                 }
             }
         }
