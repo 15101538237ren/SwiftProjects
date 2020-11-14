@@ -67,13 +67,20 @@ class UploadWallpaperVC: UIViewController, UITextFieldDelegate {
         let tap1 = UITapGestureRecognizer(target: self, action: #selector(viewTapped(tapGestureRecognizer:)))
         previewImgView.addGestureRecognizer(tap1)
         
-        let tap2 = UITapGestureRecognizer(target: view, action: #selector(UIView.endEditing))
-        view.addGestureRecognizer(tap2)
+        let tap2 = UITapGestureRecognizer(target: self, action: #selector(viewTapped(tapGestureRecognizer:)))
+        wallpaperImgView.addGestureRecognizer(tap2)
+        
+        let tap3 = UITapGestureRecognizer(target: self, action: #selector(viewTapped(tapGestureRecognizer:)))
+        maskImgView.addGestureRecognizer(tap3)
+        
+        let tap4 = UITapGestureRecognizer(target: view, action: #selector(UIView.endEditing))
+        view.addGestureRecognizer(tap4)
     }
     
     @objc func viewTapped(tapGestureRecognizer: UITapGestureRecognizer)
     {
         currentDisplayMode = getNextDisplayMode(mode: currentDisplayMode)
+        print(currentDisplayMode)
         DispatchQueue.main.async { [self] in
             switch currentDisplayMode {
             case .Plain:
