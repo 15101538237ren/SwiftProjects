@@ -35,6 +35,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         ThemeManager.setTheme(plistName: "Light", path: .mainBundle)
         
+        loadCategories(completion:{})
+        
         return true
     }
     

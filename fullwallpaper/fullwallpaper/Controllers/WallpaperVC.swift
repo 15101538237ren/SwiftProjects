@@ -153,22 +153,22 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
     }
     
     @IBAction func presentPopMenu(_ sender: UIButton) {
-        let iconWidthHeight:CGFloat = 20
-        let popAction = PopMenuDefaultAction(title: "最热壁纸", image: UIImage(named: "heart-fill-icon"), color: UIColor.darkGray)
-        let latestAction = PopMenuDefaultAction(title: "最新壁纸", image: UIImage(named: "calendar-icon"), color: UIColor.darkGray)
-        let uploadAction = PopMenuDefaultAction(title: "上传壁纸", image: UIImage(named: "upload"), color: UIColor.darkGray)
-        
-        popAction.iconWidthHeight = iconWidthHeight
-        latestAction.iconWidthHeight = iconWidthHeight
-        uploadAction.iconWidthHeight = iconWidthHeight
-        
-        let menuVC = PopMenuViewController(sourceView:sender, actions: [popAction, latestAction, uploadAction])
-        menuVC.delegate = self
-        menuVC.appearance.popMenuFont = .systemFont(ofSize: 15, weight: .regular)
-        
-        menuVC.appearance.popMenuColor.backgroundColor = .solid(fill: UIColor(red: 128, green: 128, blue: 128, alpha: 1))
-        self.present(menuVC, animated: true, completion: nil)
-    }
+            let iconWidthHeight:CGFloat = 20
+            let popAction = PopMenuDefaultAction(title: "最热壁纸", image: UIImage(named: "heart-fill-icon"), color: UIColor.darkGray)
+            let latestAction = PopMenuDefaultAction(title: "最新壁纸", image: UIImage(named: "calendar-icon"), color: UIColor.darkGray)
+            let uploadAction = PopMenuDefaultAction(title: "上传壁纸", image: UIImage(named: "upload"), color: UIColor.darkGray)
+            
+            popAction.iconWidthHeight = iconWidthHeight
+            latestAction.iconWidthHeight = iconWidthHeight
+            uploadAction.iconWidthHeight = iconWidthHeight
+            
+            let menuVC = PopMenuViewController(sourceView:sender, actions: [popAction, latestAction, uploadAction])
+            menuVC.delegate = self
+            menuVC.appearance.popMenuFont = .systemFont(ofSize: 15, weight: .regular)
+            
+            menuVC.appearance.popMenuColor.backgroundColor = .solid(fill: UIColor(red: 128, green: 128, blue: 128, alpha: 1))
+            self.present(menuVC, animated: true, completion: nil)
+        }
     
     func loadUploadVC() -> Void{
         let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)

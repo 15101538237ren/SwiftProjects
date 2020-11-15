@@ -6,12 +6,13 @@
 //
 
 import UIKit
-import PopMenu
-
+import AYPopupPickerView
 class UploadWallpaperVC: UIViewController, UITextFieldDelegate {
     
     var wallpaper: UIImage!
     var currentDisplayMode:DisplayMode = .Plain
+    let popupPickerView = AYPopupPickerView()
+    let rowNamesInPickerView = categories.map { $0.name }
     
     @IBOutlet weak var maskImgView: UIImageView!{
         didSet{
@@ -96,38 +97,14 @@ class UploadWallpaperVC: UIViewController, UITextFieldDelegate {
         
     }
     
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
-        return true
-    }
-    
-    @IBAction func presentPopMenu(_ sender: UIButton) {
-        let iconWidthHeight:CGFloat = 20
-        let popAction = PopMenuDefaultAction(title: "最热壁纸", image: UIImage(named: "heart-fill-icon"), color: UIColor.darkGray)
-        let latestAction = PopMenuDefaultAction(title: "最新壁纸", image: UIImage(named: "calendar-icon"), color: UIColor.darkGray)
-        let uploadAction = PopMenuDefaultAction(title: "上传壁纸", image: UIImage(named: "upload"), color: UIColor.darkGray)
-        
-        popAction.iconWidthHeight = iconWidthHeight
-        latestAction.iconWidthHeight = iconWidthHeight
-        uploadAction.iconWidthHeight = iconWidthHeight
-        
-        let menuVC = PopMenuViewController(sourceView:sender, actions: [popAction, latestAction, uploadAction])
-        menuVC.delegate = self
-        menuVC.appearance.popMenuFont = .systemFont(ofSize: 15, weight: .regular)
-        
-        menuVC.appearance.popMenuColor.backgroundColor = .solid(fill: UIColor(red: 128, green: 128, blue: 128, alpha: 1))
-        self.present(menuVC, animated: true, completion: nil)
+    @IBAction func displayPickerView(sender: UIButton){
+        popupPickerView.display(itemTitles: rowNamesInPickerView, doneHandler: {
+            let selectedIndex = self.popupPickerView.pickerView.selectedRow(inComponent: 0)
+            print(self.rowNamesInPickerView[selectedIndex])
+        })
     }
     
     @IBAction func unwind(_ sender: UIButton) {
         self.dismiss(animated: true, completion: nil)
-    }
-}
-
-extension UploadWallpaperVC: PopMenuViewControllerDelegate {
-
-    // This will be called when a pop menu action was selected
-    func popMenuDidSelectItem(_ popMenuViewController: PopMenuViewController, at index: Int) {
-        
     }
 }

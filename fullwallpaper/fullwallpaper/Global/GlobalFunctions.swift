@@ -9,6 +9,86 @@ import Foundation
 import UIKit
 import SwiftyJSON
 import JGProgressHUD
+import LeanCloud
+
+func loadCategoryFromLocal(completion: @escaping () -> Void){
+    if let json_objects = loadJson(fileName: categoryJsonFileName){
+        categories = []
+        let json_arr = json_objects.arrayValue
+        for json_obj in json_arr{
+            let coverUrl = json_obj["coverUrl"].stringValue
+            let name = json_obj["name"].stringValue
+            let eng = json_obj["eng"].stringValue
+            let category = Category(name: name, eng: eng, coverUrl: coverUrl)
+            categories.append(category)
+        }
+        completion()
+    }
+}
+
+func encodeSaveJson(){
+    do {
+        let jsonData: Data = try JSONEncoder().encode(categories)
+        if let jsonString = String(data: jsonData, encoding: .utf8){
+            saveStringTo(cacheType: .json, fileName: categoryJsonFileName, jsonStr: jsonString)
+        }else{
+            print("Error in Saving json, Nil Json String!")
+        }
+    }catch {
+        print(error.localizedDescription)
+    }
+    
+}
+
+func loadCategories(completion: @escaping () -> Void)
+{
+    
+    loadCategoryFromLocal(completion: completion)
+    
+    if !Reachability.isConnectedToNetwork(){
+        completion()
+        return
+    }
+    
+    DispatchQueue.global(qos: .utility).async {
+    do {
+        let query = LCQuery(className: "Category")
+        let updated_count = query.count()
+        print("Fetched \(updated_count.intValue) categories")
+        if categories.count != updated_count.intValue{
+            _ = query.find() { result in
+                switch result {
+                case .success(objects: let results):
+                    categories = []
+                    for rid in 0..<results.count{
+                        let res = results[rid]
+                        let name = res.get("name")?.stringValue ?? ""
+                        let eng = res.get("eng")?.stringValue ?? ""
+                        
+                        if let file = res.get("cover") as? LCFile {
+                            let category = Category(name: name, eng: eng, coverUrl: file.url!.stringValue!)
+                            categories.append(category)
+                        }
+                    }
+                    DispatchQueue.main.async {
+                        completion()
+                    }
+    
+                    encodeSaveJson()
+                    
+                    break
+                case .failure(error: let error):
+                    print(error.localizedDescription)
+                }
+            }
+        }else{
+            DispatchQueue.main.async {
+                completion()
+            }
+        }
+    }
+    }
+}
 
 func initIndicator(view: UIView){
     hud.textLabel.text = "加载中"

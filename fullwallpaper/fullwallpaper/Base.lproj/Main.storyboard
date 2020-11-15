@@ -893,7 +893,7 @@
                                             <color key="titleColor" systemColor="opaqueSeparatorColor"/>
                                         </state>
                                         <connections>
-                                            <action selector="loginOrRegisterWithSender:" destination="hdS-J6-eQW" eventType="touchUpInside" id="MJl-TV-GOR"/>
+                                            <action selector="displayPickerViewWithSender:" destination="9oF-ho-Nra" eventType="touchUpInside" id="Kjg-dg-C0s"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" alpha="0.89999997615814209" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JSq-LP-jzd">

@@ -13,6 +13,7 @@ target 'fullwallpaper' do
   pod 'SwiftValidators'
   pod 'UIEmptyState'
   pod 'JGProgressHUD'
+  pod 'AYPopupPickerView'
   pod 'PhoneNumberKit'
   pod 'CountryPickerView'
   # Pods for fullwallpaper

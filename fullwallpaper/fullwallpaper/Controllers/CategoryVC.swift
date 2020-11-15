@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import LeanCloud
 import SwiftyJSON
 import Nuke
 import UIEmptyState
@@ -16,109 +15,32 @@ import JGProgressHUD
 class CategoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UIEmptyStateDataSource, UIEmptyStateDelegate {
     
     //Variables
-    var NoNetWork:Bool = false
-    
-    var categories:[Category] = []
     
     @IBOutlet var tableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        initTableView()
+    }
+    
+    func initTableView(){
         self.tableView.delegate = self
         self.tableView.dataSource = self
         emptyStateDataSource = self
         emptyStateDelegate = self
         self.tableView.separatorColor = .clear
         self.tableView.tableFooterView = UIView(frame: CGRect.zero)
-        initIndicator(view: self.view)
-        loadCategories()
-    }
-    
-    func loadCategoryFromLocal(){
-        if let json_objects = loadJson(fileName: categoryJsonFileName){
-            categories = []
-            let json_arr = json_objects.arrayValue
-            for json_obj in json_arr{
-                let coverUrl = json_obj["coverUrl"].stringValue
-                let name = json_obj["name"].stringValue
-                let eng = json_obj["eng"].stringValue
-                let category = Category(name: name, eng: eng, coverUrl: coverUrl)
-                categories.append(category)
-            }
-            self.tableView.reloadData()
-            self.reloadEmptyStateForTableView(self.tableView)
-            stopIndicator()
+        
+        if categories.count == 0{
+            initIndicator(view: self.view)
+            loadCategories(completion: loadCategoryCompletionHandler)
         }
     }
     
-    func encodeSaveJson(){
-        do {
-            let jsonData: Data = try JSONEncoder().encode(categories)
-            if let jsonString = String(data: jsonData, encoding: .utf8){
-                saveStringTo(cacheType: .json, fileName: categoryJsonFileName, jsonStr: jsonString)
-            }else{
-                print("Error in Saving json, Nil Json String!")
-            }
-        }catch {
-            print(error.localizedDescription)
-        }
-        
-    }
-    
-    func loadCategories()
-    {
-        loadCategoryFromLocal()
-        
-        if !Reachability.isConnectedToNetwork(){
-            NoNetWork = true
-            self.reloadEmptyStateForTableView(self.tableView)
-            stopIndicator()
-            return
-        }
-        
-        DispatchQueue.global(qos: .utility).async { [self] in
-        do {
-            let query = LCQuery(className: "Category")
-            let updated_count = query.count()
-            print("Fetched \(updated_count.intValue) categories")
-            if categories.count != updated_count.intValue{
-                _ = query.find() { result in
-                    switch result {
-                    case .success(objects: let results):
-                        categories = []
-                        for rid in 0..<results.count{
-                            let res = results[rid]
-                            let name = res.get("name")?.stringValue ?? ""
-                            let eng = res.get("eng")?.stringValue ?? ""
-                            
-                            if let file = res.get("cover") as? LCFile {
-                                let category = Category(name: name, eng: eng, coverUrl: file.url!.stringValue!)
-                                categories.append(category)
-                            }
-                        }
-                        DispatchQueue.main.async {
-                            self.tableView.reloadData()
-                            self.NoNetWork = false
-                            self.reloadEmptyStateForTableView(self.tableView)
-                            stopIndicator()
-                        }
-                        
-                        encodeSaveJson()
-                        
-                        break
-                    case .failure(error: let error):
-                        print(error.localizedDescription)
-                    }
-                }
-            }else{
-                DispatchQueue.main.async {
-                    self.NoNetWork = false
-                    self.reloadEmptyStateForTableView(self.tableView)
-                    stopIndicator()
-                }
-            }
-        }
-        }
+    func loadCategoryCompletionHandler() -> Void{
+        self.tableView.reloadData()
+        self.reloadEmptyStateForTableView(self.tableView)
+        stopIndicator()
     }
 
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -158,7 +80,7 @@ class CategoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate, 
     var emptyStateTitle: NSAttributedString {
             let attrs = [NSAttributedString.Key.foregroundColor: UIColor.lightGray,
                          NSAttributedString.Key.font: UIFont.systemFont(ofSize: 18)]
-            let title: String = NoNetWork ? "没有数据，请检查网络！" : "没有数据"
+            let title: String = "没有数据，请检查网络！"
             return NSAttributedString(string: title, attributes: attrs)
         }
     func emptyStateViewWillShow(view: UIView) {

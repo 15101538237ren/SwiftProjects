@@ -1,4 +1,5 @@
 ${PODS_ROOT}/Target Support Files/Pods-fullwallpaper/Pods-fullwallpaper-frameworks.sh
+${BUILT_PRODUCTS_DIR}/AYPopupPickerView/AYPopupPickerView.framework
 ${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework
 ${BUILT_PRODUCTS_DIR}/CountryPickerView/CountryPickerView.framework
 ${BUILT_PRODUCTS_DIR}/CropViewController/CropViewController.framework
