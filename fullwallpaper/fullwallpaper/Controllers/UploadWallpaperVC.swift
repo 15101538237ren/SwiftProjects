@@ -81,7 +81,7 @@ class UploadWallpaperVC: UIViewController, UITextFieldDelegate {
     @objc func viewTapped(tapGestureRecognizer: UITapGestureRecognizer)
     {
         currentDisplayMode = getNextDisplayMode(mode: currentDisplayMode)
-        print(currentDisplayMode)
+        
         DispatchQueue.main.async { [self] in
             switch currentDisplayMode {
             case .Plain:

@@ -8,8 +8,15 @@
 import UIKit
 import LeanCloud
 import SwiftValidators
+import PhoneNumberKit
 
-class EmailVC: UIViewController {
+class LoginVC: UIViewController {
+    enum LoginType {
+        case Phone
+        case Email
+        case ResetEmail
+    }
+    
     let silverColor:UIColor = UIColor(red: 192, green: 192, blue: 192, alpha: 1)
     
     @IBOutlet var emailTextField: UITextField!{
@@ -22,14 +29,58 @@ class EmailVC: UIViewController {
             passwordField.attributedPlaceholder = NSAttributedString(string: "密 码",attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
         }
     }
-    @IBOutlet var forgotPwdBtn: UIButton!
+    @IBOutlet var forgotPwdBtn: UIButton!{
+        didSet{
+            forgotPwdBtn.alpha = 0
+        }
+    }
+    
     @IBOutlet var emailLoginBtn: UIButton!{
         didSet {
             emailLoginBtn.layer.cornerRadius = 9.0
             emailLoginBtn.layer.masksToBounds = true
+            emailLoginBtn.alpha = 0
         }
     }
-    @IBOutlet var emailStackView: UIStackView!
+    
+    @IBOutlet var emailLoginIndicationBtn: UIButton!{
+        didSet {
+            emailLoginIndicationBtn.alpha = 1
+        }
+    }
+    
+    @IBOutlet var phoneLoginBtn: UIButton!{
+        didSet {
+            phoneLoginBtn.layer.cornerRadius = 9.0
+            phoneLoginBtn.layer.masksToBounds = true
+        }
+    }
+    
+    @IBOutlet var phoneNumTextField: UITextField!{
+        didSet{
+            phoneNumTextField.attributedPlaceholder = NSAttributedString(string: "手机号",attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
+        }
+    }
+    @IBOutlet var verificationCodeTextField: UITextField!{
+        didSet{
+            verificationCodeTextField.attributedPlaceholder = NSAttributedString(string: "短信验证码",attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
+        }
+    }
+    @IBOutlet var getVerificationCodeBtn: UIButton!{
+        didSet {
+            getVerificationCodeBtn.layer.cornerRadius = 15.0
+            getVerificationCodeBtn.layer.masksToBounds = true
+        }
+    }
+    
+    @IBOutlet var phoneStackView: UIStackView!
+    
+    @IBOutlet var emailStackView: UIStackView!{
+        didSet{
+            emailStackView.alpha = 0
+        }
+    }
+    
     @IBOutlet var resetStackView: UIStackView!{
         didSet{
             resetStackView.alpha = 0
@@ -48,9 +99,13 @@ class EmailVC: UIViewController {
             resetPwdBtn.layer.masksToBounds = true
         }
     }
+    var loginType: LoginType = .Email
+    var verificationCodeSent = false
+    var dialCode: String = "+86"
+    var countryCode: String = "CN"
+    let phoneNumberKit:PhoneNumberKit = PhoneNumberKit()
     
     var viewTranslation = CGPoint(x: 0, y: 0)
-    
     var indicator = UIActivityIndicatorView()
     var strLabel = UILabel()
     let effectView = UIVisualEffectView(effect: UIBlurEffect(style: .regular))
@@ -93,9 +148,62 @@ class EmailVC: UIViewController {
         self.present(alertController, animated: true)
     }
     
+    func setupElements(){
+        DispatchQueue.main.async { [self] in
+            switch loginType {
+            case .Phone:
+                emailStackView.alpha = 0
+                resetStackView.alpha = 0
+                emailLoginBtn.alpha = 0
+                resetPwdBtn.alpha = 0
+                forgotPwdBtn.alpha = 0
+                emailLoginIndicationBtn.setTitle("邮箱登录", for: .normal)
+                phoneStackView.alpha = 1
+                emailLoginIndicationBtn.alpha = 1
+                phoneLoginBtn.alpha = 1
+            case .Email:
+                emailStackView.alpha = 1
+                emailLoginBtn.alpha = 1
+                emailLoginIndicationBtn.alpha = 1
+                forgotPwdBtn.alpha = 1
+                resetStackView.alpha = 0
+                phoneStackView.alpha = 0
+                phoneLoginBtn.alpha = 0
+                resetPwdBtn.alpha = 0
+                emailLoginIndicationBtn.setTitle("手机号登录", for: .normal)
+            case .ResetEmail:
+                emailStackView.alpha = 0
+                phoneStackView.alpha = 0
+                emailLoginBtn.alpha = 0
+                phoneLoginBtn.alpha = 0
+                emailLoginIndicationBtn.alpha = 0
+                forgotPwdBtn.alpha = 0
+                emailLoginIndicationBtn.setTitle("邮箱登录", for: .normal)
+                resetStackView.alpha = 1
+                resetPwdBtn.alpha = 1
+            }
+        }
+    }
+    
+    
+    @IBAction func changeLoginMethod(_ sender: UIButton) {
+        self.view.endEditing(true)
+        switch loginType {
+            case .Phone:
+                loginType = .Email
+            case .Email:
+                loginType = .Phone
+            default:
+                loginType = .Email
+        }
+        setupElements()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupElements()
         view.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(handleDismiss)))
+        getVerificationCodeBtn.addTarget(self, action: #selector(verificationBtnTimeChange), for: .touchUpInside)
     }
     
     @objc func handleDismiss(sender: UIPanGestureRecognizer) {
@@ -120,7 +228,56 @@ class EmailVC: UIViewController {
         }
     }
     
-    @IBAction func loginOrRegister(sender: UIButton){
+    @objc func verificationBtnTimeChange() {
+        if verificationCodeSent{
+            var time = 60
+            let codeTimer = DispatchSource.makeTimerSource(flags: .init(rawValue: 0), queue: DispatchQueue.global())
+            codeTimer.schedule(deadline: .now(), repeating: .milliseconds(1000))  //此处方法与Swift 3.0 不同
+            codeTimer.setEventHandler { [self] in
+                
+                time = time - 1
+                if getVerificationCodeBtn.isEnabled{
+                    DispatchQueue.main.async {
+                        self.disableVerificationBtn()
+                    }
+                }
+                
+                if time < 0 {
+                    codeTimer.cancel()
+                    DispatchQueue.main.async {
+                        self.enableVerificationBtn()
+                        self.getVerificationCodeBtn.setTitle("重新发送", for: .normal)
+                    }
+                    return
+                }
+                
+                DispatchQueue.main.async {
+                    self.getVerificationCodeBtn.setTitle("\(time)s后重新发送", for: .normal)
+                }
+                
+            }
+            
+            codeTimer.activate()
+        }
+    }
+    
+    @objc func disableVerificationBtn(first:Bool = false)
+    {
+        getVerificationCodeBtn.isEnabled = false
+        getVerificationCodeBtn.backgroundColor = UIColor(red: 240, green: 239, blue: 244, alpha: 1.0)
+        if !first{
+            getVerificationCodeBtn.setTitleColor(UIColor(red: 139, green: 139, blue: 139, alpha: 1.0), for: .normal)
+        }
+    }
+    
+    @objc func enableVerificationBtn()
+    {
+        getVerificationCodeBtn.isEnabled = true
+        getVerificationCodeBtn.backgroundColor = .systemOrange
+        getVerificationCodeBtn.setTitleColor(UIColor(red: 255, green: 255, blue: 255, alpha: 1.0), for: .normal)
+    }
+    
+    @IBAction func loginByEmail(sender: UIButton){
             self.view.endEditing(true)
              let email:String? = emailTextField.text
              let pwd:String? = passwordField.text
@@ -241,6 +398,106 @@ class EmailVC: UIViewController {
             }
             
         }
+    
+    @IBAction func sendVerificationCode(sender: UIButton){
+        
+        self.view.endEditing(true)
+        
+        let phoneNumber:String = "\(self.dialCode)\(self.phoneNumTextField.text!)"
+        do {
+            let _ = try phoneNumberKit.parse(phoneNumber, withRegion: self.countryCode, ignoreType: true)
+            let connected = Reachability.isConnectedToNetwork()
+            if connected{
+                DispatchQueue.main.async {
+                    self.initActivityIndicator(text: "正在发送")
+                }
+                _ = LCUser.requestLoginVerificationCode(mobilePhoneNumber: phoneNumber) { result in
+                    DispatchQueue.main.async {
+                        self.stopIndicator()
+                    }
+                    
+                    switch result {
+                        case .success:
+                            self.presentAlertInView(title: "验证码已发送!", message: "", okText: "好")
+                        case .failure(error: let error):
+                            switch error.code {
+                            case 213:
+                                let alertController = UIAlertController(title: "该手机号尚未注册,是否注册?", message: "", preferredStyle: .alert)
+                                let okayAction = UIAlertAction(title: "是", style: .default, handler: { action in
+                                    DispatchQueue.main.async {
+                                        self.phoneLoginBtn.setTitle("注册", for: .normal)
+                                    }
+                                    _ = LCSMSClient.requestShortMessage(mobilePhoneNumber: phoneNumber, templateName: "创建用户", signatureName: "雷行天下全面屏壁纸") { (result) in
+                                        switch result {
+                                        case .success:
+                                            self.verificationCodeSent = true
+                                            self.presentAlertInView(title: "验证码已发送!", message: "", okText: "好")
+                                        case .failure(error: let error):
+                                            self.presentAlertInView(title: "发送失败", message: error.reason?.stringValue ?? "", okText: "好")
+                                        }
+                                    }
+
+                                })
+                                
+                                let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
+                                alertController.addAction(okayAction)
+                                alertController.addAction(cancelAction)
+                                self.present(alertController, animated: true, completion: nil)
+                            default:
+                                self.presentAlertInView(title: "发送失败", message: error.reason?.stringValue ?? "", okText: "好")
+                            }
+                    }
+                }
+            }else{
+                let alertCtl = presentNoNetworkAlert()
+                self.present(alertCtl, animated: true, completion: nil)
+            }
+        }
+        catch {
+            presentAlertInView(title: "手机号有误", message: "", okText: "好")
+        }
+    }
+    
+    @IBAction func loginByPhone(sender: UIButton){
+         self.view.endEditing(true)
+         let phoneNumber:String = "\(self.dialCode)\(self.phoneNumTextField.text!)"
+         let verificationCode:String = verificationCodeTextField.text!
+        
+        do {
+            let _ = try phoneNumberKit.parse(phoneNumber, withRegion: self.countryCode, ignoreType: true)
+            
+            if verificationCode.count != 6
+            {
+                presentAlertInView(title: "验证码有误", message: "", okText: "好")
+                return
+            }
+            
+            let connected = Reachability.isConnectedToNetwork()
+            if connected {
+               DispatchQueue.main.async {
+                   self.initActivityIndicator(text: "正在登录")
+               }
+                _ = LCUser.signUpOrLogIn(mobilePhoneNumber: phoneNumber, verificationCode: verificationCode, completion: { (result) in
+                   DispatchQueue.main.async {
+                       self.stopIndicator()
+                   }
+                   switch result {
+                   case .success:
+                       self.dismiss(animated: true, completion: nil)
+                   case .failure(error: let error):
+                       self.presentAlertInView(title: error.reason ?? "登录失败，请稍后重试", message: "", okText: "好")
+                   }
+                })
+            }else{
+               let alertCtl = presentNoNetworkAlert()
+               self.present(alertCtl, animated: true, completion: nil)
+            }
+        }
+        catch {
+            presentAlertInView(title: "手机号有误", message: "", okText: "好")
+        }
+    }
+    
     
     @IBAction func resetPwd(sender: UIButton){
         self.view.endEditing(true)

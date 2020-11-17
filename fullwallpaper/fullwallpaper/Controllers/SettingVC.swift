@@ -164,7 +164,7 @@ class SettingVC: UIViewController , UITableViewDataSource, UITableViewDelegate {
     
     func showLoginOrRegisterVC() {
         let LoginRegStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
-        let emailVC = LoginRegStoryBoard.instantiateViewController(withIdentifier: "emailVC") as! EmailVC
+        let emailVC = LoginRegStoryBoard.instantiateViewController(withIdentifier: "loginVC") as! LoginVC
         emailVC.modalPresentationStyle = .overCurrentContext
         DispatchQueue.main.async {
             self.present(emailVC, animated: true, completion: nil)

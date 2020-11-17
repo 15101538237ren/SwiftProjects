@@ -28,8 +28,7 @@
 		C311F9C6255E14B5000FCED2 /* GlobalEnums.swift in Sources */ = {isa = PBXBuildFile; fileRef = C311F9C5255E14B5000FCED2 /* GlobalEnums.swift */; };
 		C3770DA9255CF99700D240CB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 55F3992F254A624D0094A477 /* Assets.xcassets */; };
 		C3770DCE255D143F00D240CB /* SettingTableViewCellWithValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3770DCD255D143F00D240CB /* SettingTableViewCellWithValue.swift */; };
-		C38564EF255A4D870059E429 /* LoginOrRegisterVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C38564EE255A4D870059E429 /* LoginOrRegisterVC.swift */; };
-		C3871DF0255A6CA7001DF6C4 /* EmailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3871DEF255A6CA7001DF6C4 /* EmailVC.swift */; };
+		C3871DF0255A6CA7001DF6C4 /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3871DEF255A6CA7001DF6C4 /* LoginVC.swift */; };
 		C38E1DFD255662E4004D008A /* Wallpaper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C38E1DFC255662E4004D008A /* Wallpaper.swift */; };
 		C3C3565325570EB7006F137B /* CategoryCollectionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C3565225570EB7006F137B /* CategoryCollectionVC.swift */; };
 		C3C3565625571DA7006F137B /* SettingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C3565525571DA7006F137B /* SettingTableViewCell.swift */; };
@@ -66,8 +65,7 @@
 		C311F9C2255E1124000FCED2 /* UploadWallpaperVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadWallpaperVC.swift; sourceTree = "<group>"; };
 		C311F9C5255E14B5000FCED2 /* GlobalEnums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalEnums.swift; sourceTree = "<group>"; };
 		C3770DCD255D143F00D240CB /* SettingTableViewCellWithValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingTableViewCellWithValue.swift; sourceTree = "<group>"; };
-		C38564EE255A4D870059E429 /* LoginOrRegisterVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginOrRegisterVC.swift; sourceTree = "<group>"; };
-		C3871DEF255A6CA7001DF6C4 /* EmailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailVC.swift; sourceTree = "<group>"; };
+		C3871DEF255A6CA7001DF6C4 /* LoginVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
 		C38E1DFC255662E4004D008A /* Wallpaper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Wallpaper.swift; sourceTree = "<group>"; };
 		C3C3565225570EB7006F137B /* CategoryCollectionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCollectionVC.swift; sourceTree = "<group>"; };
 		C3C3565525571DA7006F137B /* SettingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingTableViewCell.swift; sourceTree = "<group>"; };
@@ -176,8 +174,7 @@
 				55537E39254BBEE4005081CF /* WallpaperDetailVC.swift */,
 				C3C3565225570EB7006F137B /* CategoryCollectionVC.swift */,
 				C3C3565825572154006F137B /* SettingVC.swift */,
-				C38564EE255A4D870059E429 /* LoginOrRegisterVC.swift */,
-				C3871DEF255A6CA7001DF6C4 /* EmailVC.swift */,
+				C3871DEF255A6CA7001DF6C4 /* LoginVC.swift */,
 				C311F9C2255E1124000FCED2 /* UploadWallpaperVC.swift */,
 			);
 			path = Controllers;
@@ -346,7 +343,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				55537E34254B3ECD005081CF /* CategoryVC.swift in Sources */,
-				C3871DF0255A6CA7001DF6C4 /* EmailVC.swift in Sources */,
+				C3871DF0255A6CA7001DF6C4 /* LoginVC.swift in Sources */,
 				C3C3565925572154006F137B /* SettingVC.swift in Sources */,
 				55370FAF2553B5800003CAD5 /* GlobalVariables.swift in Sources */,
 				C3770DCE255D143F00D240CB /* SettingTableViewCellWithValue.swift in Sources */,
@@ -356,7 +353,6 @@
 				5577BE10254A88F0008A1F14 /* GlobalConstants.swift in Sources */,
 				5577BE0B254A8767008A1F14 /* WallpaperCollectionViewCell.swift in Sources */,
 				55537E31254B341C005081CF /* TabBarController.swift in Sources */,
-				C38564EF255A4D870059E429 /* LoginOrRegisterVC.swift in Sources */,
 				C3C3565325570EB7006F137B /* CategoryCollectionVC.swift in Sources */,
 				55F39927254A624D0094A477 /* AppDelegate.swift in Sources */,
 				C3C3565625571DA7006F137B /* SettingTableViewCell.swift in Sources */,

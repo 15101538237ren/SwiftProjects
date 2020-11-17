@@ -15,7 +15,6 @@ target 'fullwallpaper' do
   pod 'JGProgressHUD'
   pod 'AYPopupPickerView'
   pod 'PhoneNumberKit'
-  pod 'CountryPickerView'
   # Pods for fullwallpaper
 
 end
