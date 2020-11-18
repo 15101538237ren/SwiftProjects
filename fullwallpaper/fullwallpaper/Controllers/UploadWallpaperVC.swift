@@ -195,7 +195,7 @@ class UploadWallpaperVC: UIViewController, UITextFieldDelegate {
         if connected{
             DispatchQueue.main.async {
                 self.setElements(enable: false)
-                self.initActivityIndicator(text: "上传中..")
+                self.initActivityIndicator(text: "上传中...")
             }
             let caption: String = self.captionTextField.text!
             let imageData: Data = self.wallpaper!.jpegData(compressionQuality: 1.0)!
@@ -239,8 +239,10 @@ class UploadWallpaperVC: UIViewController, UITextFieldDelegate {
                                                 self.present(alertController, animated: true)
                                             }
                                         case .failure(error: let error):
+                                            self.stopIndicator()
                                             // 保存失败，可能是文件无法被读取，或者上传过程中出现问题
-                                            self.presentAlertInView(title: "上传失败，请稍后重试!", message: "\(error)", okText: "好")
+                                            self.presentAlertInView(title: "上传失败，请稍后重试!", message: "\(error.reason?.stringValue ?? "出现错误")", okText: "好")
+                                            self.setElements(enable: true)
                                         }
                                     }
                                 }catch {
@@ -250,7 +252,9 @@ class UploadWallpaperVC: UIViewController, UITextFieldDelegate {
                             case .failure(error: let error):
                                 // 保存失败，可能是文件无法被读取，或者上传过程中出现问题
                                 DispatchQueue.main.async {
-                                    self.presentAlertInView(title: "上传失败，请稍后重试!", message: "\(error)", okText: "好")
+                                    self.stopIndicator()
+                                    self.presentAlertInView(title: "上传失败，请稍后重试!", message: "\(error.reason?.stringValue ?? "出现错误")", okText: "好")
+                                    self.setElements(enable: true)
                                 }
                             }
                         }
