@@ -39,9 +39,9 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if let _ = LCApplication.default.currentUser {
-            LCUser.logOut()
-        }
+//        if let _ = LCApplication.default.currentUser {
+//            LCUser.logOut()
+//        }
         setupCollectionView()
         initIndicator(view: self.view)
         loadWallpapers()
@@ -170,14 +170,12 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
             self.present(menuVC, animated: true, completion: nil)
         }
     
-    func loadUploadVC() -> Void{
-        let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
-        let uploadVC = mainStoryBoard.instantiateViewController(withIdentifier: "uploadVC") as! UploadWallpaperVC
-        
-        uploadVC.modalPresentationStyle = .overCurrentContext
-        
+    func showLoginOrRegisterVC() {
+        let LoginRegStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+        let emailVC = LoginRegStoryBoard.instantiateViewController(withIdentifier: "loginVC") as! LoginVC
+        emailVC.modalPresentationStyle = .overCurrentContext
         DispatchQueue.main.async {
-            self.present(uploadVC, animated: true, completion: nil)
+            self.present(emailVC, animated: true, completion: nil)
         }
     }
     
@@ -245,7 +243,12 @@ extension WallpaperVC: PopMenuViewControllerDelegate {
         }
         else{
             self.dismiss(animated: false, completion: {
-                self.selectImage()
+                if let _ = LCApplication.default.currentUser {
+                    self.selectImage()
+                } else {
+                    // 显示注册或登录页面
+                    self.showLoginOrRegisterVC()
+                }
             })
         }
     }

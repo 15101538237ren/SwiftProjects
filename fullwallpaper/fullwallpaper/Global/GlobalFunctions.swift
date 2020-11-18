@@ -90,6 +90,39 @@ func loadCategories(completion: @escaping () -> Void)
     }
 }
 
+func initProgressBar(in view:UIView){
+    hudWithProgress.vibrancyEnabled = true
+    hudWithProgress.progress = 0
+    if arc4random_uniform(2) == 0 {
+        hudWithProgress.indicatorView = JGProgressHUDPieIndicatorView()
+    }
+    else {
+        hudWithProgress.indicatorView = JGProgressHUDRingIndicatorView()
+    }
+    hudWithProgress.show(in: view)
+}
+
+func showProgressBar(progress: Double,text: String, in view: UIView) {
+    if !progressBarVisible{
+        initProgressBar(in: view)
+        progressBarVisible.toggle()
+    }
+    if fabs(progress - 100.0) < Double.ulpOfOne {
+        UIView.animate(withDuration: 0.1, animations: {
+            hudWithProgress.detailTextLabel.text = nil
+            hudWithProgress.indicatorView = JGProgressHUDSuccessIndicatorView()
+        })
+        
+        hudWithProgress.dismiss(animated: true)
+    }else{
+        hudWithProgress.detailTextLabel.text = String(format: "%.0d%%", progress)
+        hudWithProgress.textLabel.text = text
+        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(50)) {
+            showProgressBar(progress: progress, text: text, in: view)
+        }
+    }
+}
+
 func initIndicator(view: UIView){
     hud.textLabel.text = "加载中"
     hud.textLabel.textColor = .darkGray

@@ -10,3 +10,5 @@ import Foundation
 var imageCache = NSCache<NSString, NSString>()
 
 var categories:[Category] = []
+
+var progressBarVisible: Bool = false

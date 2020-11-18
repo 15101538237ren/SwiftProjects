@@ -13,6 +13,8 @@ import JGProgressHUD
 
 //Constants
 let hud = JGProgressHUD(style: .light)
+let hudWithProgress = JGProgressHUD(style: .light)
+
 
 let screenWidth:CGFloat = 828
 let screenHeight:CGFloat = 1792

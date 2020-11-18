@@ -673,7 +673,6 @@
                                                     <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="small" weight="light"/>
                                                 </state>
                                                 <connections>
-                                                    <action selector="unwind:" destination="CG3-5q-JIZ" eventType="touchUpInside" id="DGA-L4-7Hn"/>
                                                     <action selector="unwind:" destination="gIY-j6-DLu" eventType="touchUpInside" id="McV-3K-STE"/>
                                                 </connections>
                                             </button>
@@ -837,8 +836,6 @@
                                         </state>
                                         <connections>
                                             <action selector="unwind:" destination="9oF-ho-Nra" eventType="touchUpInside" id="2gA-Ui-by4"/>
-                                            <action selector="unwind:" destination="CG3-5q-JIZ" eventType="touchUpInside" id="7FL-m9-96u"/>
-                                            <action selector="unwind:" destination="gIY-j6-DLu" eventType="touchUpInside" id="iqR-Ud-vpi"/>
                                         </connections>
                                     </button>
                                     <imageView clipsSubviews="YES" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="iPhoneX" translatesAutoresizingMaskIntoConstraints="NO" id="Wad-uF-0hq">
@@ -906,6 +903,9 @@
                                         <state key="normal" title="确认发布">
                                             <color key="titleColor" systemColor="opaqueSeparatorColor"/>
                                         </state>
+                                        <connections>
+                                            <action selector="uploadWallpaper:" destination="9oF-ho-Nra" eventType="touchUpInside" id="pR8-Rc-6aq"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <constraints>
@@ -939,6 +939,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="backBtn" destination="fnO-N4-jj2" id="t1p-LU-0Tj"/>
                         <outlet property="captionTextField" destination="y9o-WQ-MKc" id="xLd-Ey-XaT"/>
                         <outlet property="maskImgView" destination="O2M-QS-5fm" id="QBq-Kw-Mnz"/>
                         <outlet property="previewImgView" destination="Wad-uF-0hq" id="G7I-d0-14f"/>
