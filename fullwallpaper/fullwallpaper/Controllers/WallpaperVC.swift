@@ -85,7 +85,8 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
                             
                             if let file = res.get("img") as? LCFile {
                                 let imgUrl = file.url!.stringValue!
-                                let wallpaper = Wallpaper(name: name, category: category, imgUrl: imgUrl)
+                                let thumbnailUrl = file.thumbnailURL(.scale(thumbnailScale))!.stringValue!
+                                let wallpaper = Wallpaper(name: name, category: category, thumbnailUrl: thumbnailUrl, imgUrl: imgUrl)
                                 
                                 wallpapers.append(wallpaper)
                             }
@@ -120,8 +121,8 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "wallpaperCollectionViewCell", for: indexPath) as! WallpaperCollectionViewCell
-        let imgUrl = URL(string: wallpapers[indexPath.row].imgUrl)!
-        Nuke.loadImage(with: imgUrl, options: wallpaperLoadingOptions, into: cell.imageV)
+        let thumbnailUrl = URL(string: wallpapers[indexPath.row].thumbnailUrl)!
+        Nuke.loadImage(with: thumbnailUrl, options: wallpaperLoadingOptions, into: cell.imageV)
         return cell
     }
     
@@ -146,6 +147,7 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
             let title: String = NoNetWork ? "没有数据，请检查网络！" : "没有数据"
             return NSAttributedString(string: title, attributes: attrs)
         }
+    
     func emptyStateViewWillShow(view: UIView) {
         guard let emptyView = view as? UIEmptyStateView else { return }
         emptyView.contentView.layer.borderColor = UIColor.clear.cgColor
@@ -183,26 +185,14 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
         if let pickedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage{
             DispatchQueue.main.async {
                 picker.dismiss(animated: true, completion: nil)
-                self.presentCropViewController(image: pickedImage)
+                let  cropController = createCropViewController(image: pickedImage)
+                cropController.delegate = self
+                self.present(cropController, animated: true, completion: nil)
             }
         }
     }
     
-    func presentCropViewController(image: UIImage) {
-        let cropController = CropViewController(image: image)
-        cropController.title = "「缩放」或「拖拽」来调整"
-        cropController.doneButtonTitle = "确定"
-        cropController.cancelButtonTitle = "取消"
-        cropController.delegate = self
-        cropController.imageCropFrame = CGRect(x: 0, y: 0, width: screenWidth, height: screenHeight)
-        cropController.rotateButtonsHidden = true
-        cropController.rotateClockwiseButtonHidden = true
-        cropController.resetButtonHidden = true
-        cropController.aspectRatioLockEnabled = true
-        cropController.resetAspectRatioEnabled = false
-        cropController.aspectRatioPickerButtonHidden = true
-        present(cropController, animated: true, completion: nil)
-    }
+    
     
     func cropViewController(_ cropViewController: CropViewController, didCropToImage image: UIImage, withRect cropRect: CGRect, angle: Int) {
         // 'image' is the newly cropped version of the original image

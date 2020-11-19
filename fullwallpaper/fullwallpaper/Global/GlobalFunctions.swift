@@ -10,6 +10,22 @@ import UIKit
 import SwiftyJSON
 import JGProgressHUD
 import LeanCloud
+import CropViewController
+
+func createCropViewController(image: UIImage) -> CropViewController{
+    let cropController = CropViewController(image: image)
+    cropController.title = "「缩放」或「拖拽」来调整"
+    cropController.doneButtonTitle = "确定"
+    cropController.cancelButtonTitle = "取消"
+    cropController.imageCropFrame = CGRect(x: 0, y: 0, width: screenWidth, height: screenHeight)
+    cropController.rotateButtonsHidden = true
+    cropController.rotateClockwiseButtonHidden = true
+    cropController.resetButtonHidden = true
+    cropController.aspectRatioLockEnabled = true
+    cropController.resetAspectRatioEnabled = false
+    cropController.aspectRatioPickerButtonHidden = true
+    return cropController
+}
 
 func loadCategoryFromLocal(completion: @escaping () -> Void){
     if let json_objects = loadJson(fileName: categoryJsonFileName){

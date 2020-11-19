@@ -60,12 +60,13 @@ class CategoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate, 
         return cell
     }
     
-    func loadCategoryCollectionVC(category: String){
+    func loadCategoryCollectionVC(category: String, categoryCN: String){
         let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
         let categoryCollectionVC = mainStoryBoard.instantiateViewController(withIdentifier: "categoryCollectionVC") as! CategoryCollectionVC
         
         categoryCollectionVC.category = category
-        categoryCollectionVC.modalPresentationStyle = .overCurrentContext
+        categoryCollectionVC.categoryCN = categoryCN
+        categoryCollectionVC.modalPresentationStyle = .fullScreen
         
         DispatchQueue.main.async {
             self.present(categoryCollectionVC, animated: true, completion: nil)
@@ -73,7 +74,7 @@ class CategoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate, 
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        loadCategoryCollectionVC(category: categories[indexPath.row].eng)
+        loadCategoryCollectionVC(category: categories[indexPath.row].eng, categoryCN: categories[indexPath.row].name)
     }
     // MARK: - Empty State Data Source
     

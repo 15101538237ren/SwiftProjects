@@ -9,14 +9,17 @@ import UIKit
 import LeanCloud
 import Nuke
 import UIEmptyState
+import CropViewController
 
-class CategoryCollectionVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate, UIEmptyStateDataSource, UIEmptyStateDelegate{
+class CategoryCollectionVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate, UIEmptyStateDataSource, UIEmptyStateDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, CropViewControllerDelegate{
 
     //Variables
     
+    var imagePicker = UIImagePickerController()
     var wallpapers:[Wallpaper] = []
     
     var category: String!
+    var categoryCN: String!
     var NoNetWork: Bool = false
     
     @IBOutlet weak var collectionView: UICollectionView!
@@ -83,7 +86,8 @@ class CategoryCollectionVC: UIViewController, UICollectionViewDelegate, UICollec
                             
                             if let file = res.get("img") as? LCFile {
                                 let imgUrl = file.url!.stringValue!
-                                let wallpaper = Wallpaper(name: name, category: category, imgUrl: imgUrl)
+                                let thumbnailUrl = file.thumbnailURL(.scale(thumbnailScale))!.stringValue!
+                                let wallpaper = Wallpaper(name: name, category: category, thumbnailUrl: thumbnailUrl, imgUrl: imgUrl)
                                 wallpapers.append(wallpaper)
                             }
                         }
@@ -117,8 +121,8 @@ class CategoryCollectionVC: UIViewController, UICollectionViewDelegate, UICollec
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "wallpaperCollectionViewCell", for: indexPath) as! WallpaperCollectionViewCell
-        let imgUrl = URL(string: wallpapers[indexPath.row].imgUrl)!
-        Nuke.loadImage(with: imgUrl, options: wallpaperLoadingOptions, into: cell.imageV)
+        let thumbnailUrl = URL(string: wallpapers[indexPath.row].thumbnailUrl)!
+        Nuke.loadImage(with: thumbnailUrl, options: wallpaperLoadingOptions, into: cell.imageV)
         return cell
     }
     
@@ -153,21 +157,39 @@ class CategoryCollectionVC: UIViewController, UICollectionViewDelegate, UICollec
         emptyView.contentView.layer.backgroundColor = UIColor.clear.cgColor
     }
     
-    func loadUploadVC() -> Void{
-        let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
-        
-        let uploadVC = mainStoryBoard.instantiateViewController(withIdentifier: "uploadVC") as! UploadWallpaperVC
-        
-        uploadVC.modalPresentationStyle = .fullScreen
-        
-        DispatchQueue.main.async {
-            self.present(uploadVC, animated: true, completion: nil)
+    @IBAction func selectWallpaper(_ sender: UIButton) {
+        if UIImagePickerController.isSourceTypeAvailable(.photoLibrary){
+            imagePicker.sourceType = .photoLibrary
+            imagePicker.delegate = self
+            imagePicker.mediaTypes = ["public.image"]
+            self.present(imagePicker, animated: true, completion: nil)
         }
     }
     
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        if let pickedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage{
+            DispatchQueue.main.async {
+                picker.dismiss(animated: true, completion: nil)
+                let  cropController = createCropViewController(image: pickedImage)
+                cropController.delegate = self
+                self.present(cropController, animated: true, completion: nil)
+            }
+        }
+    }
     
-    @IBAction func selectWallpaper(_ sender: UIButton) {
-        loadUploadVC()
+    func cropViewController(_ cropViewController: CropViewController, didCropToImage image: UIImage, withRect cropRect: CGRect, angle: Int) {
+        // 'image' is the newly cropped version of the original image
+        let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+        let uploadVC = mainStoryBoard.instantiateViewController(withIdentifier: "uploadVC") as! UploadWallpaperVC
+        uploadVC.wallpaper = image
+        uploadVC.modalPresentationStyle = .overCurrentContext
+        uploadVC.currentCategory = category
+        uploadVC.categoryCN = categoryCN
+        
+        DispatchQueue.main.async {
+            cropViewController.dismiss(animated: true, completion: nil)
+            self.present(uploadVC, animated: true, completion: nil)
+        }
     }
     
 }

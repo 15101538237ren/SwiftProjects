@@ -40,8 +40,25 @@ class WallpaperDetailVC: UIViewController {
     let scaleForAnimation: CGFloat = 2
     override func viewDidLoad() {
         super.viewDidLoad()
-        Nuke.loadImage(with: imageUrl, options: wallpaperLoadingOptions, into: imageView)
+        loadImage(url: imageUrl)
         addGestureRcg()
+    }
+    
+    func loadImage(url: URL){
+        initIndicator(view: self.view)
+        _ = ImagePipeline.shared.loadImage(
+            with: url,
+            completion: { response in
+                stopIndicator()
+                switch response {
+                  case .failure:
+                    self.imageView.image = ImageLoadingOptions.shared.failureImage
+                    self.imageView.contentMode = .scaleAspectFit
+                  case let .success(imageResponse):
+                    self.imageView.image = imageResponse.image
+                  }
+            }
+        )
     }
     
     func addGestureRcg(){

@@ -112,6 +112,11 @@ class SettingVC: UIViewController , UITableViewDataSource, UITableViewDelegate {
         }
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        let indexPath = IndexPath(row: 1, section: 2)
+        self.tableView.reloadRows(at: [indexPath], with: .fade)
+    }
+    
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
 
         if (cell.responds(to: #selector(getter: UIView.tintColor))){

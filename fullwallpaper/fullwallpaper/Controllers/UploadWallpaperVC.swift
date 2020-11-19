@@ -17,6 +17,7 @@ class UploadWallpaperVC: UIViewController, UITextFieldDelegate {
     let popupPickerView = AYPopupPickerView()
     let rowNamesInPickerView = categories.map { $0.name }
     var currentCategory:String? = nil
+    var categoryCN: String? = nil
     
     
     @IBOutlet weak var backBtn: UIButton!
@@ -101,9 +102,21 @@ class UploadWallpaperVC: UIViewController, UITextFieldDelegate {
     }
     
     func initVC(){
-        DispatchQueue.main.async {
-            self.wallpaperImgView.image = self.wallpaper
+        if let _ = self.wallpaper{
+            DispatchQueue.main.async {
+                self.wallpaperImgView.image = self.wallpaper
+            }
         }
+        
+        if let _ = self.currentCategory{
+            
+            DispatchQueue.main.async {
+                self.selectCategoryBtn.isEnabled = false
+                self.selectCategoryBtn.setTitle(self.categoryCN, for: .disabled)
+                self.selectCategoryBtn.setTitleColor(UIColor.darkGray, for: .disabled)
+            }
+        }
+        
         captionTextField.delegate = self
         addGestureRecognizers()
     }
@@ -201,7 +214,7 @@ class UploadWallpaperVC: UIViewController, UITextFieldDelegate {
             let imageData: Data = self.wallpaper!.jpegData(compressionQuality: 1.0)!
             DispatchQueue.global(qos: .background).async {
             do {
-                if let _ = LCApplication.default.currentUser
+                if let user = LCApplication.default.currentUser
                 {
                     do {
                         // 构建对象
@@ -209,14 +222,15 @@ class UploadWallpaperVC: UIViewController, UITextFieldDelegate {
                         let wallpaperObj = LCObject(className: "Wallpaper")
                         
                         // 为属性赋值
+                        try wallpaperObj.set("status", value: 0)
                         try wallpaperObj.set("caption", value: caption)
                         try wallpaperObj.set("category", value: self.currentCategory!)
+                        try wallpaperObj.set("uploader", value: user)
                         
                         let wpInfo = LCObject(className: "WPInfo")
                         try wpInfo.set("likes", value: 0)
                         
                         let file = LCFile(payload: .data(data: imageData))
-                        
                         _ = file.save { result in
                             switch result {
                             case .success:
