@@ -12,7 +12,6 @@ import Nuke
 class WallpaperDetailVC: UIViewController {
 
     //Outlet Variables
-    @IBOutlet weak var backBtn: UIButton!
     @IBOutlet var imageView: UIImageView!
     @IBOutlet var lockScreenPreviewImgV: UIImageView!
     @IBOutlet var homeScreenPreviewImgV: UIImageView!
@@ -44,21 +43,31 @@ class WallpaperDetailVC: UIViewController {
         addGestureRcg()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        if !Reachability.isConnectedToNetwork(){
+            self.imageView.image = UIImage(named: "image_to_upload")!
+            let alertCtl = presentNoNetworkAlert()
+            self.present(alertCtl, animated: true, completion: nil)
+        }
+    }
+    
     func loadImage(url: URL){
-        initIndicator(view: self.view)
-        _ = ImagePipeline.shared.loadImage(
-            with: url,
-            completion: { response in
-                stopIndicator()
-                switch response {
-                  case .failure:
-                    self.imageView.image = ImageLoadingOptions.shared.failureImage
-                    self.imageView.contentMode = .scaleAspectFit
-                  case let .success(imageResponse):
-                    self.imageView.image = imageResponse.image
-                  }
-            }
-        )
+        if Reachability.isConnectedToNetwork(){
+            initIndicator(view: self.view)
+            _ = ImagePipeline.shared.loadImage(
+                with: url,
+                completion: { response in
+                    stopIndicator()
+                    switch response {
+                      case .failure:
+                        self.imageView.image = ImageLoadingOptions.shared.failureImage
+                        self.imageView.contentMode = .scaleAspectFit
+                      case let .success(imageResponse):
+                        self.imageView.image = imageResponse.image
+                      }
+                }
+            )
+        }
     }
     
     func addGestureRcg(){
@@ -97,7 +106,6 @@ class WallpaperDetailVC: UIViewController {
     
     func hideButtons(){
         DispatchQueue.main.async {
-            self.backBtn.alpha = 0
             self.likeImgV.alpha = 0
             self.downloadImgV.alpha = 0
             self.lockScreenImgV.alpha = 0
@@ -109,7 +117,6 @@ class WallpaperDetailVC: UIViewController {
     
     func showButtons(){
         DispatchQueue.main.async {
-            self.backBtn.alpha = 1
             self.likeImgV.alpha = 1
             self.downloadImgV.alpha = 1
             self.lockScreenImgV.alpha = 1
@@ -141,7 +148,7 @@ class WallpaperDetailVC: UIViewController {
             hideHomeScreenPreview()
             homeInPreview.toggle()
         }
-        if backBtn.alpha < 0.05{
+        if likeImgV.alpha < 0.05{
             showButtons()
         }
     }
