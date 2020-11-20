@@ -109,6 +109,10 @@ class CategoryCollectionVC: UIViewController, UICollectionViewDelegate, UICollec
                         DispatchQueue.main.async {
                             collectionView.stopLoadMore()
                             collectionView.setLoadMoreEnable(false)
+                            if (switchedSortType){
+                                collectionView.reloadData()
+                                switchedSortType = false
+                            }
                             stopIndicator()
                         }
                         return

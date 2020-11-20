@@ -99,6 +99,10 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
                         DispatchQueue.main.async {
                             collectionView.stopLoadMore()
                             collectionView.setLoadMoreEnable(false)
+                            if (switchedSortType){
+                                collectionView.reloadData()
+                                switchedSortType = false
+                            }
                             stopIndicator()
                         }
                         return
