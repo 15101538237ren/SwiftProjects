@@ -16,7 +16,7 @@ let hud = JGProgressHUD(style: .light)
 let hudWithProgress = JGProgressHUD(style: .light)
 
 let thumbnailScale = 0.25
-let wallpaperLimitEachFetch:Int = 90
+let wallpaperLimitEachFetch:Int = 30
 
 let screenWidth:CGFloat = 1080
 let screenHeight:CGFloat = 2336

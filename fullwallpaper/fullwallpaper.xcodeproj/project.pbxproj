@@ -37,6 +37,7 @@
 		C3C3566025572489006F137B /* Dark.plist in Resources */ = {isa = PBXBuildFile; fileRef = C3C3565F25572489006F137B /* Dark.plist */; };
 		C3C3566325573B03006F137B /* SettingItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C3566225573B03006F137B /* SettingItem.swift */; };
 		C3E09BDB255CBE1600C4F238 /* AiNiChuanYueRenHai.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C3E09BDA255CBE1600C4F238 /* AiNiChuanYueRenHai.ttf */; };
+		C3E860752567531900559783 /* Date+NSDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3E860742567531900559783 /* Date+NSDate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -74,6 +75,7 @@
 		C3C3565F25572489006F137B /* Dark.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Dark.plist; sourceTree = "<group>"; };
 		C3C3566225573B03006F137B /* SettingItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingItem.swift; sourceTree = "<group>"; };
 		C3E09BDA255CBE1600C4F238 /* AiNiChuanYueRenHai.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = AiNiChuanYueRenHai.ttf; sourceTree = "<group>"; };
+		C3E860742567531900559783 /* Date+NSDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+NSDate.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -211,6 +213,7 @@
 		C303B9E625551BAF005C7A50 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				C3E860742567531900559783 /* Date+NSDate.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -342,6 +345,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C3E860752567531900559783 /* Date+NSDate.swift in Sources */,
 				55537E34254B3ECD005081CF /* CategoryVC.swift in Sources */,
 				C3871DF0255A6CA7001DF6C4 /* LoginVC.swift in Sources */,
 				C3C3565925572154006F137B /* SettingVC.swift in Sources */,

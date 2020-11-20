@@ -680,6 +680,9 @@
                                             <segment title="专 题"/>
                                         </segments>
                                         <color key="selectedSegmentTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <connections>
+                                            <action selector="segControlChanged:" destination="gIY-j6-DLu" eventType="valueChanged" id="Mj0-W6-fdH"/>
+                                        </connections>
                                     </segmentedControl>
                                 </subviews>
                                 <constraints>
@@ -778,6 +781,7 @@
                     <tabBarItem key="tabBarItem" title="" image="photo" catalog="system" id="FIv-zc-QiE"/>
                     <connections>
                         <outlet property="collectionView" destination="nQW-lf-r6g" id="mJm-JU-Gel"/>
+                        <outlet property="segmentedControl" destination="eOF-f3-mbB" id="Rbf-E4-OZi"/>
                         <outlet property="titleLabel" destination="Adc-X0-8pE" id="x0P-Gx-Nie"/>
                     </connections>
                 </viewController>

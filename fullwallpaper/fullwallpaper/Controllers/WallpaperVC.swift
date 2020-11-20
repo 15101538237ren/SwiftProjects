@@ -11,15 +11,23 @@ import Nuke
 import UIEmptyState
 import PopMenu
 import CropViewController
+import Refreshable
 
 class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate, UIEmptyStateDataSource, UIEmptyStateDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, CropViewControllerDelegate {
     
     //Variables
     var imagePicker = UIImagePickerController()
     
-    var wallpapers:[Wallpaper] = []
+    var hotWallpapers:[Wallpaper] = []
+    var latestWallpapers:[Wallpaper] = []
+    var hotWallpapersDates:[LCDate] = []
+    var latestWallpapersDates:[LCDate] = []
     var NoNetWork:Bool = false
     var sortType:SortType = .byLike
+    
+    var minLikesOfLastFetch:Int? = nil
+    var minDateOfLastHotWallpaperFetch: String? = nil
+    var minDateOfLastLatestWallpaperFetch: String? = nil
     
     @IBOutlet weak var collectionView: UICollectionView!
     
@@ -33,7 +41,9 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
         collectionView.delegate = self
         emptyStateDataSource = self
         emptyStateDelegate = self
-        
+        collectionView.addLoadMore(action: { [weak self] in
+            self?.handleLoadMore()
+        })
     }
     
     override func viewDidLoad() {
@@ -59,7 +69,18 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
         }
     }
     
-    func loadWallpapers()
+    func updateMinLikeOrDateConstraint(){
+        if sortType == .byLike{
+            minDateOfLastHotWallpaperFetch = hotWallpapers[hotWallpapers.count - 1].createdAt
+            minLikesOfLastFetch = hotWallpapers[hotWallpapers.count - 1].likes
+        }
+        else
+        {
+            minDateOfLastHotWallpaperFetch = latestWallpapers[hotWallpapers.count - 1].createdAt
+        }
+    }
+    
+    @objc func loadWallpapers()
     {
         if !Reachability.isConnectedToNetwork(){
             stopIndicator()
@@ -71,57 +92,84 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
         DispatchQueue.global(qos: .utility).async { [self] in
         do {
             let query = LCQuery(className: "Wallpaper")
-            let updated_count = query.count()
-            print("Fetched \(updated_count.intValue) wallpapers")
-            if wallpapers.count != updated_count.intValue{
-                _ = query.find() { result in
-                    switch result {
-                    case .success(objects: let results):
-                        wallpapers = []
-                        for rid in 0..<results.count{
-                            let res = results[rid]
-                            let name = res.get("name")?.stringValue ?? ""
-                            let category = res.get("category")?.stringValue ?? ""
-                            
-                            if let file = res.get("img") as? LCFile {
-                                let imgUrl = file.url!.stringValue!
-                                let thumbnailUrl = file.thumbnailURL(.scale(thumbnailScale))!.stringValue!
-                                let wallpaper = Wallpaper(name: name, category: category, thumbnailUrl: thumbnailUrl, imgUrl: imgUrl)
-                                
-                                wallpapers.append(wallpaper)
-                            }
-                        }
-                        
-                        DispatchQueue.main.async {
-                            self.collectionView.reloadData()
-                            self.NoNetWork = false
-                            self.reloadEmptyStateForCollectionView(self.collectionView)
-                            stopIndicator()
-                        }
-                        
-                        break
-                    case .failure(error: let error):
-                        print(error.localizedDescription)
-                    }
+            
+            if sortType == .byLike{
+                query.whereKey("likes", .descending)
+                query.whereKey("createdAt", .descending)
+                if (minLikesOfLastFetch != nil) && (minDateOfLastHotWallpaperFetch != nil){
+                    
+                    let minLikes = minLikesOfLastFetch!
+                    let minDate = dateFromString(dateStr: minDateOfLastHotWallpaperFetch!)
+                    print(minDate)
+                    print(minLikes)
+                    query.whereKey("likes", .lessThanOrEqualTo(minLikes))
+                    query.whereKey("createdAt", .lessThan(minDate))
                 }
             }else{
-                DispatchQueue.main.async {
-                    self.NoNetWork = false
-                    self.reloadEmptyStateForCollectionView(self.collectionView)
-                    stopIndicator()
+                query.whereKey("createdAt", .descending)
+                
+                if (minDateOfLastLatestWallpaperFetch != nil){
+                    query.whereKey("createdAt", .lessThan(dateFromString(dateStr: minDateOfLastLatestWallpaperFetch!)))
                 }
             }
+            
+            query.limit = wallpaperLimitEachFetch
+            
+            _ = query.find { result in
+                switch result {
+                case .success(objects: let results):
+                    print("Fetched \(results.count) wallpapers")
+                    for rid in 0..<results.count{
+                        let res = results[rid]
+                        let name = res.get("name")?.stringValue ?? ""
+                        let category = res.get("category")?.stringValue ?? ""
+                        let likes = res.get("likes")?.intValue ?? 0
+                        let date:String = fromLCDateToDateStr(date: res.createdAt!)
+                        if let file = res.get("img") as? LCFile {
+                            let imgUrl = file.url!.stringValue!
+                            let thumbnailUrl = file.thumbnailURL(.scale(thumbnailScale))!.stringValue!
+                            let wallpaper = Wallpaper(name: name, category: category, thumbnailUrl: thumbnailUrl, imgUrl: imgUrl, likes: likes, createdAt: date)
+                            
+                            if sortType == .byLike{
+                                hotWallpapers.append(wallpaper)
+                            }else{
+                                latestWallpapers.append(wallpaper)
+                            }
+                        }
+                    }
+                    updateMinLikeOrDateConstraint()
+                    
+                    let first = sortType == .byLike ? hotWallpapers.count == wallpaperLimitEachFetch : latestWallpapers.count == wallpaperLimitEachFetch
+                    DispatchQueue.main.async {
+                        self.collectionView.reloadData()
+                        self.NoNetWork = false
+                        self.reloadEmptyStateForCollectionView(self.collectionView)
+                        stopIndicator()
+                        if !first{
+                            self.collectionView.stopLoadMore()
+                        }
+                    }
+                    
+                    break
+                case .failure(error: let error):
+                    print(error.localizedDescription)
+                }
+            }
+            
         }
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return wallpapers.count
+        let wallpaperCount = sortType == .byLike ? hotWallpapers.count : latestWallpapers.count
+        return wallpaperCount
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "wallpaperCollectionViewCell", for: indexPath) as! WallpaperCollectionViewCell
-        let thumbnailUrl = URL(string: wallpapers[indexPath.row].thumbnailUrl)!
+        let wallpaper:Wallpaper = sortType == .byLike ? hotWallpapers[indexPath.row] : latestWallpapers[indexPath.row]
+        cell.likeLabel.text = "\(wallpaper.likes)"
+        let thumbnailUrl = URL(string: sortType == .byLike ? wallpaper.thumbnailUrl : wallpaper.thumbnailUrl)!
         Nuke.loadImage(with: thumbnailUrl, options: wallpaperLoadingOptions, into: cell.imageV)
         return cell
     }
@@ -134,9 +182,14 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if let imgUrl = URL(string: wallpapers[indexPath.row].imgUrl){
+        let wallpaper:Wallpaper = sortType == .byLike ? hotWallpapers[indexPath.row] : latestWallpapers[indexPath.row]
+        if let imgUrl = URL(string: wallpaper.imgUrl){
             loadDetailVC(imageUrl: imgUrl)
         }
+    }
+    
+    private func handleLoadMore() {
+        loadWallpapers()
     }
     
     // MARK: - Empty State Data Source
@@ -225,10 +278,14 @@ extension WallpaperVC: PopMenuViewControllerDelegate {
         if index == 0{
             if sortType != .byLike{
                 sortType = .byLike
+                initIndicator(view: self.view)
+                loadWallpapers()
             }
         }else if index == 1{
             if sortType != .byCreateDate{
                 sortType = .byCreateDate
+                initIndicator(view: self.view)
+                loadWallpapers()
             }
         }
         else{

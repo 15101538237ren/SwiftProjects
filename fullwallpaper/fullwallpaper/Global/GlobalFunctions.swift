@@ -12,6 +12,21 @@ import JGProgressHUD
 import LeanCloud
 import CropViewController
 
+func dateFromString(dateStr: String) -> NSDate {
+    let dateFormatter = DateFormatter()
+    print(dateStr)
+    dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss Z"
+    let newDate = dateFormatter.date(from: dateStr)! as NSDate
+    return newDate
+}
+
+func fromLCDateToDateStr(date: LCDate) -> String{
+    let dateFormat = DateFormatter()
+    dateFormat.dateFormat = "yyyy-MM-dd HH:mm:ss Z"
+    let dateStr = dateFormat.string(from: date.dateValue!)
+    return dateStr
+}
+
 func createCropViewController(image: UIImage) -> CropViewController{
     let cropController = CropViewController(image: image)
     cropController.title = "「缩放」或「拖拽」来调整"

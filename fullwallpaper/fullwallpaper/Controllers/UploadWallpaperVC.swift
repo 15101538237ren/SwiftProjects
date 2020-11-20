@@ -222,13 +222,11 @@ class UploadWallpaperVC: UIViewController, UITextFieldDelegate {
                         let wallpaperObj = LCObject(className: "Wallpaper")
                         
                         // 为属性赋值
-                        try wallpaperObj.set("status", value: 0)
                         try wallpaperObj.set("caption", value: caption)
                         try wallpaperObj.set("category", value: self.currentCategory!)
+                        try wallpaperObj.set("likes", value: 0)
+                        try wallpaperObj.set("status", value: 0)
                         try wallpaperObj.set("uploader", value: user)
-                        
-                        let wpInfo = LCObject(className: "WPInfo")
-                        try wpInfo.set("likes", value: 0)
                         
                         let file = LCFile(payload: .data(data: imageData))
                         _ = file.save { result in
@@ -237,8 +235,7 @@ class UploadWallpaperVC: UIViewController, UITextFieldDelegate {
                                 // 将对象保存到云端
                                 do {
                                     try wallpaperObj.set("img", value: file)
-                                    try wpInfo.set("dependent", value: wallpaperObj)
-                                    _ = wpInfo.save { result in
+                                    _ = wallpaperObj.save { result in
                                         switch result {
                                         case .success:
                                             DispatchQueue.main.async {

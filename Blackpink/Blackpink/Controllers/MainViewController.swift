@@ -258,7 +258,7 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
         }
     }
     
-    //update loadControl when user scrolls de tableView
+    //update loadControl when user scrolls the tableView
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         scrollView.loadControl?.update()
     }
