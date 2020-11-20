@@ -20,13 +20,11 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
     
     var hotWallpapers:[Wallpaper] = []
     var latestWallpapers:[Wallpaper] = []
-    var hotWallpapersDates:[LCDate] = []
-    var latestWallpapersDates:[LCDate] = []
     var NoNetWork:Bool = false
     var sortType:SortType = .byLike
-    
-    var minLikesOfLastFetch:Int? = nil
-    var minDateOfLastHotWallpaperFetch: String? = nil
+    var switchedSortType = false
+    var urlsOfHotWallpapers:[String] = []
+    var skipOfHotWallpapers:Int = 0
     var minDateOfLastLatestWallpaperFetch: String? = nil
     
     @IBOutlet weak var collectionView: UICollectionView!
@@ -69,17 +67,6 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
         }
     }
     
-    func updateMinLikeOrDateConstraint(){
-        if sortType == .byLike{
-            minDateOfLastHotWallpaperFetch = hotWallpapers[hotWallpapers.count - 1].createdAt
-            minLikesOfLastFetch = hotWallpapers[hotWallpapers.count - 1].likes
-        }
-        else
-        {
-            minDateOfLastHotWallpaperFetch = latestWallpapers[hotWallpapers.count - 1].createdAt
-        }
-    }
-    
     @objc func loadWallpapers()
     {
         if !Reachability.isConnectedToNetwork(){
@@ -95,16 +82,7 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
             
             if sortType == .byLike{
                 query.whereKey("likes", .descending)
-                query.whereKey("createdAt", .descending)
-                if (minLikesOfLastFetch != nil) && (minDateOfLastHotWallpaperFetch != nil){
-                    
-                    let minLikes = minLikesOfLastFetch!
-                    let minDate = dateFromString(dateStr: minDateOfLastHotWallpaperFetch!)
-                    print(minDate)
-                    print(minLikes)
-                    query.whereKey("likes", .lessThanOrEqualTo(minLikes))
-                    query.whereKey("createdAt", .lessThan(minDate))
-                }
+                query.skip = skipOfHotWallpapers
             }else{
                 query.whereKey("createdAt", .descending)
                 
@@ -114,10 +92,17 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
             }
             
             query.limit = wallpaperLimitEachFetch
-            
             _ = query.find { result in
                 switch result {
                 case .success(objects: let results):
+                    if results.count == 0{
+                        DispatchQueue.main.async {
+                            collectionView.stopLoadMore()
+                            collectionView.setLoadMoreEnable(false)
+                            stopIndicator()
+                        }
+                        return
+                    }
                     print("Fetched \(results.count) wallpapers")
                     for rid in 0..<results.count{
                         let res = results[rid]
@@ -127,22 +112,38 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
                         let date:String = fromLCDateToDateStr(date: res.createdAt!)
                         if let file = res.get("img") as? LCFile {
                             let imgUrl = file.url!.stringValue!
-                            let thumbnailUrl = file.thumbnailURL(.scale(thumbnailScale))!.stringValue!
-                            let wallpaper = Wallpaper(name: name, category: category, thumbnailUrl: thumbnailUrl, imgUrl: imgUrl, likes: likes, createdAt: date)
-                            
-                            if sortType == .byLike{
-                                hotWallpapers.append(wallpaper)
-                            }else{
-                                latestWallpapers.append(wallpaper)
+                            if sortType == .byCreateDate || !urlsOfHotWallpapers.contains(imgUrl){
+                                let thumbnailUrl = file.thumbnailURL(.scale(thumbnailScale))!.stringValue!
+                                let wallpaper = Wallpaper(name: name, category: category, thumbnailUrl: thumbnailUrl, imgUrl: imgUrl, likes: likes, createdAt: date)
+                                
+                                if sortType == .byLike{
+                                    hotWallpapers.append(wallpaper)
+                                    urlsOfHotWallpapers.append(wallpaper.imgUrl)
+                                }else{
+                                    latestWallpapers.append(wallpaper)
+                                }
                             }
                         }
                     }
-                    updateMinLikeOrDateConstraint()
+                    if sortType == .byCreateDate{
+                        minDateOfLastLatestWallpaperFetch = latestWallpapers[latestWallpapers.count - 1].createdAt
+                    }else{
+                        skipOfHotWallpapers += results.count
+                    }
                     
                     let first = sortType == .byLike ? hotWallpapers.count == wallpaperLimitEachFetch : latestWallpapers.count == wallpaperLimitEachFetch
+                    
                     DispatchQueue.main.async {
                         self.collectionView.reloadData()
                         self.NoNetWork = false
+                        
+                        if (switchedSortType){
+                            collectionView.scrollToItem(at: IndexPath(row: 0, section: 0),
+                                                        at: .top,
+                                                        animated: true)
+                            switchedSortType = false
+                            collectionView.setLoadMoreEnable(true)
+                        }
                         self.reloadEmptyStateForCollectionView(self.collectionView)
                         stopIndicator()
                         if !first{
@@ -279,12 +280,14 @@ extension WallpaperVC: PopMenuViewControllerDelegate {
             if sortType != .byLike{
                 sortType = .byLike
                 initIndicator(view: self.view)
+                switchedSortType = true
                 loadWallpapers()
             }
         }else if index == 1{
             if sortType != .byCreateDate{
                 sortType = .byCreateDate
                 initIndicator(view: self.view)
+                switchedSortType = true
                 loadWallpapers()
             }
         }

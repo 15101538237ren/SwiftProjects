@@ -10,6 +10,7 @@ import LeanCloud
 import Nuke
 import UIEmptyState
 import CropViewController
+import Refreshable
 
 class CategoryCollectionVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate, UIEmptyStateDataSource, UIEmptyStateDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, CropViewControllerDelegate{
 
@@ -20,6 +21,10 @@ class CategoryCollectionVC: UIViewController, UICollectionViewDelegate, UICollec
     var hotWallpapers:[Wallpaper] = []
     var latestWallpapers:[Wallpaper] = []
     var sortType:SortType = .byLike
+    var switchedSortType = false
+    var urlsOfHotWallpapers:[String] = []
+    var skipOfHotWallpapers:Int = 0
+    var minDateOfLastLatestWallpaperFetch: String? = nil
 
     
     
@@ -42,6 +47,10 @@ class CategoryCollectionVC: UIViewController, UICollectionViewDelegate, UICollec
         collectionView.delegate = self
         emptyStateDataSource = self
         emptyStateDelegate = self
+        
+        collectionView.addLoadMore(action: { [weak self] in
+            self?.handleLoadMore()
+        })
     }
     
     override func viewDidLoad() {
@@ -82,20 +91,29 @@ class CategoryCollectionVC: UIViewController, UICollectionViewDelegate, UICollec
             
             if sortType == .byLike{
                 query.whereKey("likes", .descending)
-                query.whereKey("createdAt", .descending)
+                query.skip = skipOfHotWallpapers
             }else{
                 query.whereKey("createdAt", .descending)
+                
+                if (minDateOfLastLatestWallpaperFetch != nil){
+                    query.whereKey("createdAt", .lessThan(dateFromString(dateStr: minDateOfLastLatestWallpaperFetch!)))
+                }
             }
+            
+            query.limit = wallpaperLimitEachFetch
             
             _ = query.find { result in
                 switch result {
                 case .success(objects: let results):
-                    print("Fetched \(results.count) wallpapers")
-                    if sortType == .byLike{
-                        hotWallpapers = []
-                    }else{
-                        latestWallpapers = []
+                    if results.count == 0{
+                        DispatchQueue.main.async {
+                            collectionView.stopLoadMore()
+                            collectionView.setLoadMoreEnable(false)
+                            stopIndicator()
+                        }
+                        return
                     }
+                    print("Fetched \(results.count) wallpapers")
                     for rid in 0..<results.count{
                         let res = results[rid]
                         let name = res.get("name")?.stringValue ?? ""
@@ -105,19 +123,41 @@ class CategoryCollectionVC: UIViewController, UICollectionViewDelegate, UICollec
                         
                         if let file = res.get("img") as? LCFile {
                             let imgUrl = file.url!.stringValue!
-                            let thumbnailUrl = file.thumbnailURL(.scale(thumbnailScale))!.stringValue!
-                            let wallpaper = Wallpaper(name: name, category: category, thumbnailUrl: thumbnailUrl, imgUrl: imgUrl, likes: likes, createdAt: date)
-                            if sortType == .byLike{
-                                hotWallpapers.append(wallpaper)
-                            }else{
-                                latestWallpapers.append(wallpaper)
+                            if sortType == .byCreateDate || !urlsOfHotWallpapers.contains(imgUrl){
+                                let thumbnailUrl = file.thumbnailURL(.scale(thumbnailScale))!.stringValue!
+                                let wallpaper = Wallpaper(name: name, category: category, thumbnailUrl: thumbnailUrl, imgUrl: imgUrl, likes: likes, createdAt: date)
+                                
+                                if sortType == .byLike{
+                                    hotWallpapers.append(wallpaper)
+                                    urlsOfHotWallpapers.append(wallpaper.imgUrl)
+                                }else{
+                                    latestWallpapers.append(wallpaper)
+                                }
                             }
                         }
                     }
                     
+                    if sortType == .byCreateDate{
+                        minDateOfLastLatestWallpaperFetch = latestWallpapers[latestWallpapers.count - 1].createdAt
+                    }else{
+                        skipOfHotWallpapers += wallpaperLimitEachFetch
+                    }
+                    
+                    let first = sortType == .byLike ? hotWallpapers.count == wallpaperLimitEachFetch : latestWallpapers.count == wallpaperLimitEachFetch
+                    
                     DispatchQueue.main.async {
-                        self.NoNetWork = false
                         self.collectionView.reloadData()
+                        self.NoNetWork = false
+                        if (switchedSortType){
+                            collectionView.scrollToItem(at: IndexPath(row: 0, section: 0),
+                                                        at: .top,
+                                                        animated: true)
+                            switchedSortType = false
+                            collectionView.setLoadMoreEnable(true)
+                        }
+                        if !first{
+                            self.collectionView.stopLoadMore()
+                        }
                         self.reloadEmptyStateForCollectionView(self.collectionView)
                         stopIndicator()
                     }
@@ -138,17 +178,23 @@ class CategoryCollectionVC: UIViewController, UICollectionViewDelegate, UICollec
                 if sortType != .byLike{
                     sortType = .byLike
                     initIndicator(view: self.view)
+                    switchedSortType = true
                     loadWallpapers()
                 }
             case 1:
                 if sortType != .byCreateDate{
                     sortType = .byCreateDate
                     initIndicator(view: self.view)
+                    switchedSortType = true
                     loadWallpapers()
                 }
             default:
                 break
         }
+    }
+    
+    private func handleLoadMore() {
+        loadWallpapers()
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

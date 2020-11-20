@@ -14,7 +14,6 @@ import CropViewController
 
 func dateFromString(dateStr: String) -> NSDate {
     let dateFormatter = DateFormatter()
-    print(dateStr)
     dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss Z"
     let newDate = dateFormatter.date(from: dateStr)! as NSDate
     return newDate
@@ -243,7 +242,7 @@ func loadJson(fileName: String) -> JSON?{
             let pathWithFilename = documentDirectory.appendingPathComponent(cacheDir, isDirectory: true).appendingPathComponent(fileName)
             let data = try Data(contentsOf: pathWithFilename, options: .mappedIfSafe)
             let json = try JSON(data: data)
-            print("load \(fileName).json successful!")
+            print("load \(fileName) successful!")
             return json
         } catch {
             print(error.localizedDescription)
