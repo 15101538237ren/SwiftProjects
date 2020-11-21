@@ -103,6 +103,8 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
                                 collectionView.reloadData()
                                 switchedSortType = false
                             }
+                            
+                            self.reloadEmptyStateForCollectionView(self.collectionView)
                             stopIndicator()
                         }
                         return

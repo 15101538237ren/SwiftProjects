@@ -113,6 +113,9 @@ class CategoryCollectionVC: UIViewController, UICollectionViewDelegate, UICollec
                                 collectionView.reloadData()
                                 switchedSortType = false
                             }
+                            self.reloadEmptyStateForCollectionView(self.collectionView)
+                            
+                            
                             stopIndicator()
                         }
                         return
