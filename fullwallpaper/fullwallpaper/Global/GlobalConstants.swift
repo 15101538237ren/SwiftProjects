@@ -12,6 +12,9 @@ import JGProgressHUD
 
 
 //Constants
+let LCAppId: String = "Y3wzJERyrbjHzR7exzMChF7I-gzGzoHsz"
+let LCKey: String = "cVvbrIE2rMLLziICGIvM52c8"
+
 let hud = JGProgressHUD(style: .light)
 let hudWithProgress = JGProgressHUD(style: .light)
 

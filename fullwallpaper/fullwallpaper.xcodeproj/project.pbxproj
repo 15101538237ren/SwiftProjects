@@ -26,6 +26,7 @@
 		55F39933254A624D0094A477 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 55F39931254A624D0094A477 /* LaunchScreen.storyboard */; };
 		C311F9C3255E1124000FCED2 /* UploadWallpaperVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C311F9C2255E1124000FCED2 /* UploadWallpaperVC.swift */; };
 		C311F9C6255E14B5000FCED2 /* GlobalEnums.swift in Sources */ = {isa = PBXBuildFile; fileRef = C311F9C5255E14B5000FCED2 /* GlobalEnums.swift */; };
+		C36F6FE82569A9B60072AEDE /* SearchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C36F6FE72569A9B60072AEDE /* SearchVC.swift */; };
 		C3770DA9255CF99700D240CB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 55F3992F254A624D0094A477 /* Assets.xcassets */; };
 		C3770DCE255D143F00D240CB /* SettingTableViewCellWithValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3770DCD255D143F00D240CB /* SettingTableViewCellWithValue.swift */; };
 		C3871DF0255A6CA7001DF6C4 /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3871DEF255A6CA7001DF6C4 /* LoginVC.swift */; };
@@ -36,6 +37,8 @@
 		C3C3565D2557247F006F137B /* Light.plist in Resources */ = {isa = PBXBuildFile; fileRef = C3C3565C2557247F006F137B /* Light.plist */; };
 		C3C3566025572489006F137B /* Dark.plist in Resources */ = {isa = PBXBuildFile; fileRef = C3C3565F25572489006F137B /* Dark.plist */; };
 		C3C3566325573B03006F137B /* SettingItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C3566225573B03006F137B /* SettingItem.swift */; };
+		C3C48F22256A2D6A00507582 /* CollectionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C48F21256A2D6A00507582 /* CollectionVC.swift */; };
+		C3C48F25256A2E0A00507582 /* CollectionItemsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C48F24256A2E0A00507582 /* CollectionItemsVC.swift */; };
 		C3E09BDB255CBE1600C4F238 /* AiNiChuanYueRenHai.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C3E09BDA255CBE1600C4F238 /* AiNiChuanYueRenHai.ttf */; };
 		C3E860752567531900559783 /* Date+NSDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3E860742567531900559783 /* Date+NSDate.swift */; };
 /* End PBXBuildFile section */
@@ -65,6 +68,7 @@
 		55F39934254A624D0094A477 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C311F9C2255E1124000FCED2 /* UploadWallpaperVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadWallpaperVC.swift; sourceTree = "<group>"; };
 		C311F9C5255E14B5000FCED2 /* GlobalEnums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalEnums.swift; sourceTree = "<group>"; };
+		C36F6FE72569A9B60072AEDE /* SearchVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchVC.swift; sourceTree = "<group>"; };
 		C3770DCD255D143F00D240CB /* SettingTableViewCellWithValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingTableViewCellWithValue.swift; sourceTree = "<group>"; };
 		C3871DEF255A6CA7001DF6C4 /* LoginVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
 		C38E1DFC255662E4004D008A /* Wallpaper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Wallpaper.swift; sourceTree = "<group>"; };
@@ -74,6 +78,8 @@
 		C3C3565C2557247F006F137B /* Light.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Light.plist; sourceTree = "<group>"; };
 		C3C3565F25572489006F137B /* Dark.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Dark.plist; sourceTree = "<group>"; };
 		C3C3566225573B03006F137B /* SettingItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingItem.swift; sourceTree = "<group>"; };
+		C3C48F21256A2D6A00507582 /* CollectionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionVC.swift; sourceTree = "<group>"; };
+		C3C48F24256A2E0A00507582 /* CollectionItemsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionItemsVC.swift; sourceTree = "<group>"; };
 		C3E09BDA255CBE1600C4F238 /* AiNiChuanYueRenHai.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = AiNiChuanYueRenHai.ttf; sourceTree = "<group>"; };
 		C3E860742567531900559783 /* Date+NSDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+NSDate.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -178,6 +184,9 @@
 				C3C3565825572154006F137B /* SettingVC.swift */,
 				C3871DEF255A6CA7001DF6C4 /* LoginVC.swift */,
 				C311F9C2255E1124000FCED2 /* UploadWallpaperVC.swift */,
+				C36F6FE72569A9B60072AEDE /* SearchVC.swift */,
+				C3C48F21256A2D6A00507582 /* CollectionVC.swift */,
+				C3C48F24256A2E0A00507582 /* CollectionItemsVC.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -345,6 +354,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C36F6FE82569A9B60072AEDE /* SearchVC.swift in Sources */,
 				C3E860752567531900559783 /* Date+NSDate.swift in Sources */,
 				55537E34254B3ECD005081CF /* CategoryVC.swift in Sources */,
 				C3871DF0255A6CA7001DF6C4 /* LoginVC.swift in Sources */,
@@ -356,6 +366,7 @@
 				55537E3A254BBEE4005081CF /* WallpaperDetailVC.swift in Sources */,
 				5577BE10254A88F0008A1F14 /* GlobalConstants.swift in Sources */,
 				5577BE0B254A8767008A1F14 /* WallpaperCollectionViewCell.swift in Sources */,
+				C3C48F25256A2E0A00507582 /* CollectionItemsVC.swift in Sources */,
 				55537E31254B341C005081CF /* TabBarController.swift in Sources */,
 				C3C3565325570EB7006F137B /* CategoryCollectionVC.swift in Sources */,
 				55F39927254A624D0094A477 /* AppDelegate.swift in Sources */,
@@ -367,6 +378,7 @@
 				C311F9C6255E14B5000FCED2 /* GlobalEnums.swift in Sources */,
 				55370FB22553B5A10003CAD5 /* Category.swift in Sources */,
 				C38E1DFD255662E4004D008A /* Wallpaper.swift in Sources */,
+				C3C48F22256A2D6A00507582 /* CollectionVC.swift in Sources */,
 				55370FBD2553B7130003CAD5 /* Reachability.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

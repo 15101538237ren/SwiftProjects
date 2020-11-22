@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import SwiftyJSON
 import Nuke
 import UIEmptyState
 import JGProgressHUD

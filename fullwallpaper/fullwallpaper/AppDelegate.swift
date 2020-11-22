@@ -31,8 +31,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 diskPath: nil)
             
             try LCApplication.default.set(
-                id: "Y3wzJERyrbjHzR7exzMChF7I-gzGzoHsz",
-                key: "cVvbrIE2rMLLziICGIvM52c8",
+                id: LCAppId,
+                key: LCKey,
                 serverURL: "https://y3wzjery.lc-cn-n1-shared.com",
                 configuration: configuration)
         } catch {
