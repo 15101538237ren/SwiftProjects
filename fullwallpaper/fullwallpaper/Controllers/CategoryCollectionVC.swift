@@ -12,14 +12,20 @@ import UIEmptyState
 import CropViewController
 import Refreshable
 
-class CategoryCollectionVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate, UIEmptyStateDataSource, UIEmptyStateDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, CropViewControllerDelegate{
-
+class CategoryCollectionVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate, UITableViewDataSource, UITableViewDelegate, UIEmptyStateDataSource, UIEmptyStateDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, CropViewControllerDelegate{
+    
+    //Constants
+    let loadCollectionLimit:Int = 1000
+    
     //Variables
     
-    var imagePicker = UIImagePickerController()
+    var minVolOfLastCollectionFetch: Int? = nil
+    var collections:[LCObject] = []
     
+    var imagePicker = UIImagePickerController()
     var hotWallpapers:[Wallpaper] = []
     var latestWallpapers:[Wallpaper] = []
+    var showingCollectionView: Bool = false
     var sortType:SortType = .byLike
     var switchedSortType = false
     var urlsOfHotWallpapers:[String] = []
@@ -34,8 +40,21 @@ class CategoryCollectionVC: UIViewController, UICollectionViewDelegate, UICollec
     
     @IBOutlet weak var collectionView: UICollectionView!
     
+    @IBOutlet var tableView: UITableView!
+    
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var segmentedControl: UISegmentedControl!
+    
+    
+    func setupTableView(){
+        self.tableView.delegate = self
+        self.tableView.dataSource = self
+        self.tableView.separatorColor = .clear
+        self.tableView.tableFooterView = UIView(frame: CGRect.zero)
+        self.tableView.addLoadMore(action: { [weak self] in
+            self?.handleLoadMoreCollections()
+        })
+    }
     
     func setupCollectionView() {
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
@@ -56,8 +75,131 @@ class CategoryCollectionVC: UIViewController, UICollectionViewDelegate, UICollec
     override func viewDidLoad() {
         super.viewDidLoad()
         setupCollectionView()
+        setupTableView()
+        showCollectionView()
         initIndicator(view: self.view)
         loadWallpapers()
+    }
+    
+    private func handleLoadMoreCollections() {
+        loadCollections()
+    }
+    
+    func loadCollections(){
+        if !Reachability.isConnectedToNetwork(){
+            self.tableView.reloadData()
+            NoNetWork = true
+            self.reloadEmptyStateForTableView(self.tableView)
+            stopIndicator()
+            return
+        }
+        
+        DispatchQueue.global(qos: .utility).async { [self] in
+        do {
+            let query = LCQuery(className: "Collection")
+            query.whereKey("category", .equalTo(category))
+            query.whereKey("vol", .descending)
+            
+            if (minVolOfLastCollectionFetch != nil){
+                query.whereKey("vol", .lessThan(minVolOfLastCollectionFetch!))
+            }
+            
+            query.limit = loadCollectionLimit
+            
+            _ = query.find() { result in
+                switch result {
+                case .success(objects: let results):
+                    if results.count == 0{
+                        DispatchQueue.main.async {
+                            tableView.stopLoadMore()
+                            tableView.setLoadMoreEnable(false)
+                            tableView.reloadData()
+                            NoNetWork = false
+                            self.reloadEmptyStateForTableView(tableView)
+                            stopIndicator()
+                        }
+                        return
+                    }
+                    
+                    print("Fetched \(results.count) collections")
+                    collections.append(contentsOf: results)
+                    
+                    if let vol = collections[collections.count - 1].get("vol")?.intValue{
+                        
+                        minVolOfLastCollectionFetch = vol
+                    }
+                    
+                    DispatchQueue.main.async {
+                        tableView.reloadData()
+                        NoNetWork = false
+                        self.reloadEmptyStateForTableView(tableView)
+                        stopIndicator()
+                        if collections.count > loadCollectionLimit{
+                            self.tableView.stopLoadMore()
+                        }
+                    }
+                    
+                    break
+                case .failure(error: let error):
+                    print(error.localizedDescription)
+                }
+            }
+        }
+        }
+    }
+    
+    
+    func emptyStateViewShouldShow(for tableView: UITableView) -> Bool {
+        return collections.count == 0 ? true : false
+    }
+    
+    func emptyStateViewShouldShow(for collectionView: UICollectionView) -> Bool {
+        return (sortType == .byLike ? hotWallpapers.count : latestWallpapers.count) == 0 ? true : false
+    }
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return collections.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "categoryTableViewCell", for: indexPath) as! CategoryTableViewCell
+        let row: Int = indexPath.row
+        if let title = collections[row].get("name")?.stringValue{
+            
+            if let volume = collections[row].get("vol")?.intValue{
+                cell.titleLabel.text = "第 \(volume) 期 - \(title)"
+            }
+            
+        }
+        
+        if let file = collections[row].get("cover") as? LCFile{
+            let imgUrl = URL(string: file.url!.stringValue!)!
+            Nuke.loadImage(with: imgUrl, options: categoryLoadingOptions, into: cell.imageV)
+        }
+        
+        return cell
+    }
+    
+    func loadCollectionItemsVC(collection: LCObject){
+        let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+        
+        let collectionItemsVC = mainStoryBoard.instantiateViewController(withIdentifier: "collectionItemsVC") as! CollectionItemsVC
+        
+        collectionItemsVC.collection = collection
+        
+        collectionItemsVC.modalPresentationStyle = .fullScreen
+        
+        DispatchQueue.main.async {
+            self.present(collectionItemsVC, animated: true, completion: nil)
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        loadCollectionItemsVC(collection: collections[indexPath.row])
     }
 
     func loadDetailVC(imageUrl: URL) -> Void{
@@ -114,7 +256,6 @@ class CategoryCollectionVC: UIViewController, UICollectionViewDelegate, UICollec
                                 switchedSortType = false
                             }
                             self.reloadEmptyStateForCollectionView(self.collectionView)
-                            
                             
                             stopIndicator()
                         }
@@ -182,19 +323,28 @@ class CategoryCollectionVC: UIViewController, UICollectionViewDelegate, UICollec
         switch segmentedControl.selectedSegmentIndex
         {
             case 0:
-                if sortType != .byLike{
+                if sortType != .byLike ||  showingCollectionView{
                     sortType = .byLike
                     initIndicator(view: self.view)
                     switchedSortType = true
+                    showingCollectionView = false
                     loadWallpapers()
+                    showCollectionView()
                 }
             case 1:
-                if sortType != .byCreateDate{
+                if sortType != .byCreateDate || showingCollectionView{
                     sortType = .byCreateDate
                     initIndicator(view: self.view)
                     switchedSortType = true
+                    showingCollectionView = false
                     loadWallpapers()
+                    showCollectionView()
                 }
+            case 2:
+                showingCollectionView = true
+                initIndicator(view: self.view)
+                loadCollections()
+                showTableView()
             default:
                 break
         }
@@ -232,6 +382,23 @@ class CategoryCollectionVC: UIViewController, UICollectionViewDelegate, UICollec
         }
     }
     
+    func showTableView(){
+        DispatchQueue.main.async {
+            self.collectionView.alpha = 0
+            self.collectionView.isUserInteractionEnabled = false
+            self.tableView.alpha = 1
+            self.tableView.isUserInteractionEnabled = true
+        }
+    }
+    func showCollectionView(){
+        DispatchQueue.main.async {
+            self.tableView.alpha = 0
+            self.tableView.isUserInteractionEnabled = false
+            self.collectionView.alpha = 1
+            self.collectionView.isUserInteractionEnabled = true
+        }
+    }
+    
     @IBAction func unwind(_ sender: UIButton) {
         self.dismiss(animated: true, completion: nil)
     }
@@ -244,6 +411,7 @@ class CategoryCollectionVC: UIViewController, UICollectionViewDelegate, UICollec
             let title: String = NoNetWork ? "没有数据，请检查网络！" : "没有数据"
             return NSAttributedString(string: title, attributes: attrs)
         }
+    
     func emptyStateViewWillShow(view: UIView) {
         guard let emptyView = view as? UIEmptyStateView else { return }
         emptyView.contentView.layer.borderColor = UIColor.clear.cgColor
