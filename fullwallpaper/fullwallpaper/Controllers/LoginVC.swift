@@ -285,12 +285,12 @@ class LoginVC: UIViewController {
             
             if let email = email {
                 if !Validator.isEmail().apply(email){
-                    presentAlertInView(title: "邮箱格式不正确!", message: "", okText: "好")
+                    self.view.makeToast("邮箱格式不正确!", duration: 1.0, position: .center)
                     return
                 }
             }
             else{
-                presentAlertInView(title: "邮箱不能为空!", message: "", okText: "好")
+                self.view.makeToast("邮箱不能为空!", duration: 1.0, position: .center)
                 return
             }
             
@@ -304,7 +304,7 @@ class LoginVC: UIViewController {
                 pwdWrong = true
             }
             if pwdWrong{
-                presentAlertInView(title: "密码格式有误", message: "密码应为8-15位，且只包含字母、数字或下划线", okText: "好")
+                self.view.makeToast("密码应为8-15位，且只包含字母、数字或下划线", duration: 1.5, position: .center)
                 return
             }
         
@@ -360,11 +360,11 @@ class LoginVC: UIViewController {
                                             case .failure(error: let error):
                                                 switch error.code {
                                                 case 202 :
-                                                    self.presentAlertInView(title: "该邮箱已注册!", message: "", okText: "好")
+                                                    self.view.makeToast("该邮箱已注册!", duration: 1.0, position: .center)
                                                 case 214:
-                                                    self.presentAlertInView(title: "该邮箱已注册!", message: "", okText: "好")
+                                                    self.view.makeToast("该邮箱已注册!", duration: 1.0, position: .center)
                                                 default:
-                                                    self.presentAlertInView(title: "错误", message: error.reason?.stringValue ?? "出现错误，请重试", okText: "好")
+                                                    self.view.makeToast("错误:\(error.reason?.stringValue ?? "出现错误，请重试")", duration: 1.0, position: .center)
                                                 }
                                             }
                                         }
@@ -378,24 +378,23 @@ class LoginVC: UIViewController {
                                 alertController.addAction(cancelAction)
                                 self.present(alertController, animated: true, completion: nil)
                             case 210:
-                                self.presentAlertInView(title: "密码不正确!", message: "", okText: "好")
+                                self.view.makeToast("密码不正确!", duration: 1.0, position: .center)
                             case 216:
-                                self.presentAlertInView(title: "请前往邮箱，并完成验证", message: "", okText: "好")
+                                self.view.makeToast("请前往邮箱，并完成验证", duration: 1.2, position: .center)
                             case 400:
-                                self.presentAlertInView(title: "密码不正确!", message: "", okText: "好")
+                                self.view.makeToast("密码不正确!", duration: 1.0, position: .center)
                             default:
-                                self.presentAlertInView(title: error.reason?.stringValue ?? "登录错误,请稍后再试", message: "", okText: "好")
+                                self.view.makeToast("\(error.reason?.stringValue ?? "登录错误,请稍后再试")", duration: 1.0, position: .center)
                             }
                         }
                     }
                 }
                 else{
-                    self.presentAlertInView(title: "登录请求太快，请等待30秒!", message: "", okText: "好")
+                    self.view.makeToast("登录请求太快，请等待30秒!", duration: 1.0, position: .center)
                     return
                 }
             }else{
-                let alertCtl = presentNoNetworkAlert()
-                self.present(alertCtl, animated: true, completion: nil)
+                self.view.makeToast(NoNetworkStr, duration: 1.0, position: .center)
             }
             
         }
@@ -419,7 +418,7 @@ class LoginVC: UIViewController {
                     
                     switch result {
                         case .success:
-                            self.presentAlertInView(title: "验证码已发送!", message: "", okText: "好")
+                            self.view.makeToast("验证码已发送!", duration: 1.0, position: .center)
                         case .failure(error: let error):
                             switch error.code {
                             case 213:
@@ -432,9 +431,9 @@ class LoginVC: UIViewController {
                                         switch result {
                                         case .success:
                                             self.verificationCodeSent = true
-                                            self.presentAlertInView(title: "验证码已发送!", message: "", okText: "好")
+                                            self.view.makeToast("验证码已发送!", duration: 1.0, position: .center)
                                         case .failure(error: let error):
-                                            self.presentAlertInView(title: "发送失败", message: error.reason?.stringValue ?? "", okText: "好")
+                                            self.view.makeToast("发送失败:\(error.reason?.stringValue ?? "")", duration: 1.0, position: .center)
                                         }
                                     }
 
@@ -445,17 +444,16 @@ class LoginVC: UIViewController {
                                 alertController.addAction(cancelAction)
                                 self.present(alertController, animated: true, completion: nil)
                             default:
-                                self.presentAlertInView(title: "发送失败", message: error.reason?.stringValue ?? "", okText: "好")
+                                self.view.makeToast("发送失败:\(error.reason?.stringValue ?? "")!", duration: 1.0, position: .center)
                             }
                     }
                 }
             }else{
-                let alertCtl = presentNoNetworkAlert()
-                self.present(alertCtl, animated: true, completion: nil)
+                self.view.makeToast(NoNetworkStr, duration: 1.0, position: .center)
             }
         }
         catch {
-            presentAlertInView(title: "手机号有误", message: "", okText: "好")
+            self.view.makeToast("手机号有误!", duration: 1.0, position: .center)
         }
     }
     
@@ -469,7 +467,7 @@ class LoginVC: UIViewController {
             
             if verificationCode.count != 6
             {
-                presentAlertInView(title: "验证码有误", message: "", okText: "好")
+                self.view.makeToast("验证码有误!", duration: 1.0, position: .center)
                 return
             }
             
@@ -486,16 +484,15 @@ class LoginVC: UIViewController {
                    case .success:
                        self.dismiss(animated: true, completion: nil)
                    case .failure(error: let error):
-                       self.presentAlertInView(title: error.reason ?? "登录失败，请稍后重试", message: "", okText: "好")
+                        self.view.makeToast("\(error.reason ?? "登录失败，请稍后重试")", duration: 1.0, position: .center)
                    }
                 })
             }else{
-               let alertCtl = presentNoNetworkAlert()
-               self.present(alertCtl, animated: true, completion: nil)
+                self.view.makeToast(NoNetworkStr, duration: 1.0, position: .center)
             }
         }
         catch {
-            presentAlertInView(title: "手机号有误", message: "", okText: "好")
+            self.view.makeToast("手机号有误!", duration: 1.0, position: .center)
         }
     }
     
@@ -528,39 +525,29 @@ class LoginVC: UIViewController {
                         
                         switch result {
                         case .success:
-                            
-                            let alertController = UIAlertController(title: "密码重置邮件已发送至\(email)!", message: "", preferredStyle: .alert)
-                            let okayAction = UIAlertAction(title: "好", style: .cancel, handler: {_ in
-                                DispatchQueue.main.async {
-                                    self.dismiss(animated: true, completion: nil)
-                                }
-                            })
-                            alertController.addAction(okayAction)
-                            self.present(alertController, animated: true)
-                            
+                            self.view.makeToast("密码重置邮件已发送至\(email)!", duration: 1.0, position: .center)
                             UserDefaults.standard.set(Date(), forKey: lastResetEmailSentTimeKey)
                             
                         case .failure(error: let error):
                             switch error.code {
                             case 205:
-                                self.presentAlertInView(title: "该邮箱尚未注册!", message: "", okText: "好")
+                                self.view.makeToast("该邮箱尚未注册!", duration: 1.0, position: .center)
                             default:
-                                self.presentAlertInView(title: error.reason?.stringValue ?? "出现错误，请检查并重试", message: "", okText: "好")
+                                self.view.makeToast("\(error.reason?.stringValue ?? "出现错误，请检查并重试")", duration: 1.0, position: .center)
                             }
                         }
                     }
                 }else{
-                    let alertCtl = presentNoNetworkAlert()
-                    self.present(alertCtl, animated: true, completion: nil)
+                    self.view.makeToast(NoNetworkStr, duration: 1.0, position: .center)
                 }
                 
             }
             else{
-                presentAlertInView(title: "邮箱格式不正确!", message: "", okText: "好")
+                self.view.makeToast("邮箱格式不正确!", duration: 1.0, position: .center)
                 return
             }
         } else{
-            presentAlertInView(title: "邮件已发送，如需重新发送，请等待1分钟!", message: "", okText: "好")
+            self.view.makeToast("邮件已发送，如需重新发送，请等待1分钟!", duration: 1.0, position: .center)
             return
         }
         

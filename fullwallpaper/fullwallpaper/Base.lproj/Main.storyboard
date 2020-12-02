@@ -31,7 +31,7 @@
                                 <rect key="frame" x="0.0" y="44" width="414" height="50"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Category" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Jno-NO-4PK">
-                                        <rect key="frame" x="171" y="8.5" width="72" height="33.5"/>
+                                        <rect key="frame" x="156" y="10.5" width="102.5" height="29.5"/>
                                         <fontDescription key="fontDescription" name="ClickerScript-Regular" family="Clicker Script" pointSize="25"/>
                                         <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
@@ -128,7 +128,7 @@
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="50"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Popular" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xs0-xa-AkM">
-                                                <rect key="frame" x="174.5" y="8.5" width="65.5" height="33.5"/>
+                                                <rect key="frame" x="163.5" y="10.5" width="87" height="29.5"/>
                                                 <fontDescription key="fontDescription" name="ClickerScript-Regular" family="Clicker Script" pointSize="25"/>
                                                 <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <nil key="highlightedColor"/>
@@ -285,7 +285,7 @@
                                 <rect key="frame" x="0.0" y="44" width="414" height="50"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Collection" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Na-ID-kMb">
-                                        <rect key="frame" x="167" y="8.5" width="80.5" height="33.5"/>
+                                        <rect key="frame" x="151" y="10.5" width="112.5" height="29.5"/>
                                         <fontDescription key="fontDescription" name="ClickerScript-Regular" family="Clicker Script" pointSize="25"/>
                                         <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
@@ -696,13 +696,13 @@
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="50"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yWj-96-qwN">
-                                                <rect key="frame" x="374" y="15" width="20" height="20"/>
+                                                <rect key="frame" x="372" y="16.5" width="17" height="17"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="20" id="NET-kl-DNY"/>
-                                                    <constraint firstAttribute="width" constant="20" id="sqa-6L-Af1"/>
+                                                    <constraint firstAttribute="height" constant="17" id="NET-kl-DNY"/>
+                                                    <constraint firstAttribute="width" constant="17" id="sqa-6L-Af1"/>
                                                 </constraints>
-                                                <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                <state key="normal" image="plus" catalog="system"/>
+                                                <color key="tintColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <state key="normal" image="upload"/>
                                                 <connections>
                                                     <action selector="selectWallpaper:" destination="gIY-j6-DLu" eventType="touchUpInside" id="wSP-gS-mgs"/>
                                                 </connections>
@@ -738,7 +738,7 @@
                                             <constraint firstItem="yWj-96-qwN" firstAttribute="centerY" secondItem="yWP-4f-kar" secondAttribute="centerY" id="QDU-pk-Ldr"/>
                                             <constraint firstItem="Adc-X0-8pE" firstAttribute="centerX" secondItem="yWP-4f-kar" secondAttribute="centerX" id="xcn-VA-rLy"/>
                                             <constraint firstItem="HuQ-pc-azd" firstAttribute="centerY" secondItem="yWP-4f-kar" secondAttribute="centerY" id="zKT-aS-pb7"/>
-                                            <constraint firstAttribute="trailing" secondItem="yWj-96-qwN" secondAttribute="trailing" constant="20" id="zmu-B7-a8s"/>
+                                            <constraint firstAttribute="trailing" secondItem="yWj-96-qwN" secondAttribute="trailing" constant="25" id="zmu-B7-a8s"/>
                                         </constraints>
                                     </view>
                                     <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" apportionsSegmentWidthsByContent="YES" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="eOF-f3-mbB">
@@ -976,6 +976,15 @@
                                     <constraint firstAttribute="width" constant="220" id="leu-IQ-HyM"/>
                                 </constraints>
                             </imageView>
+                            <view userInteractionEnabled="NO" alpha="0.050000000000000003" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="D0A-Nq-lIJ">
+                                <rect key="frame" x="97" y="176" width="220" height="476.5"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="D0A-Nq-lIJ" secondAttribute="height" multiplier="375:812" id="4OS-Ds-rqj"/>
+                                    <constraint firstAttribute="width" constant="220" id="Cn8-di-Uya"/>
+                                </constraints>
+                            </view>
                             <imageView clipsSubviews="YES" alpha="0.0" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="O2M-QS-5fm">
                                 <rect key="frame" x="97" y="176" width="220" height="476.5"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -1034,9 +1043,11 @@
                         <viewLayoutGuide key="safeArea" id="5o8-Nx-Qtg"/>
                         <color key="backgroundColor" red="0.94113741456142141" green="0.94113741456142141" blue="0.94113741456142141" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         <constraints>
+                            <constraint firstItem="D0A-Nq-lIJ" firstAttribute="top" secondItem="y9o-WQ-MKc" secondAttribute="bottom" constant="25" id="6YG-Hm-T3j"/>
                             <constraint firstItem="pP8-6p-BXd" firstAttribute="leading" secondItem="5o8-Nx-Qtg" secondAttribute="leading" id="Dns-U8-JvX"/>
                             <constraint firstItem="Kqs-Lw-UB6" firstAttribute="centerX" secondItem="jqz-dD-BRY" secondAttribute="centerX" id="ImV-I3-7Rt"/>
                             <constraint firstItem="pP8-6p-BXd" firstAttribute="trailing" secondItem="5o8-Nx-Qtg" secondAttribute="trailing" id="VCt-yM-mzJ"/>
+                            <constraint firstItem="D0A-Nq-lIJ" firstAttribute="centerX" secondItem="jqz-dD-BRY" secondAttribute="centerX" id="XoG-QW-005"/>
                             <constraint firstItem="ueC-dU-hb7" firstAttribute="top" secondItem="Kqs-Lw-UB6" secondAttribute="bottom" constant="30" id="YAx-pC-Xwd"/>
                             <constraint firstItem="y9o-WQ-MKc" firstAttribute="top" secondItem="pP8-6p-BXd" secondAttribute="bottom" constant="15" id="ZXZ-fc-Nwl"/>
                             <constraint firstItem="ueC-dU-hb7" firstAttribute="centerX" secondItem="jqz-dD-BRY" secondAttribute="centerX" id="cIy-fs-55Q"/>
@@ -1633,13 +1644,13 @@
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="50"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fr9-cF-rBg">
-                                                <rect key="frame" x="374" y="15" width="20" height="20"/>
+                                                <rect key="frame" x="372" y="16.5" width="17" height="17"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="20" id="PKA-lk-Hd6"/>
-                                                    <constraint firstAttribute="width" constant="20" id="Ulx-Xy-wEF"/>
+                                                    <constraint firstAttribute="height" constant="17" id="PKA-lk-Hd6"/>
+                                                    <constraint firstAttribute="width" constant="17" id="Ulx-Xy-wEF"/>
                                                 </constraints>
-                                                <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                <state key="normal" image="plus" catalog="system"/>
+                                                <color key="tintColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <state key="normal" image="upload"/>
                                                 <connections>
                                                     <action selector="selectWallpaper:" destination="ry9-th-yGu" eventType="touchUpInside" id="LpQ-k8-ihv"/>
                                                 </connections>
@@ -1673,7 +1684,7 @@
                                             <constraint firstItem="G6Y-su-abs" firstAttribute="centerY" secondItem="5y7-hF-MOi" secondAttribute="centerY" id="Uch-9K-9JU"/>
                                             <constraint firstAttribute="height" constant="50" id="W4t-Zt-ZoY"/>
                                             <constraint firstItem="G6Y-su-abs" firstAttribute="leading" secondItem="5y7-hF-MOi" secondAttribute="leading" constant="20" id="XWk-oG-eDp"/>
-                                            <constraint firstAttribute="trailing" secondItem="fr9-cF-rBg" secondAttribute="trailing" constant="20" id="YFZ-tm-TVc"/>
+                                            <constraint firstAttribute="trailing" secondItem="fr9-cF-rBg" secondAttribute="trailing" constant="25" id="YFZ-tm-TVc"/>
                                             <constraint firstItem="hEB-F9-PcC" firstAttribute="centerX" secondItem="5y7-hF-MOi" secondAttribute="centerX" id="YUi-lX-RIA"/>
                                             <constraint firstItem="fr9-cF-rBg" firstAttribute="centerY" secondItem="5y7-hF-MOi" secondAttribute="centerY" id="l1i-ne-gFz"/>
                                         </constraints>
@@ -1819,11 +1830,11 @@
         <image name="message.fill" catalog="system" width="128" height="113"/>
         <image name="phone" width="28" height="28"/>
         <image name="photo" catalog="system" width="128" height="93"/>
-        <image name="plus" catalog="system" width="128" height="113"/>
         <image name="square.3.stack.3d" catalog="system" width="128" height="124"/>
         <image name="square.and.arrow.down" catalog="system" width="121" height="128"/>
         <image name="square.grid.2x2" catalog="system" width="128" height="114"/>
         <image name="suit.heart" catalog="system" width="128" height="109"/>
+        <image name="upload" width="512" height="512"/>
         <image name="user" width="512" height="512"/>
         <systemColor name="opaqueSeparatorColor">
             <color red="0.77647058823529413" green="0.77647058823529413" blue="0.78431372549019607" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

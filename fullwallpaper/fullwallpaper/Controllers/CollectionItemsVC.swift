@@ -279,6 +279,7 @@ class CollectionItemsVC: UIViewController, UICollectionViewDelegate, UICollectio
         uploadVC.modalPresentationStyle = .overCurrentContext
         if let category:String = collection.get("category")?.stringValue{
             uploadVC.currentCategory = category
+            uploadVC.hideSelectCategory = true
         }
         
         DispatchQueue.main.async {

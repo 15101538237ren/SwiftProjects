@@ -16,6 +16,7 @@ class UploadWallpaperVC: UIViewController, UITextFieldDelegate {
     var currentDisplayMode:DisplayMode = .Plain
     let popupPickerView = AYPopupPickerView()
     let rowNamesInPickerView = categories.map { $0.name }
+    var hideSelectCategory: Bool!
     var currentCategory:String? = nil
     var categoryCN: String? = nil
     
@@ -108,12 +109,16 @@ class UploadWallpaperVC: UIViewController, UITextFieldDelegate {
             }
         }
         
-        if let _ = self.currentCategory{
-            
-            DispatchQueue.main.async {
-                self.selectCategoryBtn.isEnabled = false
-                self.selectCategoryBtn.setTitle(self.categoryCN, for: .disabled)
-                self.selectCategoryBtn.setTitleColor(UIColor.darkGray, for: .disabled)
+        if hideSelectCategory{
+            self.selectCategoryBtn.removeFromSuperview()
+        }else{
+            if let _ = self.currentCategory{
+                
+                DispatchQueue.main.async {
+                    self.selectCategoryBtn.isEnabled = false
+                    self.selectCategoryBtn.setTitle(self.categoryCN, for: .disabled)
+                    self.selectCategoryBtn.setTitleColor(UIColor.darkGray, for: .disabled)
+                }
             }
         }
         
@@ -185,7 +190,9 @@ class UploadWallpaperVC: UIViewController, UITextFieldDelegate {
     func setElements(enable: Bool){
         self.backBtn.isUserInteractionEnabled = enable
         self.view.isUserInteractionEnabled = enable
-        self.selectCategoryBtn.isUserInteractionEnabled = enable
+        if !hideSelectCategory{
+            self.selectCategoryBtn.isUserInteractionEnabled = enable
+        }
         self.captionTextField.isUserInteractionEnabled = enable
         self.submitBtn.isUserInteractionEnabled = enable
     }
@@ -194,13 +201,13 @@ class UploadWallpaperVC: UIViewController, UITextFieldDelegate {
         
         let titleEmptyValidator = Validator.isEmpty(nilResponse: true).apply(captionTextField.text)
         if titleEmptyValidator{
-            presentAlertInView(title: "请您添加壁纸描述以方便他人检索", message: "", okText: "好")
+            self.view.makeToast("请您添加壁纸描述以方便他人检索!", duration: 1.0, position: .center)
             return
         }
         
         let categoryRequiredValidator = Validator.isEmpty(nilResponse: true).apply(self.currentCategory)
         if categoryRequiredValidator{
-            presentAlertInView(title: "请您选择壁纸类别", message: "", okText: "好")
+            self.view.makeToast("请您选择壁纸类别!", duration: 1.0, position: .center)
             return
         }
         
@@ -252,7 +259,8 @@ class UploadWallpaperVC: UIViewController, UITextFieldDelegate {
                                         case .failure(error: let error):
                                             self.stopIndicator()
                                             // 保存失败，可能是文件无法被读取，或者上传过程中出现问题
-                                            self.presentAlertInView(title: "上传失败，请稍后重试!", message: "\(error.reason?.stringValue ?? "出现错误")", okText: "好")
+                                            
+                                            self.view.makeToast("上传失败，请稍后重试!\(error.reason?.stringValue ?? "")", duration: 1.2, position: .center)
                                             self.setElements(enable: true)
                                         }
                                     }
@@ -277,8 +285,7 @@ class UploadWallpaperVC: UIViewController, UITextFieldDelegate {
             }}
             
         }else{
-            let alertCtl = presentNoNetworkAlert()
-            self.present(alertCtl, animated: true, completion: nil)
+            self.view.makeToast(NoNetworkStr, duration: 1.0, position: .center)
         }
         
     }

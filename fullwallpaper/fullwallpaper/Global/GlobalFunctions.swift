@@ -196,10 +196,6 @@ func presentAlert(title: String, message: String, okText: String) -> UIAlertCont
     return alertController
 }
 
-func presentNoNetworkAlert() -> UIAlertController{
-    return presentAlert(title: NoNetWorkStr, message: "", okText: OkTxt)
-}
-
 func getCacheDirName(cacheType: CacheType) -> String{
     switch cacheType {
     case .image:

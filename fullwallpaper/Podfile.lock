@@ -29,6 +29,7 @@ PODS:
   - SwiftTheme (0.5.2)
   - SwiftValidators (9.0.2)
   - SwiftyJSON (4.3.0)
+  - Toast-Swift (5.0.1)
   - UIEmptyState (4.0.1)
 
 DEPENDENCIES:
@@ -43,6 +44,7 @@ DEPENDENCIES:
   - SwiftTheme
   - SwiftValidators
   - SwiftyJSON (~> 4.0)
+  - Toast-Swift
   - UIEmptyState
 
 SPEC REPOS:
@@ -62,6 +64,7 @@ SPEC REPOS:
     - SwiftTheme
     - SwiftValidators
     - SwiftyJSON
+    - Toast-Swift
     - UIEmptyState
 
 SPEC CHECKSUMS:
@@ -80,8 +83,9 @@ SPEC CHECKSUMS:
   SwiftTheme: 8b02c479bb4441b2b6790ac126e961b1b6fb0932
   SwiftValidators: 9be131cdfadb9a29d31e637c947c7306877bf1d4
   SwiftyJSON: 6faa0040f8b59dead0ee07436cbf76b73c08fd08
+  Toast-Swift: 9b6a70f28b3bf0b96c40d46c0c4b9d6639846711
   UIEmptyState: 767376694d9402452fb3c0a5a5283176c6a53c92
 
-PODFILE CHECKSUM: dae96f1535bbe570756ace641574fc25645781a5
+PODFILE CHECKSUM: 1950c96cb964e78f57f8596d523c20a4b6accde2
 
 COCOAPODS: 1.9.3

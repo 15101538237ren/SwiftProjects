@@ -45,8 +45,7 @@ let categoryJsonFileName = "Category.json"
 
 let OkTxt = "好的"
 let loadingTxt = "正在加载.."
-let NoNetWorkStr = "没有网络,请检查网络连接"
-
+let NoNetworkStr = "没有网络,请检查网络连接!"
 
 enum CacheType {
     case image

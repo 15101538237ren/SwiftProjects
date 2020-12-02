@@ -16,6 +16,7 @@ target 'fullwallpaper' do
   pod 'AYPopupPickerView'
   pod 'PhoneNumberKit'
   pod 'Refreshable'
+  pod 'Toast-Swift'
   # Pods for fullwallpaper
 
 end

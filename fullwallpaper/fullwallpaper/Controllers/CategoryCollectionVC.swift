@@ -444,6 +444,7 @@ class CategoryCollectionVC: UIViewController, UICollectionViewDelegate, UICollec
         let uploadVC = mainStoryBoard.instantiateViewController(withIdentifier: "uploadVC") as! UploadWallpaperVC
         uploadVC.wallpaper = image
         uploadVC.modalPresentationStyle = .overCurrentContext
+        uploadVC.hideSelectCategory = true
         uploadVC.currentCategory = category
         uploadVC.categoryCN = categoryCN
         

@@ -79,16 +79,11 @@ class SettingVC: UIViewController , UITableViewDataSource, UITableViewDelegate {
         }
     }
     
-    func presentAlertInView(title: String, message: String, okText: String){
-        let alertController = presentAlert(title: title, message: message, okText: okText)
-        self.present(alertController, animated: true)
-    }
-    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch indexPath.section {
         case 0:
             if let _ = LCApplication.default.currentUser {
-                self.presentAlertInView(title: "用户已登录!", message: "", okText: "好")
+                self.view.makeToast("用户已登录!", duration: 1.0, position: .center)
             } else {
                 // 显示注册或登录页面
                 showLoginOrRegisterVC()
@@ -178,9 +173,7 @@ class SettingVC: UIViewController , UITableViewDataSource, UITableViewDelegate {
     
     func showFeedBackMailComposer(){
         guard MFMailComposeViewController.canSendMail() else{
-            let ac = UIAlertController(title: "无法使用邮箱", message: "请检查您的网络或者邮箱设置。", preferredStyle: .alert)
-            ac.addAction(UIAlertAction(title: "好", style: .default, handler: nil))
-            present(ac, animated: true, completion: nil)
+            self.view.makeToast("无法使用邮箱, 请检查您的网络或者邮箱设置!", duration: 2.0, position: .center)
             return
         }
         let composer = MFMailComposeViewController()
@@ -195,13 +188,7 @@ class SettingVC: UIViewController , UITableViewDataSource, UITableViewDelegate {
         let indexPath:IndexPath = IndexPath(row: 1, section: 2)
         Nuke.ImageCache.shared.removeAll()
         Nuke.DataLoader.sharedUrlCache.removeAllCachedResponses()
-        let ac = UIAlertController(title: "缓存清除成功", message: "", preferredStyle: .alert)
-        ac.addAction(UIAlertAction(title: "好", style: .default, handler: { _ in
-                DispatchQueue.main.async {
-                    self.tableView.reloadRows(at: [indexPath], with: .automatic)
-                }
-        }))
-        present(ac, animated: true, completion: nil)
+        self.view.makeToast("缓存清除成功!", duration: 1.0, position: .center)
     }
     
 }
@@ -228,9 +215,7 @@ extension SettingVC : MFMailComposeViewControllerDelegate{
         }
         controller.dismiss(animated: true, completion: {
             if feedback_sent == true{
-                let ac = UIAlertController(title: "反馈已发送", message: "感谢您的反馈，我们会认真考虑并在需要时给您回复。", preferredStyle: .alert)
-                ac.addAction(UIAlertAction(title: "好", style: .default, handler: nil))
-                self.present(ac, animated: true, completion: nil)
+                self.view.makeToast("感谢您的反馈！我们会认真考虑您的建议，并在需要时给您回复。", duration: 2.0, position: .center)
             }
         })
     }

@@ -267,6 +267,7 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
         let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
         let uploadVC = mainStoryBoard.instantiateViewController(withIdentifier: "uploadVC") as! UploadWallpaperVC
         uploadVC.wallpaper = image
+        uploadVC.hideSelectCategory = false
         uploadVC.modalPresentationStyle = .overCurrentContext
         
         DispatchQueue.main.async {

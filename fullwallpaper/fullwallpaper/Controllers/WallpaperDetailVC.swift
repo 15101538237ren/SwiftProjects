@@ -8,6 +8,7 @@
 import UIKit
 import AVFoundation
 import Nuke
+import Toast_Swift
 
 class WallpaperDetailVC: UIViewController {
 
@@ -46,8 +47,7 @@ class WallpaperDetailVC: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         if !Reachability.isConnectedToNetwork(){
             self.imageView.image = UIImage(named: "image_to_upload")!
-            let alertCtl = presentNoNetworkAlert()
-            self.present(alertCtl, animated: true, completion: nil)
+            self.view.makeToast(NoNetworkStr, duration: 1.0, position: .center)
         }
     }
     
@@ -240,14 +240,10 @@ class WallpaperDetailVC: UIViewController {
     
     @objc func image(_ image:UIImage, didFinishSavingWithError error: Error?, contextInfo: UnsafeRawPointer){
         if let error = error {
-            let ac = UIAlertController(title: "出现错误: \(error.localizedDescription)", message: "", preferredStyle: .alert)
-            ac.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-            present(ac, animated: true, completion: nil)
+                self.view.makeToast("出现错误: \(error.localizedDescription)", duration: 1.0, position: .center)
         }
         else{
-            let ac = UIAlertController(title: "保存成功!", message: "", preferredStyle: .alert)
-            ac.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-            present(ac, animated: true, completion: nil)
+            self.view.makeToast("保存成功!", duration: 1.0, position: .center)
         }
     }
     
