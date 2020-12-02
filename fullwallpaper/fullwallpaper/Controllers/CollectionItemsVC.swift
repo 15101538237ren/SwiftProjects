@@ -276,6 +276,7 @@ class CollectionItemsVC: UIViewController, UICollectionViewDelegate, UICollectio
         let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
         let uploadVC = mainStoryBoard.instantiateViewController(withIdentifier: "uploadVC") as! UploadWallpaperVC
         uploadVC.wallpaper = image
+        uploadVC.collection = collection
         uploadVC.modalPresentationStyle = .overCurrentContext
         if let category:String = collection.get("category")?.stringValue{
             uploadVC.currentCategory = category

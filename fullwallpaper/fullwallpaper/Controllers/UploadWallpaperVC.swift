@@ -19,7 +19,7 @@ class UploadWallpaperVC: UIViewController, UITextFieldDelegate {
     var hideSelectCategory: Bool!
     var currentCategory:String? = nil
     var categoryCN: String? = nil
-    
+    var collection: LCObject? = nil
     
     @IBOutlet weak var backBtn: UIButton!
     
@@ -234,6 +234,9 @@ class UploadWallpaperVC: UIViewController, UITextFieldDelegate {
                         try wallpaperObj.set("likes", value: 0)
                         try wallpaperObj.set("status", value: 0)
                         try wallpaperObj.set("uploader", value: user)
+                        if let collectionObj = self.collection{
+                            try wallpaperObj.set("dependent", value: collectionObj)
+                        }
                         
                         let file = LCFile(payload: .data(data: imageData))
                         _ = file.save { result in
