@@ -107,7 +107,7 @@ class SearchVC: UIViewController, UICollectionViewDelegate, UICollectionViewData
                         if let file = res.get("img") as? LCFile {
                             let imgUrl = file.url!.stringValue!
                             let thumbnailUrl = file.thumbnailURL(.scale(thumbnailScale))!.stringValue!
-                            let wallpaper = Wallpaper(name: name, category: category, thumbnailUrl: thumbnailUrl, imgUrl: imgUrl, likes: likes, createdAt: date)
+                            let wallpaper = Wallpaper(objectId: res.objectId!.stringValue!, name: name, category: category, thumbnailUrl: thumbnailUrl, imgUrl: imgUrl, likes: likes, createdAt: date)
                             wallpapers.append(wallpaper)
                         }
                     }

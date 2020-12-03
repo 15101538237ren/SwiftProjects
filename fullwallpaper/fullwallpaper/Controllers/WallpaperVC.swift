@@ -26,7 +26,6 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
     var urlsOfHotWallpapers:[String] = []
     var skipOfHotWallpapers:Int = 0
     var minDateOfLastLatestWallpaperFetch: String? = nil
-    
     @IBOutlet weak var collectionView: UICollectionView!
     
     func setupCollectionView() {
@@ -49,13 +48,34 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
         setupCollectionView()
         initIndicator(view: self.view)
         loadWallpapers()
+        getUserLikedWPs()
     }
-
-    func loadDetailVC(imageUrl: URL) -> Void{
+    
+    func getUserLikedWPs(){
+        if let currentUser = LCApplication.default.currentUser{
+            let user = LCObject(className: "_User", objectId: currentUser.objectId!)
+            _ = user.fetch { result in
+                switch result {
+                case .success:
+                    if let likedWPs = user.get("likedWPs")?.arrayValue{
+                        for likedWP in likedWPs{
+                            userLikedWPs.append(likedWP as! String)
+                        }
+                    }
+                case .failure(error: let error):
+                    print(error.localizedDescription)
+                }
+            }
+            
+        }
+    }
+    
+    func loadDetailVC(imageUrl: URL, wallpaperObjectId: String) -> Void{
         let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
         let detailVC = mainStoryBoard.instantiateViewController(withIdentifier: "detailVC") as! WallpaperDetailVC
         
         detailVC.imageUrl = imageUrl
+        detailVC.wallpaperObjectId = wallpaperObjectId
         detailVC.modalPresentationStyle = .overCurrentContext
         
         DispatchQueue.main.async {
@@ -128,7 +148,7 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
                             let imgUrl = file.url!.stringValue!
                             if sortType == .byCreateDate || !urlsOfHotWallpapers.contains(imgUrl){
                                 let thumbnailUrl = file.thumbnailURL(.scale(thumbnailScale))!.stringValue!
-                                let wallpaper = Wallpaper(name: name, category: category, thumbnailUrl: thumbnailUrl, imgUrl: imgUrl, likes: likes, createdAt: date)
+                                let wallpaper = Wallpaper(objectId: res.objectId!.stringValue!, name: name, category: category, thumbnailUrl: thumbnailUrl, imgUrl: imgUrl, likes: likes, createdAt: date)
                                 
                                 if sortType == .byLike{
                                     hotWallpapers.append(wallpaper)
@@ -183,6 +203,8 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "wallpaperCollectionViewCell", for: indexPath) as! WallpaperCollectionViewCell
         let wallpaper:Wallpaper = sortType == .byLike ? hotWallpapers[indexPath.row] : latestWallpapers[indexPath.row]
+        let liked  = userLikedWPs.contains(wallpaper.objectId)
+        cell.heartV.image = liked ? UIImage(systemName: "heart.fill") ?? UIImage(named: "heart-fill-icon") : UIImage(systemName: "heart") ?? UIImage(named: "heart-icon")
         cell.likeLabel.text = "\(wallpaper.likes)"
         let thumbnailUrl = URL(string: sortType == .byLike ? wallpaper.thumbnailUrl : wallpaper.thumbnailUrl)!
         Nuke.loadImage(with: thumbnailUrl, options: wallpaperLoadingOptions, into: cell.imageV)
@@ -199,7 +221,7 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let wallpaper:Wallpaper = sortType == .byLike ? hotWallpapers[indexPath.row] : latestWallpapers[indexPath.row]
         if let imgUrl = URL(string: wallpaper.imgUrl){
-            loadDetailVC(imageUrl: imgUrl)
+            loadDetailVC(imageUrl: imgUrl, wallpaperObjectId: wallpaper.objectId)
         }
     }
     

@@ -9,6 +9,7 @@ import UIKit
 import AVFoundation
 import Nuke
 import Toast_Swift
+import LeanCloud
 
 class WallpaperDetailVC: UIViewController {
 
@@ -32,6 +33,7 @@ class WallpaperDetailVC: UIViewController {
     
     // Variables
     var imageUrl: URL!
+    var wallpaperObjectId: String!
     var lockInPreview: Bool = false
     var homeInPreview: Bool = false
     var liked: Bool = false
@@ -40,8 +42,17 @@ class WallpaperDetailVC: UIViewController {
     let scaleForAnimation: CGFloat = 2
     override func viewDidLoad() {
         super.viewDidLoad()
+        initVC()
         loadImage(url: imageUrl)
         addGestureRcg()
+    }
+    
+    func initVC(){
+        let liked  = userLikedWPs.contains(wallpaperObjectId!)
+        let tmp_image = liked ? UIImage(systemName: "heart.fill") ?? UIImage(named: "heart-fill-icon") : UIImage(systemName: "heart") ?? UIImage(named: "heart-icon")
+        DispatchQueue.main.async { [self] in
+            likeImgV.image = tmp_image
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -156,18 +167,61 @@ class WallpaperDetailVC: UIViewController {
     func toggleLikeBtn() {
         liked.toggle()
         let tmp_image = liked ? UIImage(systemName: "heart.fill") ?? UIImage(named: "heart-fill-icon") : UIImage(systemName: "heart") ?? UIImage(named: "heart-icon")
+        let increaseAmount: Int = liked ? 1 : -1
         likeImgV.image = tmp_image
         largeHeartImgV.image = tmp_image
+        do{
+            let wallpaper = LCObject(className: "Wallpaper", objectId: wallpaperObjectId!)
+            try wallpaper.increase("likes", by: increaseAmount)
+            wallpaper.save { (result) in
+                    switch result {
+                    case .success:
+                        DispatchQueue.main.async {
+                            UIView.animate(withDuration: 0.25, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 5, options: .curveEaseInOut, animations: {
+                                self.largeHeartImgV.alpha = 1.0
+                                self.largeHeartImgV.transform = self.largeHeartImgV.transform.scaledBy(x: self.scaleForAnimation, y: self.scaleForAnimation)
+                                }, completion: { _ in
+                                    UIView.animate(withDuration: 0.2, animations: {
+                                        self.largeHeartImgV.alpha = 0.0
+                                        self.largeHeartImgV.transform = .identity
+                                    })
+                            })
+                        }
+                    case .failure(error: let error):
+                        self.view.makeToast(error.reason, duration: 1.0, position: .center)
+                    }
+                }
+            
+            if let user = LCApplication.default.currentUser{
+                do {
+                    
+                    if increaseAmount == 1 {
+                        try user.append("likedWPs", element: wallpaperObjectId!)
+                    } else{
+                        try user.remove("likedWPs", element: wallpaperObjectId!)
+                    }
+                    
+                    user.save{ (result) in
+                        switch result {
+                        case .success:
+                            print("收藏成功!")
+                            if increaseAmount == 1 {
+                                userLikedWPs.append(self.wallpaperObjectId!)
+                            } else{
+                                userLikedWPs.removeLast()
+                            }
+                        case .failure:
+                            print("收藏失败!")
+                        }
+                    }
+                } catch {
+                    self.view.makeToast(error.localizedDescription, duration: 1.0, position: .center)
+                }
+            }
+        } catch {
+            print(error)
+        }
         
-        UIView.animate(withDuration: 0.25, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 5, options: .curveEaseInOut, animations: {
-            self.largeHeartImgV.alpha = 1.0
-            self.largeHeartImgV.transform = self.largeHeartImgV.transform.scaledBy(x: self.scaleForAnimation, y: self.scaleForAnimation)
-            }, completion: { _ in
-                UIView.animate(withDuration: 0.2, animations: {
-                    self.largeHeartImgV.alpha = 0.0
-                    self.largeHeartImgV.transform = .identity
-                })
-        })
     }
     
     @objc func likeImgViewTapped(tapGestureRecognizer: UITapGestureRecognizer)

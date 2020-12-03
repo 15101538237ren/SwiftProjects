@@ -57,11 +57,12 @@ class CollectionItemsVC: UIViewController, UICollectionViewDelegate, UICollectio
         loadWallpapers()
     }
 
-    func loadDetailVC(imageUrl: URL) -> Void{
+    func loadDetailVC(imageUrl: URL, wallpaperObjectId: String) -> Void{
         let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
         let detailVC = mainStoryBoard.instantiateViewController(withIdentifier: "detailVC") as! WallpaperDetailVC
         
         detailVC.imageUrl = imageUrl
+        detailVC.wallpaperObjectId = wallpaperObjectId
         detailVC.modalPresentationStyle = .overCurrentContext
         
         DispatchQueue.main.async {
@@ -132,7 +133,7 @@ class CollectionItemsVC: UIViewController, UICollectionViewDelegate, UICollectio
                             let imgUrl = file.url!.stringValue!
                             if sortType == .byCreateDate || !urlsOfHotWallpapers.contains(imgUrl){
                                 let thumbnailUrl = file.thumbnailURL(.scale(thumbnailScale))!.stringValue!
-                                let wallpaper = Wallpaper(name: name, category: category, thumbnailUrl: thumbnailUrl, imgUrl: imgUrl, likes: likes, createdAt: date)
+                                let wallpaper = Wallpaper(objectId: res.objectId!.stringValue!,name: name, category: category, thumbnailUrl: thumbnailUrl, imgUrl: imgUrl, likes: likes, createdAt: date)
                                 
                                 if sortType == .byLike{
                                     hotWallpapers.append(wallpaper)
@@ -212,6 +213,8 @@ class CollectionItemsVC: UIViewController, UICollectionViewDelegate, UICollectio
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "wallpaperCollectionViewCell", for: indexPath) as! WallpaperCollectionViewCell
         let wallpaper:Wallpaper = sortType == .byLike ? hotWallpapers[indexPath.row] : latestWallpapers[indexPath.row]
+        let liked  = userLikedWPs.contains(wallpaper.objectId)
+        cell.heartV.image = liked ? UIImage(systemName: "heart.fill") ?? UIImage(named: "heart-fill-icon") : UIImage(systemName: "heart") ?? UIImage(named: "heart-icon")
         cell.likeLabel.text = "\(wallpaper.likes)"
         let thumbnailUrl = URL(string: sortType == .byLike ? wallpaper.thumbnailUrl : wallpaper.thumbnailUrl)!
         Nuke.loadImage(with: thumbnailUrl, options: wallpaperLoadingOptions, into: cell.imageV)
@@ -228,7 +231,7 @@ class CollectionItemsVC: UIViewController, UICollectionViewDelegate, UICollectio
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let wallpaper:Wallpaper = sortType == .byLike ? hotWallpapers[indexPath.row] : latestWallpapers[indexPath.row]
         if let imgUrl = URL(string: wallpaper.imgUrl){
-            loadDetailVC(imageUrl: imgUrl)
+            loadDetailVC(imageUrl: imgUrl, wallpaperObjectId: wallpaper.objectId)
         }
     }
     

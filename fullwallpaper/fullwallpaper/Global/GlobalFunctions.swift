@@ -28,6 +28,7 @@ func fromLCDateToDateStr(date: LCDate) -> String{
 
 func createCropViewController(image: UIImage) -> CropViewController{
     let cropController = CropViewController(image: image)
+    cropController.preferredContentSize = CGSize(width: screenWidth, height: screenHeight)
     cropController.title = "「缩放」或「拖拽」来调整"
     cropController.doneButtonTitle = "确定"
     cropController.cancelButtonTitle = "取消"
