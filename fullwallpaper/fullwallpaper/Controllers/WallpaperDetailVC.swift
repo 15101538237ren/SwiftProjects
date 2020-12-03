@@ -10,6 +10,7 @@ import AVFoundation
 import Nuke
 import Toast_Swift
 import LeanCloud
+import PopMenu
 
 class WallpaperDetailVC: UIViewController {
 
@@ -287,7 +288,21 @@ class WallpaperDetailVC: UIViewController {
     }
     
     @objc func options(tapGestureRecognizer: UITapGestureRecognizer){
+        let iconWidthHeight:CGFloat = 20
+        let popAction = PopMenuDefaultAction(title: "内容违规", image: UIImage(named: "alarm"), color: UIColor.darkGray)
+        let latestAction = PopMenuDefaultAction(title: "清晰度不佳", image: UIImage(named: "frown"), color: UIColor.darkGray)
+        let uploadAction = PopMenuDefaultAction(title: "分类有误", image: UIImage(named: "warning"), color: UIColor.darkGray)
         
+        popAction.iconWidthHeight = iconWidthHeight
+        latestAction.iconWidthHeight = iconWidthHeight
+        uploadAction.iconWidthHeight = iconWidthHeight
+        
+        let menuVC = PopMenuViewController(sourceView: optionImgV, actions: [popAction, latestAction, uploadAction])
+        menuVC.delegate = self
+        menuVC.appearance.popMenuFont = .systemFont(ofSize: 15, weight: .regular)
+        
+        menuVC.appearance.popMenuColor.backgroundColor = .solid(fill: UIColor(red: 128, green: 128, blue: 128, alpha: 1))
+        self.present(menuVC, animated: true, completion: nil)
     }
     
     @objc func image(_ image:UIImage, didFinishSavingWithError error: Error?, contextInfo: UnsafeRawPointer){
@@ -301,5 +316,41 @@ class WallpaperDetailVC: UIViewController {
     
     @IBAction func unwind(_ sender: UIButton) {
         self.dismiss(animated: true, completion: nil)
+    }
+}
+
+extension WallpaperDetailVC: PopMenuViewControllerDelegate {
+
+    func reportWallpaperProblem(code: Int, popMenuViewController: PopMenuViewController){
+        do{
+            let wallpaper = LCObject(className: "Wallpaper", objectId: wallpaperObjectId!)
+            try wallpaper.set("status", value: code)
+            wallpaper.save { (result) in
+                    switch result {
+                    case .success:
+                        popMenuViewController.dismiss(animated: true, completion: nil)
+                        DispatchQueue.main.async {
+                            self.view.makeToast("举报成功!", duration: 1.0, position: .center)
+                        }
+                    case .failure(error: let error):
+                        self.view.makeToast(error.reason, duration: 1.0, position: .center)
+                    }
+                }
+            
+        } catch {
+            print(error)
+        }
+    }
+    
+    // This will be called when a pop menu action was selected
+    func popMenuDidSelectItem(_ popMenuViewController: PopMenuViewController, at index: Int) {
+        if index == 0{
+            reportWallpaperProblem(code: 2, popMenuViewController: popMenuViewController)
+        }else if index == 1{
+            reportWallpaperProblem(code: 3, popMenuViewController: popMenuViewController)
+        }
+        else{
+            reportWallpaperProblem(code: 4, popMenuViewController: popMenuViewController)
+        }
     }
 }
