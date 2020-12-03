@@ -165,7 +165,7 @@ class WallpaperDetailVC: UIViewController {
     }
     
     func toggleLikeBtn() {
-        liked.toggle()
+        let liked  = !userLikedWPs.contains(wallpaperObjectId!)
         let tmp_image = liked ? UIImage(systemName: "heart.fill") ?? UIImage(named: "heart-fill-icon") : UIImage(systemName: "heart") ?? UIImage(named: "heart-icon")
         let increaseAmount: Int = liked ? 1 : -1
         likeImgV.image = tmp_image
