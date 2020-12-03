@@ -7,6 +7,7 @@
 
 import UIKit
 import Nuke
+import LeanCloud
 import UIEmptyState
 import JGProgressHUD
 
@@ -14,12 +15,43 @@ import JGProgressHUD
 class CategoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UIEmptyStateDataSource, UIEmptyStateDelegate {
     
     //Variables
-    
+    @IBOutlet var batchUploadBtn: UIButton!
+    @IBOutlet var auditBtn: UIButton!
     @IBOutlet var tableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         initTableView()
+        initBtns()
+    }
+    
+    func initBtns(){
+        if let user = LCApplication.default.currentUser {
+            let roleQuery = LCQuery(className: LCRole.objectClassName())
+            roleQuery.whereKey("users", .equalTo(user))
+            _ = roleQuery.find { result in
+                switch result {
+                case .success(objects: let roles):
+                    for role in roles{
+                        if let roleName = role.get("name"){
+                            if roleName.stringValue! == "admin"{
+                                self.displayBtns()
+                                break
+                            }
+                        }
+                    }
+                case .failure(error: let error):
+                    print(error.localizedDescription)
+                }
+            }
+        }
+    }
+    
+    func displayBtns(){
+        DispatchQueue.main.async {
+            self.auditBtn.alpha = 1
+            self.batchUploadBtn.alpha = 1
+        }
     }
     
     func initTableView(){
