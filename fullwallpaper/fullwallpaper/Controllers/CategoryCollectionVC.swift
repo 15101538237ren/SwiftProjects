@@ -230,6 +230,7 @@ class CategoryCollectionVC: UIViewController, UICollectionViewDelegate, UICollec
         DispatchQueue.global(qos: .utility).async { [self] in
         do {
             let query = LCQuery(className: "Wallpaper")
+            query.whereKey("status", .equalTo(1))
             query.whereKey("category", .equalTo(category))
             
             if sortType == .byLike{

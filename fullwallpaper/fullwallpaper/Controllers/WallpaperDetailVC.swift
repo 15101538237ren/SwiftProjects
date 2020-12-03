@@ -20,8 +20,8 @@ class WallpaperDetailVC: UIViewController {
     @IBOutlet weak var largeHeartImgV: UIImageView!
     @IBOutlet weak var likeImgV: UIImageView!
     @IBOutlet weak var downloadImgV: UIImageView!
-    @IBOutlet weak var lockScreenImgV: UIImageView!
-    @IBOutlet weak var homeScreenImgV: UIImageView!
+    @IBOutlet weak var previewImgV: UIImageView!
+    @IBOutlet weak var optionImgV: UIImageView!
     @IBOutlet weak var dimUIView: UIView!{
         didSet{
             dimUIView.layer.cornerRadius = 15.0
@@ -34,8 +34,7 @@ class WallpaperDetailVC: UIViewController {
     // Variables
     var imageUrl: URL!
     var wallpaperObjectId: String!
-    var lockInPreview: Bool = false
-    var homeInPreview: Bool = false
+    var previewStatus: DisplayMode = .Plain
     var liked: Bool = false
     var viewTranslation = CGPoint(x: 0, y: 0)
     
@@ -85,8 +84,8 @@ class WallpaperDetailVC: UIViewController {
         addGestureRcgToView()
         addGestureRcgToLike()
         addGestureRcgToDownload()
-        addGestureRcgToLockScreen()
-        addGestureRcgToHomeScreen()
+        addGestureRcgToPreview()
+        addGestureRcgToOption()
         view.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(handleDismiss)))
     }
     
@@ -119,19 +118,20 @@ class WallpaperDetailVC: UIViewController {
         DispatchQueue.main.async {
             self.likeImgV.alpha = 0
             self.downloadImgV.alpha = 0
-            self.lockScreenImgV.alpha = 0
-            self.homeScreenImgV.alpha = 0
+            self.previewImgV.alpha = 0
+            self.optionImgV.alpha = 0
             self.dimUIView.alpha = 0
         }
     }
     
     
     func showButtons(){
+        previewStatus = .Plain
         DispatchQueue.main.async {
             self.likeImgV.alpha = 1
             self.downloadImgV.alpha = 1
-            self.lockScreenImgV.alpha = 1
-            self.homeScreenImgV.alpha = 1
+            self.previewImgV.alpha = 1
+            self.optionImgV.alpha = 1
             self.dimUIView.alpha = dimUIViewAlpha
         }
     }
@@ -151,15 +151,15 @@ class WallpaperDetailVC: UIViewController {
     
     @objc func viewTapped(tapGestureRecognizer: UITapGestureRecognizer)
     {
-        if lockInPreview{
+        switch previewStatus {
+        case .Plain:
+            hideButtons()
+            showLockScreenPreview()
+        case .LockScreen:
             hideLockScreenPreview()
-            lockInPreview.toggle()
-        }
-        if homeInPreview {
+            showHomeScreenPreview()
+        case .HomeScreen:
             hideHomeScreenPreview()
-            homeInPreview.toggle()
-        }
-        if likeImgV.alpha < 0.05{
             showButtons()
         }
     }
@@ -242,13 +242,14 @@ class WallpaperDetailVC: UIViewController {
         }
     }
     
-    func addGestureRcgToLockScreen(){
-        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(lockScreenImgViewTapped(tapGestureRecognizer:)))
-        lockScreenImgV.isUserInteractionEnabled = true
-        lockScreenImgV.addGestureRecognizer(tapGestureRecognizer)
+    func addGestureRcgToPreview(){
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(preview(tapGestureRecognizer:)))
+        previewImgV.isUserInteractionEnabled = true
+        previewImgV.addGestureRecognizer(tapGestureRecognizer)
     }
     
     func showLockScreenPreview(){
+        previewStatus = .LockScreen
         DispatchQueue.main.async {
             self.lockScreenPreviewImgV.alpha = 1.0
         }
@@ -260,20 +261,20 @@ class WallpaperDetailVC: UIViewController {
         }
     }
     
-    @objc func lockScreenImgViewTapped(tapGestureRecognizer: UITapGestureRecognizer)
+    @objc func preview(tapGestureRecognizer: UITapGestureRecognizer)
     {
-        lockInPreview = true
         hideButtons()
         showLockScreenPreview()
     }
     
-    func addGestureRcgToHomeScreen(){
-        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(homeScreenImgViewTapped(tapGestureRecognizer:)))
-        homeScreenImgV.isUserInteractionEnabled = true
-        homeScreenImgV.addGestureRecognizer(tapGestureRecognizer)
+    func addGestureRcgToOption(){
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(options(tapGestureRecognizer:)))
+        optionImgV.isUserInteractionEnabled = true
+        optionImgV.addGestureRecognizer(tapGestureRecognizer)
     }
     
     func showHomeScreenPreview(){
+        previewStatus = .HomeScreen
         DispatchQueue.main.async {
             self.homeScreenPreviewImgV.alpha = 1
         }
@@ -285,11 +286,8 @@ class WallpaperDetailVC: UIViewController {
         }
     }
     
-    @objc func homeScreenImgViewTapped(tapGestureRecognizer: UITapGestureRecognizer)
-    {
-        homeInPreview = true
-        hideButtons()
-        showHomeScreenPreview()
+    @objc func options(tapGestureRecognizer: UITapGestureRecognizer){
+        
     }
     
     @objc func image(_ image:UIImage, didFinishSavingWithError error: Error?, contextInfo: UnsafeRawPointer){

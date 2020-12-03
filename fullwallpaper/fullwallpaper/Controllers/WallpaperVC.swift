@@ -106,6 +106,7 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
         DispatchQueue.global(qos: .utility).async { [self] in
         do {
             let query = LCQuery(className: "Wallpaper")
+            query.whereKey("status", .equalTo(1))
             
             if sortType == .byLike{
                 query.whereKey("likes", .descending)

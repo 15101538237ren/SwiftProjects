@@ -86,6 +86,8 @@ class CollectionItemsVC: UIViewController, UICollectionViewDelegate, UICollectio
         DispatchQueue.global(qos: .utility).async { [self] in
         do {
             let query = LCQuery(className: "Wallpaper")
+            query.whereKey("status", .equalTo(1))
+            
             let collectionObj = LCObject(className: "Collection", objectId: collection.objectId!.stringValue!)
             query.whereKey("dependent", .equalTo(collectionObj))
             

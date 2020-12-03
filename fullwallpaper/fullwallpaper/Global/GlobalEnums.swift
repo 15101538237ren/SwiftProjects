@@ -16,4 +16,4 @@ enum DisplayMode {
     case Plain
     case LockScreen
     case HomeScreen
-} 
+}
