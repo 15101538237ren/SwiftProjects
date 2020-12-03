@@ -66,7 +66,10 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
                     print(error.localizedDescription)
                 }
             }
-            
+        } else {
+            if let storedLikedWPs = UserDefaults.standard.object(forKey: "likedWPs") as? [String]{
+                userLikedWPs = storedLikedWPs
+            }
         }
     }
     

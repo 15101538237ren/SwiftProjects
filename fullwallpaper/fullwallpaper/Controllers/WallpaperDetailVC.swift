@@ -218,9 +218,17 @@ class WallpaperDetailVC: UIViewController {
                 } catch {
                     self.view.makeToast(error.localizedDescription, duration: 1.0, position: .center)
                 }
+            }else{
+                if increaseAmount == 1 {
+                    userLikedWPs.append(self.wallpaperObjectId!)
+                } else{
+                    userLikedWPs.removeLast()
+                }
+                UserDefaults.standard.set(userLikedWPs, forKey: "likedWPs")
+                print("收藏成功!")
             }
         } catch {
-            print(error)
+            print(error.localizedDescription)
         }
         
     }

@@ -332,6 +332,7 @@ class LoginVC: UIViewController {
                                 self.stopIndicator()
                                 self.dismiss(animated: true, completion: nil)
                             }
+                            userLikedWPs = []
                             //登录成功
                             
                         case .failure(error: let error):
@@ -482,6 +483,7 @@ class LoginVC: UIViewController {
                    }
                    switch result {
                    case .success:
+                       userLikedWPs = []
                        self.dismiss(animated: true, completion: nil)
                    case .failure(error: let error):
                         self.view.makeToast("\(error.reason ?? "登录失败，请稍后重试")", duration: 1.0, position: .center)
