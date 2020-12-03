@@ -289,15 +289,17 @@ class WallpaperDetailVC: UIViewController {
     
     @objc func options(tapGestureRecognizer: UITapGestureRecognizer){
         let iconWidthHeight:CGFloat = 20
-        let popAction = PopMenuDefaultAction(title: "内容违规", image: UIImage(named: "alarm"), color: UIColor.darkGray)
-        let latestAction = PopMenuDefaultAction(title: "清晰度不佳", image: UIImage(named: "frown"), color: UIColor.darkGray)
-        let uploadAction = PopMenuDefaultAction(title: "分类有误", image: UIImage(named: "warning"), color: UIColor.darkGray)
+        let contentAction = PopMenuDefaultAction(title: "不良内容", image: UIImage(named: "alarm"), color: UIColor.darkGray)
+        let resolutionAction = PopMenuDefaultAction(title: "清晰度不佳", image: UIImage(named: "frown"), color: UIColor.darkGray)
+        let copyrightAction = PopMenuDefaultAction(title: "壁纸侵权", image: UIImage(named: "copyright"), color: UIColor.darkGray)
+        let classificationAction = PopMenuDefaultAction(title: "分类有误", image: UIImage(named: "warning"), color: UIColor.darkGray)
         
-        popAction.iconWidthHeight = iconWidthHeight
-        latestAction.iconWidthHeight = iconWidthHeight
-        uploadAction.iconWidthHeight = iconWidthHeight
+        contentAction.iconWidthHeight = iconWidthHeight
+        resolutionAction.iconWidthHeight = iconWidthHeight
+        copyrightAction.iconWidthHeight = iconWidthHeight
+        classificationAction.iconWidthHeight = iconWidthHeight
         
-        let menuVC = PopMenuViewController(sourceView: optionImgV, actions: [popAction, latestAction, uploadAction])
+        let menuVC = PopMenuViewController(sourceView: optionImgV, actions: [contentAction, resolutionAction, copyrightAction, classificationAction])
         menuVC.delegate = self
         menuVC.appearance.popMenuFont = .systemFont(ofSize: 15, weight: .regular)
         
@@ -348,9 +350,11 @@ extension WallpaperDetailVC: PopMenuViewControllerDelegate {
             reportWallpaperProblem(code: 2, popMenuViewController: popMenuViewController)
         }else if index == 1{
             reportWallpaperProblem(code: 3, popMenuViewController: popMenuViewController)
+        }else if index == 2{
+            reportWallpaperProblem(code: 4, popMenuViewController: popMenuViewController)
         }
         else{
-            reportWallpaperProblem(code: 4, popMenuViewController: popMenuViewController)
+            reportWallpaperProblem(code: 5, popMenuViewController: popMenuViewController)
         }
     }
 }
