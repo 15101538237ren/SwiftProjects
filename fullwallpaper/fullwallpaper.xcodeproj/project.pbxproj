@@ -26,6 +26,7 @@
 		55F39933254A624D0094A477 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 55F39931254A624D0094A477 /* LaunchScreen.storyboard */; };
 		C311F9C3255E1124000FCED2 /* UploadWallpaperVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C311F9C2255E1124000FCED2 /* UploadWallpaperVC.swift */; };
 		C311F9C6255E14B5000FCED2 /* GlobalEnums.swift in Sources */ = {isa = PBXBuildFile; fileRef = C311F9C5255E14B5000FCED2 /* GlobalEnums.swift */; };
+		C32CB0CC2579F47C000DDCF1 /* SetUserProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C32CB0CB2579F47C000DDCF1 /* SetUserProfileVC.swift */; };
 		C36F6FE82569A9B60072AEDE /* SearchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C36F6FE72569A9B60072AEDE /* SearchVC.swift */; };
 		C3770DA9255CF99700D240CB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 55F3992F254A624D0094A477 /* Assets.xcassets */; };
 		C3770DCE255D143F00D240CB /* SettingTableViewCellWithValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3770DCD255D143F00D240CB /* SettingTableViewCellWithValue.swift */; };
@@ -68,6 +69,7 @@
 		55F39934254A624D0094A477 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C311F9C2255E1124000FCED2 /* UploadWallpaperVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadWallpaperVC.swift; sourceTree = "<group>"; };
 		C311F9C5255E14B5000FCED2 /* GlobalEnums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalEnums.swift; sourceTree = "<group>"; };
+		C32CB0CB2579F47C000DDCF1 /* SetUserProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetUserProfileVC.swift; sourceTree = "<group>"; };
 		C36F6FE72569A9B60072AEDE /* SearchVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchVC.swift; sourceTree = "<group>"; };
 		C3770DCD255D143F00D240CB /* SettingTableViewCellWithValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingTableViewCellWithValue.swift; sourceTree = "<group>"; };
 		C3871DEF255A6CA7001DF6C4 /* LoginVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
@@ -187,6 +189,7 @@
 				C36F6FE72569A9B60072AEDE /* SearchVC.swift */,
 				C3C48F21256A2D6A00507582 /* CollectionVC.swift */,
 				C3C48F24256A2E0A00507582 /* CollectionItemsVC.swift */,
+				C32CB0CB2579F47C000DDCF1 /* SetUserProfileVC.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -377,6 +380,7 @@
 				55370FAC2553B5700003CAD5 /* GlobalFunctions.swift in Sources */,
 				C311F9C6255E14B5000FCED2 /* GlobalEnums.swift in Sources */,
 				55370FB22553B5A10003CAD5 /* Category.swift in Sources */,
+				C32CB0CC2579F47C000DDCF1 /* SetUserProfileVC.swift in Sources */,
 				C38E1DFD255662E4004D008A /* Wallpaper.swift in Sources */,
 				C3C48F22256A2D6A00507582 /* CollectionVC.swift in Sources */,
 				55370FBD2553B7130003CAD5 /* Reachability.swift in Sources */,

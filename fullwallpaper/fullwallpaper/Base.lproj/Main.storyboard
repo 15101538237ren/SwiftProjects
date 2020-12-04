@@ -1293,7 +1293,7 @@
                                                             <constraint firstAttribute="width" constant="30" id="mzn-AB-PIn"/>
                                                         </constraints>
                                                     </imageView>
-                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="手 机号" minimumFontSize="15" translatesAutoresizingMaskIntoConstraints="NO" id="GAo-f4-ph1">
+                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="手机号" minimumFontSize="15" translatesAutoresizingMaskIntoConstraints="NO" id="GAo-f4-ph1">
                                                         <rect key="frame" x="40" y="0.0" width="274" height="30"/>
                                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="18"/>
@@ -1521,6 +1521,132 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3T8-CJ-C3P" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="140.57971014492756" y="1480.5803571428571"/>
+        </scene>
+        <!--Set User ProfileVC-->
+        <scene sceneID="JhL-YX-AsH">
+            <objects>
+                <viewController storyboardIdentifier="setUserProfileVC" id="erd-Nm-T83" customClass="SetUserProfileVC" customModule="fullwallpaper" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="gIN-yV-KAC">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="loginBackground" translatesAutoresizingMaskIntoConstraints="NO" id="nqg-5n-SB7">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                            </imageView>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="38" translatesAutoresizingMaskIntoConstraints="NO" id="rri-yQ-qrh">
+                                <rect key="frame" x="107" y="264.5" width="200" height="267"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="25" translatesAutoresizingMaskIntoConstraints="NO" id="JhB-eW-Myo">
+                                        <rect key="frame" x="0.0" y="0.0" width="200" height="184"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8qH-Ks-4HD">
+                                                <rect key="frame" x="19" y="0.0" width="162" height="35"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="35" id="KLM-93-JNF"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="18"/>
+                                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <state key="normal" title="设置头像和显示名称">
+                                                    <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </state>
+                                            </button>
+                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="r3i-Zb-HFZ">
+                                                <rect key="frame" x="0.0" y="60" width="200" height="124"/>
+                                                <subviews>
+                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="user_profile" translatesAutoresizingMaskIntoConstraints="NO" id="1iW-0Z-2pU">
+                                                        <rect key="frame" x="65" y="0.0" width="70" height="70"/>
+                                                        <color key="tintColor" red="0.83741801979999997" green="0.83743780850000005" blue="0.83742713930000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="70" id="Du3-fY-sNJ"/>
+                                                            <constraint firstAttribute="width" constant="70" id="new-OB-ck4"/>
+                                                        </constraints>
+                                                    </imageView>
+                                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="DhA-RB-VT5">
+                                                        <rect key="frame" x="0.0" y="90" width="200" height="34"/>
+                                                        <subviews>
+                                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="显示名称" textAlignment="center" minimumFontSize="15" translatesAutoresizingMaskIntoConstraints="NO" id="FtK-N6-PzO">
+                                                                <rect key="frame" x="0.0" y="0.0" width="200" height="27"/>
+                                                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="18"/>
+                                                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="done"/>
+                                                                <userDefinedRuntimeAttributes>
+                                                                    <userDefinedRuntimeAttribute type="color" keyPath="placeHolderColor">
+                                                                        <color key="value" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                    </userDefinedRuntimeAttribute>
+                                                                </userDefinedRuntimeAttributes>
+                                                            </textField>
+                                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kcm-YP-and" userLabel="Divider">
+                                                                <rect key="frame" x="0.0" y="32" width="200" height="2"/>
+                                                                <color key="backgroundColor" red="0.92143100499999997" green="0.92145264149999995" blue="0.92144101860000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="height" constant="2" id="3Tz-Pg-NpL"/>
+                                                                    <constraint firstAttribute="width" constant="200" id="Eus-n6-w5D"/>
+                                                                </constraints>
+                                                            </view>
+                                                        </subviews>
+                                                        <constraints>
+                                                            <constraint firstAttribute="trailing" secondItem="kcm-YP-and" secondAttribute="trailing" id="9Px-0U-iv4"/>
+                                                            <constraint firstItem="FtK-N6-PzO" firstAttribute="leading" secondItem="DhA-RB-VT5" secondAttribute="leading" id="efb-3D-wUg"/>
+                                                            <constraint firstAttribute="trailing" secondItem="FtK-N6-PzO" secondAttribute="trailing" id="ksl-N3-6t9"/>
+                                                        </constraints>
+                                                    </stackView>
+                                                </subviews>
+                                            </stackView>
+                                        </subviews>
+                                    </stackView>
+                                    <button opaque="NO" alpha="0.89999997615814209" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6kJ-Pf-RUI">
+                                        <rect key="frame" x="40" y="222" width="120" height="45"/>
+                                        <color key="backgroundColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="120" id="2aN-kU-CQh"/>
+                                            <constraint firstAttribute="height" constant="45" id="tPP-jS-UAe"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="PingFangSC-Medium" family="PingFang SC" pointSize="18"/>
+                                        <state key="normal" title="确 定">
+                                            <color key="titleColor" systemColor="opaqueSeparatorColor"/>
+                                        </state>
+                                    </button>
+                                </subviews>
+                            </stackView>
+                            <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mIZ-9z-9iv">
+                                <rect key="frame" x="359" y="64" width="25" height="25"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="25" id="D0c-nU-DBo"/>
+                                    <constraint firstAttribute="height" constant="25" id="EPV-VS-Byj"/>
+                                </constraints>
+                                <color key="tintColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal" image="xmark" catalog="system">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="large"/>
+                                </state>
+                                <connections>
+                                    <action selector="unwind:" destination="erd-Nm-T83" eventType="touchUpInside" id="KuH-if-klL"/>
+                                    <action selector="unwind:" destination="hdS-J6-eQW" eventType="touchUpInside" id="szs-mv-7yr"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="jB5-Jx-dIm"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="nqg-5n-SB7" firstAttribute="trailing" secondItem="jB5-Jx-dIm" secondAttribute="trailing" id="67q-sU-pdC"/>
+                            <constraint firstAttribute="bottom" secondItem="nqg-5n-SB7" secondAttribute="bottom" id="ECG-LB-JmK"/>
+                            <constraint firstItem="jB5-Jx-dIm" firstAttribute="trailing" secondItem="mIZ-9z-9iv" secondAttribute="trailing" constant="30" id="JTO-df-1Du"/>
+                            <constraint firstItem="mIZ-9z-9iv" firstAttribute="top" secondItem="jB5-Jx-dIm" secondAttribute="top" constant="20" id="PZz-FB-N2k"/>
+                            <constraint firstItem="rri-yQ-qrh" firstAttribute="centerY" secondItem="gIN-yV-KAC" secondAttribute="centerY" constant="-50" id="V9s-ro-Lq2"/>
+                            <constraint firstItem="rri-yQ-qrh" firstAttribute="centerX" secondItem="gIN-yV-KAC" secondAttribute="centerX" id="c6D-1a-75M"/>
+                            <constraint firstItem="nqg-5n-SB7" firstAttribute="leading" secondItem="jB5-Jx-dIm" secondAttribute="leading" id="qol-Vl-cvU"/>
+                            <constraint firstItem="nqg-5n-SB7" firstAttribute="top" secondItem="gIN-yV-KAC" secondAttribute="top" id="xKP-fR-pdD"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="displayNameTextField" destination="FtK-N6-PzO" id="5cV-4z-Gg7"/>
+                        <outlet property="submitBtn" destination="6kJ-Pf-RUI" id="mVz-6e-PzM"/>
+                        <outlet property="userProfileImgView" destination="1iW-0Z-2pU" id="Vqg-eP-Gfc"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="CJd-YV-IQi" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="854" y="1481"/>
         </scene>
         <!--search-->
         <scene sceneID="HGg-H7-9XM">
@@ -1862,6 +1988,8 @@
         <image name="suit.heart" catalog="system" width="128" height="109"/>
         <image name="upload" width="512" height="512"/>
         <image name="user" width="512" height="512"/>
+        <image name="user_profile" width="55" height="55"/>
+        <image name="xmark" catalog="system" width="128" height="113"/>
         <systemColor name="opaqueSeparatorColor">
             <color red="0.77647058823529413" green="0.77647058823529413" blue="0.78431372549019607" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>

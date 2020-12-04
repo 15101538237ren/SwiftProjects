@@ -51,27 +51,6 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
         getUserLikedWPs()
     }
     
-    func getUserLikedWPs(){
-        if let currentUser = LCApplication.default.currentUser{
-            let user = LCObject(className: "_User", objectId: currentUser.objectId!)
-            _ = user.fetch { result in
-                switch result {
-                case .success:
-                    if let likedWPs = user.get("likedWPs")?.arrayValue{
-                        for likedWP in likedWPs{
-                            userLikedWPs.append(likedWP as! String)
-                        }
-                    }
-                case .failure(error: let error):
-                    print(error.localizedDescription)
-                }
-            }
-        } else {
-            if let storedLikedWPs = UserDefaults.standard.object(forKey: "likedWPs") as? [String]{
-                userLikedWPs = storedLikedWPs
-            }
-        }
-    }
     
     func loadDetailVC(imageUrl: URL, wallpaperObjectId: String) -> Void{
         let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
@@ -285,8 +264,6 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
             }
         }
     }
-    
-    
     
     func cropViewController(_ cropViewController: CropViewController, didCropToImage image: UIImage, withRect cropRect: CGRect, angle: Int) {
         // 'image' is the newly cropped version of the original image

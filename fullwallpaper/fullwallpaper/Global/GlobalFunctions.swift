@@ -12,6 +12,29 @@ import JGProgressHUD
 import LeanCloud
 import CropViewController
 
+func getUserLikedWPs(){
+    if let currentUser = LCApplication.default.currentUser{
+        let user = LCObject(className: "_User", objectId: currentUser.objectId!)
+        _ = user.fetch { result in
+            switch result {
+            case .success:
+                if let likedWPs = user.get("likedWPs")?.arrayValue{
+                    userLikedWPs = []
+                    for likedWP in likedWPs{
+                        userLikedWPs.append(likedWP as! String)
+                    }
+                }
+            case .failure(error: let error):
+                print(error.localizedDescription)
+            }
+        }
+    } else {
+        if let storedLikedWPs = UserDefaults.standard.object(forKey: "likedWPs") as? [String]{
+            userLikedWPs = storedLikedWPs
+        }
+    }
+}
+
 func dateFromString(dateStr: String) -> NSDate {
     let dateFormatter = DateFormatter()
     dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss Z"

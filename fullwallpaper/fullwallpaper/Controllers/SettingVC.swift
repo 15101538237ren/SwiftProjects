@@ -82,12 +82,13 @@ class SettingVC: UIViewController , UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch indexPath.section {
         case 0:
-            if let _ = LCApplication.default.currentUser {
-                self.view.makeToast("用户已登录!", duration: 1.0, position: .center)
-            } else {
-                // 显示注册或登录页面
-                showLoginOrRegisterVC()
-            }
+//            if let _ = LCApplication.default.currentUser {
+//                self.view.makeToast("用户已登录!", duration: 1.0, position: .center)
+//            } else {
+//                // 显示注册或登录页面
+//                showLoginOrRegisterVC()
+//            }
+            showSetProfileVC()
         case 2:
             switch indexPath.row {
                 case 1:
@@ -159,6 +160,15 @@ class SettingVC: UIViewController , UITableViewDataSource, UITableViewDelegate {
                 testView.backgroundColor = .clear
                 cell.backgroundView = testView
             }
+        }
+    }
+    
+    func showSetProfileVC() {
+        let LoginRegStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+        let setUserProfileVC = LoginRegStoryBoard.instantiateViewController(withIdentifier: "setUserProfileVC") as! SetUserProfileVC
+        setUserProfileVC.modalPresentationStyle = .fullScreen
+        DispatchQueue.main.async {
+            self.present(setUserProfileVC, animated: true, completion: nil)
         }
     }
     
