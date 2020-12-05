@@ -82,13 +82,12 @@ class SettingVC: UIViewController , UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch indexPath.section {
         case 0:
-//            if let _ = LCApplication.default.currentUser {
-//                self.view.makeToast("用户已登录!", duration: 1.0, position: .center)
-//            } else {
-//                // 显示注册或登录页面
-//                showLoginOrRegisterVC()
-//            }
-            showSetProfileVC()
+            if let _ = LCApplication.default.currentUser {
+                showSetProfileVC()
+            } else {
+                // 显示注册或登录页面
+                showLoginOrRegisterVC()
+            }
         case 2:
             switch indexPath.row {
                 case 1:

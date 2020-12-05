@@ -21,8 +21,7 @@ let hudWithProgress = JGProgressHUD(style: .light)
 let thumbnailScale = 0.25
 let wallpaperLimitEachFetch:Int = 30
 
-let screenWidth:CGFloat = 1170
-let screenHeight:CGFloat = 2532
+let whRatio:CGFloat = CGFloat(828.0/1792.0)
 
 let wallpaperLoadingOptions = ImageLoadingOptions(
     placeholder: UIImage(named: "image_placeholder"),

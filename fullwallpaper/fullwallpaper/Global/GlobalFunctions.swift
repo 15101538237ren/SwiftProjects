@@ -51,11 +51,24 @@ func fromLCDateToDateStr(date: LCDate) -> String{
 
 func createCropViewController(image: UIImage) -> CropViewController{
     let cropController = CropViewController(image: image)
-    cropController.preferredContentSize = CGSize(width: screenWidth, height: screenHeight)
+    var width: CGFloat = image.size.width * image.scale
+    var height: CGFloat = image.size.height * image.scale
+    let ratio: CGFloat = width/height
+    
+    if (ratio > whRatio){
+        width = height * whRatio
+    }else{
+        height = width / whRatio
+    }
+    
+    let leftPosition = (image.size.width * image.scale - width)/2.0
+    let topPosition = (image.size.height * image.scale - height)/2.0
+    
     cropController.title = "「缩放」或「拖拽」来调整"
     cropController.doneButtonTitle = "确定"
     cropController.cancelButtonTitle = "取消"
-    cropController.imageCropFrame = CGRect(x: 0, y: 0, width: screenWidth, height: screenHeight)
+    cropController.imageCropFrame = CGRect(x: leftPosition, y: topPosition, width: width, height: height)
+    
     cropController.rotateButtonsHidden = true
     cropController.rotateClockwiseButtonHidden = true
     cropController.resetButtonHidden = true

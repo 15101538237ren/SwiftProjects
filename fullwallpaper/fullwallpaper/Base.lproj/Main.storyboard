@@ -31,7 +31,7 @@
                                 <rect key="frame" x="0.0" y="44" width="414" height="50"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Category" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Jno-NO-4PK">
-                                        <rect key="frame" x="171" y="8.5" width="72" height="33.5"/>
+                                        <rect key="frame" x="156" y="10.5" width="102.5" height="29.5"/>
                                         <fontDescription key="fontDescription" name="ClickerScript-Regular" family="Clicker Script" pointSize="25"/>
                                         <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
@@ -433,7 +433,7 @@
                                 <rect key="frame" x="0.0" y="44" width="414" height="50"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Setting" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="olD-6J-6IY">
-                                        <rect key="frame" x="179" y="8.5" width="56.5" height="33.5"/>
+                                        <rect key="frame" x="167.5" y="10.5" width="79.5" height="29.5"/>
                                         <fontDescription key="fontDescription" name="ClickerScript-Regular" family="Clicker Script" pointSize="25"/>
                                         <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
@@ -1533,11 +1533,11 @@
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="loginBackground" translatesAutoresizingMaskIntoConstraints="NO" id="nqg-5n-SB7">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                             </imageView>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="38" translatesAutoresizingMaskIntoConstraints="NO" id="rri-yQ-qrh">
-                                <rect key="frame" x="107" y="264.5" width="200" height="267"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="25" translatesAutoresizingMaskIntoConstraints="NO" id="rri-yQ-qrh">
+                                <rect key="frame" x="107" y="261" width="200" height="274"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="25" translatesAutoresizingMaskIntoConstraints="NO" id="JhB-eW-Myo">
-                                        <rect key="frame" x="0.0" y="0.0" width="200" height="184"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="200" height="204"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8qH-Ks-4HD">
                                                 <rect key="frame" x="19" y="0.0" width="162" height="35"/>
@@ -1551,18 +1551,18 @@
                                                 </state>
                                             </button>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="r3i-Zb-HFZ">
-                                                <rect key="frame" x="0.0" y="60" width="200" height="124"/>
+                                                <rect key="frame" x="0.0" y="60" width="200" height="144"/>
                                                 <subviews>
                                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="user_profile" translatesAutoresizingMaskIntoConstraints="NO" id="1iW-0Z-2pU">
-                                                        <rect key="frame" x="65" y="0.0" width="70" height="70"/>
+                                                        <rect key="frame" x="55" y="0.0" width="90" height="90"/>
                                                         <color key="tintColor" red="0.83741801979999997" green="0.83743780850000005" blue="0.83742713930000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <constraints>
-                                                            <constraint firstAttribute="height" constant="70" id="Du3-fY-sNJ"/>
-                                                            <constraint firstAttribute="width" constant="70" id="new-OB-ck4"/>
+                                                            <constraint firstAttribute="height" constant="90" id="Du3-fY-sNJ"/>
+                                                            <constraint firstAttribute="width" constant="90" id="new-OB-ck4"/>
                                                         </constraints>
                                                     </imageView>
                                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="DhA-RB-VT5">
-                                                        <rect key="frame" x="0.0" y="90" width="200" height="34"/>
+                                                        <rect key="frame" x="0.0" y="110" width="200" height="34"/>
                                                         <subviews>
                                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="显示名称" textAlignment="center" minimumFontSize="15" translatesAutoresizingMaskIntoConstraints="NO" id="FtK-N6-PzO">
                                                                 <rect key="frame" x="0.0" y="0.0" width="200" height="27"/>
@@ -1595,7 +1595,7 @@
                                         </subviews>
                                     </stackView>
                                     <button opaque="NO" alpha="0.89999997615814209" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6kJ-Pf-RUI">
-                                        <rect key="frame" x="40" y="222" width="120" height="45"/>
+                                        <rect key="frame" x="40" y="229" width="120" height="45"/>
                                         <color key="backgroundColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="120" id="2aN-kU-CQh"/>
