@@ -16,8 +16,9 @@ struct WallpaperInReview: Codable {
     var imgUrl: String
     var thumbnailUrl: String
     var createdAt: String
+    var isPro: Bool
     
-    init(objectId: String, caption: String, status: Int, category: String, collectionName: String, thumbnailUrl: String, imgUrl: String, createdAt: String) {
+    init(objectId: String, caption: String, status: Int, category: String, collectionName: String, thumbnailUrl: String, imgUrl: String, createdAt: String, isPro: Bool) {
         self.objectId = objectId
         self.caption = caption
         self.status = status
@@ -26,5 +27,6 @@ struct WallpaperInReview: Codable {
         self.thumbnailUrl = thumbnailUrl
         self.imgUrl = imgUrl
         self.createdAt = createdAt
+        self.isPro = isPro
     }
 }

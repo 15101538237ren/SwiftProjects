@@ -174,7 +174,7 @@ class AuditVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
                         let res = results[rid]
                         let caption = res.get("caption")?.stringValue ?? ""
                         let status = res.get("status")?.intValue ?? 0
-                        
+                        let pro = res.get("pro")?.boolValue ?? false
                         let category = res.get("category")?.stringValue ?? ""
                         var collectionName:String = ""
                         
@@ -187,7 +187,7 @@ class AuditVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
                         if let file = res.get("img") as? LCFile {
                             let imgUrl = file.url!.stringValue!
                             let thumbnailUrl = file.thumbnailURL(.scale(thumbnailScale))!.stringValue!
-                            let wallpaper = WallpaperInReview(objectId: res.objectId!.stringValue!, caption: caption, status: status, category: category, collectionName: collectionName, thumbnailUrl: thumbnailUrl, imgUrl: imgUrl, createdAt: date)
+                            let wallpaper = WallpaperInReview(objectId: res.objectId!.stringValue!, caption: caption, status: status, category: category, collectionName: collectionName, thumbnailUrl: thumbnailUrl, imgUrl: imgUrl, createdAt: date, isPro: pro)
                             wallpapers[selectedIdx]!.append(wallpaper)
                         }
                     }
@@ -268,6 +268,7 @@ class AuditVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
         }else{
             cell.categoryLabel.text = categoryName
         }
+        cell.proBtn.alpha = wallpaper.isPro ? 1 : 0
         cell.descriptionLabel.text = wallpaper.caption
         let thumbnailUrl = URL(string: wallpaper.thumbnailUrl)!
         Nuke.loadImage(with: thumbnailUrl, options: wallpaperLoadingOptions, into: cell.imageV)
@@ -282,18 +283,13 @@ class AuditVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
                 loadDetailVC(imageUrl: imgUrl, wallpaperObjectId: wallpaper.objectId)
             }
         case .select:
-            selectedIndexPathDict[indexPath] = true
+            break
         }
+        selectedIndexPathDict[indexPath] = true
     }
     
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
-        switch currentMode {
-        case .view:
-            break
-        case .select:
-            selectedIndexPathDict[indexPath] = false
-        }
-        
+        selectedIndexPathDict[indexPath] = false
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -304,24 +300,26 @@ class AuditVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
     }
     
     @IBAction func actions(sender: UIButton){
-        let iconWidthHeight:CGFloat = 20
-        
-        let approveAction = PopMenuDefaultAction(title: "通过", image: UIImage(named: "approve"), color: UIColor.darkGray)
-        let proAction = PopMenuDefaultAction(title: "加PRO", image: UIImage(named: "membership"), color: UIColor.darkGray)
-        let rejectAction = PopMenuDefaultAction(title: "拒绝", image: UIImage(named: "reject"), color: UIColor.darkGray)
-        let deleteAction = PopMenuDefaultAction(title: "删除", image: UIImage(named: "delete"), color: UIColor.darkGray)
-        
-        approveAction.iconWidthHeight = iconWidthHeight
-        proAction.iconWidthHeight = iconWidthHeight
-        rejectAction.iconWidthHeight = iconWidthHeight
-        deleteAction.iconWidthHeight = iconWidthHeight
-        
-        let menuVC = PopMenuViewController(sourceView: actionBtn, actions: [approveAction, proAction, rejectAction, deleteAction])
-        menuVC.delegate = self
-        menuVC.appearance.popMenuFont = .systemFont(ofSize: 15, weight: .regular)
-        
-        menuVC.appearance.popMenuColor.backgroundColor = .solid(fill: UIColor(red: 128, green: 128, blue: 128, alpha: 1))
-        self.present(menuVC, animated: true, completion: nil)
+        if selectedIndexPathDict.count > 0{
+            let iconWidthHeight:CGFloat = 20
+            
+            let approveAction = PopMenuDefaultAction(title: "通过", image: UIImage(named: "approve"), color: UIColor.darkGray)
+            let proAction = PopMenuDefaultAction(title: "加PRO", image: UIImage(named: "membership"), color: UIColor.darkGray)
+            let rejectAction = PopMenuDefaultAction(title: "拒绝", image: UIImage(named: "reject"), color: UIColor.darkGray)
+            let deleteAction = PopMenuDefaultAction(title: "删除", image: UIImage(named: "delete"), color: UIColor.darkGray)
+            
+            approveAction.iconWidthHeight = iconWidthHeight
+            proAction.iconWidthHeight = iconWidthHeight
+            rejectAction.iconWidthHeight = iconWidthHeight
+            deleteAction.iconWidthHeight = iconWidthHeight
+            
+            let menuVC = PopMenuViewController(sourceView: actionBtn, actions: [approveAction, proAction, rejectAction, deleteAction])
+            menuVC.delegate = self
+            menuVC.appearance.popMenuFont = .systemFont(ofSize: 15, weight: .regular)
+            
+            menuVC.appearance.popMenuColor.backgroundColor = .solid(fill: UIColor(red: 128, green: 128, blue: 128, alpha: 1))
+            self.present(menuVC, animated: true, completion: nil)
+        }
     }
     
     
@@ -331,6 +329,10 @@ class AuditVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
     
     @IBAction func selectBtnTapped(_ sender: UIButton) {
         currentMode = currentMode == .view ? .select : .view
+        for (indexPath, selected) in selectedIndexPathDict{
+        if selected{
+            collectionView.deselectItem(at: indexPath, animated: false)
+        }}
     }
     
     // MARK: - Empty State Data Source
