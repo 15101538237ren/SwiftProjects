@@ -83,7 +83,8 @@ class SettingVC: UIViewController , UITableViewDataSource, UITableViewDelegate {
         switch indexPath.section {
         case 0:
             if let _ = LCApplication.default.currentUser {
-                showSetProfileVC()
+//                showSetProfileVC()
+                showProfileVC()
             } else {
                 // 显示注册或登录页面
                 showLoginOrRegisterVC()
@@ -162,6 +163,15 @@ class SettingVC: UIViewController , UITableViewDataSource, UITableViewDelegate {
         }
     }
     
+    func showProfileVC() {
+        let LoginRegStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+        let userProfileVC = LoginRegStoryBoard.instantiateViewController(withIdentifier: "userProfileVC") as! UserProfileVC
+        userProfileVC.modalPresentationStyle = .fullScreen
+        DispatchQueue.main.async {
+            self.present(userProfileVC, animated: true, completion: nil)
+        }
+    }
+    
     func showSetProfileVC() {
         let LoginRegStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
         let setUserProfileVC = LoginRegStoryBoard.instantiateViewController(withIdentifier: "setUserProfileVC") as! SetUserProfileVC
@@ -194,7 +204,6 @@ class SettingVC: UIViewController , UITableViewDataSource, UITableViewDelegate {
     }
     
     func cleanImageCache() {
-        let indexPath:IndexPath = IndexPath(row: 1, section: 2)
         Nuke.ImageCache.shared.removeAll()
         Nuke.DataLoader.sharedUrlCache.removeAllCachedResponses()
         self.view.makeToast("缓存清除成功!", duration: 1.0, position: .center)
