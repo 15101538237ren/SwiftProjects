@@ -12,6 +12,25 @@ import JGProgressHUD
 import LeanCloud
 import CropViewController
 
+func statusColor(status: Int) -> UIColor{
+    switch status {
+    case 0:
+        return .white
+    case 1:
+        return .systemGreen
+    case 2:
+        return .systemRed
+    case 3:
+        return .systemOrange
+    case 4:
+        return .systemBlue
+    case 5:
+        return .systemYellow
+    default:
+        return .systemYellow
+    }
+}
+
 func getUserLikedWPs(){
     if let currentUser = LCApplication.default.currentUser{
         let user = LCObject(className: "_User", objectId: currentUser.objectId!)
@@ -68,7 +87,6 @@ func createCropViewController(image: UIImage) -> CropViewController{
     cropController.doneButtonTitle = "确定"
     cropController.cancelButtonTitle = "取消"
     cropController.imageCropFrame = CGRect(x: leftPosition, y: topPosition, width: width, height: height)
-    
     cropController.rotateButtonsHidden = true
     cropController.rotateClockwiseButtonHidden = true
     cropController.resetButtonHidden = true
@@ -89,6 +107,12 @@ func loadCategoryFromLocal(completion: @escaping () -> Void){
             let category = Category(name: name, eng: eng, coverUrl: coverUrl)
             categories.append(category)
         }
+        
+        categoryENtoCN = [:]
+        for category in categories{
+            categoryENtoCN[category.eng] = category.name
+        }
+        
         completion()
     }
 }
@@ -137,6 +161,12 @@ func loadCategories(completion: @escaping () -> Void)
                             categories.append(category)
                         }
                     }
+                    
+                    categoryENtoCN = [:]
+                    for category in categories{
+                        categoryENtoCN[category.eng] = category.name
+                    }
+                    
                     DispatchQueue.main.async {
                         completion()
                     }

@@ -74,6 +74,18 @@ class CategoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate, 
         stopIndicator()
     }
 
+    
+    @IBAction func loadAuditVC(_ sender: UIButton) {
+        let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+        let auditVC = mainStoryBoard.instantiateViewController(withIdentifier: "auditVC") as! AuditVC
+        auditVC.modalPresentationStyle = .fullScreen
+        
+        DispatchQueue.main.async {
+            self.present(auditVC, animated: true, completion: nil)
+        }
+    }
+    
+    
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }

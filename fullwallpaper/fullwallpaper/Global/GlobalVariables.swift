@@ -11,6 +11,7 @@ import LeanCloud
 var imageCache = NSCache<NSString, NSString>()
 
 var categories:[Category] = []
+var categoryENtoCN:[String : String] = [:]
 
 var progressBarVisible: Bool = false
 var userLikedWPs:[String] = []

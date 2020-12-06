@@ -103,11 +103,12 @@ class SearchVC: UIViewController, UICollectionViewDelegate, UICollectionViewData
                         let name = res.get("name")?.stringValue ?? ""
                         let category = res.get("category")?.stringValue ?? ""
                         let likes = res.get("likes")?.intValue ?? 0
+                        let pro = res.get("pro")?.boolValue ?? false
                         let date:String = fromLCDateToDateStr(date: res.createdAt!)
                         if let file = res.get("img") as? LCFile {
                             let imgUrl = file.url!.stringValue!
                             let thumbnailUrl = file.thumbnailURL(.scale(thumbnailScale))!.stringValue!
-                            let wallpaper = Wallpaper(objectId: res.objectId!.stringValue!, name: name, category: category, thumbnailUrl: thumbnailUrl, imgUrl: imgUrl, likes: likes, createdAt: date)
+                            let wallpaper = Wallpaper(objectId: res.objectId!.stringValue!, name: name, category: category, thumbnailUrl: thumbnailUrl, imgUrl: imgUrl, likes: likes, createdAt: date, isPro: pro)
                             wallpapers.append(wallpaper)
                         }
                     }
@@ -155,6 +156,7 @@ class SearchVC: UIViewController, UICollectionViewDelegate, UICollectionViewData
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "wallpaperCollectionViewCell", for: indexPath) as! WallpaperCollectionViewCell
         let wallpaper:Wallpaper = wallpapers[indexPath.row]
         let liked  = userLikedWPs.contains(wallpaper.objectId)
+        cell.proBtn.alpha = wallpaper.isPro ? 1 : 0
         cell.heartV.image = liked ? UIImage(systemName: "heart.fill") ?? UIImage(named: "heart-fill-icon") : UIImage(systemName: "heart") ?? UIImage(named: "heart-icon")
         cell.likeLabel.text = "\(wallpaper.likes)"
         let thumbnailUrl = URL(string: wallpaper.thumbnailUrl)!

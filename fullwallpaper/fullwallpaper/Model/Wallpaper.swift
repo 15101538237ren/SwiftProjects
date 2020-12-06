@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import LeanCloud
 
 struct Wallpaper: Codable {
     var objectId: String
@@ -16,8 +15,9 @@ struct Wallpaper: Codable {
     var thumbnailUrl: String
     var likes: Int
     var createdAt: String
+    var isPro: Bool
     
-    init(objectId: String, name: String, category: String, thumbnailUrl: String, imgUrl: String, likes: Int, createdAt: String) {
+    init(objectId: String, name: String, category: String, thumbnailUrl: String, imgUrl: String, likes: Int, createdAt: String, isPro: Bool) {
         self.objectId = objectId
         self.name = name
         self.category = category
@@ -25,5 +25,6 @@ struct Wallpaper: Codable {
         self.imgUrl = imgUrl
         self.likes = likes
         self.createdAt = createdAt
+        self.isPro = isPro
     }
 }

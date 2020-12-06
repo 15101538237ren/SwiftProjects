@@ -128,6 +128,7 @@ class CollectionItemsVC: UIViewController, UICollectionViewDelegate, UICollectio
                         let res = results[rid]
                         let name = res.get("name")?.stringValue ?? ""
                         let likes = res.get("likes")?.intValue ?? 0
+                        let pro = res.get("pro")?.boolValue ?? false
                         let category:String = res.get("category")?.stringValue ?? ""
                         let date:String = fromLCDateToDateStr(date: res.createdAt!)
                         
@@ -135,7 +136,7 @@ class CollectionItemsVC: UIViewController, UICollectionViewDelegate, UICollectio
                             let imgUrl = file.url!.stringValue!
                             if sortType == .byCreateDate || !urlsOfHotWallpapers.contains(imgUrl){
                                 let thumbnailUrl = file.thumbnailURL(.scale(thumbnailScale))!.stringValue!
-                                let wallpaper = Wallpaper(objectId: res.objectId!.stringValue!,name: name, category: category, thumbnailUrl: thumbnailUrl, imgUrl: imgUrl, likes: likes, createdAt: date)
+                                let wallpaper = Wallpaper(objectId: res.objectId!.stringValue!,name: name, category: category, thumbnailUrl: thumbnailUrl, imgUrl: imgUrl, likes: likes, createdAt: date, isPro: pro)
                                 
                                 if sortType == .byLike{
                                     hotWallpapers.append(wallpaper)
@@ -215,6 +216,7 @@ class CollectionItemsVC: UIViewController, UICollectionViewDelegate, UICollectio
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "wallpaperCollectionViewCell", for: indexPath) as! WallpaperCollectionViewCell
         let wallpaper:Wallpaper = sortType == .byLike ? hotWallpapers[indexPath.row] : latestWallpapers[indexPath.row]
+        cell.proBtn.alpha = wallpaper.isPro ? 1 : 0
         let liked  = userLikedWPs.contains(wallpaper.objectId)
         cell.heartV.image = liked ? UIImage(systemName: "heart.fill") ?? UIImage(named: "heart-fill-icon") : UIImage(systemName: "heart") ?? UIImage(named: "heart-icon")
         cell.likeLabel.text = "\(wallpaper.likes)"
