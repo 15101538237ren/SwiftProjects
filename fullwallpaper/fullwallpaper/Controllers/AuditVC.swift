@@ -71,6 +71,7 @@ class AuditVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
     }
     
     func setupCollectionView() {
+        currentMode = .view
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 5, left: 0, bottom: 10, right: 0)
         layout.minimumInteritemSpacing = cellSpacing

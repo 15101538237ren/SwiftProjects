@@ -15,43 +15,11 @@ import JGProgressHUD
 class CategoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UIEmptyStateDataSource, UIEmptyStateDelegate {
     
     //Variables
-    @IBOutlet var batchUploadBtn: UIButton!
-    @IBOutlet var auditBtn: UIButton!
     @IBOutlet var tableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         initTableView()
-        initBtns()
-    }
-    
-    func initBtns(){
-        if let user = LCApplication.default.currentUser {
-            let roleQuery = LCQuery(className: LCRole.objectClassName())
-            roleQuery.whereKey("users", .equalTo(user))
-            _ = roleQuery.find { result in
-                switch result {
-                case .success(objects: let roles):
-                    for role in roles{
-                        if let roleName = role.get("name"){
-                            if roleName.stringValue! == "admin"{
-                                self.displayBtns()
-                                break
-                            }
-                        }
-                    }
-                case .failure(error: let error):
-                    print(error.localizedDescription)
-                }
-            }
-        }
-    }
-    
-    func displayBtns(){
-        DispatchQueue.main.async {
-            self.auditBtn.alpha = 1
-            self.batchUploadBtn.alpha = 1
-        }
     }
     
     func initTableView(){
@@ -73,18 +41,6 @@ class CategoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate, 
         self.reloadEmptyStateForTableView(self.tableView)
         stopIndicator()
     }
-
-    
-    @IBAction func loadAuditVC(_ sender: UIButton) {
-        let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
-        let auditVC = mainStoryBoard.instantiateViewController(withIdentifier: "auditVC") as! AuditVC
-        auditVC.modalPresentationStyle = .fullScreen
-        
-        DispatchQueue.main.async {
-            self.present(auditVC, animated: true, completion: nil)
-        }
-    }
-    
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1

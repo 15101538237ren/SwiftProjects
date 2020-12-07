@@ -31,42 +31,17 @@
                                 <rect key="frame" x="0.0" y="44" width="414" height="50"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Category" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Jno-NO-4PK">
-                                        <rect key="frame" x="156" y="10.5" width="102.5" height="29.5"/>
+                                        <rect key="frame" x="171" y="8.5" width="72" height="33.5"/>
                                         <fontDescription key="fontDescription" name="ClickerScript-Regular" family="Clicker Script" pointSize="25"/>
                                         <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <button opaque="NO" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4Qi-WO-cGc">
-                                        <rect key="frame" x="374" y="15" width="20" height="20"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="20" id="Pxg-vi-NRd"/>
-                                            <constraint firstAttribute="width" constant="20" id="gkE-52-aBu"/>
-                                        </constraints>
-                                        <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <state key="normal" image="audit"/>
-                                        <connections>
-                                            <action selector="loadAuditVC:" destination="OnW-Wo-TxO" eventType="touchUpInside" id="0rD-aO-x6K"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mcM-78-jAq">
-                                        <rect key="frame" x="20" y="15" width="20" height="20"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="20" id="X7p-hB-uww"/>
-                                            <constraint firstAttribute="height" constant="20" id="o9B-kZ-Dy5"/>
-                                        </constraints>
-                                        <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <state key="normal" image="batch_upload"/>
-                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
-                                    <constraint firstItem="4Qi-WO-cGc" firstAttribute="centerY" secondItem="m0h-Pf-yk9" secondAttribute="centerY" id="5pM-Vk-GFs"/>
-                                    <constraint firstItem="mcM-78-jAq" firstAttribute="centerY" secondItem="m0h-Pf-yk9" secondAttribute="centerY" id="6rW-HO-JyH"/>
                                     <constraint firstAttribute="height" constant="50" id="7Nc-ZG-1Yt"/>
-                                    <constraint firstItem="mcM-78-jAq" firstAttribute="leading" secondItem="m0h-Pf-yk9" secondAttribute="leading" constant="20" id="Jpd-jd-Pxj"/>
                                     <constraint firstItem="Jno-NO-4PK" firstAttribute="centerY" secondItem="m0h-Pf-yk9" secondAttribute="centerY" id="T59-1J-qVL"/>
                                     <constraint firstItem="Jno-NO-4PK" firstAttribute="centerX" secondItem="m0h-Pf-yk9" secondAttribute="centerX" id="W60-2n-fdg"/>
-                                    <constraint firstAttribute="trailing" secondItem="4Qi-WO-cGc" secondAttribute="trailing" constant="20" id="ig9-0Y-7j0"/>
                                 </constraints>
                             </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="225" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="uzj-36-utu">
@@ -131,8 +106,6 @@
                     </view>
                     <tabBarItem key="tabBarItem" title="" image="square.grid.2x2" catalog="system" id="rSJ-Ij-sgC"/>
                     <connections>
-                        <outlet property="auditBtn" destination="4Qi-WO-cGc" id="kbv-pI-JY1"/>
-                        <outlet property="batchUploadBtn" destination="mcM-78-jAq" id="aTh-ay-Quu"/>
                         <outlet property="tableView" destination="uzj-36-utu" id="oSM-Z1-va7"/>
                     </connections>
                 </viewController>
@@ -294,6 +267,7 @@
                     <tabBarItem key="tabBarItem" title="" image="photo" catalog="system" id="qPo-Fo-SmI"/>
                     <connections>
                         <outlet property="collectionView" destination="BI1-eP-PZB" id="9Ud-tn-QU7"/>
+                        <outlet property="titleLabel" destination="Xs0-xa-AkM" id="qkI-2H-UNn"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5vS-Go-CSy" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -1988,7 +1962,7 @@
                                                 </connections>
                                             </button>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" restorationIdentifier="auditVC" text="Audit" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gyo-gX-qcl">
-                                                <rect key="frame" x="178" y="10.5" width="58.5" height="29.5"/>
+                                                <rect key="frame" x="185" y="8.5" width="44.5" height="33.5"/>
                                                 <fontDescription key="fontDescription" name="ClickerScript-Regular" family="Clicker Script" pointSize="25"/>
                                                 <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <nil key="highlightedColor"/>
@@ -2423,8 +2397,6 @@
         <image name="HomeScreen" width="375" height="814"/>
         <image name="LockScreen" width="377" height="812"/>
         <image name="approve" width="478" height="478"/>
-        <image name="audit" width="512" height="512"/>
-        <image name="batch_upload" width="431" height="431"/>
         <image name="cellphone" width="512" height="512"/>
         <image name="chevron.down" catalog="system" width="128" height="72"/>
         <image name="chevron.left" catalog="system" width="96" height="128"/>

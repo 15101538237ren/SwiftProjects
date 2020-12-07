@@ -21,12 +21,27 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
     var hotWallpapers:[Wallpaper] = []
     var latestWallpapers:[Wallpaper] = []
     var NoNetWork:Bool = false
-    var sortType:SortType = .byLike
+    var sortType:SortType = .byLike {
+        didSet{
+            switch sortType {
+            case .byLike:
+                DispatchQueue.main.async {
+                    self.titleLabel.text = "Popular"
+                }
+            case .byCreateDate:
+                DispatchQueue.main.async {
+                    self.titleLabel.text = "Latest"
+                }
+            }
+        }
+    }
     var switchedSortType = false
     var urlsOfHotWallpapers:[String] = []
     var skipOfHotWallpapers:Int = 0
     var minDateOfLastLatestWallpaperFetch: String? = nil
+    private var isAdmin: Bool = false
     @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var titleLabel: UILabel!
     
     func setupCollectionView() {
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
@@ -47,10 +62,43 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
         super.viewDidLoad()
         setupCollectionView()
         initIndicator(view: self.view)
+        verifyAdmin()
         loadWallpapers()
         getUserLikedWPs()
     }
     
+    
+    func verifyAdmin(){
+        if let user = LCApplication.default.currentUser {
+            let roleQuery = LCQuery(className: LCRole.objectClassName())
+            roleQuery.whereKey("users", .equalTo(user))
+            _ = roleQuery.find { result in
+                switch result {
+                case .success(objects: let roles):
+                    for role in roles{
+                        if let roleName = role.get("name"){
+                            if roleName.stringValue! == "admin"{
+                                self.isAdmin = true
+                                break
+                            }
+                        }
+                    }
+                case .failure(error: let error):
+                    print(error.localizedDescription)
+                }
+            }
+        }
+    }
+    
+    private func loadAuditVC() {
+        let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+        let auditVC = mainStoryBoard.instantiateViewController(withIdentifier: "auditVC") as! AuditVC
+        auditVC.modalPresentationStyle = .fullScreen
+        
+        DispatchQueue.main.async {
+            self.present(auditVC, animated: true, completion: nil)
+        }
+    }
     
     func loadDetailVC(imageUrl: URL, wallpaperObjectId: String) -> Void{
         let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
@@ -234,12 +282,26 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
             let popAction = PopMenuDefaultAction(title: "最热壁纸", image: UIImage(named: "heart-fill-icon"), color: UIColor.darkGray)
             let latestAction = PopMenuDefaultAction(title: "最新壁纸", image: UIImage(named: "calendar-icon"), color: UIColor.darkGray)
             let uploadAction = PopMenuDefaultAction(title: "上传壁纸", image: UIImage(named: "upload"), color: UIColor.darkGray)
-            
+        
             popAction.iconWidthHeight = iconWidthHeight
             latestAction.iconWidthHeight = iconWidthHeight
             uploadAction.iconWidthHeight = iconWidthHeight
             
-            let menuVC = PopMenuViewController(sourceView:sender, actions: [popAction, latestAction, uploadAction])
+            var popActions: [PopMenuAction] = [popAction, latestAction, uploadAction]
+            
+            if isAdmin{
+                let auditAction = PopMenuDefaultAction(title: "壁纸审核", image: UIImage(named: "audit"), color: UIColor.darkGray)
+                
+                auditAction.iconWidthHeight = iconWidthHeight
+                popActions.append(auditAction)
+                
+                let batchUploadAction = PopMenuDefaultAction(title: "批量上传", image: UIImage(named: "batch_upload"), color: UIColor.darkGray)
+                
+                batchUploadAction.iconWidthHeight = iconWidthHeight
+                popActions.append(batchUploadAction)
+            }
+        
+            let menuVC = PopMenuViewController(sourceView:sender, actions: popActions)
             menuVC.delegate = self
             menuVC.appearance.popMenuFont = .systemFont(ofSize: 15, weight: .regular)
             
@@ -310,8 +372,7 @@ extension WallpaperVC: PopMenuViewControllerDelegate {
                 switchedSortType = true
                 loadWallpapers()
             }
-        }
-        else{
+        }else if index == 2{
             self.dismiss(animated: false, completion: {
                 if let _ = LCApplication.default.currentUser {
                     self.selectImage()
@@ -320,6 +381,10 @@ extension WallpaperVC: PopMenuViewControllerDelegate {
                     self.showLoginOrRegisterVC()
                 }
             })
+        }else if index == 3{
+            if isAdmin{
+                loadAuditVC()
+            }
         }
     }
 }
