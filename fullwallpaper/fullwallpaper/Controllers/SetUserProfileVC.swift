@@ -7,27 +7,50 @@
 
 import UIKit
 import CropViewController
+import LeanCloud
 
 class SetUserProfileVC: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, CropViewControllerDelegate {
     
     var imagePicker = UIImagePickerController()
-    
+    private var selectedImage: UIImage? = nil
+    private var displayName: String = ""
+    @IBOutlet var backBtn: UIButton!
     @IBOutlet var userProfileImgView: UIImageView!{
         didSet {
+            if let image = selectedImage{
+                userProfileImgView.image = image
+            }else{
+                userProfileImgView.image = UIImage(named: "user_profile") ?? UIImage()
+            }
             userProfileImgView.layer.cornerRadius = userProfileImgView.layer.frame.width/2.0
             userProfileImgView.layer.masksToBounds = true
         }
     }
     @IBOutlet var displayNameTextField: UITextField!{
         didSet{
-            displayNameTextField.attributedPlaceholder = NSAttributedString(string: "显示名称",attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
+            displayNameTextField.attributedPlaceholder = NSAttributedString(string: "输入显示名称",attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
         }
     }
     
     @IBOutlet var submitBtn: UIButton!{
         didSet {
+            submitBtn.backgroundColor = .lightGray
+            submitBtn.isEnabled = false
             submitBtn.layer.cornerRadius = 9.0
             submitBtn.layer.masksToBounds = true
+        }
+    }
+    
+    func detectBtnEnable()
+    {
+        DispatchQueue.main.async { [self] in
+            if selectedImage != nil && !displayName.isEmpty{
+                submitBtn.backgroundColor = .systemGreen
+                submitBtn.isEnabled = true
+            }else{
+                submitBtn.backgroundColor = .lightGray
+                submitBtn.isEnabled = false
+            }
         }
     }
     
@@ -37,7 +60,6 @@ class SetUserProfileVC: UIViewController, UIImagePickerControllerDelegate, UINav
     }
     
     func initVC(){
-        self.displayNameTextField.becomeFirstResponder()
         view.addGestureRecognizer(UITapGestureRecognizer(target: view, action: #selector(UIView.endEditing)))
         addRcgToUserProfileImgView()
     }
@@ -88,9 +110,74 @@ class SetUserProfileVC: UIViewController, UIImagePickerControllerDelegate, UINav
     
     func cropViewController(_ cropViewController: CropViewController, didCropToImage image: UIImage, withRect cropRect: CGRect, angle: Int) {
         DispatchQueue.main.async { [self] in
-            userProfileImgView.image = image
+            selectedImage = image
+            userProfileImgView.image = selectedImage
+            detectBtnEnable()
             cropViewController.dismiss(animated: true, completion: nil)
         }
+    }
+    
+    func setElements(enable: Bool){
+        self.view.isUserInteractionEnabled = enable
+        self.backBtn.isUserInteractionEnabled = enable
+        self.displayNameTextField.isUserInteractionEnabled = enable
+        self.submitBtn.isUserInteractionEnabled = enable
+    }
+    
+    @IBAction func setProfile(sender: UIButton){
+        if !displayName.isEmpty{
+            if let image = self.selectedImage{
+                if let resizedImage = image.resizeWithWidth(width: 200){
+                    let imageData: Data = resizedImage.jpegData(compressionQuality: 1.0)!
+                    if let user = LCApplication.default.currentUser {
+                        DispatchQueue.main.async {
+                            self.setElements(enable: false)
+                            initIndicator(view: self.view)
+                        }
+                        DispatchQueue.global(qos: .background).async {
+                            do {
+                                let file = LCFile(payload: .data(data: imageData))
+                                _ = file.save { result in
+                                    switch result {
+                                    case .success:
+                                        // 将对象保存到云端
+                                        do {
+                                            try user.set("avatar", value: file)
+                                            try user.set("name", value: self.displayName)
+                                            _ = user.save { result in
+                                                stopIndicator()
+                                                switch result {
+                                                case .success:
+                                                    self.dismiss(animated: true, completion: nil)
+                                                case .failure(error: let error):
+                                                    self.view.makeToast("设置失败，请稍后重试!\(error.reason?.stringValue ?? "")", duration: 1.2, position: .center)
+                                                    self.setElements(enable: true)
+                                                }
+                                            }
+                                        }catch {
+                                            self.view.makeToast("设置失败，请稍后重试!", duration: 1.2, position: .center)
+                                        }
+                                        
+                                    case .failure(error: let error):
+                                        DispatchQueue.main.async {
+                                            stopIndicator()
+                                            self.view.makeToast("设置失败，请稍后重试!\(error.reason?.stringValue ?? "")", duration: 1.2, position: .center)
+                                            self.setElements(enable: true)
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            
+        }
+    }
+    
+    @IBAction func inputTextChanged(_ sender: UITextField) {
+        self.displayName = sender.text ?? ""
+        detectBtnEnable()
     }
     
     @IBAction func unwind(_ sender: UIButton) {

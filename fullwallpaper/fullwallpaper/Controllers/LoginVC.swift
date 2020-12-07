@@ -185,6 +185,14 @@ class LoginVC: UIViewController {
         }
     }
     
+    func showSetProfileVC() {
+        let LoginRegStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+        let setUserProfileVC = LoginRegStoryBoard.instantiateViewController(withIdentifier: "setUserProfileVC") as! SetUserProfileVC
+        setUserProfileVC.modalPresentationStyle = .fullScreen
+        DispatchQueue.main.async {
+            self.present(setUserProfileVC, animated: true, completion: nil)
+        }
+    }
     
     @IBAction func changeLoginMethod(_ sender: UIButton) {
         self.view.endEditing(true)
@@ -358,6 +366,7 @@ class LoginVC: UIViewController {
                                                 DispatchQueue.main.async {
                                                     self.emailLoginBtn.setTitle("登录", for: .normal)
                                                 }
+                                                
                                             case .failure(error: let error):
                                                 switch error.code {
                                                 case 202 :

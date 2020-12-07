@@ -15,7 +15,13 @@ class UserProfileVC: UIViewController, UICollectionViewDelegate, UICollectionVie
     
     @IBOutlet weak var segmentedControl: UISegmentedControl!
     @IBOutlet weak var collectionView: UICollectionView!
-    
+    @IBOutlet weak var avatar: UIImageView!{
+        didSet{
+            avatar.layer.cornerRadius = avatar.layer.frame.width/2.0
+            avatar.layer.masksToBounds = true
+        }
+    }
+    @IBOutlet weak var nameLabel: UILabel!
     
     var NoNetWork: Bool = false
     var switched: Bool = true
@@ -41,10 +47,34 @@ class UserProfileVC: UIViewController, UICollectionViewDelegate, UICollectionVie
         })
     }
     
+    func updateAvatarAndName(){
+        if let user = LCApplication.default.currentUser {
+            _ = user.fetch(keys: ["avatar", "name"]) { result in
+                switch result {
+                case .success:
+                    let name:String = user.get("name")?.stringValue ?? ""
+                    DispatchQueue.main.async {
+                        self.nameLabel.text = name
+                    }
+                    if let file = user.get("avatar") as? LCFile {
+                        let imgUrl = file.url!.stringValue!
+                        DispatchQueue.main.async {
+                            Nuke.loadImage(with: URL(string: imgUrl)!, into: self.avatar)
+                        }
+                    }
+                    
+                case .failure(error: let error):
+                    print(error.localizedDescription)
+                }
+            }
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupCollectionView()
         initIndicator(view: self.view)
+        updateAvatarAndName()
         loadWallpapers(selectedIdx: 0)
     }
     

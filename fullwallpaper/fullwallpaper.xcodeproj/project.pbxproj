@@ -46,6 +46,7 @@
 		C3D5D821257D74BB006DA951 /* UserProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3D5D820257D74BA006DA951 /* UserProfileVC.swift */; };
 		C3E09BDB255CBE1600C4F238 /* AiNiChuanYueRenHai.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C3E09BDA255CBE1600C4F238 /* AiNiChuanYueRenHai.ttf */; };
 		C3E860752567531900559783 /* Date+NSDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3E860742567531900559783 /* Date+NSDate.swift */; };
+		C3FC6231257DCC2F00E1A547 /* UIImage+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3FC6230257DCC2F00E1A547 /* UIImage+Ext.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -92,6 +93,7 @@
 		C3D5D820257D74BA006DA951 /* UserProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileVC.swift; sourceTree = "<group>"; };
 		C3E09BDA255CBE1600C4F238 /* AiNiChuanYueRenHai.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = AiNiChuanYueRenHai.ttf; sourceTree = "<group>"; };
 		C3E860742567531900559783 /* Date+NSDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+NSDate.swift"; sourceTree = "<group>"; };
+		C3FC6230257DCC2F00E1A547 /* UIImage+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Ext.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -238,6 +240,7 @@
 			isa = PBXGroup;
 			children = (
 				C3E860742567531900559783 /* Date+NSDate.swift */,
+				C3FC6230257DCC2F00E1A547 /* UIImage+Ext.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -378,6 +381,7 @@
 				C3D5D81B257C5F87006DA951 /* AuditCollectionViewCell.swift in Sources */,
 				55370FAF2553B5800003CAD5 /* GlobalVariables.swift in Sources */,
 				C3770DCE255D143F00D240CB /* SettingTableViewCellWithValue.swift in Sources */,
+				C3FC6231257DCC2F00E1A547 /* UIImage+Ext.swift in Sources */,
 				C3D5D81E257C694C006DA951 /* WallpaperInReview.swift in Sources */,
 				55F3992B254A624D0094A477 /* WallpaperVC.swift in Sources */,
 				C311F9C3255E1124000FCED2 /* UploadWallpaperVC.swift in Sources */,
