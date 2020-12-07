@@ -24,6 +24,8 @@ class SettingVC: UIViewController , UITableViewDataSource, UITableViewDelegate {
         [SettingItem(symbol_name : "privacy", name: "用户条款与隐私政策")]
     ]
     
+    var displayName: String = ""
+    
     @IBOutlet var tableView: UITableView!
     let separatorHeight:CGFloat = 0.5
     override func viewDidLoad() {
@@ -33,6 +35,27 @@ class SettingVC: UIViewController , UITableViewDataSource, UITableViewDelegate {
         self.tableView.dataSource = self
         self.tableView.backgroundColor = .clear
         self.tableView.separatorColor = .clear
+        updateDisplayName()
+    }
+    
+    func updateDisplayName(){
+        if let user = LCApplication.default.currentUser {
+            _ = user.fetch(keys: ["name"]) { result in
+                switch result {
+                case .success:
+                    let name:String = user.get("name")?.stringValue ?? ""
+                    if !name.isEmpty{
+                        self.displayName = name
+                        let indexPath = IndexPath(row: 0, section: 0)
+                        DispatchQueue.main.async {
+                            self.tableView.reloadRows(at: [indexPath], with: .none)
+                        }
+                    }
+                case .failure(error: let error):
+                    print(error.localizedDescription)
+                }
+            }
+        }
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -49,7 +72,11 @@ class SettingVC: UIViewController , UITableViewDataSource, UITableViewDelegate {
         if !(section == 2 && row == 1){
             let cell = tableView.dequeueReusableCell(withIdentifier: "settingTableViewCell", for: indexPath) as! SettingTableViewCell
             cell.imgView.image = settingItems[section][row].icon
-            cell.titleLbl.text = settingItems[section][row].name
+            if section == 0 && !displayName.isEmpty {
+                cell.titleLbl.text = displayName
+            }else{
+                cell.titleLbl.text = settingItems[section][row].name
+            }
             if row != settingItems[section].count - 1{
                 let bottomBorder = CALayer()
 
