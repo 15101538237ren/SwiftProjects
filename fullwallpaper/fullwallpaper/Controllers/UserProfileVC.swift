@@ -8,10 +8,10 @@
 import UIKit
 import LeanCloud
 import Nuke
-import Malert
 import UIEmptyState
 import Refreshable
 import CropViewController
+import SwifterSwift
 
 class UserProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate, UIEmptyStateDataSource, UIEmptyStateDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, CropViewControllerDelegate {
     
@@ -446,39 +446,29 @@ class UserProfileVC: UIViewController, UICollectionViewDelegate, UICollectionVie
     }
     
     @objc func popNameTextInputAlert(tapGestureRecognizer: UITapGestureRecognizer){
-        let customView = TextInputAlertView.instantiateFromNib()
-        let malert = Malert(title: "设置显示名称", customView: customView)
+        let alertController = UIAlertController(title: "设置显示名称", message: "", preferredStyle: .alert)
         
-        malert.textAlign = .center
-        malert.textColor = .gray
-        malert.titleFont = UIFont.systemFont(ofSize: 18)
-        malert.margin = 16
-        malert.buttonsAxis = .horizontal
-        malert.separetorColor = .clear
+        alertController.addTextField(text: "", placeholder: "输入显示名称", editingChangedTarget: nil, editingChangedSelector: nil)
         
-        let setAction = MalertAction(title: "确定"){
-            let name: String = customView.nameTextField.text ?? ""
+        let setAction = UIAlertAction(title: "确定", style: .default){ _ in
+            let name: String = alertController.textFields!.first!.text ?? ""
             if !name.isEmpty{
                 self.setDisplayName(name: name)
-                malert.dismiss(animated: true, completion: nil)
+                alertController.dismiss(animated: true, completion: nil)
             }else{
-                malert.view.makeToast("请输入显示名称", duration: 1.2, position: .center)
+                self.view.makeToast("请输入显示名称", duration: 1.2, position: .center)
             }
             
          }
-        setAction.tintColor = .white
-        setAction.backgroundColor = .systemGreen
         
-        let cancelAction = MalertAction(title: "取消"){
-            malert.dismiss(animated: true, completion: nil)
+        let cancelAction = UIAlertAction(title: "取消", style: .cancel){ _ in
+            alertController.dismiss(animated: true, completion: nil)
         }
-        cancelAction.tintColor = .white
-        cancelAction.backgroundColor = .lightGray
 
-        malert.addAction(setAction)
-        malert.addAction(cancelAction)
+        alertController.addAction(setAction)
+        alertController.addAction(cancelAction)
 
-        present(malert, animated: true)
+        present(alertController, animated: true)
     }
     
     // MARK: - Empty State Data Source

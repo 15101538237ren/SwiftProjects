@@ -17,7 +17,8 @@ target 'fullwallpaper' do
   pod 'PhoneNumberKit'
   pod 'Refreshable'
   pod 'Toast-Swift'
-  pod 'Malert'
+  pod 'SwifterSwift/Foundation'
+  pod 'SwifterSwift/UIKit'
   # Pods for fullwallpaper
 
 end

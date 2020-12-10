@@ -5,7 +5,6 @@ ${BUILT_PRODUCTS_DIR}/CropViewController/CropViewController.framework
 ${BUILT_PRODUCTS_DIR}/GRDB.swift/GRDB.framework
 ${BUILT_PRODUCTS_DIR}/JGProgressHUD/JGProgressHUD.framework
 ${BUILT_PRODUCTS_DIR}/LeanCloud/LeanCloud.framework
-${BUILT_PRODUCTS_DIR}/Malert/Malert.framework
 ${BUILT_PRODUCTS_DIR}/NewPopMenu/PopMenu.framework
 ${BUILT_PRODUCTS_DIR}/Nuke/Nuke.framework
 ${BUILT_PRODUCTS_DIR}/PhoneNumberKit/PhoneNumberKit.framework
@@ -14,6 +13,7 @@ ${BUILT_PRODUCTS_DIR}/Starscream/Starscream.framework
 ${BUILT_PRODUCTS_DIR}/SwiftProtobuf/SwiftProtobuf.framework
 ${BUILT_PRODUCTS_DIR}/SwiftTheme/SwiftTheme.framework
 ${BUILT_PRODUCTS_DIR}/SwiftValidators/SwiftValidators.framework
+${BUILT_PRODUCTS_DIR}/SwifterSwift/SwifterSwift.framework
 ${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework
 ${BUILT_PRODUCTS_DIR}/Toast-Swift/Toast_Swift.framework
 ${BUILT_PRODUCTS_DIR}/UIEmptyState/UIEmptyState.framework

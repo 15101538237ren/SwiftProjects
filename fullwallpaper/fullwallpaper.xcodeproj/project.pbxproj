@@ -40,8 +40,6 @@
 		C3C3566325573B03006F137B /* SettingItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C3566225573B03006F137B /* SettingItem.swift */; };
 		C3C48F22256A2D6A00507582 /* CollectionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C48F21256A2D6A00507582 /* CollectionVC.swift */; };
 		C3C48F25256A2E0A00507582 /* CollectionItemsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C48F24256A2E0A00507582 /* CollectionItemsVC.swift */; };
-		C3D585D72581B1C30042C252 /* TextInputAlertView.xib in Resources */ = {isa = PBXBuildFile; fileRef = C3D585D62581B1C30042C252 /* TextInputAlertView.xib */; };
-		C3D585DA2581B2200042C252 /* TextInputAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3D585D92581B2200042C252 /* TextInputAlertView.swift */; };
 		C3D5D818257C5D3F006DA951 /* AuditVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3D5D817257C5D3F006DA951 /* AuditVC.swift */; };
 		C3D5D81B257C5F87006DA951 /* AuditCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3D5D81A257C5F87006DA951 /* AuditCollectionViewCell.swift */; };
 		C3D5D81E257C694C006DA951 /* WallpaperInReview.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3D5D81D257C694C006DA951 /* WallpaperInReview.swift */; };
@@ -89,8 +87,6 @@
 		C3C3566225573B03006F137B /* SettingItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingItem.swift; sourceTree = "<group>"; };
 		C3C48F21256A2D6A00507582 /* CollectionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionVC.swift; sourceTree = "<group>"; };
 		C3C48F24256A2E0A00507582 /* CollectionItemsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionItemsVC.swift; sourceTree = "<group>"; };
-		C3D585D62581B1C30042C252 /* TextInputAlertView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TextInputAlertView.xib; sourceTree = "<group>"; };
-		C3D585D92581B2200042C252 /* TextInputAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextInputAlertView.swift; sourceTree = "<group>"; };
 		C3D5D817257C5D3F006DA951 /* AuditVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuditVC.swift; sourceTree = "<group>"; };
 		C3D5D81A257C5F87006DA951 /* AuditCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuditCollectionViewCell.swift; sourceTree = "<group>"; };
 		C3D5D81D257C694C006DA951 /* WallpaperInReview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WallpaperInReview.swift; sourceTree = "<group>"; };
@@ -172,7 +168,6 @@
 		55F39925254A624D0094A477 /* fullwallpaper */ = {
 			isa = PBXGroup;
 			children = (
-				C3D585D52581B1BB0042C252 /* Nibs */,
 				C3C3565B25572468006F137B /* Theme */,
 				C303B9E625551BAF005C7A50 /* Extensions */,
 				55370FBB2553B70B0003CAD5 /* Util */,
@@ -220,7 +215,6 @@
 				C3C3565525571DA7006F137B /* SettingTableViewCell.swift */,
 				C3770DCD255D143F00D240CB /* SettingTableViewCellWithValue.swift */,
 				C3D5D81A257C5F87006DA951 /* AuditCollectionViewCell.swift */,
-				C3D585D92581B2200042C252 /* TextInputAlertView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -258,14 +252,6 @@
 				C3C3565F25572489006F137B /* Dark.plist */,
 			);
 			path = Theme;
-			sourceTree = "<group>";
-		};
-		C3D585D52581B1BB0042C252 /* Nibs */ = {
-			isa = PBXGroup;
-			children = (
-				C3D585D62581B1C30042C252 /* TextInputAlertView.xib */,
-			);
-			path = Nibs;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -334,7 +320,6 @@
 				C3770DA9255CF99700D240CB /* Assets.xcassets in Resources */,
 				55537E2E254B2572005081CF /* ClickerScript-Regular.ttf in Resources */,
 				55F3992E254A624D0094A477 /* Main.storyboard in Resources */,
-				C3D585D72581B1C30042C252 /* TextInputAlertView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -398,7 +383,6 @@
 				C3770DCE255D143F00D240CB /* SettingTableViewCellWithValue.swift in Sources */,
 				C3FC6231257DCC2F00E1A547 /* UIImage+Ext.swift in Sources */,
 				C3D5D81E257C694C006DA951 /* WallpaperInReview.swift in Sources */,
-				C3D585DA2581B2200042C252 /* TextInputAlertView.swift in Sources */,
 				55F3992B254A624D0094A477 /* WallpaperVC.swift in Sources */,
 				C311F9C3255E1124000FCED2 /* UploadWallpaperVC.swift in Sources */,
 				55537E3A254BBEE4005081CF /* WallpaperDetailVC.swift in Sources */,
