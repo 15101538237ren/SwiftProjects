@@ -58,6 +58,14 @@ class SettingVC: UIViewController , UITableViewDataSource, UITableViewDelegate {
         }
     }
     
+    func setDisplayNameAndUpdate(name : String){
+        self.displayName = name
+        let indexPath = IndexPath(row: 0, section: 0)
+        DispatchQueue.main.async {
+            self.tableView.reloadRows(at: [indexPath], with: .none)
+        }
+    }
+    
     func numberOfSections(in tableView: UITableView) -> Int {
         return settingItems.count
     }
@@ -110,7 +118,6 @@ class SettingVC: UIViewController , UITableViewDataSource, UITableViewDelegate {
         switch indexPath.section {
         case 0:
             if let _ = LCApplication.default.currentUser {
-//                showSetProfileVC()
                 showProfileVC()
             } else {
                 // 显示注册或登录页面
@@ -193,6 +200,7 @@ class SettingVC: UIViewController , UITableViewDataSource, UITableViewDelegate {
     func showProfileVC() {
         let LoginRegStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
         let userProfileVC = LoginRegStoryBoard.instantiateViewController(withIdentifier: "userProfileVC") as! UserProfileVC
+        userProfileVC.settingVC = self
         userProfileVC.modalPresentationStyle = .fullScreen
         DispatchQueue.main.async {
             self.present(userProfileVC, animated: true, completion: nil)
@@ -202,6 +210,7 @@ class SettingVC: UIViewController , UITableViewDataSource, UITableViewDelegate {
     func showSetProfileVC() {
         let LoginRegStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
         let setUserProfileVC = LoginRegStoryBoard.instantiateViewController(withIdentifier: "setUserProfileVC") as! SetUserProfileVC
+        setUserProfileVC.settingVC = self
         setUserProfileVC.modalPresentationStyle = .fullScreen
         DispatchQueue.main.async {
             self.present(setUserProfileVC, animated: true, completion: nil)
@@ -210,10 +219,11 @@ class SettingVC: UIViewController , UITableViewDataSource, UITableViewDelegate {
     
     func showLoginOrRegisterVC() {
         let LoginRegStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
-        let emailVC = LoginRegStoryBoard.instantiateViewController(withIdentifier: "loginVC") as! LoginVC
-        emailVC.modalPresentationStyle = .overCurrentContext
+        let loginVC = LoginRegStoryBoard.instantiateViewController(withIdentifier: "loginVC") as! LoginVC
+        loginVC.modalPresentationStyle = .overCurrentContext
+        loginVC.settingVC = self
         DispatchQueue.main.async {
-            self.present(emailVC, animated: true, completion: nil)
+            self.present(loginVC, animated: true, completion: nil)
         }
     }
     

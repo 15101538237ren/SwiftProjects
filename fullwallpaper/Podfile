@@ -17,6 +17,7 @@ target 'fullwallpaper' do
   pod 'PhoneNumberKit'
   pod 'Refreshable'
   pod 'Toast-Swift'
+  pod 'Malert'
   # Pods for fullwallpaper
 
 end

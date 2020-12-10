@@ -5,6 +5,7 @@ ${BUILT_PRODUCTS_DIR}/CropViewController/CropViewController.framework
 ${BUILT_PRODUCTS_DIR}/GRDB.swift/GRDB.framework
 ${BUILT_PRODUCTS_DIR}/JGProgressHUD/JGProgressHUD.framework
 ${BUILT_PRODUCTS_DIR}/LeanCloud/LeanCloud.framework
+${BUILT_PRODUCTS_DIR}/Malert/Malert.framework
 ${BUILT_PRODUCTS_DIR}/NewPopMenu/PopMenu.framework
 ${BUILT_PRODUCTS_DIR}/Nuke/Nuke.framework
 ${BUILT_PRODUCTS_DIR}/PhoneNumberKit/PhoneNumberKit.framework

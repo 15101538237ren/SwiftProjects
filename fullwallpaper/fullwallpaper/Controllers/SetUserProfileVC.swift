@@ -11,6 +11,7 @@ import LeanCloud
 
 class SetUserProfileVC: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, CropViewControllerDelegate {
     
+    var settingVC: SettingVC!
     var imagePicker = UIImagePickerController()
     private var selectedImage: UIImage? = nil
     private var displayName: String = ""
@@ -142,27 +143,32 @@ class SetUserProfileVC: UIViewController, UIImagePickerControllerDelegate, UINav
                                     case .success:
                                         // 将对象保存到云端
                                         do {
+                                            let name = self.displayName
                                             try user.set("avatar", value: file)
-                                            try user.set("name", value: self.displayName)
+                                            try user.set("name", value: name)
                                             _ = user.save { result in
                                                 stopIndicator()
                                                 switch result {
                                                 case .success:
-                                                    self.dismiss(animated: true, completion: nil)
+                                                    self.dismiss(animated: true, completion: {
+                                                        self.settingVC.setDisplayNameAndUpdate(name: name)
+                                                    })
                                                 case .failure(error: let error):
                                                     self.view.makeToast("设置失败，请稍后重试!\(error.reason?.stringValue ?? "")", duration: 1.2, position: .center)
                                                     self.setElements(enable: true)
                                                 }
                                             }
                                         }catch {
+                                            stopIndicator()
+                                            self.setElements(enable: true)
                                             self.view.makeToast("设置失败，请稍后重试!", duration: 1.2, position: .center)
                                         }
                                         
                                     case .failure(error: let error):
                                         DispatchQueue.main.async {
                                             stopIndicator()
-                                            self.view.makeToast("设置失败，请稍后重试!\(error.reason?.stringValue ?? "")", duration: 1.2, position: .center)
                                             self.setElements(enable: true)
+                                            self.view.makeToast("设置失败，请稍后重试!\(error.reason?.stringValue ?? "")", duration: 1.2, position: .center)
                                         }
                                     }
                                 }

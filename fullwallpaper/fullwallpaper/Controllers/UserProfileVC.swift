@@ -8,11 +8,15 @@
 import UIKit
 import LeanCloud
 import Nuke
+import Malert
 import UIEmptyState
 import Refreshable
+import CropViewController
 
-class UserProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate, UIEmptyStateDataSource, UIEmptyStateDelegate {
+class UserProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate, UIEmptyStateDataSource, UIEmptyStateDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, CropViewControllerDelegate {
     
+    @IBOutlet weak var backBtn:UIButton!
+    @IBOutlet weak var logoutBtn:UIButton!
     @IBOutlet weak var segmentedControl: UISegmentedControl!
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var avatar: UIImageView!{
@@ -23,13 +27,17 @@ class UserProfileVC: UIViewController, UICollectionViewDelegate, UICollectionVie
     }
     @IBOutlet weak var nameLabel: UILabel!
     
-    var NoNetWork: Bool = false
-    var switched: Bool = true
+    var settingVC: SettingVC!
+    var imagePicker = UIImagePickerController()
+    private var selectedImage: UIImage? = nil
     
     var minDateOfLastLatestWallpaperFetches: [Int: String?] = [0:nil, 1:nil]
     
     var wallpapers:[Int : [Wallpaper]] = [0:[], 1:[]]
     var urlsOfLoadedLikedWallpapers:[String] = []
+    
+    var NoNetWork: Bool = false
+    var switched: Bool = true
     
     func setupCollectionView() {
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
@@ -74,8 +82,13 @@ class UserProfileVC: UIViewController, UICollectionViewDelegate, UICollectionVie
         super.viewDidLoad()
         setupCollectionView()
         initIndicator(view: self.view)
+        initVC()
         updateAvatarAndName()
         loadWallpapers(selectedIdx: 0)
+    }
+    
+    func initVC(){
+        addGestureRecognizers()
     }
     
     private func handleLoadMore() {
@@ -281,6 +294,193 @@ class UserProfileVC: UIViewController, UICollectionViewDelegate, UICollectionVie
         loadWallpapers(selectedIdx: segmentedControl.selectedSegmentIndex)
     }
     
+    func setElements(enable: Bool){
+        self.view.isUserInteractionEnabled = enable
+        self.backBtn.isUserInteractionEnabled = enable
+        self.logoutBtn.isUserInteractionEnabled = enable
+        self.nameLabel.isUserInteractionEnabled = enable
+        self.avatar.isUserInteractionEnabled = enable
+        self.segmentedControl.isUserInteractionEnabled = enable
+        self.collectionView.isUserInteractionEnabled = enable
+    }
+    
+    func addGestureRecognizers(){
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(selectImage(tapGestureRecognizer:)))
+        avatar.isUserInteractionEnabled = true
+        avatar.addGestureRecognizer(tapGestureRecognizer)
+        
+        let labelTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(popNameTextInputAlert(tapGestureRecognizer:)))
+        nameLabel.isUserInteractionEnabled = true
+        nameLabel.addGestureRecognizer(labelTapGestureRecognizer)
+    }
+    
+    @objc func selectImage(tapGestureRecognizer: UITapGestureRecognizer)
+    {
+        if UIImagePickerController.isSourceTypeAvailable(.photoLibrary){
+            imagePicker.sourceType = .photoLibrary
+            imagePicker.delegate = self
+            imagePicker.mediaTypes = ["public.image"]
+            self.present(imagePicker, animated: true, completion: nil)
+        }
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        if let pickedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage{
+            DispatchQueue.main.async { [self] in
+                picker.dismiss(animated: true, completion: nil)
+                
+                let targetLength:CGFloat = view.bounds.width * UIScreen.main.scale
+                
+                let leftPosition = (pickedImage.size.width * pickedImage.scale - targetLength)/2.0
+                let topPosition = (pickedImage.size.height * pickedImage.scale - targetLength)/2.0
+                let cropController = CropViewController(image: pickedImage)
+                cropController.title = "「缩放」或「拖拽」来调整"
+                cropController.doneButtonTitle = "确定"
+                cropController.cancelButtonTitle = "取消"
+                cropController.imageCropFrame = CGRect(x: leftPosition, y: topPosition, width: targetLength, height: targetLength)
+                cropController.aspectRatioPreset = .presetSquare
+                cropController.rotateButtonsHidden = true
+                cropController.rotateClockwiseButtonHidden = true
+                cropController.resetButtonHidden = true
+                cropController.aspectRatioLockEnabled = true
+                cropController.resetAspectRatioEnabled = false
+                cropController.aspectRatioPickerButtonHidden = true
+                cropController.delegate = self
+                self.present(cropController, animated: true, completion: nil)
+            }
+        }
+    }
+    
+    func cropViewController(_ cropViewController: CropViewController, didCropToImage image: UIImage, withRect cropRect: CGRect, angle: Int) {
+        DispatchQueue.main.async { [self] in
+            cropViewController.dismiss(animated: true, completion: nil)
+            setElements(enable: false)
+            initIndicator(view: view)
+        }
+        setProfile(image: image)
+    }
+    
+    func setProfile(image: UIImage){
+        if !Reachability.isConnectedToNetwork(){
+            setElements(enable: true)
+            stopIndicator()
+            self.view.makeToast(NoNetworkStr, duration: 1.0, position: .center)
+            return
+        }
+        if let resizedImage = image.resizeWithWidth(width: 200){
+            self.selectedImage = image
+            let imageData: Data = resizedImage.jpegData(compressionQuality: 1.0)!
+            if let user = LCApplication.default.currentUser {
+                DispatchQueue.global(qos: .background).async {
+                    do {
+                        // Save new avatar file on LC
+                        let file = LCFile(payload: .data(data: imageData))
+                        _ = file.save { result in
+                            switch result {
+                            case .success:
+                                // 将对象保存到云端
+                                do {
+                                    try user.set("avatar", value: file)
+                                    _ = user.save { result in
+                                        stopIndicator()
+                                        switch result {
+                                        case .success:
+                                            DispatchQueue.main.async { [self] in
+                                                avatar.image = selectedImage
+                                            }
+                                        case .failure(error: let error):
+                                            self.view.makeToast("设置失败，请稍后重试!\(error.reason?.stringValue ?? "")", duration: 1.2, position: .center)
+                                        }
+                                        self.setElements(enable: true)
+                                    }
+                                }catch {
+                                    stopIndicator()
+                                    self.setElements(enable: true)
+                                    self.view.makeToast("设置失败，请稍后重试!", duration: 1.2, position: .center)
+                                    stopIndicator()
+                                    self.setElements(enable: true)
+                                }
+                                
+                            case .failure(error: let error):
+                                DispatchQueue.main.async {
+                                    stopIndicator()
+                                    self.setElements(enable: true)
+                                    self.view.makeToast("设置失败，请稍后重试!\(error.reason?.stringValue ?? "")", duration: 1.2, position: .center)
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    func setDisplayName(name: String){
+        if !Reachability.isConnectedToNetwork(){
+            self.view.makeToast(NoNetworkStr, duration: 1.0, position: .center)
+            return
+        }
+        initIndicator(view: self.view)
+        setElements(enable: false)
+        if let user = LCApplication.default.currentUser {
+            do {
+                try user.set("name", value: name)
+                _ = user.save { result in
+                    stopIndicator()
+                    switch result {
+                    case .success:
+                        DispatchQueue.main.async { [self] in
+                            nameLabel.text = name
+                        }
+                    case .failure(error: let error):
+                        self.view.makeToast("设置失败，请稍后重试!\(error.reason?.stringValue ?? "")", duration: 1.2, position: .center)
+                    }
+                    self.setElements(enable: true)
+                }
+            }catch {
+                stopIndicator()
+                self.setElements(enable: true)
+                self.view.makeToast("设置失败，请稍后重试!", duration: 1.0, position: .center)
+            }
+        }
+    }
+    
+    @objc func popNameTextInputAlert(tapGestureRecognizer: UITapGestureRecognizer){
+        let customView = TextInputAlertView.instantiateFromNib()
+        let malert = Malert(title: "设置显示名称", customView: customView)
+        
+        malert.textAlign = .center
+        malert.textColor = .gray
+        malert.titleFont = UIFont.systemFont(ofSize: 18)
+        malert.margin = 16
+        malert.buttonsAxis = .horizontal
+        malert.separetorColor = .clear
+        
+        let setAction = MalertAction(title: "确定"){
+            let name: String = customView.nameTextField.text ?? ""
+            if !name.isEmpty{
+                self.setDisplayName(name: name)
+                malert.dismiss(animated: true, completion: nil)
+            }else{
+                malert.view.makeToast("请输入显示名称", duration: 1.2, position: .center)
+            }
+            
+         }
+        setAction.tintColor = .white
+        setAction.backgroundColor = .systemGreen
+        
+        let cancelAction = MalertAction(title: "取消"){
+            malert.dismiss(animated: true, completion: nil)
+        }
+        cancelAction.tintColor = .white
+        cancelAction.backgroundColor = .lightGray
+
+        malert.addAction(setAction)
+        malert.addAction(cancelAction)
+
+        present(malert, animated: true)
+    }
+    
     // MARK: - Empty State Data Source
     
     var emptyStateTitle: NSAttributedString {
@@ -296,7 +496,21 @@ class UserProfileVC: UIViewController, UICollectionViewDelegate, UICollectionVie
         emptyView.contentView.layer.backgroundColor = UIColor.clear.cgColor
     }
     
+    
+    @IBAction func logout(_ sender: UIButton) {
+        LCUser.logOut()
+        userLikedWPs = []
+        self.dismiss(animated: true, completion: {
+            self.settingVC.setDisplayNameAndUpdate(name: "")
+            self.settingVC.view.makeToast("登出成功!", duration: 1.0, position: .center)
+        })
+    }
+    
     @IBAction func unwind(_ sender: UIButton) {
-        self.dismiss(animated: true, completion: nil)
+        self.dismiss(animated: true, completion: {
+            if let name = self.nameLabel.text{
+                self.settingVC.setDisplayNameAndUpdate(name: name)
+            }
+        })
     }
 }

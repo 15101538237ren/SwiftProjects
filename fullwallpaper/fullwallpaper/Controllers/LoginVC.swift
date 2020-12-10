@@ -11,11 +11,14 @@ import SwiftValidators
 import PhoneNumberKit
 
 class LoginVC: UIViewController {
+    
     enum LoginType {
         case Phone
         case Email
         case ResetEmail
     }
+    
+    var settingVC: SettingVC!
     
     let silverColor:UIColor = UIColor(red: 192, green: 192, blue: 192, alpha: 1)
     
@@ -185,15 +188,6 @@ class LoginVC: UIViewController {
         }
     }
     
-    func showSetProfileVC() {
-        let LoginRegStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
-        let setUserProfileVC = LoginRegStoryBoard.instantiateViewController(withIdentifier: "setUserProfileVC") as! SetUserProfileVC
-        setUserProfileVC.modalPresentationStyle = .fullScreen
-        DispatchQueue.main.async {
-            self.present(setUserProfileVC, animated: true, completion: nil)
-        }
-    }
-    
     @IBAction func changeLoginMethod(_ sender: UIButton) {
         self.view.endEditing(true)
         switch loginType {
@@ -286,6 +280,7 @@ class LoginVC: UIViewController {
         getVerificationCodeBtn.setTitleColor(UIColor(red: 255, green: 255, blue: 255, alpha: 1.0), for: .normal)
     }
     
+    
     @IBAction func loginByEmail(sender: UIButton){
             self.view.endEditing(true)
              let email:String? = emailTextField.text
@@ -334,13 +329,22 @@ class LoginVC: UIViewController {
                     
                     _ = LCUser.logIn(email: email!, password: pwd!) { result in
                         switch result {
-                        case .success(object: _):
+                        case .success(object: let user):
                             UserDefaults.standard.set(Date(), forKey: "lastEmailLoginClickTime")
+                            getUserLikedWPs()
+                            let name:String = user.get("name")?.stringValue ?? ""
+                            let file = user.get("avatar") as? LCFile
                             DispatchQueue.main.async {
                                 self.stopIndicator()
-                                self.dismiss(animated: true, completion: nil)
+                                
+                                self.dismiss(animated: false, completion: {
+                                    if name.isEmpty && file == nil {
+                                        self.settingVC.showSetProfileVC()
+                                    }else if !name.isEmpty{
+                                        self.settingVC.setDisplayNameAndUpdate(name: name)
+                                    }
+                                })
                             }
-                            getUserLikedWPs()
                             //登录成功
                             
                         case .failure(error: let error):
@@ -491,9 +495,19 @@ class LoginVC: UIViewController {
                        self.stopIndicator()
                    }
                    switch result {
-                   case .success:
+                   case .success(object: let user):
                        getUserLikedWPs()
-                       self.dismiss(animated: true, completion: nil)
+                       let name:String = user.get("name")?.stringValue ?? ""
+                       let file = user.get("avatar") as? LCFile
+                        DispatchQueue.main.async {
+                            self.dismiss(animated: false, completion: {
+                                if name.isEmpty && file == nil {
+                                    self.settingVC.showSetProfileVC()
+                                }else if !name.isEmpty{
+                                    self.settingVC.setDisplayNameAndUpdate(name: name)
+                                }
+                            })
+                         }
                    case .failure(error: let error):
                         self.view.makeToast("\(error.reason ?? "登录失败，请稍后重试")", duration: 1.0, position: .center)
                    }
