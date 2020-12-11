@@ -294,11 +294,6 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
                 
                 auditAction.iconWidthHeight = iconWidthHeight
                 popActions.append(auditAction)
-                
-                let batchUploadAction = PopMenuDefaultAction(title: "批量上传", image: UIImage(named: "batch_upload"), color: UIColor.darkGray)
-                
-                batchUploadAction.iconWidthHeight = iconWidthHeight
-                popActions.append(batchUploadAction)
             }
         
             let menuVC = PopMenuViewController(sourceView:sender, actions: popActions)
