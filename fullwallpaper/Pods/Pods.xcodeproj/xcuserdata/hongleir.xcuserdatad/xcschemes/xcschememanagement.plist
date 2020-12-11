@@ -57,7 +57,7 @@
 		<key>Pods-fullwallpaper.xcscheme</key>
 		<dict>
 			<key>isShown</key>
-			<false/>
+			<true/>
 		</dict>
 		<key>Refreshable.xcscheme</key>
 		<dict>

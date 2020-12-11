@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import SwiftTheme
 import MessageUI
 import Nuke
 import LeanCloud
@@ -14,14 +13,12 @@ import LeanCloud
 class SettingVC: UIViewController , UITableViewDataSource, UITableViewDelegate {
     let settingItems:[[SettingItem]] = [
         [SettingItem(symbol_name : "user", name: "登录 / 注册")],
-        [SettingItem(symbol_name : "membership", name: "会员权益"),
-         SettingItem(symbol_name : "restore", name: "恢复购买")],
-        [SettingItem(symbol_name : "theme", name: "主题"),
-         SettingItem(symbol_name : "clean", name: "清空壁纸缓存")],
+        [SettingItem(symbol_name : "membership", name: "会员权益")],
         [SettingItem(symbol_name : "rate", name: "评价我们"),
          SettingItem(symbol_name : "share", name: "分享给朋友"),
          SettingItem(symbol_name : "feedback", name: "意见反馈")],
-        [SettingItem(symbol_name : "privacy", name: "用户条款与隐私政策")]
+        [SettingItem(symbol_name : "clean", name: "清空壁纸缓存"),
+        SettingItem(symbol_name : "privacy", name: "用户条款与隐私政策")]
     ]
     
     var displayName: String = ""
@@ -77,14 +74,28 @@ class SettingVC: UIViewController , UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let section: Int = indexPath.section
         let row: Int = indexPath.row
-        if !(section == 2 && row == 1){
-            let cell = tableView.dequeueReusableCell(withIdentifier: "settingTableViewCell", for: indexPath) as! SettingTableViewCell
+        if section == 0{
+            let cell = tableView.dequeueReusableCell(withIdentifier: "settingTableViewCellWithImg", for: indexPath) as! SettingTableViewCellWithImg
             cell.imgView.image = settingItems[section][row].icon
-            if section == 0 && !displayName.isEmpty {
+            if !displayName.isEmpty {
                 cell.titleLbl.text = displayName
             }else{
                 cell.titleLbl.text = settingItems[section][row].name
             }
+            if row != settingItems[section].count - 1{
+                let bottomBorder = CALayer()
+
+                bottomBorder.frame = CGRect(x: 0.0, y: cell.contentView.frame.size.height - separatorHeight, width: cell.contentView.frame.size.width, height: separatorHeight)
+                bottomBorder.backgroundColor = UIColor(white: 0.92, alpha: 1.0).cgColor
+                
+                cell.contentView.layer.addSublayer(bottomBorder)
+            }
+            return cell
+        }
+        else if !(section == 3 && row == 0){
+            let cell = tableView.dequeueReusableCell(withIdentifier: "settingTableViewCell", for: indexPath) as! SettingTableViewCell
+            cell.imgView.image = settingItems[section][row].icon
+            cell.titleLbl.text = settingItems[section][row].name
             if row != settingItems[section].count - 1{
                 let bottomBorder = CALayer()
 
@@ -123,17 +134,19 @@ class SettingVC: UIViewController , UITableViewDataSource, UITableViewDelegate {
                 // 显示注册或登录页面
                 showLoginOrRegisterVC()
             }
+        case 1:
+            showVIPBenefitsVC()
         case 2:
             switch indexPath.row {
-                case 1:
-                    cleanImageCache()
+                case 2:
+                    showFeedBackMailComposer()
                 default:
                     break
             }
         case 3:
             switch indexPath.row {
-                case 2:
-                    showFeedBackMailComposer()
+                case 0:
+                    cleanImageCache()
                 default:
                     break
             }
@@ -198,8 +211,8 @@ class SettingVC: UIViewController , UITableViewDataSource, UITableViewDelegate {
     }
     
     func showProfileVC() {
-        let LoginRegStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
-        let userProfileVC = LoginRegStoryBoard.instantiateViewController(withIdentifier: "userProfileVC") as! UserProfileVC
+        let MainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+        let userProfileVC = MainStoryBoard.instantiateViewController(withIdentifier: "userProfileVC") as! UserProfileVC
         userProfileVC.settingVC = self
         userProfileVC.modalPresentationStyle = .fullScreen
         DispatchQueue.main.async {
@@ -208,8 +221,8 @@ class SettingVC: UIViewController , UITableViewDataSource, UITableViewDelegate {
     }
     
     func showSetProfileVC() {
-        let LoginRegStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
-        let setUserProfileVC = LoginRegStoryBoard.instantiateViewController(withIdentifier: "setUserProfileVC") as! SetUserProfileVC
+        let MainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+        let setUserProfileVC = MainStoryBoard.instantiateViewController(withIdentifier: "setUserProfileVC") as! SetUserProfileVC
         setUserProfileVC.settingVC = self
         setUserProfileVC.modalPresentationStyle = .fullScreen
         DispatchQueue.main.async {
@@ -217,9 +230,18 @@ class SettingVC: UIViewController , UITableViewDataSource, UITableViewDelegate {
         }
     }
     
+    func showVIPBenefitsVC() {
+        let MainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+        let vipBenefitsVC = MainStoryBoard.instantiateViewController(withIdentifier: "vipBenefitsVC") as! VIPBenefitsVC
+        vipBenefitsVC.modalPresentationStyle = .fullScreen
+        DispatchQueue.main.async {
+            self.present(vipBenefitsVC, animated: true, completion: nil)
+        }
+    }
+    
     func showLoginOrRegisterVC() {
-        let LoginRegStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
-        let loginVC = LoginRegStoryBoard.instantiateViewController(withIdentifier: "loginVC") as! LoginVC
+        let MainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+        let loginVC = MainStoryBoard.instantiateViewController(withIdentifier: "loginVC") as! LoginVC
         loginVC.modalPresentationStyle = .overCurrentContext
         loginVC.settingVC = self
         DispatchQueue.main.async {

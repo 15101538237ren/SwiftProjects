@@ -1,17 +1,16 @@
 //
-//  SettingTableViewCellWithValue.swift
+//  SettingTableViewCellWithImg.swift
 //  fullwallpaper
 //
-//  Created by Honglei Ren on 11/11/20.
+//  Created by Honglei Ren on 12/10/20.
 //
 
 import UIKit
 
-class SettingTableViewCellWithValue: UITableViewCell {
-    
+class SettingTableViewCellWithImg: UITableViewCell {
     @IBOutlet var imgView: UIImageView!
     @IBOutlet var titleLbl: UILabel!
-    @IBOutlet var labelValue: UILabel!
+    @IBOutlet var proImgView: UIImageView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -23,4 +22,5 @@ class SettingTableViewCellWithValue: UITableViewCell {
 
         // Configure the view for the selected state
     }
+
 }

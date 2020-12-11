@@ -1,18 +1,17 @@
 //
-//  SettingTableViewCellWithValue.swift
+//  VIPBenefitTableViewCell.swift
 //  fullwallpaper
 //
-//  Created by Honglei Ren on 11/11/20.
+//  Created by Honglei Ren on 12/10/20.
 //
 
 import UIKit
 
-class SettingTableViewCellWithValue: UITableViewCell {
-    
+class VIPBenefitTableViewCell: UITableViewCell {
+
     @IBOutlet var imgView: UIImageView!
     @IBOutlet var titleLbl: UILabel!
-    @IBOutlet var labelValue: UILabel!
-    
+    @IBOutlet var descriptionLbl: UILabel!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -20,7 +19,6 @@ class SettingTableViewCellWithValue: UITableViewCell {
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
     }
+
 }
