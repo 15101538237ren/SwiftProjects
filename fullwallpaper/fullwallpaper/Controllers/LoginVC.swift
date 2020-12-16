@@ -18,7 +18,7 @@ class LoginVC: UIViewController {
         case ResetEmail
     }
     
-    var settingVC: SettingVC!
+    var settingVC: SettingVC?
     
     let silverColor:UIColor = UIColor(red: 192, green: 192, blue: 192, alpha: 1)
     
@@ -338,11 +338,14 @@ class LoginVC: UIViewController {
                                 self.stopIndicator()
                                 
                                 self.dismiss(animated: false, completion: {
-                                    if name.isEmpty && file == nil {
-                                        self.settingVC.showSetProfileVC()
-                                    }else if !name.isEmpty{
-                                        self.settingVC.setDisplayNameAndUpdate(name: name)
+                                    if let setVC = self.settingVC{
+                                        if name.isEmpty && file == nil {
+                                            setVC.showSetProfileVC()
+                                        }else if !name.isEmpty{
+                                            setVC.setDisplayNameAndUpdate(name: name)
+                                        }
                                     }
+                                    
                                 })
                             }
                             //登录成功
@@ -501,11 +504,14 @@ class LoginVC: UIViewController {
                        let file = user.get("avatar") as? LCFile
                         DispatchQueue.main.async {
                             self.dismiss(animated: false, completion: {
-                                if name.isEmpty && file == nil {
-                                    self.settingVC.showSetProfileVC()
-                                }else if !name.isEmpty{
-                                    self.settingVC.setDisplayNameAndUpdate(name: name)
+                                if let setVC = self.settingVC{
+                                    if name.isEmpty && file == nil {
+                                        setVC.showSetProfileVC()
+                                    }else if !name.isEmpty{
+                                        setVC.setDisplayNameAndUpdate(name: name)
+                                    }
                                 }
+                                
                             })
                          }
                    case .failure(error: let error):

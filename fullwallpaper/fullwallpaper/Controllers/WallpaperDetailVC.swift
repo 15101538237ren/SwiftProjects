@@ -14,7 +14,7 @@ import PopMenu
 
 class WallpaperDetailVC: UIViewController {
 
-    //Outlet Variables
+    // MARK: - Outlet Variables
     @IBOutlet var imageView: UIImageView!
     @IBOutlet var lockScreenPreviewImgV: UIImageView!
     @IBOutlet var homeScreenPreviewImgV: UIImageView!
@@ -32,14 +32,20 @@ class WallpaperDetailVC: UIViewController {
         }
     }
     
-    // Variables
+    
+    // MARK: - Variables
+    
     var imageUrl: URL!
     var wallpaperObjectId: String!
     var previewStatus: DisplayMode = .Plain
     var liked: Bool = false
     var viewTranslation = CGPoint(x: 0, y: 0)
+    var reviewFuncCalled: Bool = false
     
+    // MARK: - Constants
     let scaleForAnimation: CGFloat = 2
+    
+    // MARK: - ViewController Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         initVC()
@@ -47,18 +53,20 @@ class WallpaperDetailVC: UIViewController {
         addGestureRcg()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        if !Reachability.isConnectedToNetwork(){
+            self.imageView.image = UIImage(named: "image_to_upload")!
+            self.view.makeToast(NoNetworkStr, duration: 1.0, position: .center)
+        }
+    }
+    
+    // MARK: - Custom Functions
+    
     func initVC(){
         let liked  = userLikedWPs.contains(wallpaperObjectId!)
         let tmp_image = liked ? UIImage(systemName: "heart.fill") ?? UIImage(named: "heart-fill-icon") : UIImage(systemName: "heart") ?? UIImage(named: "heart-icon")
         DispatchQueue.main.async { [self] in
             likeImgV.image = tmp_image
-        }
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        if !Reachability.isConnectedToNetwork(){
-            self.imageView.image = UIImage(named: "image_to_upload")!
-            self.view.makeToast(NoNetworkStr, duration: 1.0, position: .center)
         }
     }
     
@@ -233,9 +241,25 @@ class WallpaperDetailVC: UIViewController {
         
     }
     
+    func showLoginOrRegisterVC(action: String) {
+        let LoginRegStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+        let emailVC = LoginRegStoryBoard.instantiateViewController(withIdentifier: "loginVC") as! LoginVC
+        emailVC.modalPresentationStyle = .overCurrentContext
+        DispatchQueue.main.async {
+            self.present(emailVC, animated: true, completion: {
+                emailVC.view.makeToast("请先「登录」或「注册」以\(action)您喜欢的壁纸", duration: 1.5, position: .center)
+            })
+        }
+    }
+    
     @objc func likeImgViewTapped(tapGestureRecognizer: UITapGestureRecognizer)
     {
-        toggleLikeBtn()
+        if let _ = LCApplication.default.currentUser {
+            toggleLikeBtn()
+        } else {
+            // 显示注册或登录页面
+            showLoginOrRegisterVC(action: ACTION_TYPE.like.rawValue)
+        }
     }
     
     func addGestureRcgToDownload(){
@@ -246,9 +270,19 @@ class WallpaperDetailVC: UIViewController {
     
     @objc func downloadImgViewTapped(tapGestureRecognizer: UITapGestureRecognizer)
     {
-        if let image = imageView.image{
-            UIImageWriteToSavedPhotosAlbum(image, self, #selector(image(_:didFinishSavingWithError:contextInfo:)), nil)
+        if let _ = LCApplication.default.currentUser {
+            if let image = imageView.image{
+                UIImageWriteToSavedPhotosAlbum(image, self, #selector(image(_:didFinishSavingWithError:contextInfo:)), nil)
+                if !reviewFuncCalled {
+                    AppStoreReviewManager.requestReviewIfAppropriate()
+                    reviewFuncCalled = true
+                }
+            }
+        } else {
+            // 显示注册或登录页面
+            showLoginOrRegisterVC(action: ACTION_TYPE.save.rawValue)
         }
+        
     }
     
     func addGestureRcgToPreview(){
@@ -329,6 +363,8 @@ class WallpaperDetailVC: UIViewController {
     }
 }
 
+
+// MARK: - Pop Menu Protocal Implementation
 extension WallpaperDetailVC: PopMenuViewControllerDelegate {
 
     func reportWallpaperProblem(code: Int, popMenuViewController: PopMenuViewController){

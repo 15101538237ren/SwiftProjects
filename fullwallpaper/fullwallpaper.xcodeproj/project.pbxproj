@@ -49,6 +49,8 @@
 		C3F737D82582B856008D0095 /* SettingTableViewCellWithImg.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3F737D72582B856008D0095 /* SettingTableViewCellWithImg.swift */; };
 		C3F737DB25833620008D0095 /* VIPBenefitsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3F737DA25833620008D0095 /* VIPBenefitsVC.swift */; };
 		C3FC6231257DCC2F00E1A547 /* UIImage+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3FC6230257DCC2F00E1A547 /* UIImage+Ext.swift */; };
+		C3FEE1DB2589D785009D1DCE /* AppStoreReviewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3FEE1DA2589D785009D1DCE /* AppStoreReviewManager.swift */; };
+		C3FEE1DE2589D80A009D1DCE /* UserDefaults+Key.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3FEE1DD2589D80A009D1DCE /* UserDefaults+Key.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -98,6 +100,8 @@
 		C3F737D72582B856008D0095 /* SettingTableViewCellWithImg.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingTableViewCellWithImg.swift; sourceTree = "<group>"; };
 		C3F737DA25833620008D0095 /* VIPBenefitsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VIPBenefitsVC.swift; sourceTree = "<group>"; };
 		C3FC6230257DCC2F00E1A547 /* UIImage+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Ext.swift"; sourceTree = "<group>"; };
+		C3FEE1DA2589D785009D1DCE /* AppStoreReviewManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStoreReviewManager.swift; sourceTree = "<group>"; };
+		C3FEE1DD2589D80A009D1DCE /* UserDefaults+Key.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+Key.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -136,6 +140,7 @@
 			children = (
 				55370FBC2553B7130003CAD5 /* Reachability.swift */,
 				C3C3566225573B03006F137B /* SettingItem.swift */,
+				C3FEE1DA2589D785009D1DCE /* AppStoreReviewManager.swift */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -247,6 +252,7 @@
 			children = (
 				C3E860742567531900559783 /* Date+NSDate.swift */,
 				C3FC6230257DCC2F00E1A547 /* UIImage+Ext.swift */,
+				C3FEE1DD2589D80A009D1DCE /* UserDefaults+Key.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -382,6 +388,7 @@
 				C36F6FE82569A9B60072AEDE /* SearchVC.swift in Sources */,
 				C3E860752567531900559783 /* Date+NSDate.swift in Sources */,
 				55537E34254B3ECD005081CF /* CategoryVC.swift in Sources */,
+				C3FEE1DB2589D785009D1DCE /* AppStoreReviewManager.swift in Sources */,
 				C3871DF0255A6CA7001DF6C4 /* LoginVC.swift in Sources */,
 				C3C3565925572154006F137B /* SettingVC.swift in Sources */,
 				C3D5D81B257C5F87006DA951 /* AuditCollectionViewCell.swift in Sources */,
@@ -401,6 +408,7 @@
 				C3D5D821257D74BB006DA951 /* UserProfileVC.swift in Sources */,
 				C3C3565325570EB7006F137B /* CategoryCollectionVC.swift in Sources */,
 				55F39927254A624D0094A477 /* AppDelegate.swift in Sources */,
+				C3FEE1DE2589D80A009D1DCE /* UserDefaults+Key.swift in Sources */,
 				C3C3565625571DA7006F137B /* SettingTableViewCell.swift in Sources */,
 				C3C3566325573B03006F137B /* SettingItem.swift in Sources */,
 				55F39929254A624D0094A477 /* SceneDelegate.swift in Sources */,
@@ -566,7 +574,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = hongleir.fullwallpaper;
+				PRODUCT_BUNDLE_IDENTIFIER = com.hongleir.fullwallpaper.cn;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -586,7 +594,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = hongleir.fullwallpaper;
+				PRODUCT_BUNDLE_IDENTIFIER = com.hongleir.fullwallpaper.cn;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;

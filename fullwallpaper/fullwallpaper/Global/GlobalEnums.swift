@@ -17,3 +17,10 @@ enum DisplayMode {
     case LockScreen
     case HomeScreen
 }
+
+
+enum ACTION_TYPE: String {
+    case save = "下载"
+    case like = "收藏"
+    case upload = "上传"
+}

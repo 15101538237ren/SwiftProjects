@@ -13,7 +13,7 @@ import LeanCloud
 class SettingVC: UIViewController , UITableViewDataSource, UITableViewDelegate {
     let settingItems:[[SettingItem]] = [
         [SettingItem(symbol_name : "user", name: "登录 / 注册")],
-        [SettingItem(symbol_name : "membership", name: "会员权益")],
+        [SettingItem(symbol_name : "membership", name: "年会员「限时5折」!")],
         [SettingItem(symbol_name : "rate", name: "评价我们"),
          SettingItem(symbol_name : "share", name: "分享给朋友"),
          SettingItem(symbol_name : "feedback", name: "意见反馈")],
@@ -55,12 +55,46 @@ class SettingVC: UIViewController , UITableViewDataSource, UITableViewDelegate {
         }
     }
     
+    func requestWriteReview(){
+        if let url = productURL{
+            // 1.
+            var components = URLComponents(url: url, resolvingAgainstBaseURL: false)
+
+            // 2.
+            components?.queryItems = [
+              URLQueryItem(name: "action", value: "write-review")
+            ]
+
+            // 3.
+            guard let writeReviewURL = components?.url else {
+              return
+            }
+
+            // 4.
+            UIApplication.shared.open(writeReviewURL)
+        }
+    }
+    
     func setDisplayNameAndUpdate(name : String){
         self.displayName = name
         let indexPath = IndexPath(row: 0, section: 0)
         DispatchQueue.main.async {
             self.tableView.reloadRows(at: [indexPath], with: .none)
         }
+    }
+    
+    func askUserExperienceBeforeReview(){
+        let alertController = UIAlertController(title: "评价反馈", message: "您在本应用使用体验如何?", preferredStyle: .alert)
+        let okayAction = UIAlertAction(title: "很赞!必须五星好评", style: .default, handler: { action in
+                self.requestWriteReview()
+            })
+        let cancelAction = UIAlertAction(title: "用的不爽，反馈意见给开发团队", style: .default, handler: {
+            action in
+            self.showFeedBackMailComposer()
+        })
+        alertController.addAction(okayAction)
+        alertController.addAction(cancelAction)
+        self.present(alertController, animated: true, completion: nil)
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -138,6 +172,8 @@ class SettingVC: UIViewController , UITableViewDataSource, UITableViewDelegate {
             showVIPBenefitsVC()
         case 2:
             switch indexPath.row {
+                case 0:
+                    askUserExperienceBeforeReview()
                 case 2:
                     showFeedBackMailComposer()
                 default:
