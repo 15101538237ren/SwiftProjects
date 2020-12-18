@@ -12,6 +12,7 @@ import UIEmptyState
 import PopMenu
 import CropViewController
 import Refreshable
+import SwiftTheme
 
 class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate, UIEmptyStateDataSource, UIEmptyStateDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, CropViewControllerDelegate {
     
@@ -44,6 +45,7 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
     @IBOutlet weak var titleLabel: UILabel!
     
     func setupCollectionView() {
+        collectionView.theme_backgroundColor = "View.BackgroundColor"
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 5, left: 0, bottom: 10, right: 0)
         layout.minimumInteritemSpacing = cellSpacing

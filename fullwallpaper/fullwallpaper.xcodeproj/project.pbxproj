@@ -35,8 +35,8 @@
 		C3C3565325570EB7006F137B /* CategoryCollectionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C3565225570EB7006F137B /* CategoryCollectionVC.swift */; };
 		C3C3565625571DA7006F137B /* SettingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C3565525571DA7006F137B /* SettingTableViewCell.swift */; };
 		C3C3565925572154006F137B /* SettingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C3565825572154006F137B /* SettingVC.swift */; };
-		C3C3565D2557247F006F137B /* Light.plist in Resources */ = {isa = PBXBuildFile; fileRef = C3C3565C2557247F006F137B /* Light.plist */; };
-		C3C3566025572489006F137B /* Dark.plist in Resources */ = {isa = PBXBuildFile; fileRef = C3C3565F25572489006F137B /* Dark.plist */; };
+		C3C3565D2557247F006F137B /* day.plist in Resources */ = {isa = PBXBuildFile; fileRef = C3C3565C2557247F006F137B /* day.plist */; };
+		C3C3566025572489006F137B /* night.plist in Resources */ = {isa = PBXBuildFile; fileRef = C3C3565F25572489006F137B /* night.plist */; };
 		C3C3566325573B03006F137B /* SettingItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C3566225573B03006F137B /* SettingItem.swift */; };
 		C3C48F22256A2D6A00507582 /* CollectionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C48F21256A2D6A00507582 /* CollectionVC.swift */; };
 		C3C48F25256A2E0A00507582 /* CollectionItemsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C48F24256A2E0A00507582 /* CollectionItemsVC.swift */; };
@@ -86,8 +86,8 @@
 		C3C3565225570EB7006F137B /* CategoryCollectionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCollectionVC.swift; sourceTree = "<group>"; };
 		C3C3565525571DA7006F137B /* SettingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingTableViewCell.swift; sourceTree = "<group>"; };
 		C3C3565825572154006F137B /* SettingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingVC.swift; sourceTree = "<group>"; };
-		C3C3565C2557247F006F137B /* Light.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Light.plist; sourceTree = "<group>"; };
-		C3C3565F25572489006F137B /* Dark.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Dark.plist; sourceTree = "<group>"; };
+		C3C3565C2557247F006F137B /* day.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = day.plist; sourceTree = "<group>"; };
+		C3C3565F25572489006F137B /* night.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = night.plist; sourceTree = "<group>"; };
 		C3C3566225573B03006F137B /* SettingItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingItem.swift; sourceTree = "<group>"; };
 		C3C48F21256A2D6A00507582 /* CollectionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionVC.swift; sourceTree = "<group>"; };
 		C3C48F24256A2E0A00507582 /* CollectionItemsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionItemsVC.swift; sourceTree = "<group>"; };
@@ -260,8 +260,8 @@
 		C3C3565B25572468006F137B /* Theme */ = {
 			isa = PBXGroup;
 			children = (
-				C3C3565C2557247F006F137B /* Light.plist */,
-				C3C3565F25572489006F137B /* Dark.plist */,
+				C3C3565C2557247F006F137B /* day.plist */,
+				C3C3565F25572489006F137B /* night.plist */,
 			);
 			path = Theme;
 			sourceTree = "<group>";
@@ -325,10 +325,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C3C3566025572489006F137B /* Dark.plist in Resources */,
+				C3C3566025572489006F137B /* night.plist in Resources */,
 				C3E09BDB255CBE1600C4F238 /* AiNiChuanYueRenHai.ttf in Resources */,
 				55F39933254A624D0094A477 /* LaunchScreen.storyboard in Resources */,
-				C3C3565D2557247F006F137B /* Light.plist in Resources */,
+				C3C3565D2557247F006F137B /* day.plist in Resources */,
 				C3770DA9255CF99700D240CB /* Assets.xcassets in Resources */,
 				55537E2E254B2572005081CF /* ClickerScript-Regular.ttf in Resources */,
 				55F3992E254A624D0094A477 /* Main.storyboard in Resources */,

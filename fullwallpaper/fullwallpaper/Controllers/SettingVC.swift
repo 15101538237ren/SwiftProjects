@@ -9,14 +9,19 @@ import UIKit
 import MessageUI
 import Nuke
 import LeanCloud
+import PopMenu
 
 class SettingVC: UIViewController , UITableViewDataSource, UITableViewDelegate {
     let settingItems:[[SettingItem]] = [
-        [SettingItem(symbol_name : "user", name: "登录 / 注册")],
-        [SettingItem(symbol_name : "membership", name: "年会员「限时5折」!")],
+        [SettingItem(symbol_name : "user", name: "登录 / 注册"),
+         SettingItem(symbol_name : "membership", name: "年会员「限时5折」!")],
+        
+        [SettingItem(symbol_name : "theme", name: "主题")],
+        
         [SettingItem(symbol_name : "rate", name: "评价我们"),
          SettingItem(symbol_name : "share", name: "分享给朋友"),
          SettingItem(symbol_name : "feedback", name: "意见反馈")],
+        
         [SettingItem(symbol_name : "clean", name: "清空壁纸缓存"),
         SettingItem(symbol_name : "privacy", name: "用户条款与隐私政策")]
     ]
@@ -159,17 +164,47 @@ class SettingVC: UIViewController , UITableViewDataSource, UITableViewDelegate {
         }
     }
     
+    func popThemeMenu(){
+        let iconWidthHeight:CGFloat = 20
+        let dayAction = PopMenuDefaultAction(title: "白天", image: UIImage(named: "sunlight"), color: UIColor.darkGray)
+        let nightAction = PopMenuDefaultAction(title: "夜晚", image: UIImage(named: "moon"), color: UIColor.darkGray)
+        let systemAction = PopMenuDefaultAction(title: "跟随系统", image: UIImage(named: "setting"), color: UIColor.darkGray)
+        
+        dayAction.iconWidthHeight = iconWidthHeight
+        nightAction.iconWidthHeight = iconWidthHeight
+        systemAction.iconWidthHeight = iconWidthHeight
+        
+        
+        let indexPath = IndexPath(row: 1, section: 0)
+        let cell = tableView.cellForRow(at: indexPath)
+        
+        let menuVC = PopMenuViewController(sourceView: cell, actions: [dayAction, nightAction, systemAction])
+        menuVC.delegate = self
+        menuVC.appearance.popMenuFont = .systemFont(ofSize: 15, weight: .regular)
+        
+        menuVC.appearance.popMenuColor.backgroundColor = .solid(fill: UIColor(red: 128, green: 128, blue: 128, alpha: 1))
+        self.present(menuVC, animated: true, completion: nil)
+    }
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch indexPath.section {
         case 0:
-            if let _ = LCApplication.default.currentUser {
-                showProfileVC()
-            } else {
-                // 显示注册或登录页面
-                showLoginOrRegisterVC()
+            switch indexPath.row {
+                case 0:
+                    if let _ = LCApplication.default.currentUser {
+                        showProfileVC()
+                    } else {
+                        // 显示注册或登录页面
+                        showLoginOrRegisterVC()
+                    }
+                case 2:
+                    showVIPBenefitsVC()
+                default:
+                    break
             }
+            
         case 1:
-            showVIPBenefitsVC()
+            popThemeMenu()
         case 2:
             switch indexPath.row {
                 case 0:
@@ -331,5 +366,22 @@ extension SettingVC : MFMailComposeViewControllerDelegate{
                 self.view.makeToast("感谢您的反馈！我们会认真考虑您的建议，并在需要时给您回复。", duration: 2.0, position: .center)
             }
         })
+    }
+}
+
+// MARK: - Pop Menu Protocal Implementation
+extension SettingVC: PopMenuViewControllerDelegate {
+
+    // This will be called when a pop menu action was selected
+    func popMenuDidSelectItem(_ popMenuViewController: PopMenuViewController, at index: Int) {
+        
+        if index == 0{
+            setTheme(theme: .day)
+        }else if index == 1{
+            setTheme(theme: .night)
+        }
+        else{
+            setTheme(theme: .system)
+        }
     }
 }

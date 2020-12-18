@@ -24,3 +24,9 @@ enum ACTION_TYPE: String {
     case like = "收藏"
     case upload = "上传"
 }
+
+enum THEME: String {
+    case day = "day"
+    case night = "night"
+    case system = "system"
+}

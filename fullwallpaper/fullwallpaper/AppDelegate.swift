@@ -38,8 +38,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         } catch {
             print(error)
         }
-        
-        ThemeManager.setTheme(plistName: "Light", path: .mainBundle)
+        setTheme()
         
         loadCategories(completion:{})
         

@@ -11,6 +11,26 @@ import SwiftyJSON
 import JGProgressHUD
 import LeanCloud
 import CropViewController
+import SwiftTheme
+
+func setTheme(theme: THEME = .system){
+    if #available(iOS 13, *) {
+        switch theme {
+        case .day:
+            ThemeManager.setTheme(plistName: THEME.day.rawValue, path: .mainBundle)
+        case .night:
+            ThemeManager.setTheme(plistName: THEME.night.rawValue, path: .mainBundle)
+        case .system:
+            if UITraitCollection.current.userInterfaceStyle == .dark {
+                ThemeManager.setTheme(plistName: THEME.night.rawValue, path: .mainBundle)
+            } else {
+                ThemeManager.setTheme(plistName: THEME.day.rawValue, path: .mainBundle)
+            }
+        }
+    } else {
+        ThemeManager.setTheme(plistName: THEME.day.rawValue, path: .mainBundle)
+    }
+}
 
 func statusColor(status: Int) -> UIColor{
     switch status {
