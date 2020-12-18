@@ -11,6 +11,7 @@ import Nuke
 import Toast_Swift
 import LeanCloud
 import PopMenu
+import SwiftTheme
 
 class WallpaperDetailVC: UIViewController {
 
@@ -18,15 +19,33 @@ class WallpaperDetailVC: UIViewController {
     @IBOutlet var imageView: UIImageView!
     @IBOutlet var lockScreenPreviewImgV: UIImageView!
     @IBOutlet var homeScreenPreviewImgV: UIImageView!
-    @IBOutlet weak var downloadImgV: UIImageView!
-    @IBOutlet weak var previewImgV: UIImageView!
-    @IBOutlet weak var optionImgV: UIImageView!
+    @IBOutlet weak var downloadImgV: UIImageView!{
+        didSet{
+            downloadImgV.theme_tintColor = "CollectionCellTextColor"
+        }
+    }
+    @IBOutlet weak var previewImgV: UIImageView!{
+        didSet{
+            previewImgV.theme_tintColor = "CollectionCellTextColor"
+        }
+    }
+    @IBOutlet weak var optionImgV: UIImageView!{
+        didSet{
+            optionImgV.theme_tintColor = "CollectionCellTextColor"
+        }
+    }
     @IBOutlet weak var dimUIView: UIView!{
         didSet{
             dimUIView.layer.cornerRadius = 15.0
             dimUIView.layer.masksToBounds = true
             dimUIView.alpha = dimUIViewAlpha
             dimUIView.backgroundColor = .black
+        }
+    }
+    
+    @IBOutlet weak var imageDimUIView: UIView!{
+        didSet{
+            imageDimUIView.theme_alpha = "DimView.Alpha"
         }
     }
     
@@ -289,7 +308,7 @@ class WallpaperDetailVC: UIViewController {
         menuVC.delegate = self
         menuVC.appearance.popMenuFont = .systemFont(ofSize: 15, weight: .regular)
         
-        menuVC.appearance.popMenuColor.backgroundColor = .solid(fill: UIColor(red: 128, green: 128, blue: 128, alpha: 1))
+        menuVC.appearance.popMenuColor.backgroundColor = .solid(fill: UIColor(red: 240, green: 240, blue: 240, alpha: 1))
         self.present(menuVC, animated: true, completion: nil)
     }
     

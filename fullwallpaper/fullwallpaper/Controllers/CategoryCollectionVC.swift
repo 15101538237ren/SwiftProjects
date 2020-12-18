@@ -43,10 +43,17 @@ class CategoryCollectionVC: UIViewController, UICollectionViewDelegate, UICollec
     @IBOutlet var tableView: UITableView!
     
     @IBOutlet weak var titleLabel: UILabel!
+    
+    @IBOutlet weak var headerView: UIView!
+    @IBOutlet weak var backBtn: UIButton!
+    @IBOutlet weak var uploadBtn: UIButton!
+    
     @IBOutlet weak var segmentedControl: UISegmentedControl!
     
     
     func setupTableView(){
+        self.titleLabel.theme_textColor = "BarTitleColor"
+        self.tableView.theme_backgroundColor = "View.BackgroundColor"
         self.tableView.delegate = self
         self.tableView.dataSource = self
         self.tableView.separatorColor = .clear
@@ -56,7 +63,15 @@ class CategoryCollectionVC: UIViewController, UICollectionViewDelegate, UICollec
         })
     }
     
+    func setSegmentedControl(){
+        segmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor(hex: getSegmentedCtrlUnselectedTextColor()) ?? .darkGray], for: .selected)
+        segmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor(hex: getSegmentedCtrlUnselectedTextColor()) ?? .darkGray], for: .normal)
+        segmentedControl.theme_backgroundColor = "SegmentedCtrlTintColor"
+        segmentedControl.theme_selectedSegmentTintColor = "SegmentedCtrlSelectedTintColor"
+    }
+    
     func setupCollectionView() {
+        collectionView.theme_backgroundColor = "View.BackgroundColor"
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 5, left: 0, bottom: 10, right: 0)
         layout.minimumInteritemSpacing = cellSpacing
@@ -74,6 +89,7 @@ class CategoryCollectionVC: UIViewController, UICollectionViewDelegate, UICollec
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setSegmentedControl()
         setupCollectionView()
         setupTableView()
         showCollectionView()

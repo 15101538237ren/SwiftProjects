@@ -10,12 +10,15 @@ import Nuke
 import LeanCloud
 import UIEmptyState
 import JGProgressHUD
+import SwiftTheme
 
 
 class CategoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UIEmptyStateDataSource, UIEmptyStateDelegate {
     
     //Variables
     @IBOutlet var tableView: UITableView!
+    @IBOutlet weak var headerView: UIView!
+    @IBOutlet weak var titleLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,6 +26,7 @@ class CategoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate, 
     }
     
     func initTableView(){
+        titleLabel.theme_textColor = "BarTitleColor"
         self.tableView.delegate = self
         self.tableView.dataSource = self
         emptyStateDataSource = self

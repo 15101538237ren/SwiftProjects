@@ -10,7 +10,12 @@ import UIKit
 class SettingTableViewCellWithValue: UITableViewCell {
     
     @IBOutlet var imgView: UIImageView!
-    @IBOutlet var titleLbl: UILabel!
+    @IBOutlet var titleLbl: UILabel!{
+        didSet{
+            titleLbl.theme_textColor = "TableCell.TextColor"
+        }
+    }
+    
     @IBOutlet var labelValue: UILabel!
     
     override func awakeFromNib() {

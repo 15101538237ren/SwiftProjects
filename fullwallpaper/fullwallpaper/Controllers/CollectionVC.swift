@@ -11,6 +11,7 @@ import UIEmptyState
 import JGProgressHUD
 import LeanCloud
 import Refreshable
+import SwiftTheme
 
 class CollectionVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UIEmptyStateDataSource, UIEmptyStateDelegate {
     
@@ -23,6 +24,8 @@ class CollectionVC: UIViewController, UITableViewDataSource, UITableViewDelegate
     var collections:[LCObject] = []
     var NoNetwork = false
     @IBOutlet var tableView: UITableView!
+    @IBOutlet weak var headerView: UIView!
+    @IBOutlet weak var titleLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,6 +33,7 @@ class CollectionVC: UIViewController, UITableViewDataSource, UITableViewDelegate
     }
     
     func initTableView(){
+        titleLabel.theme_textColor = "BarTitleColor"
         self.tableView.delegate = self
         self.tableView.dataSource = self
         emptyStateDataSource = self

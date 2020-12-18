@@ -12,11 +12,11 @@ import LeanCloud
 import PopMenu
 
 class SettingVC: UIViewController , UITableViewDataSource, UITableViewDelegate {
+    
     let settingItems:[[SettingItem]] = [
-        [SettingItem(symbol_name : "user", name: "登录 / 注册"),
-         SettingItem(symbol_name : "membership", name: "年会员「限时5折」!")],
+        [SettingItem(symbol_name : "user", name: "登录 / 注册")],
         
-        [SettingItem(symbol_name : "theme", name: "主题")],
+        [SettingItem(symbol_name : "membership", name: "年会员「限时5折」!")],
         
         [SettingItem(symbol_name : "rate", name: "评价我们"),
          SettingItem(symbol_name : "share", name: "分享给朋友"),
@@ -29,12 +29,16 @@ class SettingVC: UIViewController , UITableViewDataSource, UITableViewDelegate {
     var displayName: String = ""
     
     @IBOutlet var tableView: UITableView!
+    
+    @IBOutlet weak var titleLabel: UILabel!
+    
     let separatorHeight:CGFloat = 0.5
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.theme_backgroundColor = "View.BackgroundColor"
+        titleLabel.theme_textColor = "BarTitleColor"
         self.tableView.delegate = self
         self.tableView.dataSource = self
+        view.isOpaque = false
         self.tableView.backgroundColor = .clear
         self.tableView.separatorColor = .clear
         updateDisplayName()
@@ -113,8 +117,10 @@ class SettingVC: UIViewController , UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let section: Int = indexPath.section
         let row: Int = indexPath.row
-        if section == 0{
+        if section == 0 && row == 0{
             let cell = tableView.dequeueReusableCell(withIdentifier: "settingTableViewCellWithImg", for: indexPath) as! SettingTableViewCellWithImg
+            
+            cell.backgroundColor = .clear
             cell.imgView.image = settingItems[section][row].icon
             if !displayName.isEmpty {
                 cell.titleLbl.text = displayName
@@ -135,6 +141,8 @@ class SettingVC: UIViewController , UITableViewDataSource, UITableViewDelegate {
             let cell = tableView.dequeueReusableCell(withIdentifier: "settingTableViewCell", for: indexPath) as! SettingTableViewCell
             cell.imgView.image = settingItems[section][row].icon
             cell.titleLbl.text = settingItems[section][row].name
+            
+            cell.backgroundColor = .clear
             if row != settingItems[section].count - 1{
                 let bottomBorder = CALayer()
 
@@ -148,6 +156,8 @@ class SettingVC: UIViewController , UITableViewDataSource, UITableViewDelegate {
             let cell = tableView.dequeueReusableCell(withIdentifier: "settingTableViewCellWithValue", for: indexPath) as! SettingTableViewCellWithValue
             cell.imgView.image = settingItems[section][row].icon
             cell.titleLbl.text = settingItems[section][row].name
+            
+            cell.backgroundColor = .clear
             let currentDiskUsageInBytes: Int = Nuke.DataLoader.sharedUrlCache.currentDiskUsage
             let bytesOfMB:Float = 1024*1024
             cell.labelValue.text = String(format: "%.0fMB", Float(currentDiskUsageInBytes)/bytesOfMB)
@@ -182,29 +192,22 @@ class SettingVC: UIViewController , UITableViewDataSource, UITableViewDelegate {
         menuVC.delegate = self
         menuVC.appearance.popMenuFont = .systemFont(ofSize: 15, weight: .regular)
         
-        menuVC.appearance.popMenuColor.backgroundColor = .solid(fill: UIColor(red: 128, green: 128, blue: 128, alpha: 1))
+        menuVC.appearance.popMenuColor.backgroundColor = .solid(fill: UIColor(red: 240, green: 240, blue: 240, alpha: 1))
         self.present(menuVC, animated: true, completion: nil)
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch indexPath.section {
         case 0:
-            switch indexPath.row {
-                case 0:
-                    if let _ = LCApplication.default.currentUser {
-                        showProfileVC()
-                    } else {
-                        // 显示注册或登录页面
-                        showLoginOrRegisterVC()
-                    }
-                case 2:
-                    showVIPBenefitsVC()
-                default:
-                    break
+            if let _ = LCApplication.default.currentUser {
+                showProfileVC()
+            } else {
+                // 显示注册或登录页面
+                showLoginOrRegisterVC()
             }
             
         case 1:
-            popThemeMenu()
+            showVIPBenefitsVC()
         case 2:
             switch indexPath.row {
                 case 0:
@@ -236,7 +239,6 @@ class SettingVC: UIViewController , UITableViewDataSource, UITableViewDelegate {
         if (cell.responds(to: #selector(getter: UIView.tintColor))){
             if tableView == self.tableView {
                 let cornerRadius: CGFloat = 12.0
-                cell.backgroundColor = .clear
                 let layer: CAShapeLayer = CAShapeLayer()
                 let path: CGMutablePath = CGMutablePath()
                 let bounds: CGRect = cell.bounds
@@ -263,7 +265,7 @@ class SettingVC: UIViewController , UITableViewDataSource, UITableViewDelegate {
                 }
 
                 layer.path = path
-                layer.fillColor = UIColor.white.withAlphaComponent(0.8).cgColor
+                layer.theme_fillColor = "TableCell.BackGroundColor"
 
                 if addLine {
                     let lineLayer: CALayer = CALayer()

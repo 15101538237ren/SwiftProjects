@@ -11,6 +11,7 @@ import Nuke
 import UIEmptyState
 import CropViewController
 import Refreshable
+import SwiftTheme
 
 class CollectionItemsVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate, UIEmptyStateDataSource, UIEmptyStateDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, CropViewControllerDelegate{
     
@@ -29,6 +30,9 @@ class CollectionItemsVC: UIViewController, UICollectionViewDelegate, UICollectio
     var minDateOfLastLatestWallpaperFetch: String? = nil
     
     
+    @IBOutlet weak var headerView: UIView!
+    @IBOutlet weak var backBtn: UIButton!
+    @IBOutlet weak var uploadBtn: UIButton!
     
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var titleLabel: UILabel!
@@ -36,6 +40,8 @@ class CollectionItemsVC: UIViewController, UICollectionViewDelegate, UICollectio
     
     
     func setupCollectionView() {
+        titleLabel.theme_textColor = "BarTitleColor"
+        collectionView.theme_backgroundColor = "View.BackgroundColor"
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 5, left: 0, bottom: 10, right: 0)
         layout.minimumInteritemSpacing = cellSpacing
@@ -50,9 +56,18 @@ class CollectionItemsVC: UIViewController, UICollectionViewDelegate, UICollectio
             self?.handleLoadMore()
         })
     }
+    
+    func setSegmentedControl(){
+        segmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor(hex: getSegmentedCtrlUnselectedTextColor()) ?? .darkGray], for: .selected)
+        segmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor(hex: getSegmentedCtrlUnselectedTextColor()) ?? .darkGray], for: .normal)
+        segmentedControl.theme_backgroundColor = "SegmentedCtrlTintColor"
+        segmentedControl.theme_selectedSegmentTintColor = "SegmentedCtrlSelectedTintColor"
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupCollectionView()
+        setSegmentedControl()
         initIndicator(view: self.view)
         loadWallpapers()
     }

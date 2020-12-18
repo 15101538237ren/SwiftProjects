@@ -121,7 +121,7 @@ class LoginVC: UIViewController {
         strLabel = UILabel(frame: CGRect(x: 50, y: 0, width: 180, height: height))
         strLabel.text = text
         strLabel.font = .systemFont(ofSize: 16, weight: .medium)
-        strLabel.textColor = .darkGray
+        strLabel.theme_textColor = "IndicatorColor"
         strLabel.alpha = 1.0
         effectView.frame = CGRect(x: view.frame.midX - strLabel.frame.width/2, y: view.frame.midY - strLabel.frame.height/2 , width: 160, height: height)
         effectView.layer.cornerRadius = 15

@@ -41,8 +41,13 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
     var skipOfHotWallpapers:Int = 0
     var minDateOfLastLatestWallpaperFetch: String? = nil
     private var isAdmin: Bool = false
-    @IBOutlet weak var collectionView: UICollectionView!
+    
+    @IBOutlet weak var headerView: UIView!
     @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var menuBtn: UIButton!
+    @IBOutlet weak var searchBtn: UIButton!
+    
     
     func setupCollectionView() {
         collectionView.theme_backgroundColor = "View.BackgroundColor"
@@ -62,6 +67,7 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        titleLabel.theme_textColor = "BarTitleColor"
         setupCollectionView()
         initIndicator(view: self.view)
         verifyAdmin()
@@ -300,7 +306,7 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
             menuVC.delegate = self
             menuVC.appearance.popMenuFont = .systemFont(ofSize: 15, weight: .regular)
             
-            menuVC.appearance.popMenuColor.backgroundColor = .solid(fill: UIColor(red: 128, green: 128, blue: 128, alpha: 1))
+            menuVC.appearance.popMenuColor.backgroundColor = .solid(fill: UIColor(red: 240, green: 240, blue: 240, alpha: 1))
             self.present(menuVC, animated: true, completion: nil)
         }
     

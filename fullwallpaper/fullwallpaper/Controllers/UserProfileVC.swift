@@ -39,7 +39,15 @@ class UserProfileVC: UIViewController, UICollectionViewDelegate, UICollectionVie
     var NoNetWork: Bool = false
     var switched: Bool = true
     
+    func setSegmentedControl(){
+        segmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor(hex: getSegmentedCtrlUnselectedTextColor()) ?? .darkGray], for: .selected)
+        segmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor(hex: getSegmentedCtrlUnselectedTextColor()) ?? .darkGray], for: .normal)
+        segmentedControl.theme_backgroundColor = "SegmentedCtrlTintColor"
+        segmentedControl.theme_selectedSegmentTintColor = "SegmentedCtrlSelectedTintColor"
+    }
+    
     func setupCollectionView() {
+        collectionView.theme_backgroundColor = "View.BackgroundColor"
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 5, left: 0, bottom: 10, right: 0)
         layout.minimumInteritemSpacing = cellSpacing
@@ -80,6 +88,7 @@ class UserProfileVC: UIViewController, UICollectionViewDelegate, UICollectionVie
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setSegmentedControl()
         setupCollectionView()
         initIndicator(view: self.view)
         initVC()

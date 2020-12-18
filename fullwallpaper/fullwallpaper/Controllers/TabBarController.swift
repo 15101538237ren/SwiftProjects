@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SwiftTheme
 
 class TabBarController: UITabBarController {
     

@@ -169,6 +169,7 @@ class WordHistoryViewController: UIViewController, UIGestureRecognizerDelegate {
         wordsTableView.theme_backgroundColor = "Global.viewBackgroundColor"
         getGroupVocabs()
         disableReviewSelectedBtn()
+        
         segmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.white], for: .selected)
         segmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor(hex: getSegmentedCtrlUnselectedTextColor()) ?? .darkGray], for: .normal)
         segmentedControl.theme_backgroundColor = "WordHistory.segCtrlTintColor"

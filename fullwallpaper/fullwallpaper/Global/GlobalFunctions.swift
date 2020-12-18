@@ -13,6 +13,13 @@ import LeanCloud
 import CropViewController
 import SwiftTheme
 
+
+func getSegmentedCtrlUnselectedTextColor() -> String{
+    let viewBackgroundColor = ThemeManager.currentTheme?.value(forKeyPath: "SegmentedCtrlTextColor") as! String
+    return viewBackgroundColor
+}
+
+
 func setTheme(theme: THEME = .system){
     if #available(iOS 13, *) {
         switch theme {
@@ -242,7 +249,7 @@ func showProgressBar(progress: Double,text: String, in view: UIView) {
 
 func initIndicator(view: UIView){
     hud.textLabel.text = "加载中"
-    hud.textLabel.textColor = .darkGray
+    hud.textLabel.theme_textColor = "IndicatorColor"
     hud.backgroundColor = .clear
     hud.show(in: view)
 }
