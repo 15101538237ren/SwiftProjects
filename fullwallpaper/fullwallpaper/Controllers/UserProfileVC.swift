@@ -264,9 +264,7 @@ class UserProfileVC: UIViewController, UICollectionViewDelegate, UICollectionVie
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "wallpaperCollectionViewCell", for: indexPath) as! WallpaperCollectionViewCell
         let wallpaper:Wallpaper = wallpapers[segmentedControl.selectedSegmentIndex]![indexPath.row]
-        let liked  = userLikedWPs.contains(wallpaper.objectId)
         cell.proBtn.alpha = wallpaper.isPro ? 1 : 0
-        cell.heartV.image = liked ? UIImage(systemName: "heart.fill") ?? UIImage(named: "heart-fill-icon") : UIImage(systemName: "heart") ?? UIImage(named: "heart-icon")
         cell.likeLabel.text = "\(wallpaper.likes)"
         cell.proBtn.alpha = wallpaper.isPro ? 1 : 0
         let thumbnailUrl = URL(string: wallpaper.thumbnailUrl)!

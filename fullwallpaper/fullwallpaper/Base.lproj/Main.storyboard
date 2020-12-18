@@ -200,8 +200,8 @@
                                                 <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="e9D-x9-Qwf">
                                                     <rect key="frame" x="123.5" y="314" width="34.5" height="12"/>
                                                     <subviews>
-                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="suit.heart" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="Kp2-S3-LXj">
-                                                            <rect key="frame" x="0.0" y="1.5" width="12" height="9.5"/>
+                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="direct-download" translatesAutoresizingMaskIntoConstraints="NO" id="Kp2-S3-LXj">
+                                                            <rect key="frame" x="0.0" y="0.0" width="12" height="12"/>
                                                             <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="12" id="XIG-P5-v1O"/>
@@ -627,14 +627,6 @@
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                                 <color key="tintColor" white="1" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </imageView>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.0" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="heart" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="JR4-rv-IEk">
-                                <rect key="frame" x="177" y="419.5" width="60" height="57.5"/>
-                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="60" id="hdy-EI-PYe"/>
-                                    <constraint firstAttribute="height" constant="60" id="xhI-pi-7yp"/>
-                                </constraints>
-                            </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fix-w9-dqS">
                                 <rect key="frame" x="82" y="787" width="250" height="50"/>
                                 <subviews>
@@ -643,18 +635,10 @@
                                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </view>
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="ecv-o7-Xq9">
-                                        <rect key="frame" x="10" y="7.5" width="230" height="35"/>
+                                        <rect key="frame" x="42.5" y="7.5" width="165" height="35"/>
                                         <subviews>
-                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="heart" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="kX2-XR-wWh">
-                                                <rect key="frame" x="0.0" y="1.5" width="35" height="32.5"/>
-                                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="width" constant="35" id="UE7-tN-VLu"/>
-                                                    <constraint firstAttribute="height" constant="35" id="x88-Rr-8nD"/>
-                                                </constraints>
-                                            </imageView>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="square.and.arrow.down" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="7dA-Uo-qLG">
-                                                <rect key="frame" x="65" y="0.0" width="35" height="35"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="35" height="35"/>
                                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="35" id="0K9-mh-O4K"/>
@@ -662,7 +646,7 @@
                                                 </constraints>
                                             </imageView>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="cellphone" translatesAutoresizingMaskIntoConstraints="NO" id="yj6-zt-75x">
-                                                <rect key="frame" x="130" y="0.0" width="35" height="35"/>
+                                                <rect key="frame" x="65" y="0.0" width="35" height="35"/>
                                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="35" id="Kmt-Cy-eej"/>
@@ -670,7 +654,7 @@
                                                 </constraints>
                                             </imageView>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="more" translatesAutoresizingMaskIntoConstraints="NO" id="b10-ob-uK7">
-                                                <rect key="frame" x="195" y="0.0" width="35" height="35"/>
+                                                <rect key="frame" x="130" y="0.0" width="35" height="35"/>
                                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="35" id="ZpQ-Jl-r1N"/>
@@ -701,10 +685,8 @@
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="420-wZ-dUo" secondAttribute="bottom" id="09G-nN-AiW"/>
                             <constraint firstItem="XtQ-uV-XRQ" firstAttribute="top" secondItem="WHU-ma-Mm9" secondAttribute="top" id="1W5-r9-PGS"/>
-                            <constraint firstItem="JR4-rv-IEk" firstAttribute="centerY" secondItem="WHU-ma-Mm9" secondAttribute="centerY" id="2dE-dH-TwW"/>
                             <constraint firstItem="420-wZ-dUo" firstAttribute="top" secondItem="WHU-ma-Mm9" secondAttribute="top" id="BB4-Vn-TPd"/>
                             <constraint firstItem="drb-DQ-JDa" firstAttribute="top" secondItem="WHU-ma-Mm9" secondAttribute="top" id="G9W-sh-ICT"/>
-                            <constraint firstItem="JR4-rv-IEk" firstAttribute="centerX" secondItem="WHU-ma-Mm9" secondAttribute="centerX" id="KiN-nW-y6s"/>
                             <constraint firstItem="fix-w9-dqS" firstAttribute="centerX" secondItem="WHU-ma-Mm9" secondAttribute="centerX" id="M0m-fS-y6B"/>
                             <constraint firstItem="420-wZ-dUo" firstAttribute="leading" secondItem="Wn2-M3-eVU" secondAttribute="leading" id="MT6-v2-aS4"/>
                             <constraint firstItem="Wn2-M3-eVU" firstAttribute="trailing" secondItem="x0n-bR-smA" secondAttribute="trailing" id="QwS-mE-Wh5"/>
@@ -728,8 +710,6 @@
                         <outlet property="downloadImgV" destination="7dA-Uo-qLG" id="zNU-cc-ZX5"/>
                         <outlet property="homeScreenPreviewImgV" destination="drb-DQ-JDa" id="7E6-s0-cLk"/>
                         <outlet property="imageView" destination="x0n-bR-smA" id="vtW-dr-YHF"/>
-                        <outlet property="largeHeartImgV" destination="JR4-rv-IEk" id="pbe-DL-MoB"/>
-                        <outlet property="likeImgV" destination="kX2-XR-wWh" id="BMV-Sf-ngi"/>
                         <outlet property="lockScreenPreviewImgV" destination="XtQ-uV-XRQ" id="wbG-U0-Pp0"/>
                         <outlet property="optionImgV" destination="b10-ob-uK7" id="iMA-yl-egp"/>
                         <outlet property="previewImgV" destination="yj6-zt-75x" id="Kbj-2N-XHZ"/>
@@ -892,8 +872,8 @@
                                                 <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="FgB-ot-WJb">
                                                     <rect key="frame" x="123.5" y="314" width="34.5" height="12"/>
                                                     <subviews>
-                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="suit.heart" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="uJR-Ej-Buq">
-                                                            <rect key="frame" x="0.0" y="1.5" width="12" height="9.5"/>
+                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="direct-download" translatesAutoresizingMaskIntoConstraints="NO" id="uJR-Ej-Buq">
+                                                            <rect key="frame" x="0.0" y="0.0" width="12" height="12"/>
                                                             <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="12" id="Kzg-FA-Xcm"/>
@@ -1734,8 +1714,8 @@
                                                 <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="VMB-Mg-KfF">
                                                     <rect key="frame" x="123.5" y="314" width="34.5" height="12"/>
                                                     <subviews>
-                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="suit.heart" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="ZUT-7o-se7">
-                                                            <rect key="frame" x="0.0" y="1.5" width="12" height="9.5"/>
+                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="direct-download" translatesAutoresizingMaskIntoConstraints="NO" id="ZUT-7o-se7">
+                                                            <rect key="frame" x="0.0" y="0.0" width="12" height="12"/>
                                                             <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="12" id="mJ5-4J-d1D"/>
@@ -1912,8 +1892,8 @@
                                                 <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="R0N-Kj-840">
                                                     <rect key="frame" x="123.5" y="314" width="34.5" height="12"/>
                                                     <subviews>
-                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="suit.heart" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="tio-sg-Zgy">
-                                                            <rect key="frame" x="0.0" y="1.5" width="12" height="9.5"/>
+                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="direct-download" translatesAutoresizingMaskIntoConstraints="NO" id="tio-sg-Zgy">
+                                                            <rect key="frame" x="0.0" y="0.0" width="12" height="12"/>
                                                             <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="12" id="HGJ-0f-rq3"/>
@@ -2013,7 +1993,7 @@
                                                 </connections>
                                             </button>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" restorationIdentifier="auditVC" text="Audit" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gyo-gX-qcl">
-                                                <rect key="frame" x="178" y="10.5" width="58.5" height="29.5"/>
+                                                <rect key="frame" x="185" y="8.5" width="44.5" height="33.5"/>
                                                 <fontDescription key="fontDescription" name="ClickerScript-Regular" family="Clicker Script" pointSize="25"/>
                                                 <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <nil key="highlightedColor"/>
@@ -2379,8 +2359,8 @@
                                                 <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="uvE-Bg-A4C">
                                                     <rect key="frame" x="123.5" y="314" width="34.5" height="12"/>
                                                     <subviews>
-                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="suit.heart" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="gKD-6D-euF">
-                                                            <rect key="frame" x="0.0" y="1.5" width="12" height="9.5"/>
+                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="direct-download" translatesAutoresizingMaskIntoConstraints="NO" id="gKD-6D-euF">
+                                                            <rect key="frame" x="0.0" y="0.0" width="12" height="12"/>
                                                             <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="12" id="FS1-3S-r0I"/>
@@ -2651,8 +2631,8 @@
         <image name="chevron.left" catalog="system" width="96" height="128"/>
         <image name="chevron.right" catalog="system" width="96" height="128"/>
         <image name="circle.fill" catalog="system" width="128" height="121"/>
+        <image name="direct-download" width="512" height="512"/>
         <image name="gearshape" catalog="system" width="128" height="121"/>
-        <image name="heart" catalog="system" width="128" height="109"/>
         <image name="iPhoneX" width="512" height="512"/>
         <image name="image_to_upload" width="222" height="478"/>
         <image name="lock" width="380" height="380"/>
@@ -2670,7 +2650,6 @@
         <image name="square.3.stack.3d" catalog="system" width="128" height="124"/>
         <image name="square.and.arrow.down" catalog="system" width="121" height="128"/>
         <image name="square.grid.2x2" catalog="system" width="128" height="114"/>
-        <image name="suit.heart" catalog="system" width="128" height="109"/>
         <image name="upload" width="512" height="512"/>
         <image name="user" width="512" height="512"/>
         <image name="user_profile" width="55" height="55"/>

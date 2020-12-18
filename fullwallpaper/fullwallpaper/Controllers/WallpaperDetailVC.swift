@@ -18,8 +18,6 @@ class WallpaperDetailVC: UIViewController {
     @IBOutlet var imageView: UIImageView!
     @IBOutlet var lockScreenPreviewImgV: UIImageView!
     @IBOutlet var homeScreenPreviewImgV: UIImageView!
-    @IBOutlet weak var largeHeartImgV: UIImageView!
-    @IBOutlet weak var likeImgV: UIImageView!
     @IBOutlet weak var downloadImgV: UIImageView!
     @IBOutlet weak var previewImgV: UIImageView!
     @IBOutlet weak var optionImgV: UIImageView!
@@ -48,7 +46,6 @@ class WallpaperDetailVC: UIViewController {
     // MARK: - ViewController Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        initVC()
         loadImage(url: imageUrl)
         addGestureRcg()
     }
@@ -61,14 +58,6 @@ class WallpaperDetailVC: UIViewController {
     }
     
     // MARK: - Custom Functions
-    
-    func initVC(){
-        let liked  = userLikedWPs.contains(wallpaperObjectId!)
-        let tmp_image = liked ? UIImage(systemName: "heart.fill") ?? UIImage(named: "heart-fill-icon") : UIImage(systemName: "heart") ?? UIImage(named: "heart-icon")
-        DispatchQueue.main.async { [self] in
-            likeImgV.image = tmp_image
-        }
-    }
     
     func loadImage(url: URL){
         if Reachability.isConnectedToNetwork(){
@@ -91,7 +80,6 @@ class WallpaperDetailVC: UIViewController {
     
     func addGestureRcg(){
         addGestureRcgToView()
-        addGestureRcgToLike()
         addGestureRcgToDownload()
         addGestureRcgToPreview()
         addGestureRcgToOption()
@@ -125,7 +113,6 @@ class WallpaperDetailVC: UIViewController {
     
     func hideButtons(){
         DispatchQueue.main.async {
-            self.likeImgV.alpha = 0
             self.downloadImgV.alpha = 0
             self.previewImgV.alpha = 0
             self.optionImgV.alpha = 0
@@ -137,7 +124,6 @@ class WallpaperDetailVC: UIViewController {
     func showButtons(){
         previewStatus = .Plain
         DispatchQueue.main.async {
-            self.likeImgV.alpha = 1
             self.downloadImgV.alpha = 1
             self.previewImgV.alpha = 1
             self.optionImgV.alpha = 1
@@ -149,12 +135,6 @@ class WallpaperDetailVC: UIViewController {
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(viewTapped(tapGestureRecognizer:)))
         view.isUserInteractionEnabled = true
         view.addGestureRecognizer(tapGestureRecognizer)
-    }
-    
-    func addGestureRcgToLike(){
-        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(likeImgViewTapped(tapGestureRecognizer:)))
-        likeImgV.isUserInteractionEnabled = true
-        likeImgV.addGestureRecognizer(tapGestureRecognizer)
     }
     
     
@@ -173,72 +153,57 @@ class WallpaperDetailVC: UIViewController {
         }
     }
     
-    func toggleLikeBtn() {
-        let liked  = !userLikedWPs.contains(wallpaperObjectId!)
-        let tmp_image = liked ? UIImage(systemName: "heart.fill") ?? UIImage(named: "heart-fill-icon") : UIImage(systemName: "heart") ?? UIImage(named: "heart-icon")
-        let increaseAmount: Int = liked ? 1 : -1
-        likeImgV.image = tmp_image
-        largeHeartImgV.image = tmp_image
-        do{
-            let wallpaper = LCObject(className: "Wallpaper", objectId: wallpaperObjectId!)
-            try wallpaper.increase("likes", by: increaseAmount)
-            wallpaper.save { (result) in
-                    switch result {
-                    case .success:
-                        DispatchQueue.main.async {
-                            UIView.animate(withDuration: 0.25, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 5, options: .curveEaseInOut, animations: {
-                                self.largeHeartImgV.alpha = 1.0
-                                self.largeHeartImgV.transform = self.largeHeartImgV.transform.scaledBy(x: self.scaleForAnimation, y: self.scaleForAnimation)
-                                }, completion: { _ in
-                                    UIView.animate(withDuration: 0.2, animations: {
-                                        self.largeHeartImgV.alpha = 0.0
-                                        self.largeHeartImgV.transform = .identity
-                                    })
-                            })
-                        }
-                    case .failure(error: let error):
-                        self.view.makeToast(error.reason, duration: 1.0, position: .center)
-                    }
-                }
-            
-            if let user = LCApplication.default.currentUser{
-                do {
-                    
-                    if increaseAmount == 1 {
-                        try user.append("likedWPs", element: wallpaperObjectId!)
-                    } else{
-                        try user.remove("likedWPs", element: wallpaperObjectId!)
-                    }
-                    
-                    user.save{ (result) in
-                        switch result {
-                        case .success:
-                            print("收藏成功!")
-                            if increaseAmount == 1 {
-                                userLikedWPs.append(self.wallpaperObjectId!)
-                            } else{
-                                userLikedWPs.removeLast()
+    func downloadImage() {
+        if let user = LCApplication.default.currentUser {
+            if let image = imageView.image{
+                do{
+                    let wallpaper = LCObject(className: "Wallpaper", objectId: wallpaperObjectId!)
+                    try wallpaper.increase("likes", by: 1)
+                    wallpaper.save { (result) in
+                            switch result {
+                            case .success:
+                                DispatchQueue.main.async {
+                                    do {
+                                        try user.append("likedWPs", element: self.wallpaperObjectId!, unique: true)
+                                        
+                                        user.save{ [self] (result) in
+                                            switch result {
+                                            case .success:
+                                                UIImageWriteToSavedPhotosAlbum(image, self, #selector(image(_:didFinishSavingWithError:contextInfo:)), nil)
+                                                if !reviewFuncCalled {
+                                                    AppStoreReviewManager.requestReviewIfAppropriate()
+                                                    reviewFuncCalled = true
+                                                }
+                                                userLikedWPs.append(self.wallpaperObjectId!)
+                                                stopIndicator()
+                                            case .failure:
+                                                stopIndicator()
+                                                self.view.makeToast("下载失败，请重试!", duration: 1.0, position: .center)
+                                            }
+                                        }
+                                    } catch {
+                                        stopIndicator()
+                                        self.view.makeToast("下载失败，请重试!", duration: 1.0, position: .center)
+                                    }
+                                }
+                            case .failure:
+                                stopIndicator()
+                                self.view.makeToast("下载失败，请重试!", duration: 1.0, position: .center)
                             }
-                        case .failure:
-                            print("收藏失败!")
                         }
-                    }
                 } catch {
-                    self.view.makeToast(error.localizedDescription, duration: 1.0, position: .center)
+                    stopIndicator()
+                    self.view.makeToast("下载失败，请重试!", duration: 1.0, position: .center)
                 }
             }else{
-                if increaseAmount == 1 {
-                    userLikedWPs.append(self.wallpaperObjectId!)
-                } else{
-                    userLikedWPs.removeLast()
-                }
-                UserDefaults.standard.set(userLikedWPs, forKey: "likedWPs")
-                print("收藏成功!")
+                stopIndicator()
+                self.view.makeToast("下载失败，请重试!", duration: 1.0, position: .center)
             }
-        } catch {
-            print(error.localizedDescription)
+        } else {
+            // 显示注册或登录页面
+            stopIndicator()
+            showLoginOrRegisterVC(action: ACTION_TYPE.save.rawValue)
         }
-        
     }
     
     func showLoginOrRegisterVC(action: String) {
@@ -252,16 +217,6 @@ class WallpaperDetailVC: UIViewController {
         }
     }
     
-    @objc func likeImgViewTapped(tapGestureRecognizer: UITapGestureRecognizer)
-    {
-        if let _ = LCApplication.default.currentUser {
-            toggleLikeBtn()
-        } else {
-            // 显示注册或登录页面
-            showLoginOrRegisterVC(action: ACTION_TYPE.like.rawValue)
-        }
-    }
-    
     func addGestureRcgToDownload(){
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(downloadImgViewTapped(tapGestureRecognizer:)))
         downloadImgV.isUserInteractionEnabled = true
@@ -270,19 +225,8 @@ class WallpaperDetailVC: UIViewController {
     
     @objc func downloadImgViewTapped(tapGestureRecognizer: UITapGestureRecognizer)
     {
-        if let _ = LCApplication.default.currentUser {
-            if let image = imageView.image{
-                UIImageWriteToSavedPhotosAlbum(image, self, #selector(image(_:didFinishSavingWithError:contextInfo:)), nil)
-                if !reviewFuncCalled {
-                    AppStoreReviewManager.requestReviewIfAppropriate()
-                    reviewFuncCalled = true
-                }
-            }
-        } else {
-            // 显示注册或登录页面
-            showLoginOrRegisterVC(action: ACTION_TYPE.save.rawValue)
-        }
-        
+        initIndicator(view: view)
+        downloadImage()
     }
     
     func addGestureRcgToPreview(){
@@ -354,7 +298,7 @@ class WallpaperDetailVC: UIViewController {
                 self.view.makeToast("出现错误: \(error.localizedDescription)", duration: 1.0, position: .center)
         }
         else{
-            self.view.makeToast("保存成功!", duration: 1.0, position: .center)
+            self.view.makeToast("下载成功!", duration: 1.0, position: .center)
         }
     }
     
