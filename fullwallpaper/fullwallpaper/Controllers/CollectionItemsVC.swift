@@ -271,12 +271,32 @@ class CollectionItemsVC: UIViewController, UICollectionViewDelegate, UICollectio
         emptyView.contentView.layer.backgroundColor = UIColor.clear.cgColor
     }
     
-    @IBAction func selectWallpaper(_ sender: UIButton) {
+    func selectImage(){
         if UIImagePickerController.isSourceTypeAvailable(.photoLibrary){
             imagePicker.sourceType = .photoLibrary
             imagePicker.delegate = self
             imagePicker.mediaTypes = ["public.image"]
             self.present(imagePicker, animated: true, completion: nil)
+        }
+    }
+    
+    @IBAction func selectWallpaper(_ sender: UIButton) {
+        if let _ = LCApplication.default.currentUser {
+            self.selectImage()
+        } else {
+            // 显示注册或登录页面
+            self.showLoginOrRegisterVC()
+        }
+    }
+    
+    func showLoginOrRegisterVC() {
+        let LoginRegStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+        let emailVC = LoginRegStoryBoard.instantiateViewController(withIdentifier: "loginVC") as! LoginVC
+        emailVC.modalPresentationStyle = .overCurrentContext
+        DispatchQueue.main.async {
+            self.present(emailVC, animated: true, completion: {
+                emailVC.view.makeToast("请先「登录」或「注册」来上传壁纸", duration: 1.5, position: .center)
+            })
         }
     }
     
