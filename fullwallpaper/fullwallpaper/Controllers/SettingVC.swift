@@ -23,7 +23,8 @@ class SettingVC: UIViewController , UITableViewDataSource, UITableViewDelegate {
          SettingItem(symbol_name : "feedback", name: "意见反馈")],
         
         [SettingItem(symbol_name : "clean", name: "清空壁纸缓存"),
-        SettingItem(symbol_name : "privacy", name: "用户条款与隐私政策")]
+        SettingItem(symbol_name : "document", name: "用户条款"),
+        SettingItem(symbol_name : "privacy", name: "隐私政策")]
     ]
     
     var displayName: String = ""
@@ -231,11 +232,29 @@ class SettingVC: UIViewController , UITableViewDataSource, UITableViewDelegate {
             switch indexPath.row {
                 case 0:
                     cleanImageCache()
+                case 1:
+                    let url = URL(string: "https://blog.ichr.me/post/cf-workers-site-deploy/")!
+                    loadPolicyVC(url: url)
+                case 2:
+                    let url = URL(string: "http://cutisan.imuuzi.com/terms.html")!
+                    loadPolicyVC(url: url)
+                
                 default:
                     break
             }
         default:
             break
+        }
+    }
+    
+    func loadPolicyVC(url: URL){
+        let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+        let policyVC = mainStoryBoard.instantiateViewController(withIdentifier: "policyVC") as! PolicyVC
+        
+        policyVC.url = url
+        
+        DispatchQueue.main.async {
+            self.present(policyVC, animated: true, completion: nil)
         }
     }
     

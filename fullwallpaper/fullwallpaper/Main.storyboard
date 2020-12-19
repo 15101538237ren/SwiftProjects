@@ -623,6 +623,40 @@
             </objects>
             <point key="canvasLocation" x="140.57971014492756" y="807.58928571428567"/>
         </scene>
+        <!--PolicyVC-->
+        <scene sceneID="Ppa-qN-IC4">
+            <objects>
+                <viewController storyboardIdentifier="policyVC" id="DjE-yN-ynw" customClass="PolicyVC" customModule="fullwallpaper" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="fdL-66-d0e">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="285-O0-GUZ">
+                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                                <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <wkWebViewConfiguration key="configuration">
+                                    <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
+                                    <wkPreferences key="preferences"/>
+                                </wkWebViewConfiguration>
+                            </wkWebView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="l96-2S-A8u"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="285-O0-GUZ" firstAttribute="leading" secondItem="l96-2S-A8u" secondAttribute="leading" id="7pd-WO-rUe"/>
+                            <constraint firstItem="285-O0-GUZ" firstAttribute="top" secondItem="l96-2S-A8u" secondAttribute="top" id="cdc-FA-go7"/>
+                            <constraint firstItem="l96-2S-A8u" firstAttribute="trailing" secondItem="285-O0-GUZ" secondAttribute="trailing" id="nl7-W1-dpo"/>
+                            <constraint firstItem="l96-2S-A8u" firstAttribute="bottom" secondItem="285-O0-GUZ" secondAttribute="bottom" id="pg3-iQ-WSP"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="webView" destination="285-O0-GUZ" id="Zgh-H6-vOV"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Z1P-lp-VTc" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="853.62318840579712" y="807.58928571428567"/>
+        </scene>
         <!--Wallpaper DetailVC-->
         <scene sceneID="EQh-59-6bZ">
             <objects>
