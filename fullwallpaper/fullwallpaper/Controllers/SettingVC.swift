@@ -23,7 +23,7 @@ class SettingVC: UIViewController , UITableViewDataSource, UITableViewDelegate {
          SettingItem(symbol_name : "feedback", name: "意见反馈")],
         
         [SettingItem(symbol_name : "clean", name: "清空壁纸缓存"),
-        SettingItem(symbol_name : "document", name: "用户条款"),
+        SettingItem(symbol_name : "document", name: "使用条款"),
         SettingItem(symbol_name : "privacy", name: "隐私政策")]
     ]
     
@@ -233,10 +233,10 @@ class SettingVC: UIViewController , UITableViewDataSource, UITableViewDelegate {
                 case 0:
                     cleanImageCache()
                 case 1:
-                    let url = URL(string: "https://blog.ichr.me/post/cf-workers-site-deploy/")!
+                    let url = URL(string: "\(githubLink)/terms.html")!
                     loadPolicyVC(url: url)
                 case 2:
-                    let url = URL(string: "http://cutisan.imuuzi.com/terms.html")!
+                    let url = URL(string: "\(githubLink)/privacy.html")!
                     loadPolicyVC(url: url)
                 
                 default:
