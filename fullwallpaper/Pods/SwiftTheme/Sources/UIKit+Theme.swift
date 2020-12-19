@@ -260,6 +260,10 @@ import UIKit
         let statePicker = makeStatePicker(self, "setTitleColor:forState:", picker, state)
         setThemePicker(self, "setTitleColor:forState:", statePicker)
     }
+    func theme_setAttributedTitle(_ picker: ThemeAttributedStringPicker?, forState state: UIControl.State) {
+        let statePicker = makeStatePicker(self, "setAttributedTitle:forState:", picker, state)
+        setThemePicker(self, "setAttributedTitle:forState:", statePicker)
+    }
 }
 @objc public extension CALayer
 {
@@ -286,6 +290,20 @@ import UIKit
     var theme_fillColor: ThemeCGColorPicker?{
         get { return getThemePicker(self, "setFillColor:") as? ThemeCGColorPicker }
         set { setThemePicker(self, "setFillColor:", newValue) }
+    }
+}
+@objc public extension CATextLayer
+{
+    var theme_foregroundColor: ThemeCGColorPicker? {
+        get { return getThemePicker(self, "setForegroundColor:") as? ThemeCGColorPicker}
+        set { setThemePicker(self, "setForegroundColor:", newValue) }
+    }
+}
+@objc public extension CAGradientLayer
+{
+    var theme_colors: ThemeAnyPicker? {
+        get { return getThemePicker(self, "setColors:") as? ThemeAnyPicker }
+        set { setThemePicker(self, "setColors:", newValue) }
     }
 }
 

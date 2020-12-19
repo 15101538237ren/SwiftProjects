@@ -27,6 +27,8 @@ public class IMConversation {
         case transient = "tr"
         case system = "sys"
         case joined = "joined"
+        case joinedAt = "joinedAt"
+        case muted = "muted"
         case temporary = "temp"
         case temporaryTTL = "ttl"
         case convType = "conv_type"
@@ -104,7 +106,7 @@ public class IMConversation {
         return self.safeDecodingRawData(with: .members)
     }
 
-    /// Indicates whether the conversation has been muted.
+    /// Whether the offline notification of this conversation has been muted by the client.
     public var isMuted: Bool {
         if let mutedMembers: [String] = self.safeDecodingRawData(with: .mutedMembers) {
             return mutedMembers.contains(self.clientID)
@@ -735,13 +737,24 @@ extension IMConversation {
                 switch result {
                 case .inCommand(let inCommand):
                     assert(client.specificAssertion)
-                    if let ackCommand = (inCommand.hasAckMessage ? inCommand.ackMessage : nil),
-                        let messageID = (ackCommand.hasUid ? ackCommand.uid : nil),
-                        let timestamp = (ackCommand.hasT ? ackCommand.t : nil) {
-                        message.update(status: .sent, ID: messageID, timestamp: timestamp)
-                        self.safeUpdatingLastMessage(newMessage: message, client: client)
-                        client.eventQueue.async {
-                            completion(.success)
+                    if let ackCommand = (inCommand.hasAckMessage ? inCommand.ackMessage : nil) {
+                        if let messageID = (ackCommand.hasUid ? ackCommand.uid : nil),
+                            let timestamp = (ackCommand.hasT ? ackCommand.t : nil) {
+                            message.update(
+                                status: .sent,
+                                ID: messageID,
+                                timestamp: timestamp)
+                        }
+                        if let error = ackCommand.lcError {
+                            message.update(status: .failed)
+                            client.eventQueue.async {
+                                completion(.failure(error: error))
+                            }
+                        } else {
+                            self.safeUpdatingLastMessage(newMessage: message, client: client)
+                            client.eventQueue.async {
+                                completion(.success)
+                            }
                         }
                     } else {
                         message.update(status: .failed)
@@ -1908,17 +1921,15 @@ extension IMConversation {
                 assert(client.specificAssertion)
                 switch result {
                 case .success(value: let token):
-                    let httpClient: HTTPClient = client.application.httpClient
                     let header: [String: String] = [
-                        "X-LC-IM-Session-Token": token
+                        "X-LC-IM-Session-Token": token,
                     ]
                     let parameters: [String: Any] = [
                         "client_id": client.ID,
-                        "cid": self.ID
+                        "cid": self.ID,
                     ]
-                    _ = httpClient.request(
-                        .get,
-                        "classes/_ConversationMemberInfo",
+                    _ = client.application.httpClient.request(
+                        .get, "classes/_ConversationMemberInfo",
                         parameters: parameters,
                         headers: header)
                     { (response) in
@@ -2929,6 +2940,22 @@ public class IMServiceConversation: IMConversation {
     /// Whether this service conversation has been subscribed by the client.
     public var isSubscribed: Bool? {
         return self.safeDecodingRawData(with: .joined)
+    }
+    
+    /// The date when the client subscribe this service conversation.
+    public var subscribedAt: Date? {
+        return IMClient.date(
+            fromMillisecond: self.subscribedTimestamp)
+    }
+    
+    /// The timestamp when the client subscribe this service conversation, unit of measurement is millisecond.
+    public var subscribedTimestamp: Int64? {
+        return self.safeDecodingRawData(with: .joinedAt)
+    }
+    
+    /// Whether the offline notification of this service conversation has been muted by the client.
+    public override var isMuted: Bool {
+        return self.safeDecodingRawData(with: .muted) ?? false
     }
     
     @available(*, unavailable)

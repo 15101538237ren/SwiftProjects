@@ -1,22 +1,21 @@
 PODS:
-  - Alamofire (5.2.0)
+  - Alamofire (5.4.0)
   - AYPopupPickerView (1.2)
-  - CropViewController (2.5.2)
+  - CropViewController (2.5.5)
   - GRDB.swift (4.14.0):
     - GRDB.swift/standard (= 4.14.0)
   - GRDB.swift/standard (4.14.0)
   - JGProgressHUD (2.2)
-  - LeanCloud (17.5.5):
-    - LeanCloud/RTM (= 17.5.5)
-  - LeanCloud/Foundation (17.5.5):
-    - Alamofire (~> 5.0)
-  - LeanCloud/RTM (17.5.5):
-    - GRDB.swift (~> 4.9)
-    - LeanCloud/Foundation (= 17.5.5)
-    - Starscream (~> 3.1)
-    - SwiftProtobuf (~> 1.8)
+  - LeanCloud (17.6.5):
+    - LeanCloud/RTM (= 17.6.5)
+  - LeanCloud/Foundation (17.6.5):
+    - Alamofire (~> 5.3)
+  - LeanCloud/RTM (17.6.5):
+    - GRDB.swift (~> 4.14)
+    - LeanCloud/Foundation (= 17.6.5)
+    - SwiftProtobuf (~> 1.13)
   - NewPopMenu (2.1.2)
-  - Nuke (9.1.2)
+  - Nuke (9.2.0)
   - PhoneNumberKit (3.3.1):
     - PhoneNumberKit/PhoneNumberKitCore (= 3.3.1)
     - PhoneNumberKit/UIKit (= 3.3.1)
@@ -24,15 +23,21 @@ PODS:
   - PhoneNumberKit/UIKit (3.3.1):
     - PhoneNumberKit/PhoneNumberKitCore
   - Refreshable (1.2.0)
-  - Starscream (3.1.1)
   - SwifterSwift/Foundation (5.2.0)
   - SwifterSwift/UIKit (5.2.0)
-  - SwiftProtobuf (1.9.0)
-  - SwiftTheme (0.5.2)
-  - SwiftValidators (9.0.2)
+  - SwiftProtobuf (1.14.0)
+  - SwiftTheme (0.5.5)
+  - SwiftValidators (9.0.3)
   - SwiftyJSON (4.3.0)
   - Toast-Swift (5.0.1)
   - UIEmptyState (4.0.1)
+  - UMAPM (1.1.0)
+  - UMCCommonLog (2.0.0)
+  - UMCommon (7.2.5):
+    - UMDevice
+  - UMDevice (1.1.0)
+  - UMPush (3.3.1):
+    - UMCommon
 
 DEPENDENCIES:
   - AYPopupPickerView
@@ -50,6 +55,11 @@ DEPENDENCIES:
   - SwiftyJSON (~> 4.0)
   - Toast-Swift
   - UIEmptyState
+  - UMAPM
+  - UMCCommonLog
+  - UMCommon
+  - UMDevice
+  - UMPush
 
 SPEC REPOS:
   trunk:
@@ -63,7 +73,6 @@ SPEC REPOS:
     - Nuke
     - PhoneNumberKit
     - Refreshable
-    - Starscream
     - SwifterSwift
     - SwiftProtobuf
     - SwiftTheme
@@ -71,27 +80,36 @@ SPEC REPOS:
     - SwiftyJSON
     - Toast-Swift
     - UIEmptyState
+    - UMAPM
+    - UMCCommonLog
+    - UMCommon
+    - UMDevice
+    - UMPush
 
 SPEC CHECKSUMS:
-  Alamofire: c1ca147559e730bfb2182c8c7aafbdd90a867987
+  Alamofire: 3b6a534a3df22db367e4dedeeca73d1ddfcf0e2f
   AYPopupPickerView: 639e88c630c79f68e1dc34cf2c90f43ea2dbff46
-  CropViewController: 1aac40093c5739e60d992b04724a55d12a689a4c
+  CropViewController: bd3ff11eeeaadc1e267bb9c3f3e9ee67a52d3285
   GRDB.swift: 8cc3ab7c8b8b4ac1761deb8dca4b51c1c9d429f8
   JGProgressHUD: d83d7a981b85d11205e19ff8ad5bb9c40571c847
-  LeanCloud: efbefbbc19c58ff6133a54a0d4980b844482f816
+  LeanCloud: ed1b4545e9d82c44a4027d4a2f7f40b30663df4a
   NewPopMenu: c6129e08e8192f6257ceb5f9a4357e1b59c6e2e7
-  Nuke: dd2e6be6a34c042a7861e190632781d11f253026
+  Nuke: 1394e48b0940e01dd20f52ac56b121ab154e370d
   PhoneNumberKit: ff153d5e299f6da566cb73c6aa71e354933b2932
   Refreshable: 0f76b6d198178e6cd2823a553fbf4e84a3dba527
-  Starscream: 4bb2f9942274833f7b4d296a55504dcfc7edb7b0
   SwifterSwift: 334181863c416882d97b7a60c05054d9e4d799e2
-  SwiftProtobuf: ecbec1be9036d15655f6b3443a1c4ea693c97932
-  SwiftTheme: 8b02c479bb4441b2b6790ac126e961b1b6fb0932
-  SwiftValidators: 9be131cdfadb9a29d31e637c947c7306877bf1d4
+  SwiftProtobuf: ed465ed18402f998fd117f631da27e0168e6b59c
+  SwiftTheme: 585ead917c78ea3fc508437b0a141d29c034bdb0
+  SwiftValidators: b1cb650ce02ef6ad894f1d471f970b249c794342
   SwiftyJSON: 6faa0040f8b59dead0ee07436cbf76b73c08fd08
   Toast-Swift: 9b6a70f28b3bf0b96c40d46c0c4b9d6639846711
   UIEmptyState: 767376694d9402452fb3c0a5a5283176c6a53c92
+  UMAPM: 2b966cff744dccdd9e2ed99efafce280be30833c
+  UMCCommonLog: 9b7ddde5d14a52fc1986ba5ac3121b8b2f433638
+  UMCommon: b5aabdb9fad44330ff8738d9bc46ebf93db14bf2
+  UMDevice: 28d21a568c8e8322e5a03bbd53b138d0c098d3b3
+  UMPush: 7ef2ff2fcca16e4d5c7897183a78a0d26f920bfe
 
-PODFILE CHECKSUM: 6c24f3108ebb26c3862966884ae07d011aefa6a3
+PODFILE CHECKSUM: 6c208b13b9a83389657924b31c96197890e355cf
 
 COCOAPODS: 1.9.3

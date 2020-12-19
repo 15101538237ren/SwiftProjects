@@ -34,6 +34,9 @@
 		C3770DCE255D143F00D240CB /* SettingTableViewCellWithValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3770DCD255D143F00D240CB /* SettingTableViewCellWithValue.swift */; };
 		C3871DF0255A6CA7001DF6C4 /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3871DEF255A6CA7001DF6C4 /* LoginVC.swift */; };
 		C38E1DFD255662E4004D008A /* Wallpaper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C38E1DFC255662E4004D008A /* Wallpaper.swift */; };
+		C3B1081F258E81BD0074F741 /* UMAnalyticsSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3B1081C258E81BC0074F741 /* UMAnalyticsSwift.swift */; };
+		C3B10820258E81BD0074F741 /* UMCommonLogSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3B1081D258E81BD0074F741 /* UMCommonLogSwift.swift */; };
+		C3B10821258E81BD0074F741 /* UMCommonSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3B1081E258E81BD0074F741 /* UMCommonSwift.swift */; };
 		C3C3565325570EB7006F137B /* CategoryCollectionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C3565225570EB7006F137B /* CategoryCollectionVC.swift */; };
 		C3C3565625571DA7006F137B /* SettingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C3565525571DA7006F137B /* SettingTableViewCell.swift */; };
 		C3C3565925572154006F137B /* SettingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C3565825572154006F137B /* SettingVC.swift */; };
@@ -81,12 +84,16 @@
 		C30B71FA258DB868002A673D /* PolicyVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolicyVC.swift; sourceTree = "<group>"; };
 		C311F9C2255E1124000FCED2 /* UploadWallpaperVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadWallpaperVC.swift; sourceTree = "<group>"; };
 		C311F9C5255E14B5000FCED2 /* GlobalEnums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalEnums.swift; sourceTree = "<group>"; };
+		C316911B258E7DAD00C8B06F /* fullwallpaper-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "fullwallpaper-Bridging-Header.h"; sourceTree = "<group>"; };
 		C32CB0CB2579F47C000DDCF1 /* SetUserProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetUserProfileVC.swift; sourceTree = "<group>"; };
 		C3543294258C761600D66A8A /* UIColor+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Ext.swift"; sourceTree = "<group>"; };
 		C36F6FE72569A9B60072AEDE /* SearchVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchVC.swift; sourceTree = "<group>"; };
 		C3770DCD255D143F00D240CB /* SettingTableViewCellWithValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingTableViewCellWithValue.swift; sourceTree = "<group>"; };
 		C3871DEF255A6CA7001DF6C4 /* LoginVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
 		C38E1DFC255662E4004D008A /* Wallpaper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Wallpaper.swift; sourceTree = "<group>"; };
+		C3B1081C258E81BC0074F741 /* UMAnalyticsSwift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UMAnalyticsSwift.swift; sourceTree = "<group>"; };
+		C3B1081D258E81BD0074F741 /* UMCommonLogSwift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UMCommonLogSwift.swift; sourceTree = "<group>"; };
+		C3B1081E258E81BD0074F741 /* UMCommonSwift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UMCommonSwift.swift; sourceTree = "<group>"; };
 		C3C3565225570EB7006F137B /* CategoryCollectionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCollectionVC.swift; sourceTree = "<group>"; };
 		C3C3565525571DA7006F137B /* SettingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingTableViewCell.swift; sourceTree = "<group>"; };
 		C3C3565825572154006F137B /* SettingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingVC.swift; sourceTree = "<group>"; };
@@ -181,6 +188,7 @@
 		55F39925254A624D0094A477 /* fullwallpaper */ = {
 			isa = PBXGroup;
 			children = (
+				C3B1081B258E81910074F741 /* UMSwift */,
 				C3C3565B25572468006F137B /* Theme */,
 				C303B9E625551BAF005C7A50 /* Extensions */,
 				55370FBB2553B70B0003CAD5 /* Util */,
@@ -195,6 +203,7 @@
 				55F3992F254A624D0094A477 /* Assets.xcassets */,
 				55F39931254A624D0094A477 /* LaunchScreen.storyboard */,
 				55F39934254A624D0094A477 /* Info.plist */,
+				C316911B258E7DAD00C8B06F /* fullwallpaper-Bridging-Header.h */,
 			);
 			path = fullwallpaper;
 			sourceTree = "<group>";
@@ -263,6 +272,16 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
+		C3B1081B258E81910074F741 /* UMSwift */ = {
+			isa = PBXGroup;
+			children = (
+				C3B1081C258E81BC0074F741 /* UMAnalyticsSwift.swift */,
+				C3B1081D258E81BD0074F741 /* UMCommonLogSwift.swift */,
+				C3B1081E258E81BD0074F741 /* UMCommonSwift.swift */,
+			);
+			path = UMSwift;
+			sourceTree = "<group>";
+		};
 		C3C3565B25572468006F137B /* Theme */ = {
 			isa = PBXGroup;
 			children = (
@@ -284,6 +303,7 @@
 				55F39920254A624D0094A477 /* Frameworks */,
 				55F39921254A624D0094A477 /* Resources */,
 				8DDB3117ADC3BA9F4BC5F44C /* [CP] Embed Pods Frameworks */,
+				5B0213BEAF4EEBD92B394A4E /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -344,6 +364,23 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		5B0213BEAF4EEBD92B394A4E /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-fullwallpaper/Pods-fullwallpaper-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-fullwallpaper/Pods-fullwallpaper-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-fullwallpaper/Pods-fullwallpaper-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		8DDB3117ADC3BA9F4BC5F44C /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -390,6 +427,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C3B1081F258E81BD0074F741 /* UMAnalyticsSwift.swift in Sources */,
 				C3D5D818257C5D3F006DA951 /* AuditVC.swift in Sources */,
 				C36F6FE82569A9B60072AEDE /* SearchVC.swift in Sources */,
 				C3E860752567531900559783 /* Date+NSDate.swift in Sources */,
@@ -416,9 +454,11 @@
 				C3D5D821257D74BB006DA951 /* UserProfileVC.swift in Sources */,
 				C3C3565325570EB7006F137B /* CategoryCollectionVC.swift in Sources */,
 				55F39927254A624D0094A477 /* AppDelegate.swift in Sources */,
+				C3B10820258E81BD0074F741 /* UMCommonLogSwift.swift in Sources */,
 				C3FEE1DE2589D80A009D1DCE /* UserDefaults+Key.swift in Sources */,
 				C3C3565625571DA7006F137B /* SettingTableViewCell.swift in Sources */,
 				C3C3566325573B03006F137B /* SettingItem.swift in Sources */,
+				C3B10821258E81BD0074F741 /* UMCommonSwift.swift in Sources */,
 				55F39929254A624D0094A477 /* SceneDelegate.swift in Sources */,
 				55537E37254B3F1D005081CF /* CategoryTableViewCell.swift in Sources */,
 				55370FAC2553B5700003CAD5 /* GlobalFunctions.swift in Sources */,
@@ -576,6 +616,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.hongleir.fullwallpaper.cn;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "/Users/hongleir/Projects/SwiftProject/fullwallpaper/fullwallpaper/fullwallpaper-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -596,6 +637,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.hongleir.fullwallpaper.cn;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "/Users/hongleir/Projects/SwiftProject/fullwallpaper/fullwallpaper/fullwallpaper-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};

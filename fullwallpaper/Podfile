@@ -19,6 +19,11 @@ target 'fullwallpaper' do
   pod 'Toast-Swift'
   pod 'SwifterSwift/Foundation'
   pod 'SwifterSwift/UIKit'
+  pod 'UMCommon'
+  pod 'UMDevice'
+  pod 'UMAPM'
+  pod 'UMCCommonLog'
+  pod 'UMPush'
   # Pods for fullwallpaper
 
 end

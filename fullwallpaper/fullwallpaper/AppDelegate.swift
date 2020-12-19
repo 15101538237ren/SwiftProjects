@@ -38,6 +38,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         } catch {
             print(error)
         }
+        
+        UMCommonLogSwift.setUpUMCommonLogManager()
+        UMCommonSwift.setLogEnabled(bFlag: true)
+        UMCommonSwift.initWithAppkey(appKey: "5fd5163e498d9e0d4d8bc7f5", channel: "App Store")
+
+        //        print("DEVICE ID: \(UMCommonSwift.deviceIDForIntegration())")
+        
         setTheme()
         
         loadCategories(completion:{})

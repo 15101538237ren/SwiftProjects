@@ -57,14 +57,9 @@
 		<key>Pods-fullwallpaper.xcscheme</key>
 		<dict>
 			<key>isShown</key>
-			<true/>
-		</dict>
-		<key>Refreshable.xcscheme</key>
-		<dict>
-			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>Starscream.xcscheme</key>
+		<key>Refreshable.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -100,6 +95,31 @@
 			<false/>
 		</dict>
 		<key>UIEmptyState.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>UMAPM.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>UMCCommonLog.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>UMCommon.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>UMDevice.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>UMPush.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
