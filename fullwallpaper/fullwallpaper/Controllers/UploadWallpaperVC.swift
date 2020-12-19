@@ -23,6 +23,18 @@ class UploadWallpaperVC: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var backBtn: UIButton!
     
+    @IBOutlet weak var dimUIView: UIView!{
+        didSet{
+            dimUIView.theme_alpha = "DimView.Alpha"
+        }
+    }
+    
+    @IBOutlet weak var headerView: UIView!{
+        didSet{
+            headerView.theme_backgroundColor = "View.BackgroundColor"
+        }
+    }
+    
     @IBOutlet weak var maskImgView: UIImageView!{
         didSet{
             maskImgView.alpha = 0
@@ -46,6 +58,8 @@ class UploadWallpaperVC: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var selectCategoryBtn: UIButton!{
         didSet {
+            selectCategoryBtn.theme_backgroundColor = "TableCell.BackGroundColor"
+            selectCategoryBtn.theme_setTitleColor("TableCell.TextColor", forState: .normal)
             selectCategoryBtn.layer.cornerRadius = 6.0
             selectCategoryBtn.layer.masksToBounds = true
         }
@@ -55,6 +69,8 @@ class UploadWallpaperVC: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var submitBtn: UIButton!{
         didSet {
+            submitBtn.theme_backgroundColor = "TableCell.BackGroundColor"
+            submitBtn.theme_setTitleColor("TableCell.TextColor", forState: .normal)
             submitBtn.layer.cornerRadius = 6.0
             submitBtn.layer.masksToBounds = true
         }
@@ -103,6 +119,7 @@ class UploadWallpaperVC: UIViewController, UITextFieldDelegate {
     }
     
     func initVC(){
+        view.theme_backgroundColor = "View.BackgroundColor"
         if let _ = self.wallpaper{
             DispatchQueue.main.async {
                 self.wallpaperImgView.image = self.wallpaper

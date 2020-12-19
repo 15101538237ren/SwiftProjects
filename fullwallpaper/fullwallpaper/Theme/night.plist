@@ -2,8 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>VIP.TextColor</key>
+	<string>#b39860</string>
 	<key>TableCell.SeparatorColor</key>
-	<string>#000</string>
+	<string>#040404</string>
 	<key>TableCell.BackGroundColor</key>
 	<string>#1f1f1f</string>
 	<key>TableCell.TextColor</key>

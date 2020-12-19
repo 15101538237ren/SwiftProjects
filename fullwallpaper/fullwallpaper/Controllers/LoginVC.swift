@@ -339,9 +339,14 @@ class LoginVC: UIViewController {
                                 
                                 self.dismiss(animated: false, completion: {
                                     if let setVC = self.settingVC{
-                                        if name.isEmpty && file == nil {
-                                            setVC.showSetProfileVC()
-                                        }else if !name.isEmpty{
+                                        if name.isEmpty || file == nil {
+                                            if file != nil{
+                                                let imgUrl = file!.url!.stringValue!
+                                                setVC.showSetProfileVC(imageUrl: imgUrl)
+                                            }else{
+                                                setVC.showSetProfileVC()
+                                            }
+                                        }else{
                                             setVC.setDisplayNameAndUpdate(name: name)
                                         }
                                     }

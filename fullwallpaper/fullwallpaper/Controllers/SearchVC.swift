@@ -22,6 +22,8 @@ class SearchVC: UIViewController, UICollectionViewDelegate, UICollectionViewData
     @IBOutlet weak var collectionView: UICollectionView!
     
     func setup() {
+        view.theme_backgroundColor = "View.BackgroundColor"
+        collectionView.theme_backgroundColor = "View.BackgroundColor"
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 5, left: 0, bottom: 10, right: 0)
         layout.minimumInteritemSpacing = cellSpacing

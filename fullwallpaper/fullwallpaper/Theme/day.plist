@@ -2,12 +2,14 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>VIP.TextColor</key>
+	<string>#d9c397</string>
 	<key>TableCell.BackGroundColor</key>
 	<string>#fafafa</string>
 	<key>TableCell.TextColor</key>
 	<string>#595959</string>
 	<key>TableCell.SeparatorColor</key>
-	<string>#A9A9A9</string>
+	<string>#e8e8e8</string>
 	<key>IndicatorColor</key>
 	<string>#A9A9A9</string>
 	<key>SegmentedCtrlTintColor</key>
@@ -23,7 +25,7 @@
 	<key>BarTitleColor</key>
 	<string>#000</string>
 	<key>DimView.Alpha</key>
-	<integer>0</integer>
+	<real>0.05</real>
 	<key>View.BackgroundColor</key>
 	<string>#FFFFFF</string>
 </dict>

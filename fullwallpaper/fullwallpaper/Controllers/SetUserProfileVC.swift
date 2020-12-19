@@ -8,6 +8,7 @@
 import UIKit
 import CropViewController
 import LeanCloud
+import Nuke
 
 class SetUserProfileVC: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, CropViewControllerDelegate {
     
@@ -15,7 +16,7 @@ class SetUserProfileVC: UIViewController, UIImagePickerControllerDelegate, UINav
     var imagePicker = UIImagePickerController()
     private var selectedImage: UIImage? = nil
     private var displayName: String = ""
-    @IBOutlet var backBtn: UIButton!
+    var imageUrl: URL?
     @IBOutlet var userProfileImgView: UIImageView!{
         didSet {
             if let image = selectedImage{
@@ -45,7 +46,7 @@ class SetUserProfileVC: UIViewController, UIImagePickerControllerDelegate, UINav
     func detectBtnEnable()
     {
         DispatchQueue.main.async { [self] in
-            if selectedImage != nil && !displayName.isEmpty{
+            if (selectedImage != nil || imageUrl != nil) && !displayName.isEmpty{
                 submitBtn.backgroundColor = .systemGreen
                 submitBtn.isEnabled = true
             }else{
@@ -61,6 +62,9 @@ class SetUserProfileVC: UIViewController, UIImagePickerControllerDelegate, UINav
     }
     
     func initVC(){
+        if let imgUrl = imageUrl{
+            Nuke.loadImage(with: imgUrl, options: wallpaperLoadingOptions, into: userProfileImgView)
+        }
         view.addGestureRecognizer(UITapGestureRecognizer(target: view, action: #selector(UIView.endEditing)))
         addRcgToUserProfileImgView()
     }
@@ -120,7 +124,6 @@ class SetUserProfileVC: UIViewController, UIImagePickerControllerDelegate, UINav
     
     func setElements(enable: Bool){
         self.view.isUserInteractionEnabled = enable
-        self.backBtn.isUserInteractionEnabled = enable
         self.displayNameTextField.isUserInteractionEnabled = enable
         self.submitBtn.isUserInteractionEnabled = enable
     }
@@ -177,7 +180,36 @@ class SetUserProfileVC: UIViewController, UIImagePickerControllerDelegate, UINav
                     }
                 }
             }
-            
+            else{
+                if let user = LCApplication.default.currentUser {
+                    DispatchQueue.main.async {
+                        self.setElements(enable: false)
+                        initIndicator(view: self.view)
+                    }
+                    DispatchQueue.global(qos: .background).async {
+                        do {
+                            let name = self.displayName
+                            try user.set("name", value: name)
+                            _ = user.save { result in
+                                stopIndicator()
+                                switch result {
+                                case .success:
+                                    self.dismiss(animated: true, completion: {
+                                        self.settingVC.setDisplayNameAndUpdate(name: name)
+                                    })
+                                case .failure(error: let error):
+                                    self.view.makeToast("设置失败，请稍后重试!\(error.reason?.stringValue ?? "")", duration: 1.2, position: .center)
+                                    self.setElements(enable: true)
+                                }
+                            }
+                        }catch {
+                            stopIndicator()
+                            self.setElements(enable: true)
+                            self.view.makeToast("设置失败，请稍后重试!", duration: 1.2, position: .center)
+                        }
+                    }
+                }
+            }
         }
     }
     

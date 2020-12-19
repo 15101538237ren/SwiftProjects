@@ -131,7 +131,7 @@ class SettingVC: UIViewController , UITableViewDataSource, UITableViewDelegate {
                 let bottomBorder = CALayer()
 
                 bottomBorder.frame = CGRect(x: 0.0, y: cell.contentView.frame.size.height - separatorHeight, width: cell.contentView.frame.size.width, height: separatorHeight)
-                bottomBorder.backgroundColor = UIColor(white: 0.92, alpha: 1.0).cgColor
+                bottomBorder.theme_backgroundColor = "TableCell.SeparatorColor"
                 
                 cell.contentView.layer.addSublayer(bottomBorder)
             }
@@ -147,7 +147,7 @@ class SettingVC: UIViewController , UITableViewDataSource, UITableViewDelegate {
                 let bottomBorder = CALayer()
 
                 bottomBorder.frame = CGRect(x: 0.0, y: cell.contentView.frame.size.height - separatorHeight, width: cell.contentView.frame.size.width, height: separatorHeight)
-                bottomBorder.backgroundColor = UIColor(white: 0.92, alpha: 1.0).cgColor
+                bottomBorder.theme_backgroundColor = "TableCell.SeparatorColor"
                 
                 cell.contentView.layer.addSublayer(bottomBorder)
             }
@@ -165,7 +165,7 @@ class SettingVC: UIViewController , UITableViewDataSource, UITableViewDelegate {
                 let bottomBorder = CALayer()
 
                 bottomBorder.frame = CGRect(x: 0.0, y: cell.contentView.frame.size.height - separatorHeight, width: cell.contentView.frame.size.width, height: separatorHeight)
-                bottomBorder.backgroundColor = UIColor(white: 0.92, alpha: 1.0).cgColor
+                bottomBorder.theme_backgroundColor = "TableCell.SeparatorColor"
                 
                 cell.contentView.layer.addSublayer(bottomBorder)
             }
@@ -199,8 +199,18 @@ class SettingVC: UIViewController , UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch indexPath.section {
         case 0:
-            if let _ = LCApplication.default.currentUser {
-                showProfileVC()
+            if let user = LCApplication.default.currentUser {
+                initIndicator(view: view)
+                let name:String = user.get("name")?.stringValue ?? ""
+                let file = user.get("avatar") as? LCFile
+                DispatchQueue.main.async { [self] in
+                    stopIndicator()
+                    if name.isEmpty && file == nil {
+                        showSetProfileVC()
+                    }else{
+                        showProfileVC()
+                    }
+                }
             } else {
                 // 显示注册或登录页面
                 showLoginOrRegisterVC()
@@ -293,10 +303,13 @@ class SettingVC: UIViewController , UITableViewDataSource, UITableViewDelegate {
         }
     }
     
-    func showSetProfileVC() {
+    func showSetProfileVC(imageUrl: String? = nil) {
         let MainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
         let setUserProfileVC = MainStoryBoard.instantiateViewController(withIdentifier: "setUserProfileVC") as! SetUserProfileVC
         setUserProfileVC.settingVC = self
+        if let imgUrl = imageUrl{
+            setUserProfileVC.imageUrl = URL(string: imgUrl)!
+        }
         setUserProfileVC.modalPresentationStyle = .fullScreen
         DispatchQueue.main.async {
             self.present(setUserProfileVC, animated: true, completion: nil)

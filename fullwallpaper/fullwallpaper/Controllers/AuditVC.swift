@@ -19,6 +19,12 @@ class AuditVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
         case select
     }
     
+    @IBOutlet weak var titleLabel: UILabel!{
+        didSet{
+            titleLabel.theme_textColor = "BarTitleColor"
+        }
+    }
+    
     @IBOutlet weak var selectBtn: UIButton!
     
     @IBOutlet weak var actionBtn: UIButton!{
@@ -70,7 +76,16 @@ class AuditVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
         }
     }
     
+    func setSegmentedControl(){
+        segmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor(hex: getSegmentedCtrlUnselectedTextColor()) ?? .darkGray], for: .selected)
+        segmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor(hex: getSegmentedCtrlUnselectedTextColor()) ?? .darkGray], for: .normal)
+        segmentedControl.theme_backgroundColor = "SegmentedCtrlTintColor"
+        segmentedControl.theme_selectedSegmentTintColor = "SegmentedCtrlSelectedTintColor"
+    }
+    
     func setupCollectionView() {
+        
+        collectionView.theme_backgroundColor = "View.BackgroundColor"
         currentMode = .view
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 5, left: 0, bottom: 10, right: 0)
@@ -89,6 +104,7 @@ class AuditVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setSegmentedControl()
         setupCollectionView()
         initIndicator(view: self.view)
         loadWallpapers(selectedIdx: 0)
