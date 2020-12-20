@@ -25,6 +25,9 @@ PODS:
   - Refreshable (1.2.0)
   - SwifterSwift/Foundation (5.2.0)
   - SwifterSwift/UIKit (5.2.0)
+  - SwiftMessages (8.0.5):
+    - SwiftMessages/App (= 8.0.5)
+  - SwiftMessages/App (8.0.5)
   - SwiftProtobuf (1.14.0)
   - SwiftTheme (0.5.5)
   - SwiftValidators (9.0.3)
@@ -50,6 +53,7 @@ DEPENDENCIES:
   - Refreshable
   - SwifterSwift/Foundation
   - SwifterSwift/UIKit
+  - SwiftMessages
   - SwiftTheme
   - SwiftValidators
   - SwiftyJSON (~> 4.0)
@@ -74,6 +78,7 @@ SPEC REPOS:
     - PhoneNumberKit
     - Refreshable
     - SwifterSwift
+    - SwiftMessages
     - SwiftProtobuf
     - SwiftTheme
     - SwiftValidators
@@ -98,6 +103,7 @@ SPEC CHECKSUMS:
   PhoneNumberKit: ff153d5e299f6da566cb73c6aa71e354933b2932
   Refreshable: 0f76b6d198178e6cd2823a553fbf4e84a3dba527
   SwifterSwift: 334181863c416882d97b7a60c05054d9e4d799e2
+  SwiftMessages: 539fd54a766bf08ec667e90aa141c44b8b8aaa55
   SwiftProtobuf: ed465ed18402f998fd117f631da27e0168e6b59c
   SwiftTheme: 585ead917c78ea3fc508437b0a141d29c034bdb0
   SwiftValidators: b1cb650ce02ef6ad894f1d471f970b249c794342
@@ -110,6 +116,6 @@ SPEC CHECKSUMS:
   UMDevice: 28d21a568c8e8322e5a03bbd53b138d0c098d3b3
   UMPush: 7ef2ff2fcca16e4d5c7897183a78a0d26f920bfe
 
-PODFILE CHECKSUM: 6c208b13b9a83389657924b31c96197890e355cf
+PODFILE CHECKSUM: 0bcf4ea39b119cae3366ca99ac880c5381e05a54
 
 COCOAPODS: 1.9.3

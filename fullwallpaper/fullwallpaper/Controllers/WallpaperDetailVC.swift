@@ -331,24 +331,42 @@ class WallpaperDetailVC: UIViewController {
 extension WallpaperDetailVC: PopMenuViewControllerDelegate {
 
     func reportWallpaperProblem(code: Int, popMenuViewController: PopMenuViewController){
-        do{
-            let wallpaper = LCObject(className: "Wallpaper", objectId: wallpaperObjectId!)
-            try wallpaper.set("status", value: code)
-            wallpaper.save { (result) in
-                    switch result {
-                    case .success:
-                        popMenuViewController.dismiss(animated: true, completion: nil)
-                        DispatchQueue.main.async {
-                            self.view.makeToast("举报成功!", duration: 1.0, position: .center)
+        
+        let alertController = UIAlertController(title: "确定举报壁纸？", message: "", preferredStyle: .alert)
+        
+        let reportAction = UIAlertAction(title: "举报", style: .destructive){ _ in
+            do{
+                let wallpaper = LCObject(className: "Wallpaper", objectId: self.wallpaperObjectId!)
+                try wallpaper.set("status", value: code)
+                wallpaper.save { (result) in
+                        switch result {
+                        case .success:
+                            DispatchQueue.main.async {
+                                self.view.makeToast("举报成功!", duration: 1.0, position: .center)
+                            }
+                        case .failure(error: let error):
+                            self.view.makeToast(error.reason, duration: 1.0, position: .center)
                         }
-                    case .failure(error: let error):
-                        self.view.makeToast(error.reason, duration: 1.0, position: .center)
                     }
-                }
-            
-        } catch {
-            print(error)
+            } catch {
+                self.view.makeToast("出现错误，请重试！", duration: 1.0, position: .center)
+            }
+         }
+        
+        let cancelAction = UIAlertAction(title: "取消", style: .cancel){ _ in
+            alertController.dismiss(animated: true, completion: nil)
         }
+
+        alertController.addAction(reportAction)
+        alertController.addAction(cancelAction)
+        
+        popMenuViewController.dismiss(animated: false, completion: {
+            self.present(alertController, animated: true)
+        })
+        
+        
+        
+        
     }
     
     // This will be called when a pop menu action was selected

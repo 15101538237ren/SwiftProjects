@@ -23,7 +23,7 @@ class SettingVC: UIViewController , UITableViewDataSource, UITableViewDelegate {
          SettingItem(symbol_name : "feedback", name: "意见反馈")],
         
         [SettingItem(symbol_name : "clean", name: "清空壁纸缓存"),
-        SettingItem(symbol_name : "document", name: "使用条款"),
+        SettingItem(symbol_name : "document", name: "服务条款"),
         SettingItem(symbol_name : "privacy", name: "隐私政策")]
     ]
     
