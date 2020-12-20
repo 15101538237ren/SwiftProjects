@@ -13,6 +13,7 @@ import PopMenu
 import CropViewController
 import Refreshable
 import SwiftTheme
+import SwiftMessages
 
 class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate, UIEmptyStateDataSource, UIEmptyStateDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, CropViewControllerDelegate {
     
@@ -49,6 +50,27 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
     @IBOutlet weak var searchBtn: UIButton!
     
     
+    func popPrivacyMessage(){
+        if !isKeyPresentInUserDefaults(key: privacyViewedKey){
+            let messageView: TermsView = try! SwiftMessages.viewFromNib()
+            messageView.configureDropShadow()
+            messageView.backgroundView.backgroundColor = UIColor.init(white: 0.97, alpha: 1)
+            messageView.backgroundView.layer.cornerRadius = 10
+            messageView.agreeAction = {
+                UserDefaults.standard.set(true, forKey: privacyViewedKey)
+                SwiftMessages.hide()
+            }
+            messageView.cancelAction = { UIControl().sendAction(#selector(URLSessionTask.suspend), to: UIApplication.shared, for: nil)}
+            var config = SwiftMessages.defaultConfig
+            config.presentationContext = .window(windowLevel: UIWindow.Level.statusBar)
+            config.duration = .forever
+            config.presentationStyle = .center
+            config.dimMode = .blur(style: .dark, alpha: 1, interactive: true)
+            SwiftMessages.show(config: config, view: messageView)
+            
+        }
+    }
+    
     func setupCollectionView() {
         collectionView.theme_backgroundColor = "View.BackgroundColor"
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
@@ -67,6 +89,7 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        popPrivacyMessage()
         titleLabel.theme_textColor = "BarTitleColor"
         setupCollectionView()
         initIndicator(view: self.view)

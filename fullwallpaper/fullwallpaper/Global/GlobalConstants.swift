@@ -19,6 +19,9 @@ let productURL = URL(string: "https://itunes.apple.com/app/id1544907523")
 
 let githubLink:String = "https://15101538237ren.github.io"
 
+let privacyViewedKey: String = "privacyViewed"
+let welcomeText: String = "欢迎使用全面屏壁纸，请您仔细阅读隐私协议和服务条款，并确定您是否同意我们的规则。我们深知个人信息的重要性，并且会全力保护您的个人信息安全可靠。"
+
 let minimumReviewWorthyActionCount = 3
 
 let hud = JGProgressHUD(style: .light)
