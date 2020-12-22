@@ -19,6 +19,7 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
     
     //Variables
     var imagePicker = UIImagePickerController()
+    fileprivate var timeOnThisPage: Int = 0
     
     var hotWallpapers:[Wallpaper] = []
     var latestWallpapers:[Wallpaper] = []
@@ -65,7 +66,7 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
             config.presentationContext = .window(windowLevel: UIWindow.Level.statusBar)
             config.duration = .forever
             config.presentationStyle = .center
-            config.dimMode = .blur(style: .dark, alpha: 1, interactive: true)
+            config.dimMode = .blur(style: .light, alpha: 0.6, interactive: false)
             SwiftMessages.show(config: config, view: messageView)
             
         }
@@ -87,8 +88,28 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
         })
     }
     
+    func checkIfUserDisabled(){
+        if let user = LCApplication.default.currentUser{
+            if let disabled = user.get("disabled")?.boolValue{
+                if disabled {
+                    DispatchQueue.main.async {
+                        let alertController = UIAlertController(title: "您的账号目前已被封禁", message: "如有疑问，请联系fullwallpaper@outlook.com", preferredStyle: .alert)
+                        let okayAction = UIAlertAction(title: "好", style: .default, handler: { action in
+                            UIControl().sendAction(#selector(URLSessionTask.suspend), to: UIApplication.shared, for: nil)
+                            
+                            })
+                        alertController.addAction(okayAction)
+                        self.present(alertController, animated: true, completion: nil)
+                    }
+                    return
+                }
+            }
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        let _ = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(tictoc), userInfo: nil, repeats: true)
         popPrivacyMessage()
         titleLabel.theme_textColor = "BarTitleColor"
         setupCollectionView()
@@ -96,6 +117,23 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
         verifyAdmin()
         loadWallpapers()
         getUserLikedWPs()
+    }
+    
+    @objc func tictoc(){
+        timeOnThisPage += 1
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        checkIfUserDisabled()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        var info = ["Um_Key_PageName": "主页浏览", "Um_Key_Duration": timeOnThisPage] as [String : Any]
+        if let user = LCApplication.default.currentUser{
+            let userId = user.objectId!.stringValue!
+            info["Um_Key_UserID"] = userId
+        }
+        UMAnalyticsSwift.event(eventId: "Um_Event_PageView", attributes: info)
     }
     
     

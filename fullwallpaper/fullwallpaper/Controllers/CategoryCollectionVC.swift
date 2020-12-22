@@ -49,6 +49,7 @@ class CategoryCollectionVC: UIViewController, UICollectionViewDelegate, UICollec
     @IBOutlet weak var uploadBtn: UIButton!
     
     @IBOutlet weak var segmentedControl: UISegmentedControl!
+    fileprivate var timeOnThisPage: Int = 0
     
     
     func setupTableView(){
@@ -89,12 +90,27 @@ class CategoryCollectionVC: UIViewController, UICollectionViewDelegate, UICollec
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        let _ = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(tictoc), userInfo: nil, repeats: true)
         setSegmentedControl()
         setupCollectionView()
         setupTableView()
         showCollectionView()
         initIndicator(view: self.view)
         loadWallpapers()
+    }
+    
+    
+    @objc func tictoc(){
+        timeOnThisPage += 1
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        var info = ["Um_Key_PageName": "分类【\(categoryCN ?? "详细页")】浏览", "Um_Key_Duration": timeOnThisPage] as [String : Any]
+        if let user = LCApplication.default.currentUser{
+            let userId = user.objectId!.stringValue!
+            info["Um_Key_UserID"] = userId
+        }
+        UMAnalyticsSwift.event(eventId: "Um_Event_PageView", attributes: info)
     }
     
     private func handleLoadMoreCollections() {

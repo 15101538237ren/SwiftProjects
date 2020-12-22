@@ -20,6 +20,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        
+        
         do {
             var configuration = LCApplication.Configuration.default
             configuration.HTTPURLCache = URLCache(
@@ -42,8 +44,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UMCommonLogSwift.setUpUMCommonLogManager()
         UMCommonSwift.setLogEnabled(bFlag: true)
         UMCommonSwift.initWithAppkey(appKey: "5fd5163e498d9e0d4d8bc7f5", channel: "App Store")
-
-        //        print("DEVICE ID: \(UMCommonSwift.deviceIDForIntegration())")
+        
+//        print("DEVICE ID: \(UMCommonSwift.deviceIDForIntegration())")
         
         setTheme()
         

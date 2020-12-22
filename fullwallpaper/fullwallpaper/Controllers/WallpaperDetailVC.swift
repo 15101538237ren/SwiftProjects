@@ -58,12 +58,33 @@ class WallpaperDetailVC: UIViewController {
     var liked: Bool = false
     var viewTranslation = CGPoint(x: 0, y: 0)
     var reviewFuncCalled: Bool = false
+    var reportClassification:[Int : String] = [2:"不良内容", 3: "清晰度不佳", 4: "壁纸侵权", 5: "分类有误"]
     
     // MARK: - Constants
     let scaleForAnimation: CGFloat = 2
     
+    func checkIfUserDisabled(){
+        if let user = LCApplication.default.currentUser{
+            if let disabled = user.get("disabled")?.boolValue{
+                if disabled {
+                    DispatchQueue.main.async {
+                        let alertController = UIAlertController(title: "您的账号目前已被封禁", message: "如有疑问，请联系fullwallpaper@outlook.com", preferredStyle: .alert)
+                        let okayAction = UIAlertAction(title: "好", style: .default, handler: { action in
+                            UIControl().sendAction(#selector(URLSessionTask.suspend), to: UIApplication.shared, for: nil)
+                            
+                            })
+                        alertController.addAction(okayAction)
+                        self.present(alertController, animated: true, completion: nil)
+                    }
+                    return
+                }
+            }
+        }
+    }
+    
     // MARK: - ViewController Life Cycle
     override func viewDidLoad() {
+        checkIfUserDisabled()
         super.viewDidLoad()
         loadImage(url: imageUrl)
         addGestureRcg()
@@ -188,6 +209,27 @@ class WallpaperDetailVC: UIViewController {
                                         user.save{ [self] (result) in
                                             switch result {
                                             case .success:
+                                                
+                                                var info = ["Um_Key_ContentID": wallpaper.objectId!.stringValue!] as [String : Any]
+                                                
+                                                if let caption = wallpaper.get("caption"){
+                                                    info["Um_Key_ContentName"] = caption.stringValue
+                                                }
+                                                
+                                                if let category = wallpaper.get("category"){
+                                                    info["Um_Key_ContentCategory"] = category.stringValue
+                                                }
+                                                
+                                                if let uploader = wallpaper.get("uploader") as? LCObject {
+                                                    info["Um_Key_PublisherID"] = uploader.objectId!.stringValue!
+                                                }
+                                                
+                                                if let user = LCApplication.default.currentUser{
+                                                    let userId = user.objectId!.stringValue!
+                                                    info["Um_Key_UserID"] = userId
+                                                }
+                                                UMAnalyticsSwift.event(eventId: "Um_Event_ContentFavorite", attributes: info)
+                                                
                                                 UIImageWriteToSavedPhotosAlbum(image, self, #selector(image(_:didFinishSavingWithError:contextInfo:)), nil)
                                                 if !reviewFuncCalled {
                                                     AppStoreReviewManager.requestReviewIfAppropriate()
@@ -292,6 +334,7 @@ class WallpaperDetailVC: UIViewController {
         }
     }
     
+    
     @objc func options(tapGestureRecognizer: UITapGestureRecognizer){
         let iconWidthHeight:CGFloat = 20
         let contentAction = PopMenuDefaultAction(title: "不良内容", image: UIImage(named: "alarm"), color: UIColor.darkGray)
@@ -341,6 +384,23 @@ extension WallpaperDetailVC: PopMenuViewControllerDelegate {
                 wallpaper.save { (result) in
                         switch result {
                         case .success:
+                            var info = ["Um_Key_ContentID": self.wallpaperObjectId!, "Um_Key_ContentTag" : self.reportClassification[code]! ] as [String : Any]
+                            
+                            if let user = LCApplication.default.currentUser{
+                                let userId = user.objectId!.stringValue!
+                                info["Um_Key_UserID"] = userId
+                            }
+                            
+                            if let category = wallpaper.get("category"){
+                                info["Um_Key_ContentCategory"] = category.stringValue
+                            }
+                            
+                            if let uploader = wallpaper.get("uploader") as? LCObject {
+                                info["Um_Key_PublisherID"] = uploader.objectId!.stringValue!
+                            }
+                            
+                            UMAnalyticsSwift.event(eventId: "Um_Event_ContentReport", attributes: info)
+                            
                             DispatchQueue.main.async {
                                 self.view.makeToast("举报成功!", duration: 1.0, position: .center)
                             }

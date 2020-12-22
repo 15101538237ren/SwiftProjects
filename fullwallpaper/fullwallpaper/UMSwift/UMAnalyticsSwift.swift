@@ -56,6 +56,7 @@ class UMAnalyticsSwift: NSObject {
     static func event(eventId:String){
         MobClick.event(eventId);
     }
+    
     /** 自定义事件,数量统计.
      使用前，请先到友盟App管理后台的设置->编辑自定义事件 中添加相应的事件ID，然后在工程中传入相应的事件ID
      */
@@ -67,7 +68,7 @@ class UMAnalyticsSwift: NSObject {
     /** 自定义事件,数量统计.
      使用前，请先到友盟App管理后台的设置->编辑自定义事件 中添加相应的事件ID，然后在工程中传入相应的事件ID
      */
-    static func event(eventId:String,attributes:Dictionary<String, Any>){
+    static func event(eventId:String, attributes:Dictionary<String, Any>){
         MobClick.event(eventId, attributes:attributes);
     }
     

@@ -37,6 +37,7 @@ class CollectionItemsVC: UIViewController, UICollectionViewDelegate, UICollectio
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var segmentedControl: UISegmentedControl!
+    fileprivate var timeOnThisPage: Int = 0
     
     
     func setupCollectionView() {
@@ -66,10 +67,25 @@ class CollectionItemsVC: UIViewController, UICollectionViewDelegate, UICollectio
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        let _ = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(tictoc), userInfo: nil, repeats: true)
         setupCollectionView()
         setSegmentedControl()
         initIndicator(view: self.view)
         loadWallpapers()
+    }
+    
+    @objc func tictoc(){
+        timeOnThisPage += 1
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        let collectionName =  self.collection.get("name")?.stringValue ?? "细节页"
+        var info = ["Um_Key_PageName": "专题【\(collectionName)】浏览", "Um_Key_Duration": timeOnThisPage] as [String : Any]
+        if let user = LCApplication.default.currentUser{
+            let userId = user.objectId!.stringValue!
+            info["Um_Key_UserID"] = userId
+        }
+        UMAnalyticsSwift.event(eventId: "Um_Event_PageView", attributes: info)
     }
 
     func loadDetailVC(imageUrl: URL, wallpaperObjectId: String) -> Void{

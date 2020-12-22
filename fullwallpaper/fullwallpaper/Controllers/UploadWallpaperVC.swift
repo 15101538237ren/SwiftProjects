@@ -118,6 +118,15 @@ class UploadWallpaperVC: UIViewController, UITextFieldDelegate {
         initVC()
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        var info = ["Um_Key_PageName": "进入上传页"] as [String : Any]
+        if let user = LCApplication.default.currentUser{
+            let userId = user.objectId!.stringValue!
+            info["Um_Key_UserID"] = userId
+        }
+        UMAnalyticsSwift.event(eventId: "Um_Event_PageView", attributes: info)
+    }
+    
     func initVC(){
         view.theme_backgroundColor = "View.BackgroundColor"
         if let _ = self.wallpaper{
@@ -141,7 +150,23 @@ class UploadWallpaperVC: UIViewController, UITextFieldDelegate {
         
         captionTextField.delegate = self
         addGestureRecognizers()
+        checkHint()
+        
     }
+    
+    func checkHint(){
+        var hintNum:Int = 0
+        let uploadHintKey:String = "UploadVCHint"
+        if isKeyPresentInUserDefaults(key: uploadHintKey){
+            hintNum = UserDefaults.standard.integer(forKey: uploadHintKey)
+        }
+        if hintNum < 3 {
+            self.view.makeToast("点击图片可以切换预览效果哦~😊", duration: 1.0, position: .center)
+        }
+        
+        UserDefaults.standard.set(hintNum + 1, forKey: uploadHintKey)
+    }
+    
     
     func addGestureRecognizers(){
         let tap1 = UITapGestureRecognizer(target: self, action: #selector(viewTapped(tapGestureRecognizer:)))
@@ -256,6 +281,15 @@ class UploadWallpaperVC: UIViewController, UITextFieldDelegate {
                         }
                         
                         let file = LCFile(payload: .data(data: imageData))
+                        if let _ =  file.get("name")?.stringValue{
+                            
+                        }else{
+                            do{
+                                try file.set("name", value: caption)
+                            }catch{
+                                print("无法设置文件名称")
+                            }
+                        }
                         _ = file.save { result in
                             switch result {
                             case .success:

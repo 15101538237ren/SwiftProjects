@@ -141,6 +141,15 @@ class SetUserProfileVC: UIViewController, UIImagePickerControllerDelegate, UINav
                         DispatchQueue.global(qos: .background).async {
                             do {
                                 let file = LCFile(payload: .data(data: imageData))
+                                if let _ =  file.get("name")?.stringValue{
+                                    
+                                }else{
+                                    do{
+                                        try file.set("name", value: "unnamed")
+                                    }catch{
+                                        print("无法设置文件名称")
+                                    }
+                                }
                                 _ = file.save { result in
                                     switch result {
                                     case .success:

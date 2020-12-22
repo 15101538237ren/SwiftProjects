@@ -330,10 +330,31 @@ class LoginVC: UIViewController {
                     _ = LCUser.logIn(email: email!, password: pwd!) { result in
                         switch result {
                         case .success(object: let user):
-                            UserDefaults.standard.set(Date(), forKey: "lastEmailLoginClickTime")
-                            getUserLikedWPs()
+                            
+                            if let disabled = user.get("disabled")?.boolValue{
+                                if disabled {
+                                    DispatchQueue.main.async {
+                                        let alertController = UIAlertController(title: "您的账号目前已被封禁", message: "如有疑问，请联系fullwallpaper@outlook.com", preferredStyle: .alert)
+                                        let okayAction = UIAlertAction(title: "好", style: .default, handler: { action in
+                                            UIControl().sendAction(#selector(URLSessionTask.suspend), to: UIApplication.shared, for: nil)
+                                            
+                                            })
+                                        alertController.addAction(okayAction)
+                                        self.present(alertController, animated: true, completion: nil)
+                                    }
+                                    return
+                                }
+                            }
+                            
                             let name:String = user.get("name")?.stringValue ?? ""
                             let file = user.get("avatar") as? LCFile
+                            let userID: String = user.objectId!.stringValue!
+                            
+                            let userInfo = ["Um_Key_LoginType" : "邮箱登录", "Um_Key_UserID" : userID]
+                            
+                            UMAnalyticsSwift.event(eventId: "Um_Event_LoginSuc", attributes: userInfo)
+                            UserDefaults.standard.set(Date(), forKey: "lastEmailLoginClickTime")
+                            getUserLikedWPs()
                             DispatchQueue.main.async {
                                 self.stopIndicator()
                                 
@@ -356,6 +377,10 @@ class LoginVC: UIViewController {
                             //登录成功
                             
                         case .failure(error: let error):
+                            
+                            let errorInfo = ["Um_Key_Reasons" : error.localizedDescription]
+                            
+                            UMAnalyticsSwift.event(eventId: "Um_Event_LoginFailed", attributes: errorInfo)
                             DispatchQueue.main.async {
                                 self.stopIndicator()
                             }
@@ -373,6 +398,11 @@ class LoginVC: UIViewController {
                                         _ = user.signUp { (result) in
                                             switch result {
                                             case .success:
+                                                
+                                                let regInfo = ["Um_Key_RegisterType" : "邮箱注册成功"]
+                                                
+                                                UMAnalyticsSwift.event(eventId: "Um_Event_RegisterSuc", attributes: regInfo)
+                                                
                                                 self.presentAlertInView(title: "提示", message: "已发送验证邮件到\(email!)。请您单击邮件中的链接，完成验证后登录!", okText: "好")
                                                 UserDefaults.standard.set(Date(), forKey: "lastEmailLoginClickTime")
                                                 DispatchQueue.main.async {
@@ -380,6 +410,9 @@ class LoginVC: UIViewController {
                                                 }
                                                 
                                             case .failure(error: let error):
+                                                let errorInfo = ["Um_Key_Reasons" : error.reason]
+                                                
+                                                UMAnalyticsSwift.event(eventId: "Um_Event_LoginFailed", attributes: errorInfo)
                                                 switch error.code {
                                                 case 202 :
                                                     self.view.makeToast("该邮箱已注册!", duration: 1.0, position: .center)
@@ -455,6 +488,10 @@ class LoginVC: UIViewController {
                                             self.verificationCodeSent = true
                                             self.view.makeToast("验证码已发送!", duration: 1.0, position: .center)
                                         case .failure(error: let error):
+                                            let info = ["Um_Key_Reasons" : "验证码发送失败, \(String(describing: error.reason))"]
+                                            
+                                            UMAnalyticsSwift.event(eventId: "Um_Event_LoginFailed", attributes: info)
+                                            
                                             self.view.makeToast("发送失败:\(error.reason?.stringValue ?? "")", duration: 1.0, position: .center)
                                         }
                                     }
@@ -466,6 +503,9 @@ class LoginVC: UIViewController {
                                 alertController.addAction(cancelAction)
                                 self.present(alertController, animated: true, completion: nil)
                             default:
+                                let info = ["Um_Key_Reasons" : "验证码发送失败, \(String(describing: error.reason))"]
+                                
+                                UMAnalyticsSwift.event(eventId: "Um_Event_LoginFailed", attributes: info)
                                 self.view.makeToast("发送失败:\(error.reason?.stringValue ?? "")!", duration: 1.0, position: .center)
                             }
                     }
@@ -504,6 +544,26 @@ class LoginVC: UIViewController {
                    }
                    switch result {
                    case .success(object: let user):
+                       
+                        if let disabled = user.get("disabled")?.boolValue{
+                            if disabled {
+                                DispatchQueue.main.async {
+                                    let alertController = UIAlertController(title: "您的账号目前已被封禁", message: "如有疑问，请联系fullwallpaper@outlook.com", preferredStyle: .alert)
+                                    let okayAction = UIAlertAction(title: "好", style: .default, handler: { action in
+                                        UIControl().sendAction(#selector(URLSessionTask.suspend), to: UIApplication.shared, for: nil)
+                                        
+                                        })
+                                    alertController.addAction(okayAction)
+                                    self.present(alertController, animated: true, completion: nil)
+                                }
+                                return
+                            }
+                        }
+                    
+                       let userID: String = user.objectId!.stringValue!
+                       let info = ["Um_Key_LoginType" : "手机登录成功", "Um_Key_UserID" : userID]
+                        
+                       UMAnalyticsSwift.event(eventId: "Um_Event_LoginSuc", attributes: info)
                        getUserLikedWPs()
                        let name:String = user.get("name")?.stringValue ?? ""
                        let file = user.get("avatar") as? LCFile
@@ -520,7 +580,12 @@ class LoginVC: UIViewController {
                             })
                          }
                    case .failure(error: let error):
-                        self.view.makeToast("\(error.reason ?? "登录失败，请稍后重试")", duration: 1.0, position: .center)
+                    let info = ["Um_Key_Reasons" : "手机登录失败:\(String(describing: error.reason))"]
+                     
+                    UMAnalyticsSwift.event(eventId: "Um_Event_LoginFailed", attributes: info)
+                    
+                    getUserLikedWPs()
+                    self.view.makeToast("\(error.reason ?? "登录失败，请稍后重试")", duration: 1.0, position: .center)
                    }
                 })
             }else{

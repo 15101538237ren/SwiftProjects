@@ -96,10 +96,16 @@ class SettingVC: UIViewController , UITableViewDataSource, UITableViewDelegate {
     func askUserExperienceBeforeReview(){
         let alertController = UIAlertController(title: "评价反馈", message: "您在本应用使用体验如何?", preferredStyle: .alert)
         let okayAction = UIAlertAction(title: "很赞!必须五星好评", style: .default, handler: { action in
+            let info = [ "Um_Key_SourcePage": "设置页", "Um_Key_ButtonName" : "评价我们-很赞"]
+            UMAnalyticsSwift.event(eventId: "Um_Event_ModularClick", attributes: info)
                 self.requestWriteReview()
+            
             })
         let cancelAction = UIAlertAction(title: "用的不爽，反馈意见给开发团队", style: .default, handler: {
             action in
+            
+            let info = [ "Um_Key_SourcePage": "设置页", "Um_Key_ButtonName" : "评价我们-不爽"]
+            UMAnalyticsSwift.event(eventId: "Um_Event_ModularClick", attributes: info)
             self.showFeedBackMailComposer()
         })
         alertController.addAction(okayAction)
@@ -201,6 +207,10 @@ class SettingVC: UIViewController , UITableViewDataSource, UITableViewDelegate {
         switch indexPath.section {
         case 0:
             if let user = LCApplication.default.currentUser {
+                
+                let info = [ "Um_Key_SourcePage": "设置页", "Um_Key_ButtonName" : "查看Profile"]
+                UMAnalyticsSwift.event(eventId: "Um_Event_ModularClick", attributes: info)
+                 
                 initIndicator(view: view)
                 let name:String = user.get("name")?.stringValue ?? ""
                 let file = user.get("avatar") as? LCFile
@@ -214,16 +224,23 @@ class SettingVC: UIViewController , UITableViewDataSource, UITableViewDelegate {
                 }
             } else {
                 // 显示注册或登录页面
+                
+                let info = [ "Um_Key_SourcePage": "设置页", "Um_Key_ButtonName" : "注册登录"]
+                UMAnalyticsSwift.event(eventId: "Um_Event_ModularClick", attributes: info)
                 showLoginOrRegisterVC()
             }
             
         case 1:
+            let info = [ "Um_Key_SourcePage": "设置页", "Um_Key_ButtonName" : "查看会员权益"]
+            UMAnalyticsSwift.event(eventId: "Um_Event_ModularClick", attributes: info)
             showVIPBenefitsVC()
         case 2:
             switch indexPath.row {
                 case 0:
                     askUserExperienceBeforeReview()
                 case 2:
+                    let info = [ "Um_Key_SourcePage": "设置页", "Um_Key_ButtonName" : "意见反馈"]
+                    UMAnalyticsSwift.event(eventId: "Um_Event_ModularClick", attributes: info)
                     showFeedBackMailComposer()
                 default:
                     break
@@ -231,11 +248,17 @@ class SettingVC: UIViewController , UITableViewDataSource, UITableViewDelegate {
         case 3:
             switch indexPath.row {
                 case 0:
+                    let info = [ "Um_Key_SourcePage": "设置页", "Um_Key_ButtonName" : "清空缓存"]
+                    UMAnalyticsSwift.event(eventId: "Um_Event_ModularClick", attributes: info)
                     cleanImageCache()
                 case 1:
+                    let info = [ "Um_Key_SourcePage": "设置页", "Um_Key_ButtonName" : "服务条款"]
+                    UMAnalyticsSwift.event(eventId: "Um_Event_ModularClick", attributes: info)
                     let url = URL(string: "\(githubLink)/terms.html")!
                     loadPolicyVC(url: url)
                 case 2:
+                    let info = [ "Um_Key_SourcePage": "设置页", "Um_Key_ButtonName" : "隐私政策"]
+                    UMAnalyticsSwift.event(eventId: "Um_Event_ModularClick", attributes: info)
                     let url = URL(string: "\(githubLink)/privacy.html")!
                     loadPolicyVC(url: url)
                 
@@ -384,12 +407,22 @@ extension SettingVC : MFMailComposeViewControllerDelegate{
         var feedback_sent = false
         switch result {
         case .cancelled:
+            let info = [ "Um_Key_SourcePage": "设置页", "Um_Key_ButtonName" : "意见反馈-用户取消发送"]
+            UMAnalyticsSwift.event(eventId: "Um_Event_ModularClick", attributes: info)
             print("User Canceled")
         case .failed:
+            let info = [ "Um_Key_SourcePage": "设置页", "Um_Key_ButtonName" : "意见反馈-发送失败"]
+            UMAnalyticsSwift.event(eventId: "Um_Event_ModularClick", attributes: info)
             print("Send Failed")
         case .saved:
             print("Draft Saved")
         case .sent:
+            var userId: String = ""
+            if let user = LCApplication.default.currentUser{
+                userId = user.objectId!.stringValue!
+            }
+            let info = [ "Um_Key_SourcePage": "设置页", "Um_Key_ButtonName" : "意见反馈-发送成功", "Um_Key_UserID" : userId]
+            UMAnalyticsSwift.event(eventId: "Um_Event_ModularClick", attributes: info)
             print("Send Successful!")
             feedback_sent = true
         default:
