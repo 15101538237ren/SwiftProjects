@@ -8,10 +8,10 @@
 import UIKit
 import LeanCloud
 import SwiftTheme
-
+import UserNotifications
 
 @main
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
     var restrictRotation:UIInterfaceOrientationMask = .portrait
     
     func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask
@@ -41,11 +41,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             print(error)
         }
         
-        UMCommonLogSwift.setUpUMCommonLogManager()
-        UMCommonSwift.setLogEnabled(bFlag: true)
-        UMCommonSwift.initWithAppkey(appKey: "5fd5163e498d9e0d4d8bc7f5", channel: "App Store")
-        
-//        print("DEVICE ID: \(UMCommonSwift.deviceIDForIntegration())")
+        self.setupUmeng(launchOptions: launchOptions)
         
         setTheme()
         
@@ -53,6 +49,37 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         return true
     }
+    
+    func setupUmeng(launchOptions: [UIApplication.LaunchOptionsKey: Any]?) {
+            
+            /// 友盟初始化
+            UMCommonLogSwift.setUpUMCommonLogManager()
+            UMCommonSwift.initWithAppkey(appKey: Config.share.keyUmeng, channel: Config.share.channelID)
+            UMCommonSwift.setLogEnabled(bFlag: Config.share.isEnableUmengLog)
+            
+            /// iOS 10 以上必須支援
+            if #available(iOS 10.0, *) {
+                UNUserNotificationCenter.current().delegate = self
+            }
+            
+            /// 友盟推送配置
+            let entity = UMessageRegisterEntity.init()
+            
+            entity.types = Int(UMessageAuthorizationOptions.alert.rawValue) |
+                Int(UMessageAuthorizationOptions.badge.rawValue) |
+                Int(UMessageAuthorizationOptions.sound.rawValue)
+            
+            UMessage.registerForRemoteNotifications(launchOptions: launchOptions, entity: entity) { (granted, error) in
+                if granted {
+                    // 用户选择了接收Push消息
+                } else {
+                    // 用户拒绝接收Push消息
+                    print("用户拒绝接收Push消息")
+
+                }
+            }
+            UMessage.setAutoAlert(false)
+        }
     
 
     // MARK: UISceneSession Lifecycle
@@ -69,6 +96,47 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
     }
 
-
+    /// 拿到 Device Token
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        print(deviceToken.description)
+    }
+    
+    /// 註冊推送失敗
+    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
+        print(error.localizedDescription)
+    }
+    
+    /// 接到推送訊息
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any]) {
+        UMessage.didReceiveRemoteNotification(userInfo)
+    }
+    /// iOS10 新增：當 App 在＊＊前景＊＊模式下
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        
+        let userInfo: [AnyHashable: Any] = notification.request.content.userInfo
+        UMessage.sendClickReport(forRemoteNotification: userInfo)
+        print("User info: \(userInfo)")
+        
+        /// 處理遠程推送 ( Push Notification )
+        if notification.request.trigger?.isKind(of: UNPushNotificationTrigger.self) ?? false {
+            print("App 在＊＊前景＊＊模式下的遠程推送")
+        } else {
+            print("App 在＊＊前景＊＊模式下的本地推送")
+        }
+        completionHandler([.sound, .badge])
+    }
+        
+    /// iOS10 新增：當 App 在＊＊背景＊＊模式下
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        
+        let userInfo: [AnyHashable: Any] = response.notification.request.content.userInfo
+        
+        (response.notification.request.trigger?.isKind(of: UNPushNotificationTrigger.self) ?? false)
+            /// 處理遠程推送 ( Push Notification )
+            ? print("App 在＊＊背景＊＊模式下的遠程推送")
+            /// 處理本地推送 ( Local Notification )
+            : print("App 在＊＊背景＊＊模式下的本地推送")
+    }
+    
 }
 

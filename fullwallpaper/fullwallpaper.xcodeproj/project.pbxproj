@@ -34,6 +34,7 @@
 		C3770DCE255D143F00D240CB /* SettingTableViewCellWithValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3770DCD255D143F00D240CB /* SettingTableViewCellWithValue.swift */; };
 		C3871DF0255A6CA7001DF6C4 /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3871DEF255A6CA7001DF6C4 /* LoginVC.swift */; };
 		C38E1DFD255662E4004D008A /* Wallpaper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C38E1DFC255662E4004D008A /* Wallpaper.swift */; };
+		C39C47C2259532D700444A7F /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39C47C1259532D700444A7F /* Config.swift */; };
 		C3B1081F258E81BD0074F741 /* UMAnalyticsSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3B1081C258E81BC0074F741 /* UMAnalyticsSwift.swift */; };
 		C3B10820258E81BD0074F741 /* UMCommonLogSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3B1081D258E81BD0074F741 /* UMCommonLogSwift.swift */; };
 		C3B10821258E81BD0074F741 /* UMCommonSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3B1081E258E81BD0074F741 /* UMCommonSwift.swift */; };
@@ -93,6 +94,7 @@
 		C3770DCD255D143F00D240CB /* SettingTableViewCellWithValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingTableViewCellWithValue.swift; sourceTree = "<group>"; };
 		C3871DEF255A6CA7001DF6C4 /* LoginVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
 		C38E1DFC255662E4004D008A /* Wallpaper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Wallpaper.swift; sourceTree = "<group>"; };
+		C39C47C1259532D700444A7F /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 		C3B1081C258E81BC0074F741 /* UMAnalyticsSwift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UMAnalyticsSwift.swift; sourceTree = "<group>"; };
 		C3B1081D258E81BD0074F741 /* UMCommonLogSwift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UMCommonLogSwift.swift; sourceTree = "<group>"; };
 		C3B1081E258E81BD0074F741 /* UMCommonSwift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UMCommonSwift.swift; sourceTree = "<group>"; };
@@ -112,6 +114,7 @@
 		C3D5D820257D74BA006DA951 /* UserProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileVC.swift; sourceTree = "<group>"; };
 		C3E09BDA255CBE1600C4F238 /* AiNiChuanYueRenHai.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = AiNiChuanYueRenHai.ttf; sourceTree = "<group>"; };
 		C3E860742567531900559783 /* Date+NSDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+NSDate.swift"; sourceTree = "<group>"; };
+		C3F194E825952CD6000EB57E /* fullwallpaper.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = fullwallpaper.entitlements; sourceTree = "<group>"; };
 		C3F737D72582B856008D0095 /* SettingTableViewCellWithImg.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingTableViewCellWithImg.swift; sourceTree = "<group>"; };
 		C3F737DA25833620008D0095 /* VIPBenefitsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VIPBenefitsVC.swift; sourceTree = "<group>"; };
 		C3FC6230257DCC2F00E1A547 /* UIImage+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Ext.swift"; sourceTree = "<group>"; };
@@ -156,6 +159,7 @@
 				55370FBC2553B7130003CAD5 /* Reachability.swift */,
 				C3C3566225573B03006F137B /* SettingItem.swift */,
 				C3FEE1DA2589D785009D1DCE /* AppStoreReviewManager.swift */,
+				C39C47C1259532D700444A7F /* Config.swift */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -192,6 +196,7 @@
 		55F39925254A624D0094A477 /* fullwallpaper */ = {
 			isa = PBXGroup;
 			children = (
+				C3F194E825952CD6000EB57E /* fullwallpaper.entitlements */,
 				C3B1081B258E81910074F741 /* UMSwift */,
 				C3C3565B25572468006F137B /* Theme */,
 				C303B9E625551BAF005C7A50 /* Extensions */,
@@ -445,6 +450,7 @@
 				C3D5D81B257C5F87006DA951 /* AuditCollectionViewCell.swift in Sources */,
 				55370FAF2553B5800003CAD5 /* GlobalVariables.swift in Sources */,
 				C3F737DB25833620008D0095 /* VIPBenefitsVC.swift in Sources */,
+				C39C47C2259532D700444A7F /* Config.swift in Sources */,
 				C3543295258C761600D66A8A /* UIColor+Ext.swift in Sources */,
 				C3770DCE255D143F00D240CB /* SettingTableViewCellWithValue.swift in Sources */,
 				C3FC6231257DCC2F00E1A547 /* UIImage+Ext.swift in Sources */,
@@ -615,6 +621,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = fullwallpaper/fullwallpaper.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = WDA59C4558;
 				INFOPLIST_FILE = fullwallpaper/Info.plist;
@@ -636,6 +643,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = fullwallpaper/fullwallpaper.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = WDA59C4558;
 				INFOPLIST_FILE = fullwallpaper/Info.plist;

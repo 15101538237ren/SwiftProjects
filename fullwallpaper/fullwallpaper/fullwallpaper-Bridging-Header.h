@@ -17,4 +17,7 @@
 //导入UMAnalytics的OC的头文件
 #import <UMCommon/MobClick.h>
 
+//导入UUMessage的OC的头文件
+#import <UMPush/UMessage.h>
+
 #endif /* fullwallpaper_Bridging_Header_h */

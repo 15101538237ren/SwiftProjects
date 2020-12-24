@@ -11,9 +11,6 @@ import CoreLocation
 
 class UMAnalyticsSwift: NSObject {
     
-    
-
-    
     //页面统计    
     /** 手动页面时长统计, 记录某个页面展示的时长.
      @param pageName 统计的页面名称.
