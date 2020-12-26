@@ -16,7 +16,7 @@ class SettingVC: UIViewController , UITableViewDataSource, UITableViewDelegate {
     let settingItems:[[SettingItem]] = [
         [SettingItem(symbol_name : "user", name: "登录 / 注册")],
         
-        [SettingItem(symbol_name : "membership", name: "年会员「限时5折」!")],
+        [SettingItem(symbol_name : "membership", name: "年会员「5折优惠」!")],
         
         [SettingItem(symbol_name : "rate", name: "评价我们"),
          SettingItem(symbol_name : "share", name: "分享给朋友"),
@@ -28,12 +28,14 @@ class SettingVC: UIViewController , UITableViewDataSource, UITableViewDelegate {
     ]
     
     var displayName: String = ""
+    var isPro:Bool = false
     
     @IBOutlet var tableView: UITableView!
     
     @IBOutlet weak var titleLabel: UILabel!
     
     let separatorHeight:CGFloat = 0.5
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         titleLabel.theme_textColor = "BarTitleColor"
@@ -47,17 +49,33 @@ class SettingVC: UIViewController , UITableViewDataSource, UITableViewDelegate {
     
     func updateDisplayName(){
         if let user = LCApplication.default.currentUser {
-            _ = user.fetch(keys: ["name"]) { result in
+            _ = user.fetch(keys: ["name", "proDue"]) { result in
                 switch result {
                 case .success:
+                    var changed = false
+                    
                     let name:String = user.get("name")?.stringValue ?? ""
                     if !name.isEmpty{
                         self.displayName = name
+                        changed = true
+                    }
+                    
+                    if let proDUE = user.get("proDue"){
+                        if let proDUEdate = proDUE.dateValue{
+                            if proDUEdate > Date(){
+                                self.isPro = true
+                                changed = true
+                            }
+                        }
+                    }
+                    
+                    if changed {
                         let indexPath = IndexPath(row: 0, section: 0)
                         DispatchQueue.main.async {
                             self.tableView.reloadRows(at: [indexPath], with: .none)
                         }
                     }
+                    
                 case .failure(error: let error):
                     print(error.localizedDescription)
                 }
@@ -129,6 +147,13 @@ class SettingVC: UIViewController , UITableViewDataSource, UITableViewDelegate {
             
             cell.backgroundColor = .clear
             cell.imgView.image = settingItems[section][row].icon
+            
+            if isPro {
+                cell.proImgView.alpha = 1
+            }else{
+                cell.proImgView.alpha = 0
+            }
+            
             if !displayName.isEmpty {
                 cell.titleLbl.text = displayName
             }else{

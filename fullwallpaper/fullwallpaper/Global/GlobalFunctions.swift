@@ -19,6 +19,16 @@ func getSegmentedCtrlUnselectedTextColor() -> String{
     return viewBackgroundColor
 }
 
+func getBannedAlert() -> UIAlertController{
+    let alertController = UIAlertController(title: "您的账号目前已被封禁", message: "如有疑问，请联系fullwallpaper@outlook.com", preferredStyle: .alert)
+    let okayAction = UIAlertAction(title: "好", style: .default, handler: { action in
+        UIControl().sendAction(#selector(URLSessionTask.suspend), to: UIApplication.shared, for: nil)
+        
+        })
+    alertController.addAction(okayAction)
+    return alertController
+}
+
 
 func setTheme(theme: THEME = .system){
     if #available(iOS 13, *) {

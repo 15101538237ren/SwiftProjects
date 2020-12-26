@@ -20,7 +20,6 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
     //Variables
     var imagePicker = UIImagePickerController()
     fileprivate var timeOnThisPage: Int = 0
-    
     var hotWallpapers:[Wallpaper] = []
     var latestWallpapers:[Wallpaper] = []
     var NoNetWork:Bool = false
@@ -48,7 +47,7 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var menuBtn: UIButton!
-    @IBOutlet weak var searchBtn: UIButton!
+    @IBOutlet weak var sortBtn: UIButton!
     
     
     func popPrivacyMessage(){
@@ -88,20 +87,35 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
         })
     }
     
-    func checkIfUserDisabled(){
-        if let user = LCApplication.default.currentUser{
-            if let disabled = user.get("disabled")?.boolValue{
-                if disabled {
-                    DispatchQueue.main.async {
-                        let alertController = UIAlertController(title: "您的账号目前已被封禁", message: "如有疑问，请联系fullwallpaper@outlook.com", preferredStyle: .alert)
-                        let okayAction = UIAlertAction(title: "好", style: .default, handler: { action in
-                            UIControl().sendAction(#selector(URLSessionTask.suspend), to: UIApplication.shared, for: nil)
-                            
-                            })
-                        alertController.addAction(okayAction)
-                        self.present(alertController, animated: true, completion: nil)
+    func checkUserStatus(){
+        if let user = LCApplication.default.currentUser {
+            _ = user.fetch(keys: ["proDue", "disabled"]) { result in
+                switch result {
+                case .success:
+                    if let disabledLCObj = user.get("disabled"){
+                        if let disabled = disabledLCObj.boolValue {
+                            isDisabled = disabled
+                            if isDisabled {
+                                DispatchQueue.main.async {
+                                    let alertController:UIAlertController = getBannedAlert()
+                                    self.present(alertController, animated: true, completion: nil)
+                                }
+                                return
+                            }
+                        }
                     }
-                    return
+                    
+                    if let proDUE = user.get("proDue"){
+                        if let proDUEdate = proDUE.dateValue{
+                            if proDUEdate > Date(){
+                                isPro = true
+                            }
+                            print("proDUEdate \(proDUEdate)")
+                        }
+                    }
+                    
+                case .failure(error: let error):
+                    print(error.localizedDescription)
                 }
             }
         }
@@ -124,7 +138,7 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        checkIfUserDisabled()
+        checkUserStatus()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -169,6 +183,15 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
         }
     }
     
+    func showVIPBenefitsVC() {
+        let MainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+        let vipBenefitsVC = MainStoryBoard.instantiateViewController(withIdentifier: "vipBenefitsVC") as! VIPBenefitsVC
+        vipBenefitsVC.modalPresentationStyle = .fullScreen
+        DispatchQueue.main.async {
+            self.present(vipBenefitsVC, animated: true, completion: nil)
+        }
+    }
+    
     func loadDetailVC(imageUrl: URL, wallpaperObjectId: String) -> Void{
         let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
         let detailVC = mainStoryBoard.instantiateViewController(withIdentifier: "detailVC") as! WallpaperDetailVC
@@ -182,7 +205,7 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
         }
     }
     
-    @IBAction func loadSearchVC(sender: UIButton) -> Void{
+    func loadSearchVC() -> Void{
         let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
         let searchVC = mainStoryBoard.instantiateViewController(withIdentifier: "searchVC") as! SearchVC
         
@@ -228,6 +251,7 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
                             collectionView.stopLoadMore()
                             collectionView.setLoadMoreEnable(false)
                             if (switchedSortType){
+                                
                                 collectionView.reloadData()
                                 switchedSortType = false
                             }
@@ -237,6 +261,7 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
                         }
                         return
                     }
+                    
                     print("Fetched \(results.count) wallpapers")
                     for rid in 0..<results.count{
                         let res = results[rid]
@@ -273,9 +298,7 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
                         self.NoNetWork = false
                         
                         if (switchedSortType){
-                            collectionView.scrollToItem(at: IndexPath(row: 0, section: 0),
-                                                        at: .top,
-                                                        animated: true)
+                            self.collectionView.scrollToItem(at: IndexPath(row: 0, section: 0),at: .top, animated: true)
                             switchedSortType = false
                             collectionView.setLoadMoreEnable(true)
                         }
@@ -320,8 +343,12 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let wallpaper:Wallpaper = sortType == .byLike ? hotWallpapers[indexPath.row] : latestWallpapers[indexPath.row]
-        if let imgUrl = URL(string: wallpaper.imgUrl){
-            loadDetailVC(imageUrl: imgUrl, wallpaperObjectId: wallpaper.objectId)
+        if wallpaper.isPro && !isPro{
+            showVIPBenefitsVC()
+        }else{
+            if let imgUrl = URL(string: wallpaper.imgUrl){
+                loadDetailVC(imageUrl: imgUrl, wallpaperObjectId: wallpaper.objectId)
+            }
         }
     }
     
@@ -344,20 +371,37 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
         emptyView.contentView.layer.backgroundColor = UIColor.clear.cgColor
     }
     
-    @IBAction func presentPopMenu(_ sender: UIButton) {
+    @IBAction func presentSortMenu(_ sender: UIButton){
             let iconWidthHeight:CGFloat = 20
-            let popAction = PopMenuDefaultAction(title: "最热壁纸", image: UIImage(named: "heart-fill-icon"), color: UIColor.darkGray)
-            let latestAction = PopMenuDefaultAction(title: "最新壁纸", image: UIImage(named: "calendar-icon"), color: UIColor.darkGray)
-            let uploadAction = PopMenuDefaultAction(title: "上传壁纸", image: UIImage(named: "upload"), color: UIColor.darkGray)
+            let popAction = PopMenuDefaultAction(title: "最热壁纸", image: UIImage(named: "heart-fill-icon"), color: UIColor.lightGray)
+            let latestAction = PopMenuDefaultAction(title: "最新壁纸", image: UIImage(named: "calendar-icon"), color: UIColor.lightGray)
         
             popAction.iconWidthHeight = iconWidthHeight
             latestAction.iconWidthHeight = iconWidthHeight
+            
+            let popActions: [PopMenuAction] = [popAction, latestAction]
+        
+            let menuVC = PopMenuViewController(sourceView:sender, actions: popActions)
+            menuVC.delegate = self
+            menuVC.view.tag = 2
+            menuVC.appearance.popMenuFont = .systemFont(ofSize: 15, weight: .regular)
+            
+            menuVC.appearance.popMenuColor.backgroundColor = .solid(fill: .white)
+            self.present(menuVC, animated: true, completion: nil)
+    }
+    
+    @IBAction func presentPopMenu(_ sender: UIButton) {
+            let iconWidthHeight:CGFloat = 20
+            let searchAction = PopMenuDefaultAction(title: "搜索壁纸", image: UIImage(named: "search"), color: UIColor.lightGray)
+            let uploadAction = PopMenuDefaultAction(title: "上传壁纸", image: UIImage(named: "upload"), color: UIColor.lightGray)
+        
+            searchAction.iconWidthHeight = iconWidthHeight
             uploadAction.iconWidthHeight = iconWidthHeight
             
-            var popActions: [PopMenuAction] = [popAction, latestAction, uploadAction]
+            var popActions: [PopMenuAction] = [searchAction, uploadAction]
             
             if isAdmin{
-                let auditAction = PopMenuDefaultAction(title: "壁纸审核", image: UIImage(named: "audit"), color: UIColor.darkGray)
+                let auditAction = PopMenuDefaultAction(title: "壁纸审核", image: UIImage(named: "audit"), color: UIColor.lightGray)
                 
                 auditAction.iconWidthHeight = iconWidthHeight
                 popActions.append(auditAction)
@@ -365,9 +409,10 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
         
             let menuVC = PopMenuViewController(sourceView:sender, actions: popActions)
             menuVC.delegate = self
+            menuVC.view.tag = 1
             menuVC.appearance.popMenuFont = .systemFont(ofSize: 15, weight: .regular)
             
-            menuVC.appearance.popMenuColor.backgroundColor = .solid(fill: UIColor(red: 240, green: 240, blue: 240, alpha: 1))
+            menuVC.appearance.popMenuColor.backgroundColor = .solid(fill: .white)
             self.present(menuVC, animated: true, completion: nil)
         }
     
@@ -421,33 +466,45 @@ extension WallpaperVC: PopMenuViewControllerDelegate {
 
     // This will be called when a pop menu action was selected
     func popMenuDidSelectItem(_ popMenuViewController: PopMenuViewController, at index: Int) {
-        if index == 0{
-            if sortType != .byLike{
-                sortType = .byLike
-                initIndicator(view: self.view)
-                switchedSortType = true
-                loadWallpapers()
-            }
-        }else if index == 1{
-            if sortType != .byCreateDate{
-                sortType = .byCreateDate
-                initIndicator(view: self.view)
-                switchedSortType = true
-                loadWallpapers()
-            }
-        }else if index == 2{
-            self.dismiss(animated: false, completion: {
-                if let _ = LCApplication.default.currentUser {
-                    self.selectImage()
-                } else {
-                    // 显示注册或登录页面
-                    self.showLoginOrRegisterVC()
+        if popMenuViewController.view.tag == 1{
+            if index == 0{
+                if isPro {
+                    loadSearchVC()
+                }else{
+                    showVIPBenefitsVC()
                 }
-            })
-        }else if index == 3{
-            if isAdmin{
-                loadAuditVC()
+            }
+            else if index == 1{
+                self.dismiss(animated: false, completion: {
+                    if let _ = LCApplication.default.currentUser {
+                        self.selectImage()
+                    } else {
+                        // 显示注册或登录页面
+                        self.showLoginOrRegisterVC()
+                    }
+                })
+            }else if index == 2{
+                if isAdmin{
+                    loadAuditVC()
+                }
+            }
+        }else{
+            if index == 0{
+                if sortType != .byLike{
+                    sortType = .byLike
+                    initIndicator(view: self.view)
+                    switchedSortType = true
+                    loadWallpapers()
+                }
+            }else if index == 1{
+                if sortType != .byCreateDate{
+                    sortType = .byCreateDate
+                    initIndicator(view: self.view)
+                    switchedSortType = true
+                    loadWallpapers()
+                }
             }
         }
+        
     }
 }

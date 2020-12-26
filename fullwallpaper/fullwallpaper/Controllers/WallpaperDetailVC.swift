@@ -56,6 +56,7 @@ class WallpaperDetailVC: UIViewController {
     var wallpaperObjectId: String!
     var previewStatus: DisplayMode = .Plain
     var liked: Bool = false
+    var isPro: Bool = false
     var viewTranslation = CGPoint(x: 0, y: 0)
     var reviewFuncCalled: Bool = false
     var reportClassification:[Int : String] = [2:"不良内容", 3: "清晰度不佳", 4: "壁纸侵权", 5: "分类有误"]
@@ -63,31 +64,23 @@ class WallpaperDetailVC: UIViewController {
     // MARK: - Constants
     let scaleForAnimation: CGFloat = 2
     
-    func checkIfUserDisabled(){
-        if let user = LCApplication.default.currentUser{
-            if let disabled = user.get("disabled")?.boolValue{
-                if disabled {
-                    DispatchQueue.main.async {
-                        let alertController = UIAlertController(title: "您的账号目前已被封禁", message: "如有疑问，请联系fullwallpaper@outlook.com", preferredStyle: .alert)
-                        let okayAction = UIAlertAction(title: "好", style: .default, handler: { action in
-                            UIControl().sendAction(#selector(URLSessionTask.suspend), to: UIApplication.shared, for: nil)
-                            
-                            })
-                        alertController.addAction(okayAction)
-                        self.present(alertController, animated: true, completion: nil)
-                    }
-                    return
-                }
-            }
-        }
-    }
-    
     // MARK: - ViewController Life Cycle
     override func viewDidLoad() {
-        checkIfUserDisabled()
         super.viewDidLoad()
-        loadImage(url: imageUrl)
-        addGestureRcg()
+        checkIfDisabled()
+    }
+    
+    func checkIfDisabled(){
+        if isDisabled {
+            DispatchQueue.main.async {
+                let alertController:UIAlertController = getBannedAlert()
+                self.present(alertController, animated: true, completion: nil)
+            }
+            return
+        }else{
+            loadImage(url: imageUrl)
+            addGestureRcg()
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {

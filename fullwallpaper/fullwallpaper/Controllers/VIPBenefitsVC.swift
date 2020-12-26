@@ -41,13 +41,13 @@ class VIPBenefitsVC: UIViewController {
     
     @IBOutlet var upperDimUIView: UIView!{
         didSet{
-            upperDimUIView.theme_alpha = "DimView.Alpha"
+            upperDimUIView.theme_alpha = "VIPPageDimView.Alpha"
         }
     }
     
     @IBOutlet var bottomDimUIView: UIView!{
         didSet{
-            bottomDimUIView.theme_alpha = "DimView.Alpha"
+            bottomDimUIView.theme_alpha = "VIPPageDimView.Alpha"
         }
     }
     

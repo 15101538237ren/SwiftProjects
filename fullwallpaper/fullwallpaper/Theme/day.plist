@@ -26,6 +26,8 @@
 	<string>#000</string>
 	<key>DimView.Alpha</key>
 	<real>0.05</real>
+	<key>VIPPageDimView.Alpha </key>
+	<integer>0</integer>
 	<key>View.BackgroundColor</key>
 	<string>#FFFFFF</string>
 </dict>

@@ -155,9 +155,9 @@
                                                     <constraint firstAttribute="width" constant="20" id="vQt-BZ-xZu"/>
                                                 </constraints>
                                                 <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                <state key="normal" image="magnifyingglass" catalog="system"/>
+                                                <state key="normal" image="arrow.up.arrow.down" catalog="system"/>
                                                 <connections>
-                                                    <action selector="loadSearchVCWithSender:" destination="aNq-ZR-jQA" eventType="touchUpInside" id="Qiv-HE-9Ra"/>
+                                                    <action selector="presentSortMenu:" destination="aNq-ZR-jQA" eventType="touchUpInside" id="hIx-wu-ba7"/>
                                                 </connections>
                                             </button>
                                         </subviews>
@@ -281,7 +281,7 @@
                         <outlet property="collectionView" destination="BI1-eP-PZB" id="9Ud-tn-QU7"/>
                         <outlet property="headerView" destination="6T9-p8-o4n" id="G4V-PT-TCU"/>
                         <outlet property="menuBtn" destination="khz-kF-PqT" id="0ya-ZV-Ieq"/>
-                        <outlet property="searchBtn" destination="23m-nM-mB7" id="cld-ZG-aYv"/>
+                        <outlet property="sortBtn" destination="23m-nM-mB7" id="YOC-gi-qWs"/>
                         <outlet property="titleLabel" destination="Xs0-xa-AkM" id="qkI-2H-UNn"/>
                     </connections>
                 </viewController>
@@ -2532,8 +2532,8 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fB0-0r-PSf">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="100"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="年会员「限时5折」!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NwT-pI-m1Y">
-                                        <rect key="frame" x="125.5" y="68.5" width="163.5" height="21.5"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="会员权益" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NwT-pI-m1Y">
+                                        <rect key="frame" x="170.5" y="68.5" width="73.5" height="21.5"/>
                                         <fontDescription key="fontDescription" type="system" weight="medium" pointSize="18"/>
                                         <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
@@ -2578,7 +2578,7 @@
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
                                     </imageView>
-                                    <view userInteractionEnabled="NO" alpha="0.10000001490116001" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="m2J-8D-r3b">
+                                    <view userInteractionEnabled="NO" alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="m2J-8D-r3b">
                                         <rect key="frame" x="20" y="23" width="374" height="194"/>
                                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
@@ -2665,7 +2665,7 @@
                                             <constraint firstAttribute="width" secondItem="4Ax-pV-Ogy" secondAttribute="height" multiplier="312:141" id="rHP-MO-VeA"/>
                                         </constraints>
                                     </imageView>
-                                    <view userInteractionEnabled="NO" alpha="0.10000001639127731" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pJa-WK-bRS">
+                                    <view userInteractionEnabled="NO" alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pJa-WK-bRS">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="180"/>
                                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </view>
@@ -2731,6 +2731,7 @@
         <image name="HomeScreen" width="375" height="814"/>
         <image name="LockScreen" width="377" height="812"/>
         <image name="approve" width="478" height="478"/>
+        <image name="arrow.up.arrow.down" catalog="system" width="128" height="98"/>
         <image name="cellphone" width="512" height="512"/>
         <image name="chevron.down" catalog="system" width="128" height="72"/>
         <image name="chevron.left" catalog="system" width="96" height="128"/>
@@ -2743,7 +2744,6 @@
         <image name="lock" width="380" height="380"/>
         <image name="loginBackground" width="1892" height="2854"/>
         <image name="logout" width="512" height="512"/>
-        <image name="magnifyingglass" catalog="system" width="128" height="115"/>
         <image name="mail" width="551" height="551"/>
         <image name="menu" width="384" height="384"/>
         <image name="message.fill" catalog="system" width="128" height="113"/>

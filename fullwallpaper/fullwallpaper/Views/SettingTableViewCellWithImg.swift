@@ -9,12 +9,17 @@ import UIKit
 
 class SettingTableViewCellWithImg: UITableViewCell {
     @IBOutlet var imgView: UIImageView!
+    
     @IBOutlet var titleLbl: UILabel!{
         didSet{
             titleLbl.theme_textColor = "TableCell.TextColor"
         }
     }
-    @IBOutlet var proImgView: UIImageView!
+    @IBOutlet var proImgView: UIImageView!{
+        didSet{
+            proImgView.alpha = 0
+        }
+    }
     
     override func awakeFromNib() {
         super.awakeFromNib()

@@ -23,6 +23,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         
         do {
+            
+            
+            
             var configuration = LCApplication.Configuration.default
             configuration.HTTPURLCache = URLCache(
                 // 内存缓存容量，100 MB
@@ -98,7 +101,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
     /// 拿到 Device Token
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-        print(deviceToken.description)
+        var deviceId = String()
+        if #available(iOS 13.0, *) {
+            let bytes = [UInt8](deviceToken)
+            for item in bytes {
+                deviceId += String(format:"%02x", item&0x000000FF)
+            }
+            print("iOS 13 deviceToken：\(deviceId)")
+        } else {
+            let device = NSData(data: deviceToken)
+            deviceId = device.description.replacingOccurrences(of:"<", with:"").replacingOccurrences(of:">", with:"").replacingOccurrences(of:" ", with:"")
+            print("我的deviceToken：\(deviceId)")
+        }
     }
     
     /// 註冊推送失敗
