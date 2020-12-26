@@ -320,10 +320,10 @@ class AuditVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
         if selectedIndexPathDict.count > 0{
             let iconWidthHeight:CGFloat = 20
             
-            let approveAction = PopMenuDefaultAction(title: "通过", image: UIImage(named: "approve"), color: UIColor.darkGray)
-            let proAction = PopMenuDefaultAction(title: "加PRO", image: UIImage(named: "membership"), color: UIColor.darkGray)
-            let rejectAction = PopMenuDefaultAction(title: "拒绝", image: UIImage(named: "reject"), color: UIColor.darkGray)
-            let deleteAction = PopMenuDefaultAction(title: "删除", image: UIImage(named: "delete"), color: UIColor.darkGray)
+            let approveAction = PopMenuDefaultAction(title: "通过", image: UIImage(named: "approve"), color: UIColor.lightGray)
+            let proAction = PopMenuDefaultAction(title: "加PRO", image: UIImage(named: "membership"), color: UIColor.lightGray)
+            let rejectAction = PopMenuDefaultAction(title: "拒绝", image: UIImage(named: "reject"), color: UIColor.lightGray)
+            let deleteAction = PopMenuDefaultAction(title: "删除", image: UIImage(named: "delete"), color: UIColor.lightGray)
             
             approveAction.iconWidthHeight = iconWidthHeight
             proAction.iconWidthHeight = iconWidthHeight
