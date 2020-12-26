@@ -39,9 +39,9 @@ class SearchVC: UIViewController, UICollectionViewDelegate, UICollectionViewData
         gestRec.delegate = self
         collectionView.addGestureRecognizer(gestRec)
 
-        //        collectionView.addLoadMore(action: { [weak self] in
-//            self?.handleLoadMore()
-//        })
+        collectionView.addLoadMore(action: { [weak self] in
+            self?.handleLoadMore()
+        })
     }
     
     @objc func dismissKeyboard() {

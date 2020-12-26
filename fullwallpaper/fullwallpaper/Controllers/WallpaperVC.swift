@@ -111,7 +111,6 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
                             if proDUEdate > Date(){
                                 isPro = true
                             }
-                            print("proDUEdate \(proDUEdate)")
                         }
                     }
                     
