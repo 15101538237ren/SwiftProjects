@@ -1533,7 +1533,7 @@
                                     <action selector="forgetPwd:" destination="hdS-J6-eQW" eventType="touchUpInside" id="7hB-cY-WTH"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="okQ-3n-br9">
+                            <button opaque="NO" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="okQ-3n-br9">
                                 <rect key="frame" x="328" y="59" width="66" height="35"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="35" id="J0w-bx-Rcd"/>
@@ -1584,6 +1584,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="backBtn" destination="LJf-k3-I7k" id="gfl-t3-O35"/>
                         <outlet property="emailLoginBtn" destination="zME-6p-R5H" id="kTO-P6-1MX"/>
                         <outlet property="emailLoginIndicationBtn" destination="okQ-3n-br9" id="bLf-xM-Ot3"/>
                         <outlet property="emailStackView" destination="Trn-Mi-gHa" id="mXG-TO-c8R"/>

@@ -1,21 +1,21 @@
 PODS:
-  - Alamofire (5.4.0)
+  - Alamofire (5.4.1)
   - AYPopupPickerView (1.2)
   - CropViewController (2.5.5)
   - GRDB.swift (4.14.0):
     - GRDB.swift/standard (= 4.14.0)
   - GRDB.swift/standard (4.14.0)
   - JGProgressHUD (2.2)
-  - LeanCloud (17.6.5):
-    - LeanCloud/RTM (= 17.6.5)
-  - LeanCloud/Foundation (17.6.5):
+  - LeanCloud (17.6.6):
+    - LeanCloud/RTM (= 17.6.6)
+  - LeanCloud/Foundation (17.6.6):
     - Alamofire (~> 5.3)
-  - LeanCloud/RTM (17.6.5):
+  - LeanCloud/RTM (17.6.6):
     - GRDB.swift (~> 4.14)
-    - LeanCloud/Foundation (= 17.6.5)
+    - LeanCloud/Foundation (= 17.6.6)
     - SwiftProtobuf (~> 1.13)
   - NewPopMenu (2.1.2)
-  - Nuke (9.2.0)
+  - Nuke (9.2.2)
   - PhoneNumberKit (3.3.1):
     - PhoneNumberKit/PhoneNumberKitCore (= 3.3.1)
     - PhoneNumberKit/UIKit (= 3.3.1)
@@ -64,7 +64,6 @@ DEPENDENCIES:
   - UMCCommonLog
   - UMCommon
   - UMCSecurityPlugins
-  - UMDevice
   - UMPush
 
 SPEC REPOS:
@@ -95,14 +94,14 @@ SPEC REPOS:
     - UMPush
 
 SPEC CHECKSUMS:
-  Alamofire: 3b6a534a3df22db367e4dedeeca73d1ddfcf0e2f
+  Alamofire: 2291f7d21ca607c491dd17642e5d40fdcda0e65c
   AYPopupPickerView: 639e88c630c79f68e1dc34cf2c90f43ea2dbff46
   CropViewController: bd3ff11eeeaadc1e267bb9c3f3e9ee67a52d3285
   GRDB.swift: 8cc3ab7c8b8b4ac1761deb8dca4b51c1c9d429f8
   JGProgressHUD: d83d7a981b85d11205e19ff8ad5bb9c40571c847
-  LeanCloud: ed1b4545e9d82c44a4027d4a2f7f40b30663df4a
+  LeanCloud: 90c5a98c6f3ceb66b707bd668f10ef328034b614
   NewPopMenu: c6129e08e8192f6257ceb5f9a4357e1b59c6e2e7
-  Nuke: 1394e48b0940e01dd20f52ac56b121ab154e370d
+  Nuke: 977324335953a448b3d83e0ef3b4ce4775b155f7
   PhoneNumberKit: ff153d5e299f6da566cb73c6aa71e354933b2932
   Refreshable: 0f76b6d198178e6cd2823a553fbf4e84a3dba527
   SwifterSwift: 334181863c416882d97b7a60c05054d9e4d799e2
@@ -120,6 +119,6 @@ SPEC CHECKSUMS:
   UMDevice: 28d21a568c8e8322e5a03bbd53b138d0c098d3b3
   UMPush: 7ef2ff2fcca16e4d5c7897183a78a0d26f920bfe
 
-PODFILE CHECKSUM: 05d6aa60c4dd6b11b5dd2d3a862226c573830d16
+PODFILE CHECKSUM: 77cb8a053fb45e4c2ed5dcc8a625c22a1d7e7cb9
 
 COCOAPODS: 1.9.3

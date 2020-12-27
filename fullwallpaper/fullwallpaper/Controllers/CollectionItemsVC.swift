@@ -206,6 +206,10 @@ class CollectionItemsVC: UIViewController, UICollectionViewDelegate, UICollectio
                 }
             }
             }
+        }else{
+            stopIndicator()
+            self.NoNetwork = false
+            self.reloadEmptyStateForCollectionView(self.collectionView)
         }
         
     }
@@ -264,10 +268,25 @@ class CollectionItemsVC: UIViewController, UICollectionViewDelegate, UICollectio
         return CGSize(width: width, height: height)
     }
     
+    func showVIPBenefitsVC(showHint: Bool) {
+        let MainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+        let vipBenefitsVC = MainStoryBoard.instantiateViewController(withIdentifier: "vipBenefitsVC") as! VIPBenefitsVC
+        vipBenefitsVC.showHint = showHint
+        vipBenefitsVC.modalPresentationStyle = .fullScreen
+        DispatchQueue.main.async {
+            self.present(vipBenefitsVC, animated: true, completion: nil)
+        }
+    }
+    
+    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let wallpaper:Wallpaper = sortType == .byLike ? hotWallpapers[indexPath.row] : latestWallpapers[indexPath.row]
-        if let imgUrl = URL(string: wallpaper.imgUrl){
-            loadDetailVC(imageUrl: imgUrl, wallpaperObjectId: wallpaper.objectId)
+        if wallpaper.isPro && !isPro{
+            showVIPBenefitsVC(showHint: true)
+        }else{
+            if let imgUrl = URL(string: wallpaper.imgUrl){
+                loadDetailVC(imageUrl: imgUrl, wallpaperObjectId: wallpaper.objectId)
+            }
         }
     }
     

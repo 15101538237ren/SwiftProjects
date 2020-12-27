@@ -48,7 +48,7 @@ class LoginVC: UIViewController {
     
     @IBOutlet var emailLoginIndicationBtn: UIButton!{
         didSet {
-            emailLoginIndicationBtn.alpha = 1
+            emailLoginIndicationBtn.alpha = 0
         }
     }
     
@@ -88,6 +88,22 @@ class LoginVC: UIViewController {
         didSet{
             resetStackView.alpha = 0
         }
+    }
+    
+    
+    @IBOutlet weak var backBtn: UIButton!
+    
+    func setElements(enable: Bool){
+        self.backBtn.isUserInteractionEnabled = enable
+        self.view.isUserInteractionEnabled = enable
+        self.emailLoginIndicationBtn.isUserInteractionEnabled = enable
+        self.resetStackView.isUserInteractionEnabled = enable
+        self.emailStackView.isUserInteractionEnabled = enable
+        self.phoneStackView.isUserInteractionEnabled = enable
+        self.forgotPwdBtn.isUserInteractionEnabled = enable
+        self.phoneLoginBtn.isUserInteractionEnabled = enable
+        self.emailLoginBtn.isUserInteractionEnabled = enable
+        self.resetPwdBtn.isUserInteractionEnabled = enable
     }
     
     
@@ -162,12 +178,12 @@ class LoginVC: UIViewController {
                 forgotPwdBtn.alpha = 0
                 emailLoginIndicationBtn.setTitle("邮箱登录", for: .normal)
                 phoneStackView.alpha = 1
-                emailLoginIndicationBtn.alpha = 1
+                emailLoginIndicationBtn.alpha = 0
                 phoneLoginBtn.alpha = 1
             case .Email:
                 emailStackView.alpha = 1
                 emailLoginBtn.alpha = 1
-                emailLoginIndicationBtn.alpha = 1
+                emailLoginIndicationBtn.alpha = 0
                 forgotPwdBtn.alpha = 1
                 resetStackView.alpha = 0
                 phoneStackView.alpha = 0
@@ -325,6 +341,7 @@ class LoginVC: UIViewController {
                     
                     DispatchQueue.main.async {
                         self.initActivityIndicator(text: "正在登录")
+                        self.setElements(enable: false)
                     }
                     
                     _ = LCUser.logIn(email: email!, password: pwd!) { result in
@@ -357,15 +374,16 @@ class LoginVC: UIViewController {
                             getUserLikedWPs()
                             DispatchQueue.main.async {
                                 self.stopIndicator()
-                                
                                 self.dismiss(animated: false, completion: {
                                     if let setVC = self.settingVC{
                                         if name.isEmpty || file == nil {
-                                            if file != nil{
+                                            if (name.isEmpty && file != nil){
                                                 let imgUrl = file!.url!.stringValue!
-                                                setVC.showSetProfileVC(imageUrl: imgUrl)
+                                                setVC.showSetProfileVC(previousName: nil, imageUrl: imgUrl)
+                                            }else if (!name.isEmpty && file == nil){
+                                                setVC.showSetProfileVC(previousName: name, imageUrl: nil)
                                             }else{
-                                                setVC.showSetProfileVC()
+                                                setVC.showSetProfileVC(previousName: nil, imageUrl: nil)
                                             }
                                         }else{
                                             setVC.setDisplayNameAndUpdate(name: name)
@@ -383,6 +401,7 @@ class LoginVC: UIViewController {
                             UMAnalyticsSwift.event(eventId: "Um_Event_LoginFailed", attributes: errorInfo)
                             DispatchQueue.main.async {
                                 self.stopIndicator()
+                                self.setElements(enable: true)
                             }
                             switch error.code {
                             case 211:
@@ -390,6 +409,10 @@ class LoginVC: UIViewController {
                                 let okayAction = UIAlertAction(title: "是", style: .default, handler: { action in
                                      do {
                                         // 创建实例
+                                        DispatchQueue.main.async {
+                                            self.initActivityIndicator(text: "正在登录")
+                                            self.setElements(enable: false)
+                                        }
                                         let user = LCUser()
                                         user.username = LCString(email!)
                                         user.password = LCString(pwd!)
@@ -407,9 +430,15 @@ class LoginVC: UIViewController {
                                                 UserDefaults.standard.set(Date(), forKey: "lastEmailLoginClickTime")
                                                 DispatchQueue.main.async {
                                                     self.emailLoginBtn.setTitle("登录", for: .normal)
+                                                    self.stopIndicator()
+                                                    self.setElements(enable: true)
                                                 }
                                                 
                                             case .failure(error: let error):
+                                                DispatchQueue.main.async {
+                                                    self.stopIndicator()
+                                                    self.setElements(enable: true)
+                                                }
                                                 let errorInfo = ["Um_Key_Reasons" : error.reason]
                                                 
                                                 UMAnalyticsSwift.event(eventId: "Um_Event_LoginFailed", attributes: errorInfo)
@@ -465,10 +494,12 @@ class LoginVC: UIViewController {
             if connected{
                 DispatchQueue.main.async {
                     self.initActivityIndicator(text: "正在发送")
+                    self.setElements(enable: false)
                 }
                 _ = LCUser.requestLoginVerificationCode(mobilePhoneNumber: phoneNumber) { result in
                     DispatchQueue.main.async {
                         self.stopIndicator()
+                        self.setElements(enable: true)
                     }
                     
                     switch result {
@@ -537,10 +568,12 @@ class LoginVC: UIViewController {
             if connected {
                DispatchQueue.main.async {
                    self.initActivityIndicator(text: "正在登录")
+                    self.setElements(enable: false)
                }
                 _ = LCUser.signUpOrLogIn(mobilePhoneNumber: phoneNumber, verificationCode: verificationCode, completion: { (result) in
                    DispatchQueue.main.async {
-                       self.stopIndicator()
+                        self.stopIndicator()
+                        self.setElements(enable: true)
                    }
                    switch result {
                    case .success(object: let user):
@@ -570,9 +603,14 @@ class LoginVC: UIViewController {
                         DispatchQueue.main.async {
                             self.dismiss(animated: false, completion: {
                                 if let setVC = self.settingVC{
-                                    if name.isEmpty && file == nil {
-                                        setVC.showSetProfileVC()
-                                    }else if !name.isEmpty{
+                                    if (name.isEmpty && file != nil){
+                                        let imgUrl = file!.url!.stringValue!
+                                        setVC.showSetProfileVC(previousName: nil, imageUrl: imgUrl)
+                                    }else if (!name.isEmpty && file == nil){
+                                        setVC.showSetProfileVC(previousName: name, imageUrl: nil)
+                                    }else if (name.isEmpty && file == nil){
+                                        setVC.showSetProfileVC(previousName: nil, imageUrl: nil)
+                                    }else{
                                         setVC.setDisplayNameAndUpdate(name: name)
                                     }
                                 }
@@ -618,10 +656,12 @@ class LoginVC: UIViewController {
                 if connected {
                     DispatchQueue.main.async {
                         self.initActivityIndicator(text: "发送中")
+                        self.setElements(enable: false)
                     }
                     _ = LCUser.requestPasswordReset(email: email) { (result) in
                         DispatchQueue.main.async {
                             self.stopIndicator()
+                            self.setElements(enable: true)
                         }
                         
                         switch result {

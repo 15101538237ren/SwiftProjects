@@ -183,9 +183,10 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
         }
     }
     
-    func showVIPBenefitsVC() {
+    func showVIPBenefitsVC(showHint: Bool) {
         let MainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
         let vipBenefitsVC = MainStoryBoard.instantiateViewController(withIdentifier: "vipBenefitsVC") as! VIPBenefitsVC
+        vipBenefitsVC.showHint = showHint
         vipBenefitsVC.modalPresentationStyle = .fullScreen
         DispatchQueue.main.async {
             self.present(vipBenefitsVC, animated: true, completion: nil)
@@ -314,6 +315,10 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
                     }
             }
             }
+        }else{
+            stopIndicator()
+            NoNetWork = false
+            self.reloadEmptyStateForCollectionView(self.collectionView)
         }
         
     }
@@ -343,7 +348,7 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let wallpaper:Wallpaper = sortType == .byLike ? hotWallpapers[indexPath.row] : latestWallpapers[indexPath.row]
         if wallpaper.isPro && !isPro{
-            showVIPBenefitsVC()
+            showVIPBenefitsVC(showHint: true)
         }else{
             if let imgUrl = URL(string: wallpaper.imgUrl){
                 loadDetailVC(imageUrl: imgUrl, wallpaperObjectId: wallpaper.objectId)
@@ -470,7 +475,7 @@ extension WallpaperVC: PopMenuViewControllerDelegate {
                 if isPro {
                     loadSearchVC()
                 }else{
-                    showVIPBenefitsVC()
+                    showVIPBenefitsVC(showHint: false)
                 }
             }
             else if index == 1{

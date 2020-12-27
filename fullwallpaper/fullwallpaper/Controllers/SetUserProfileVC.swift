@@ -15,8 +15,8 @@ class SetUserProfileVC: UIViewController, UIImagePickerControllerDelegate, UINav
     var settingVC: SettingVC!
     var imagePicker = UIImagePickerController()
     private var selectedImage: UIImage? = nil
-    private var displayName: String = ""
     var imageUrl: URL?
+    var previousName: String = ""
     @IBOutlet var userProfileImgView: UIImageView!{
         didSet {
             if let image = selectedImage{
@@ -46,7 +46,7 @@ class SetUserProfileVC: UIViewController, UIImagePickerControllerDelegate, UINav
     func detectBtnEnable()
     {
         DispatchQueue.main.async { [self] in
-            if (selectedImage != nil || imageUrl != nil) && !displayName.isEmpty{
+            if (selectedImage != nil || imageUrl != nil) && !previousName.isEmpty{
                 submitBtn.backgroundColor = .systemGreen
                 submitBtn.isEnabled = true
             }else{
@@ -65,6 +65,11 @@ class SetUserProfileVC: UIViewController, UIImagePickerControllerDelegate, UINav
         if let imgUrl = imageUrl{
             Nuke.loadImage(with: imgUrl, options: wallpaperLoadingOptions, into: userProfileImgView)
         }
+        
+        if !previousName.isEmpty{
+            displayNameTextField.text = previousName
+        }
+        
         view.addGestureRecognizer(UITapGestureRecognizer(target: view, action: #selector(UIView.endEditing)))
         addRcgToUserProfileImgView()
     }
@@ -129,7 +134,7 @@ class SetUserProfileVC: UIViewController, UIImagePickerControllerDelegate, UINav
     }
     
     @IBAction func setProfile(sender: UIButton){
-        if !displayName.isEmpty{
+        if !previousName.isEmpty{
             if let image = self.selectedImage{
                 if let resizedImage = image.resizeWithWidth(width: 200){
                     let imageData: Data = resizedImage.jpegData(compressionQuality: 1.0)!
@@ -155,7 +160,7 @@ class SetUserProfileVC: UIViewController, UIImagePickerControllerDelegate, UINav
                                     case .success:
                                         // 将对象保存到云端
                                         do {
-                                            let name = self.displayName
+                                            let name = self.previousName
                                             try user.set("avatar", value: file)
                                             try user.set("name", value: name)
                                             _ = user.save { result in
@@ -197,7 +202,7 @@ class SetUserProfileVC: UIViewController, UIImagePickerControllerDelegate, UINav
                     }
                     DispatchQueue.global(qos: .background).async {
                         do {
-                            let name = self.displayName
+                            let name = self.previousName
                             try user.set("name", value: name)
                             _ = user.save { result in
                                 stopIndicator()
@@ -223,7 +228,7 @@ class SetUserProfileVC: UIViewController, UIImagePickerControllerDelegate, UINav
     }
     
     @IBAction func inputTextChanged(_ sender: UITextField) {
-        self.displayName = sender.text ?? ""
+        self.previousName = sender.text ?? ""
         detectBtnEnable()
     }
     

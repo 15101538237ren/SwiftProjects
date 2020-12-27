@@ -21,7 +21,6 @@ target 'fullwallpaper' do
   pod 'SwifterSwift/Foundation'
   pod 'SwifterSwift/UIKit'
   pod 'UMCommon'
-  pod 'UMDevice'
   pod 'UMAPM'
   pod 'UMCCommonLog'
   pod 'UMPush'

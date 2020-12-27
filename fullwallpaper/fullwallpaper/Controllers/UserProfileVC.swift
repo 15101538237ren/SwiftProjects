@@ -185,7 +185,8 @@ class UserProfileVC: UIViewController, UICollectionViewDelegate, UICollectionVie
                             self.view.makeToast(error.reason, duration: 1.0, position: .center)
                         }
                     })
-                }else{
+                }
+                else{
                     completionHandler()
                 }
             }else{
@@ -254,6 +255,10 @@ class UserProfileVC: UIViewController, UICollectionViewDelegate, UICollectionVie
                         }
                     }
                     }
+                }else{
+                    stopIndicator()
+                    self.NoNetWork = false
+                    self.reloadEmptyStateForCollectionView(self.collectionView)
                 }
             }
             
@@ -278,10 +283,28 @@ class UserProfileVC: UIViewController, UICollectionViewDelegate, UICollectionVie
         return cell
     }
     
+    func showVIPBenefitsVC(showHint: Bool) {
+        let MainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+        let vipBenefitsVC = MainStoryBoard.instantiateViewController(withIdentifier: "vipBenefitsVC") as! VIPBenefitsVC
+        vipBenefitsVC.showHint = showHint
+        vipBenefitsVC.modalPresentationStyle = .fullScreen
+        DispatchQueue.main.async {
+            self.present(vipBenefitsVC, animated: true, completion: nil)
+        }
+    }
+    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let wallpaper:Wallpaper = wallpapers[segmentedControl.selectedSegmentIndex]![indexPath.row]
-        if let imgUrl = URL(string: wallpaper.imgUrl){
-            loadDetailVC(imageUrl: imgUrl, wallpaperObjectId: wallpaper.objectId)
+        
+        let selectedIndex: Int = segmentedControl.selectedSegmentIndex
+        
+        let wallpaper:Wallpaper = wallpapers[selectedIndex]![indexPath.row]
+        
+        if (selectedIndex == 0) && wallpaper.isPro && !isPro{
+            showVIPBenefitsVC(showHint: true)
+        }else{
+            if let imgUrl = URL(string: wallpaper.imgUrl){
+                loadDetailVC(imageUrl: imgUrl, wallpaperObjectId: wallpaper.objectId)
+            }
         }
     }
     
@@ -382,6 +405,15 @@ class UserProfileVC: UIViewController, UICollectionViewDelegate, UICollectionVie
                     do {
                         // Save new avatar file on LC
                         let file = LCFile(payload: .data(data: imageData))
+                        if let _ =  file.get("name")?.stringValue{
+                            
+                        }else{
+                            do{
+                                try file.set("name", value: "unnamed")
+                            }catch{
+                                print("无法设置文件名称")
+                            }
+                        }
                         _ = file.save { result in
                             switch result {
                             case .success:

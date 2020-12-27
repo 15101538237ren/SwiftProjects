@@ -119,7 +119,7 @@ class SettingVC: UIViewController , UITableViewDataSource, UITableViewDelegate {
                 self.requestWriteReview()
             
             })
-        let cancelAction = UIAlertAction(title: "用的不爽，反馈意见给开发团队", style: .default, handler: {
+        let cancelAction = UIAlertAction(title: "用的不爽，反馈意见给开发者", style: .default, handler: {
             action in
             
             let info = [ "Um_Key_SourcePage": "设置页", "Um_Key_ButtonName" : "评价我们-不爽"]
@@ -228,6 +228,7 @@ class SettingVC: UIViewController , UITableViewDataSource, UITableViewDelegate {
         self.present(menuVC, animated: true, completion: nil)
     }
     
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch indexPath.section {
         case 0:
@@ -241,9 +242,16 @@ class SettingVC: UIViewController , UITableViewDataSource, UITableViewDelegate {
                 let file = user.get("avatar") as? LCFile
                 DispatchQueue.main.async { [self] in
                     stopIndicator()
-                    if name.isEmpty && file == nil {
-                        showSetProfileVC()
-                    }else{
+                    
+                    if (name.isEmpty && file != nil){
+                        let imgUrl = file!.url!.stringValue!
+                        showSetProfileVC(previousName: nil, imageUrl: imgUrl)
+                    }else if (!name.isEmpty && file == nil){
+                        showSetProfileVC(previousName: name, imageUrl: nil)
+                    }else if (name.isEmpty && file == nil){
+                        showSetProfileVC(previousName: nil, imageUrl: nil)
+                    }
+                    else{
                         showProfileVC()
                     }
                 }
@@ -263,6 +271,8 @@ class SettingVC: UIViewController , UITableViewDataSource, UITableViewDelegate {
             switch indexPath.row {
                 case 0:
                     askUserExperienceBeforeReview()
+                case 1:
+                    showShareVC()
                 case 2:
                     let info = [ "Um_Key_SourcePage": "设置页", "Um_Key_ButtonName" : "意见反馈"]
                     UMAnalyticsSwift.event(eventId: "Um_Event_ModularClick", attributes: info)
@@ -360,6 +370,15 @@ class SettingVC: UIViewController , UITableViewDataSource, UITableViewDelegate {
         }
     }
     
+    func showShareVC(){
+        if let url = productURL, !url.absoluteString.isEmpty {
+            let textToShare = "我发现了一款宝藏「全面屏壁纸」APP，快来试试吧"
+            let activityVC = UIActivityViewController(activityItems: [textToShare, url], applicationActivities: nil)
+            activityVC.excludedActivityTypes = [.airDrop, .addToReadingList, .addToiCloudDrive, .assignToContact, .markupAsPDF, .openInIBooks, .saveToCameraRoll, .print, .postToFlickr, .postToLinkedIn, .postToTencentWeibo, .postToVimeo, .postToXing]
+            self.present(activityVC, animated: true, completion: nil)
+        }
+    }
+    
     func showProfileVC() {
         let MainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
         let userProfileVC = MainStoryBoard.instantiateViewController(withIdentifier: "userProfileVC") as! UserProfileVC
@@ -370,13 +389,18 @@ class SettingVC: UIViewController , UITableViewDataSource, UITableViewDelegate {
         }
     }
     
-    func showSetProfileVC(imageUrl: String? = nil) {
+    func showSetProfileVC(previousName: String?, imageUrl: String? = nil) {
         let MainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
         let setUserProfileVC = MainStoryBoard.instantiateViewController(withIdentifier: "setUserProfileVC") as! SetUserProfileVC
         setUserProfileVC.settingVC = self
         if let imgUrl = imageUrl{
             setUserProfileVC.imageUrl = URL(string: imgUrl)!
         }
+        
+        if let name = previousName{
+            setUserProfileVC.previousName = name
+        }
+        
         setUserProfileVC.modalPresentationStyle = .fullScreen
         DispatchQueue.main.async {
             self.present(setUserProfileVC, animated: true, completion: nil)
@@ -418,6 +442,11 @@ class SettingVC: UIViewController , UITableViewDataSource, UITableViewDelegate {
     func cleanImageCache() {
         Nuke.ImageCache.shared.removeAll()
         Nuke.DataLoader.sharedUrlCache.removeAllCachedResponses()
+        let indexPath = IndexPath(row: 0, section: 3)
+        DispatchQueue.main.async {
+            self.tableView.reloadRows(at: [indexPath], with: .automatic)
+        }
+        
         self.view.makeToast("缓存清除成功!", duration: 1.0, position: .center)
     }
     

@@ -23,6 +23,7 @@ enum ACTION_TYPE: String {
     case save = "下载"
     case like = "收藏"
     case upload = "上传"
+    case report = "举报"
 }
 
 enum THEME: String {

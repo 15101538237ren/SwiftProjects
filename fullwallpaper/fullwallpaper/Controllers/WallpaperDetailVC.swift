@@ -266,7 +266,7 @@ class WallpaperDetailVC: UIViewController {
         emailVC.modalPresentationStyle = .overCurrentContext
         DispatchQueue.main.async {
             self.present(emailVC, animated: true, completion: {
-                emailVC.view.makeToast("请先「登录」或「注册」以\(action)您喜欢的壁纸", duration: 1.5, position: .center)
+                emailVC.view.makeToast("请先「登录」或「注册」以\(action)壁纸", duration: 1.5, position: .center)
             })
         }
     }
@@ -424,15 +424,19 @@ extension WallpaperDetailVC: PopMenuViewControllerDelegate {
     
     // This will be called when a pop menu action was selected
     func popMenuDidSelectItem(_ popMenuViewController: PopMenuViewController, at index: Int) {
-        if index == 0{
-            reportWallpaperProblem(code: 2, popMenuViewController: popMenuViewController)
-        }else if index == 1{
-            reportWallpaperProblem(code: 3, popMenuViewController: popMenuViewController)
-        }else if index == 2{
-            reportWallpaperProblem(code: 4, popMenuViewController: popMenuViewController)
-        }
-        else{
-            reportWallpaperProblem(code: 5, popMenuViewController: popMenuViewController)
+        if let _ = LCApplication.default.currentUser {
+            if index == 0{
+                reportWallpaperProblem(code: 2, popMenuViewController: popMenuViewController)
+            }else if index == 1{
+                reportWallpaperProblem(code: 3, popMenuViewController: popMenuViewController)
+            }else if index == 2{
+                reportWallpaperProblem(code: 4, popMenuViewController: popMenuViewController)
+            }
+            else{
+                reportWallpaperProblem(code: 5, popMenuViewController: popMenuViewController)
+            }
+        }else{
+            showLoginOrRegisterVC(action: ACTION_TYPE.report.rawValue)
         }
     }
 }

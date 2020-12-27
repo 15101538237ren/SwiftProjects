@@ -41,6 +41,7 @@ class AuditVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
     var switched: Bool = false
     var minDateOfLastLatestWallpaperFetches: [Int: String?] = [0:nil, 1:nil, 2:nil]
     var wallpapers:[Int : [WallpaperInReview]] = [0:[], 1:[], 2:[]]
+    var NoMoreData: [Bool] = [false, false, false]
     var selectedIndexPathDict:[IndexPath:Bool] = [:]
     
     var currentMode: Mode = .view{
@@ -130,6 +131,15 @@ class AuditVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
     
     func loadWallpapers(selectedIdx: Int)
     {
+        collectionView.setLoadMoreEnable(false)
+        
+        DispatchQueue.main.async { [self] in
+            collectionView.stopLoadMore()
+            if switched{
+                switched.toggle()
+            }
+        }
+        
         if !Reachability.isConnectedToNetwork(){
             self.NoNetWork = true
             self.reloadEmptyStateForCollectionView(self.collectionView)
@@ -142,101 +152,94 @@ class AuditVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
             loadCategories(completion: {})
         }
         
-        DispatchQueue.global(qos: .utility).async { [self] in
-        do {
-            let query = LCQuery(className: "Wallpaper")
-            if selectedIdx == 0{
-                query.whereKey("status", .equalTo(0))
-                query.whereKey("status", .included)
-                query.whereKey("dependent", .notExisted)
-            } else if selectedIdx == 1{
-                query.whereKey("status", .equalTo(0))
-                query.whereKey("status", .included)
-                query.whereKey("dependent", .existed)
-                query.whereKey("dependent", .included)
-            }else{
-                query.whereKey("status", .greaterThan(1))
-                query.whereKey("status", .included)
-            }
-            
-            query.whereKey("createdAt", .descending)
-            
-            if let minDate = minDateOfLastLatestWallpaperFetches[selectedIdx]{
-                if minDate != nil{
-                    query.whereKey("createdAt", .lessThan(dateFromString(dateStr: minDate!)))
+        if !NoMoreData[selectedIdx]{
+            DispatchQueue.global(qos: .utility).async { [self] in
+            do {
+                let query = LCQuery(className: "Wallpaper")
+                if selectedIdx == 0{
+                    query.whereKey("status", .equalTo(0))
+                    query.whereKey("status", .included)
+                    query.whereKey("dependent", .notExisted)
+                } else if selectedIdx == 1{
+                    query.whereKey("status", .equalTo(0))
+                    query.whereKey("status", .included)
+                    query.whereKey("dependent", .existed)
+                    query.whereKey("dependent", .included)
+                }else{
+                    query.whereKey("status", .greaterThan(1))
+                    query.whereKey("status", .included)
                 }
-            }
-            
-            query.limit = wallpaperLimitEachFetch
-            
-            _ = query.find { result in
-                switch result {
-                case .success(objects: let results):
-                    if results.count == 0{
-                        DispatchQueue.main.async {
-                            collectionView.stopLoadMore()
-                            collectionView.setLoadMoreEnable(false)
-                            if (switched){
-                                collectionView.reloadData()
-                                switched = false
+                
+                query.whereKey("createdAt", .descending)
+                
+                if let minDate = minDateOfLastLatestWallpaperFetches[selectedIdx]{
+                    if minDate != nil{
+                        query.whereKey("createdAt", .lessThan(dateFromString(dateStr: minDate!)))
+                    }
+                }
+                
+                query.limit = wallpaperLimitEachFetch
+                
+                _ = query.find { result in
+                    switch result {
+                    case .success(objects: let results):
+                        if results.count == 0{
+                            DispatchQueue.main.async {
+                                NoMoreData[selectedIdx] = true
+                                self.collectionView.reloadData()
+                                self.reloadEmptyStateForCollectionView(self.collectionView)
+                                stopIndicator()
                             }
-                            self.reloadEmptyStateForCollectionView(self.collectionView)
+                            return
+                        }
+                        print("Fetched \(results.count) wallpapers")
+                        for rid in 0..<results.count{
+                            let res = results[rid]
+                            let caption = res.get("caption")?.stringValue ?? ""
+                            let status = res.get("status")?.intValue ?? 0
+                            let pro = res.get("pro")?.boolValue ?? false
+                            let category = res.get("category")?.stringValue ?? ""
+                            var collectionName:String = ""
                             
+                            if let dependent = res.get("dependent") as? LCObject{
+                                collectionName = dependent.get("name")?.stringValue ?? ""
+                            }
+                            
+                            let date:String = fromLCDateToDateStr(date: res.createdAt!)
+                            
+                            if let file = res.get("img") as? LCFile {
+                                let imgUrl = file.url!.stringValue!
+                                let thumbnailUrl = file.thumbnailURL(.scale(thumbnailScale))!.stringValue!
+                                let wallpaper = WallpaperInReview(objectId: res.objectId!.stringValue!, caption: caption, status: status, category: category, collectionName: collectionName, thumbnailUrl: thumbnailUrl, imgUrl: imgUrl, createdAt: date, isPro: pro)
+                                wallpapers[selectedIdx]!.append(wallpaper)
+                            }
+                        }
+                        
+                        minDateOfLastLatestWallpaperFetches[selectedIdx] = wallpapers[selectedIdx]![wallpapers[selectedIdx]!.count - 1].createdAt
+                        
+                        
+                        DispatchQueue.main.async {
+                            self.collectionView.reloadData()
+                            self.NoNetWork = false
+                            self.collectionView.setLoadMoreEnable(true)
+                            self.reloadEmptyStateForCollectionView(self.collectionView)
                             stopIndicator()
                         }
-                        return
-                    }
-                    print("Fetched \(results.count) wallpapers")
-                    for rid in 0..<results.count{
-                        let res = results[rid]
-                        let caption = res.get("caption")?.stringValue ?? ""
-                        let status = res.get("status")?.intValue ?? 0
-                        let pro = res.get("pro")?.boolValue ?? false
-                        let category = res.get("category")?.stringValue ?? ""
-                        var collectionName:String = ""
                         
-                        if let dependent = res.get("dependent") as? LCObject{
-                            collectionName = dependent.get("name")?.stringValue ?? ""
-                        }
-                        
-                        let date:String = fromLCDateToDateStr(date: res.createdAt!)
-                        
-                        if let file = res.get("img") as? LCFile {
-                            let imgUrl = file.url!.stringValue!
-                            let thumbnailUrl = file.thumbnailURL(.scale(thumbnailScale))!.stringValue!
-                            let wallpaper = WallpaperInReview(objectId: res.objectId!.stringValue!, caption: caption, status: status, category: category, collectionName: collectionName, thumbnailUrl: thumbnailUrl, imgUrl: imgUrl, createdAt: date, isPro: pro)
-                            wallpapers[selectedIdx]!.append(wallpaper)
-                        }
+                        break
+                    case .failure(error: let error):
+                        print(error.localizedDescription)
                     }
-                    
-                    minDateOfLastLatestWallpaperFetches[selectedIdx] = wallpapers[selectedIdx]![wallpapers[selectedIdx]!.count - 1].createdAt
-                    
-                    let first = wallpapers[selectedIdx]!.count == wallpaperLimitEachFetch
-                    
-                    DispatchQueue.main.async {
-                        self.collectionView.reloadData()
-                        self.NoNetWork = false
-                        if (switched){
-                            collectionView.scrollToItem(at: IndexPath(row: 0, section: 0),
-                                                        at: .top,
-                                                        animated: true)
-                            switched = false
-                            collectionView.setLoadMoreEnable(true)
-                        }
-                        if !first{
-                            self.collectionView.stopLoadMore()
-                        }
-                        self.reloadEmptyStateForCollectionView(self.collectionView)
-                        stopIndicator()
-                    }
-                    
-                    break
-                case .failure(error: let error):
-                    print(error.localizedDescription)
                 }
             }
+            }
         }
+        else{
+            stopIndicator()
+            self.NoNetWork = false
+            self.reloadEmptyStateForCollectionView(self.collectionView)
         }
+        
     }
     
     @IBAction func segControlChanged(_ sender: UISegmentedControl) {
