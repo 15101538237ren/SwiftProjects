@@ -25,6 +25,7 @@ target 'fullwallpaper' do
   pod 'UMCCommonLog'
   pod 'UMPush'
   pod 'UMCSecurityPlugins'
+  pod 'GBDeviceInfo'
   # Pods for fullwallpaper
 
 end

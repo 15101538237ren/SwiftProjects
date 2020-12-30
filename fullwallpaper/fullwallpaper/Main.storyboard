@@ -1533,7 +1533,7 @@
                                     <action selector="forgetPwd:" destination="hdS-J6-eQW" eventType="touchUpInside" id="7hB-cY-WTH"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="okQ-3n-br9">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="okQ-3n-br9">
                                 <rect key="frame" x="328" y="59" width="66" height="35"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="35" id="J0w-bx-Rcd"/>

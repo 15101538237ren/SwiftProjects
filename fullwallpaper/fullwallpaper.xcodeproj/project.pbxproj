@@ -28,6 +28,7 @@
 		C311F9C3255E1124000FCED2 /* UploadWallpaperVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C311F9C2255E1124000FCED2 /* UploadWallpaperVC.swift */; };
 		C311F9C6255E14B5000FCED2 /* GlobalEnums.swift in Sources */ = {isa = PBXBuildFile; fileRef = C311F9C5255E14B5000FCED2 /* GlobalEnums.swift */; };
 		C32CB0CC2579F47C000DDCF1 /* SetUserProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C32CB0CB2579F47C000DDCF1 /* SetUserProfileVC.swift */; };
+		C33D6FFA25998DD500C934F5 /* Device.swift in Sources */ = {isa = PBXBuildFile; fileRef = C33D6FF925998DD500C934F5 /* Device.swift */; };
 		C3543295258C761600D66A8A /* UIColor+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3543294258C761600D66A8A /* UIColor+Ext.swift */; };
 		C36F6FE82569A9B60072AEDE /* SearchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C36F6FE72569A9B60072AEDE /* SearchVC.swift */; };
 		C3770DA9255CF99700D240CB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 55F3992F254A624D0094A477 /* Assets.xcassets */; };
@@ -38,6 +39,9 @@
 		C3B1081F258E81BD0074F741 /* UMAnalyticsSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3B1081C258E81BC0074F741 /* UMAnalyticsSwift.swift */; };
 		C3B10820258E81BD0074F741 /* UMCommonLogSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3B1081D258E81BD0074F741 /* UMCommonLogSwift.swift */; };
 		C3B10821258E81BD0074F741 /* UMCommonSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3B1081E258E81BD0074F741 /* UMCommonSwift.swift */; };
+		C3B33253259BBF82001D5C5C /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3B33252259BBF82001D5C5C /* StoreKit.framework */; };
+		C3B33256259BBFC6001D5C5C /* IAP_ProductIDs.plist in Resources */ = {isa = PBXBuildFile; fileRef = C3B33255259BBFC6001D5C5C /* IAP_ProductIDs.plist */; };
+		C3B33259259BC011001D5C5C /* IAPManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3B33258259BC011001D5C5C /* IAPManager.swift */; };
 		C3C3565325570EB7006F137B /* CategoryCollectionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C3565225570EB7006F137B /* CategoryCollectionVC.swift */; };
 		C3C3565625571DA7006F137B /* SettingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C3565525571DA7006F137B /* SettingTableViewCell.swift */; };
 		C3C3565925572154006F137B /* SettingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C3565825572154006F137B /* SettingVC.swift */; };
@@ -89,6 +93,7 @@
 		C311F9C5255E14B5000FCED2 /* GlobalEnums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalEnums.swift; sourceTree = "<group>"; };
 		C316911B258E7DAD00C8B06F /* fullwallpaper-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "fullwallpaper-Bridging-Header.h"; sourceTree = "<group>"; };
 		C32CB0CB2579F47C000DDCF1 /* SetUserProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetUserProfileVC.swift; sourceTree = "<group>"; };
+		C33D6FF925998DD500C934F5 /* Device.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Device.swift; sourceTree = "<group>"; };
 		C3543294258C761600D66A8A /* UIColor+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Ext.swift"; sourceTree = "<group>"; };
 		C36F6FE72569A9B60072AEDE /* SearchVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchVC.swift; sourceTree = "<group>"; };
 		C3770DCD255D143F00D240CB /* SettingTableViewCellWithValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingTableViewCellWithValue.swift; sourceTree = "<group>"; };
@@ -98,6 +103,9 @@
 		C3B1081C258E81BC0074F741 /* UMAnalyticsSwift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UMAnalyticsSwift.swift; sourceTree = "<group>"; };
 		C3B1081D258E81BD0074F741 /* UMCommonLogSwift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UMCommonLogSwift.swift; sourceTree = "<group>"; };
 		C3B1081E258E81BD0074F741 /* UMCommonSwift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UMCommonSwift.swift; sourceTree = "<group>"; };
+		C3B33252259BBF82001D5C5C /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		C3B33255259BBFC6001D5C5C /* IAP_ProductIDs.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = IAP_ProductIDs.plist; sourceTree = "<group>"; };
+		C3B33258259BC011001D5C5C /* IAPManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IAPManager.swift; sourceTree = "<group>"; };
 		C3C3565225570EB7006F137B /* CategoryCollectionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCollectionVC.swift; sourceTree = "<group>"; };
 		C3C3565525571DA7006F137B /* SettingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingTableViewCell.swift; sourceTree = "<group>"; };
 		C3C3565825572154006F137B /* SettingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingVC.swift; sourceTree = "<group>"; };
@@ -128,6 +136,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				347F50FE7725D399E70DD317 /* Pods_fullwallpaper.framework in Frameworks */,
+				C3B33253259BBF82001D5C5C /* StoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -160,6 +169,7 @@
 				C3C3566225573B03006F137B /* SettingItem.swift */,
 				C3FEE1DA2589D785009D1DCE /* AppStoreReviewManager.swift */,
 				C39C47C1259532D700444A7F /* Config.swift */,
+				C33D6FF925998DD500C934F5 /* Device.swift */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -196,6 +206,7 @@
 		55F39925254A624D0094A477 /* fullwallpaper */ = {
 			isa = PBXGroup;
 			children = (
+				C3B33254259BBFAE001D5C5C /* In-App Purchases */,
 				C3F194E825952CD6000EB57E /* fullwallpaper.entitlements */,
 				C3B1081B258E81910074F741 /* UMSwift */,
 				C3C3565B25572468006F137B /* Theme */,
@@ -267,6 +278,7 @@
 		7251BC76C5EE1D501D93AD04 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C3B33252259BBF82001D5C5C /* StoreKit.framework */,
 				10DD94CFAF8E4BE4C42864FA /* Pods_fullwallpaper.framework */,
 			);
 			name = Frameworks;
@@ -291,6 +303,15 @@
 				C3B1081E258E81BD0074F741 /* UMCommonSwift.swift */,
 			);
 			path = UMSwift;
+			sourceTree = "<group>";
+		};
+		C3B33254259BBFAE001D5C5C /* In-App Purchases */ = {
+			isa = PBXGroup;
+			children = (
+				C3B33255259BBFC6001D5C5C /* IAP_ProductIDs.plist */,
+				C3B33258259BC011001D5C5C /* IAPManager.swift */,
+			);
+			path = "In-App Purchases";
 			sourceTree = "<group>";
 		};
 		C3C3565B25572468006F137B /* Theme */ = {
@@ -365,6 +386,7 @@
 				C30B71F7258D2F76002A673D /* Main.storyboard in Resources */,
 				C3C3566025572489006F137B /* night.plist in Resources */,
 				C3E09BDB255CBE1600C4F238 /* AiNiChuanYueRenHai.ttf in Resources */,
+				C3B33256259BBFC6001D5C5C /* IAP_ProductIDs.plist in Resources */,
 				55F39933254A624D0094A477 /* LaunchScreen.storyboard in Resources */,
 				C3C3565D2557247F006F137B /* day.plist in Resources */,
 				C3CA897F258FF1FF001E2EA2 /* TermsView.xib in Resources */,
@@ -450,6 +472,7 @@
 				C3D5D81B257C5F87006DA951 /* AuditCollectionViewCell.swift in Sources */,
 				55370FAF2553B5800003CAD5 /* GlobalVariables.swift in Sources */,
 				C3F737DB25833620008D0095 /* VIPBenefitsVC.swift in Sources */,
+				C33D6FFA25998DD500C934F5 /* Device.swift in Sources */,
 				C39C47C2259532D700444A7F /* Config.swift in Sources */,
 				C3543295258C761600D66A8A /* UIColor+Ext.swift in Sources */,
 				C3770DCE255D143F00D240CB /* SettingTableViewCellWithValue.swift in Sources */,
@@ -474,6 +497,7 @@
 				C3B10821258E81BD0074F741 /* UMCommonSwift.swift in Sources */,
 				55F39929254A624D0094A477 /* SceneDelegate.swift in Sources */,
 				55537E37254B3F1D005081CF /* CategoryTableViewCell.swift in Sources */,
+				C3B33259259BC011001D5C5C /* IAPManager.swift in Sources */,
 				C3CA897B258FF0D8001E2EA2 /* TermsView.swift in Sources */,
 				55370FAC2553B5700003CAD5 /* GlobalFunctions.swift in Sources */,
 				C311F9C6255E14B5000FCED2 /* GlobalEnums.swift in Sources */,
@@ -624,6 +648,7 @@
 				CODE_SIGN_ENTITLEMENTS = fullwallpaper/fullwallpaper.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = WDA59C4558;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = fullwallpaper/Info.plist;
@@ -649,6 +674,7 @@
 				CODE_SIGN_ENTITLEMENTS = fullwallpaper/fullwallpaper.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = WDA59C4558;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = fullwallpaper/Info.plist;

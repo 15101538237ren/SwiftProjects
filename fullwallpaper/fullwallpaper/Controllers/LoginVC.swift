@@ -48,7 +48,7 @@ class LoginVC: UIViewController {
     
     @IBOutlet var emailLoginIndicationBtn: UIButton!{
         didSet {
-            emailLoginIndicationBtn.alpha = 0
+            emailLoginIndicationBtn.alpha = 1
         }
     }
     
@@ -118,7 +118,7 @@ class LoginVC: UIViewController {
             resetPwdBtn.layer.masksToBounds = true
         }
     }
-    var loginType: LoginType = .Email
+    var loginType: LoginType = .Phone
     var verificationCodeSent = false
     var dialCode: String = "+86"
     var countryCode: String = "CN"
@@ -178,12 +178,12 @@ class LoginVC: UIViewController {
                 forgotPwdBtn.alpha = 0
                 emailLoginIndicationBtn.setTitle("邮箱登录", for: .normal)
                 phoneStackView.alpha = 1
-                emailLoginIndicationBtn.alpha = 0
+                emailLoginIndicationBtn.alpha = 1
                 phoneLoginBtn.alpha = 1
             case .Email:
                 emailStackView.alpha = 1
                 emailLoginBtn.alpha = 1
-                emailLoginIndicationBtn.alpha = 0
+                emailLoginIndicationBtn.alpha = 1
                 forgotPwdBtn.alpha = 1
                 resetStackView.alpha = 0
                 phoneStackView.alpha = 0
@@ -195,7 +195,7 @@ class LoginVC: UIViewController {
                 phoneStackView.alpha = 0
                 emailLoginBtn.alpha = 0
                 phoneLoginBtn.alpha = 0
-                emailLoginIndicationBtn.alpha = 0
+                emailLoginIndicationBtn.alpha = 1
                 forgotPwdBtn.alpha = 0
                 emailLoginIndicationBtn.setTitle("邮箱登录", for: .normal)
                 resetStackView.alpha = 1
@@ -255,9 +255,10 @@ class LoginVC: UIViewController {
             codeTimer.setEventHandler { [self] in
                 
                 time = time - 1
-                if getVerificationCodeBtn.isEnabled{
-                    DispatchQueue.main.async {
-                        self.disableVerificationBtn()
+                
+                DispatchQueue.main.async {
+                    if getVerificationCodeBtn.isEnabled{
+                    self.disableVerificationBtn()
                     }
                 }
                 
@@ -484,154 +485,176 @@ class LoginVC: UIViewController {
         }
     
     @IBAction func sendVerificationCode(sender: UIButton){
-        
-        self.view.endEditing(true)
-        
-        let phoneNumber:String = "\(self.dialCode)\(self.phoneNumTextField.text!)"
-        do {
-            let _ = try phoneNumberKit.parse(phoneNumber, withRegion: self.countryCode, ignoreType: true)
-            let connected = Reachability.isConnectedToNetwork()
-            if connected{
-                DispatchQueue.main.async {
-                    self.initActivityIndicator(text: "正在发送")
-                    self.setElements(enable: false)
-                }
-                _ = LCUser.requestLoginVerificationCode(mobilePhoneNumber: phoneNumber) { result in
-                    DispatchQueue.main.async {
-                        self.stopIndicator()
-                        self.setElements(enable: true)
-                    }
-                    
-                    switch result {
-                        case .success:
-                            self.view.makeToast("验证码已发送!", duration: 1.0, position: .center)
-                        case .failure(error: let error):
-                            switch error.code {
-                            case 213:
-                                let alertController = UIAlertController(title: "该手机号尚未注册,是否注册?", message: "", preferredStyle: .alert)
-                                let okayAction = UIAlertAction(title: "是", style: .default, handler: { action in
-                                    DispatchQueue.main.async {
-                                        self.phoneLoginBtn.setTitle("注册", for: .normal)
-                                    }
-                                    _ = LCSMSClient.requestShortMessage(mobilePhoneNumber: phoneNumber, templateName: "创建用户", signatureName: "雷行天下全面屏壁纸") { (result) in
-                                        switch result {
-                                        case .success:
-                                            self.verificationCodeSent = true
-                                            self.view.makeToast("验证码已发送!", duration: 1.0, position: .center)
-                                        case .failure(error: let error):
-                                            let info = ["Um_Key_Reasons" : "验证码发送失败, \(String(describing: error.reason))"]
-                                            
-                                            UMAnalyticsSwift.event(eventId: "Um_Event_LoginFailed", attributes: info)
-                                            
-                                            self.view.makeToast("发送失败:\(error.reason?.stringValue ?? "")", duration: 1.0, position: .center)
-                                        }
-                                    }
-
-                                })
-                                
-                                let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
-                                alertController.addAction(okayAction)
-                                alertController.addAction(cancelAction)
-                                self.present(alertController, animated: true, completion: nil)
-                            default:
-                                let info = ["Um_Key_Reasons" : "验证码发送失败, \(String(describing: error.reason))"]
-                                
-                                UMAnalyticsSwift.event(eventId: "Um_Event_LoginFailed", attributes: info)
-                                self.view.makeToast("发送失败:\(error.reason?.stringValue ?? "")!", duration: 1.0, position: .center)
-                            }
-                    }
-                }
-            }else{
-                self.view.makeToast(NoNetworkStr, duration: 1.0, position: .center)
+        if let phoneStr = self.phoneNumTextField.text{
+            self.view.endEditing(true)
+            
+            var phoneNumber:String = "\(self.dialCode)\(phoneStr)"
+            if phoneNumber.starts(with: "+"){
+                phoneNumber = phoneStr
             }
+            do {
+                let _ = try phoneNumberKit.parse(phoneNumber, withRegion: self.countryCode, ignoreType: true)
+                let connected = Reachability.isConnectedToNetwork()
+                if connected{
+                    DispatchQueue.main.async {
+                        self.initActivityIndicator(text: "正在发送")
+                        self.setElements(enable: false)
+                    }
+                    _ = LCUser.requestLoginVerificationCode(mobilePhoneNumber: phoneNumber) { result in
+                        DispatchQueue.main.async {
+                            self.stopIndicator()
+                            self.setElements(enable: true)
+                        }
+                        
+                        switch result {
+                            case .success:
+                                self.verificationCodeSent = true
+                                self.verificationBtnTimeChange()
+                                self.view.makeToast("验证码已发送!", duration: 1.0, position: .center)
+                            case .failure(error: let error):
+                                switch error.code {
+                                case 213:
+                                    let alertController = UIAlertController(title: "该手机号尚未注册,是否注册?", message: "", preferredStyle: .alert)
+                                    let okayAction = UIAlertAction(title: "是", style: .default, handler: { action in
+                                        DispatchQueue.main.async {
+                                            self.phoneLoginBtn.setTitle("注册", for: .normal)
+                                        }
+                                        _ = LCSMSClient.requestShortMessage(mobilePhoneNumber: phoneNumber, templateName: "sms_verification", signatureName: "北京雷行天下科技有限公司") { (result) in
+                                            switch result {
+                                            case .success:
+                                                self.verificationCodeSent = true
+                                                self.verificationBtnTimeChange()
+                                                self.view.makeToast("验证码已发送!", duration: 1.0, position: .center)
+                                            case .failure(error: let error):
+                                                let info = ["Um_Key_Reasons" : "验证码发送失败, \(String(describing: error.reason))"]
+                                                
+                                                UMAnalyticsSwift.event(eventId: "Um_Event_LoginFailed", attributes: info)
+                                                
+                                                self.view.makeToast("发送失败:\(error.reason?.stringValue ?? "")", duration: 1.0, position: .center)
+                                            }
+                                        }
+
+                                    })
+                                    
+                                    let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
+                                    alertController.addAction(okayAction)
+                                    alertController.addAction(cancelAction)
+                                    self.present(alertController, animated: true, completion: nil)
+                                default:
+                                    let info = ["Um_Key_Reasons" : "验证码发送失败, \(String(describing: error.reason))"]
+                                    
+                                    UMAnalyticsSwift.event(eventId: "Um_Event_LoginFailed", attributes: info)
+                                    self.view.makeToast("发送失败:\(error.reason?.stringValue ?? "")!", duration: 1.0, position: .center)
+                                }
+                        }
+                    }
+                }else{
+                    self.view.makeToast(NoNetworkStr, duration: 1.0, position: .center)
+                }
+            }
+            catch {
+                self.view.makeToast("手机号有误!", duration: 1.0, position: .center)
+            }
+        }else{
+            self.view.makeToast("请输入手机号～", duration: 1.0, position: .center)
         }
-        catch {
-            self.view.makeToast("手机号有误!", duration: 1.0, position: .center)
-        }
+        
     }
     
     @IBAction func loginByPhone(sender: UIButton){
-         self.view.endEditing(true)
-         let phoneNumber:String = "\(self.dialCode)\(self.phoneNumTextField.text!)"
-         let verificationCode:String = verificationCodeTextField.text!
-        
-        do {
-            let _ = try phoneNumberKit.parse(phoneNumber, withRegion: self.countryCode, ignoreType: true)
+        if (self.phoneNumTextField.text != nil) && !self.phoneNumTextField.text!.isEmpty{
             
-            if verificationCode.count != 6
-            {
-                self.view.makeToast("验证码有误!", duration: 1.0, position: .center)
-                return
+            self.view.endEditing(true)
+            
+            var phoneNumber:String = "\(self.dialCode)\(self.phoneNumTextField.text!)"
+            
+            if phoneNumber.starts(with: "+"){
+                phoneNumber = self.phoneNumTextField.text!
             }
             
-            let connected = Reachability.isConnectedToNetwork()
-            if connected {
-               DispatchQueue.main.async {
-                   self.initActivityIndicator(text: "正在登录")
-                    self.setElements(enable: false)
-               }
-                _ = LCUser.signUpOrLogIn(mobilePhoneNumber: phoneNumber, verificationCode: verificationCode, completion: { (result) in
-                   DispatchQueue.main.async {
-                        self.stopIndicator()
-                        self.setElements(enable: true)
-                   }
-                   switch result {
-                   case .success(object: let user):
-                       
-                        if let disabled = user.get("disabled")?.boolValue{
-                            if disabled {
-                                DispatchQueue.main.async {
-                                    let alertController = UIAlertController(title: "您的账号目前已被封禁", message: "如有疑问，请联系fullwallpaper@outlook.com", preferredStyle: .alert)
-                                    let okayAction = UIAlertAction(title: "好", style: .default, handler: { action in
-                                        UIControl().sendAction(#selector(URLSessionTask.suspend), to: UIApplication.shared, for: nil)
-                                        
-                                        })
-                                    alertController.addAction(okayAction)
-                                    self.present(alertController, animated: true, completion: nil)
-                                }
-                                return
-                            }
-                        }
+            if let verificationCode = self.verificationCodeTextField.text{
+                do {
+                    let _ = try phoneNumberKit.parse(phoneNumber, withRegion: self.countryCode, ignoreType: true)
                     
-                       let userID: String = user.objectId!.stringValue!
-                       let info = ["Um_Key_LoginType" : "手机登录成功", "Um_Key_UserID" : userID]
-                        
-                       UMAnalyticsSwift.event(eventId: "Um_Event_LoginSuc", attributes: info)
-                       getUserLikedWPs()
-                       let name:String = user.get("name")?.stringValue ?? ""
-                       let file = user.get("avatar") as? LCFile
-                        DispatchQueue.main.async {
-                            self.dismiss(animated: false, completion: {
-                                if let setVC = self.settingVC{
-                                    if (name.isEmpty && file != nil){
-                                        let imgUrl = file!.url!.stringValue!
-                                        setVC.showSetProfileVC(previousName: nil, imageUrl: imgUrl)
-                                    }else if (!name.isEmpty && file == nil){
-                                        setVC.showSetProfileVC(previousName: name, imageUrl: nil)
-                                    }else if (name.isEmpty && file == nil){
-                                        setVC.showSetProfileVC(previousName: nil, imageUrl: nil)
-                                    }else{
-                                        setVC.setDisplayNameAndUpdate(name: name)
+                    if verificationCode.count != 6
+                    {
+                        self.view.makeToast("验证码有误!", duration: 1.0, position: .center)
+                        return
+                    }
+                    
+                    let connected = Reachability.isConnectedToNetwork()
+                    if connected {
+                       DispatchQueue.main.async {
+                           self.initActivityIndicator(text: "正在登录")
+                            self.setElements(enable: false)
+                       }
+                        _ = LCUser.signUpOrLogIn(mobilePhoneNumber: phoneNumber, verificationCode: verificationCode, completion: { (result) in
+                           DispatchQueue.main.async {
+                                self.stopIndicator()
+                                self.setElements(enable: true)
+                           }
+                           switch result {
+                           case .success(object: let user):
+                               
+                                if let disabled = user.get("disabled")?.boolValue{
+                                    if disabled {
+                                        DispatchQueue.main.async {
+                                            let alertController = UIAlertController(title: "您的账号目前已被封禁", message: "如有疑问，请联系fullwallpaper@outlook.com", preferredStyle: .alert)
+                                            let okayAction = UIAlertAction(title: "好", style: .default, handler: { action in
+                                                UIControl().sendAction(#selector(URLSessionTask.suspend), to: UIApplication.shared, for: nil)
+                                                
+                                                })
+                                            alertController.addAction(okayAction)
+                                            self.present(alertController, animated: true, completion: nil)
+                                        }
+                                        return
                                     }
                                 }
+                            
+                               let userID: String = user.objectId!.stringValue!
+                               let info = ["Um_Key_LoginType" : "手机登录成功", "Um_Key_UserID" : userID]
                                 
-                            })
-                         }
-                   case .failure(error: let error):
-                    let info = ["Um_Key_Reasons" : "手机登录失败:\(String(describing: error.reason))"]
-                     
-                    UMAnalyticsSwift.event(eventId: "Um_Event_LoginFailed", attributes: info)
-                    
-                    getUserLikedWPs()
-                    self.view.makeToast("\(error.reason ?? "登录失败，请稍后重试")", duration: 1.0, position: .center)
-                   }
-                })
-            }else{
-                self.view.makeToast(NoNetworkStr, duration: 1.0, position: .center)
-            }
-        }
-        catch {
-            self.view.makeToast("手机号有误!", duration: 1.0, position: .center)
+                               UMAnalyticsSwift.event(eventId: "Um_Event_LoginSuc", attributes: info)
+                               getUserLikedWPs()
+                               let name:String = user.get("name")?.stringValue ?? ""
+                               let file = user.get("avatar") as? LCFile
+                                DispatchQueue.main.async {
+                                    self.dismiss(animated: false, completion: {
+                                        if let setVC = self.settingVC{
+                                            if (name.isEmpty && file != nil){
+                                                let imgUrl = file!.url!.stringValue!
+                                                setVC.showSetProfileVC(previousName: nil, imageUrl: imgUrl)
+                                            }else if (!name.isEmpty && file == nil){
+                                                setVC.showSetProfileVC(previousName: name, imageUrl: nil)
+                                            }else if (name.isEmpty && file == nil){
+                                                setVC.showSetProfileVC(previousName: nil, imageUrl: nil)
+                                            }else{
+                                                setVC.setDisplayNameAndUpdate(name: name)
+                                            }
+                                        }
+                                        
+                                    })
+                                 }
+                           case .failure(error: let error):
+                            let info = ["Um_Key_Reasons" : "手机登录失败:\(String(describing: error.reason))"]
+                             
+                            UMAnalyticsSwift.event(eventId: "Um_Event_LoginFailed", attributes: info)
+                            
+                            getUserLikedWPs()
+                            self.view.makeToast("\(error.reason ?? "登录失败，请稍后重试")", duration: 1.0, position: .center)
+                           }
+                        })
+                    }else{
+                        self.view.makeToast(NoNetworkStr, duration: 1.0, position: .center)
+                    }
+                }
+                catch {
+                    self.view.makeToast("手机号有误!", duration: 1.0, position: .center)
+                }}else{
+                    self.view.makeToast("请输入验证码!", duration: 1.0, position: .center)
+                }
+        }else{
+            self.view.makeToast("请输入手机号!", duration: 1.0, position: .center)
         }
     }
     

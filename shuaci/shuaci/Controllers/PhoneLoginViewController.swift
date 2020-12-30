@@ -131,7 +131,7 @@ class PhoneLoginViewController: UIViewController {
                                     self.phoneLoginBtn.setTitle("注册", for: .normal)
                                 }
                                 //templateName 是短信模版名称，signatureName 是短信签名名称。可以在控制台 > 消息 > 短信 >设置中查看。
-                                _ = LCSMSClient.requestShortMessage(mobilePhoneNumber: "+86\(phoneNumber)", templateName: "shuaci_verification", signatureName: "shuaci") { (result) in
+                                _ = LCSMSClient.requestShortMessage(mobilePhoneNumber: "+86\(phoneNumber)", templateName: "sms_verification", signatureName: "北京雷行天下科技有限公司") { (result) in
                                     switch result {
                                     case .success:
                                         self.presentAlert(title: "验证码已发送!", message: "", okText: "好")

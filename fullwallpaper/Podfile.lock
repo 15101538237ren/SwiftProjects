@@ -2,6 +2,9 @@ PODS:
   - Alamofire (5.4.1)
   - AYPopupPickerView (1.2)
   - CropViewController (2.5.5)
+  - GBDeviceInfo (6.6.0):
+    - GBDeviceInfo/Core (= 6.6.0)
+  - GBDeviceInfo/Core (6.6.0)
   - GRDB.swift (4.14.0):
     - GRDB.swift/standard (= 4.14.0)
   - GRDB.swift/standard (4.14.0)
@@ -46,6 +49,7 @@ PODS:
 DEPENDENCIES:
   - AYPopupPickerView
   - CropViewController
+  - GBDeviceInfo
   - JGProgressHUD
   - LeanCloud
   - NewPopMenu (~> 2.0)
@@ -71,6 +75,7 @@ SPEC REPOS:
     - Alamofire
     - AYPopupPickerView
     - CropViewController
+    - GBDeviceInfo
     - GRDB.swift
     - JGProgressHUD
     - LeanCloud
@@ -97,6 +102,7 @@ SPEC CHECKSUMS:
   Alamofire: 2291f7d21ca607c491dd17642e5d40fdcda0e65c
   AYPopupPickerView: 639e88c630c79f68e1dc34cf2c90f43ea2dbff46
   CropViewController: bd3ff11eeeaadc1e267bb9c3f3e9ee67a52d3285
+  GBDeviceInfo: ed0db16230d2fa280e1cbb39a5a7f60f6946aaec
   GRDB.swift: 8cc3ab7c8b8b4ac1761deb8dca4b51c1c9d429f8
   JGProgressHUD: d83d7a981b85d11205e19ff8ad5bb9c40571c847
   LeanCloud: 90c5a98c6f3ceb66b707bd668f10ef328034b614
@@ -119,6 +125,6 @@ SPEC CHECKSUMS:
   UMDevice: 28d21a568c8e8322e5a03bbd53b138d0c098d3b3
   UMPush: 7ef2ff2fcca16e4d5c7897183a78a0d26f920bfe
 
-PODFILE CHECKSUM: 77cb8a053fb45e4c2ed5dcc8a625c22a1d7e7cb9
+PODFILE CHECKSUM: 9798e4e17da6054ee18ece858468fedddd5e5585
 
 COCOAPODS: 1.9.3

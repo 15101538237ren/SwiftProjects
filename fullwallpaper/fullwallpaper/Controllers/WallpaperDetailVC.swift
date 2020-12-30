@@ -17,8 +17,20 @@ class WallpaperDetailVC: UIViewController {
 
     // MARK: - Outlet Variables
     @IBOutlet var imageView: UIImageView!
-    @IBOutlet var lockScreenPreviewImgV: UIImageView!
-    @IBOutlet var homeScreenPreviewImgV: UIImageView!
+    @IBOutlet var lockScreenPreviewImgV: UIImageView!{
+        didSet{
+            if Device.IS_5_5_INCHES(){
+                lockScreenPreviewImgV.image = UIImage(named: "LockScreen_small")
+            }
+        }
+    }
+    @IBOutlet var homeScreenPreviewImgV: UIImageView!{
+        didSet{
+            if Device.IS_5_5_INCHES(){
+                homeScreenPreviewImgV.image = UIImage(named: "HomeScreen_small")
+            }
+        }
+    }
     @IBOutlet weak var downloadImgV: UIImageView!{
         didSet{
             downloadImgV.theme_tintColor = "CollectionCellTextColor"
