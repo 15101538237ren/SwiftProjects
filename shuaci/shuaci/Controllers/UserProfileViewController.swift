@@ -11,7 +11,7 @@ import LeanCloud
 import CropViewController
 import SwiftTheme
 
-class UserProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, CropViewControllerDelegate , UITableViewDataSource, UITableViewDelegate {
+class UserProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, CropViewControllerDelegate{
     var activityIndicator = UIActivityIndicatorView()
     var activityLabel = UILabel()
     let activityEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .regular))
@@ -25,15 +25,6 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
     }
     var user = LCApplication.default.currentUser!
     let username = getUserName()
-    let settingItems:[SettingItem] = [
-        SettingItem(symbol_name : "person", name: "昵 称", value: "未设置"),
-        SettingItem(symbol_name : "envelope", name: "邮 箱", value: "未绑定"),
-        SettingItem(symbol_name : "phone", name: "手 机", value: "未绑定")
-    ]
-    
-//    ,SettingItem(icon: UIImage(named: "wechat_setting") ?? UIImage(), name: "微 信", value: "未绑定"),
-//    SettingItem(icon: UIImage(named: "qq_setting") ?? UIImage(), name: "QQ", value: "未绑定"),
-//    SettingItem(icon: UIImage(named: "weibo_setting") ?? UIImage(), name: "新浪微博", value: "未绑定")
     
     func initActivityIndicator(text: String) {
         activityLabel.removeFromSuperview()
@@ -68,7 +59,6 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
         self.activityLabel.alpha = 0
     }
     
-    @IBOutlet var tableView: UITableView!
     @IBOutlet var userPhotoBtn: UIButton!{
         didSet {
             userPhotoBtn.layer.cornerRadius = userPhotoBtn.layer.frame.width/2.0
@@ -96,11 +86,7 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
         view.theme_backgroundColor = "Global.viewBackgroundColor"
         backBtn.theme_tintColor = "Global.backBtnTintColor"
         barTitleLabel.theme_textColor = "Global.barTitleColor"
-        tableView.theme_backgroundColor = "Global.viewBackgroundColor"
         self.updateUserPhoto()
-        self.tableView.delegate = self
-        self.tableView.dataSource = self
-        self.tableView.separatorColor = .clear
         self.modalPresentationStyle = .overCurrentContext
         
         view.isOpaque = false
@@ -143,137 +129,6 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
         default:
             break
         }
-    }
-    
-    func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 1
-    }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return settingItems.count
-    }
-    
-    func getSetted(row: Int)-> String{
-        var textStr: String = "未绑定"
-        switch row {
-            case 0:
-                if let user_nickname = user.get("nickname")?.stringValue{
-                    textStr = user_nickname
-                }
-                else{
-                    textStr = "未设置"
-                }
-            case 1:
-                if let _ = user.get("email")?.stringValue{
-                    let verified = user.get("emailVerified")!.boolValue!
-                    if verified{
-                        textStr = "已绑定"
-                    }else{
-                        textStr = "未验证"
-                    }
-                }
-            case 2:
-                if let _ = user.get("mobilePhoneNumber")?.stringValue{
-                    let verified = user.get("mobilePhoneVerified")!.boolValue!
-                    if verified{
-                        textStr = "已绑定"
-                    }else{
-                        textStr = "未验证"
-                    }
-                }
-            default:
-                    textStr = "未验证"
-        }
-            return textStr
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let row = indexPath.row
-        let cell = tableView.dequeueReusableCell(withIdentifier: "ProfileSettingCell", for: indexPath) as! SettingTableViewCell
-        cell.separatorInset = UIEdgeInsets(top: 0, left: cell.bounds.size.width, bottom: 0, right: 0);
-        let settingItem:SettingItem = settingItems[row]
-        cell.iconView?.image = settingItem.icon
-        cell.iconView.theme_tintColor = "Global.settingIconTintColor"
-        cell.nameLabel?.text = settingItem.name
-        let textStr: String = getSetted(row: row)
-        cell.valueLabel?.theme_textColor = ["未验证", "未设置", "未绑定"].contains(textStr) ? "TableView.switchOnTextColor" : "TableView.switchOffTextColor"
-        cell.valueLabel?.text = textStr
-        cell.backgroundColor = .clear
-        return cell
-    }
-    
-    
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let row: Int = indexPath.row
-        let textStr: String = getSetted(row: row)
-        
-        switch row {
-        case 0:
-            let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
-            let setNickNameVC = mainStoryBoard.instantiateViewController(withIdentifier: "setNickNameVC") as! setNickNameViewController
-            if let user_nickname = user.get("nickname")?.stringValue{
-                setNickNameVC.nickname = user_nickname
-            }else{
-                setNickNameVC.nickname = ""
-            }
-            
-            setNickNameVC.modalPresentationStyle = .fullScreen
-            self.present(setNickNameVC, animated: true, completion: nil)
-        case 1:
-            if textStr == "未绑定"{
-                let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
-                let bindEmailVC = mainStoryBoard.instantiateViewController(withIdentifier: "bindEmailVC") as! bindEmailViewController
-                bindEmailVC.modalPresentationStyle = .fullScreen
-                self.present(bindEmailVC, animated: true, completion: nil)
-            }else if textStr == "未验证"{
-                var lastEmailLoginClickTime:Date? = nil
-                let emailVerficationSendTimeKey:String = "EmailVerficationSendTime"
-                if isKeyPresentInUserDefaults(key: emailVerficationSendTimeKey){
-                    lastEmailLoginClickTime = UserDefaults.standard.object(forKey: emailVerficationSendTimeKey) as? Date
-                }
-                if lastEmailLoginClickTime == nil ||  minutesBetweenDates(lastEmailLoginClickTime!, Date()) > 1 {
-                    if let email = getEmail(){
-                        UserDefaults.standard.set(Date(), forKey: emailVerficationSendTimeKey)
-                        _ = LCUser.requestVerificationMail(email: email) { result in
-                            switch result {
-                            case .success:
-                                let alertController = UIAlertController(title: "已发送验证邮件到\(email)\n请验证后重新登录!", message: "", preferredStyle: .alert)
-                                let okayAction = UIAlertAction(title: "好", style: .default, handler: { action in
-                                    LCUser.logOut()
-                                    self.dismiss(animated: true, completion: nil)
-                                    self.mainPanelViewController.showLoginScreen()
-                                    })
-                                alertController.addAction(okayAction)
-                                self.present(alertController, animated: true, completion: nil)
-                            case .failure(error: let error):
-                                self.presentAlertInView(title: error.localizedDescription, message: "", okText: "好")
-                            }
-                        }
-                    } else{
-                        self.presentAlertInView(title: "获取Email出现问题，请稍后再试!", message: "", okText: "好")
-                    }
-                } else{
-                    self.presentAlertInView(title: "尝试过于频繁，请稍等1分钟!", message: "", okText: "好")
-                }
-            }
-        case 2:
-            if ["未验证", "未绑定"].contains(textStr){
-                let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
-                let bindPhonerVC = mainStoryBoard.instantiateViewController(withIdentifier: "bindPhonerVC") as! bindPhoneViewController
-                bindPhonerVC.phoneNumber = getPhoneNumber()
-                bindPhonerVC.modalPresentationStyle = .fullScreen
-                self.present(bindPhonerVC, animated: true, completion: nil)
-            }
-        default:
-            break
-        }
-        tableView.deselectRow(at: indexPath, animated: true)
-    }
-    
-    override func viewWillAppear(_ animated: Bool){
-        self.tableView.reloadData()
     }
     
     func updateUserPhoto() {

@@ -22,13 +22,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Override point for customization after application launch.
         do {
+            
             try LCApplication.default.set(
-                id: "5uWh02cHlO4NIBMyM1rAaRRm-gzGzoHsz",
-                key: "MbgqYXQna9aFYQq7GRqRWHkA",
+                id: LCAppId,
+                key: LCKey,
                 serverURL: "https://5uwh02ch.lc-cn-n1-shared.com")
         } catch {
             print(error)
         }
+        
+        
+        
 //        LCApplication.logLevel = .all
         return true
     }

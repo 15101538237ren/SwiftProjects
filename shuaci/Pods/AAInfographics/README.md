@@ -247,6 +247,10 @@ public class AAMoveOverEventMessageModel: NSObject {
 }
 ```
 
+Monitoring user click events can achieve a variety of custom functions. For example, you can implement **Double Charts Linkage** through user click event callbacks. The example effects are as follows
+
+![doubleChartsLinkage](https://raw.githubusercontent.com/AAChartModel/Gallery/master/AAChartKit/doubleChartsLinkage.gif)
+
 
 ### Support for custom the style of chart `AATooltip` through `JavaScript` function
 
@@ -464,17 +468,14 @@ public var inverted: Bool?              //Whether to invert the axes so that the
 public var xAxisReversed: Bool?         //Whether to reverse the axis so that the highest number is closest to the origin. If the chart is inverted, the x axis is reversed by default. Defaults to false
 public var yAxisReversed: Bool?         //Whether to reverse the axis so that the highest number is closest to the origin. If the chart is inverted, the x axis is reversed by default. Defaults to false
 public var crosshairs: Bool?            //Enable or disable the crosshairs
-public var gradientColorEnable: Bool?   //Enable or disable the gradient color
 public var polar: Bool?                 //When true, cartesian charts like line, spline, area and column are transformed into the polar coordinate system. Requires `AAHighchartsMore.js`. Defaults to false
-public var marginLeft: Float?
-public var marginRight: Float?
-public var marginBottom: Float?
+public var margin: [Float]?
 public var dataLabelsEnabled: Bool?     //Enable or disable the data labels. Defaults to false
 public var dataLabelsFontColor: String? //The data labels font color
 public var dataLabelsFontSize: Float?   //The data labels font size
 public var dataLabelsFontWeight: AAChartFontWeightType?//The data labels font weight
 public var xAxisLabelsEnabled: Bool?    //Enable or disable the axis labels. Defaults to true
-public var categories: Array<String>?   //Set new categories for the axis
+public var categories: [String]?        //Set new categories for the axis
 public var xAxisGridLineWidth: Float?   //The width of the grid lines extending the ticks across the plot area.Defaults to 0
 public var xAxisVisible: Bool?
 public var xAxisTickInterval: Int?
@@ -489,8 +490,8 @@ public var yAxisAllowDecimals: Bool?    //The y axis values label allow decimals
 public var tooltipEnabled: Bool?
 public var tooltipValueSuffix: String?
 public var tooltipCrosshairs: Bool?
-public var colorsTheme: Array<Any>?     //An array containing the default colors for the chart's series. When all colors are used, new colors are pulled from the start again. Defaults to: ["#bb250c","#f67210","#fde680","#257679","#f1c6c5"]
-public var series: Array<Any>?          //An array of all the chart's series
+public var colorsTheme: [Any]?          //An array containing the default colors for the chart's series. When all colors are used, new colors are pulled from the start again. Defaults to: ["#bb250c","#f67210","#fde680","#257679","#f1c6c5"]
+public var series: [Any]?               //An array of all the chart's series
 public var legendEnabled: Bool?         //Enable or disable the legend. Defaults to true
 public var backgroundColor: Any?        //The background color or gradient for the outer chart area. Defaults to #FFFFFF
 public var borderRadius: Int?           //The corner radius of the outer chart border. Defaults to 0
@@ -527,14 +528,28 @@ public var touchEventEnabled: Bool?     //Support touch event call back or not
  "CODE IS FAR AWAY FROM BUG WITH THE ANIMAL PROTECTING"
  ```
 
-## Source Code⛓
+## Source Code Links⛓
 
-Language Version | Project Name | Target Platform | Source Code Link |
+### Normal Versions
+
+Language | Project Name | Target Platform | Source Code Link |
 ------------ | ------------- | ------------- | ------------- |
 Swift | AAInfographics |  iOS |https://github.com/AAChartModel/AAChartKit-Swift |
 Objective C | AAChartKit | iOS | https://github.com/AAChartModel/AAChartKit |
 Kotlin | AAInfographics | Android | https://github.com/AAChartModel/AAChartCore-Kotlin |
 Java | AAChartCore | Android | https://github.com/AAChartModel/AAChartCore |
+
+### Pro Versions
+
+Pro Versions are more powerful data visualization frameworks that support more types beautiful chart like bellcurve, bullet, columnpyramid, cylinder, dependencywheel, heatmap, histogram, networkgraph, organization, packedbubble, pareto, sankey, series, solidgauge, streamgraph, sunburst, tilemap, timeline, treemap, variablepie, variwide, vector, venn, windbarb, wordcloud, xrange charts and so on.
+
+
+Language | Project Name | Target Platform | Source Code Link |
+------------ | ------------- | ------------- | ------------- |
+Swift | AAInfographics-Pro |  iOS |https://github.com/AAChartModel/AAChartKit-Swift-Pro |
+Objective C | AAChartKit-Pro | iOS | https://github.com/AAChartModel/AAChartKit-Pro |
+Kotlin | AAInfographics-Pro | Android | Coming Soon... |
+Java | AAChartCore-Pro | Android | Coming Soon... |
 
 ## LICENSE
 
@@ -575,10 +590,10 @@ AAInfographics is available under the MIT license. See the [LICENSE](https://git
 - [x] Support rendering the polar chart
 - [x] Support rendering the step line chart
 - [x] Support rendering the step area chart
-- [ ] Support rendering the rectangular tree hierarchy diagrams
-- [ ] Support rendering the circular progress bar chart 
-- [ ] Support adding clicked event callbacks for graphics
-- [ ] Support graphics to refresh pure data in real time and scroll dynamically
+- [x] Support rendering the rectangular tree hierarchy diagrams
+- [x] Support rendering the circular progress bar chart 
+- [x] Support adding clicked event callbacks for graphics
+- [x] Support graphics to refresh pure data in real time and scroll dynamically
 - [ ] Support rendered graphics to generate image files
 - [ ] Support generating image files saved to the system album
 

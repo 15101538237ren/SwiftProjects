@@ -159,11 +159,8 @@ public class AAChartModel: AAObject {
     public var xAxisReversed: Bool?         //Whether to reverse the axis so that the highest number is closest to the origin. If the chart is inverted, the x axis is reversed by default. Defaults to false
     public var yAxisReversed: Bool?         //Whether to reverse the axis so that the highest number is closest to the origin. If the chart is inverted, the x axis is reversed by default. Defaults to false
     public var crosshairs: Bool?            //Enable or disable the crosshairs
-    public var gradientColorEnable: Bool?   //Enable or disable the gradient color
     public var polar: Bool?                 //When true, cartesian charts like line, spline, area and column are transformed into the polar coordinate system. Requires `AAHighchartsMore.js`. Defaults to false
-    public var marginLeft: Float?           //Chart left margin
-    public var marginRight: Float?          //Chart right margin
-    public var marginBottom: Float?         //Chart bottom margin
+    public var margin: [Float]?
     public var dataLabelsEnabled: Bool?     //Enable or disable the data labels. Defaults to false
     public var dataLabelsFontColor: String? //The data labels font color
     public var dataLabelsFontSize: Float?   //The data labels font size
@@ -176,10 +173,11 @@ public class AAChartModel: AAObject {
     public var yAxisVisible: Bool?          //Show the y axis or not
     public var yAxisLabelsEnabled: Bool?    //Enable or disable the axis labels. Defaults to true
     public var yAxisTitle: String?          //The actual text of the axis title
+    public var xAxisTitle: String?          //The actual text of the axis title
     public var yAxisLineWidth: Float?       //The width of y axis line
     public var yAxisGridLineWidth: Float?   //The width of the grid lines extending the ticks across the plot area. Defaults to 1
-    public var yAxisMin: Float?             //The y axis mini value
-    public var yAxisMax: Float?             //The y axis max value
+    public var yAxisMin: Double?            //The y axis mini value
+    public var yAxisMax: Double?            //The y axis max value
     public var yAxisAllowDecimals: Bool?    //The y axis values label allow decimals or not
     public var tooltipEnabled: Bool?        //Show the tooltip or not
     public var tooltipValueSuffix: String?  //Custom tooltip value unit suffix
@@ -344,20 +342,8 @@ public class AAChartModel: AAObject {
     }
     
     @discardableResult
-    public func marginLeft(_ prop: Float) -> AAChartModel {
-        marginLeft = prop
-        return self
-    }
-    
-    @discardableResult
-    public func marginRight(_ prop: Float) -> AAChartModel {
-        marginRight = prop
-        return self
-    }
-    
-    @discardableResult
-    public func marginBottom(_ prop: Float) -> AAChartModel {
-        marginBottom = prop
+    public func margin(top: Float = 0, right: Float = 0, bottom: Float = 0, left: Float = 0) -> AAChartModel {
+        margin = [top,right,bottom,left]
         return self
     }
     
@@ -432,6 +418,12 @@ public class AAChartModel: AAObject {
         yAxisTitle = prop
         return self
     }
+
+    @discardableResult
+    public func xAxisTitle(_ prop: String) -> AAChartModel {
+        xAxisTitle = prop
+        return self
+    }
     
     @discardableResult
     public func yAxisLineWidth(_ prop: Float) -> AAChartModel {
@@ -440,13 +432,13 @@ public class AAChartModel: AAObject {
     }
     
     @discardableResult
-    public func yAxisMin(_ prop: Float) -> AAChartModel {
+    public func yAxisMin(_ prop: Double) -> AAChartModel {
         yAxisMin = prop
         return self
     }
     
     @discardableResult
-    public func yAxisMax(_ prop: Float) -> AAChartModel {
+    public func yAxisMax(_ prop: Double) -> AAChartModel {
         yAxisMax = prop
         return self
     }
@@ -524,6 +516,7 @@ public class AAChartModel: AAObject {
         yAxisLineWidth         = 0
         yAxisGridLineWidth     = 0.6
         yAxisTitle             = ""
+        xAxisTitle             = ""
         legendEnabled          = true
         borderRadius           = 0
         markerRadius           = 5 //The radius of the polyline connection point. If the default value is set to 0, then this is equivalent to not displaying.

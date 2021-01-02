@@ -23,23 +23,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         
         do {
-            
-            
-            
-            var configuration = LCApplication.Configuration.default
-            configuration.HTTPURLCache = URLCache(
-                // 内存缓存容量，100 MB
-                memoryCapacity: 100 * 1024 * 1024,
-                // 磁盘缓存容量，100 MB
-                diskCapacity: 100 * 1024 * 1024,
-                // `nil` 表示使用系统默认的缓存路径，你也可以自定义路径
-                diskPath: nil)
-            
             try LCApplication.default.set(
                 id: LCAppId,
                 key: LCKey,
-                serverURL: "https://y3wzjery.lc-cn-n1-shared.com",
-                configuration: configuration)
+                serverURL: "https://y3wzjery.lc-cn-n1-shared.com")
         } catch {
             print(error)
         }

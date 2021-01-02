@@ -49,6 +49,9 @@ public class AATooltip: AAObject {
     public var crosshairs: Bool?
     public var valueSuffix: String?
     public var followTouchMove: Bool?//https://api.highcharts.com.cn/highcharts#chart.panning
+    public var shadow: Bool?
+    public var padding: Float?
+    public var positioner: String?
         
     
     @discardableResult
@@ -95,9 +98,7 @@ public class AATooltip: AAObject {
     
     @discardableResult
     public func formatter(_ prop: String) -> AATooltip {
-        var pureJSFunctionStr = "(\(prop))"
-        pureJSFunctionStr = AAJSStringPurer.pureJavaScriptFunctionString(pureJSFunctionStr)
-        formatter = pureJSFunctionStr
+        formatter = prop.aa_toPureJSString()
         return self
     }
     
@@ -146,6 +147,24 @@ public class AATooltip: AAObject {
     @discardableResult
     public func followTouchMove(_ prop: Bool?) -> AATooltip {
         followTouchMove = prop
+        return self
+    }
+    
+    @discardableResult
+    public func shadow(_ prop: Bool?) -> AATooltip {
+        shadow = prop
+        return self
+    }
+    
+    @discardableResult
+    public func padding(_ prop: Float?) -> AATooltip {
+        padding = prop
+        return self
+    }
+    
+    @discardableResult
+    public func positioner(_ prop: String) -> AATooltip {
+        positioner = prop.aa_toPureJSString()
         return self
     }
     

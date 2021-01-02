@@ -138,12 +138,19 @@ public class AAChartView: WKWebView {
     }
     
     private func drawChart() {
-        safeEvaluateJavaScriptString(optionsJson!)
+        let jsStr = "loadTheHighChartView('\(optionsJson ?? "")','\(contentWidth ?? 0)','\(contentHeight ?? 0)')"
+        safeEvaluateJavaScriptString(jsStr)
     }
     
     private func safeEvaluateJavaScriptString (_ jsString: String) {
+        if self.optionsJson == nil {
+            #if DEBUG
+            print("💀💀💀AAChartView did not finish loading!!!")
+            #endif
+            return
+        }
+        
         self.evaluateJavaScript(jsString, completionHandler: { (item, error) in
-            
             #if DEBUG
             if error != nil {
                 let objcError = error! as NSError
@@ -171,12 +178,13 @@ public class AAChartView: WKWebView {
                 print(errorInfo)
             }
             #endif
-            
         })
     }
     
-    private func configureTheJavaScriptStringWithOptions(_ aaOptions: AAOptions) {
-        let modelJsonStr = aaOptions.toJSON()!
+    private func configureOptionsJsonStringWithAAOptions(_ aaOptions: AAOptions) {
+        if self.isClearBackgroundColor == true {
+            aaOptions.chart?.backgroundColor = "rgba(0,0,0,0)"
+        }
         
         if     aaOptions.touchEventEnabled == true
             && self.touchEventEnabled == false {
@@ -197,11 +205,16 @@ public class AAChartView: WKWebView {
         }
         #endif
         
-        optionsJson = "loadTheHighChartView('\(modelJsonStr)','\(contentWidth ?? 0)','\(contentHeight ?? 0)')"
+        optionsJson = aaOptions.toJSON()!
     }
+    
 
     deinit {
-        self.configuration.userContentController.removeScriptMessageHandler(forName: kUserContentMessageNameMouseOver)
+        self.configuration.userContentController.removeAllUserScripts()
+        NotificationCenter.default.removeObserver(self)
+        #if DEBUG
+        print("👻👻👻 AAChartView was destroyed!!!")
+        #endif
     }
 
 }
@@ -211,8 +224,8 @@ extension AAChartView {
     ///
     /// - Parameter aaChartModel: The instance object of AAChartModel
     public func aa_drawChartWithChartModel(_ aaChartModel: AAChartModel) {
-        let options = AAOptionsConstructor.configureChartOptions(aaChartModel)
-        aa_drawChartWithChartOptions(options)
+        let aaOptions = aaChartModel.aa_toAAOptions()
+        aa_drawChartWithChartOptions(aaOptions)
     }
     
     /// Function of only refresh the chart data after the chart has been rendered
@@ -234,7 +247,7 @@ extension AAChartView {
     ///
     /// - Parameter aaChartModel: The instance object of AAChartModel
     public func aa_refreshChartWholeContentWithChartModel(_ aaChartModel: AAChartModel) {
-        let aaOptions = AAOptionsConstructor.configureChartOptions(aaChartModel)
+        let aaOptions = aaChartModel.aa_toAAOptions()
         aa_refreshChartWholeContentWithChartOptions(aaOptions)
     }
     
@@ -244,8 +257,8 @@ extension AAChartView {
     /// - Parameter aaOptions: The instance object of AAOptions model
     public func aa_drawChartWithChartOptions(_ aaOptions: AAOptions) {
         if optionsJson == nil {
-            configureTheJavaScriptStringWithOptions(aaOptions)
-            let path = Bundle(for: self.classForCoder)
+            configureOptionsJsonStringWithAAOptions(aaOptions)
+            let path = BundlePathLoader()
                 .path(forResource: "AAChartView",
                       ofType: "html",
                       inDirectory: "AAJSFiles.bundle")
@@ -253,7 +266,7 @@ extension AAChartView {
             let urlRequest = NSURLRequest(url: urlStr) as URLRequest
             self.load(urlRequest)
         } else {
-            configureTheJavaScriptStringWithOptions(aaOptions)
+            configureOptionsJsonStringWithAAOptions(aaOptions)
             drawChart()
         }
     }
@@ -271,7 +284,7 @@ extension AAChartView {
     /// - Parameter chartOptionsSeries: chart options series  array
     /// - Parameter animation: enable animation effect or not
     public func aa_onlyRefreshTheChartDataWithChartOptionsSeries(_ chartOptionsSeries: [AASeriesElement], animation: Bool) {
-        var seriesElementDicArr = [[String: AnyObject]]()
+        var seriesElementDicArr = [[String: Any]]()
         chartOptionsSeries.forEach { (aaSeriesElement) in
             seriesElementDicArr.append(aaSeriesElement.toDic()!)
         }
@@ -286,7 +299,7 @@ extension AAChartView {
     ///
     /// - Parameter aaOptions: The instance object of AAOptions model
     public func aa_refreshChartWholeContentWithChartOptions(_ aaOptions: AAOptions) {
-        configureTheJavaScriptStringWithOptions(aaOptions)
+        configureOptionsJsonStringWithAAOptions(aaOptions)
         drawChart()
     }
     
@@ -407,8 +420,8 @@ extension AAChartView {
     ///
     /// - Parameter element: chart series element
     public func aa_addElementToChartSeries(element: AASeriesElement) {
-        let elementJson = element.toJSON()
-        let pureElementJsonStr = AAJSStringPurer.pureJavaScriptFunctionString(elementJson!)
+        let elementJson = element.toJSON()!
+        let pureElementJsonStr = elementJson.aa_toPureJSString()
         let jsStr = "addElementToChartSeriesWithElement('\(pureElementJsonStr)')"
         safeEvaluateJavaScriptString(jsStr)
     }
@@ -443,7 +456,7 @@ extension AAChartView {
     /// - Parameter JSFunctionBodyString: valid JavaScript function body string
     public func aa_evaluateJavaScriptStringFunction(_ JSFunctionString: String) {
         if optionsJson != nil {
-            let pureJSFunctionStr = AAJSStringPurer.pureJavaScriptFunctionString(JSFunctionString)
+            let pureJSFunctionStr = JSFunctionString.aa_toPureJSString()
             let jsFunctionNameStr = "evaluateTheJavaScriptStringFunction('\(pureJSFunctionStr)')"
             safeEvaluateJavaScriptString(jsFunctionNameStr)
         }
@@ -557,11 +570,30 @@ extension AAChartView: WKScriptMessageHandler {
 }
 
 extension AAChartView {
-   private func getEventMessageModel(messageBody: [String: Any]) -> AAMoveOverEventMessageModel {
+    private func getEventMessageModel(messageBody: [String: Any]) -> AAMoveOverEventMessageModel {
         let eventMessageModel = AAMoveOverEventMessageModel()
         eventMessageModel.name = messageBody["name"] as? String
-        eventMessageModel.x = messageBody["x"] as? Float
-        eventMessageModel.y = messageBody["y"] as? Float
+        let x = messageBody["x"]
+        if x is String {
+            eventMessageModel.x = Float(x as! String)
+        } else if x is Int {
+            eventMessageModel.x = Float(x as! Int)
+        } else if x is Float {
+            eventMessageModel.x = (x as! Float)
+        } else if x is Double {
+            eventMessageModel.x = Float(x as! Double)
+        }
+        
+        let y = messageBody["y"]
+        if y is String {
+            eventMessageModel.y = Float(y as! String)
+        } else if y is Int {
+            eventMessageModel.y = Float(y as! Int)
+        } else if y is Float {
+            eventMessageModel.y = (y as! Float)
+        } else if y is Double {
+            eventMessageModel.y = Float(y as! Double)
+        }
         eventMessageModel.category = messageBody["category"] as? String
         eventMessageModel.offset = messageBody["offset"] as? [String: Any]
         eventMessageModel.index = messageBody["index"] as? Int

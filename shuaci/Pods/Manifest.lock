@@ -1,41 +1,60 @@
 PODS:
-  - AAInfographics (5.0.0)
-  - Alamofire (5.1.0)
-  - CropViewController (2.5.2)
+  - AAInfographics (5.0.4)
+  - Alamofire (5.4.1)
+  - CropViewController (2.6.0)
   - GRDB.swift (4.14.0):
     - GRDB.swift/standard (= 4.14.0)
   - GRDB.swift/standard (4.14.0)
-  - LeanCloud (17.5.2):
-    - LeanCloud/RTM (= 17.5.2)
-  - LeanCloud/Foundation (17.5.2):
-    - Alamofire (~> 5.0)
-  - LeanCloud/RTM (17.5.2):
-    - GRDB.swift (~> 4.9)
-    - LeanCloud/Foundation (= 17.5.2)
-    - Starscream (~> 3.1)
-    - SwiftProtobuf (~> 1.8)
-  - Starscream (3.1.1)
-  - SwiftProtobuf (1.8.0)
-  - SwiftTheme (0.5.2)
-  - SwiftyJSON (4.3.0)
+  - JGProgressHUD (2.2)
+  - LeanCloud (17.6.6):
+    - LeanCloud/RTM (= 17.6.6)
+  - LeanCloud/Foundation (17.6.6):
+    - Alamofire (~> 5.3)
+  - LeanCloud/RTM (17.6.6):
+    - GRDB.swift (~> 4.14)
+    - LeanCloud/Foundation (= 17.6.6)
+    - SwiftProtobuf (~> 1.13)
+  - PhoneNumberKit (3.3.1):
+    - PhoneNumberKit/PhoneNumberKitCore (= 3.3.1)
+    - PhoneNumberKit/UIKit (= 3.3.1)
+  - PhoneNumberKit/PhoneNumberKitCore (3.3.1)
+  - PhoneNumberKit/UIKit (3.3.1):
+    - PhoneNumberKit/PhoneNumberKitCore
+  - SwifterSwift/Foundation (5.2.0)
+  - SwifterSwift/UIKit (5.2.0)
+  - SwiftProtobuf (1.14.0)
+  - SwiftTheme (0.5.5)
+  - SwiftValidators (9.0.3)
+  - SwiftyJSON (5.0.0)
+  - Toast-Swift (5.0.1)
 
 DEPENDENCIES:
   - AAInfographics (from `https://github.com/AAChartModel/AAChartKit-Swift.git`)
   - CropViewController
+  - JGProgressHUD
   - LeanCloud
+  - PhoneNumberKit
+  - SwifterSwift/Foundation
+  - SwifterSwift/UIKit
   - SwiftTheme
-  - SwiftyJSON (~> 4.0)
+  - SwiftValidators
+  - SwiftyJSON
+  - Toast-Swift
 
 SPEC REPOS:
   trunk:
     - Alamofire
     - CropViewController
     - GRDB.swift
+    - JGProgressHUD
     - LeanCloud
-    - Starscream
+    - PhoneNumberKit
+    - SwifterSwift
     - SwiftProtobuf
     - SwiftTheme
+    - SwiftValidators
     - SwiftyJSON
+    - Toast-Swift
 
 EXTERNAL SOURCES:
   AAInfographics:
@@ -43,20 +62,24 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   AAInfographics:
-    :commit: ad4fbc9294b2aa7ddc809d2d7d5556a16c4204d1
+    :commit: d251286524277c064a6481acf67f05db0708237c
     :git: https://github.com/AAChartModel/AAChartKit-Swift.git
 
 SPEC CHECKSUMS:
-  AAInfographics: abed9a186dcbed0ef53eddf90763ed27ef4c6c1f
-  Alamofire: 9d5c5f602928e512395b30950c5984eca840093c
-  CropViewController: 1aac40093c5739e60d992b04724a55d12a689a4c
+  AAInfographics: 70e147c66171d9cb9a9398cda74b0f8dbdc16d8b
+  Alamofire: 2291f7d21ca607c491dd17642e5d40fdcda0e65c
+  CropViewController: 7093b39ec3cb508531b22d35773e06cecd7378d8
   GRDB.swift: 8cc3ab7c8b8b4ac1761deb8dca4b51c1c9d429f8
-  LeanCloud: cbb1c70dbc9a858992e69510d17ba716695e69f5
-  Starscream: 4bb2f9942274833f7b4d296a55504dcfc7edb7b0
-  SwiftProtobuf: 2cbd9409689b7df170d82a92a33443c8e3e14a70
-  SwiftTheme: 8b02c479bb4441b2b6790ac126e961b1b6fb0932
-  SwiftyJSON: 6faa0040f8b59dead0ee07436cbf76b73c08fd08
+  JGProgressHUD: d83d7a981b85d11205e19ff8ad5bb9c40571c847
+  LeanCloud: 90c5a98c6f3ceb66b707bd668f10ef328034b614
+  PhoneNumberKit: ff153d5e299f6da566cb73c6aa71e354933b2932
+  SwifterSwift: 334181863c416882d97b7a60c05054d9e4d799e2
+  SwiftProtobuf: ed465ed18402f998fd117f631da27e0168e6b59c
+  SwiftTheme: 585ead917c78ea3fc508437b0a141d29c034bdb0
+  SwiftValidators: b1cb650ce02ef6ad894f1d471f970b249c794342
+  SwiftyJSON: 36413e04c44ee145039d332b4f4e2d3e8d6c4db7
+  Toast-Swift: 9b6a70f28b3bf0b96c40d46c0c4b9d6639846711
 
-PODFILE CHECKSUM: 1737cbae2e4ea1fb12bea26962c0e1cbcf092b46
+PODFILE CHECKSUM: 266115e29e657df52a8a213902f220ef491d5814
 
 COCOAPODS: 1.9.3

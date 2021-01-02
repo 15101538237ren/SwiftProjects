@@ -48,11 +48,15 @@ class Utility {
         }
     }
     
-    static func jsonString(_ object: Any) throws -> String? {
-        return String(
-            data: try JSONSerialization.data(
-                withJSONObject: object),
-            encoding: .utf8)
+    static func jsonString(
+        _ object: Any?,
+        encoding: String.Encoding = .utf8) throws -> String?
+    {
+        guard let object = object else {
+            return nil
+        }
+        let data = try JSONSerialization.data(withJSONObject: object)
+        return String(data: data, encoding: encoding)
     }
 }
 
@@ -63,15 +67,15 @@ protocol InternalSynchronizing {
 
 extension InternalSynchronizing {
     
-    func sync<T>(_ closure: @autoclosure () -> T) -> T {
-        self.sync(closure: closure)
+    func sync<T>(_ closure: @autoclosure () throws -> T) rethrows -> T {
+        return try self.sync(closure: closure)
     }
     
-    func sync<T>(closure: () -> T) -> T {
+    func sync<T>(closure: () throws -> T) rethrows -> T {
         self.mutex.lock()
         defer {
             self.mutex.unlock()
         }
-        return closure()
+        return try closure()
     }
 }

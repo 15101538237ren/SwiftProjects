@@ -70,12 +70,12 @@ class MainScreenViewController: UIViewController {
             
             card.meaningLabel?.text = cardWord.meaning
             if cardWord.memMethod != ""{
-                card.wordLabel_Top_Space_Constraint.constant = 130
+                card.wordLabel_Top_Space_Constraint.constant = 110
                 card.memMethodLabel?.alpha = 1
                 card.memMethodLabel?.text = "记: \(cardWord.memMethod)"
             }
             else{
-                card.wordLabel_Top_Space_Constraint.constant = 150
+                card.wordLabel_Top_Space_Constraint.constant = 130
                 card.memMethodLabel?.alpha = 0
             }
             card.cardImageView?.image = UIImage(named: cardWord.headWord)
@@ -226,7 +226,7 @@ class MainScreenViewController: UIViewController {
     func showMainPanel(){
         let LoginRegStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
         let mainPanelViewController = LoginRegStoryBoard.instantiateViewController(withIdentifier: "mainPanelViewController") as! MainPanelViewController
-        mainPanelViewController.modalPresentationStyle = .overCurrentContext
+        mainPanelViewController.modalPresentationStyle = .fullScreen
         
         DispatchQueue.main.async {
             self.present(mainPanelViewController, animated: true, completion: nil)
@@ -235,25 +235,13 @@ class MainScreenViewController: UIViewController {
     }
     
     
-    @IBAction func emailLogin(_ sender: UIButton) {
+    @IBAction func showLoginVC(_ sender: UIButton) {
         let LoginRegStoryBoard : UIStoryboard = UIStoryboard(name: "LoginReg", bundle:nil)
-        let emailLoginVC = LoginRegStoryBoard.instantiateViewController(withIdentifier: "emailLoginVC") as! EmailLoginViewController
-        emailLoginVC.modalPresentationStyle = .fullScreen
-        emailLoginVC.mainScreenVC = self
+        let loginVC = LoginRegStoryBoard.instantiateViewController(withIdentifier: "loginVC") as! LoginVC
+        loginVC.modalPresentationStyle = .overCurrentContext
+        loginVC.mainScreenVC = self
         DispatchQueue.main.async {
-            self.present(emailLoginVC, animated: true, completion: nil)
-            
-        }
-    }
-    
-    @IBAction func phoneLogin(_ sender: UIButton) {
-        let LoginRegStoryBoard : UIStoryboard = UIStoryboard(name: "LoginReg", bundle:nil)
-        let phoneLoginVC = LoginRegStoryBoard.instantiateViewController(withIdentifier: "phoneLogin") as! PhoneLoginViewController
-        phoneLoginVC.modalPresentationStyle = .fullScreen
-        phoneLoginVC.mainScreenVC = self
-        DispatchQueue.main.async {
-            self.present(phoneLoginVC, animated: true, completion: nil)
-            
+            self.present(loginVC, animated: true, completion: nil)
         }
     }
     

@@ -35,6 +35,7 @@ import Foundation
 public class AAStates: AAObject {
     public var hover: AAHover?
     public var select: AASelect?
+    public var inactive: AAInactive?
     
     @discardableResult
     public func hover(_ prop: AAHover) -> AAStates {
@@ -46,6 +47,16 @@ public class AAStates: AAObject {
     public func select(_ prop: AASelect) -> AAStates {
         select = prop
         return self
+    }
+    
+    @discardableResult
+    public func inactive(_ prop: AAInactive) -> AAStates {
+        inactive = prop
+        return self
+    }
+    
+    public override init() {
+        
     }
 }
 
@@ -85,12 +96,24 @@ public class AAHover: AAObject {
         halo = prop
         return self
     }
+    
+    public override init() {
+        
+    }
 }
 
 public class AASelect: AAObject {
+    public var enabled: Bool?
     public var borderColor: String?
     public var color: String?
     public var halo: AAHalo?
+    
+    
+    @discardableResult
+    public func enabled(_ prop: Bool) -> AASelect {
+        enabled = prop
+        return self
+    }
     
     @discardableResult
     public func borderColor(_ prop: String) -> AASelect {
@@ -108,6 +131,10 @@ public class AASelect: AAObject {
     public func halo(_ prop: AAHalo) -> AASelect {
         halo = prop
         return self
+    }
+    
+    public override init() {
+        
     }
 }
 
@@ -132,5 +159,30 @@ public class AAHalo: AAObject {
     public func size(_ prop: Float) -> AAHalo {
         size = prop
         return self
+    }
+    
+    public override init() {
+        
+    }
+}
+
+public class AAInactive: AAObject {
+    public var enabled: Bool?
+    public var opacity: Float?
+    
+    @discardableResult
+    public func enabled(_ prop: Bool) -> AAInactive {
+        enabled = prop
+        return self
+    }
+    
+    @discardableResult
+    public func opacity(_ prop: Float) -> AAInactive {
+        opacity = prop
+        return self
+    }
+    
+    public override init() {
+        
     }
 }

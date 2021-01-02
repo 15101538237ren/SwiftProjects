@@ -407,7 +407,7 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
         }
         let composer = MFMailComposeViewController()
         composer.mailComposeDelegate = self
-        composer.setToRecipients(["shuaci@outlook.com"])
+        composer.setToRecipients([OfficialEmail])
         composer.setSubject("「刷词」意见反馈")
         composer.setMessageBody("", isHTML: false)
         present(composer, animated: true)

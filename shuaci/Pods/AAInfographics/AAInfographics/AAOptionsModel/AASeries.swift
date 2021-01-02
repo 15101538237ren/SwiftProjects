@@ -40,9 +40,12 @@ public class AASeries: AAObject {
     public var keys: [String]?
     public var colorByPoint: Bool?
     public var connectNulls: Bool? //Whether reconnects the broken line of the chart
-    public var events: [String: Any]?
+    public var events: AAEvents?
     public var shadow: AAShadow?
     public var dataLabels: AADataLabels?
+    public var states: AAStates?
+    public var allowPointSelect: Bool?
+    public var point: AAPoint?
 
     
     @discardableResult
@@ -88,7 +91,7 @@ public class AASeries: AAObject {
     }
     
     @discardableResult
-    public func events(_ prop: [String: Any]?) -> AASeries {
+    public func events(_ prop: AAEvents?) -> AASeries {
         events = prop
         return self
     }
@@ -102,6 +105,113 @@ public class AASeries: AAObject {
     @discardableResult
     public func dataLabels(_ prop: AADataLabels) -> AASeries {
         dataLabels = prop
+        return self
+    }
+    
+    @discardableResult
+    public func states(_ prop: AAStates) -> AASeries {
+        states = prop
+        return self
+    }
+    
+    @discardableResult
+    public func point(_ prop: AAPoint) -> AASeries {
+        point = prop
+        return self
+    }
+    
+    public override init() {
+        
+    }
+}
+
+
+public class AAEvents: AAObject {
+    public var legendItemClick: String?
+
+    @discardableResult
+    public func legendItemClick(_ prop: String?) -> AAEvents {
+        if prop != nil {
+            legendItemClick = prop!.aa_toPureJSString()
+        }
+        return self
+    }
+    
+    public override init() {
+        
+    }
+}
+
+
+
+public class AAPoint: AAObject {
+    public var events: AAPointEvents?
+
+    @discardableResult
+    public func events(_ prop: AAPointEvents?) -> AAPoint {
+        events = prop
+        return self
+    }
+    
+    public override init() {
+        
+    }
+}
+
+
+public class AAPointEvents: AAObject {
+    public var click: String?
+    public var mouseOver: String?
+    public var remove: String?
+    public var select: String?
+    public var unselect: String?
+    public var update: String?
+
+    @discardableResult
+    public func click(_ prop: String?) -> AAPointEvents {
+        if prop != nil {
+            click = prop!.aa_toPureJSString()
+        }
+        return self
+    }
+    
+    @discardableResult
+    public func mouseOver(_ prop: String?) -> AAPointEvents {
+        if prop != nil {
+            mouseOver = prop!.aa_toPureJSString()
+        }
+        return self
+    }
+    
+    @discardableResult
+    public func remove(_ prop: String?) -> AAPointEvents {
+        if prop != nil {
+            remove = prop!.aa_toPureJSString()
+        }
+        return self
+    }
+    
+    @discardableResult
+    public func select(_ prop: String?) -> AAPointEvents {
+        if prop != nil {
+            select = prop!.aa_toPureJSString()
+        }
+        return self
+    }
+    
+    @discardableResult
+    public func unselect(_ prop: String?) -> AAPointEvents {
+        if prop != nil {
+            unselect = prop!.aa_toPureJSString()
+        }
+        return self
+    }
+    
+    @discardableResult
+    public func update(_ prop: String?) -> AAPointEvents {
+        if prop != nil {
+            update = prop!.aa_toPureJSString()
+        }
         return self
     }
     

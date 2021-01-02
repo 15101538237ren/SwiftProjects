@@ -19,6 +19,7 @@ class MainPanelUIView: UIView {
             learnBtn.layer.masksToBounds = true
         }
     }
+    
     @IBOutlet weak var dimUIView: UIView!{
         didSet{
             dimUIView.backgroundColor = .black
