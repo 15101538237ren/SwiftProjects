@@ -2,6 +2,7 @@ PODS:
   - AAInfographics (5.0.4)
   - Alamofire (5.4.1)
   - CropViewController (2.6.0)
+  - Disk (0.6.4)
   - GRDB.swift (4.14.0):
     - GRDB.swift/standard (= 4.14.0)
   - GRDB.swift/standard (4.14.0)
@@ -31,6 +32,7 @@ PODS:
 DEPENDENCIES:
   - AAInfographics (from `https://github.com/AAChartModel/AAChartKit-Swift.git`)
   - CropViewController
+  - "Disk (from `https://7mxaxlb@gitroyalty.com/saoudrizwan/Disk`, tag `0.6.4`)"
   - JGProgressHUD
   - LeanCloud
   - PhoneNumberKit
@@ -59,16 +61,23 @@ SPEC REPOS:
 EXTERNAL SOURCES:
   AAInfographics:
     :git: https://github.com/AAChartModel/AAChartKit-Swift.git
+  Disk:
+    :git: "https://7mxaxlb@gitroyalty.com/saoudrizwan/Disk"
+    :tag: 0.6.4
 
 CHECKOUT OPTIONS:
   AAInfographics:
     :commit: d251286524277c064a6481acf67f05db0708237c
     :git: https://github.com/AAChartModel/AAChartKit-Swift.git
+  Disk:
+    :git: "https://7mxaxlb@gitroyalty.com/saoudrizwan/Disk"
+    :tag: 0.6.4
 
 SPEC CHECKSUMS:
   AAInfographics: 70e147c66171d9cb9a9398cda74b0f8dbdc16d8b
   Alamofire: 2291f7d21ca607c491dd17642e5d40fdcda0e65c
   CropViewController: 7093b39ec3cb508531b22d35773e06cecd7378d8
+  Disk: 8ebb79575e81f13c3665e6ab2b9d31f29aec92bb
   GRDB.swift: 8cc3ab7c8b8b4ac1761deb8dca4b51c1c9d429f8
   JGProgressHUD: d83d7a981b85d11205e19ff8ad5bb9c40571c847
   LeanCloud: 90c5a98c6f3ceb66b707bd668f10ef328034b614
@@ -80,6 +89,6 @@ SPEC CHECKSUMS:
   SwiftyJSON: 36413e04c44ee145039d332b4f4e2d3e8d6c4db7
   Toast-Swift: 9b6a70f28b3bf0b96c40d46c0c4b9d6639846711
 
-PODFILE CHECKSUM: 266115e29e657df52a8a213902f220ef491d5814
+PODFILE CHECKSUM: 55d81f24a0922047b2566b21f133bb8b63e21422
 
 COCOAPODS: 1.9.3

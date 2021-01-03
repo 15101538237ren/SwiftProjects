@@ -10,6 +10,7 @@ target 'shuaci' do
   pod 'CropViewController'
   pod 'SwiftTheme'
   pod 'SwiftyJSON'
+  pod 'Disk', :git => 'https://7mxaxlb@gitroyalty.com/saoudrizwan/Disk', :tag => '0.6.4'
   pod 'SwiftValidators'
   pod 'PhoneNumberKit'
   pod 'Toast-Swift'

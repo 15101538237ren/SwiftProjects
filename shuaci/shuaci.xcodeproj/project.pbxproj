@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		55001E1B2491A6D400DF0D0E /* Preference.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55001E1A2491A6D400DF0D0E /* Preference.swift */; };
+		55001E1B2491A6D400DF0D0E /* PreferenceUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55001E1A2491A6D400DF0D0E /* PreferenceUtil.swift */; };
 		55001E1D2491AF7300DF0D0E /* RecordUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55001E1C2491AF7300DF0D0E /* RecordUtil.swift */; };
 		55001E1F2491AFF600DF0D0E /* FunctionUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55001E1E2491AFF600DF0D0E /* FunctionUtil.swift */; };
 		55001E212491B1FC00DF0D0E /* ThemeUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55001E202491B1FC00DF0D0E /* ThemeUtil.swift */; };
@@ -46,7 +46,7 @@
 		A5134E34246772B4008B116D /* LearnWordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5134E33246772B4008B116D /* LearnWordViewController.swift */; };
 		A5134E3624677BF3008B116D /* LearnUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5134E3524677BF3008B116D /* LearnUIView.swift */; };
 		A5134E3A24678C32008B116D /* Collection+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5134E3924678C32008B116D /* Collection+Ext.swift */; };
-		A52B84DA2471EE3700A002C6 /* LearningRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = A52B84D92471EE3600A002C6 /* LearningRecord.swift */; };
+		A52B84DA2471EE3700A002C6 /* Record.swift in Sources */ = {isa = PBXBuildFile; fileRef = A52B84D92471EE3600A002C6 /* Record.swift */; };
 		A52B84DC2471EE4500A002C6 /* ReviewRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = A52B84DB2471EE4500A002C6 /* ReviewRecord.swift */; };
 		A52B84DE2471F00D00A002C6 /* VocabularyRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = A52B84DD2471F00D00A002C6 /* VocabularyRecord.swift */; };
 		A554B24724576F8A00DC8358 /* Yuanti-SC-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A554B24624576F8A00DC8358 /* Yuanti-SC-Regular.ttf */; };
@@ -83,12 +83,16 @@
 		BBA41A7442A9D5542E445471 /* Pods_shuaci.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7904B907E4DC4D8D3DC6FC8C /* Pods_shuaci.framework */; };
 		C32918CD259FFD9200E6527F /* GlobalConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C32918CC259FFD9200E6527F /* GlobalConstants.swift */; };
 		C32918E125A003D600E6527F /* MainScreenUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C32918E025A003D600E6527F /* MainScreenUIView.swift */; };
+		C34BB85B25A14C9E0073F815 /* GlobalVariables.swift in Sources */ = {isa = PBXBuildFile; fileRef = C34BB85A25A14C9E0073F815 /* GlobalVariables.swift */; };
+		C34BB85E25A157F00073F815 /* GlobalEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = C34BB85D25A157F00073F815 /* GlobalEnum.swift */; };
 		C394916E259FF78D00CD0319 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C394916D259FF78D00CD0319 /* LoginViewController.swift */; };
+		C3A1AB2F25A1490C00921510 /* GlobalFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3A1AB2E25A1490C00921510 /* GlobalFunctions.swift */; };
+		C3A1AB3225A1497B00921510 /* Preference.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3A1AB3125A1497B00921510 /* Preference.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		4D669C4BDB3B8EFCB078D706 /* Pods-shuaci.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-shuaci.release.xcconfig"; path = "Target Support Files/Pods-shuaci/Pods-shuaci.release.xcconfig"; sourceTree = "<group>"; };
-		55001E1A2491A6D400DF0D0E /* Preference.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Preference.swift; sourceTree = "<group>"; };
+		55001E1A2491A6D400DF0D0E /* PreferenceUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferenceUtil.swift; sourceTree = "<group>"; };
 		55001E1C2491AF7300DF0D0E /* RecordUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordUtil.swift; sourceTree = "<group>"; };
 		55001E1E2491AFF600DF0D0E /* FunctionUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FunctionUtil.swift; sourceTree = "<group>"; };
 		55001E202491B1FC00DF0D0E /* ThemeUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeUtil.swift; sourceTree = "<group>"; };
@@ -130,7 +134,7 @@
 		A5134E33246772B4008B116D /* LearnWordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearnWordViewController.swift; sourceTree = "<group>"; };
 		A5134E3524677BF3008B116D /* LearnUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearnUIView.swift; sourceTree = "<group>"; };
 		A5134E3924678C32008B116D /* Collection+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Collection+Ext.swift"; sourceTree = "<group>"; };
-		A52B84D92471EE3600A002C6 /* LearningRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearningRecord.swift; sourceTree = "<group>"; };
+		A52B84D92471EE3600A002C6 /* Record.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Record.swift; sourceTree = "<group>"; };
 		A52B84DB2471EE4500A002C6 /* ReviewRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewRecord.swift; sourceTree = "<group>"; };
 		A52B84DD2471F00D00A002C6 /* VocabularyRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VocabularyRecord.swift; sourceTree = "<group>"; };
 		A554B24624576F8A00DC8358 /* Yuanti-SC-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Yuanti-SC-Regular.ttf"; sourceTree = "<group>"; };
@@ -169,7 +173,11 @@
 		A5F51550245F5E9300F06610 /* Wallpaper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Wallpaper.swift; sourceTree = "<group>"; };
 		C32918CC259FFD9200E6527F /* GlobalConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalConstants.swift; sourceTree = "<group>"; };
 		C32918E025A003D600E6527F /* MainScreenUIView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainScreenUIView.swift; sourceTree = "<group>"; };
+		C34BB85A25A14C9E0073F815 /* GlobalVariables.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalVariables.swift; sourceTree = "<group>"; };
+		C34BB85D25A157F00073F815 /* GlobalEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalEnum.swift; sourceTree = "<group>"; };
 		C394916D259FF78D00CD0319 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		C3A1AB2E25A1490C00921510 /* GlobalFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalFunctions.swift; sourceTree = "<group>"; };
+		C3A1AB3125A1497B00921510 /* Preference.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Preference.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -228,11 +236,12 @@
 				A5F5154E245F578900F06610 /* Theme.swift */,
 				A5F51550245F5E9300F06610 /* Wallpaper.swift */,
 				A5BE9C2C2462242500302F38 /* Book.swift */,
-				A52B84D92471EE3600A002C6 /* LearningRecord.swift */,
+				A52B84D92471EE3600A002C6 /* Record.swift */,
 				A52B84DB2471EE4500A002C6 /* ReviewRecord.swift */,
 				A52B84DD2471F00D00A002C6 /* VocabularyRecord.swift */,
 				A5E6973D2473404A004CFA70 /* CardWord.swift */,
 				55C781A124902F1600C9F33E /* SettingItem.swift */,
+				C3A1AB3125A1497B00921510 /* Preference.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -241,7 +250,7 @@
 			isa = PBXGroup;
 			children = (
 				5507D9062479935C0090DD37 /* Reachability.swift */,
-				55001E1A2491A6D400DF0D0E /* Preference.swift */,
+				55001E1A2491A6D400DF0D0E /* PreferenceUtil.swift */,
 				55001E1C2491AF7300DF0D0E /* RecordUtil.swift */,
 				55001E1E2491AFF600DF0D0E /* FunctionUtil.swift */,
 				55001E202491B1FC00DF0D0E /* ThemeUtil.swift */,
@@ -340,9 +349,9 @@
 			isa = PBXGroup;
 			children = (
 				C32918E025A003D600E6527F /* MainScreenUIView.swift */,
+				A59A0B16245488EC000845F2 /* MainPanelUIView.swift */,
 				5547AE8924BA45540096B41E /* WordHistoryTableViewCell.swift */,
 				A5B821722453669B00963FEC /* CardUIView.swift */,
-				A59A0B16245488EC000845F2 /* MainPanelUIView.swift */,
 				A5F5154A245F56BF00F06610 /* ThemeCollectionViewCell.swift */,
 				A5DD06DD2462343F0051B3E5 /* Level1CollectionViewCell.swift */,
 				A5DD06DF246267A60051B3E5 /* BookItemTableViewCell.swift */,
@@ -389,6 +398,9 @@
 			isa = PBXGroup;
 			children = (
 				C32918CC259FFD9200E6527F /* GlobalConstants.swift */,
+				C3A1AB2E25A1490C00921510 /* GlobalFunctions.swift */,
+				C34BB85A25A14C9E0073F815 /* GlobalVariables.swift */,
+				C34BB85D25A157F00073F815 /* GlobalEnum.swift */,
 			);
 			path = Global;
 			sourceTree = "<group>";
@@ -525,6 +537,7 @@
 				55001E232491B21A00DF0D0E /* BookUtil.swift in Sources */,
 				5507D9072479935C0090DD37 /* Reachability.swift in Sources */,
 				55C781A024902C4F00C9F33E /* SettingToggleTableViewCell.swift in Sources */,
+				C3A1AB3225A1497B00921510 /* Preference.swift in Sources */,
 				550534F424FD845100246BCA /* WebViewUtil.swift in Sources */,
 				5518B9B8247A2E7600BC8DA4 /* LearnFinishViewController.swift in Sources */,
 				A5134E3624677BF3008B116D /* LearnUIView.swift in Sources */,
@@ -537,6 +550,7 @@
 				5547AE8824BA37400096B41E /* WordHistoryViewController.swift in Sources */,
 				A5F51551245F5E9300F06610 /* Wallpaper.swift in Sources */,
 				55B63A2324D530D300B6B8B5 /* SearchWordTableViewCell.swift in Sources */,
+				C34BB85E25A157F00073F815 /* GlobalEnum.swift in Sources */,
 				A5BE9C2D2462242500302F38 /* Book.swift in Sources */,
 				55C781A224902F1600C9F33E /* SettingItem.swift in Sources */,
 				A5F5154F245F578900F06610 /* Theme.swift in Sources */,
@@ -550,7 +564,7 @@
 				A59EB1D32452A12900F300E1 /* AppDelegate.swift in Sources */,
 				559B96C324F82FDA00516475 /* WordDetailViewController.swift in Sources */,
 				A59A0B1A2454C04E000845F2 /* UIColor+Ext.swift in Sources */,
-				55001E1B2491A6D400DF0D0E /* Preference.swift in Sources */,
+				55001E1B2491A6D400DF0D0E /* PreferenceUtil.swift in Sources */,
 				A5DD06E0246267A60051B3E5 /* BookItemTableViewCell.swift in Sources */,
 				55F2B5A4247B4B3700758113 /* String+Ext.swift in Sources */,
 				55C5E20224B03A40005D2956 /* StatViewController.swift in Sources */,
@@ -559,10 +573,12 @@
 				550534F624FD8F1200246BCA /* CardBackView.swift in Sources */,
 				A5134E34246772B4008B116D /* LearnWordViewController.swift in Sources */,
 				5500541324B822170005AD6F /* setNickNameViewController.swift in Sources */,
+				C34BB85B25A14C9E0073F815 /* GlobalVariables.swift in Sources */,
 				5569E93F24AD187D006FBE62 /* UIApplication+Ext.swift in Sources */,
 				55001E1D2491AF7300DF0D0E /* RecordUtil.swift in Sources */,
 				C394916E259FF78D00CD0319 /* LoginViewController.swift in Sources */,
 				A59A0B1C2454D48C000845F2 /* MainPanelViewController.swift in Sources */,
+				C3A1AB2F25A1490C00921510 /* GlobalFunctions.swift in Sources */,
 				C32918CD259FFD9200E6527F /* GlobalConstants.swift in Sources */,
 				55C7819E24902BAE00C9F33E /* SettingTableViewCell.swift in Sources */,
 				558F71EC249C713B0014956F /* NumWordPerGroupViewController.swift in Sources */,
@@ -574,7 +590,7 @@
 				A5B821732453669B00963FEC /* CardUIView.swift in Sources */,
 				55001E1F2491AFF600DF0D0E /* FunctionUtil.swift in Sources */,
 				A5E6973A2473359F004CFA70 /* Array+Ext.swift in Sources */,
-				A52B84DA2471EE3700A002C6 /* LearningRecord.swift in Sources */,
+				A52B84DA2471EE3700A002C6 /* Record.swift in Sources */,
 				55001E212491B1FC00DF0D0E /* ThemeUtil.swift in Sources */,
 				C32918E125A003D600E6527F /* MainScreenUIView.swift in Sources */,
 				A59EB1D52452A12900F300E1 /* SceneDelegate.swift in Sources */,
