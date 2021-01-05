@@ -15,8 +15,10 @@ class ThemeCollectionViewController: UIViewController, UICollectionViewDelegate,
     @IBOutlet weak var backBtn: UIButton!
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var barTitleLabel: UILabel!
-    var mainPanelViewController: MainPanelViewController!
     
+    var mainPanelViewController: MainPanelViewController!
+    var preference:Preference!
+    var userId: String!
     @IBAction func unwind(_ sender: UIButton) {
         self.dismiss(animated: true, completion: nil)
     }
@@ -61,9 +63,17 @@ class ThemeCollectionViewController: UIViewController, UICollectionViewDelegate,
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let theme = themes[indexPath.row]
-        setPreference(key: "current_theme_category", value: theme.category)
+        
+        let theme_category = theme.category
+        
+        preference.current_theme = theme_category
+        
+        savePreference(userId: userId, preference: preference)
+        
         ThemeManager.setTheme(plistName: theme_category_to_name[theme.category]!.rawValue, path: .mainBundle)
-        mainPanelViewController.setWallpaper()
+        
+        mainPanelViewController.setDefaultWallpaper(theme_category: theme_category)
+        mainPanelViewController.getNextWallpaper(category: theme_category)
         self.dismiss(animated: true, completion: nil)
     }
 

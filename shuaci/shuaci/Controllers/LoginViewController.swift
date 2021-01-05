@@ -12,7 +12,7 @@ import PhoneNumberKit
 
 class LoginVC: UIViewController {
     
-    var mainScreenVC: MainScreenViewController!
+    // MARK: - Enumerates
     
     enum LoginType {
         case Phone
@@ -20,8 +20,13 @@ class LoginVC: UIViewController {
         case ResetEmail
     }
     
+    // MARK: - Constants
+    
+    let phoneNumberKit:PhoneNumberKit = PhoneNumberKit()
+    let effectView = UIVisualEffectView(effect: UIBlurEffect(style: .regular))
     let silverColor:UIColor = UIColor(red: 192, green: 192, blue: 192, alpha: 1)
     
+    // MARK: - Outlet Variables
     @IBOutlet var emailTextField: UITextField!{
         didSet{
             emailTextField.attributedPlaceholder = NSAttributedString(string: "邮 箱",attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
@@ -92,6 +97,34 @@ class LoginVC: UIViewController {
     
     @IBOutlet weak var backBtn: UIButton!
     
+    @IBOutlet var resetEmailTextField: UITextField!{
+        didSet{
+            resetEmailTextField.attributedPlaceholder = NSAttributedString(string: "邮 箱",attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
+        }
+    }
+    
+    @IBOutlet var resetPwdBtn: UIButton!{
+        didSet {
+            resetPwdBtn.layer.cornerRadius = 9.0
+            resetPwdBtn.layer.masksToBounds = true
+        }
+    }
+    
+    var mainScreenVC: MainScreenViewController!
+    var loginType: LoginType = .Phone
+    var verificationCodeSent = false
+    var dialCode: String = "+86"
+    var countryCode: String = "CN"
+    var viewTranslation = CGPoint(x: 0, y: 0)
+    var indicator = UIActivityIndicatorView()
+    var strLabel = UILabel()
+    
+    // MARK: - Custom Functions
+    
+    func isKeyPresentInUserDefaults(key: String) -> Bool {
+        return UserDefaults.standard.object(forKey: key) != nil
+    }
+    
     func setElements(enable: Bool){
         self.backBtn.isUserInteractionEnabled = enable
         self.view.isUserInteractionEnabled = enable
@@ -104,29 +137,6 @@ class LoginVC: UIViewController {
         self.emailLoginBtn.isUserInteractionEnabled = enable
         self.resetPwdBtn.isUserInteractionEnabled = enable
     }
-    
-    
-    @IBOutlet var resetEmailTextField: UITextField!{
-        didSet{
-            resetEmailTextField.attributedPlaceholder = NSAttributedString(string: "邮 箱",attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
-        }
-    }
-    @IBOutlet var resetPwdBtn: UIButton!{
-        didSet {
-            resetPwdBtn.layer.cornerRadius = 9.0
-            resetPwdBtn.layer.masksToBounds = true
-        }
-    }
-    var loginType: LoginType = .Phone
-    var verificationCodeSent = false
-    var dialCode: String = "+86"
-    var countryCode: String = "CN"
-    let phoneNumberKit:PhoneNumberKit = PhoneNumberKit()
-    
-    var viewTranslation = CGPoint(x: 0, y: 0)
-    var indicator = UIActivityIndicatorView()
-    var strLabel = UILabel()
-    let effectView = UIVisualEffectView(effect: UIBlurEffect(style: .regular))
     
     func initActivityIndicator(text: String) {
         strLabel.removeFromSuperview()
@@ -203,17 +213,15 @@ class LoginVC: UIViewController {
         }
     }
     
-    @IBAction func changeLoginMethod(_ sender: UIButton) {
-        self.view.endEditing(true)
-        switch loginType {
-            case .Phone:
-                loginType = .Email
-            case .Email:
-                loginType = .Phone
-            default:
-                loginType = .Email
+    func showResetViews(){
+        DispatchQueue.main.async { [self] in
+            forgotPwdBtn.alpha = 0
+            emailLoginBtn.alpha = 0
+            emailStackView.alpha = 0
+            
+            resetStackView.alpha = 1
+            resetPwdBtn.alpha = 1
         }
-        setupElements()
     }
     
     override func viewDidLoad() {
@@ -223,6 +231,8 @@ class LoginVC: UIViewController {
         view.addGestureRecognizer(UITapGestureRecognizer(target: view, action: #selector(UIView.endEditing)))
         getVerificationCodeBtn.addTarget(self, action: #selector(verificationBtnTimeChange), for: .touchUpInside)
     }
+    
+    // MARK: - Objective-C Functions
     
     @objc func handleDismiss(sender: UIPanGestureRecognizer) {
         switch sender.state {
@@ -296,6 +306,20 @@ class LoginVC: UIViewController {
         getVerificationCodeBtn.setTitleColor(UIColor(red: 255, green: 255, blue: 255, alpha: 1.0), for: .normal)
     }
     
+    // MARK: - Outlet Actions
+    
+    @IBAction func changeLoginMethod(_ sender: UIButton) {
+        self.view.endEditing(true)
+        switch loginType {
+            case .Phone:
+                loginType = .Email
+            case .Email:
+                loginType = .Phone
+            default:
+                loginType = .Email
+        }
+        setupElements()
+    }
     
     @IBAction func loginByEmail(sender: UIButton){
             self.view.endEditing(true)
@@ -327,8 +351,7 @@ class LoginVC: UIViewController {
                 return
             }
         
-            let connected = Reachability.isConnectedToNetwork()
-            if connected{
+        if Reachability.isConnectedToNetwork(){
                 var lastEmailLoginClickTime = Date()
                 var emailClickKeySet = false
                 
@@ -367,7 +390,7 @@ class LoginVC: UIViewController {
                             DispatchQueue.main.async {
                                 self.stopIndicator()
                                 self.dismiss(animated: false, completion: {
-                                    self.mainScreenVC.showMainPanel()
+                                    self.mainScreenVC.showMainPanel(currentUser: user)
                                 })
                             }
                             //登录成功
@@ -460,8 +483,7 @@ class LoginVC: UIViewController {
             }
             do {
                 let _ = try phoneNumberKit.parse(phoneNumber, withRegion: self.countryCode, ignoreType: true)
-                let connected = Reachability.isConnectedToNetwork()
-                if connected{
+                if Reachability.isConnectedToNetwork(){
                     DispatchQueue.main.async {
                         self.initActivityIndicator(text: "正在发送")
                         self.setElements(enable: false)
@@ -542,8 +564,7 @@ class LoginVC: UIViewController {
                         return
                     }
                     
-                    let connected = Reachability.isConnectedToNetwork()
-                    if connected {
+                    if Reachability.isConnectedToNetwork(){
                        DispatchQueue.main.async {
                            self.initActivityIndicator(text: "正在登录")
                             self.setElements(enable: false)
@@ -572,7 +593,7 @@ class LoginVC: UIViewController {
                                 }
                                 DispatchQueue.main.async {
                                     self.dismiss(animated: false, completion: {
-                                        self.mainScreenVC.showMainPanel()
+                                        self.mainScreenVC.showMainPanel(currentUser: user)
                                     })
                                  }
                            case .failure(error: let error):
@@ -610,8 +631,7 @@ class LoginVC: UIViewController {
         if !emailSentKeySet || (minutesBetweenDates(lastResetEmailSentTime, Date()) > 1) {
             if let email = email, Validator.isEmail().apply(email){
                 
-                let connected = Reachability.isConnectedToNetwork()
-                if connected {
+                if Reachability.isConnectedToNetwork(){
                     DispatchQueue.main.async {
                         self.initActivityIndicator(text: "发送中")
                         self.setElements(enable: false)
@@ -657,20 +677,9 @@ class LoginVC: UIViewController {
         self.dismiss(animated: true, completion: nil)
     }
     
-    
-    func showResetViews(){
-        DispatchQueue.main.async { [self] in
-            forgotPwdBtn.alpha = 0
-            emailLoginBtn.alpha = 0
-            emailStackView.alpha = 0
-            
-            resetStackView.alpha = 1
-            resetPwdBtn.alpha = 1
-        }
-    }
-    
     @IBAction func forgetPwd(_ sender: UIButton) {
         showResetViews()
     }
-
+    
+    
 }

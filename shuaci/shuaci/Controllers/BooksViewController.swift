@@ -251,8 +251,7 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
     {
         if books.count > 0{
             stopIndicator()
-            let connected = Reachability.isConnectedToNetwork()
-            if connected{
+            if Reachability.isConnectedToNetwork(){
                 DispatchQueue.global(qos: .background).async {
                 do {
                     let query = LCQuery(className: "Book")
@@ -301,16 +300,11 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
                 }
                 }
             }else{
-                if non_network_preseted == false{
-                    let alertCtl = presentNoNetworkAlert()
-                    self.present(alertCtl, animated: true, completion: nil)
-                    non_network_preseted = true
-                }
+                self.view.makeToast(NoNetworkStr, duration: 1.0, position: .center)
             }
             
         }else{
-            let connected = Reachability.isConnectedToNetwork()
-            if connected{
+            if Reachability.isConnectedToNetwork(){
                 DispatchQueue.global(qos: .background).async {
                 do {
                     let query = LCQuery(className: "Book")
@@ -351,11 +345,7 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
                 }
                 }
             }else{
-                if non_network_preseted == false{
-                    let alertCtl = presentNoNetworkAlert()
-                    self.present(alertCtl, animated: true, completion: nil)
-                    non_network_preseted = true
-                }
+                self.view.makeToast(NoNetworkStr, duration: 1.0, position: .center)
             }
         }
         if global_total_books.count == 0{

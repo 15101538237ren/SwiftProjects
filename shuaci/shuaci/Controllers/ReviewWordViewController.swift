@@ -415,8 +415,7 @@ class ReviewWordViewController: UIViewController {
         
         func playMp3(url: URL)
         {
-            let connected = Reachability.isConnectedToNetwork()
-            if connected{
+            if Reachability.isConnectedToNetwork(){
                 DispatchQueue.global(qos: .background).async {
                 do {
                     var downloadTask: URLSessionDownloadTask
@@ -433,18 +432,13 @@ class ReviewWordViewController: UIViewController {
                     downloadTask.resume()
                 }}
             }else{
-                if non_network_preseted == false{
-                    let alertCtl = presentNoNetworkAlert()
-                    self.present(alertCtl, animated: true, completion: nil)
-                    non_network_preseted = true
-                }
+                self.view.makeToast(NoNetworkStr, duration: 1.0, position: .center)
             }
             
         }
         
         @IBAction func playAudio(_ sender: UIButton) {
-            let connected = Reachability.isConnectedToNetwork()
-            if connected{
+            if Reachability.isConnectedToNetwork(){
                 let word = review_words[currentIndex % review_words.count]
                 let cardWord = getFeildsOfWord(word: word, usphone: getUSPhone())
                 let wordStr: String = cardWord.headWord
@@ -452,11 +446,7 @@ class ReviewWordViewController: UIViewController {
                     playMp3(url: mp3_url)
                 }
             }else{
-                let alertCtl = presentNoNetworkAlert()
-                if non_network_preseted == false{
-                    self.present(alertCtl, animated: true, completion: nil)
-                    non_network_preseted = true
-                }
+                self.view.makeToast(NoNetworkStr, duration: 1.0, position: .center)
             }
             
         }

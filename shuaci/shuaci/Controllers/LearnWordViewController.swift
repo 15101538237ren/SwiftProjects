@@ -650,8 +650,7 @@ class LearnWordViewController: UIViewController {
         
         func playMp3(url: URL)
         {
-            let connected = Reachability.isConnectedToNetwork()
-            if connected{
+            if Reachability.isConnectedToNetwork(){
                 DispatchQueue.global(qos: .background).async {
                 do {
                     var downloadTask: URLSessionDownloadTask
@@ -668,11 +667,7 @@ class LearnWordViewController: UIViewController {
                     downloadTask.resume()
                 }}
             }else{
-                if non_network_preseted == false{
-                    let alertCtl = presentNoNetworkAlert()
-                    self.present(alertCtl, animated: true, completion: nil)
-                    non_network_preseted = true
-                }
+                self.view.makeToast(NoNetworkStr, duration: 1.0, position: .center)
             }
             
         }
@@ -686,11 +681,7 @@ class LearnWordViewController: UIViewController {
                     playMp3(url: mp3_url)
                 }
             }else{
-                let alertCtl = presentNoNetworkAlert()
-                if non_network_preseted == false{
-                    self.present(alertCtl, animated: true, completion: nil)
-                    non_network_preseted = true
-                }
+                self.view.makeToast(NoNetworkStr, duration: 1.0, position: .center)
             }
             
         }
@@ -705,8 +696,7 @@ class LearnWordViewController: UIViewController {
     }
     
     func load_html(wordHead: String, wordIndex: Int){
-        let connected = Reachability.isConnectedToNetwork()
-        if connected{
+        if Reachability.isConnectedToNetwork(){
             let card = cards[currentIndex % 2]
             if let _ = card.cardBackView {
                 card.dragable = false
@@ -739,11 +729,7 @@ class LearnWordViewController: UIViewController {
                     }}
             }
         }else{
-            if non_network_preseted == false{
-                let alertCtl = presentNoNetworkAlert()
-                self.present(alertCtl, animated: true, completion: nil)
-                non_network_preseted = true
-            }
+            self.view.makeToast(NoNetworkStr, duration: 1.0, position: .center)
         }
     }
     

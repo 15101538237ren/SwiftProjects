@@ -215,11 +215,7 @@ class LearnOrReviewFinishViewController: UIViewController {
             }
             }
         }else{
-            if non_network_preseted == false{
-                let alertCtl = presentNoNetworkAlert()
-                self.present(alertCtl, animated: true, completion: nil)
-                non_network_preseted = true
-            }
+            self.view.makeToast(NoNetworkStr, duration: 1.0, position: .center)
         }
     }
     

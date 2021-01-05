@@ -15,6 +15,7 @@ PODS:
     - GRDB.swift (~> 4.14)
     - LeanCloud/Foundation (= 17.6.6)
     - SwiftProtobuf (~> 1.13)
+  - Nuke (9.2.3)
   - PhoneNumberKit (3.3.1):
     - PhoneNumberKit/PhoneNumberKitCore (= 3.3.1)
     - PhoneNumberKit/UIKit (= 3.3.1)
@@ -35,6 +36,7 @@ DEPENDENCIES:
   - "Disk (from `https://7mxaxlb@gitroyalty.com/saoudrizwan/Disk`, tag `0.6.4`)"
   - JGProgressHUD
   - LeanCloud
+  - Nuke
   - PhoneNumberKit
   - SwifterSwift/Foundation
   - SwifterSwift/UIKit
@@ -50,6 +52,7 @@ SPEC REPOS:
     - GRDB.swift
     - JGProgressHUD
     - LeanCloud
+    - Nuke
     - PhoneNumberKit
     - SwifterSwift
     - SwiftProtobuf
@@ -81,6 +84,7 @@ SPEC CHECKSUMS:
   GRDB.swift: 8cc3ab7c8b8b4ac1761deb8dca4b51c1c9d429f8
   JGProgressHUD: d83d7a981b85d11205e19ff8ad5bb9c40571c847
   LeanCloud: 90c5a98c6f3ceb66b707bd668f10ef328034b614
+  Nuke: 3dd19fd03612c179036d2af7f56ec57cb84144e2
   PhoneNumberKit: ff153d5e299f6da566cb73c6aa71e354933b2932
   SwifterSwift: 334181863c416882d97b7a60c05054d9e4d799e2
   SwiftProtobuf: ed465ed18402f998fd117f631da27e0168e6b59c
@@ -89,6 +93,6 @@ SPEC CHECKSUMS:
   SwiftyJSON: 36413e04c44ee145039d332b4f4e2d3e8d6c4db7
   Toast-Swift: 9b6a70f28b3bf0b96c40d46c0c4b9d6639846711
 
-PODFILE CHECKSUM: 55d81f24a0922047b2566b21f133bb8b63e21422
+PODFILE CHECKSUM: b49b2e9bd010befa866864cb80cf0214786c3bb1
 
 COCOAPODS: 1.9.3

@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		55001E1B2491A6D400DF0D0E /* PreferenceUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55001E1A2491A6D400DF0D0E /* PreferenceUtil.swift */; };
 		55001E1D2491AF7300DF0D0E /* RecordUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55001E1C2491AF7300DF0D0E /* RecordUtil.swift */; };
 		55001E1F2491AFF600DF0D0E /* FunctionUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55001E1E2491AFF600DF0D0E /* FunctionUtil.swift */; };
 		55001E212491B1FC00DF0D0E /* ThemeUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55001E202491B1FC00DF0D0E /* ThemeUtil.swift */; };
@@ -92,7 +91,6 @@
 
 /* Begin PBXFileReference section */
 		4D669C4BDB3B8EFCB078D706 /* Pods-shuaci.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-shuaci.release.xcconfig"; path = "Target Support Files/Pods-shuaci/Pods-shuaci.release.xcconfig"; sourceTree = "<group>"; };
-		55001E1A2491A6D400DF0D0E /* PreferenceUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferenceUtil.swift; sourceTree = "<group>"; };
 		55001E1C2491AF7300DF0D0E /* RecordUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordUtil.swift; sourceTree = "<group>"; };
 		55001E1E2491AFF600DF0D0E /* FunctionUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FunctionUtil.swift; sourceTree = "<group>"; };
 		55001E202491B1FC00DF0D0E /* ThemeUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeUtil.swift; sourceTree = "<group>"; };
@@ -250,7 +248,6 @@
 			isa = PBXGroup;
 			children = (
 				5507D9062479935C0090DD37 /* Reachability.swift */,
-				55001E1A2491A6D400DF0D0E /* PreferenceUtil.swift */,
 				55001E1C2491AF7300DF0D0E /* RecordUtil.swift */,
 				55001E1E2491AFF600DF0D0E /* FunctionUtil.swift */,
 				55001E202491B1FC00DF0D0E /* ThemeUtil.swift */,
@@ -564,7 +561,6 @@
 				A59EB1D32452A12900F300E1 /* AppDelegate.swift in Sources */,
 				559B96C324F82FDA00516475 /* WordDetailViewController.swift in Sources */,
 				A59A0B1A2454C04E000845F2 /* UIColor+Ext.swift in Sources */,
-				55001E1B2491A6D400DF0D0E /* PreferenceUtil.swift in Sources */,
 				A5DD06E0246267A60051B3E5 /* BookItemTableViewCell.swift in Sources */,
 				55F2B5A4247B4B3700758113 /* String+Ext.swift in Sources */,
 				55C5E20224B03A40005D2956 /* StatViewController.swift in Sources */,

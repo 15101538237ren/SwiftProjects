@@ -53,10 +53,19 @@ class MainScreenViewController: UIViewController {
                                 CardWord.init(headWord: "smile", meaning: "n.微笑", phone: "smaɪl")]
     override func viewDidLoad() {
         super.viewDidLoad()
-        initCards()
-        let card = cards[0]
-        let xshift:CGFloat = card.frame.size.width/8.0
-        card.transform = CGAffineTransform(translationX: -xshift, y:0.0).rotated(by: -xshift*0.61/card.center.x)
+        initVC()
+    }
+    
+    func initVC(){
+        if let user = LCApplication.default.currentUser {
+            showMainPanel(currentUser: user)
+        }
+        else {
+            initCards()
+            let card = cards[0]
+            let xshift:CGFloat = card.frame.size.width/8.0
+            card.transform = CGAffineTransform(translationX: -xshift, y:0.0).rotated(by: -xshift*0.61/card.center.x)
+        }
     }
     
     func setFieldsOfCard(card: CardUIView, cardWord: CardWord){
@@ -223,11 +232,11 @@ class MainScreenViewController: UIViewController {
         card.transform = .identity
     }
     
-    func showMainPanel(){
+    func showMainPanel(currentUser: LCUser){
         let LoginRegStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
         let mainPanelViewController = LoginRegStoryBoard.instantiateViewController(withIdentifier: "mainPanelViewController") as! MainPanelViewController
         mainPanelViewController.modalPresentationStyle = .fullScreen
-        
+        mainPanelViewController.currentUser = currentUser
         DispatchQueue.main.async {
             self.present(mainPanelViewController, animated: true, completion: nil)
             
@@ -248,8 +257,7 @@ class MainScreenViewController: UIViewController {
     
     func playMp3(url: URL)
     {
-        let connected = Reachability.isConnectedToNetwork()
-        if connected{
+        if Reachability.isConnectedToNetwork(){
             DispatchQueue.global(qos: .background).async {
             do {
                 var downloadTask: URLSessionDownloadTask
@@ -266,28 +274,18 @@ class MainScreenViewController: UIViewController {
                 downloadTask.resume()
             }}
         }else{
-            let alertCtl = presentNoNetworkAlert()
-            if non_network_preseted == false{
-                self.present(alertCtl, animated: true, completion: nil)
-                non_network_preseted = true
-            }
+            self.view.makeToast(NoNetworkStr, duration: 1.0, position: .center)
         }
-        
     }
     
     @IBAction func playAudio(_ sender: UIButton) {
-        let connected = Reachability.isConnectedToNetwork()
-        if connected{
+        if Reachability.isConnectedToNetwork(){
             let cardWord = cardWords[currentIndex % cardWords.count]
             let wordStr: String = cardWord.headWord
             if let mp3_url = getWordPronounceURL(word: wordStr, fromMainScreen: true){
                 playMp3(url: mp3_url)
             }
-        }else{
-            let alertCtl = presentNoNetworkAlert()
-            UIApplication.topViewController()?.present(alertCtl, animated: true, completion: nil)
         }
-        
     }
     
     

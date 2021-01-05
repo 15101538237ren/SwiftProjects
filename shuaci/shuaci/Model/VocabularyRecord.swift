@@ -11,12 +11,13 @@ import Foundation
 struct VocabularyRecord: Codable {
     var VocabHead: String
     var BookId:String
+    var Mastered: Bool
+    var BehaviorHistory: [Int]
     var LearnDate: Date?
     var CollectDate: Date?
-    var Mastered: Bool
     var MasteredDate: Date?
     var ReviewDUEDate: Date?
-    var BehaviorHistory: [Int]
+    
     init(VocabHead: String, BookId: String, LearnDate: Date?, CollectDate: Date?, Mastered: Bool, MasteredDate: Date?, ReviewDUEDate: Date?, BehaviorHistory: [CardBehavior]) {
         self.VocabHead = VocabHead
         self.BookId = BookId

@@ -36,8 +36,8 @@ let categories:[Int: [String: [Int: String]]] = [
     8: ["category": [0:"其他"], "subcategory": [0:"全部", 1: "词组", 2: "新概念", 3: "老版词书", 4: "词汇量", 9: "全国等级考试", 10: "其他"]],
 ]
 
-func getCurrentBook() -> Book?{
-    if let bookId = getPreference(key: "current_book_id") as? String {
+func getCurrentBook(preference: Preference) -> Book?{
+    if let bookId = preference.current_book_id{
         if currentbook_json_obj.count == 0{
             currentbook_json_obj = load_json(fileName: bookId)
         }

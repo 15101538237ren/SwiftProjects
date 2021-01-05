@@ -12,13 +12,10 @@ import MessageUI
 import SwiftTheme
 
 class SettingViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
-    var viewTranslation = CGPoint(x: 0, y: 0)
     
-    var activityIndicator = UIActivityIndicatorView()
-    var activityLabel = UILabel()
+    // MARK: - Constants
     let activityEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .regular))
     
-    var mainPanelViewController: MainPanelViewController!
     let settingItems:[SettingItem] = [
         SettingItem(symbol_name : "auto_pronunciation", name: "自动发音", value: "开"),
         SettingItem(symbol_name : "english_american_pronunce", name: "发音类型", value: "美"),
@@ -32,10 +29,24 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
         SettingItem(symbol_name : "share", name: "推荐给好友", value: ""),
         SettingItem(symbol_name : "q_and_a", name: "常见问题", value: "")
     ]
+    
+    
+    // MARK: - Outlet Variables
     @IBOutlet var tableView: UITableView!
     
     @IBOutlet weak var backBtn: UIButton!
     @IBOutlet weak var barTitleLabel: UILabel!
+    
+    
+    // MARK: - Variables
+    var currentUser: LCUser!
+    var mainPanelViewController: MainPanelViewController!
+    var preference:Preference!
+    
+    var viewTranslation = CGPoint(x: 0, y: 0)
+    var activityIndicator = UIActivityIndicatorView()
+    var activityLabel = UILabel()
+    
     
     @IBAction func unwind(segue: UIStoryboardSegue) {
         self.dismiss(animated: true, completion: nil)
@@ -70,7 +81,6 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
     @objc func updateTableTheme(){
         self.tableView.reloadData()
     }
-    
     
     func initActivityIndicator(text: String) {
         activityLabel.removeFromSuperview()
@@ -154,24 +164,22 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
     
     func getSettingTextforTableView() -> String {
         var order = "乱序"
-        if let memOrder = getPreference(key: "memOrder") as? Int{
-            switch memOrder {
-            case 1:
-                order = "乱序"
-            case 2:
-                order = "顺序"
-            case 3:
-                order = "倒序"
-            default:
-                order = "乱序"
-            }
+        let memOrder = preference.memory_order
+        
+        switch memOrder {
+        case 1:
+            order = "乱序"
+        case 2:
+            order = "顺序"
+        case 3:
+            order = "倒序"
+        default:
+            order = "乱序"
         }
-        if let number_of_words_per_group = getPreference(key: "number_of_words_per_group") as? Int{
-            return "\(order)  \(number_of_words_per_group)个/组"
-        }
-        else{
-            return "\(order)"
-        }
+        
+        let number_of_words_per_group = preference.number_of_words_per_group
+        
+        return "\(order)  \(number_of_words_per_group)个/组"
         
     }
     
@@ -188,7 +196,7 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
             cell.leftValueLabel?.text = "关"
             cell.rightValueLabel?.text = "开"
             cell.toggleSwitch.addTarget(self, action: #selector(autoPronunceSwitched), for: UIControl.Event.valueChanged)
-            let autoPronunce = getPreference(key: "auto_pronunciation") as! Bool
+            let autoPronunce = preference.auto_pronunciation
             if autoPronunce{
                 cell.toggleSwitch.isOn = true
                 cell.leftValueLabel.theme_textColor = "TableView.switchOffTextColor"
@@ -212,7 +220,7 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
             cell.nameLabel?.text = settingItem.name
             cell.leftValueLabel?.text = "美"
             cell.rightValueLabel?.text = "英"
-            let usPronunce = getPreference(key: "us_pronunciation") as! Bool
+            let usPronunce = preference.us_pronunciation
             if usPronunce{
                 cell.toggleSwitch.isOn = false
                 cell.leftValueLabel.theme_textColor = "TableView.switchOnTextColor"
@@ -247,7 +255,7 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
             cell.iconView?.image = settingItem.icon
             cell.iconView.theme_tintColor = "Global.settingIconTintColor"
             cell.nameLabel?.text = settingItem.name
-            cell.valueLabel?.text = row == 4 ? getPreference(key: "reminder_time") as? String ?? "" : settingItem.value
+            cell.valueLabel?.text = row == 4 ? preference.reminder_time as? String ?? "" : settingItem.value
             return cell
         }
     }
@@ -306,7 +314,7 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
                 self.present(booksVC, animated: true, completion: nil)
             }
         case 3:
-            if let book = getCurrentBook() {
+            if let book = getCurrentBook(preference: preference) {
                 let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
                 let SetMemOptionVC = mainStoryBoard.instantiateViewController(withIdentifier: "SetMemOptionVC") as! SetMemOptionViewController
                 SetMemOptionVC.modalPresentationStyle = .overCurrentContext

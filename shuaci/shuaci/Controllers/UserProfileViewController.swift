@@ -140,8 +140,7 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
     }
     
     @IBAction func logOut(_ sender: UIButton) {
-        let connected = Reachability.isConnectedToNetwork()
-        if connected{
+        if Reachability.isConnectedToNetwork(){
            let alertController = UIAlertController(title: "提示", message: "确定注销?", preferredStyle: .alert)
            let okayAction = UIAlertAction(title: "确定", style: .default, handler: { action in
                LCUser.logOut()
@@ -153,8 +152,7 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
            alertController.addAction(cancelAction)
            self.present(alertController, animated: true, completion: nil)
         }else{
-            let alertCtl = presentNoNetworkAlert()
-            self.present(alertCtl, animated: true, completion: nil)
+            self.view.makeToast(NoNetworkStr, duration: 1.0, position: .center)
         }
     }
     
@@ -219,9 +217,11 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
     
     func cropViewController(_ cropViewController: CropViewController, didCropToImage image: UIImage, withRect cropRect: CGRect, angle: Int) {
         // Write the image to local file for temporary use
-        let imageFileURL = getDocumentsDirectory().appendingPathComponent("user_avatar_\(username).jpg")
-        let cropped_img = resizeImage(image: image, newWidth: 300.0)
-        try? cropped_img.jpegData(compressionQuality: 0.8)?.write(to: imageFileURL)
+        
+        let userId = currentUser.objectId!.stringValue!
+        let avatar_fp = "user_avatar_\(userId).jpg"
+        
+        let cropped_img:Data = resizeImage(image: image, newWidth: 300.0).jpegData(compressionQuality: 0.8)
         
         DispatchQueue.main.async {
             cropViewController.dismiss(animated: true, completion: nil)
@@ -229,8 +229,7 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
             self.dismiss(animated: true, completion: nil)
         }
         
-        let connected = Reachability.isConnectedToNetwork()
-        if connected{
+        if Reachability.isConnectedToNetwork(){
             DispatchQueue.global(qos: .background).async {
             do {
                 let user = LCApplication.default.currentUser!
@@ -269,16 +268,13 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
                 }
             }
         }else{
-            let alertCtl = presentNoNetworkAlert()
-            self.present(alertCtl, animated: true, completion: nil)
-            non_network_preseted = true
+            self.view.makeToast(NoNetworkStr, duration: 1.0, position: .center)
         }
         
     }
     
     func update_user_photo(file: LCFile){
-        let connected = Reachability.isConnectedToNetwork()
-        if connected{
+        if Reachability.isConnectedToNetwork(){
            DispatchQueue.global(qos: .background).async {
            do {
                let user = LCApplication.default.currentUser!
@@ -289,7 +285,7 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
                     case .success:
                         print("Cloud User Photo Saved Successful!")
                         self.updateUserPhoto()
-                        self.mainPanelViewController.updateUserPhoto()
+                        self.mainPanelViewController.loadUserPhoto()
                         self.stopIndicator()
                     case .failure(error: let error):
                         self.stopIndicator()
@@ -301,9 +297,7 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
                }
            }
         }else{
-            let alertCtl = presentNoNetworkAlert()
-            self.present(alertCtl, animated: true, completion: nil)
-            non_network_preseted = true
+            self.view.makeToast(NoNetworkStr, duration: 1.0, position: .center)
         }
         
     }
