@@ -437,6 +437,7 @@ class LearnWordViewController: UIViewController {
             }
         }
         global_records.append(currentLearningRec!)
+        global_vocabs_records.append(contentsOf: vocabRecordsOfCurrentLearning)
         saveRecordsToDisk(userId: currentUser.objectId!.stringValue!)
         saveRecordsToCloud(currentUser: currentUser)
         saveVocabRecordsToCloud(currentUser: currentUser)

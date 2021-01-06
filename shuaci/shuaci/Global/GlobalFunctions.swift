@@ -1344,3 +1344,15 @@ func load_json(fileName: String) -> JSON{
     return json
 }
 
+//
+
+func initLoadingIndicator(view: UIView){
+    hud.textLabel.text = "加载中"
+    hud.textLabel.theme_textColor = "IndicatorColor"
+    hud.backgroundColor = .clear
+    hud.show(in: view)
+}
+
+func stopLoadingIndicator(){
+    hud.dismiss()
+}

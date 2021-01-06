@@ -56,15 +56,13 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
         backBtn.theme_tintColor = "Global.backBtnTintColor"
         barTitleLabel.theme_textColor = "Global.barTitleColor"
         tableView.theme_backgroundColor = "Global.viewBackgroundColor"
+        
         self.tableView.delegate = self
         self.tableView.dataSource = self
         self.tableView.separatorColor = .clear
         self.modalPresentationStyle = .overCurrentContext
         
         view.isOpaque = false
-        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-        navigationController?.navigationBar.shadowImage = UIImage()
-        navigationController?.navigationBar.tintColor = .white
         
         view.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(handleDismiss)))
         super.viewDidLoad()

@@ -444,6 +444,9 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
         self.isRotating = false
     }
     
+    func update_preference(){
+        preference = loadPreference(userId: currentUser.objectId!.stringValue!)
+    }
     
     func loadThemeController(){
         let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)

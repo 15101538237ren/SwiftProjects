@@ -95,11 +95,7 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
         barTitleLabel.theme_textColor = "Global.barTitleColor"
         self.updateUserPhoto()
         self.modalPresentationStyle = .overCurrentContext
-        
         view.isOpaque = false
-        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-        navigationController?.navigationBar.shadowImage = UIImage()
-        navigationController?.navigationBar.tintColor = .white
         
         view.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(handleDismiss)))
         super.viewDidLoad()

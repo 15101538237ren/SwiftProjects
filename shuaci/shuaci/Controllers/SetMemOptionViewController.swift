@@ -33,6 +33,15 @@ class SetMemOptionViewController: UIViewController, UIPickerViewDelegate, UIPick
     @IBOutlet weak var dailyNumWordPickerView: UIPickerView!
     
     
+    
+    func setElements(enable: Bool){
+        self.backBtn.isUserInteractionEnabled = enable
+        self.view.isUserInteractionEnabled = enable
+        self.setBtn.isUserInteractionEnabled = enable
+        self.memOrderSegCtrl.isUserInteractionEnabled = enable
+    }
+    
+    
     // MARK: - Variables
     var settingVC: SettingViewController?
     var bookVC: BooksViewController?
@@ -96,6 +105,8 @@ class SetMemOptionViewController: UIViewController, UIPickerViewDelegate, UIPick
             _ = update_words(preference: preference)
         }
     }
+    
+    
     
     
     func initActivityIndicator(text: String) {
@@ -344,6 +355,7 @@ class SetMemOptionViewController: UIViewController, UIPickerViewDelegate, UIPick
             do {
                 DispatchQueue.main.async {
                     self.initActivityIndicator(text: "书籍下载中")
+                    self.setElements(enable: false)
                 }
                 if self.bookIndex >= 0 {
                     if let bookJson = resultsItems[self.bookIndex].get("data") as? LCFile {
@@ -353,6 +365,8 @@ class SetMemOptionViewController: UIViewController, UIPickerViewDelegate, UIPick
                         if let jsonData = data {
                             savejson(fileName: book.identifier, jsonData: jsonData)
                             currentbook_json_obj = load_json(fileName: book.identifier)
+                            preference.current_book_id = book.identifier
+                            savePreference(userId: currentUser.objectId!.stringValue!, preference: preference)
                             _ = update_words(preference: preference)
                             DispatchQueue.main.async {
                                 self.stopIndicator()
@@ -361,6 +375,7 @@ class SetMemOptionViewController: UIViewController, UIPickerViewDelegate, UIPick
                                         if let bookVC = self.bookVC{
                                             bookVC.dismiss(animated: false, completion: { () -> Void in
                                             if self.mainPanelVC != nil{
+                                                self.mainPanelVC!.update_preference()
                                                 self.mainPanelVC!.loadLearnController()
                                             }})
                                         }

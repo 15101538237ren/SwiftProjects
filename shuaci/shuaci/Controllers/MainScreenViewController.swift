@@ -12,6 +12,7 @@ import AVFoundation
 
 class MainScreenViewController: UIViewController {
     @IBOutlet var mainScreenUIView: MainScreenUIView!
+    @IBOutlet var launchUIView: UIView!
     @IBOutlet var cards: [CardUIView]!{
         didSet {
             for card in cards{
@@ -61,10 +62,14 @@ class MainScreenViewController: UIViewController {
             showMainPanel(currentUser: user)
         }
         else {
+            
             initCards()
             let card = cards[0]
             let xshift:CGFloat = card.frame.size.width/8.0
             card.transform = CGAffineTransform(translationX: -xshift, y:0.0).rotated(by: -xshift*0.61/card.center.x)
+            UIView.animate(withDuration: 1.0, animations: {
+                self.launchUIView.alpha = 0.0
+            })
         }
     }
     
@@ -238,7 +243,9 @@ class MainScreenViewController: UIViewController {
         mainPanelViewController.modalPresentationStyle = .fullScreen
         mainPanelViewController.currentUser = currentUser
         DispatchQueue.main.async {
-            self.present(mainPanelViewController, animated: true, completion: nil)
+            self.present(mainPanelViewController, animated: false, completion: {
+                self.launchUIView.alpha = 0.0
+            })
             
         }
     }

@@ -34,6 +34,11 @@ class LearnOrReviewFinishViewController: UIViewController {
     
     var viewTranslation = CGPoint(x: 0, y: 0)
     
+    func setElements(enable: Bool){
+        self.backBtn.isUserInteractionEnabled = enable
+        self.view.isUserInteractionEnabled = enable
+    }
+    
     @objc func handleDismiss(sender: UIPanGestureRecognizer) {
         switch sender.state {
         case .changed:
@@ -170,6 +175,9 @@ class LearnOrReviewFinishViewController: UIViewController {
                         query.limit = 1
                         query.skip = rand_index
                         _ = query.getFirst { result in
+                            
+                            self.setElements(enable: true)
+                            
                             switch result {
                             case .success(object: let quote):
                                 // wallpapers 是包含满足条件的 (className: "Wallpaper") 对象的数组
@@ -217,18 +225,22 @@ class LearnOrReviewFinishViewController: UIViewController {
                                 self.stopIndicator()
                             }
                         }
+                    }else{
+                        self.setElements(enable: true)
                     }
                 }
             }
             }
         }else{
             self.view.makeToast(NoNetworkStr, duration: 1.0, position: .center)
+            setElements(enable: true)
         }
     }
     
     func loadScene(){
         addBlurBackgroundView()
         initActivityIndicator(text: "正在加载打卡数据😊..")
+        setElements(enable: false)
         getQoute()
         setTodyWordNum()
         setInsistDay()
