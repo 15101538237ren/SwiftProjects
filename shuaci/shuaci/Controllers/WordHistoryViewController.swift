@@ -11,18 +11,24 @@ import SwiftTheme
 import SwiftyJSON
 
 class WordHistoryViewController: UIViewController, UIGestureRecognizerDelegate {
+    
+    
+    let redColor:UIColor = UIColor(red: 168, green: 0, blue: 0, alpha: 1)
+    let headerViewHeight:CGFloat = 30
+    
+    var tableISEditing: Bool = false
+    var cellIsSelected:[String:[Bool]] = [:]
+    var AllData:[String:JSON] = [:]
+    var AllData_keys:[String] = []
+    var AllInterp_keys:[String] = []
+    
+    private var DICT_URL: URL = Bundle.main.url(forResource: "DICT.json", withExtension: nil)!
+    
     @IBOutlet weak var segmentedControl: UISegmentedControl!
     @IBOutlet weak var wordsTableView: UITableView!
     @IBOutlet weak var multiSelectionBtn: UIButton!
     @IBOutlet weak var backBtn: UIButton!
     @IBOutlet weak var barTitleLabel: UILabel!
-    var tableISEditing: Bool = false
-    var cellIsSelected:[String:[Bool]] = [:]
-    let redColor:UIColor = UIColor(red: 168, green: 0, blue: 0, alpha: 1)
-    let headerViewHeight:CGFloat = 30
-    var AllData:[String:JSON] = [:]
-    var AllData_keys:[String] = []
-    var AllInterp_keys:[String] = []
     
     @IBOutlet weak var reviewSelectionBtn: UIButton!{
         didSet {
@@ -30,8 +36,6 @@ class WordHistoryViewController: UIViewController, UIGestureRecognizerDelegate {
             reviewSelectionBtn.layer.masksToBounds = true
         }
     }
-    
-    private var DICT_URL: URL = Bundle.main.url(forResource: "DICT.json", withExtension: nil)!
     
     func load_DICT(){
         do {

@@ -9,8 +9,16 @@
 import UIKit
 import AVFoundation
 import SwiftyJSON
+import LeanCloud
 
 class ReviewWordViewController: UIViewController {
+    
+    private var currentReviewRec: Record?
+    private var vocabRecordsOfCurrentReview:[VocabularyRecord] = []
+    
+    var currentUser: LCUser!
+    var preference:Preference!
+    
     var mainPanelViewController: MainPanelViewController!
     
     var vocab_rec_need_to_be_review:[VocabularyRecord] = []
@@ -39,7 +47,7 @@ class ReviewWordViewController: UIViewController {
     let animationDuration = 0.15
     
     func setCardBackground(){
-        let current_theme_category = getPreference(key: "current_theme_category") as! Int
+        let current_theme_category = preference.current_theme
         for card in cards{
             card.cardImageView?.image = UIImage(named: cardBackgrounds[current_theme_category]!)
         }
@@ -51,13 +59,24 @@ class ReviewWordViewController: UIViewController {
         view.backgroundColor = UIColor(red: 238, green: 241, blue: 245, alpha: 1.0)
         
         super.viewDidLoad()
-        currentReviewRec.StartDate = Date()
+        initReviewRecord()
+    }
+    
+    func initReviewRecord(){
+        
+        let uuids:[String] = global_records.map { $0.uuid}
+        var uuid = UUID().uuidString
+        
+        while uuids.contains(uuid) {
+            uuid = UUID().uuidString
+        }
+        currentReviewRec = Record(uuid: uuid, recordType: 2, startDate: Date(), endDate: Date(), vocabHeads: [])
     }
     
     @objc func relayout(){
         for index in [currentIndex, currentIndex+1]{
             let word = review_words[index % review_words.count]
-            let cardWord = getFeildsOfWord(word: word, usphone: getUSPhone())
+            let cardWord = getFeildsOfWord(word: word, usphone: preference.us_pronunciation)
             let card: CardUIView = cards[index % 2]
             DispatchQueue.main.async {
                 if cardWord.memMethod != ""{
@@ -98,13 +117,14 @@ class ReviewWordViewController: UIViewController {
         self.mp3Player?.stop()
         if self.currentIndex > 0{
             let alertController = UIAlertController(title: "是否保存当前复习记录?", message: "", preferredStyle: .alert)
-            let okayAction = UIAlertAction(title: "是", style: .default, handler: { action in
-                currentReviewRec.EndDate = Date()
+            let okayAction = UIAlertAction(title: "是", style: .default, handler: { [self] action in
+                
+                currentReviewRec!.endDate = Date()
                 var currentReivewedRecords:[VocabularyRecord] = []
                 for index in 0 ..< self.currentIndex{
                     currentReivewedRecords.append(vocabRecordsOfCurrentReview[index])
                 }
-                currentReviewRec.VocabRecHeads = getVocabHeadsFromVocabRecords(VocabRecords: currentReivewedRecords)
+                currentReviewRec!.vocabHeads = currentReivewedRecords.map {$0.VocabHead}
                 saveReviewRecordsFromReview(vocabs_updated: currentReivewedRecords)
                 self.dismiss(animated: true, completion: nil)
             })
@@ -118,6 +138,34 @@ class ReviewWordViewController: UIViewController {
         else{
             self.dismiss(animated: true, completion: nil)
         }
+    }
+    
+    func saveReviewRecordsFromReview(vocabs_updated: [VocabularyRecord]) {
+        //Save review records and vocabs after review
+        updateGlobalVocabRecords(vocabs_updated: vocabs_updated)
+        global_records.append(currentReviewRec!)
+        saveRecordsToDisk(userId: currentUser.objectId!.stringValue!)
+        saveRecordsToCloud(currentUser: currentUser)
+        saveVocabRecordsToCloud(currentUser: currentUser)
+    }
+    
+    func updateGlobalVocabRecords(vocabs_updated: [VocabularyRecord]){
+        var vocab_new_heads:[String] = []
+        for vocab in vocabs_updated{
+            vocab_new_heads.append(vocab.VocabHead)
+        }
+        var temp_GlobalVocabRec:[VocabularyRecord] = []
+        for vi in 0..<global_vocabs_records.count{
+            let vocab:VocabularyRecord = global_vocabs_records[vi]
+            if !vocab_new_heads.contains(vocab.VocabHead){
+                temp_GlobalVocabRec.append(vocab)
+            }
+        }
+        
+        for vocab in vocabs_updated{
+            temp_GlobalVocabRec.append(vocab)
+        }
+        global_vocabs_records = temp_GlobalVocabRec
     }
     
     func startTimer()
@@ -134,7 +182,7 @@ class ReviewWordViewController: UIViewController {
         let card = cards[currentIndex % 2]
         if isCardBack {
             isCardBack = false
-            let current_theme_category = getPreference(key: "current_theme_category") as! Int
+            let current_theme_category = preference.current_theme
             card.cardImageView?.image = UIImage(named: cardBackgrounds[current_theme_category]!)
             UIView.transition(with: card, duration: 0.3, options: .transitionFlipFromRight, animations: nil, completion: nil)
         }else{
@@ -154,7 +202,7 @@ class ReviewWordViewController: UIViewController {
     func playMp3GivenWord(word: String){
         if self.currentIndex < review_words.count
         {
-            let auto_pronunciation:Bool = getPreference(key: "auto_pronunciation") as! Bool
+            let auto_pronunciation:Bool = preference.auto_pronunciation
             let mp3_url = getWordPronounceURL(word: word)
             if auto_pronunciation && (mp3_url != nil) {
                 playMp3(url: mp3_url!)
@@ -168,7 +216,7 @@ class ReviewWordViewController: UIViewController {
             let card = cards[index]
             card.center = CGPoint(x: view.center.x, y: view.center.y)
             let word = review_words[index % review_words.count]
-            let cardWord = getFeildsOfWord(word: word, usphone: getUSPhone())
+            let cardWord = getFeildsOfWord(word: word, usphone: preference.us_pronunciation)
             setFieldsOfCard(card: card, cardWord: cardWord, collected: false)
             if index == 1
             {
@@ -231,6 +279,7 @@ class ReviewWordViewController: UIViewController {
             }
         }
     }
+    
     func initVocabRecords(){
         vocabRecordsOfCurrentReview = vocab_rec_need_to_be_review
         for index in 0..<review_words.count
@@ -248,8 +297,8 @@ class ReviewWordViewController: UIViewController {
     @objc func moveCard() {
         self.mp3Player?.stop()
         if currentIndex >= review_words.count{
-            currentReviewRec.EndDate = Date()
-            currentReviewRec.VocabRecHeads = getVocabHeadsFromVocabRecords(VocabRecords: vocabRecordsOfCurrentReview)
+            currentReviewRec!.endDate = Date()
+            currentReviewRec!.vocabHeads = vocabRecordsOfCurrentReview.map {$0.VocabHead}
             saveReviewRecordsFromReview(vocabs_updated: vocabRecordsOfCurrentReview)
             DispatchQueue.main.async {
                 self.dismiss(animated: true, completion: nil)
@@ -260,7 +309,7 @@ class ReviewWordViewController: UIViewController {
             self.updateProgressLabel(index: self.currentIndex)
             let card = cards[(currentIndex + 1) % 2]
             let word = review_words[(currentIndex + 1) % review_words.count]
-            let cardWord = getFeildsOfWord(word: word, usphone: getUSPhone())
+            let cardWord = getFeildsOfWord(word: word, usphone: preference.us_pronunciation)
             let collected = card_collect_behaviors[currentIndex + 1] == .yes ? true : false
             setFieldsOfCard(card: card, cardWord: cardWord, collected: collected)
             let next_card = cards[currentIndex % 2]
@@ -440,7 +489,7 @@ class ReviewWordViewController: UIViewController {
         @IBAction func playAudio(_ sender: UIButton) {
             if Reachability.isConnectedToNetwork(){
                 let word = review_words[currentIndex % review_words.count]
-                let cardWord = getFeildsOfWord(word: word, usphone: getUSPhone())
+                let cardWord = getFeildsOfWord(word: word, usphone: preference.us_pronunciation)
                 let wordStr: String = cardWord.headWord
                 if let mp3_url = getWordPronounceURL(word: wordStr){
                     playMp3(url: mp3_url)
@@ -480,7 +529,7 @@ class ReviewWordViewController: UIViewController {
             lastCard.layer.removeAllAnimations()
             lastCard.transform = CGAffineTransform.identity.scaledBy(x: 1.0, y: 1.0)
             let word = review_words[currentIndex % review_words.count]
-            let cardWord = getFeildsOfWord(word: word, usphone: getUSPhone())
+            let cardWord = getFeildsOfWord(word: word, usphone: preference.us_pronunciation)
             let collect = card_collect_behaviors[currentIndex] == .yes ? true: false
             setFieldsOfCard(card: lastCard, cardWord: cardWord, collected: collect)
             removeLastVocabRecord(index: currentIndex, cardBehavior: card_behaviors[currentIndex])
@@ -540,7 +589,7 @@ class ReviewWordViewController: UIViewController {
             }){ (completed) in
                 UIView.animate(withDuration: 0.01, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 5, options: .curveEaseInOut, animations: {
                     nextCard.transform = .identity
-                }){ (completed) in
+                }){ [self] (completed) in
                     
                     self.gestureRecognizers[self.currentIndex % 2].view!.frame = card.frame
                     

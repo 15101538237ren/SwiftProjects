@@ -233,8 +233,8 @@ class MainScreenViewController: UIViewController {
     }
     
     func showMainPanel(currentUser: LCUser){
-        let LoginRegStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
-        let mainPanelViewController = LoginRegStoryBoard.instantiateViewController(withIdentifier: "mainPanelViewController") as! MainPanelViewController
+        let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+        let mainPanelViewController = mainStoryBoard.instantiateViewController(withIdentifier: "mainPanelViewController") as! MainPanelViewController
         mainPanelViewController.modalPresentationStyle = .fullScreen
         mainPanelViewController.currentUser = currentUser
         DispatchQueue.main.async {
@@ -245,8 +245,8 @@ class MainScreenViewController: UIViewController {
     
     
     @IBAction func showLoginVC(_ sender: UIButton) {
-        let LoginRegStoryBoard : UIStoryboard = UIStoryboard(name: "LoginReg", bundle:nil)
-        let loginVC = LoginRegStoryBoard.instantiateViewController(withIdentifier: "loginVC") as! LoginVC
+        let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+        let loginVC = mainStoryBoard.instantiateViewController(withIdentifier: "loginVC") as! LoginVC
         loginVC.modalPresentationStyle = .overCurrentContext
         loginVC.mainScreenVC = self
         DispatchQueue.main.async {

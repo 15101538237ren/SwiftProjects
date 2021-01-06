@@ -10,11 +10,21 @@ import UIKit
 import LeanCloud
 import CropViewController
 import SwiftTheme
+import Disk
 
 class UserProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, CropViewControllerDelegate{
+    
+    
+    var currentUser = LCApplication.default.currentUser!
+    var mainPanelViewController: MainPanelViewController!
+    var preference:Preference!
+    
     var activityIndicator = UIActivityIndicatorView()
     var activityLabel = UILabel()
+    
+    
     let activityEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .regular))
+    
     @IBOutlet var logoutBtn: UIButton!{
         didSet{
             logoutBtn.theme_backgroundColor = "Global.logOutBtnBgColor"
@@ -23,8 +33,6 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
             logoutBtn.layer.masksToBounds = true
         }
     }
-    var user = LCApplication.default.currentUser!
-    let username = getUserName()
     
     func initActivityIndicator(text: String) {
         activityLabel.removeFromSuperview()
@@ -72,7 +80,6 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
         }
     }
     
-    var mainPanelViewController: MainPanelViewController!
     var viewTranslation = CGPoint(x: 0, y: 0)
     
     @IBOutlet weak var backBtn: UIButton!
@@ -132,21 +139,31 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
     }
     
     func updateUserPhoto() {
-        if let userImage = loadPhoto(name_of_photo: "user_avatar_\(username).jpg") {
+        let userId = currentUser.objectId!.stringValue!
+        let avatar_fp = "user_avatar_\(userId).jpg"
+        do {
+            let retrievedImage = try Disk.retrieve(avatar_fp, from: .documents, as: UIImage.self)
+            print("retrieved Avatar Successful!")
             DispatchQueue.main.async {
-                self.userPhotoBtn.setImage(userImage, for: [])
+                self.userPhotoBtn.setImage(retrievedImage, for: [])
+                self.userPhotoBtn.setNeedsDisplay()
             }
+        } catch {
+            print(error)
         }
     }
     
     @IBAction func logOut(_ sender: UIButton) {
         if Reachability.isConnectedToNetwork(){
            let alertController = UIAlertController(title: "提示", message: "确定注销?", preferredStyle: .alert)
-           let okayAction = UIAlertAction(title: "确定", style: .default, handler: { action in
+           
+            let okayAction = UIAlertAction(title: "确定", style: .default, handler: { action in
                LCUser.logOut()
-               self.dismiss(animated: false, completion: nil)
-               self.mainPanelViewController.showLoginScreen()
+               self.dismiss(animated: false, completion: {
+                self.mainPanelViewController.dismiss(animated: true, completion: nil)
+               })
            })
+            
            let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
            alertController.addAction(okayAction)
            alertController.addAction(cancelAction)
@@ -163,17 +180,16 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
             (action) in
             if UIImagePickerController.isSourceTypeAvailable(.camera){
                 let imagePicker = UIImagePickerController()
-//                imagePicker.allowsEditing = true
                 imagePicker.sourceType = .camera
                 imagePicker.delegate = self
                 self.present(imagePicker, animated: true, completion: nil)
             }
         })
+        
         let photoLibraryAction = UIAlertAction(title: NSLocalizedString("照片库", comment: "照片库") , style: .default, handler: {
             (action) in
             if UIImagePickerController.isSourceTypeAvailable(.photoLibrary){
                 let imagePicker = UIImagePickerController()
-//                imagePicker.allowsEditing = true
                 imagePicker.sourceType = .photoLibrary
                 imagePicker.delegate = self
                 self.present(imagePicker, animated: true, completion: nil)
@@ -201,16 +217,29 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        
         if let pickedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage{
-            picker.dismiss(animated: true, completion: nil)
-            let cropVC = CropViewController(image: pickedImage)
-            cropVC.delegate = self
-            cropVC.aspectRatioPickerButtonHidden = true
-            cropVC.aspectRatioPreset = .presetSquare
-            cropVC.aspectRatioLockEnabled = true
-            cropVC.resetAspectRatioEnabled = false
-            self.present(cropVC, animated: false, completion: nil)
+            DispatchQueue.main.async { [self] in
+                picker.dismiss(animated: true, completion: nil)
+                
+                let targetLength:CGFloat = view.bounds.width * UIScreen.main.scale
+                
+                let leftPosition = (pickedImage.size.width * pickedImage.scale - targetLength)/2.0
+                let topPosition = (pickedImage.size.height * pickedImage.scale - targetLength)/2.0
+                let cropController = CropViewController(image: pickedImage)
+                cropController.title = "「缩放」或「拖拽」来调整"
+                cropController.doneButtonTitle = "确定"
+                cropController.cancelButtonTitle = "取消"
+                cropController.imageCropFrame = CGRect(x: leftPosition, y: topPosition, width: targetLength, height: targetLength)
+                cropController.aspectRatioPreset = .presetSquare
+                cropController.rotateButtonsHidden = true
+                cropController.rotateClockwiseButtonHidden = true
+                cropController.resetButtonHidden = true
+                cropController.aspectRatioLockEnabled = true
+                cropController.resetAspectRatioEnabled = false
+                cropController.aspectRatioPickerButtonHidden = true
+                cropController.delegate = self
+                self.present(cropController, animated: true, completion: nil)
+            }
         }
     }
     
@@ -219,47 +248,42 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
         // Write the image to local file for temporary use
         
         let userId = currentUser.objectId!.stringValue!
+        
+        let imageData:Data = resizeImage(image: image, newWidth: 300.0).jpegData(compressionQuality: 1.0)!
+        
         let avatar_fp = "user_avatar_\(userId).jpg"
         
-        let cropped_img:Data = resizeImage(image: image, newWidth: 300.0).jpegData(compressionQuality: 0.8)
+        do {
+            try Disk.save(imageData, to: .documents, as: avatar_fp)
+            print("Save Avatar Successful!")
+        } catch {
+            print(error)
+        }
         
         DispatchQueue.main.async {
-            cropViewController.dismiss(animated: true, completion: nil)
-            self.initActivityIndicator(text: "头像上传中..")
-            self.dismiss(animated: true, completion: nil)
+            cropViewController.dismiss(animated: true, completion: {
+                self.updateUserPhoto()
+                self.mainPanelViewController.loadUserPhoto()
+            })
         }
         
         if Reachability.isConnectedToNetwork(){
             DispatchQueue.global(qos: .background).async {
             do {
-                let user = LCApplication.default.currentUser!
-                do {
-                    let query = LCQuery(className: "_User")
-                    _ = query.get(user.objectId as! LCStringConvertible) { result in
-                        switch result {
-                            case .success(object: let unauthenticatedUser):
-                                if let old_photo = unauthenticatedUser.get("avatar"){
-                                 let old_file = old_photo as! LCFile
-                                 if let obj_id:String = old_file.objectId?.stringValue{
-                                    let old_photo_file = LCObject(className: "_File", objectId: obj_id as LCStringConvertible)
-                                         old_photo_file.delete()
-                                     print("File with id: \(obj_id) deleted")
-                                     }
-                                }
-                            case .failure(error: let error):
-                                print(error)
-                        }
+                let file = LCFile(payload: .data(data: imageData))
+                if let _ =  file.get("name")?.stringValue{
+                    
+                }else{
+                    do{
+                        try file.set("name", value: "unnamed")
+                    }catch{
+                        print("无法设置文件名称")
                     }
                 }
-                
-                let file = LCFile(payload: .fileURL(fileURL: imageFileURL))
                 _ = file.save { result in
                         switch result {
                         case .success:
-                            if let objectId:String = file.objectId?.value {
-                                print("用户头像上传完成。")
-                                self.update_user_photo(file: file)
-                            }
+                            self.update_user_photo_lc(file: file)
                         case .failure(error: let error):
                             // 保存失败，可能是文件无法被读取，或者上传过程中出现问题
                             print(error)
@@ -273,32 +297,26 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
         
     }
     
-    func update_user_photo(file: LCFile){
+    func update_user_photo_lc(file: LCFile){
         if Reachability.isConnectedToNetwork(){
-           DispatchQueue.global(qos: .background).async {
+            DispatchQueue.global(qos: .background).async { [self] in
            do {
-               let user = LCApplication.default.currentUser!
                do {
-                try user.set("avatar", value: file)
-                user.save { (result) in
+                try currentUser.set("avatar", value: file)
+                currentUser.save { (result) in
                     switch result {
                     case .success:
                         print("Cloud User Photo Saved Successful!")
-                        self.updateUserPhoto()
-                        self.mainPanelViewController.loadUserPhoto()
-                        self.stopIndicator()
                     case .failure(error: let error):
-                        self.stopIndicator()
+                        print(error)
                     }
                 }
                } catch {
-                   self.stopIndicator()
                }
                }
            }
         }else{
             self.view.makeToast(NoNetworkStr, duration: 1.0, position: .center)
         }
-        
     }
 }

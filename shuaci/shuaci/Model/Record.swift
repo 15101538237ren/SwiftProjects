@@ -10,16 +10,18 @@ import Foundation
 
 struct Record: Codable {
     var uuid: String
-    var recordType: RecordType
+    var synced: Bool
+    var recordType: Int
     var startDate: Date
     var endDate: Date
-    var vocabRecords: [VocabularyRecord]
+    var vocabHeads: [String]
     
-    init(uuid: String, recordType: RecordType, startDate: Date, endDate:Date, vocabRecords: [VocabularyRecord]) {
+    init(uuid: String, recordType: Int, startDate: Date, endDate:Date, vocabHeads: [String], synced: Bool=false) {
         self.uuid = uuid
         self.recordType = recordType
         self.startDate = startDate
         self.endDate = endDate
-        self.vocabRecords = vocabRecords
+        self.vocabHeads = vocabHeads
+        self.synced = synced
     }
 }

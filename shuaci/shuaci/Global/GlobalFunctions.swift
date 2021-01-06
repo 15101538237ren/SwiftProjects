@@ -35,7 +35,7 @@ func loadPreference(userId: String) -> Preference{
             try Disk.save(preference, to: .documents, as: preference_fp)
             print("Init and Saved Preference Successful!")
         } catch {
-            print(error)
+            print("Save Preference Failed, \(error.localizedDescription)!")
         }
         return preference
     }
@@ -43,10 +43,11 @@ func loadPreference(userId: String) -> Preference{
     {
         do {
             let preference:Preference = try Disk.retrieve(preference_fp, from: .documents, as: Preference.self)
-            return preference
             print("Loaded Preference Successful!")
+            return preference
         } catch {
-            print(error)
+            print("Loaded Preference Failed, \(error.localizedDescription)!")
+            return Preference()
         }
     }
 }
@@ -87,10 +88,13 @@ func savePreference(userId: String, preference: Preference){
  
  */
 
-func saveRecordsToDisk(userId: String, records: [Record]){
+func saveRecordsToDisk(userId: String){
+    let vocab_records_fp:String = "\(userId)_vocab_records.json"
     let records_fp:String = "\(userId)_records.json"
     do {
-        try Disk.save(records, to: .documents, as: records_fp)
+        try Disk.save(global_vocabs_records, to: .documents, as: vocab_records_fp)
+        print("Saved VocabRecords to Disk Successful!")
+        try Disk.save(global_records, to: .documents, as: records_fp)
         print("Saved Records to Disk Successful!")
     } catch {
         print(error)
@@ -110,6 +114,23 @@ func saveRecordsToDisk(userId: String, records: [Record]){
 func loadRecords(currentUser: LCUser, completionHandler: @escaping CompletionHandler){
     
     let userId:String = currentUser.objectId!.stringValue!
+    
+    let vocab_records_fp:String = "\(userId)_vocab_records.json"
+    
+    if !Disk.exists(vocab_records_fp, in: .documents)
+    {
+        loadVocabRecordsFromCloud(currentUser: currentUser)
+    }
+    else
+    {
+        do {
+            let vocab_records: [VocabularyRecord] = try Disk.retrieve(vocab_records_fp, from: .documents, as: [VocabularyRecord].self)
+            global_vocabs_records = vocab_records
+            print("Loaded VocabRecords from Disk Successful!")
+        } catch {
+            print(error)
+        }
+    }
     
     let records_fp:String = "\(userId)_records.json"
     
@@ -132,45 +153,20 @@ func loadRecords(currentUser: LCUser, completionHandler: @escaping CompletionHan
 }
 
 
-
-func saveRecordsToCloud(currentUser: LCUser, records: [Record]){
+func saveRecordsToCloud(currentUser: LCUser){
     var lcRecords:[LCObject] = []
+    let unsynced_records = global_records.filter {!$0.synced}
     
-    for record in records{
+    for record in unsynced_records{
         do {
             
             let recordLC = LCObject(className: "Record")
             try recordLC.set("user", value: currentUser)
-            try recordLC.set("recordType", value: record.recordType.rawValue)
+            try recordLC.set("recordType", value: record.recordType)
             try recordLC.set("startDate", value: record.startDate)
             try recordLC.set("endDate", value: record.endDate)
-            
-            var vocabRecords:[LCObject] = []
-            for vocabRecord in record.vocabRecords{
-                let vocabRecordLC = LCObject(className: "VocabRecord")
-                try vocabRecordLC.set("VocabHead", value: vocabRecord.VocabHead)
-                try vocabRecordLC.set("BookId", value: vocabRecord.BookId)
-                try vocabRecordLC.set("Mastered", value: vocabRecord.Mastered)
-                try vocabRecordLC.set("BehaviorHistory", value: vocabRecord.BehaviorHistory)
-                if let LearnDate = vocabRecord.LearnDate{
-                    try vocabRecordLC.set("LearnDate", value: LearnDate)
-                }
-                
-                if let CollectDate = vocabRecord.CollectDate{
-                    try vocabRecordLC.set("CollectDate", value: CollectDate)
-                }
-                
-                if let MasteredDate = vocabRecord.MasteredDate{
-                    try vocabRecordLC.set("MasteredDate", value: MasteredDate)
-                }
-                
-                if let ReviewDUEDate = vocabRecord.ReviewDUEDate{
-                    try vocabRecordLC.set("ReviewDUEDate", value: ReviewDUEDate)
-                }
-                vocabRecords.append(vocabRecordLC)
-            }
-            
-            try recordLC.set("vocabRecords", value: vocabRecords)
+            let vocabHeadString = record.vocabHeads.joined(separator: ",")
+            try recordLC.set("vocabHeads", value: vocabHeadString)
             lcRecords.append(recordLC)
         } catch {
             print(error)
@@ -181,11 +177,129 @@ func saveRecordsToCloud(currentUser: LCUser, records: [Record]){
     _ = LCObject.save(lcRecords, completion: { (result) in
         switch result {
         case .success:
-            print("Save \(records.count) Records to Cloud Successful!")
+            print("Save \(global_records.count) Records to Cloud Successful!")
+            for rid in 0..<global_records.count{
+                global_records[rid].synced = true
+            }
+            saveRecordsToDisk(userId: currentUser.objectId!.stringValue!)
         case .failure(error: let error):
             print(error)
         }
     })
+}
+
+func saveVocabRecordsToCloud(currentUser: LCUser){
+    if Reachability.isConnectedToNetwork(){
+       let jsonData = try! JSONEncoder().encode(global_vocabs_records)
+       let jsonString = String(data: jsonData, encoding: .utf8)!
+       DispatchQueue.global(qos: .background).async {
+        do {
+            _ = currentUser.fetch { result in
+                switch result {
+                case .success:
+                    if let recordId = currentUser.get("VocabRecordId")?.stringValue{
+                        let recordQuery = LCQuery(className: "VocabRecord")
+                        recordQuery.get(recordId) { (result) in
+                            switch result {
+                            case .success(object: let rec):
+                                do {
+                                    try rec.set("jsonStr", value: jsonString)
+                                    rec.save { (result) in
+                                        switch result {
+                                        case .success:
+                                            print("VocabRecord saved successfully ")
+                                            break
+                                        case .failure(error: let error):
+                                            print(error.localizedDescription)
+                                        }
+                                    }
+                                } catch {
+                                    print(error.localizedDescription)
+                                }
+                            case .failure(error: let error):
+                                print(error.localizedDescription)
+                            }
+                        }
+                    }else{
+                        do{
+                            let recordObj = LCObject(className: "VocabRecord")
+                            try recordObj.set("jsonStr", value: jsonString)
+                            
+                            _ = recordObj.save { result in
+                                switch result {
+                                case .success:
+                                    let recordId: String = recordObj.objectId!.stringValue!
+                                    do {
+                                        try currentUser.set("VocabRecordId", value: recordId)
+                                        currentUser.save { result in
+                                            switch result{
+                                            case .success:
+                                                print("VocabRecord saved successfully ")
+                                                break
+                                            case .failure(error: let error):
+                                                print(error.reason ?? "failed to save VocabRecords")
+                                            }
+                                        }
+                                    } catch {
+                                        print(error.localizedDescription)
+                                    }
+                                case .failure(error: let error):
+                                    print(error.reason ?? "failed to save VocabRecords")
+                                }
+                            }
+                            
+                        }
+                        catch{
+                            print(error.localizedDescription)
+                        }
+                    }
+                case .failure(error: let error):
+                    print(error.localizedDescription)
+                }
+            }
+        }
+       }
+    }
+}
+
+func loadVocabRecordsFromCloud(currentUser: LCUser){
+    if Reachability.isConnectedToNetwork(){
+        DispatchQueue.global(qos: .background).async {
+        do {
+            _ = currentUser.fetch{
+                result in
+                    switch result {
+                    case .success:
+                        if let recordId = currentUser.get("VocabRecordId")?.stringValue{
+                            let recordQuery = LCQuery(className: "VocabRecord")
+                            recordQuery.get(recordId) { (result) in
+                                switch result {
+                                case .success(object: let rec):
+                                    let jsonStr = rec.get("jsonStr")!.stringValue!
+                                    let data = jsonStr.data(using: .utf8)!
+                                    do {
+                                        if let vocab_records = try JSONSerialization.jsonObject(with: data, options : .allowFragments) as? [VocabularyRecord]
+                                        {
+                                            global_vocabs_records = vocab_records
+                                            print(vocab_records) // use the json here
+                                        } else {
+                                            print("bad json in VocabRecord from LeanCloud")
+                                        }
+                                    } catch let error {
+                                        print(error.localizedDescription)
+                                    }
+                                case .failure(error: let error):
+                                    print(error.localizedDescription)
+                                }
+                            }
+                        }
+                    case .failure(error: let error):
+                        print(error.localizedDescription)
+                    }
+            }
+        }
+        }
+    }
 }
 
 
@@ -237,7 +351,7 @@ func fetchBatchRecordsFromCloud(currentUser: LCUser, skip: Int = 0, completionHa
                     completionHandler(true)
                 case .failure(error: let error):
                     print(error.localizedDescription)
-                    completionHandler(false)
+                    completionHandler(true)
                 }
             }
         }
@@ -250,34 +364,15 @@ func fetchBatchRecordsFromCloud(currentUser: LCUser, skip: Int = 0, completionHa
 
 func parseLCRecords(items: [LCObject]) -> [Record] {
     var records:[Record] = []
-    
     for item in items
     {
         let uuid = item.get("uuid")!.stringValue! // THIS MAYBE PROBLEMATIC
         let recordTypeValue: Int = item.get("recordType")!.intValue!
         let startDate: Date = item.get("startDate")!.dateValue!
         let endDate: Date = item.get("endDate")!.dateValue!
-        
-        var vocabRecords:[VocabularyRecord] = []
-        if let vocabRecordObjs = item.get("vocabRecords")?.arrayValue as? [LCObject]
-        {
-            for vocabRecordObj in vocabRecordObjs{
-                let vocabHead:String = vocabRecordObj.get("VocabHead")!.stringValue!
-                let BookId:String = vocabRecordObj.get("BookId")!.stringValue!
-                let Mastered:Bool = vocabRecordObj.get("Mastered")!.boolValue!
-                let BehaviorHistory:[Int] = vocabRecordObj.get("BehaviorHistory")!.arrayValue as! [Int]
-                
-                let LearnDate:Date? = vocabRecordObj.get("LearnDate")?.dateValue
-                let CollectDate:Date? = vocabRecordObj.get("CollectDate")?.dateValue
-                let MasteredDate:Date? = vocabRecordObj.get("MasteredDate")?.dateValue
-                let ReviewDUEDate:Date? = vocabRecordObj.get("ReviewDUEDate")?.dateValue
-                
-                let vocabRecord = VocabularyRecord(VocabHead: vocabHead, BookId: BookId, LearnDate: LearnDate, CollectDate: CollectDate, Mastered: Mastered, MasteredDate: MasteredDate, ReviewDUEDate: ReviewDUEDate, BehaviorHistory: convertIntegersToCardBehaviorEnums(BehaviorHistory: BehaviorHistory))
-                
-                vocabRecords.append(vocabRecord)
-            }
-        }
-        let record: Record = Record(uuid: uuid, recordType: getRecordTypeFromValue(value: recordTypeValue), startDate: startDate, endDate: endDate, vocabRecords: vocabRecords)
+        let vocabHeadString: String = item.get("vocabHeads")!.stringValue!
+        let vocabHeads:[String] = vocabHeadString.components(separatedBy: ",")
+        let record: Record = Record(uuid: uuid, recordType: recordTypeValue, startDate: startDate, endDate: endDate, vocabHeads: vocabHeads)
         records.append(record)
     }
     return records
@@ -299,21 +394,17 @@ func convertIntegersToCardBehaviorEnums(BehaviorHistory:[Int]) -> [CardBehavior]
 }
 
 func updateRecords(records: [Record]){
-    if global_records == nil{
-        global_records = records
-    }else{
-        let uuids:[String] = global_records!.map { $0.uuid }
-        for record in records{
-            if !uuids.contains(record.uuid){
-                global_records!.append(record)
-            }
+    let uuids:[String] = global_records.map { $0.uuid }
+    for record in records{
+        if !uuids.contains(record.uuid){
+            global_records.append(record)
         }
     }
 }
 
-func getRecordsOfDate(date: Date, records: [Record]) -> [Record]{
+func getRecordsOfDate(date: Date) -> [Record]{
     var filtered_records:[Record] = []
-    for rec in records{
+    for rec in global_records{
         if Calendar.current.isDate(rec.endDate, inSameDayAs: date){
             filtered_records.append(rec)
         }
@@ -349,8 +440,7 @@ enum DateType {
 // MARK: - Book Util
 
 func fetchBooks(){
-    let connected = Reachability.isConnectedToNetwork()
-    if connected{
+    if Reachability.isConnectedToNetwork(){
         DispatchQueue.global(qos: .background).async {
         do {
             let query = LCQuery(className: "Book")
@@ -358,6 +448,8 @@ func fetchBooks(){
             _ = query.find { result in
                 switch result {
                 case .success(objects: let results):
+                    books = []
+                    resultsItems = []
                     // Books 是包含满足条件的 (className: "Book") 对象的数组
                     for item in results{
                         let identifier = item.get("identifier")?.stringValue
@@ -463,9 +555,9 @@ func hasSpecialCharacters(str: String) -> Bool {
 
 
 
-func getMinMaxDateOfVocabRecords(vocabRecords:[VocabularyRecord]) -> [Date]{
+func getMinMaxDateOfVocabRecords() -> [Date]{
     var minDate = Date()
-    for vocab in vocabRecords{
+    for vocab in global_vocabs_records{
         if let learnDate = vocab.LearnDate {
             if learnDate < minDate{
                 minDate = learnDate
@@ -475,18 +567,18 @@ func getMinMaxDateOfVocabRecords(vocabRecords:[VocabularyRecord]) -> [Date]{
     return [minDate, Date()]
 }
 
-func getDatesLearned(records:[Record]) -> [Date]{
+func getDatesLearned() -> [Date]{
     var datesLearned:[Date] = []
-    let LearningRecords:[Record] = records.filter { $0.recordType == .Learn }
+    let LearningRecords:[Record] = global_records.filter { $0.recordType == 1 }
     for lrec in LearningRecords{
         datesLearned.append(lrec.endDate)
     }
     return datesLearned
 }
 
-func getDatesReviewed(records:[Record]) -> [Date]{
+func getDatesReviewed() -> [Date]{
     var datesReviewed:[Date] = []
-    let ReviewRecords:[Record] = records.filter { $0.recordType == .Review }
+    let ReviewRecords:[Record] = global_records.filter { $0.recordType == 2 }
     for lrec in ReviewRecords{
         datesReviewed.append(lrec.endDate)
     }
@@ -494,17 +586,17 @@ func getDatesReviewed(records:[Record]) -> [Date]{
 }
 
 
-func getDaysDaka(records: [Record]) -> [String]{
+func getDaysDaka() -> [String]{
     let formatter = DateFormatter()
     formatter.dateFormat = "yyyy/MM/dd"
     var datesDakaSet:Set = Set<String>()
     var datesDaka:[String] = []
-    let datesLearned = getDatesLearned(records: records)
+    let datesLearned = getDatesLearned()
     for date in datesLearned{
         let date_str = formatter.string(from: date)
         datesDakaSet.insert(date_str)
     }
-    let datesReviewed = getDatesReviewed(records: records)
+    let datesReviewed = getDatesReviewed()
     for date in datesReviewed{
         let date_str = formatter.string(from: date)
         datesDakaSet.insert(date_str)
@@ -517,8 +609,8 @@ func getDaysDaka(records: [Record]) -> [String]{
 }
 
 
-func getNumOfDayInsist(records: [Record]) -> Int {
-    let datesDaka = getDaysDaka(records: records)
+func getNumOfDayInsist() -> Int {
+    let datesDaka = getDaysDaka()
     return datesDaka.count
 }
 
@@ -646,33 +738,22 @@ func isExactSeqMemory(vocab: VocabularyRecord) -> Bool{
 }
 
 
-func get_vocab_rec_need_to_be_review(all_vocab_records:[VocabularyRecord]) -> [VocabularyRecord]{
+func get_vocab_rec_need_to_be_review() -> [VocabularyRecord]{
     
-    let vocab_rec_need_to_be_review:[VocabularyRecord] = all_vocab_records.filter{ !$0.Mastered && ($0.ReviewDUEDate ?? Date().adding(durationVal: 1, durationType: .hour) < Date())}
+    let vocab_rec_need_to_be_review:[VocabularyRecord] = global_vocabs_records.filter{ !$0.Mastered && ($0.ReviewDUEDate ?? Date().adding(durationVal: 1, durationType: .hour) < Date())}
     
     return vocab_rec_need_to_be_review
 }
 
-func getVocabRecordsFromRecords(records:[Record]) ->[VocabularyRecord] {
-    
-    var VocabRecords:[VocabularyRecord] = []
-    
-    for record in records{
-        VocabRecords.append(contentsOf: record.vocabRecords)
-    }
-    
-    return VocabRecords
-}
-
-func getCumulatedMasteredByDate(records:[Record], dates: [Date], byDay: Bool = true, cumulated: Bool = true) -> [Int]{
+func getCumulatedMasteredByDate(dates: [Date], byDay: Bool = true, cumulated: Bool = true) -> [Int]{
     
     var reviewedVocabIdDateDict:[String: Date] = [:]
     
-    let ReviewRecords:[Record] = records.filter { $0.recordType == .Review }
+    let ReviewRecords:[Record] = global_records.filter { $0.recordType == 2 }
     
     for revRec in ReviewRecords{
-        for vocabRec in revRec.vocabRecords{
-            reviewedVocabIdDateDict[vocabRec.VocabHead] = revRec.endDate
+        for vocabHead in revRec.vocabHeads{
+            reviewedVocabIdDateDict[vocabHead] = revRec.endDate
         }
     }
     
@@ -680,9 +761,7 @@ func getCumulatedMasteredByDate(records:[Record], dates: [Date], byDay: Bool = t
     
     var datesWithSequentialMemorized:[Date] = []
     
-    let VocabRecords = getVocabRecordsFromRecords(records: records)
-    
-    for vocab in VocabRecords{
+    for vocab in global_vocabs_records{
         if vocab.Mastered{
             masteredVocabs.append(vocab)
         }
@@ -729,22 +808,22 @@ func getCumulatedMasteredByDate(records:[Record], dates: [Date], byDay: Bool = t
 }
 
 
-func getCumulatedLearnedByDate(records:[Record], dates: [Date], byDay: Bool = true, cumulated: Bool = true) -> [Int]{
+func getCumulatedLearnedByDate(dates: [Date], byDay: Bool = true, cumulated: Bool = true) -> [Int]{
     
     var cumLearned:[Int] = []
     
-    let LearningRecords:[Record] = records.filter { $0.recordType == .Learn }
+    let LearningRecords:[Record] = global_records.filter { $0.recordType == 1 }
     
     for di in 0..<dates.count{
         cumLearned.append(0)
         for lrec in LearningRecords{
             if byDay{
                 if Calendar.current.isDate(lrec.endDate, inSameDayAs: dates[di]){
-                    cumLearned[di] += lrec.vocabRecords.count
+                    cumLearned[di] += lrec.vocabHeads.count
                 }
             } else{
                 if dates[di].isInSameMonth(as: lrec.endDate){
-                    cumLearned[di] += lrec.vocabRecords.count
+                    cumLearned[di] += lrec.vocabHeads.count
                 }
             }
             
@@ -756,13 +835,13 @@ func getCumulatedLearnedByDate(records:[Record], dates: [Date], byDay: Bool = tr
     return cumLearned
 }
 
-func getCumHoursByDate(records:[Record], dates: [Date], byDay: Bool = true, cumulated: Bool = true, Learn: Bool = true) -> [Float]{
+func getCumHoursByDate(dates: [Date], byDay: Bool = true, cumulated: Bool = true, Learn: Bool = true) -> [Float]{
     
     var cumLearned:[Float] = []
     
-    let LearningRecords:[Record] = records.filter { $0.recordType == .Learn }
+    let LearningRecords:[Record] = global_records.filter { $0.recordType == 1 }
     
-    let ReviewRecords:[Record] = records.filter { $0.recordType == .Review }
+    let ReviewRecords:[Record] = global_records.filter { $0.recordType == 2 }
     
     for di in 0..<dates.count{
         cumLearned.append(0)
@@ -837,11 +916,11 @@ func getMasteredProgress(vocab: VocabularyRecord) -> Float{
     }
 }
 
-func groupVocabRecByDate(all_vocab_records: [VocabularyRecord], dateType: DateType) -> [String : [VocabularyRecord]]{
+func groupVocabRecByDate(dateType: DateType) -> [String : [VocabularyRecord]]{
     var groupedVocabs:[String : [VocabularyRecord]] = [:]
     switch dateType {
         case .learn:
-            for vocab in all_vocab_records {
+            for vocab in global_vocabs_records {
                 if vocab.LearnDate != nil && !vocab.Mastered{
                     if let date:String = getVocabDate(vocab: vocab, dateType: dateType) {
                         if let _ = groupedVocabs[date] {
@@ -854,7 +933,7 @@ func groupVocabRecByDate(all_vocab_records: [VocabularyRecord], dateType: DateTy
                 }
             }
         case .master:
-            for vocab in all_vocab_records {
+            for vocab in global_vocabs_records {
                 if vocab.MasteredDate != nil {
                     if let date:String = getVocabDate(vocab: vocab, dateType: dateType) {
                         if let _ = groupedVocabs[date] {
@@ -867,7 +946,7 @@ func groupVocabRecByDate(all_vocab_records: [VocabularyRecord], dateType: DateTy
                 }
             }
         case .collect:
-            for vocab in all_vocab_records {
+            for vocab in global_vocabs_records {
                 if vocab.CollectDate != nil {
                     if let date:String = getVocabDate(vocab: vocab, dateType: dateType) {
                         if let _ = groupedVocabs[date] {
@@ -964,11 +1043,11 @@ func getFeildsOfWord(word: JSON, usphone: Bool) -> CardWord{
     return cardWord
 }
 
-func update_words(preference: Preference, vocab_records:[VocabularyRecord]) -> [JSON]
+func update_words(preference: Preference) -> [JSON]
 {
     var words:[JSON] = []
     if let _ = preference.current_book_id {
-        let learnt_word_heads: Set = Set<String>(vocab_records.map{ $0.VocabHead })
+        let learnt_word_heads: Set = Set<String>(global_vocabs_records.map{ $0.VocabHead })
         
         let chapters = currentbook_json_obj["chapters"].arrayValue
         
@@ -1035,7 +1114,7 @@ func update_words(preference: Preference, vocab_records:[VocabularyRecord]) -> [
 }
 
 
-func get_words(currentUser: LCUser, preference: Preference, vocab_records: [VocabularyRecord]) -> [JSON] {
+func get_words(currentUser: LCUser, preference: Preference) -> [JSON] {
     let wordsJsonFp = "words.json"
     var words:[JSON] = []
     if Disk.exists(wordsJsonFp, in: .documents) {
@@ -1047,7 +1126,7 @@ func get_words(currentUser: LCUser, preference: Preference, vocab_records: [Voca
                 currentbook_json_obj = load_json(fileName: bookId)
             }
             
-            let learnt_word_heads: Set = Set<String>(vocab_records.map{ $0.VocabHead })
+            let learnt_word_heads: Set = Set<String>(global_vocabs_records.map{ $0.VocabHead })
             
             let chapters = currentbook_json_obj["chapters"].arrayValue
             var words_left:[String] = []
@@ -1077,7 +1156,7 @@ func get_words(currentUser: LCUser, preference: Preference, vocab_records: [Voca
             
         }
     }else{
-        words = update_words(preference: preference, vocab_records: vocab_records)
+        words = update_words(preference: preference)
     }
     return words
 }
@@ -1264,3 +1343,4 @@ func load_json(fileName: String) -> JSON{
     let json: JSON = []
     return json
 }
+

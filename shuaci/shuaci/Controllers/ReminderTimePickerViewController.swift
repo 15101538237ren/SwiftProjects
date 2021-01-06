@@ -9,24 +9,21 @@
 import UIKit
 import SwiftTheme
 import UserNotifications
+import LeanCloud
 
 class ReminderTimePickerViewController: UIViewController {
-    var settingVC: SettingViewController!
     
+    var currentUser: LCUser!
+    var preference:Preference!
+    var settingVC: SettingViewController!
     var viewTranslation = CGPoint(x: 0, y: 0)
     
     @IBOutlet weak var backBtn: UIButton!
-    
     @IBOutlet weak var titleLabel: UILabel!
-    
     @IBOutlet weak var nextTimeLabel: UILabel!
-    
     @IBOutlet weak var nextRemindTime: UILabel!
-    
     @IBOutlet weak var doNotRemind: UIButton!
-    
     @IBOutlet weak var setReminder: UIButton!
-    
     @IBOutlet weak var timePicker: UIDatePicker!
     
     @IBAction func unwind(_ sender: UIButton) {
@@ -102,19 +99,15 @@ class ReminderTimePickerViewController: UIViewController {
     @IBAction func setReminderClock(_ sender: UIButton) {
         let timePickerDate = Calendar.current.dateComponents([.hour, .minute], from: self.timePicker.date)
         
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "HH:mm"
-        let dateStr = dateFormatter.string(from: self.timePicker.date)
-        
         let center = UNUserNotificationCenter.current()
-        center.requestAuthorization(options: [.alert, .badge, .sound]) { (granted, error) in
+        center.requestAuthorization(options: [.alert, .badge, .sound]) { [self] (granted, error) in
             if granted {
                 center.removePendingNotificationRequests(withIdentifiers:[ everyDayLearningReminderNotificationIdentifier])
                 
                 let trigger = UNCalendarNotificationTrigger(dateMatching: timePickerDate, repeats: true)
                 
-                setPreference(key: "reminder_time", value: dateStr)
-                
+                preference.reminder_time = timePicker.date
+                savePreference(userId: currentUser.objectId!.stringValue!, preference: preference)
                 let content = UNMutableNotificationContent()
                 content.body = "你的努力，终将成就自己。开始今天的单词学习吧😊"
                 content.categoryIdentifier = "learnEveryday"
@@ -133,11 +126,8 @@ class ReminderTimePickerViewController: UIViewController {
                     self.settingVC.updateReminderTime()
                 }
             } else {
-                let ac = UIAlertController(title: "请开启通知权限以使用每日学习提醒", message: "", preferredStyle: .alert)
-                ac.addAction(UIAlertAction(title: "好", style: .default, handler: nil))
-                DispatchQueue.main.async {
-                    self.present(ac, animated: true, completion: nil)
-                }
+                
+                self.view.makeToast("请开启【通知】权限，以使用每日学习提醒", duration: 1.0, position: .center)
             }
         }
     }
@@ -145,7 +135,8 @@ class ReminderTimePickerViewController: UIViewController {
     @IBAction func removeReminderClock(_ sender: UIButton) {
         let center = UNUserNotificationCenter.current()
         center.removePendingNotificationRequests(withIdentifiers:[everyDayLearningReminderNotificationIdentifier])
-        setPreference(key: "reminder_time", value: "")
+        preference.reminder_time = nil
+        savePreference(userId: currentUser.objectId!.stringValue!, preference: preference)
         DispatchQueue.main.async {
             self.dismiss(animated: true, completion: nil)
             self.settingVC.updateReminderTime()

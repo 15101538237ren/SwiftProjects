@@ -23,7 +23,6 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
         SettingItem(symbol_name : "scope", name: "设置学习计划", value: "乱序,20个/组"),
         SettingItem(symbol_name : "alarm", name: "每日提醒", value: ""),
         SettingItem(symbol_name : "clean", name: "清除缓存", value: "3.25M"),
-        SettingItem(symbol_name : "arrow.2.circlepath", name: "同步学习记录至云端", value: ""),
         SettingItem(symbol_name : "rate_app", name: "评价应用", value: "v1.0.0"),
         SettingItem(symbol_name : "bubble.left.and.bubble.right", name: "意见反馈", value: ""),
         SettingItem(symbol_name : "share", name: "推荐给好友", value: ""),
@@ -162,27 +161,6 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
         return settingItems.count
     }
     
-    func getSettingTextforTableView() -> String {
-        var order = "乱序"
-        let memOrder = preference.memory_order
-        
-        switch memOrder {
-        case 1:
-            order = "乱序"
-        case 2:
-            order = "顺序"
-        case 3:
-            order = "倒序"
-        default:
-            order = "乱序"
-        }
-        
-        let number_of_words_per_group = preference.number_of_words_per_group
-        
-        return "\(order)  \(number_of_words_per_group)个/组"
-        
-    }
-    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let row = indexPath.row
         if  row == 0{
@@ -190,11 +168,11 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
             cell.backgroundColor = .clear
             cell.separatorInset = UIEdgeInsets(top: 0, left: cell.bounds.size.width, bottom: 0, right: 0)
             let settingItem:SettingItem = settingItems[row]
-            cell.iconView?.image = settingItem.icon
+            cell.iconView.image = settingItem.icon
             cell.iconView.theme_tintColor = "Global.settingIconTintColor"
-            cell.nameLabel?.text = settingItem.name
-            cell.leftValueLabel?.text = "关"
-            cell.rightValueLabel?.text = "开"
+            cell.nameLabel.text = settingItem.name
+            cell.leftValueLabel.text = "关"
+            cell.rightValueLabel.text = "开"
             cell.toggleSwitch.addTarget(self, action: #selector(autoPronunceSwitched), for: UIControl.Event.valueChanged)
             let autoPronunce = preference.auto_pronunciation
             if autoPronunce{
@@ -215,11 +193,11 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
             cell.separatorInset = UIEdgeInsets(top: 0, left: cell.bounds.size.width, bottom: 0, right: 0);
             let settingItem:SettingItem = settingItems[row]
             cell.toggleSwitch.addTarget(self, action: #selector(pronunceStyleSwitched), for: UIControl.Event.valueChanged)
-            cell.iconView?.image = settingItem.icon
+            cell.iconView.image = settingItem.icon
             cell.iconView.theme_tintColor = "Global.settingIconTintColor"
-            cell.nameLabel?.text = settingItem.name
-            cell.leftValueLabel?.text = "美"
-            cell.rightValueLabel?.text = "英"
+            cell.nameLabel.text = settingItem.name
+            cell.leftValueLabel.text = "美"
+            cell.rightValueLabel.text = "英"
             let usPronunce = preference.us_pronunciation
             if usPronunce{
                 cell.toggleSwitch.isOn = false
@@ -239,10 +217,10 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
             cell.backgroundColor = .clear
             cell.separatorInset = UIEdgeInsets(top: 0, left: cell.bounds.size.width, bottom: 0, right: 0)
             let settingItem:SettingItem = settingItems[row]
-            cell.iconView?.image = settingItem.icon
+            cell.iconView.image = settingItem.icon
             cell.iconView.theme_tintColor = "Global.settingIconTintColor"
-            cell.nameLabel?.text = settingItem.name
-            cell.valueLabel?.text = getSettingTextforTableView()
+            cell.nameLabel.text = settingItem.name
+            cell.valueLabel.text = getSettingTextforTableView(number_of_words_per_group: preference.number_of_words_per_group)
             return cell
         }
             
@@ -252,12 +230,38 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
             cell.backgroundColor = .clear
             cell.separatorInset = UIEdgeInsets(top: 0, left: cell.bounds.size.width, bottom: 0, right: 0);
             let settingItem:SettingItem = settingItems[row]
-            cell.iconView?.image = settingItem.icon
+            cell.iconView.image = settingItem.icon
             cell.iconView.theme_tintColor = "Global.settingIconTintColor"
-            cell.nameLabel?.text = settingItem.name
-            cell.valueLabel?.text = row == 4 ? preference.reminder_time as? String ?? "" : settingItem.value
+            cell.nameLabel.text = settingItem.name
+            cell.valueLabel.text = row == 4 ? getStringOfReminderTime(reminderTime: preference.reminder_time) : settingItem.value
             return cell
         }
+    }
+    
+    func getStringOfReminderTime(reminderTime: Date?) -> String{
+        let formatter = DateFormatter()
+        formatter.dateFormat = "HH:MM"
+        if let datetime = reminderTime{
+            return formatter.string(from: datetime)
+        }else{
+            return ""
+        }
+        
+    }
+    
+    func getSettingTextforTableView(number_of_words_per_group: Int) -> String {
+        var order = "乱序"
+        switch preference.memory_order {
+        case 1:
+            order = "乱序"
+        case 2:
+            order = "顺序"
+        case 3:
+            order = "倒序"
+        default:
+            order = "乱序"
+        }
+        return "\(order)  \(number_of_words_per_group)个/组"
     }
     
     func updateReminderTime(){
@@ -266,15 +270,11 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
             self.tableView.reloadRows(at: [indexPath], with: .top)
         }
         
-        let remindStr = getPreference(key: "reminder_time") as? String ?? ""
-        var alertStr:String = "已移除每日学习提醒"
-        if remindStr != ""{
-            alertStr = "已为您设置每日学习提醒 \(remindStr)"
-        }
+        let timeStr = getStringOfReminderTime(reminderTime: preference.reminder_time)
         
-        let ac = UIAlertController(title: alertStr, message: "", preferredStyle: .alert)
-        ac.addAction(UIAlertAction(title: "好", style: .default, handler: nil))
-        present(ac, animated: true, completion: nil)
+        let reminderStr = timeStr == "" ? "已移除每日学习提醒" : "已设置每日提醒: \(timeStr)"
+        
+        self.view.makeToast(reminderStr, duration: 1.0, position: .center)
     }
     
     
@@ -307,6 +307,8 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
         case 2:
             let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
             let booksVC = mainStoryBoard.instantiateViewController(withIdentifier: "booksController") as! BooksViewController
+            booksVC.currentUser = currentUser
+            booksVC.preference = preference
             booksVC.modalPresentationStyle = .fullScreen
             booksVC.mainPanelViewController = nil
             fetchBooks()
@@ -317,12 +319,14 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
             if let book = getCurrentBook(preference: preference) {
                 let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
                 let SetMemOptionVC = mainStoryBoard.instantiateViewController(withIdentifier: "SetMemOptionVC") as! SetMemOptionViewController
+                SetMemOptionVC.currentUser = currentUser
+                SetMemOptionVC.preference = preference
                 SetMemOptionVC.modalPresentationStyle = .overCurrentContext
                 SetMemOptionVC.bookIndex = -1
                 SetMemOptionVC.book = book
                 SetMemOptionVC.bookVC = nil
                 SetMemOptionVC.mainPanelVC = nil
-                SetMemOptionVC.setting_tableView = self.tableView
+                SetMemOptionVC.settingVC = self
                 
                 DispatchQueue.main.async {
                     self.present(SetMemOptionVC, animated: true, completion: nil)
@@ -336,30 +340,7 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
             DispatchQueue.main.async {
                 self.present(reminderTimePickerVC, animated: true, completion: nil)
             }
-        case 6:
-            disableElementsWhenSynchronizing()
-            initActivityIndicator(text: "正在同步【设置】\n请勿退出!")
-            savePreference(saveToLocal: false, saveToCloud: true, completionHandler: {_ in
-                DispatchQueue.main.async {
-                self.activityLabel.text = "正在同步【学习记录】\n请勿退出!"
-                }})
-            
-            saveVocabRecords(saveToLocal: false, saveToCloud: true, random_new_word: false, delaySeconds: 1.0, completionHandler: {_ in })
-            saveLearningRecords(saveToLocal: false, saveToCloud: true, delaySeconds: 1.5, completionHandler: {_ in })
-            saveReviewRecords(saveToLocal: false, saveToCloud: true, delaySeconds: 2.0, completionHandler: {success in
-                var successMessage: String = "记录上传成功!"
-                if !success {
-                    successMessage = "上传失败，请稍后再试。"
-                }
-                DispatchQueue.main.async {
-                    self.stopIndicator()
-                    self.enableElementsAfterSynchronization()
-                    let ac = UIAlertController(title: "\(successMessage)", message: "", preferredStyle: .alert)
-                    ac.addAction(UIAlertAction(title: "好", style: .default, handler: nil))
-                    self.present(ac, animated: true, completion: nil)
-                }
-            })
-        case 8:
+        case 7:
             showFeedBackMailComposer()
         default:
             break
@@ -367,12 +348,18 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
+    func update_preference(){
+        preference = loadPreference(userId: currentUser.objectId!.stringValue!)
+    }
+    
     @objc func autoPronunceSwitched(uiSwitch: UISwitch) {
         if uiSwitch.isOn{
-            setPreference(key: "auto_pronunciation", value: true)
+            preference.auto_pronunciation = true
         }else{
-            setPreference(key: "auto_pronunciation", value: false)
+            preference.auto_pronunciation = false
         }
+        savePreference(userId: currentUser.objectId!.stringValue!, preference: preference)
+        
         let indexPath = IndexPath(row: 0, section: 0)
         let cell =  tableView.cellForRow(at: indexPath) as! SettingToggleTableViewCell
         
@@ -389,10 +376,11 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
     
     @objc func pronunceStyleSwitched(uiSwitch: UISwitch) {
         if uiSwitch.isOn{
-            setPreference(key: "us_pronunciation", value: false)
+            preference.us_pronunciation = false
         }else{
-            setPreference(key: "us_pronunciation", value: true)
+            preference.us_pronunciation = true
         }
+        savePreference(userId: currentUser.objectId!.stringValue!, preference: preference)
         let indexPath = IndexPath(row: 1, section: 0)
         let cell =  tableView.cellForRow(at: indexPath) as! SettingToggleTableViewCell
         

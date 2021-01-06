@@ -71,7 +71,6 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
     var isRotating = false
     var shouldStopRotating = false
     var preference:Preference? = nil
-    var learnt_vocab_records:[VocabularyRecord]? = nil
     var current_words:[JSON] = []
     
     // MARK: - View Controller Life Cycles
@@ -409,13 +408,9 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
     
     func loadBooksNRecords(){
         loadRecords(currentUser: currentUser, completionHandler: { [self]
-            
             success in
+            
             if success{
-                if let records = global_records{
-                    learnt_vocab_records = getVocabRecordsFromRecords(records: records)
-                }
-                
                 self.downloadBookJson(completionHandler: { success in
                     if success
                     {
@@ -454,6 +449,8 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
         let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
         let themeVC = mainStoryBoard.instantiateViewController(withIdentifier: "themeVC") as! ThemeCollectionViewController
         themeVC.modalPresentationStyle = .overCurrentContext
+        themeVC.userId = currentUser.objectId!.stringValue!
+        themeVC.preference = get_preference()
         themeVC.mainPanelViewController = self
         DispatchQueue.main.async {
             self.present(themeVC, animated: true, completion: nil)
@@ -464,6 +461,10 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
         let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Learning", bundle:nil)
         let learnVC = mainStoryBoard.instantiateViewController(withIdentifier: "learnWordController") as! LearnWordViewController
         learnVC.modalPresentationStyle = .overCurrentContext
+        learnVC.currentUser = currentUser
+        let pref = get_preference()
+        learnVC.preference = pref
+        learnVC.words = get_words(currentUser: currentUser, preference: pref)
         learnVC.mainPanelViewController = self
         DispatchQueue.main.async {
             self.present(learnVC, animated: true, completion: nil)
@@ -485,6 +486,8 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
         let booksVC = mainStoryBoard.instantiateViewController(withIdentifier: "booksController") as! BooksViewController
         booksVC.modalPresentationStyle = .fullScreen
         booksVC.mainPanelViewController = self
+        booksVC.currentUser = currentUser
+        booksVC.preference = get_preference()
         DispatchQueue.main.async {
             self.present(booksVC, animated: true, completion: {
                 if NoBookSelected{
@@ -515,6 +518,8 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
     func loadReviewController(){
         let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Learning", bundle:nil)
         let reviewVC = mainStoryBoard.instantiateViewController(withIdentifier: "reviewWordController") as! ReviewWordViewController
+        reviewVC.currentUser = currentUser
+        reviewVC.preference = get_preference()
         reviewVC.modalPresentationStyle = .overCurrentContext
         reviewVC.mainPanelViewController = self
         DispatchQueue.main.async {
@@ -526,7 +531,7 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
         
         if let preference = preference{
             if let _ : String = preference.current_book_id{
-                let vocab_rec_need_to_be_review:[VocabularyRecord] = get_vocab_rec_need_to_be_review(all_vocab_records: ,,,)
+                let vocab_rec_need_to_be_review:[VocabularyRecord] = get_vocab_rec_need_to_be_review()
                 if vocab_rec_need_to_be_review.count > 0{
                     loadReviewController()
                 }
@@ -551,13 +556,12 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
         
         if let preference = preference{
             if let bookId: String = preference.current_book_id{
-                
                 if Disk.exists("\(bookId).json", in: .documents) {
-                    completionHandler(true)
-                
                     if currentbook_json_obj.count == 0{
                         currentbook_json_obj = load_json(fileName: bookId)
                     }
+                    self.stopRotating()
+                    completionHandler(true)
                 }
                 else{
                     initActivityIndicator(text: "正在下载您的单词书...")
@@ -569,7 +573,7 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
                         _ = query.getFirst() { result in
                             
                             self.stopIndicator()
-                            
+                            self.stopRotating()
                             switch result {
                             case .success(object: let result):
                                 if let bookJson = result.get("data") as? LCFile {
@@ -580,8 +584,8 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
                                         savejson(fileName: bookId, jsonData: jsonData)
                                         
                                         currentbook_json_obj = load_json(fileName: bookId)
-                                        if let pref = self.preference, let vocab_records = self.learnt_vocab_records{
-                                            _ = update_words(preference: pref, vocab_records: vocab_records)
+                                        if let pref = self.preference{
+                                            _ = update_words(preference: pref)
                                         }
                                         completionHandler(true)
                                     }
@@ -595,6 +599,8 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
                         }
                     }
                 }
+            }else{
+                stopRotating()
             }
             
         }else{
@@ -636,29 +642,39 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
         }
     }
     
+    func get_preference() -> Preference{
+        if let pref = preference{
+            return pref
+        }else{
+            let pref = loadPreference(userId: currentUser.objectId!.stringValue!)
+            return pref
+        }
+    }
+    
 //    // MARK: - Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "userProfileSegue"{
             let destinationController = segue.destination as! UserProfileViewController
+            destinationController.currentUser = currentUser
+            destinationController.preference = get_preference()
             destinationController.mainPanelViewController = self
-            destinationController.modalPresentationStyle = .overCurrentContext
         }
         else if segue.identifier == "settingSegue"{
             
             let destinationController = segue.destination as! SettingViewController
-            
-            if let pref = preference{
-                destinationController.preference = pref
-            }else{
-                preference = loadPreference(userId: currentUser.objectId!.stringValue!)
-                destinationController.preference = preference!
-            }
-            destinationController.modalPresentationStyle = .overCurrentContext
+            destinationController.currentUser = currentUser
+            destinationController.preference = get_preference()
             destinationController.mainPanelViewController = self
+            destinationController.modalPresentationStyle = .overCurrentContext
         }
         
         else if segue.identifier == "showStatSeague"{
+            
             let destinationController = segue.destination as! StatViewController
+            
+            destinationController.currentUser = currentUser
+            destinationController.preference = get_preference()
+            destinationController.mainPanelViewController = self
             destinationController.modalPresentationStyle = .overCurrentContext
         }
     }
