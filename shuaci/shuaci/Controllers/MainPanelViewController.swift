@@ -468,6 +468,27 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
         let pref = get_preference()
         learnVC.preference = pref
         learnVC.words = get_words(currentUser: currentUser, preference: pref)
+        learnVC.currentMode = 1
+        learnVC.vocab_rec_need_to_be_review = []
+        learnVC.mainPanelViewController = self
+        DispatchQueue.main.async {
+            self.present(learnVC, animated: true, completion: nil)
+        }
+    }
+    
+    
+    func loadReviewController(){
+        let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Learning", bundle:nil)
+        let learnVC = mainStoryBoard.instantiateViewController(withIdentifier: "learnWordController") as! LearnWordViewController
+        learnVC.modalPresentationStyle = .overCurrentContext
+        learnVC.currentUser = currentUser
+        let pref = get_preference()
+        learnVC.preference = pref
+        let vocab_rec_need_to_be_review = get_vocab_rec_need_to_be_review()
+        learnVC.vocab_rec_need_to_be_review = vocab_rec_need_to_be_review
+        let review_words = get_words_need_to_be_review(vocab_rec_need_to_be_review: vocab_rec_need_to_be_review)
+        learnVC.words = review_words
+        learnVC.currentMode = 2
         learnVC.mainPanelViewController = self
         DispatchQueue.main.async {
             self.present(learnVC, animated: true, completion: nil)
@@ -518,17 +539,6 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
         }
     }
     
-    func loadReviewController(){
-        let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Learning", bundle:nil)
-        let reviewVC = mainStoryBoard.instantiateViewController(withIdentifier: "reviewWordController") as! ReviewWordViewController
-        reviewVC.currentUser = currentUser
-        reviewVC.preference = get_preference()
-        reviewVC.modalPresentationStyle = .overCurrentContext
-        reviewVC.mainPanelViewController = self
-        DispatchQueue.main.async {
-            self.present(reviewVC, animated: true, completion: nil)
-        }
-    }
     
     @IBAction func ReviewWords(_ sender: UIButton) {
         

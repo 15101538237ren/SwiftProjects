@@ -31,17 +31,6 @@ class CardBackView: UIView {
             interpIndicator.alpha = 1
         }
     }
-    @IBOutlet var wordRootLabel: UILabel!{
-        didSet {
-            wordRootLabel.textColor = .lightGray
-        }
-    }
-    
-    @IBOutlet var wordRootIndicator: UIButton!{
-        didSet {
-            wordRootIndicator.alpha = 0
-        }
-    }
     
     func initActivityIndicator(text: String) {
         strLabel.removeFromSuperview()
