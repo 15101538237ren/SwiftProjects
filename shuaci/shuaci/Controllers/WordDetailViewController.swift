@@ -86,4 +86,8 @@ class WordDetailViewController: UIViewController {
             self.view.makeToast(NoNetworkStr, duration: 1.0, position: .center)
         }
     }
+    
+    @IBAction func unwind(sender: UIButton) {
+        self.dismiss(animated: true, completion: nil)
+    }
 }

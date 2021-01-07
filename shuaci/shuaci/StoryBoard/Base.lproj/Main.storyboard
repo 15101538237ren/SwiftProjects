@@ -31,6 +31,23 @@
                                     <wkPreferences key="preferences"/>
                                 </wkWebViewConfiguration>
                             </wkWebView>
+                            <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pAZ-hD-o7k">
+                                <rect key="frame" x="374" y="54" width="30" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="0Cm-ji-LXX"/>
+                                    <constraint firstAttribute="width" constant="30" id="8Sh-pe-CtO"/>
+                                </constraints>
+                                <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal" image="xmark.circle" catalog="system">
+                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="large"/>
+                                </state>
+                                <connections>
+                                    <action selector="unwind:" destination="R7q-Up-UwU" eventType="touchUpInside" id="8pd-zW-why"/>
+                                    <action selector="unwindWithSegue:" destination="4a5-3m-NM6" eventType="touchUpInside" id="AFk-Nh-uLN"/>
+                                    <action selector="unwindWithSegue:" destination="pFP-k4-cBJ" eventType="touchUpInside" id="Djh-Wl-gMZ"/>
+                                    <action selector="unwindWithSender:" destination="e9N-FN-ytu" eventType="touchUpInside" id="HJl-fi-IiQ"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="CDK-im-AFJ"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -38,6 +55,8 @@
                             <constraint firstItem="CDK-im-AFJ" firstAttribute="bottom" secondItem="Oky-PQ-Yfk" secondAttribute="bottom" id="Z4x-Ly-IlO"/>
                             <constraint firstItem="Oky-PQ-Yfk" firstAttribute="top" secondItem="CDK-im-AFJ" secondAttribute="top" id="gf7-D0-xUP"/>
                             <constraint firstItem="CDK-im-AFJ" firstAttribute="trailing" secondItem="Oky-PQ-Yfk" secondAttribute="trailing" id="skm-pf-XwW"/>
+                            <constraint firstItem="pAZ-hD-o7k" firstAttribute="top" secondItem="CDK-im-AFJ" secondAttribute="top" constant="10" id="snS-Ga-Yb5"/>
+                            <constraint firstItem="CDK-im-AFJ" firstAttribute="trailing" secondItem="pAZ-hD-o7k" secondAttribute="trailing" constant="10" id="uvV-gK-ofO"/>
                             <constraint firstItem="Oky-PQ-Yfk" firstAttribute="leading" secondItem="CDK-im-AFJ" secondAttribute="leading" id="zys-aF-lcg"/>
                         </constraints>
                     </view>
@@ -862,7 +881,7 @@
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="AMQ-JB-XIg">
                                                     <rect key="frame" x="20" y="26.5" width="86" height="47.5"/>
                                                     <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="vocabulary" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gBR-9h-OCQ">
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="vocabulary" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gBR-9h-OCQ">
                                                             <rect key="frame" x="0.0" y="0.0" width="86" height="20.5"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" relation="lessThanOrEqual" constant="180" id="sTF-WC-ytT"/>
@@ -871,7 +890,7 @@
                                                             <color key="textColor" systemColor="darkTextColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ioo-s1-f83">
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ioo-s1-f83">
                                                             <rect key="frame" x="0.0" y="30.5" width="86" height="17"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" relation="lessThanOrEqual" constant="180" id="XZM-SJ-y6s"/>
@@ -2763,6 +2782,7 @@
         <image name="settings" width="512" height="512"/>
         <image name="speaker.2" catalog="system" width="128" height="90"/>
         <image name="user_profile" width="55" height="55"/>
+        <image name="xmark.circle" catalog="system" width="128" height="121"/>
         <systemColor name="darkTextColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
