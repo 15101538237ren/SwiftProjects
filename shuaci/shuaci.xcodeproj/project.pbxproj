@@ -74,6 +74,7 @@
 		BBA41A7442A9D5542E445471 /* Pods_shuaci.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7904B907E4DC4D8D3DC6FC8C /* Pods_shuaci.framework */; };
 		C32918CD259FFD9200E6527F /* GlobalConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C32918CC259FFD9200E6527F /* GlobalConstants.swift */; };
 		C32918E125A003D600E6527F /* MainScreenUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C32918E025A003D600E6527F /* MainScreenUIView.swift */; };
+		C34229E425A6A06600FFF918 /* DancingScript-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C34229E325A6A06600FFF918 /* DancingScript-Medium.ttf */; };
 		C34BB85B25A14C9E0073F815 /* GlobalVariables.swift in Sources */ = {isa = PBXBuildFile; fileRef = C34BB85A25A14C9E0073F815 /* GlobalVariables.swift */; };
 		C34BB85E25A157F00073F815 /* GlobalEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = C34BB85D25A157F00073F815 /* GlobalEnum.swift */; };
 		C394916E259FF78D00CD0319 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C394916D259FF78D00CD0319 /* LoginViewController.swift */; };
@@ -155,6 +156,7 @@
 		A5F51550245F5E9300F06610 /* Wallpaper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Wallpaper.swift; sourceTree = "<group>"; };
 		C32918CC259FFD9200E6527F /* GlobalConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalConstants.swift; sourceTree = "<group>"; };
 		C32918E025A003D600E6527F /* MainScreenUIView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainScreenUIView.swift; sourceTree = "<group>"; };
+		C34229E325A6A06600FFF918 /* DancingScript-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "DancingScript-Medium.ttf"; sourceTree = "<group>"; };
 		C34BB85A25A14C9E0073F815 /* GlobalVariables.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalVariables.swift; sourceTree = "<group>"; };
 		C34BB85D25A157F00073F815 /* GlobalEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalEnum.swift; sourceTree = "<group>"; };
 		C394916D259FF78D00CD0319 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -294,6 +296,7 @@
 		A59EB1D12452A12900F300E1 /* shuaci */ = {
 			isa = PBXGroup;
 			children = (
+				C34229DD25A69E2000FFF918 /* Fonts */,
 				C32918CB259FFD7B00E6527F /* Global */,
 				55414C4F24D62957004E4E7D /* DATA */,
 				557B66EB24CCF2350068AB05 /* Plist */,
@@ -378,6 +381,14 @@
 			path = Global;
 			sourceTree = "<group>";
 		};
+		C34229DD25A69E2000FFF918 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				C34229E325A6A06600FFF918 /* DancingScript-Medium.ttf */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -449,6 +460,7 @@
 				A59EB1DC2452A12A00F300E1 /* Assets.xcassets in Resources */,
 				A59EB1DA2452A12900F300E1 /* Main.storyboard in Resources */,
 				A554B24724576F8A00DC8358 /* Yuanti-SC-Regular.ttf in Resources */,
+				C34229E425A6A06600FFF918 /* DancingScript-Medium.ttf in Resources */,
 				557B66F324CCF44A0068AB05 /* Light_White.plist in Resources */,
 				A5B82171245360F700963FEC /* PingFang SC Regular.ttf in Resources */,
 				A5B82177245370CD00963FEC /* Songti SC Regular.ttf in Resources */,

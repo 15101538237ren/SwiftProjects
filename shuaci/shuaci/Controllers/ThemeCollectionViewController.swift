@@ -69,6 +69,7 @@ class ThemeCollectionViewController: UIViewController, UICollectionViewDelegate,
         preference.current_theme = theme_category
         
         savePreference(userId: userId, preference: preference)
+        mainPanelViewController.update_preference()
         
         ThemeManager.setTheme(plistName: theme_category_to_name[theme.category]!.rawValue, path: .mainBundle)
         

@@ -52,6 +52,7 @@ class LearnWordViewController: UIViewController {
     
     // MARK: - Outlet Variables
     @IBOutlet var learnUIView: LearnUIView!
+    @IBOutlet var backBtn: UIButton!
     @IBOutlet var cardDictionaryBtn: [UIButton]!
     @IBOutlet var gestureRecognizers:[UIPanGestureRecognizer]!
     @IBOutlet var timeLabel: UILabel!
@@ -495,6 +496,7 @@ class LearnWordViewController: UIViewController {
             currentWordLabelQueue.enqueue(wordQuequeItem!)
         }
         if wordsQueue.count == 0 && currentWordLabelQueue .count == 0{
+            updateWordLeftLabels(currentMemStage: memStage)
             currentLearningRec!.endDate = Date()
             currentLearningRec!.vocabHeads = vocabRecordsOfCurrentLearning.map {$0.VocabHead}
             summary_learn_records_into_vocab_records()
@@ -969,6 +971,7 @@ class LearnWordViewController: UIViewController {
     
     func disableBtns(){
         DispatchQueue.main.async {
+            self.backBtn.isEnabled = false
             self.learnUIView.collectBtn.isEnabled = false
             self.learnUIView.undoBtn.isEnabled = false
             self.learnUIView.yesBtn.isEnabled = false
@@ -983,6 +986,7 @@ class LearnWordViewController: UIViewController {
     
     func enableBtns(){
         DispatchQueue.main.async {
+            self.backBtn.isEnabled = true
             self.learnUIView.collectBtn.isEnabled = true
             self.learnUIView.undoBtn.isEnabled = true
             self.learnUIView.yesBtn.isEnabled = true

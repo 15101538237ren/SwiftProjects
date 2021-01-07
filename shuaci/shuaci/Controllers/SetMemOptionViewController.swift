@@ -89,6 +89,13 @@ class SetMemOptionViewController: UIViewController, UIPickerViewDelegate, UIPick
         
         savePreference(userId: currentUser.objectId!.stringValue!, preference: preference)
         
+        if let mainVC = mainPanelVC{
+            mainVC.update_preference()
+        }
+        if let settingVC = settingVC{
+            settingVC.update_preference(pref: preference)
+        }
+        
         if bookVC != nil{
             downloadBookJson(book: book)
         }
@@ -96,7 +103,6 @@ class SetMemOptionViewController: UIViewController, UIPickerViewDelegate, UIPick
         {
             if settingVC != nil{
                 DispatchQueue.main.async {
-                    self.settingVC!.update_preference()
                     self.dismiss(animated: true, completion: {
                         self.settingVC!.tableView.reloadRows(at: [IndexPath(row: 3, section: 0)], with: .automatic)
                     })
@@ -367,6 +373,12 @@ class SetMemOptionViewController: UIViewController, UIPickerViewDelegate, UIPick
                             currentbook_json_obj = load_json(fileName: book.identifier)
                             preference.current_book_id = book.identifier
                             savePreference(userId: currentUser.objectId!.stringValue!, preference: preference)
+                            if let mainVC = mainPanelVC{
+                                mainVC.update_preference()
+                            }
+                            if let settingVC = settingVC{
+                                settingVC.update_preference(pref: preference)
+                            }
                             _ = update_words(preference: preference)
                             DispatchQueue.main.async {
                                 self.stopIndicator()
@@ -375,7 +387,6 @@ class SetMemOptionViewController: UIViewController, UIPickerViewDelegate, UIPick
                                         if let bookVC = self.bookVC{
                                             bookVC.dismiss(animated: false, completion: { () -> Void in
                                             if self.mainPanelVC != nil{
-                                                self.mainPanelVC!.update_preference()
                                                 self.mainPanelVC!.loadLearnController()
                                             }})
                                         }

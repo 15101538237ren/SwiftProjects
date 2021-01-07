@@ -98,16 +98,19 @@ class ReminderTimePickerViewController: UIViewController {
     
     @IBAction func setReminderClock(_ sender: UIButton) {
         let timePickerDate = Calendar.current.dateComponents([.hour, .minute], from: self.timePicker.date)
-        
         let center = UNUserNotificationCenter.current()
         center.requestAuthorization(options: [.alert, .badge, .sound]) { [self] (granted, error) in
             if granted {
                 center.removePendingNotificationRequests(withIdentifiers:[ everyDayLearningReminderNotificationIdentifier])
                 
                 let trigger = UNCalendarNotificationTrigger(dateMatching: timePickerDate, repeats: true)
+                DispatchQueue.main.async {
+                    preference.reminder_time = timePickerDate
+                    savePreference(userId: currentUser.objectId!.stringValue!, preference: preference)
+                    settingVC.preference = preference
+                    settingVC.mainPanelViewController.preference = preference
+                }
                 
-                preference.reminder_time = timePicker.date
-                savePreference(userId: currentUser.objectId!.stringValue!, preference: preference)
                 let content = UNMutableNotificationContent()
                 content.body = "你的努力，终将成就自己。开始今天的单词学习吧😊"
                 content.categoryIdentifier = "learnEveryday"

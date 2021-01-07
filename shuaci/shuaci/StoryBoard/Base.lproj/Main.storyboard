@@ -751,7 +751,7 @@
                                     <constraint firstAttribute="width" constant="30" id="WV3-On-IMb"/>
                                 </constraints>
                                 <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <state key="normal" image="chevron.down" catalog="system">
+                                <state key="normal" image="chevron.left" catalog="system">
                                     <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="large"/>
                                 </state>
                                 <connections>
@@ -775,9 +775,6 @@
                     <navigationItem key="navigationItem" title="账号管理" id="OeJ-MX-bXb">
                         <barButtonItem key="leftBarButtonItem" image="chevron.left" catalog="system" id="jbS-J2-B2c">
                             <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            <connections>
-                                <action selector="unwindWithSegue:" destination="fIo-7D-rHo" id="K3Z-XB-VqM"/>
-                            </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
@@ -1711,7 +1708,7 @@
                                             </label>
                                         </subviews>
                                     </stackView>
-                                    <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="time" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="loR-lS-Gop">
+                                    <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="time" minuteInterval="5" style="wheels" translatesAutoresizingMaskIntoConstraints="NO" id="loR-lS-Gop">
                                         <rect key="frame" x="0.0" y="73" width="280" height="180"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="180" id="H4o-mJ-6fC"/>

@@ -21,7 +21,7 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
     
     var activityIndicator = UIActivityIndicatorView()
     var activityLabel = UILabel()
-    
+    var imagePicker = UIImagePickerController()
     
     let activityEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .regular))
     
@@ -94,10 +94,8 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
         backBtn.theme_tintColor = "Global.backBtnTintColor"
         barTitleLabel.theme_textColor = "Global.barTitleColor"
         self.updateUserPhoto()
-        self.modalPresentationStyle = .overCurrentContext
         view.isOpaque = false
         
-        view.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(handleDismiss)))
         super.viewDidLoad()
         // Do any additional setup after loading the view.
     }
@@ -107,31 +105,6 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
     func presentAlertInView(title: String, message: String, okText: String){
         let alertController = presentAlert(title: title, message: message, okText: okText)
         self.present(alertController, animated: true)
-    }
-    
-    @objc func handleDismiss(sender: UIPanGestureRecognizer) {
-        switch sender.state {
-        case .changed:
-            viewTranslation = sender.translation(in: view)
-            
-            if viewTranslation.y > 0 {
-                UIView.animate(withDuration: 0.2, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
-                    self.view.transform = CGAffineTransform(translationX: 0, y: self.viewTranslation.y)
-                })
-            }
-        case .ended:
-            if viewTranslation.y < 200 {
-                UIView.animate(withDuration: 0.2, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
-                    self.view.transform = .identity
-                })
-            } else {
-                DispatchQueue.main.async {
-                    self.dismiss(animated: true, completion: nil)
-                }
-            }
-        default:
-            break
-        }
     }
     
     func updateUserPhoto() {
@@ -170,34 +143,12 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
     }
     
     @IBAction func selectImage(_ sender: UIButton) {
-        
-        let photoSourceController = UIAlertController(title: "", message: NSLocalizedString("选择您的头像", comment: "选择您的头像") , preferredStyle: .actionSheet)
-        let cameraAction = UIAlertAction(title: NSLocalizedString("相机", comment: "相机") , style: .default, handler: {
-            (action) in
-            if UIImagePickerController.isSourceTypeAvailable(.camera){
-                let imagePicker = UIImagePickerController()
-                imagePicker.sourceType = .camera
-                imagePicker.delegate = self
-                self.present(imagePicker, animated: true, completion: nil)
-            }
-        })
-        
-        let photoLibraryAction = UIAlertAction(title: NSLocalizedString("照片库", comment: "照片库") , style: .default, handler: {
-            (action) in
-            if UIImagePickerController.isSourceTypeAvailable(.photoLibrary){
-                let imagePicker = UIImagePickerController()
-                imagePicker.sourceType = .photoLibrary
-                imagePicker.delegate = self
-                self.present(imagePicker, animated: true, completion: nil)
-            }
-        })
-        let cancelAction = UIAlertAction(title: NSLocalizedString("取消", comment: "取消"), style: .cancel, handler: nil)
-        
-        photoSourceController.addAction(cameraAction)
-        photoSourceController.addAction(photoLibraryAction)
-        photoSourceController.addAction(cancelAction)
-        
-        present(photoSourceController, animated: true, completion: nil)
+        if UIImagePickerController.isSourceTypeAvailable(.photoLibrary){
+            imagePicker.sourceType = .photoLibrary
+            imagePicker.delegate = self
+            imagePicker.mediaTypes = ["public.image"]
+            self.present(imagePicker, animated: true, completion: nil)
+        }
     }
     
     func resizeImage(image: UIImage, newWidth: CGFloat) -> UIImage {
@@ -256,20 +207,14 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
             print(error)
         }
         
-        DispatchQueue.main.async {
-            cropViewController.dismiss(animated: true, completion: {
-                self.updateUserPhoto()
-                self.mainPanelViewController.loadUserPhoto()
-            })
-        }
-        
         if Reachability.isConnectedToNetwork(){
             DispatchQueue.global(qos: .background).async {
             do {
                 let file = LCFile(payload: .data(data: imageData))
                 if let _ =  file.get("name")?.stringValue{
                     
-                }else{
+                }else
+                {
                     do{
                         try file.set("name", value: "unnamed")
                     }catch{
@@ -280,6 +225,7 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
                         switch result {
                         case .success:
                             self.update_user_photo_lc(file: file)
+                            break
                         case .failure(error: let error):
                             // 保存失败，可能是文件无法被读取，或者上传过程中出现问题
                             print(error)
@@ -291,6 +237,11 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
             self.view.makeToast(NoNetworkStr, duration: 1.0, position: .center)
         }
         
+        DispatchQueue.main.async {
+            self.updateUserPhoto()
+            self.mainPanelViewController.loadUserPhoto()
+            cropViewController.dismiss(animated: true, completion: nil)
+        }
     }
     
     func update_user_photo_lc(file: LCFile){

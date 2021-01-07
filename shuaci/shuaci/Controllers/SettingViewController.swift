@@ -236,11 +236,9 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
         }
     }
     
-    func getStringOfReminderTime(reminderTime: Date?) -> String{
-        let formatter = DateFormatter()
-        formatter.dateFormat = "HH:MM"
+    func getStringOfReminderTime(reminderTime: DateComponents?) -> String{
         if let datetime = reminderTime{
-            return formatter.string(from: datetime)
+            return String(format: "%02d:%02d", datetime.hour!, datetime.minute!)
         }else{
             return ""
         }
@@ -265,7 +263,7 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
     func updateReminderTime(){
         let indexPath = IndexPath(row: 4, section: 0)
         DispatchQueue.main.async {
-            self.tableView.reloadRows(at: [indexPath], with: .top)
+            self.tableView.reloadRows(at: [indexPath], with: .fade)
         }
         
         let timeStr = getStringOfReminderTime(reminderTime: preference.reminder_time)
@@ -334,6 +332,8 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
             let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
             let reminderTimePickerVC = mainStoryBoard.instantiateViewController(withIdentifier: "reminderTimePickerVC") as! ReminderTimePickerViewController
             reminderTimePickerVC.settingVC = self
+            reminderTimePickerVC.preference = preference
+            reminderTimePickerVC.currentUser = currentUser
             reminderTimePickerVC.modalPresentationStyle = .overCurrentContext
             DispatchQueue.main.async {
                 self.present(reminderTimePickerVC, animated: true, completion: nil)
@@ -346,8 +346,8 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
-    func update_preference(){
-        preference = loadPreference(userId: currentUser.objectId!.stringValue!)
+    func update_preference(pref: Preference){
+        preference = pref
     }
     
     @objc func autoPronunceSwitched(uiSwitch: UISwitch) {
@@ -357,6 +357,7 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
             preference.auto_pronunciation = false
         }
         savePreference(userId: currentUser.objectId!.stringValue!, preference: preference)
+        mainPanelViewController.update_preference()
         
         let indexPath = IndexPath(row: 0, section: 0)
         let cell =  tableView.cellForRow(at: indexPath) as! SettingToggleTableViewCell
@@ -379,6 +380,8 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
             preference.us_pronunciation = true
         }
         savePreference(userId: currentUser.objectId!.stringValue!, preference: preference)
+        mainPanelViewController.update_preference()
+        
         let indexPath = IndexPath(row: 1, section: 0)
         let cell =  tableView.cellForRow(at: indexPath) as! SettingToggleTableViewCell
         

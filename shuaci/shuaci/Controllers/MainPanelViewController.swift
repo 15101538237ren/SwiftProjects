@@ -661,6 +661,7 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
             destinationController.currentUser = currentUser
             destinationController.preference = get_preference()
             destinationController.mainPanelViewController = self
+            destinationController.modalPresentationStyle = .fullScreen
         }
         else if segue.identifier == "settingSegue"{
             
