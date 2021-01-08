@@ -738,6 +738,31 @@ func isExactSeqMemory(vocab: VocabularyRecord) -> Bool{
 }
 
 
+/**
+ 
+ For a VocabRecord, calculate the number of max sequentially memorized times.
+
+ - Parameter vocab: The vocabulary record to calculate
+
+ - Returns: the number of max sequentially memorized times
+ 
+ */
+
+func getNumOfSeqMem(vocab: VocabularyRecord) -> Int{
+    var numOfSeqMem:Int = 0
+    
+    let behaviors:[Int] = vocab.BehaviorHistory.reversed()
+    
+    var idx = 0
+    while idx < behaviors.count && behaviors[idx] == CardBehavior.remember.rawValue{
+        numOfSeqMem += 1
+        idx += 1
+    }
+    
+    return numOfSeqMem
+}
+
+
 func get_vocab_rec_need_to_be_review() -> [VocabularyRecord]{
     
     let vocab_rec_need_to_be_review:[VocabularyRecord] = global_vocabs_records.filter{ !$0.Mastered && ($0.ReviewDUEDate ?? Date().adding(durationVal: 1, durationType: .hour) < Date())}
@@ -921,7 +946,7 @@ func groupVocabRecByDate(dateType: DateType) -> [String : [VocabularyRecord]]{
     switch dateType {
         case .learn:
             for vocab in global_vocabs_records {
-                if vocab.LearnDate != nil && !vocab.Mastered{
+                if vocab.LearnDate != nil && !vocab.Mastered && !isExactSeqMemory(vocab: vocab){
                     if let date:String = getVocabDate(vocab: vocab, dateType: dateType) {
                         if let _ = groupedVocabs[date] {
                             groupedVocabs[date]!.append(vocab)
@@ -934,7 +959,7 @@ func groupVocabRecByDate(dateType: DateType) -> [String : [VocabularyRecord]]{
             }
         case .master:
             for vocab in global_vocabs_records {
-                if vocab.MasteredDate != nil {
+                if vocab.Mastered || isExactSeqMemory(vocab: vocab){
                     if let date:String = getVocabDate(vocab: vocab, dateType: dateType) {
                         if let _ = groupedVocabs[date] {
                             groupedVocabs[date]!.append(vocab)

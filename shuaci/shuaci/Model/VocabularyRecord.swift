@@ -12,17 +12,19 @@ struct VocabularyRecord: Codable {
     var VocabHead: String
     var BookId:String
     var Mastered: Bool
+    var NumOfReview: Int
     var BehaviorHistory: [Int]
     var LearnDate: Date?
     var CollectDate: Date?
     var MasteredDate: Date?
     var ReviewDUEDate: Date?
     
-    init(VocabHead: String, BookId: String, LearnDate: Date?, CollectDate: Date?, Mastered: Bool, MasteredDate: Date?, ReviewDUEDate: Date?, BehaviorHistory: [CardBehavior]) {
+    init(VocabHead: String, BookId: String, LearnDate: Date?, CollectDate: Date?, NumOfReview:Int = 0, Mastered: Bool, MasteredDate: Date?, ReviewDUEDate: Date?, BehaviorHistory: [CardBehavior]) {
         self.VocabHead = VocabHead
         self.BookId = BookId
         self.LearnDate = LearnDate
         self.CollectDate = CollectDate
+        self.NumOfReview = NumOfReview
         self.Mastered = Mastered
         self.MasteredDate = MasteredDate
         self.ReviewDUEDate = ReviewDUEDate

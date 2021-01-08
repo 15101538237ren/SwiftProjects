@@ -131,6 +131,7 @@ class WordHistoryViewController: UIViewController, UIGestureRecognizerDelegate {
         initCellIsSelected()
         wordsTableView.reloadData()
     }
+    
     @IBAction func segControlChanged(_ sender: UISegmentedControl) {
         getGroupVocabs()
     }
@@ -200,10 +201,6 @@ extension WordHistoryViewController: UITableViewDataSource, UITableViewDelegate{
         groupedVocabs.count
     }
     
-//    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-//        return sortedKeys[section].components(separatedBy: "-")[0]
-//    }
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if let groupedVocabs = groupedVocabs[sortedKeys[section]]{
             if sectionsExpanded[section]{
@@ -236,15 +233,15 @@ extension WordHistoryViewController: UITableViewDataSource, UITableViewDelegate{
             let minuteDiff = dc.minute ?? 0
             let secondDiff = dc.second ?? 0
             var timer_text = ""
-            var negative: String = "距复习: "
+            var negative: String = "距第\(vocab.NumOfReview + 1)轮复习: "
             if date > dueDate{
-                negative = "已逾期: "
+                negative = "第\(vocab.NumOfReview + 1)轮逾期: "
             }
             if (dayDiff != 0){
                 timer_text = timer_text + "\(abs(dayDiff))天"
             }
             if (hourDiff > 0 || dayDiff != 0){
-                timer_text = timer_text + String(format: "%02d", abs(hourDiff)) + "小时"
+                timer_text = timer_text + String(format: "%02d", abs(hourDiff)) + "时"
             }
             if (minuteDiff > 0  || hourDiff > 0 || dayDiff != 0) {
                 timer_text = timer_text + String(format: "%02d", abs(minuteDiff)) + "分"
@@ -268,40 +265,49 @@ extension WordHistoryViewController: UITableViewDataSource, UITableViewDelegate{
         cell.backgroundColor = .clear
         let vocab: VocabularyRecord = groupedVocabs[sortedKeys[section]]![row]
         cell.wordHeadLabel.text = vocab.VocabHead
-        let progress: Float = getMasteredProgress(vocab: vocab)
         
-        if segmentedControl.selectedSegmentIndex == 2{
-            cell.timerLabel.alpha = 0
-        }else{
-            cell.timerLabel.alpha = 1
-            if let timerText = get_timer_text_of(vocab: vocab){
-                cell.timerLabel.text = timerText
-            }
-        }
-        
-        if let dueDate = vocab.ReviewDUEDate{
-            let date = Date()
-            if date > dueDate{
-                cell.timerLabel.theme_textColor = "WordHistory.overdueTextColor"
-            }
-        }
-        cell.progressView.progress = progress
-        cell.progressView.transform = .init(scaleX: 1, y: 2)
-        
-        if progress > 0.8{
-            cell.progressView.theme_progressTintColor = "WordHistory.HighProgressBarColor"
-        } else if progress > 0.4{
-            cell.progressView.theme_progressTintColor = "WordHistory.MiddleHighProgressBarColor"
-        } else if progress > 0{
-            cell.progressView.theme_progressTintColor = "WordHistory.MiddleLowProgressBarColor"
-        }else{
-            cell.progressView.theme_progressTintColor = "WordHistory.LowProgressBarColor"
-        }
-        
-        cell.masterPercentLabel.text = "\(Int(round(100.0*Double(progress))))%"
         if let meaning = getMeaningOfVocab(vocab: vocab){
             cell.wordTransLabel.text = meaning
         }
+        cell.progressView.transform = .init(scaleX: 1, y: 2)
+        
+        if segmentedControl.selectedSegmentIndex == 2{
+            cell.statLabel.text = "已掌握"
+            
+            cell.progressView.progress = 1.0
+            cell.progressView.theme_progressTintColor = "WordHistory.HighProgressBarColor"
+            cell.timerLabel.alpha = 0
+        }else{
+            let numOfSeqMem:Int = getNumOfSeqMem(vocab: vocab)
+            
+            cell.statLabel.text = "连续记住 \(numOfSeqMem) / \(numberOfContDaysForMasteredAWord) 次"
+            
+            let progress:Float = Float(numOfSeqMem)/Float(numberOfContDaysForMasteredAWord)
+            
+            cell.progressView.progress = progress
+            if progress > 0.7{
+                cell.progressView.theme_progressTintColor = "WordHistory.HighProgressBarColor"
+            } else if progress > 0.4{
+                cell.progressView.theme_progressTintColor = "WordHistory.MiddleHighProgressBarColor"
+            } else if progress > 0.2{
+                cell.progressView.theme_progressTintColor = "WordHistory.MiddleLowProgressBarColor"
+            }else{
+                cell.progressView.theme_progressTintColor = "WordHistory.LowProgressBarColor"
+            }
+            
+            cell.timerLabel.alpha = 1
+            if let timerText = get_timer_text_of(vocab: vocab){
+                cell.timerLabel.text = timerText
+                
+                if let dueDate = vocab.ReviewDUEDate{
+                    let date = Date()
+                    if date > dueDate{
+                        cell.timerLabel.theme_textColor = "WordHistory.overdueTextColor"
+                    }
+                }
+            }
+        }
+        
         return cell
     }
     

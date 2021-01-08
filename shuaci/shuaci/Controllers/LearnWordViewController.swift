@@ -517,11 +517,13 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
             {
                 if mastered[index] && !vocabRecordsOfCurrent[index].Mastered{
                     reviewed_vocabRec.append(vocabRecordsOfCurrent[index])
+                    vocabRecordsOfCurrent[index].NumOfReview += 1
                     continue
                 }
                 if let bhvs = card_behaviors[index]{
                     if bhvs.count != vocabRecordsOfCurrent[index].BehaviorHistory.count{
                         reviewed_vocabRec.append(vocabRecordsOfCurrent[index])
+                        vocabRecordsOfCurrent[index].NumOfReview += 1
                         continue
                     }
                 }
@@ -705,6 +707,9 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
                         next_card.wordLabel!.alpha = 1.0
                         next_card.memMethodLabel!.alpha = 1.0
                     })
+                    
+                    let wordStr: String = next_card.wordLabel?.text ?? ""
+                    self.playMp3GivenWord(word: wordStr)
                 }
             }
             
@@ -1054,6 +1059,9 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
                             lastCard.wordLabel!.alpha = 1.0
                             lastCard.memMethodLabel!.alpha = 1.0
                         })
+                        
+                        let wordStr: String = lastCard.wordLabel?.text ?? ""
+                        self.playMp3GivenWord(word: wordStr)
                     }
                 }
             })
