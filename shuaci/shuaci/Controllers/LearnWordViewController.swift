@@ -12,7 +12,7 @@ import SwiftyJSON
 import LeanCloud
 import SwiftTheme
 
-class LearnWordViewController: UIViewController {
+class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
     
     // MARK: - Constants
     let card_Y_constant:CGFloat = -30
@@ -356,7 +356,45 @@ class LearnWordViewController: UIViewController {
                 let word: String = card.wordLabel?.text ?? ""
                 playMp3GivenWord(word: word)
             }
+            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(backToCardFront(_:)) )
+            tapGesture.delegate = self
+            card.cardBackView?.webView.addGestureRecognizer(tapGesture)
         }
+    }
+    
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+      return true
+    }
+    
+    @IBAction func cardTapped(_ sender: UITapGestureRecognizer)
+    {
+        let card = cards[currentIndex % 2]
+        let current_word: String = card.wordLabel?.text ?? ""
+        if current_word != ""{
+            let indexItem:[Int] = Word_indexs_In_Oalecd8[current_word]!
+            let wordIndex: Int = indexItem[0]
+            let hasValueInOalecd8: Int = indexItem[1]
+            if hasValueInOalecd8 == 1{
+                UIView.transition(with: card, duration: 0.3, options: .transitionFlipFromRight, animations: nil, completion: nil)
+                load_html(wordHead: current_word, wordIndex: wordIndex)
+            }else{
+                card.makeToast("无词典解释☹️", duration: 1.0, position: .center)
+            }
+        }
+    }
+    
+    @IBAction func backToCardFront(_ sender: UITapGestureRecognizer) {
+        let card = cards[currentIndex % 2]
+        card.cardBackView!.isUserInteractionEnabled = false
+        card.cardBackView!.alpha = 0
+        card.dragable = true
+        UIView.transition(with: card, duration: 0.3, options: .transitionFlipFromLeft, animations: nil, completion: nil)
+    }
+    
+    @IBAction func cardBackTapped(_ sender: UITapGestureRecognizer)
+    {
+        let card = cards[currentIndex % 2]
+        UIView.transition(with: card, duration: 0.3, options: .transitionFlipFromRight, animations: nil, completion: nil)
     }
     
     func setFieldsOfCard(card: CardUIView, cardWord: CardWord, collected: Bool, memStage: Int){
@@ -383,17 +421,8 @@ class LearnWordViewController: UIViewController {
         card.wordLabel?.text = cardWord.headWord
         let current_word: String = cardWord.headWord
         let indexItem:[Int] = Word_indexs_In_Oalecd8[current_word]!
-        let hasValueInOalecd8: Int = indexItem[1]
         
         DispatchQueue.main.async {
-            if hasValueInOalecd8 == 0{
-                card.cardDictionaryBtn?.alpha = 0
-            }
-            else
-            {
-                card.cardDictionaryBtn?.alpha = 1
-            }
-            
             if cardWord.headWord.count >= 10{
                 card.wordLabel?.font = card.wordLabel?.font.withSize(35.0)
             }else{
@@ -845,15 +874,6 @@ class LearnWordViewController: UIViewController {
             
         }
     
-    
-    @IBAction func backToCardFront(_ sender: UIButton) {
-        let card = cards[currentIndex % 2]
-        card.cardBackView!.isUserInteractionEnabled = false
-        card.cardBackView!.alpha = 0
-        card.dragable = true
-        UIView.transition(with: card, duration: 0.3, options: .transitionFlipFromLeft, animations: nil, completion: nil)
-    }
-    
     func load_html(wordHead: String, wordIndex: Int){
         if Reachability.isConnectedToNetwork(){
             let card = cards[currentIndex % 2]
@@ -862,7 +882,6 @@ class LearnWordViewController: UIViewController {
                 card.cardBackView!.isUserInteractionEnabled = true
                 card.cardBackView!.alpha = 1
                 card.cardBackView!.initActivityIndicator(text: "获取单词中..")
-                card.cardBackView!.wordLabel?.text = wordHead
                 
                 DispatchQueue.global(qos: .background).async {
                 do {
@@ -873,7 +892,7 @@ class LearnWordViewController: UIViewController {
                         case .success(object: let word):
                             if let html_content = word.get("html_content")?.stringValue
                             {
-                                let html_final = build_html_with_given_content(html_content: html_content)
+                                let html_final = build_html_with_given_content(html_content: html_content, remove_newline: true)
                                 card.cardBackView!.webView.loadHTMLString(html_final, baseURL: nil)
                                 card.cardBackView!.stopIndicator()
                             }else{
@@ -888,20 +907,6 @@ class LearnWordViewController: UIViewController {
             }
         }else{
             self.view.makeToast(NoNetworkStr, duration: 1.0, position: .center)
-        }
-    }
-    
-    @IBAction func lookUpDictionary(_ sender: UIButton) {
-        let card = cards[currentIndex % 2]
-        let current_word: String = card.wordLabel?.text ?? ""
-        if current_word != ""{
-            let indexItem:[Int] = Word_indexs_In_Oalecd8[current_word]!
-            let wordIndex: Int = indexItem[0]
-            let hasValueInOalecd8: Int = indexItem[1]
-            if hasValueInOalecd8 == 1{
-                UIView.transition(with: card, duration: 0.3, options: .transitionFlipFromRight, animations: nil, completion: nil)
-                load_html(wordHead: current_word, wordIndex: wordIndex)
-            }
         }
     }
     
