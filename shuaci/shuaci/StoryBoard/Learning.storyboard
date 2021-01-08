@@ -146,6 +146,34 @@
                                             <outletCollection property="gestureRecognizers" destination="XJI-FX-JgV" appends="YES" id="MvH-2p-ua8"/>
                                         </connections>
                                     </view>
+                                    <view userInteractionEnabled="NO" alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fNy-h0-4q4" customClass="MKRingProgressView">
+                                        <rect key="frame" x="127.5" y="277.5" width="45" height="45"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="45" id="ARd-y9-bYv"/>
+                                            <constraint firstAttribute="width" constant="45" id="gvl-0F-ovh"/>
+                                        </constraints>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="ringWidth">
+                                                <real key="value" value="5"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="backgroundRingColor">
+                                                <color key="value" systemColor="systemGray4Color"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="startColor">
+                                                <color key="value" red="0.18522316220000001" green="0.70968812699999995" blue="0.29010152820000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="endColor">
+                                                <color key="value" red="0.18522316220000001" green="0.70968812699999995" blue="0.29010152820000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="progress">
+                                                <real key="value" value="0.0"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                <real key="value" value="0.0"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                    </view>
                                     <view userInteractionEnabled="NO" alpha="0.10000000149011612" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZVV-RR-fu0">
                                         <rect key="frame" x="0.0" y="0.0" width="300" height="420"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -174,6 +202,7 @@
                                     <constraint firstItem="hof-Vi-iyG" firstAttribute="leading" secondItem="5f4-VB-fee" secondAttribute="leading" id="SOD-RX-OLx"/>
                                     <constraint firstItem="hof-Vi-iyG" firstAttribute="top" secondItem="5f4-VB-fee" secondAttribute="top" id="Tcm-dA-wiA"/>
                                     <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="XRw-jS-BIz" secondAttribute="trailing" constant="20" id="TdL-xD-kVZ"/>
+                                    <constraint firstItem="fNy-h0-4q4" firstAttribute="centerX" secondItem="5f4-VB-fee" secondAttribute="centerX" id="WoK-b3-pus"/>
                                     <constraint firstAttribute="height" constant="420" id="YQI-xd-EkA">
                                         <variation key="heightClass=compact" constant="157.5"/>
                                     </constraint>
@@ -187,6 +216,7 @@
                                     <constraint firstItem="CNe-9a-jFM" firstAttribute="centerX" secondItem="5f4-VB-fee" secondAttribute="centerX" id="r4P-z5-6qO"/>
                                     <constraint firstAttribute="bottom" secondItem="sBX-Fn-uZu" secondAttribute="bottom" id="rMp-fE-Wcm"/>
                                     <constraint firstItem="pp4-e5-7lg" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="5f4-VB-fee" secondAttribute="leading" constant="30" id="t8S-vO-p9D"/>
+                                    <constraint firstItem="fNy-h0-4q4" firstAttribute="centerY" secondItem="5f4-VB-fee" secondAttribute="centerY" constant="90" id="ujw-Ir-uzk"/>
                                     <constraint firstItem="goi-gK-VMq" firstAttribute="leading" secondItem="5f4-VB-fee" secondAttribute="leading" id="ulP-Kc-c5Z"/>
                                     <constraint firstItem="pp4-e5-7lg" firstAttribute="top" secondItem="XRw-jS-BIz" secondAttribute="bottom" constant="70" id="vXy-8b-DFQ"/>
                                     <constraint firstAttribute="bottom" secondItem="hof-Vi-iyG" secondAttribute="bottom" id="vsX-6z-eaq"/>
@@ -212,6 +242,7 @@
                                     <outlet property="memMethodLabel" destination="3A7-tH-1cO" id="sp4-K3-bJR"/>
                                     <outlet property="rememberImageView" destination="sBX-Fn-uZu" id="Qda-zW-JPe"/>
                                     <outlet property="rememberLabel" destination="CNe-9a-jFM" id="VWP-A7-ozf"/>
+                                    <outlet property="ringView" destination="fNy-h0-4q4" id="cyb-q7-8Tb"/>
                                     <outlet property="wordLabel" destination="XRw-jS-BIz" id="34e-2a-lQb"/>
                                     <outlet property="wordLabel_Top_Space_Constraint" destination="wgw-CG-14T" id="xSK-6a-Y3F"/>
                                     <outletCollection property="gestureRecognizers" destination="37i-go-1xq" appends="YES" id="MNj-Mv-q4K"/>
@@ -338,6 +369,34 @@
                                             <outletCollection property="gestureRecognizers" destination="HP3-QU-9xe" appends="YES" id="C4u-Ai-Qwe"/>
                                         </connections>
                                     </view>
+                                    <view userInteractionEnabled="NO" alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uZr-Cj-yuI" customClass="MKRingProgressView">
+                                        <rect key="frame" x="127.5" y="277.5" width="45" height="45"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="45" id="5iX-LL-GSn"/>
+                                            <constraint firstAttribute="width" constant="45" id="d57-bl-siw"/>
+                                        </constraints>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="ringWidth">
+                                                <real key="value" value="5"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="backgroundRingColor">
+                                                <color key="value" systemColor="systemGray4Color"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="startColor">
+                                                <color key="value" red="0.18522316220000001" green="0.70968812699999995" blue="0.29010152820000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="endColor">
+                                                <color key="value" red="0.18522316220000001" green="0.70968812699999995" blue="0.29010152820000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="progress">
+                                                <real key="value" value="0.0"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                <real key="value" value="0.0"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                    </view>
                                     <view userInteractionEnabled="NO" alpha="0.10000000149011612" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Bgg-lm-4Yw">
                                         <rect key="frame" x="0.0" y="0.0" width="300" height="420"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -380,9 +439,11 @@
                                         <variation key="heightClass=compact" constant="157.5"/>
                                     </constraint>
                                     <constraint firstAttribute="trailing" secondItem="7bE-xG-5Jq" secondAttribute="trailing" id="dTf-9S-8Hb"/>
+                                    <constraint firstItem="uZr-Cj-yuI" firstAttribute="centerY" secondItem="4Lf-nj-uqS" secondAttribute="centerY" constant="90" id="eMO-1k-CCp"/>
                                     <constraint firstItem="VBV-PM-15B" firstAttribute="top" secondItem="4Lf-nj-uqS" secondAttribute="top" id="glZ-nj-aKi"/>
                                     <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="ang-Vi-cIz" secondAttribute="trailing" constant="20" id="h9u-Mh-2ZI"/>
                                     <constraint firstItem="ZXg-26-Ir8" firstAttribute="centerX" secondItem="4Lf-nj-uqS" secondAttribute="centerX" id="hPi-8X-ZA1"/>
+                                    <constraint firstItem="uZr-Cj-yuI" firstAttribute="centerX" secondItem="4Lf-nj-uqS" secondAttribute="centerX" id="nlv-o6-2ma"/>
                                     <constraint firstItem="MbE-dI-KRO" firstAttribute="centerY" secondItem="4Lf-nj-uqS" secondAttribute="centerY" id="ohz-6A-A3R"/>
                                     <constraint firstAttribute="bottom" secondItem="VBV-PM-15B" secondAttribute="bottom" id="q7I-FK-eGE"/>
                                     <constraint firstAttribute="trailing" secondItem="Bgg-lm-4Yw" secondAttribute="trailing" id="wAb-iv-2Qe"/>
@@ -404,6 +465,7 @@
                                     <outlet property="memMethodLabel" destination="uOp-nh-aq8" id="LlP-Ia-KKZ"/>
                                     <outlet property="rememberImageView" destination="7bE-xG-5Jq" id="w1i-po-2f6"/>
                                     <outlet property="rememberLabel" destination="86b-WZ-yMf" id="81P-OB-HZO"/>
+                                    <outlet property="ringView" destination="uZr-Cj-yuI" id="eMe-fv-YPS"/>
                                     <outlet property="wordLabel" destination="ang-Vi-cIz" id="nWL-p0-xgn"/>
                                     <outlet property="wordLabel_Top_Space_Constraint" destination="wby-WP-7Jb" id="hD5-OK-vuO"/>
                                     <outletCollection property="gestureRecognizers" destination="2ab-kG-nMs" appends="YES" id="ZGR-DA-mzz"/>
@@ -869,6 +931,9 @@
         <image name="wrong" width="242" height="242"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemGray4Color">
+            <color red="0.81960784313725488" green="0.81960784313725488" blue="0.83921568627450982" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemPinkColor">
             <color red="1" green="0.17647058823529413" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

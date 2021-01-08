@@ -18,7 +18,7 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
     let card_Y_constant:CGFloat = -30
     let animationDuration = 0.15
     let firstReviewDelayInMin = 60
-    
+    let progressViewAnimationDuration = 2.5
     var currentMode:Int! // 1: Learn, 2: Review
     
     // MARK: - Variables
@@ -419,8 +419,8 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
             meaningLabelTxt = finalStringArr.joined(separator: "")
         }
         card.wordLabel?.text = cardWord.headWord
-        let current_word: String = cardWord.headWord
-        let indexItem:[Int] = Word_indexs_In_Oalecd8[current_word]!
+//        let current_word: String = cardWord.headWord
+//        let indexItem:[Int] = Word_indexs_In_Oalecd8[current_word]!
         
         DispatchQueue.main.async {
             if cardWord.headWord.count >= 10{
@@ -450,10 +450,17 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
             }
             card.meaningLabel?.alpha = 1
             card.wordLabel?.alpha = 1
-            
-            if memStage == 2{
+            if memStage == 1{
+                card.ringView?.alpha = 0
+                card.ringView?.progress = 0
+            }
+            else if memStage == 2{
+                card.ringView?.alpha = 1
+                card.ringView?.progress = 0
                 card.meaningLabel?.alpha = 0
             } else if memStage == 3{
+                card.ringView?.alpha = 1
+                card.ringView?.progress = 0
                 card.wordLabel?.alpha = 0
             }
 
@@ -672,6 +679,34 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
             learnUIView.bringSubviewToFront(next_card)
             next_card.dragable = !next_card.dragable
             
+            if next_card.meaningLabel!.alpha < 1e-5 {
+                next_card.ringView?.alpha = 1
+                UIView.animate(withDuration: progressViewAnimationDuration, animations: {
+                    next_card.ringView?.progress = 1.0
+                }) { (finished) in
+                    // fade out
+                    next_card.ringView?.alpha = 0.0
+                    
+                    UIView.animate(withDuration: 1.0, animations: {
+                        next_card.meaningLabel!.alpha = 1.0
+                        next_card.memMethodLabel!.alpha = 1.0
+                    })
+                }
+            }
+            if next_card.wordLabel!.alpha < 1e-5 {
+                next_card.ringView?.alpha = 1
+                
+                UIView.animate(withDuration: progressViewAnimationDuration, animations: {
+                    next_card.ringView?.progress = 1.0
+                }) { (finished) in
+                    // fade out
+                    next_card.ringView?.alpha = 0.0
+                    UIView.animate(withDuration: 1.0, animations: {
+                        next_card.wordLabel!.alpha = 1.0
+                        next_card.memMethodLabel!.alpha = 1.0
+                    })
+                }
+            }
             
             let wordQuequeItem = currentWordLabelQueue.first!
             let memStageCurrent: Int = wordQuequeItem[1]
@@ -992,8 +1027,36 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
                 lastCard.X_Constraint.constant = lastCard.center.x - self.view.center.x
                 lastCard.Y_Constraint.constant = lastCard.center.y - self.view.center.y
                 lastCard.alpha = 1
+            }, completion: { [self] _ in
+                if lastCard.meaningLabel!.alpha < 1e-5 {
+                    lastCard.ringView?.alpha = 1
+                    UIView.animate(withDuration: progressViewAnimationDuration, animations: {
+                        lastCard.ringView?.progress = 1.0
+                    }) { (finished) in
+                        // fade out
+                        lastCard.ringView?.alpha = 0.0
+                        
+                        UIView.animate(withDuration: 1.0, animations: {
+                            lastCard.meaningLabel!.alpha = 1.0
+                            lastCard.memMethodLabel!.alpha = 1.0
+                        })
+                    }
+                }
+                if lastCard.wordLabel!.alpha < 1e-5 {
+                    lastCard.ringView?.alpha = 1
+                    
+                    UIView.animate(withDuration: progressViewAnimationDuration, animations: {
+                        lastCard.ringView?.progress = 1.0
+                    }) { (finished) in
+                        // fade out
+                        lastCard.ringView?.alpha = 0.0
+                        UIView.animate(withDuration: 1.0, animations: {
+                            lastCard.wordLabel!.alpha = 1.0
+                            lastCard.memMethodLabel!.alpha = 1.0
+                        })
+                    }
+                }
             })
-            
             
             let gestureRecognizer = self.gestureRecognizers[currentIndex % 2]
             gestureRecognizer.view!.frame = lastCard.frame
