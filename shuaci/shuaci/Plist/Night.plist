@@ -32,7 +32,7 @@
 		<key>MiddleLowProgressBarColor</key>
 		<string>#d68b1a</string>
 		<key>LowProgressBarColor</key>
-		<string>#676767</string>
+		<string>#c4c4c4</string>
 		<key>headerViewTextColor</key>
 		<string>#6c6c6c</string>
 		<key>segmentedCtrlSelectedTintColor</key>

@@ -240,10 +240,10 @@ extension WordHistoryViewController: UITableViewDataSource, UITableViewDelegate{
             if (dayDiff != 0){
                 timer_text = timer_text + "\(abs(dayDiff))天"
             }
-            if (hourDiff > 0 || dayDiff != 0){
+            if ((hourDiff != 0) || (dayDiff != 0)) {
                 timer_text = timer_text + String(format: "%02d", abs(hourDiff)) + "时"
             }
-            if (minuteDiff > 0  || hourDiff > 0 || dayDiff != 0) {
+            if ((minuteDiff != 0) || (hourDiff != 0)) {
                 timer_text = timer_text + String(format: "%02d", abs(minuteDiff)) + "分"
             }
             if dayDiff == 0{
