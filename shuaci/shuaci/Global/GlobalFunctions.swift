@@ -162,6 +162,7 @@ func saveRecordsToCloud(currentUser: LCUser){
             
             let recordLC = LCObject(className: "Record")
             try recordLC.set("user", value: currentUser)
+            try recordLC.set("uuid", value: record.uuid)
             try recordLC.set("recordType", value: record.recordType)
             try recordLC.set("startDate", value: record.startDate)
             try recordLC.set("endDate", value: record.endDate)
@@ -277,16 +278,11 @@ func loadVocabRecordsFromCloud(currentUser: LCUser){
                                 case .success(object: let rec):
                                     let jsonStr = rec.get("jsonStr")!.stringValue!
                                     let data = jsonStr.data(using: .utf8)!
-                                    do {
-                                        if let vocab_records = try JSONSerialization.jsonObject(with: data, options : .allowFragments) as? [VocabularyRecord]
-                                        {
-                                            global_vocabs_records = vocab_records
-                                            print(vocab_records) // use the json here
-                                        } else {
-                                            print("bad json in VocabRecord from LeanCloud")
-                                        }
-                                    } catch let error {
-                                        print(error.localizedDescription)
+                                    if let vocab_records = try? JSONDecoder().decode([VocabularyRecord].self, from: data)
+                                    {
+                                        global_vocabs_records = vocab_records
+                                    } else {
+                                        print("bad json in VocabRecord from LeanCloud")
                                     }
                                 case .failure(error: let error):
                                     print(error.localizedDescription)
