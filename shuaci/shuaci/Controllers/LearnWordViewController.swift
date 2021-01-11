@@ -38,6 +38,9 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
     
     var secondsPST:Int = 0 // number of seconds past after load
     var card_behaviors:[Int: [Int]] = [:] //word index: Int , card Behavoirs[forget: 0, remember: 1, trash: 2\]
+    var card_actions:[Int: [Int]] = [:] //word index: Int , card Behavoirs[forget: 0, remember: 1, trash: 2\]
+    var card_behavior_dates:[Int: [Date]] = [:] //word index: Int , card Behavoirs[forget: 0, remember: 1, trash: 2\]
+    
     var card_collect_behaviors: [CardCollectBehavior] = [] // card Behavoir: (collect: 1, else 0)
     
     var firstMemLeftNum: Int = 0
@@ -275,32 +278,6 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
         }
     }
     
-    @IBAction func showfullCard(_ sender: UITapGestureRecognizer) {
-        let card = cards[currentIndex % 2]
-        if card.meaningLabel!.alpha < 1e-5 {
-            UIView.animate(withDuration: 1.0, animations: {
-                card.meaningLabel!.alpha = 1.0
-            }) { (finished) in
-                // fade out
-                UIView.animate(withDuration: 1.0, animations: {
-                    card.memMethodLabel!.alpha = 1.0
-                })
-            }
-        }
-        if card.wordLabel!.alpha < 1e-5 {
-           let word: String = card.wordLabel?.text ?? ""
-           playMp3GivenWord(word: word)
-           UIView.animate(withDuration: 1.0, animations: {
-                card.wordLabel!.alpha = 1.0
-            }) { (finished) in
-                // fade out
-                UIView.animate(withDuration: 1.0, animations: {
-                    card.memMethodLabel!.alpha = 1.0
-                })
-            }
-        }
-    }
-    
     @IBAction func flipCard(_ sender: Any) {
         let card = cards[currentIndex % 2]
         if isCardBack {
@@ -419,8 +396,6 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
             meaningLabelTxt = finalStringArr.joined(separator: "")
         }
         card.wordLabel?.text = cardWord.headWord
-//        let current_word: String = cardWord.headWord
-//        let indexItem:[Int] = Word_indexs_In_Oalecd8[current_word]!
         
         DispatchQueue.main.async {
             if cardWord.headWord.count >= 10{
@@ -448,28 +423,29 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
             }else{
                 card.collectImageView.alpha = 0
             }
-            card.meaningLabel?.alpha = 1
-            card.wordLabel?.alpha = 1
+            
             if memStage == 1{
                 card.ringView?.alpha = 0
                 card.ringView?.progress = 0
+                card.meaningLabel?.alpha = 1
+                card.wordLabel?.alpha = 1
             }
             else if memStage == 2{
                 card.ringView?.alpha = 1
                 card.ringView?.progress = 0
+                card.wordLabel?.alpha = 1
                 card.meaningLabel?.alpha = 0
             } else if memStage == 3{
                 card.ringView?.alpha = 1
                 card.ringView?.progress = 0
                 card.wordLabel?.alpha = 0
+                card.meaningLabel?.alpha = 1
             }
 
-            if memStage > 1{
-                card.memMethodLabel?.alpha = 0
+            if memStage == 1 && cardWord.memMethod != ""{
+                card.memMethodLabel?.alpha = 1
             }else{
-                if cardWord.memMethod != ""{
-                    card.memMethodLabel?.alpha = 1
-                }
+                card.memMethodLabel?.alpha = 0
             }
         }
     }
@@ -484,7 +460,7 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
                     
                     let word = words[index % words.count]
                     let cardWord = getFeildsOfWord(word: word, usphone: preference.us_pronunciation)
-                    let vocabRecord: VocabularyRecord = VocabularyRecord.init(VocabHead: "\(cardWord.headWord)", BookId: current_book_id, LearnDate: nil, CollectDate: nil, Mastered: false, MasteredDate: nil, ReviewDUEDate: nil, BehaviorHistory: [])
+                    let vocabRecord: VocabularyRecord = VocabularyRecord.init(VocabHead: "\(cardWord.headWord)", BookId: current_book_id, LearnDate: nil, CollectDate: nil, Mastered: false, MasteredDate: nil, ReviewDUEDate: nil, BehaviorHistory: [], BehaviorDates: [])
                     
                     vocabRecordsOfCurrent.append(vocabRecord)
                     card_collect_behaviors.append(.no)
@@ -502,6 +478,7 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
                     }
                     mastered.append(vocab_rec_need_to_be_review[index].Mastered)
                     card_behaviors[index] = vocabRecordsOfCurrent[index].BehaviorHistory
+                    card_behavior_dates[index] = vocabRecordsOfCurrent[index].BehaviorDates
                 }
             }
             
@@ -522,7 +499,9 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
                 }
                 if let bhvs = card_behaviors[index]{
                     if bhvs.count != vocabRecordsOfCurrent[index].BehaviorHistory.count{
+                        
                         reviewed_vocabRec.append(vocabRecordsOfCurrent[index])
+                        
                         vocabRecordsOfCurrent[index].NumOfReview += 1
                         continue
                     }
@@ -557,6 +536,7 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
             } else{
                 if let bhvs = card_behaviors[index]{
                     if bhvs.count != vocabRecordsOfCurrent[index].BehaviorHistory.count{
+                        
                         vocabRecordsOfCurrent[index].ReviewDUEDate = Date().adding(durationVal: calcSecondsDurationGivenBehaviorHistory(cardBehaviorHistory: bhvs), durationType: .second)
                     }
                 }
@@ -566,6 +546,9 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
                 vocabRecordsOfCurrent[index].BehaviorHistory = bhvs
             }
             
+            if let bhvs_dates = card_behavior_dates[index]{
+                vocabRecordsOfCurrent[index].BehaviorDates = bhvs_dates
+            }
         }
         
         currentRec!.vocabHeads = reviewed_vocabRec.map {$0.VocabHead}
@@ -626,8 +609,10 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
                 print("Nothing")
         }
         
+        self.updateWordLeftLabels(currentMemStage: memStage)
+        
         if !masteredAction{
-            let cardAction: Int = card_behaviors[wordIndex]!.last!
+            let cardAction: Int = card_actions[wordIndex]!.last!
             if !(memStage == WordMemStage.cnToEn.rawValue && cardAction == CardBehavior.remember.rawValue){
                 var nextStage = WordMemStage.memory.rawValue
                 if memStage == WordMemStage.memory.rawValue{
@@ -659,7 +644,6 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
         }
         
         if wordsQueue.count == 0 && currentWordLabelQueue .count == 0{
-            updateWordLeftLabels(currentMemStage: memStage)
             
             summary_records_into_vocab_records()
             saveRecordsFromLearning()
@@ -681,8 +665,12 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
             learnUIView.bringSubviewToFront(next_card)
             next_card.dragable = !next_card.dragable
             
-            if next_card.meaningLabel!.alpha < 1e-5 {
+            let wordQuequeItem = currentWordLabelQueue.first!
+            let memStageCurrent: Int = wordQuequeItem[1]
+            
+            if memStageCurrent == WordMemStage.enToCn.rawValue {
                 next_card.ringView?.alpha = 1
+                
                 UIView.animate(withDuration: progressViewAnimationDuration, animations: {
                     next_card.ringView?.progress = 1.0
                 }) { (finished) in
@@ -695,7 +683,7 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
                     })
                 }
             }
-            if next_card.wordLabel!.alpha < 1e-5 {
+            if memStageCurrent == WordMemStage.cnToEn.rawValue {
                 next_card.ringView?.alpha = 1
                 
                 UIView.animate(withDuration: progressViewAnimationDuration, animations: {
@@ -712,11 +700,6 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
                     self.playMp3GivenWord(word: wordStr)
                 }
             }
-            
-            let wordQuequeItem = currentWordLabelQueue.first!
-            let memStageCurrent: Int = wordQuequeItem[1]
-            updateWordLeftLabels(currentMemStage: memStageCurrent)
-//            self.updateProgressLabel(index: wordIndex)
             
             //Prepare Next Card
             if currentWordLabelQueue.count > 1{
@@ -787,10 +770,29 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
                     })
                     
                     let wordIndex: Int = currentWordLabelQueue[0][0]
-                    if card_behaviors[wordIndex] == nil{
-                        card_behaviors[wordIndex] = []
+                    
+                    if card_actions[wordIndex] == nil{
+                        card_actions[wordIndex] = []
                     }
-                    card_behaviors[wordIndex]!.append(CardBehavior.remember.rawValue)
+                    
+                    card_actions[wordIndex]!.append(CardBehavior.remember.rawValue)
+                    
+                    let currentMemStage: Int = currentWordLabelQueue[0][1]
+                    
+                    if currentMemStage == WordMemStage.memory.rawValue{
+                        
+                        if card_behaviors[wordIndex] == nil{
+                            card_behaviors[wordIndex] = []
+                        }
+                        
+                        if card_behavior_dates[wordIndex] == nil{
+                            card_behavior_dates[wordIndex] = []
+                        }
+                        
+                        card_behaviors[wordIndex]!.append(CardBehavior.remember.rawValue)
+                        
+                        card_behavior_dates[wordIndex]!.append(Date())
+                    }
                     
                     self.currentIndex += 1
                     if currentWordLabelQueue.count > 1{
@@ -822,13 +824,31 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
                     })
                     
                     let wordIndex: Int = currentWordLabelQueue[0][0]
-                    if card_behaviors[wordIndex] == nil{
-                        card_behaviors[wordIndex] = []
-                        
-                    }
-                    card_behaviors[wordIndex]!.append(CardBehavior.forget.rawValue)
                     
-
+                    if card_actions[wordIndex] == nil{
+                        card_actions[wordIndex] = []
+                    }
+                    
+                    card_actions[wordIndex]!.append(CardBehavior.forget.rawValue)
+                    
+                    let currentMemStage: Int = currentWordLabelQueue[0][1]
+                    
+                    if currentMemStage == WordMemStage.memory.rawValue{
+                        if card_behaviors[wordIndex] == nil{
+                            card_behaviors[wordIndex] = []
+                            
+                        }
+                        
+                        if card_behavior_dates[wordIndex] == nil{
+                            card_behavior_dates[wordIndex] = []
+                            
+                        }
+                        
+                        card_behaviors[wordIndex]!.append(CardBehavior.forget.rawValue)
+                        
+                        card_behavior_dates[wordIndex]!.append(Date())
+                    }
+                    
                     sender.view!.frame = card.frame
                     self.currentIndex += 1
                     if currentWordLabelQueue.count > 1{
@@ -867,8 +887,11 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
         card.rememberImageView?.alpha = 0
         card.rememberLabel?.text = ""
         card.rememberLabel?.alpha = 0
+        card.memMethodLabel?.alpha = 0
         card.memMethodLabel?.text = ""
+        card.wordLabel?.alpha = 0
         card.wordLabel?.text = ""
+        card.meaningLabel?.alpha = 0
         card.meaningLabel?.text = ""
         card.layer.removeAllAnimations()
         card.transform = CGAffineTransform.identity.scaledBy(x: scaleOfSecondCard, y: scaleOfSecondCard)
@@ -1033,7 +1056,7 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
                 lastCard.Y_Constraint.constant = lastCard.center.y - self.view.center.y
                 lastCard.alpha = 1
             }, completion: { [self] _ in
-                if lastCard.meaningLabel!.alpha < 1e-5 {
+                if lastMemStage == WordMemStage.enToCn.rawValue {
                     lastCard.ringView?.alpha = 1
                     UIView.animate(withDuration: progressViewAnimationDuration, animations: {
                         lastCard.ringView?.progress = 1.0
@@ -1047,7 +1070,7 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
                         })
                     }
                 }
-                if lastCard.wordLabel!.alpha < 1e-5 {
+                if lastMemStage == WordMemStage.cnToEn.rawValue  {
                     lastCard.ringView?.alpha = 1
                     
                     UIView.animate(withDuration: progressViewAnimationDuration, animations: {
@@ -1094,11 +1117,21 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
             }
             
             wordsQArray.removeLast()
-            if card_behaviors[lastWordIndex] != nil && card_behaviors[lastWordIndex]!.count > 0{
-                card_behaviors[lastWordIndex]!.removeLast()
+            
+            if card_actions[lastWordIndex] != nil && card_actions[lastWordIndex]!.count > 0{
+                card_actions[lastWordIndex]!.removeLast()
             }
             
-//            self.updateProgressLabel(index: lastWordIndex)
+            if lastMemStage == WordMemStage.memory.rawValue{
+                if card_behaviors[lastWordIndex] != nil && card_behaviors[lastWordIndex]!.count > 0{
+                    card_behaviors[lastWordIndex]!.removeLast()
+                }
+                
+                if card_behavior_dates[lastWordIndex] != nil && card_behavior_dates[lastWordIndex]!.count > 0{
+                    card_behavior_dates[lastWordIndex]!.removeLast()
+                }
+            }
+            
             enableBtns()
         }
         else{
@@ -1140,14 +1173,37 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
                     self.gestureRecognizers[self.currentIndex % 2].view!.frame = card.frame
                     
                     let wordIndex: Int = self.currentWordLabelQueue[0][0]
-                    if self.card_behaviors[wordIndex] == nil{
-                        self.card_behaviors[wordIndex] = []
+                    
+                    if self.card_actions[wordIndex] == nil{
+                        self.card_actions[wordIndex] = []
                     }
+                    
+                    let currentMemStage: Int = self.currentWordLabelQueue[0][0]
+                    if currentMemStage == WordMemStage.memory.rawValue{
+                        if self.card_behaviors[wordIndex] == nil{
+                            self.card_behaviors[wordIndex] = []
+                        }
+                        
+                        if self.card_behavior_dates[wordIndex] == nil{
+                            self.card_behavior_dates[wordIndex] = []
+                        }
+                    }
+                    
                     switch cardBehavior{
                     case .remember:
-                        self.card_behaviors[wordIndex]!.append(CardBehavior.remember.rawValue)
+                        self.card_actions[wordIndex]!.append(CardBehavior.remember.rawValue)
+                        if currentMemStage == WordMemStage.memory.rawValue{
+                            self.card_behaviors[wordIndex]!.append(CardBehavior.remember.rawValue)
+                            self.card_behavior_dates[wordIndex]!.append(Date())
+                        }
+                        
                     case .forget:
-                        self.card_behaviors[wordIndex]!.append(CardBehavior.forget.rawValue)
+                        self.card_actions[wordIndex]!.append(CardBehavior.forget.rawValue)
+                        if currentMemStage == WordMemStage.memory.rawValue{
+                            self.card_behaviors[wordIndex]!.append(CardBehavior.forget.rawValue)
+                            self.card_behavior_dates[wordIndex]!.append(Date())
+                        }
+                        
                     case .trash:
                         self.mastered[wordIndex] = true
                     }
