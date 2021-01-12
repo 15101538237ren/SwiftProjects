@@ -12,6 +12,21 @@ import LeanCloud
 import SwiftyJSON
 
 
+func initIndicator(view: UIView){
+    hud.textLabel.text = "加载中"
+    hud.textLabel.theme_textColor = "IndicatorColor"
+    hud.backgroundColor = .clear
+    hud.show(in: view)
+}
+
+func stopIndicator(){
+    hud.dismiss()
+}
+
+func isKeyPresentInUserDefaults(key: String) -> Bool {
+    return UserDefaults.standard.object(forKey: key) != nil
+}
+
 // MARK: - Preference Util
 /**
  

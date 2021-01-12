@@ -11,6 +11,8 @@ import LeanCloud
 import CropViewController
 import SwiftTheme
 import Disk
+import Nuke
+import SwifterSwift
 
 class UserProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, CropViewControllerDelegate{
     
@@ -29,6 +31,7 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
     @IBOutlet var numMinutesTodayLabel: UILabel!
     @IBOutlet var numWordCumulatedLabel: UILabel!
     @IBOutlet var numMinutesCumulatedLabel: UILabel!
+    @IBOutlet weak var nameLabel: UILabel!
     
     @IBOutlet var overView: UIView!{
         didSet {
@@ -42,39 +45,6 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
         didSet{
             logoutBtn.theme_tintColor = "Global.backBtnTintColor"
         }
-    }
-    
-    func initActivityIndicator(text: String) {
-        activityLabel.removeFromSuperview()
-        activityIndicator.removeFromSuperview()
-        activityEffectView.removeFromSuperview()
-        let height:CGFloat = 46.0
-        activityLabel = UILabel(frame: CGRect(x: 50, y: 0, width: 200, height: height))
-        activityLabel.text = text
-        activityLabel.font = .systemFont(ofSize: 14, weight: .medium)
-        activityLabel.textColor = .darkGray
-        activityLabel.alpha = 1.0
-        activityEffectView.frame = CGRect(x: view.frame.midX - activityLabel.frame.width/2, y: view.frame.midY - activityLabel.frame.height/2 , width: 220, height: height)
-        activityEffectView.layer.cornerRadius = 15
-        activityEffectView.layer.masksToBounds = true
-        activityEffectView.backgroundColor = UIColor(red: 244, green: 244, blue: 245, alpha: 1.0)
-        
-        activityEffectView.alpha = 1.0
-        activityIndicator = .init(style: .medium)
-        activityIndicator.frame = CGRect(x: 0, y: 0, width: height, height: height)
-        activityIndicator.alpha = 1.0
-        activityIndicator.startAnimating()
-
-        activityEffectView.contentView.addSubview(activityIndicator)
-        activityEffectView.contentView.addSubview(activityLabel)
-        view.addSubview(activityEffectView)
-    }
-    
-    func stopIndicator(){
-        self.activityIndicator.stopAnimating()
-        self.activityIndicator.hidesWhenStopped = true
-        self.activityEffectView.alpha = 0
-        self.activityLabel.alpha = 0
     }
     
     @IBOutlet var userPhotoBtn: UIButton!{
@@ -100,14 +70,168 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
     
     override func viewDidLoad() {
         view.theme_backgroundColor = "Global.viewBackgroundColor"
-        backBtn.theme_tintColor = "Global.backBtnTintColor"
-        updateUserPhoto()
         view.isOpaque = false
         
+        backBtn.theme_tintColor = "Global.backBtnTintColor"
+        
+        addGestureRecognizers()
+        updateUserPhoto()
+        updateDisplayName()
         getStatOfToday()
-        
         super.viewDidLoad()
+    }
+    
+    func addGestureRecognizers(){
+        let labelTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(popNameTextInputAlert(tapGestureRecognizer:)))
+        nameLabel.isUserInteractionEnabled = true
+        nameLabel.addGestureRecognizer(labelTapGestureRecognizer)
+    }
+    
+    func updateDisplayName(){
+        let key:String = "\(currentUser.objectId!.stringValue!)_display_name"
+        if !isKeyPresentInUserDefaults(key: key){
+            _ = currentUser.fetch(keys: ["name"]) { result in
+                switch result {
+                case .success:
+                    if let name:String = self.currentUser.get("name")?.stringValue{
+                        DispatchQueue.main.async {
+                            self.nameLabel.text = name
+                        }
+                    }
+                case .failure(error: let error):
+                    print(error.localizedDescription)
+                }
+            }
+        }else{
+            if let name:String = UserDefaults.standard.string(forKey: key){
+                DispatchQueue.main.async {
+                    self.nameLabel.text = name
+                }
+            }
+        }
+    }
+    
+    func setElements(enable: Bool){
+        self.view.isUserInteractionEnabled = enable
+        self.backBtn.isUserInteractionEnabled = enable
+        self.logoutBtn.isUserInteractionEnabled = enable
+        self.nameLabel.isUserInteractionEnabled = enable
+        self.userPhotoBtn.isUserInteractionEnabled = enable
+        self.cameraIconBtn.isUserInteractionEnabled = enable
+    }
+    
+    func setDisplayName(name: String){
+        if !Reachability.isConnectedToNetwork(){
+            self.view.makeToast(NoNetworkStr, duration: 1.0, position: .center)
+            return
+        }
+        initIndicator(view: self.view)
+        setElements(enable: false)
+        do {
+            try currentUser.set("name", value: name)
+            _ = currentUser.save { [self] result in
+                stopIndicator()
+                switch result {
+                case .success:
+                    print("updated display name successful!")
+                    UserDefaults.standard.setValue(name, forKey: "\(currentUser.objectId!.stringValue!)_display_name")
+                    mainPanelViewController.currentUser = currentUser
+                    DispatchQueue.main.async { [self] in
+                        nameLabel.text = name
+                    }
+                case .failure(error: let error):
+                    self.view.makeToast("设置失败，请稍后重试!\(error.reason?.stringValue ?? "")", duration: 1.2, position: .center)
+                }
+                self.setElements(enable: true)
+            }
+        }catch {
+            stopIndicator()
+            self.setElements(enable: true)
+            self.view.makeToast("设置失败，请稍后重试!", duration: 1.0, position: .center)
+        }
+    }
+    
+    @objc func popNameTextInputAlert(tapGestureRecognizer: UITapGestureRecognizer){
+        let alertController = UIAlertController(title: "设置显示名称", message: "", preferredStyle: .alert)
         
+        alertController.addTextField(text: "", placeholder: "输入显示名称", editingChangedTarget: nil, editingChangedSelector: nil)
+        
+        let setAction = UIAlertAction(title: "确定", style: .default){ _ in
+            let name: String = alertController.textFields!.first!.text ?? ""
+            if !name.isEmpty{
+                self.setDisplayName(name: name)
+                alertController.dismiss(animated: true, completion: nil)
+            }else{
+                self.view.makeToast("请输入显示名称", duration: 1.2, position: .center)
+            }
+            
+         }
+        
+        let cancelAction = UIAlertAction(title: "取消", style: .cancel){ _ in
+            alertController.dismiss(animated: true, completion: nil)
+        }
+
+        alertController.addAction(setAction)
+        alertController.addAction(cancelAction)
+
+        present(alertController, animated: true)
+    }
+    
+    func updateUserPhoto() {
+        let userId = currentUser.objectId!.stringValue!
+        let avatar_fp = "user_avatar_\(userId).jpg"
+        do {
+            let retrievedImage = try Disk.retrieve(avatar_fp, from: .documents, as: UIImage.self)
+            print("retrieved Avatar Successful!")
+            DispatchQueue.main.async {
+                self.userPhotoBtn.setImage(retrievedImage, for: [])
+                self.userPhotoBtn.setNeedsDisplay()
+            }
+        } catch {
+            getUserPhoto()
+            print(error)
+        }
+    }
+    
+    func getUserPhoto(){
+        if Reachability.isConnectedToNetwork(){
+            DispatchQueue.global(qos: .background).async { [self] in
+                if let file = currentUser.get("avatar") as? LCFile {
+                    
+                    let imgUrl = URL(string: file.url!.stringValue!)!
+                    
+                    _ = ImagePipeline.shared.loadImage(
+                        with: imgUrl,
+                        completion: { [self] response in
+                            switch response {
+                              case .failure:
+                                break
+                              case let .success(imageResponse):
+                                let image = imageResponse.image
+                                
+                                DispatchQueue.main.async {
+                                    self.userPhotoBtn.setImage(image, for: [])
+                                    self.userPhotoBtn.setNeedsDisplay()
+                                }
+                                let userID = currentUser.objectId!.stringValue!
+                                
+                                let avatar_fp = "user_avatar_\(userID).jpg"
+                                
+                                do {
+                                    try Disk.save(image, to: .documents, as: avatar_fp)
+                                    print("Save Downloaded Avatar Successful!")
+                                } catch {
+                                    print(error)
+                                }
+                              }
+                        }
+                    )
+                }
+            }
+        }else{
+            self.view.makeToast(NoNetworkStr, duration: 1.0, position: .center)
+        }
+
     }
     
     func getStatOfToday(){
@@ -177,21 +301,6 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
     func presentAlertInView(title: String, message: String, okText: String){
         let alertController = presentAlert(title: title, message: message, okText: okText)
         self.present(alertController, animated: true)
-    }
-    
-    func updateUserPhoto() {
-        let userId = currentUser.objectId!.stringValue!
-        let avatar_fp = "user_avatar_\(userId).jpg"
-        do {
-            let retrievedImage = try Disk.retrieve(avatar_fp, from: .documents, as: UIImage.self)
-            print("retrieved Avatar Successful!")
-            DispatchQueue.main.async {
-                self.userPhotoBtn.setImage(retrievedImage, for: [])
-                self.userPhotoBtn.setNeedsDisplay()
-            }
-        } catch {
-            print(error)
-        }
     }
     
     @IBAction func logOut(_ sender: UIButton) {
@@ -325,6 +434,7 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
                 currentUser.save { (result) in
                     switch result {
                     case .success:
+                        mainPanelViewController.currentUser = currentUser
                         print("Cloud User Photo Saved Successful!")
                     case .failure(error: let error):
                         print(error)

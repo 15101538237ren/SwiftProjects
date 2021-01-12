@@ -121,9 +121,6 @@ class LoginVC: UIViewController {
     
     // MARK: - Custom Functions
     
-    func isKeyPresentInUserDefaults(key: String) -> Bool {
-        return UserDefaults.standard.object(forKey: key) != nil
-    }
     
     func setElements(enable: Bool){
         self.backBtn.isUserInteractionEnabled = enable

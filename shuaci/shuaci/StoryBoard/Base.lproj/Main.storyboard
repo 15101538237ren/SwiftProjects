@@ -987,6 +987,7 @@
                         <outlet property="backBtn" destination="Agh-jn-UNO" id="MQI-FW-zKc"/>
                         <outlet property="cameraIconBtn" destination="xgU-dS-aoX" id="pLT-fq-fRl"/>
                         <outlet property="logoutBtn" destination="Jcd-UN-SIv" id="5JR-k9-eNY"/>
+                        <outlet property="nameLabel" destination="kSk-VG-RqQ" id="pTa-o3-dT1"/>
                         <outlet property="numMinutesCumulatedLabel" destination="Shm-JZ-8ee" id="o33-5a-OYC"/>
                         <outlet property="numMinutesTodayLabel" destination="zj7-uh-N0N" id="QCD-ku-7OX"/>
                         <outlet property="numWordCumulatedLabel" destination="FFa-cB-0gj" id="3Ph-qF-y6N"/>
@@ -1072,7 +1073,7 @@
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="AMQ-JB-XIg">
                                                     <rect key="frame" x="20" y="36.5" width="86" height="47.5"/>
                                                     <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="vocabulary" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gBR-9h-OCQ">
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="vocabulary" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gBR-9h-OCQ">
                                                             <rect key="frame" x="0.0" y="0.0" width="86" height="20.5"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" relation="lessThanOrEqual" constant="180" id="sTF-WC-ytT"/>
@@ -1081,7 +1082,7 @@
                                                             <color key="textColor" systemColor="darkTextColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ioo-s1-f83">
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ioo-s1-f83">
                                                             <rect key="frame" x="0.0" y="30.5" width="86" height="17"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" relation="lessThanOrEqual" constant="180" id="XZM-SJ-y6s"/>

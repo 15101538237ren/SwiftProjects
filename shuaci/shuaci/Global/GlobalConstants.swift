@@ -28,7 +28,7 @@ let UserDisabledContent: String = "如有疑问，请联系:\(OfficialEmail)"
 
 let QueryLimit: Int = 1000
 
-let numberOfContDaysForMasteredAWord:Int = 5 //多少次连续记住算是掌握
+let numberOfContDaysForMasteredAWord:Int = 4 //多少次连续记住算是掌握
 
 let minToChangingWallpaper:CGFloat = 0.5
 
