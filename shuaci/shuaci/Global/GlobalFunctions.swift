@@ -669,7 +669,7 @@ func formatDateAsCategory(dates: [Date], byDay: Bool = true) -> [String] {
             if date.isInSameMonth(as: Date()){
                 categories.append("本月")
             }else{
-                formatter.dateFormat = "MM"
+                formatter.dateFormat = "MM月"
                 let dateStr = formatter.string(from: date)
                 categories.append(dateStr)
             }
@@ -781,7 +781,7 @@ func get_vocab_rec_need_to_be_review() -> [VocabularyRecord]{
     return vocab_rec_need_to_be_review
 }
 
-func getCumulatedMasteredByDate(dates: [Date], byDay: Bool = true, cumulated: Bool = true) -> [Int]{
+func getCumulatedMasteredByDate(dates: [Date], byDay: Bool = true, cumulated: Bool = true) -> [Double]{
     
     var reviewedVocabIdDateDict:[String: Date] = [:]
     
@@ -808,7 +808,7 @@ func getCumulatedMasteredByDate(dates: [Date], byDay: Bool = true, cumulated: Bo
         }
     }
     
-    var cumMastered:[Int] = []
+    var cumMastered:[Double] = []
     for di in 0..<dates.count{
         cumMastered.append(0)
         for vocab in masteredVocabs{
@@ -844,9 +844,9 @@ func getCumulatedMasteredByDate(dates: [Date], byDay: Bool = true, cumulated: Bo
 }
 
 
-func getCumulatedLearnedByDate(dates: [Date], byDay: Bool = true, cumulated: Bool = true) -> [Int]{
+func getCumulatedLearnedByDate(dates: [Date], byDay: Bool = true, cumulated: Bool = true) -> [Double]{
     
-    var cumLearned:[Int] = []
+    var cumLearned:[Double] = []
     
     let LearningRecords:[Record] = global_records.filter { $0.recordType == 1 }
     
@@ -855,11 +855,11 @@ func getCumulatedLearnedByDate(dates: [Date], byDay: Bool = true, cumulated: Boo
         for lrec in LearningRecords{
             if byDay{
                 if Calendar.current.isDate(lrec.endDate, inSameDayAs: dates[di]){
-                    cumLearned[di] += lrec.vocabHeads.count
+                    cumLearned[di] += Double(lrec.vocabHeads.count)
                 }
             } else{
                 if dates[di].isInSameMonth(as: lrec.endDate){
-                    cumLearned[di] += lrec.vocabHeads.count
+                    cumLearned[di] += Double(lrec.vocabHeads.count)
                 }
             }
             
@@ -871,9 +871,9 @@ func getCumulatedLearnedByDate(dates: [Date], byDay: Bool = true, cumulated: Boo
     return cumLearned
 }
 
-func getCumHoursByDate(dates: [Date], byDay: Bool = true, cumulated: Bool = true, Learn: Bool = true) -> [Float]{
+func getCumHoursByDate(dates: [Date], byDay: Bool = true, cumulated: Bool = true, Learn: Bool = true) -> [Double]{
     
-    var cumLearned:[Float] = []
+    var cumLearned:[Double] = []
     
     let LearningRecords:[Record] = global_records.filter { $0.recordType == 1 }
     
@@ -887,14 +887,14 @@ func getCumHoursByDate(dates: [Date], byDay: Bool = true, cumulated: Bool = true
                     if Calendar.current.isDate(lrec.endDate, inSameDayAs: dates[di]){
                         let difference = Calendar.current.dateComponents([.second], from: lrec.startDate, to: lrec.endDate)
                         if let secondT:Int = difference.second {
-                            cumLearned[di] += Float(secondT) / Float(60)
+                            cumLearned[di] += Double(secondT) / Double(60)
                         }
                     }
                 } else{
                     if dates[di].isInSameMonth(as: lrec.endDate){
                         let difference = Calendar.current.dateComponents([.second], from: lrec.startDate, to: lrec.endDate)
                         if let secondT:Int = difference.second {
-                            cumLearned[di] += Float(secondT) / Float(60)
+                            cumLearned[di] += Double(secondT) / Double(60)
                         }
                     }
                 }
@@ -906,14 +906,14 @@ func getCumHoursByDate(dates: [Date], byDay: Bool = true, cumulated: Bool = true
                     if Calendar.current.isDate(rrec.endDate, inSameDayAs: dates[di]){
                         let difference = Calendar.current.dateComponents([.second], from: rrec.startDate, to: rrec.endDate)
                         if let secondT:Int = difference.second {
-                            cumLearned[di] += Float(secondT) / Float(60)
+                            cumLearned[di] += Double(secondT) / Double(60)
                         }
                     }
                 } else{
                     if dates[di].isInSameMonth(as: rrec.endDate){
                         let difference = Calendar.current.dateComponents([.second], from: rrec.startDate, to: rrec.endDate)
                         if let secondT:Int = difference.second {
-                            cumLearned[di] += Float(secondT) / Float(60)
+                            cumLearned[di] += Double(secondT) / Double(60)
                         }
                     }
                 }

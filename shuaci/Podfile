@@ -19,5 +19,5 @@ target 'shuaci' do
   pod 'SwifterSwift/Foundation'
   pod 'SwifterSwift/UIKit'
   pod 'MKRingProgressView'
-  pod 'AAInfographics', :git => 'https://github.com/AAChartModel/AAChartKit-Swift.git'
+  pod 'ScrollableGraphView'
 end

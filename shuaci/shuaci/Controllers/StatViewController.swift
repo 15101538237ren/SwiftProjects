@@ -7,16 +7,20 @@
 //
 
 import UIKit
-import AAInfographics
 import SwiftTheme
 import LeanCloud
+import ScrollableGraphView
 
-class StatViewController: UIViewController {
+class StatViewController: UIViewController, ScrollableGraphViewDataSource {
+    
+    var graphView:ScrollableGraphView? = nil
     
     var currentUser: LCUser!
     var mainPanelViewController: MainPanelViewController!
     var preference:Preference!
-    
+    var categories:[String] = []
+    var cumReviewedOrMastered:[Double] = []
+    var cumLearned:[Double] = []
     
     @IBOutlet var displayLabels: [UILabel]!
     
@@ -29,8 +33,6 @@ class StatViewController: UIViewController {
     @IBOutlet weak var wordTimeSegmentedControl: UISegmentedControl!
     
     @IBOutlet weak var perTimeCumSegmentedControl: UISegmentedControl!
-    
-    var masteredChartView = AAChartView()
     
     @IBOutlet var masteredStatusView: UIView!{
         didSet {
@@ -61,10 +63,24 @@ class StatViewController: UIViewController {
         setUpLearnStatusSelected()
     }
     
-    func setUpLearnStatusSelected(initial: Bool = false){
-        if !initial{
-            masteredChartView.aa_refreshChartWholeContentWithChartOptions(getLearnStatusOptions())
+    func setUpLearnStatusSelected(){
+        let byDay: Bool = dayMonSegmentedControl.selectedSegmentIndex == 0 ? true : false
+        let byWordCnt: Bool = wordTimeSegmentedControl.selectedSegmentIndex == 0 ? true : false
+        let cumulated: Bool = perTimeCumSegmentedControl.selectedSegmentIndex == 0 ? false : true
+        
+        let minMaxDates:[Date] = getMinMaxDateOfVocabRecords()
+        let intervalDates:[Date] = generateDatesForMinMaxDates(minMaxDates: minMaxDates, byDay: byDay)
+        categories = formatDateAsCategory(dates: intervalDates, byDay: byDay)
+        
+        if byWordCnt{
+            cumReviewedOrMastered = getCumulatedMasteredByDate( dates: intervalDates, byDay: byDay, cumulated: cumulated)
+            cumLearned = getCumulatedLearnedByDate(dates: intervalDates, byDay: byDay, cumulated: cumulated)
+        } else{
+            cumReviewedOrMastered = getCumHoursByDate(dates: intervalDates, byDay: byDay, cumulated: cumulated, Learn: false)
+            cumLearned = getCumHoursByDate(dates: intervalDates, byDay: byDay, cumulated: cumulated, Learn: true)
         }
+        graphView!.reload()
+        graphView!.reload()
     }
     
     func getBackgroundViewColor() -> String{
@@ -82,76 +98,99 @@ class StatViewController: UIViewController {
         return viewBackgroundColor
     }
     
-    func getLearnStatusOptions() -> AAOptions{
-        let byDay: Bool = dayMonSegmentedControl.selectedSegmentIndex == 0 ? true : false
-        let byWordCnt: Bool = wordTimeSegmentedControl.selectedSegmentIndex == 0 ? true : false
+    
+    func value(forPlot plot: Plot, atIndex pointIndex: Int) -> Double {
         
-        let cumulated: Bool = perTimeCumSegmentedControl.selectedSegmentIndex == 0 ? false : true
-        let cumLabel = cumulated ? "累计" : byDay ? "当天" : "当月"
-        let suffixLabel = byWordCnt ? "词" : "分钟"
-        let seriesNames = byWordCnt ? ["\(cumLabel)学习", "\(cumLabel)掌握"] : ["\(cumLabel)学习", "\(cumLabel)复习"]
-        
-        let minMaxDates:[Date] = getMinMaxDateOfVocabRecords()
-        let intervalDates:[Date] = generateDatesForMinMaxDates(minMaxDates: minMaxDates, byDay: byDay)
-        let categories:[String] = formatDateAsCategory(dates: intervalDates, byDay: byDay)
-        if byWordCnt{
-            let cumMasteredCount:[Int] = getCumulatedMasteredByDate( dates: intervalDates, byDay: byDay, cumulated: cumulated)
-            let cumLearnedCount:[Int] = getCumulatedLearnedByDate(dates: intervalDates, byDay: byDay, cumulated: cumulated)
-            
-            let masteredStatusChartModel = AAChartModel()
-            .backgroundColor(getBackgroundViewColor())
-                .chartType(.spline)//cumulated ? .spline : .column)//Can be any of the chart types listed under `AAChartType`.
-                .animationType(.elastic)
-            .tooltipValueSuffix(suffixLabel)//the value suffix of the chart tooltip
-            .dataLabelsEnabled(false) //Enable or disable the data labels. Defaults to false
-    //        .yAxisVisible(false)
-            .categories(categories)
-            .axesTextColor(getDisplayTextColor())
-            .colorsTheme(["#4fa83d","#3f8ada"])
-            .zoomType(.x)
-            .series([
-                AASeriesElement()
-                .name(seriesNames[0])
-                .data(cumLearnedCount),
-                AASeriesElement()
-                    .name(seriesNames[1])
-                    .data(cumMasteredCount)])
-            let aa_options: AAOptions = AAOptionsConstructor.configureChartOptions(masteredStatusChartModel)
-            return aa_options
-        } else{
-            let cumReviewedHours:[Float] = getCumHoursByDate(dates: intervalDates, byDay: byDay, cumulated: cumulated, Learn: false)
-            let cumLearnedHours:[Float] = getCumHoursByDate(dates: intervalDates, byDay: byDay, cumulated: cumulated, Learn: true)
-            
-            let masteredStatusChartModel = AAChartModel()
-            .backgroundColor(getBackgroundViewColor())
-                .chartType(.spline)//cumulated ? .spline : .column)//Can be any of the chart types listed under `AAChartType`.
-                .animationType(.elastic)
-            .tooltipValueSuffix(suffixLabel)//the value suffix of the chart tooltip
-            .dataLabelsEnabled(false) //Enable or disable the data labels. Defaults to false
-    //        .yAxisVisible(false)
-            .categories(categories)
-            .axesTextColor(getDisplayTextColor())
-            .yAxisAllowDecimals(false)
-            .zoomType(.x)
-            .colorsTheme(["#4fa83d","#3f8ada"])
-            .series([
-                AASeriesElement()
-                .name(seriesNames[0])
-                .data(cumLearnedHours),
-                AASeriesElement()
-                    .name(seriesNames[1])
-                    .data(cumReviewedHours)])
-            let aa_options: AAOptions = AAOptionsConstructor.configureChartOptions(masteredStatusChartModel)
-            aa_options.tooltip?.valueDecimals(1)
-            return aa_options
+        if pointIndex < categories.count{
+            switch(plot.identifier) {
+            case "revmas":
+                return cumReviewedOrMastered[pointIndex]
+            case "revmasDot":
+                return cumReviewedOrMastered[pointIndex]
+            case "learn":
+                return cumLearned[pointIndex]
+            case "learnDot":
+                return cumLearned[pointIndex]
+            default:
+                return 0.0
+            }
+        } else {
+            return 0.0
         }
-        
+    }
+
+    func label(atIndex pointIndex: Int) -> String {
+        return categories[pointIndex]
+    }
+
+    func numberOfPoints() -> Int {
+        return categories.count
+//        let cumLabel = cumulated ? "累计" : byDay ? "当天" : "当月"
+//        let suffixLabel = byWordCnt ? "词" : "分钟"
+//        let seriesNames = byWordCnt ? ["\(cumLabel)学习", "\(cumLabel)掌握"] : ["\(cumLabel)学习", "\(cumLabel)复习"]
     }
     
     func setFontofSegmentedControl(selectedForeGroundColor: UIColor){
         dayMonSegmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: selectedForeGroundColor], for: .selected)
         wordTimeSegmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: selectedForeGroundColor], for: .selected)
         perTimeCumSegmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: selectedForeGroundColor], for: .selected)
+    }
+    
+    func setupPlots(){
+        
+        graphView = ScrollableGraphView(frame: CGRect(x: 0, y: 0, width: masteredAndLearnedCurveView.bounds.width, height: masteredAndLearnedCurveView.bounds.height), dataSource: self)
+        graphView!.theme_backgroundColor = "Global.viewBackgroundColor"
+        
+
+        let revmasLinePlot = LinePlot(identifier: "revmas")
+        revmasLinePlot.lineWidth = 2
+        revmasLinePlot.lineColor = UIColor(hex: "#3f8ada")!
+        revmasLinePlot.lineStyle = ScrollableGraphViewLineStyle.smooth
+        revmasLinePlot.shouldFill = false
+        revmasLinePlot.adaptAnimationType = ScrollableGraphViewAnimationType.elastic
+        
+        
+        let revmasDot = DotPlot(identifier: "revmasDot") // Add dots as well.
+        revmasDot.dataPointSize = 3
+        revmasDot.dataPointFillColor = UIColor(hex: "#3f8ada")!
+        revmasDot.adaptAnimationType = ScrollableGraphViewAnimationType.elastic
+
+        
+        let learnLinePlot = LinePlot(identifier: "learn")
+        learnLinePlot.lineWidth = 2
+        learnLinePlot.lineColor = UIColor(hex: "#4fa83d")!
+        learnLinePlot.lineStyle = ScrollableGraphViewLineStyle.smooth
+        learnLinePlot.shouldFill = false
+        learnLinePlot.adaptAnimationType = ScrollableGraphViewAnimationType.elastic
+
+        let learnDot = DotPlot(identifier: "learnDot") // Add dots as well.
+        learnDot.dataPointSize = 3
+        learnDot.dataPointFillColor = UIColor(hex: "#4fa83d")!
+        learnDot.adaptAnimationType = ScrollableGraphViewAnimationType.elastic
+        
+        let referenceLines = ReferenceLines()
+        referenceLines.referenceLineLabelFont = UIFont.boldSystemFont(ofSize: 12)
+        referenceLines.referenceLineColor = UIColor.lightGray.withAlphaComponent(0.2)
+        referenceLines.referenceLineLabelColor = UIColor.lightGray
+        referenceLines.includeMinMax = true
+        referenceLines.dataPointLabelColor = UIColor.lightGray.withAlphaComponent(1)
+        referenceLines.dataPointLabelFont = UIFont.boldSystemFont(ofSize: 12)
+        referenceLines.shouldShowLabels = true
+        
+        graphView!.backgroundFillColor = UIColor.white
+        graphView!.dataPointSpacing = 50
+        graphView!.shouldAnimateOnStartup = false
+        graphView!.shouldAdaptRange = true
+        graphView!.shouldRangeAlwaysStartAtZero = false
+        graphView!.topMargin = 20
+        
+        graphView!.addPlot(plot: revmasLinePlot)
+        graphView!.addPlot(plot: revmasDot)
+        graphView!.addPlot(plot: learnLinePlot)
+        graphView!.addPlot(plot: learnDot)
+        graphView!.addReferenceLines(referenceLines: referenceLines)
+        
+        masteredAndLearnedCurveView.addSubview(graphView!)
     }
     
     override func viewDidLoad() {
@@ -162,13 +201,8 @@ class StatViewController: UIViewController {
         backBtn.theme_tintColor = "Global.backBtnTintColor"
         barTitleLabel.theme_textColor = "Global.barTitleColor"
         setFontofSegmentedControl(selectedForeGroundColor: .white)
-        setUpLearnStatusSelected(initial: true)
-        
-        masteredChartView.theme_backgroundColor = "Global.viewBackgroundColor"
-        masteredChartView.frame = CGRect(x: 0, y: 0, width: masteredAndLearnedCurveView.bounds.width, height: masteredAndLearnedCurveView.bounds.height)
-        masteredChartView.contentWidth = masteredAndLearnedCurveView.bounds.width
-        masteredAndLearnedCurveView.addSubview(masteredChartView)
-        masteredChartView.aa_drawChartWithChartOptions(getLearnStatusOptions())
+        setupPlots()
+        setUpLearnStatusSelected()
         view.isOpaque = false
         super.viewDidLoad()
         
@@ -188,3 +222,4 @@ class StatViewController: UIViewController {
     }
 
 }
+
