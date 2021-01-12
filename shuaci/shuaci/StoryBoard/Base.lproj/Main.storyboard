@@ -779,14 +779,14 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="y8X-ku-7Mq">
                                 <rect key="frame" x="20" y="204.5" width="374" height="240"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="概况" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="53T-ST-KY5">
-                                        <rect key="frame" x="20" y="23" width="33" height="19.5"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="学习概况" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="53T-ST-KY5">
+                                        <rect key="frame" x="30" y="23" width="65.5" height="19.5"/>
                                         <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="6" translatesAutoresizingMaskIntoConstraints="NO" id="Mbq-Nn-RcT">
-                                        <rect key="frame" x="20" y="70" width="118" height="16"/>
+                                        <rect key="frame" x="30" y="70" width="118" height="16"/>
                                         <subviews>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bar-chart" translatesAutoresizingMaskIntoConstraints="NO" id="RwB-NH-ZXI">
                                                 <rect key="frame" x="0.0" y="0.0" width="16" height="16"/>
@@ -849,7 +849,7 @@
                                         </constraints>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="6" translatesAutoresizingMaskIntoConstraints="NO" id="lu5-3B-3c4">
-                                        <rect key="frame" x="20" y="151" width="108" height="16"/>
+                                        <rect key="frame" x="30" y="151" width="108" height="16"/>
                                         <subviews>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="clock" translatesAutoresizingMaskIntoConstraints="NO" id="iZk-nU-N1o">
                                                 <rect key="frame" x="0.0" y="0.0" width="16" height="16"/>
@@ -870,7 +870,7 @@
                                         </constraints>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="ZfL-nd-61l">
-                                        <rect key="frame" x="50" y="108" width="43.5" height="19.5"/>
+                                        <rect key="frame" x="60" y="108" width="43.5" height="19.5"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="----" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gRJ-DP-Dba">
                                                 <rect key="frame" x="0.0" y="0.0" width="29.5" height="19.5"/>
@@ -921,7 +921,7 @@
                                         </subviews>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="mKn-Zd-gEF">
-                                        <rect key="frame" x="50" y="189" width="39" height="19.5"/>
+                                        <rect key="frame" x="60" y="189" width="39" height="19.5"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="--" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zj7-uh-N0N">
                                                 <rect key="frame" x="0.0" y="0.0" width="15" height="19.5"/>
@@ -943,20 +943,20 @@
                                     <constraint firstItem="Q1F-zI-qAk" firstAttribute="top" secondItem="USB-OL-Uj0" secondAttribute="bottom" constant="22" id="1Jj-Lo-jlr"/>
                                     <constraint firstItem="ZfL-nd-61l" firstAttribute="top" secondItem="Mbq-Nn-RcT" secondAttribute="bottom" constant="22" id="1SU-sP-xjb"/>
                                     <constraint firstItem="Mbq-Nn-RcT" firstAttribute="top" secondItem="y8X-ku-7Mq" secondAttribute="top" constant="70" id="3ff-kS-4sD"/>
-                                    <constraint firstItem="ZfL-nd-61l" firstAttribute="leading" secondItem="y8X-ku-7Mq" secondAttribute="leading" constant="50" id="A5U-8y-OWU"/>
+                                    <constraint firstItem="ZfL-nd-61l" firstAttribute="leading" secondItem="y8X-ku-7Mq" secondAttribute="leading" constant="60" id="A5U-8y-OWU"/>
                                     <constraint firstAttribute="height" constant="240" id="ECK-aK-2oj"/>
                                     <constraint firstItem="y8h-7O-su9" firstAttribute="top" secondItem="zmB-2u-8B2" secondAttribute="bottom" constant="22" id="Hif-HU-WUz"/>
-                                    <constraint firstItem="53T-ST-KY5" firstAttribute="leading" secondItem="y8X-ku-7Mq" secondAttribute="leading" constant="20" id="Jwr-XY-R4t"/>
-                                    <constraint firstItem="mKn-Zd-gEF" firstAttribute="leading" secondItem="y8X-ku-7Mq" secondAttribute="leading" constant="50" id="LsQ-sM-9hk"/>
+                                    <constraint firstItem="53T-ST-KY5" firstAttribute="leading" secondItem="y8X-ku-7Mq" secondAttribute="leading" constant="30" id="Jwr-XY-R4t"/>
+                                    <constraint firstItem="mKn-Zd-gEF" firstAttribute="leading" secondItem="y8X-ku-7Mq" secondAttribute="leading" constant="60" id="LsQ-sM-9hk"/>
                                     <constraint firstItem="53T-ST-KY5" firstAttribute="top" secondItem="y8X-ku-7Mq" secondAttribute="top" constant="23" id="OS1-ig-iIs"/>
                                     <constraint firstItem="y8h-7O-su9" firstAttribute="leading" secondItem="y8X-ku-7Mq" secondAttribute="leading" constant="235" id="Vn7-yH-7jc"/>
                                     <constraint firstItem="USB-OL-Uj0" firstAttribute="top" secondItem="y8X-ku-7Mq" secondAttribute="top" constant="70" id="Xon-0P-6KJ"/>
                                     <constraint firstItem="USB-OL-Uj0" firstAttribute="leading" secondItem="y8X-ku-7Mq" secondAttribute="leading" constant="215" id="YMo-lu-TNK"/>
                                     <constraint firstItem="zmB-2u-8B2" firstAttribute="leading" secondItem="y8X-ku-7Mq" secondAttribute="leading" constant="215" id="aC0-52-UGo"/>
                                     <constraint firstItem="Q1F-zI-qAk" firstAttribute="leading" secondItem="y8X-ku-7Mq" secondAttribute="leading" constant="235" id="ets-CP-jcM"/>
-                                    <constraint firstItem="Mbq-Nn-RcT" firstAttribute="leading" secondItem="y8X-ku-7Mq" secondAttribute="leading" constant="20" id="hZN-en-aha"/>
+                                    <constraint firstItem="Mbq-Nn-RcT" firstAttribute="leading" secondItem="y8X-ku-7Mq" secondAttribute="leading" constant="30" id="hZN-en-aha"/>
                                     <constraint firstItem="lu5-3B-3c4" firstAttribute="top" secondItem="Mbq-Nn-RcT" secondAttribute="bottom" constant="65" id="k7k-Xg-iyV"/>
-                                    <constraint firstItem="lu5-3B-3c4" firstAttribute="leading" secondItem="y8X-ku-7Mq" secondAttribute="leading" constant="20" id="mbw-XP-N91"/>
+                                    <constraint firstItem="lu5-3B-3c4" firstAttribute="leading" secondItem="y8X-ku-7Mq" secondAttribute="leading" constant="30" id="mbw-XP-N91"/>
                                     <constraint firstItem="zmB-2u-8B2" firstAttribute="top" secondItem="USB-OL-Uj0" secondAttribute="bottom" constant="65" id="n3f-dh-fuy"/>
                                     <constraint firstItem="mKn-Zd-gEF" firstAttribute="top" secondItem="lu5-3B-3c4" secondAttribute="bottom" constant="22" id="nrH-0R-S92"/>
                                 </constraints>
@@ -987,6 +987,7 @@
                         <outlet property="backBtn" destination="Agh-jn-UNO" id="MQI-FW-zKc"/>
                         <outlet property="cameraIconBtn" destination="xgU-dS-aoX" id="pLT-fq-fRl"/>
                         <outlet property="logoutBtn" destination="Jcd-UN-SIv" id="5JR-k9-eNY"/>
+                        <outlet property="nameLabel" destination="kSk-VG-RqQ" id="Poz-Ka-1K3"/>
                         <outlet property="numMinutesCumulatedLabel" destination="Shm-JZ-8ee" id="o33-5a-OYC"/>
                         <outlet property="numMinutesTodayLabel" destination="zj7-uh-N0N" id="QCD-ku-7OX"/>
                         <outlet property="numWordCumulatedLabel" destination="FFa-cB-0gj" id="3Ph-qF-y6N"/>
