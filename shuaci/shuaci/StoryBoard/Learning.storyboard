@@ -798,20 +798,6 @@
                                     <constraint firstItem="zE6-J1-PuK" firstAttribute="top" secondItem="i7r-E5-CjV" secondAttribute="bottom" constant="5" id="xpx-G1-FxB"/>
                                 </constraints>
                             </view>
-                            <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vtL-i0-tf9">
-                                <rect key="frame" x="20" y="64" width="24" height="24"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="24" id="4Hc-Lb-8Me"/>
-                                    <constraint firstAttribute="height" constant="24" id="CZa-aa-0NF"/>
-                                </constraints>
-                                <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <state key="normal" image="chevron.down" catalog="system">
-                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="large"/>
-                                </state>
-                                <connections>
-                                    <action selector="unwindWithSegue:" destination="l79-eC-LHd" eventType="touchUpInside" id="kHe-Ml-WjZ"/>
-                                </connections>
-                            </button>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="dragon_ball_star_2" translatesAutoresizingMaskIntoConstraints="NO" id="HRK-HI-khj">
                                 <rect key="frame" x="359" y="353.5" width="45" height="45"/>
                                 <color key="tintColor" red="0.96848052740097046" green="0.83513884919044623" blue="0.30322194203017944" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
@@ -849,6 +835,20 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </view>
+                            <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vtL-i0-tf9">
+                                <rect key="frame" x="20" y="64" width="24" height="24"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="24" id="4Hc-Lb-8Me"/>
+                                    <constraint firstAttribute="height" constant="24" id="CZa-aa-0NF"/>
+                                </constraints>
+                                <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal" image="chevron.down" catalog="system">
+                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="large"/>
+                                </state>
+                                <connections>
+                                    <action selector="unwindWithSegue:" destination="l79-eC-LHd" eventType="touchUpInside" id="kHe-Ml-WjZ"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="hZ6-rp-LrO"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>

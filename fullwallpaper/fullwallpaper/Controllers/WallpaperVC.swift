@@ -14,6 +14,7 @@ import CropViewController
 import Refreshable
 import SwiftTheme
 import SwiftMessages
+import SwiftyStoreKit
 
 class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate, UIEmptyStateDataSource, UIEmptyStateDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, CropViewControllerDelegate {
     
@@ -123,6 +124,21 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let productIDs = getProductIDs()
+        
+        SwiftyStoreKit.retrieveProductsInfo(Set(productIDs)) { result in
+            if let product = result.retrievedProducts.first {
+                let priceString = product.localizedPrice!
+                print("Product: \(product.localizedDescription), price: \(priceString)")
+            }
+            else if let invalidProductId = result.invalidProductIDs.first {
+                print("Invalid product identifier: \(invalidProductId)")
+            }
+            else {
+                print("Error: \(result.error)")
+            }
+        }
         let _ = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(tictoc), userInfo: nil, repeats: true)
         popPrivacyMessage()
         titleLabel.theme_textColor = "BarTitleColor"
@@ -149,7 +165,6 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
         }
         UMAnalyticsSwift.event(eventId: "Um_Event_PageView", attributes: info)
     }
-    
     
     func verifyAdmin(){
         if let user = LCApplication.default.currentUser {

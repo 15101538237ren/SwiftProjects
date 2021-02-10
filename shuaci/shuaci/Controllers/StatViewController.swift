@@ -14,7 +14,6 @@ import ScrollableGraphView
 class StatViewController: UIViewController, ScrollableGraphViewDataSource {
     
     var graphView:ScrollableGraphView? = nil
-    
     var currentUser: LCUser!
     var mainPanelViewController: MainPanelViewController!
     var preference:Preference!
@@ -42,11 +41,11 @@ class StatViewController: UIViewController, ScrollableGraphViewDataSource {
         }
     }
     
-    @IBOutlet var masteredAndLearnedCurveView: UIView!{
+    @IBOutlet var curveView: UIView!{
         didSet {
-            masteredAndLearnedCurveView.theme_backgroundColor = "StatView.panelBgColor"
-            masteredAndLearnedCurveView?.layer.cornerRadius = 15.0
-            masteredAndLearnedCurveView?.layer.masksToBounds = true
+            curveView.theme_backgroundColor = "StatView.panelBgColor"
+            curveView.layer.cornerRadius = 15.0
+            curveView.layer.masksToBounds = true
         }
     }
     
@@ -98,7 +97,6 @@ class StatViewController: UIViewController, ScrollableGraphViewDataSource {
         return viewBackgroundColor
     }
     
-    
     func value(forPlot plot: Plot, atIndex pointIndex: Int) -> Double {
         
         if pointIndex < categories.count{
@@ -125,9 +123,6 @@ class StatViewController: UIViewController, ScrollableGraphViewDataSource {
 
     func numberOfPoints() -> Int {
         return categories.count
-//        let cumLabel = cumulated ? "累计" : byDay ? "当天" : "当月"
-//        let suffixLabel = byWordCnt ? "词" : "分钟"
-//        let seriesNames = byWordCnt ? ["\(cumLabel)学习", "\(cumLabel)掌握"] : ["\(cumLabel)学习", "\(cumLabel)复习"]
     }
     
     func setFontofSegmentedControl(selectedForeGroundColor: UIColor){
@@ -138,7 +133,7 @@ class StatViewController: UIViewController, ScrollableGraphViewDataSource {
     
     func setupPlots(){
         
-        graphView = ScrollableGraphView(frame: CGRect(x: 0, y: 0, width: masteredAndLearnedCurveView.bounds.width, height: masteredAndLearnedCurveView.bounds.height), dataSource: self)
+        graphView = ScrollableGraphView(frame: CGRect(x: 0, y: 0, width: curveView.bounds.width, height: curveView.bounds.height), dataSource: self)
         graphView!.theme_backgroundColor = "Global.viewBackgroundColor"
         
 
@@ -190,7 +185,8 @@ class StatViewController: UIViewController, ScrollableGraphViewDataSource {
         graphView!.addPlot(plot: learnDot)
         graphView!.addReferenceLines(referenceLines: referenceLines)
         
-        masteredAndLearnedCurveView.addSubview(graphView!)
+        curveView.addSubview(graphView!)
+        
     }
     
     override func viewDidLoad() {

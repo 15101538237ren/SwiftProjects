@@ -843,6 +843,26 @@ func getCumulatedMasteredByDate(dates: [Date], byDay: Bool = true, cumulated: Bo
     return cumMastered
 }
 
+func calcRetention(hour: Double) -> Double{
+    let k:Double = 1.48
+    let c:Double = 2.25
+    if (hour > 0){
+        let retention:Double = (100 * k) / (c * log10(hour) + k)
+        return retention
+    }
+    else{
+        return 0.0
+    }
+}
+
+func getEbbinHausRetention(hours: [Double]) -> [Double]{
+    var retentions:[Double] = []
+    for hour in hours{
+        retentions.append(calcRetention(hour: hour))
+    }
+    return retentions
+}
+
 
 func getCumulatedLearnedByDate(dates: [Date], byDay: Bool = true, cumulated: Bool = true) -> [Double]{
     

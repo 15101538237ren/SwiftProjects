@@ -54,11 +54,6 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
         }
     }
     
-    @IBOutlet weak var cameraIconBtn: UIButton!{
-        didSet {
-            cameraIconBtn.theme_tintColor = "UserProfile.cameraIconTintColor"
-        }
-    }
     
     var viewTranslation = CGPoint(x: 0, y: 0)
     
@@ -117,7 +112,6 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
         self.logoutBtn.isUserInteractionEnabled = enable
         self.nameLabel.isUserInteractionEnabled = enable
         self.userPhotoBtn.isUserInteractionEnabled = enable
-        self.cameraIconBtn.isUserInteractionEnabled = enable
     }
     
     func setDisplayName(name: String){

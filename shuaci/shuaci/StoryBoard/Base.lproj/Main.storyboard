@@ -711,7 +711,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="1" translatesAutoresizingMaskIntoConstraints="NO" id="RjZ-Pt-3aX">
-                                <rect key="frame" x="167" y="54" width="80" height="101"/>
+                                <rect key="frame" x="167" y="54" width="80" height="80"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PMR-c1-71Z">
                                         <rect key="frame" x="0.0" y="0.0" width="80" height="80"/>
@@ -725,18 +725,6 @@
                                         </state>
                                         <connections>
                                             <action selector="selectImage:" destination="fIo-7D-rHo" eventType="touchUpInside" id="SSp-q8-r0J"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xgU-dS-aoX">
-                                        <rect key="frame" x="30" y="81" width="20" height="20"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="20" id="71p-vs-FZy"/>
-                                            <constraint firstAttribute="height" constant="20" id="VON-WX-yWg"/>
-                                        </constraints>
-                                        <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <state key="normal" image="camera"/>
-                                        <connections>
-                                            <action selector="selectImage:" destination="fIo-7D-rHo" eventType="touchUpInside" id="r8H-jw-5Iq"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -771,16 +759,16 @@
                                 </connections>
                             </button>
                             <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="请设置显示名称" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kSk-VG-RqQ">
-                                <rect key="frame" x="150" y="165" width="114.5" height="19.5"/>
+                                <rect key="frame" x="150" y="142" width="114.5" height="19.5"/>
                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
                                 <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="y8X-ku-7Mq">
-                                <rect key="frame" x="20" y="204.5" width="374" height="240"/>
+                                <rect key="frame" x="20" y="181.5" width="374" height="240"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="学习概况" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="53T-ST-KY5">
-                                        <rect key="frame" x="30" y="23" width="65.5" height="19.5"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="概 况" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="53T-ST-KY5">
+                                        <rect key="frame" x="30" y="23" width="37" height="19.5"/>
                                         <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
@@ -969,7 +957,7 @@
                             <constraint firstItem="kSk-VG-RqQ" firstAttribute="centerX" secondItem="FKa-ic-A48" secondAttribute="centerX" id="4gK-rK-gXq"/>
                             <constraint firstItem="Jka-6J-Yzs" firstAttribute="trailing" secondItem="y8X-ku-7Mq" secondAttribute="trailing" constant="20" id="9AT-m4-HEd"/>
                             <constraint firstItem="y8X-ku-7Mq" firstAttribute="leading" secondItem="Jka-6J-Yzs" secondAttribute="leading" constant="20" id="AsP-yr-EWO"/>
-                            <constraint firstItem="kSk-VG-RqQ" firstAttribute="top" secondItem="RjZ-Pt-3aX" secondAttribute="bottom" constant="10" id="K4G-Xx-VXF"/>
+                            <constraint firstItem="kSk-VG-RqQ" firstAttribute="top" secondItem="RjZ-Pt-3aX" secondAttribute="bottom" constant="8" id="K4G-Xx-VXF"/>
                             <constraint firstItem="Agh-jn-UNO" firstAttribute="top" secondItem="Jka-6J-Yzs" secondAttribute="top" constant="10" id="QHV-mY-bXy"/>
                             <constraint firstItem="Jka-6J-Yzs" firstAttribute="trailing" secondItem="Jcd-UN-SIv" secondAttribute="trailing" constant="20" id="QWI-no-rfg"/>
                             <constraint firstItem="RjZ-Pt-3aX" firstAttribute="centerX" secondItem="FKa-ic-A48" secondAttribute="centerX" id="glm-Qb-mCi"/>
@@ -985,7 +973,6 @@
                     </navigationItem>
                     <connections>
                         <outlet property="backBtn" destination="Agh-jn-UNO" id="MQI-FW-zKc"/>
-                        <outlet property="cameraIconBtn" destination="xgU-dS-aoX" id="pLT-fq-fRl"/>
                         <outlet property="logoutBtn" destination="Jcd-UN-SIv" id="5JR-k9-eNY"/>
                         <outlet property="nameLabel" destination="kSk-VG-RqQ" id="Poz-Ka-1K3"/>
                         <outlet property="numMinutesCumulatedLabel" destination="Shm-JZ-8ee" id="o33-5a-OYC"/>
@@ -1073,7 +1060,7 @@
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="AMQ-JB-XIg">
                                                     <rect key="frame" x="20" y="36.5" width="86" height="47.5"/>
                                                     <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="vocabulary" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gBR-9h-OCQ">
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="vocabulary" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gBR-9h-OCQ">
                                                             <rect key="frame" x="0.0" y="0.0" width="86" height="20.5"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" relation="lessThanOrEqual" constant="180" id="sTF-WC-ytT"/>
@@ -1082,7 +1069,7 @@
                                                             <color key="textColor" systemColor="darkTextColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ioo-s1-f83">
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ioo-s1-f83">
                                                             <rect key="frame" x="0.0" y="30.5" width="86" height="17"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" relation="lessThanOrEqual" constant="180" id="XZM-SJ-y6s"/>
@@ -1227,176 +1214,9 @@
             <objects>
                 <viewController storyboardIdentifier="statVC" modalPresentationStyle="fullScreen" id="4a5-3m-NM6" customClass="StatViewController" customModule="刷词" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="HVJ-d2-TyF">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="1000"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView verifyAmbiguity="off" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" translatesAutoresizingMaskIntoConstraints="NO" id="axR-mW-taG">
-                                <rect key="frame" x="0.0" y="91" width="414" height="909"/>
-                                <subviews>
-                                    <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rsc-hf-dSz">
-                                        <rect key="frame" x="0.0" y="-135" width="414" height="1200"/>
-                                        <subviews>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YdH-UP-BSR">
-                                                <rect key="frame" x="20" y="10" width="374" height="300"/>
-                                                <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="学习情况" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8vT-aQ-cUP">
-                                                        <rect key="frame" x="20" y="15" width="65.5" height="19.5"/>
-                                                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
-                                                        <nil key="textColor"/>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
-                                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" alignment="center" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="CBO-54-22a">
-                                                        <rect key="frame" x="67.5" y="49.5" width="239" height="27"/>
-                                                        <subviews>
-                                                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" apportionsSegmentWidthsByContent="YES" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Zmd-2a-WmY">
-                                                                <rect key="frame" x="0.0" y="0.0" width="75" height="28"/>
-                                                                <constraints>
-                                                                    <constraint firstAttribute="height" constant="27" id="fzC-o3-RGy"/>
-                                                                    <constraint firstAttribute="width" constant="75" id="w7G-9J-aHt"/>
-                                                                </constraints>
-                                                                <segments>
-                                                                    <segment title="单词量"/>
-                                                                    <segment title="时长"/>
-                                                                </segments>
-                                                                <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                                <color key="selectedSegmentTintColor" systemColor="systemOrangeColor"/>
-                                                                <connections>
-                                                                    <action selector="wordTimeSelectedChanged:" destination="4a5-3m-NM6" eventType="valueChanged" id="kPG-BW-LXf"/>
-                                                                </connections>
-                                                            </segmentedControl>
-                                                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" apportionsSegmentWidthsByContent="YES" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="QOh-EE-5wt">
-                                                                <rect key="frame" x="87" y="0.0" width="70" height="28"/>
-                                                                <constraints>
-                                                                    <constraint firstAttribute="width" constant="70" id="aRn-ct-faB"/>
-                                                                    <constraint firstAttribute="height" constant="27" id="gnS-TN-Hnx"/>
-                                                                </constraints>
-                                                                <segments>
-                                                                    <segment title="按日"/>
-                                                                    <segment title="按月"/>
-                                                                </segments>
-                                                                <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                                <color key="selectedSegmentTintColor" systemColor="systemOrangeColor"/>
-                                                                <connections>
-                                                                    <action selector="dayMonSelectedChanged:" destination="4a5-3m-NM6" eventType="valueChanged" id="hcO-y8-Mhb"/>
-                                                                </connections>
-                                                            </segmentedControl>
-                                                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" apportionsSegmentWidthsByContent="YES" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="GoD-dt-gRb">
-                                                                <rect key="frame" x="169" y="0.0" width="70" height="28"/>
-                                                                <constraints>
-                                                                    <constraint firstAttribute="height" constant="27" id="BU3-2X-wtF"/>
-                                                                    <constraint firstAttribute="width" constant="70" id="kHN-wm-pLQ"/>
-                                                                </constraints>
-                                                                <segments>
-                                                                    <segment title="逐次"/>
-                                                                    <segment title="累计"/>
-                                                                </segments>
-                                                                <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                                <color key="selectedSegmentTintColor" systemColor="systemOrangeColor"/>
-                                                                <connections>
-                                                                    <action selector="perTimeCumSelectedChanged:" destination="4a5-3m-NM6" eventType="valueChanged" id="HVW-UP-abV"/>
-                                                                </connections>
-                                                            </segmentedControl>
-                                                        </subviews>
-                                                    </stackView>
-                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ov2-Jp-MsX">
-                                                        <rect key="frame" x="0.0" y="86.5" width="374" height="203.5"/>
-                                                        <subviews>
-                                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Kgu-yP-7Wt">
-                                                                <rect key="frame" x="5" y="10" width="364" height="183.5"/>
-                                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                                            </view>
-                                                        </subviews>
-                                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                                        <constraints>
-                                                            <constraint firstItem="Kgu-yP-7Wt" firstAttribute="leading" secondItem="ov2-Jp-MsX" secondAttribute="leading" constant="5" id="8HO-uq-Zdp"/>
-                                                            <constraint firstAttribute="bottom" secondItem="Kgu-yP-7Wt" secondAttribute="bottom" constant="10" id="GM5-zd-q6l"/>
-                                                            <constraint firstItem="Kgu-yP-7Wt" firstAttribute="top" secondItem="ov2-Jp-MsX" secondAttribute="top" constant="10" id="iia-Iv-Ats"/>
-                                                            <constraint firstAttribute="trailing" secondItem="Kgu-yP-7Wt" secondAttribute="trailing" constant="5" id="pae-lH-ODz"/>
-                                                        </constraints>
-                                                    </view>
-                                                </subviews>
-                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                                <constraints>
-                                                    <constraint firstItem="CBO-54-22a" firstAttribute="top" secondItem="8vT-aQ-cUP" secondAttribute="bottom" constant="15" id="0wq-48-elM"/>
-                                                    <constraint firstItem="8vT-aQ-cUP" firstAttribute="top" secondItem="YdH-UP-BSR" secondAttribute="top" constant="15" id="Ar0-ED-DZ9"/>
-                                                    <constraint firstAttribute="trailing" secondItem="ov2-Jp-MsX" secondAttribute="trailing" id="DCq-sm-TtJ"/>
-                                                    <constraint firstItem="ov2-Jp-MsX" firstAttribute="leading" secondItem="YdH-UP-BSR" secondAttribute="leading" id="IL8-gD-tUw"/>
-                                                    <constraint firstItem="CBO-54-22a" firstAttribute="centerX" secondItem="YdH-UP-BSR" secondAttribute="centerX" id="YWi-Aj-yAZ"/>
-                                                    <constraint firstAttribute="bottom" secondItem="ov2-Jp-MsX" secondAttribute="bottom" constant="10" id="hrm-zT-O5Y"/>
-                                                    <constraint firstItem="8vT-aQ-cUP" firstAttribute="leading" secondItem="YdH-UP-BSR" secondAttribute="leading" constant="20" id="lyF-LY-b1C"/>
-                                                    <constraint firstAttribute="height" constant="300" id="shY-F7-yKJ"/>
-                                                    <constraint firstItem="ov2-Jp-MsX" firstAttribute="top" secondItem="CBO-54-22a" secondAttribute="bottom" constant="10" id="wdp-qd-8wn"/>
-                                                </constraints>
-                                            </view>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="P6d-1W-Rjz">
-                                                <rect key="frame" x="20" y="330" width="374" height="250"/>
-                                                <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="遗忘曲线" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TWu-Qy-ZCr">
-                                                        <rect key="frame" x="20" y="15" width="65.5" height="19.5"/>
-                                                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
-                                                        <nil key="textColor"/>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
-                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4V7-aX-Cy3">
-                                                        <rect key="frame" x="0.0" y="44.5" width="374" height="195.5"/>
-                                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                                    </view>
-                                                </subviews>
-                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                                <constraints>
-                                                    <constraint firstItem="4V7-aX-Cy3" firstAttribute="centerX" secondItem="P6d-1W-Rjz" secondAttribute="centerX" id="0Zc-gV-qxZ"/>
-                                                    <constraint firstAttribute="bottom" secondItem="4V7-aX-Cy3" secondAttribute="bottom" constant="10" id="3Mr-Ez-hbS"/>
-                                                    <constraint firstItem="4V7-aX-Cy3" firstAttribute="top" secondItem="TWu-Qy-ZCr" secondAttribute="bottom" constant="10" id="78R-XT-obk"/>
-                                                    <constraint firstAttribute="trailing" secondItem="4V7-aX-Cy3" secondAttribute="trailing" id="NnT-rE-FO6"/>
-                                                    <constraint firstItem="TWu-Qy-ZCr" firstAttribute="leading" secondItem="P6d-1W-Rjz" secondAttribute="leading" constant="20" id="a9R-fJ-XCW"/>
-                                                    <constraint firstAttribute="height" constant="250" id="arm-UN-hUN"/>
-                                                    <constraint firstItem="TWu-Qy-ZCr" firstAttribute="top" secondItem="P6d-1W-Rjz" secondAttribute="top" constant="15" id="dQG-GB-pKX"/>
-                                                    <constraint firstItem="4V7-aX-Cy3" firstAttribute="leading" secondItem="P6d-1W-Rjz" secondAttribute="leading" id="vk4-f6-MR4"/>
-                                                </constraints>
-                                            </view>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XFb-w9-Eak">
-                                                <rect key="frame" x="20" y="600" width="374" height="250"/>
-                                                <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="记忆持久度" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gp9-dk-TN6">
-                                                        <rect key="frame" x="20" y="15" width="82" height="19.5"/>
-                                                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
-                                                        <nil key="textColor"/>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
-                                                </subviews>
-                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="250" id="CEb-z9-bbc"/>
-                                                    <constraint firstItem="Gp9-dk-TN6" firstAttribute="top" secondItem="XFb-w9-Eak" secondAttribute="top" constant="15" id="Pe0-Bj-h8q"/>
-                                                    <constraint firstItem="Gp9-dk-TN6" firstAttribute="leading" secondItem="XFb-w9-Eak" secondAttribute="leading" constant="20" id="o0O-wI-snh"/>
-                                                </constraints>
-                                            </view>
-                                        </subviews>
-                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                        <constraints>
-                                            <constraint firstAttribute="trailing" secondItem="P6d-1W-Rjz" secondAttribute="trailing" constant="20" id="4wK-9n-4ER"/>
-                                            <constraint firstAttribute="trailing" secondItem="YdH-UP-BSR" secondAttribute="trailing" constant="20" id="CSj-S1-vTq"/>
-                                            <constraint firstItem="YdH-UP-BSR" firstAttribute="top" secondItem="rsc-hf-dSz" secondAttribute="top" constant="10" id="DZR-MK-TW1"/>
-                                            <constraint firstItem="XFb-w9-Eak" firstAttribute="leading" secondItem="rsc-hf-dSz" secondAttribute="leading" constant="20" id="GCT-xh-xaj"/>
-                                            <constraint firstAttribute="height" constant="1200" id="UMt-ac-2A4"/>
-                                            <constraint firstItem="YdH-UP-BSR" firstAttribute="leading" secondItem="rsc-hf-dSz" secondAttribute="leading" constant="20" id="Yaa-62-ID7"/>
-                                            <constraint firstAttribute="trailing" secondItem="XFb-w9-Eak" secondAttribute="trailing" constant="20" id="aRO-gn-B2t"/>
-                                            <constraint firstItem="XFb-w9-Eak" firstAttribute="top" secondItem="P6d-1W-Rjz" secondAttribute="bottom" constant="20" id="l7B-dC-xeV"/>
-                                            <constraint firstItem="P6d-1W-Rjz" firstAttribute="top" secondItem="YdH-UP-BSR" secondAttribute="bottom" constant="20" id="qwY-vP-Ldn"/>
-                                            <constraint firstItem="P6d-1W-Rjz" firstAttribute="leading" secondItem="rsc-hf-dSz" secondAttribute="leading" constant="20" id="r1d-me-8Kv"/>
-                                        </constraints>
-                                    </view>
-                                </subviews>
-                                <constraints>
-                                    <constraint firstItem="rsc-hf-dSz" firstAttribute="width" secondItem="k2O-4R-fAf" secondAttribute="width" id="0Un-ai-bWg"/>
-                                    <constraint firstItem="rsc-hf-dSz" firstAttribute="top" secondItem="Jyr-wD-Nbk" secondAttribute="top" id="FnP-aX-EOO"/>
-                                    <constraint firstItem="rsc-hf-dSz" firstAttribute="trailing" secondItem="Jyr-wD-Nbk" secondAttribute="trailing" id="I0K-G7-eei"/>
-                                    <constraint firstItem="rsc-hf-dSz" firstAttribute="leading" secondItem="Jyr-wD-Nbk" secondAttribute="leading" id="Rjr-Mg-Nmx"/>
-                                    <constraint firstItem="rsc-hf-dSz" firstAttribute="bottom" secondItem="Jyr-wD-Nbk" secondAttribute="bottom" id="j5j-Bi-Sbn"/>
-                                </constraints>
-                                <viewLayoutGuide key="contentLayoutGuide" id="Jyr-wD-Nbk"/>
-                                <viewLayoutGuide key="frameLayoutGuide" id="k2O-4R-fAf"/>
-                            </scrollView>
                             <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NXW-YI-P3Y">
                                 <rect key="frame" x="10" y="54" width="30" height="30"/>
                                 <constraints>
@@ -1423,31 +1243,100 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" apportionsSegmentWidthsByContent="YES" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="9Ml-IN-GDu">
+                                <rect key="frame" x="91.5" y="103" width="231" height="32"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <segments>
+                                    <segment title="学习情况"/>
+                                    <segment title="遗忘曲线"/>
+                                    <segment title="记忆持久度"/>
+                                </segments>
+                                <color key="selectedSegmentTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </segmentedControl>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YdH-UP-BSR">
+                                <rect key="frame" x="20" y="149" width="374" height="270"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="270" id="shY-F7-yKJ"/>
+                                </constraints>
+                            </view>
+                            <stackView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" distribution="equalSpacing" alignment="center" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="UCa-LL-BlC">
+                                <rect key="frame" x="91" y="448" width="239" height="27"/>
+                                <subviews>
+                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" apportionsSegmentWidthsByContent="YES" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="yXM-87-qL2">
+                                        <rect key="frame" x="0.0" y="0.0" width="75" height="28"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="27" id="nw4-ED-gHW"/>
+                                            <constraint firstAttribute="width" constant="75" id="ynv-av-HsX"/>
+                                        </constraints>
+                                        <segments>
+                                            <segment title="单词量"/>
+                                            <segment title="时长"/>
+                                        </segments>
+                                        <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <color key="selectedSegmentTintColor" systemColor="systemOrangeColor"/>
+                                        <connections>
+                                            <action selector="wordTimeSelectedChanged:" destination="4a5-3m-NM6" eventType="valueChanged" id="JrA-No-aCB"/>
+                                        </connections>
+                                    </segmentedControl>
+                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" apportionsSegmentWidthsByContent="YES" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="ahS-Ho-rou">
+                                        <rect key="frame" x="87" y="0.0" width="70" height="28"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="70" id="BWa-tC-pef"/>
+                                            <constraint firstAttribute="height" constant="27" id="Rr9-rQ-bYQ"/>
+                                        </constraints>
+                                        <segments>
+                                            <segment title="按日"/>
+                                            <segment title="按月"/>
+                                        </segments>
+                                        <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <color key="selectedSegmentTintColor" systemColor="systemOrangeColor"/>
+                                        <connections>
+                                            <action selector="dayMonSelectedChanged:" destination="4a5-3m-NM6" eventType="valueChanged" id="qmt-SA-5mF"/>
+                                        </connections>
+                                    </segmentedControl>
+                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" apportionsSegmentWidthsByContent="YES" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="o4P-kt-yDA">
+                                        <rect key="frame" x="169" y="0.0" width="70" height="28"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="70" id="1i9-UY-TcW"/>
+                                            <constraint firstAttribute="height" constant="27" id="CDB-VJ-G2w"/>
+                                        </constraints>
+                                        <segments>
+                                            <segment title="逐次"/>
+                                            <segment title="累计"/>
+                                        </segments>
+                                        <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <color key="selectedSegmentTintColor" systemColor="systemOrangeColor"/>
+                                        <connections>
+                                            <action selector="perTimeCumSelectedChanged:" destination="4a5-3m-NM6" eventType="valueChanged" id="HJt-Nd-k4D"/>
+                                        </connections>
+                                    </segmentedControl>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="hCE-Gp-s1p"/>
                         <color key="backgroundColor" systemColor="systemGray6Color"/>
                         <constraints>
+                            <constraint firstItem="9Ml-IN-GDu" firstAttribute="top" secondItem="kW9-FR-IxA" secondAttribute="bottom" constant="20" id="7WU-kv-R5M"/>
                             <constraint firstItem="NXW-YI-P3Y" firstAttribute="top" secondItem="hCE-Gp-s1p" secondAttribute="top" constant="10" id="DTS-50-5QG"/>
-                            <constraint firstItem="axR-mW-taG" firstAttribute="top" secondItem="kW9-FR-IxA" secondAttribute="bottom" constant="8" id="P4l-Zr-NC2"/>
-                            <constraint firstItem="hCE-Gp-s1p" firstAttribute="trailing" secondItem="axR-mW-taG" secondAttribute="trailing" id="asU-IO-cOw"/>
+                            <constraint firstItem="YdH-UP-BSR" firstAttribute="leading" secondItem="hCE-Gp-s1p" secondAttribute="leading" constant="20" id="auM-4c-Qc7"/>
+                            <constraint firstItem="YdH-UP-BSR" firstAttribute="top" secondItem="9Ml-IN-GDu" secondAttribute="bottom" constant="15" id="f5H-8B-PSd"/>
                             <constraint firstItem="kW9-FR-IxA" firstAttribute="centerX" secondItem="HVJ-d2-TyF" secondAttribute="centerX" id="gjF-AE-mWx"/>
-                            <constraint firstItem="axR-mW-taG" firstAttribute="leading" secondItem="hCE-Gp-s1p" secondAttribute="leading" id="kXr-VH-aZk"/>
+                            <constraint firstItem="hCE-Gp-s1p" firstAttribute="trailing" secondItem="YdH-UP-BSR" secondAttribute="trailing" constant="20" id="hxn-FX-adr"/>
+                            <constraint firstItem="9Ml-IN-GDu" firstAttribute="centerX" secondItem="HVJ-d2-TyF" secondAttribute="centerX" id="ngo-ve-3ru"/>
                             <constraint firstItem="NXW-YI-P3Y" firstAttribute="leading" secondItem="hCE-Gp-s1p" secondAttribute="leading" constant="10" id="ppc-KE-IDc"/>
                             <constraint firstItem="kW9-FR-IxA" firstAttribute="top" secondItem="hCE-Gp-s1p" secondAttribute="top" constant="13" id="qDH-1u-6SS"/>
-                            <constraint firstAttribute="bottom" secondItem="axR-mW-taG" secondAttribute="bottom" id="x5F-KM-6jK"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="Ftz-Ln-bCP"/>
-                    <size key="freeformSize" width="414" height="1000"/>
                     <connections>
                         <outlet property="backBtn" destination="NXW-YI-P3Y" id="lty-Hh-guC"/>
                         <outlet property="barTitleLabel" destination="kW9-FR-IxA" id="VIl-To-ftK"/>
-                        <outlet property="dayMonSegmentedControl" destination="QOh-EE-5wt" id="xPK-El-ZGb"/>
-                        <outlet property="masteredAndLearnedCurveView" destination="ov2-Jp-MsX" id="myl-fx-wBM"/>
+                        <outlet property="curveView" destination="YdH-UP-BSR" id="5ce-49-Shy"/>
+                        <outlet property="dayMonSegmentedControl" destination="ahS-Ho-rou" id="6Ty-OA-Zj2"/>
                         <outlet property="masteredStatusView" destination="YdH-UP-BSR" id="ecO-LF-g8r"/>
-                        <outlet property="perTimeCumSegmentedControl" destination="GoD-dt-gRb" id="xS3-Ou-aWe"/>
-                        <outlet property="wordTimeSegmentedControl" destination="Zmd-2a-WmY" id="yoV-pS-v3B"/>
-                        <outletCollection property="displayLabels" destination="8vT-aQ-cUP" collectionClass="NSMutableArray" id="Ek0-Qn-KgA"/>
+                        <outlet property="perTimeCumSegmentedControl" destination="o4P-kt-yDA" id="M52-oO-jwG"/>
+                        <outlet property="wordTimeSegmentedControl" destination="yXM-87-qL2" id="wol-xa-CtM"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1SV-fU-Hz6" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -2809,7 +2698,6 @@
         <image name="auto_pronunciation" width="512" height="512"/>
         <image name="bar-chart" width="500" height="600"/>
         <image name="beach" width="1080" height="1920"/>
-        <image name="camera" width="512" height="512"/>
         <image name="chevron.down" catalog="system" width="128" height="72"/>
         <image name="chevron.left" catalog="system" width="96" height="128"/>
         <image name="clock" width="500" height="500"/>

@@ -16,7 +16,7 @@ class SettingVC: UIViewController , UITableViewDataSource, UITableViewDelegate {
     let settingItems:[[SettingItem]] = [
         [SettingItem(symbol_name : "user", name: "登录 / 注册")],
         
-//        [SettingItem(symbol_name : "membership", name: "年会员「5折优惠」!")],
+        [SettingItem(symbol_name : "membership", name: "年会员「限时5折」!")],
         
         [SettingItem(symbol_name : "rate", name: "评价我们"),
          SettingItem(symbol_name : "share", name: "分享给朋友"),
@@ -263,11 +263,11 @@ class SettingVC: UIViewController , UITableViewDataSource, UITableViewDelegate {
                 showLoginOrRegisterVC()
             }
             
-//        case 1:
-//            let info = [ "Um_Key_SourcePage": "设置页", "Um_Key_ButtonName" : "查看会员权益"]
-//            UMAnalyticsSwift.event(eventId: "Um_Event_ModularClick", attributes: info)
-//            showVIPBenefitsVC()
         case 1:
+            let info = [ "Um_Key_SourcePage": "设置页", "Um_Key_ButtonName" : "查看会员权益"]
+            UMAnalyticsSwift.event(eventId: "Um_Event_ModularClick", attributes: info)
+            showVIPBenefitsVC()
+        case 2:
             switch indexPath.row {
                 case 0:
                     askUserExperienceBeforeReview()
@@ -280,7 +280,7 @@ class SettingVC: UIViewController , UITableViewDataSource, UITableViewDelegate {
                 default:
                     break
             }
-        case 2:
+        case 3:
             switch indexPath.row {
                 case 0:
                     let info = [ "Um_Key_SourcePage": "设置页", "Um_Key_ButtonName" : "清空缓存"]

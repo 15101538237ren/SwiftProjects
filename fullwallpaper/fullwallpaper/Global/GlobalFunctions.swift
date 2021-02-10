@@ -350,3 +350,19 @@ func loadJson(fileName: String) -> JSON?{
     }
     return nil
 }
+
+func getProductIDs() -> [String] {
+    guard let url = Bundle.main.url(forResource: "IAP_ProductIDs", withExtension: "plist") else { return []}
+    
+    do{
+        let data = try Data(contentsOf: url)
+        
+        let productIDs = try PropertyListSerialization.propertyList(from: data, options: .mutableContainersAndLeaves, format: nil) as? [String] ?? []
+        
+        return productIDs
+        
+    } catch {
+        print(error.localizedDescription)
+        return []
+    }
+}

@@ -26,6 +26,7 @@ target 'fullwallpaper' do
   pod 'UMPush'
   pod 'UMCSecurityPlugins'
   pod 'GBDeviceInfo'
+  pod 'SwiftyStoreKit'
   # Pods for fullwallpaper
 
 end

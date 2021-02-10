@@ -155,32 +155,43 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
             
             switch currentMemStage{
                 case WordMemStage.memory.rawValue:
-                    self.firstMemLeft.theme_textColor = "LearningVC.DarkerTextLabelColor"
+                    if self.currentMode == 1{
+                        self.firstMemLeft.theme_textColor = "LearningVC.DarkerTextLabelColor"
+                    }else{
+                        self.enToCNLeft.theme_textColor = "LearningVC.DarkerTextLabelColor"
+                    }
                 case WordMemStage.enToCn.rawValue:
-                    self.enToCNLeft.theme_textColor = "LearningVC.DarkerTextLabelColor"
+                    if self.currentMode == 1{
+                        self.enToCNLeft.theme_textColor = "LearningVC.DarkerTextLabelColor"
+                    }else{
+                        self.firstMemLeft.theme_textColor = "LearningVC.DarkerTextLabelColor"
+                    }
+                    
                 case WordMemStage.cnToEn.rawValue:
                     self.cnToENLeft.theme_textColor = "LearningVC.DarkerTextLabelColor"
                 default:
                     print("Nothing")
             }
             let memText:String = self.currentMode == 1 ? "1. 初记忆" : "1. 初回忆"
-            let firstMemText = "\(memText)  \(self.firstMemLeftNum)"
+            let firstNum = self.currentMode == 1 ? self.firstMemLeftNum : self.enToCNLeftNum
+            let firstMemText = "\(memText)  \(firstNum)"
             var attributeString: NSMutableAttributedString =  NSMutableAttributedString(string: firstMemText)
-            if self.firstMemLeftNum == 0{
+            if firstNum == 0{
                 attributeString.addAttribute(NSAttributedString.Key.strikethroughStyle, value: 2, range: NSMakeRange(0, attributeString.length))
             }
             self.firstMemLeft.attributedText = attributeString
             
-            let enToCNLeftText = "2. 英忆中  \(self.enToCNLeftNum)"
+            let secondNum = self.currentMode == 1 ? self.enToCNLeftNum : self.firstMemLeftNum
+            let enToCNLeftText = self.currentMode == 1 ? "2. 英忆中  \(secondNum)" : "2. 再记忆  \(secondNum)"
             attributeString =  NSMutableAttributedString(string: enToCNLeftText)
-            if self.firstMemLeftNum == 0 &&  self.enToCNLeftNum == 0{
+            if firstNum == 0 && secondNum == 0{
                 attributeString.addAttribute(NSAttributedString.Key.strikethroughStyle, value: 2, range: NSMakeRange(0, attributeString.length))
             }
             self.enToCNLeft.attributedText = attributeString
             
             let cnToENLeftText = "3. 中忆英  \(self.cnToENLeftNum)"
             attributeString =  NSMutableAttributedString(string: cnToENLeftText)
-            if self.firstMemLeftNum == 0 &&  self.enToCNLeftNum == 0 && self.cnToENLeftNum == 0 {
+            if firstNum == 0 &&  secondNum == 0 && self.cnToENLeftNum == 0 {
                 attributeString.addAttribute(NSAttributedString.Key.strikethroughStyle, value: 2, range: NSMakeRange(0, attributeString.length))
             }
             self.cnToENLeft.attributedText = attributeString
@@ -188,10 +199,11 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     func initWordLeftNumbers(){
-        firstMemLeftNum = words.count
-        enToCNLeftNum = 0
+        firstMemLeftNum = currentMode == 1 ?  words.count : 0
+        enToCNLeftNum = currentMode == 1 ?  0 : words.count
         cnToENLeftNum = 0
-        updateWordLeftLabels(currentMemStage : WordMemStage.memory.rawValue)
+        let currentStage = currentMode == 1 ? WordMemStage.memory.rawValue : WordMemStage.enToCn.rawValue
+        updateWordLeftLabels(currentMemStage : currentStage)
     }
     
     override func viewWillAppear(_ animated: Bool){
@@ -203,6 +215,8 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
         let card = cards[0]
         let xshift:CGFloat = card.frame.size.width/8.0
         card.transform = CGAffineTransform(translationX: -xshift, y:0.0).rotated(by: -xshift*0.61/card.center.x)
+
+        
         DispatchQueue.main.async {
             self.timeLabel.text = timeString(time: self.secondsPST)
         }
@@ -211,7 +225,24 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
                                        name: UIApplication.willEnterForegroundNotification,
                                        object: nil)
         startTimer()
-//        self.updateProgressLabel(index: self.currentIndex)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        let card = cards[0]
+        if currentMode == 2{
+            DispatchQueue.main.async {
+                UIView.animate(withDuration: self.progressViewAnimationDuration, animations: {
+                    card.ringView?.progress = 1.0
+                }) { (finished) in
+                    card.ringView?.alpha = 0.0
+                    
+                    UIView.animate(withDuration: 1.0, animations: {
+                        card.meaningLabel?.alpha = 1.0
+                        card.memMethodLabel?.alpha = 1.0
+                    })
+                }
+            }
+        }
     }
     
     @IBAction func unwind(segue: UIStoryboardSegue) {
@@ -303,8 +334,9 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     func initWordQueue(){
+        let status = currentMode == 1 ? WordMemStage.memory.rawValue : WordMemStage.enToCn.rawValue
         for wid in 0..<words.count{
-            wordsQueue.enqueue([wid, WordMemStage.memory.rawValue])
+            wordsQueue.enqueue([wid, status])
         }
     }
     
@@ -611,13 +643,35 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
         
         self.updateWordLeftLabels(currentMemStage: memStage)
         
-        if !masteredAction{
+        if !masteredAction {
             let cardAction: Int = card_actions[wordIndex]!.last!
             if !(memStage == WordMemStage.cnToEn.rawValue && cardAction == CardBehavior.remember.rawValue){
                 var nextStage = WordMemStage.memory.rawValue
                 if memStage == WordMemStage.memory.rawValue{
-                    nextStage = WordMemStage.enToCn.rawValue
-                }else{
+                    if currentMode == 1{ // Learning Mode
+                        nextStage = WordMemStage.enToCn.rawValue
+                    }else{
+                        // Review Mode: E->CN, Review*, CN-> EN
+                        if cardAction == CardBehavior.remember.rawValue{
+                            nextStage = WordMemStage.cnToEn.rawValue
+                        }else {
+                            nextStage = WordMemStage.memory.rawValue
+                        }
+                    }
+                }
+                else if memStage == WordMemStage.enToCn.rawValue{
+                    if currentMode == 1{
+                        if cardAction == CardBehavior.forget.rawValue{
+                            nextStage = WordMemStage.enToCn.rawValue
+                        }else if cardAction == CardBehavior.remember.rawValue{
+                            nextStage = WordMemStage.cnToEn.rawValue
+                        }
+                    }else{
+                        // Review Mode: E->CN*, Review, CN-> EN
+                        nextStage = WordMemStage.memory.rawValue
+                    }
+                }
+                else{
                     if cardAction == CardBehavior.forget.rawValue{
                         nextStage = memStage
                     }else if cardAction == CardBehavior.remember.rawValue{
@@ -778,8 +832,8 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
                     card_actions[wordIndex]!.append(CardBehavior.remember.rawValue)
                     
                     let currentMemStage: Int = currentWordLabelQueue[0][1]
-                    
-                    if currentMemStage == WordMemStage.memory.rawValue{
+                    let statusToCompare: Int = currentMode == 1 ? WordMemStage.memory.rawValue : WordMemStage.enToCn.rawValue
+                    if currentMemStage == statusToCompare{
                         
                         if card_behaviors[wordIndex] == nil{
                             card_behaviors[wordIndex] = []
@@ -832,8 +886,9 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
                     card_actions[wordIndex]!.append(CardBehavior.forget.rawValue)
                     
                     let currentMemStage: Int = currentWordLabelQueue[0][1]
+                    let statusToCompare: Int = currentMode == 1 ? WordMemStage.memory.rawValue : WordMemStage.enToCn.rawValue
                     
-                    if currentMemStage == WordMemStage.memory.rawValue{
+                    if currentMemStage == statusToCompare{
                         if card_behaviors[wordIndex] == nil{
                             card_behaviors[wordIndex] = []
                             
@@ -1121,8 +1176,8 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
             if card_actions[lastWordIndex] != nil && card_actions[lastWordIndex]!.count > 0{
                 card_actions[lastWordIndex]!.removeLast()
             }
-            
-            if lastMemStage == WordMemStage.memory.rawValue{
+            let statusToCompare = currentMode == 1 ?  WordMemStage.memory.rawValue:  WordMemStage.enToCn.rawValue
+            if lastMemStage == statusToCompare {
                 if card_behaviors[lastWordIndex] != nil && card_behaviors[lastWordIndex]!.count > 0{
                     card_behaviors[lastWordIndex]!.removeLast()
                 }
@@ -1179,7 +1234,9 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
                     }
                     
                     let currentMemStage: Int = self.currentWordLabelQueue[0][0]
-                    if currentMemStage == WordMemStage.memory.rawValue{
+                    let statusToCompare = self.currentMode == 1 ? WordMemStage.memory.rawValue : WordMemStage.enToCn.rawValue
+                    
+                    if currentMemStage == statusToCompare{
                         if self.card_behaviors[wordIndex] == nil{
                             self.card_behaviors[wordIndex] = []
                         }
@@ -1188,18 +1245,18 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
                             self.card_behavior_dates[wordIndex] = []
                         }
                     }
-                    
                     switch cardBehavior{
                     case .remember:
                         self.card_actions[wordIndex]!.append(CardBehavior.remember.rawValue)
-                        if currentMemStage == WordMemStage.memory.rawValue{
+                        
+                        if currentMemStage == statusToCompare{
                             self.card_behaviors[wordIndex]!.append(CardBehavior.remember.rawValue)
                             self.card_behavior_dates[wordIndex]!.append(Date())
                         }
                         
                     case .forget:
                         self.card_actions[wordIndex]!.append(CardBehavior.forget.rawValue)
-                        if currentMemStage == WordMemStage.memory.rawValue{
+                        if currentMemStage == statusToCompare{
                             self.card_behaviors[wordIndex]!.append(CardBehavior.forget.rawValue)
                             self.card_behavior_dates[wordIndex]!.append(Date())
                         }

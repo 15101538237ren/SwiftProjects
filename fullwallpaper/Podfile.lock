@@ -35,6 +35,7 @@ PODS:
   - SwiftTheme (0.5.5)
   - SwiftValidators (9.0.3)
   - SwiftyJSON (4.3.0)
+  - SwiftyStoreKit (0.16.1)
   - Toast-Swift (5.0.1)
   - UIEmptyState (4.0.1)
   - UMAPM (1.1.0)
@@ -62,6 +63,7 @@ DEPENDENCIES:
   - SwiftTheme
   - SwiftValidators
   - SwiftyJSON (~> 4.0)
+  - SwiftyStoreKit
   - Toast-Swift
   - UIEmptyState
   - UMAPM
@@ -89,6 +91,7 @@ SPEC REPOS:
     - SwiftTheme
     - SwiftValidators
     - SwiftyJSON
+    - SwiftyStoreKit
     - Toast-Swift
     - UIEmptyState
     - UMAPM
@@ -116,6 +119,7 @@ SPEC CHECKSUMS:
   SwiftTheme: 585ead917c78ea3fc508437b0a141d29c034bdb0
   SwiftValidators: b1cb650ce02ef6ad894f1d471f970b249c794342
   SwiftyJSON: 6faa0040f8b59dead0ee07436cbf76b73c08fd08
+  SwiftyStoreKit: 6b9c08810269f030586dac1fae8e75871a82e84a
   Toast-Swift: 9b6a70f28b3bf0b96c40d46c0c4b9d6639846711
   UIEmptyState: 767376694d9402452fb3c0a5a5283176c6a53c92
   UMAPM: 2b966cff744dccdd9e2ed99efafce280be30833c
@@ -125,6 +129,6 @@ SPEC CHECKSUMS:
   UMDevice: 28d21a568c8e8322e5a03bbd53b138d0c098d3b3
   UMPush: 7ef2ff2fcca16e4d5c7897183a78a0d26f920bfe
 
-PODFILE CHECKSUM: 9798e4e17da6054ee18ece858468fedddd5e5585
+PODFILE CHECKSUM: 9fd079f9411ae0fcf867a36d873214fe2584f30a
 
 COCOAPODS: 1.9.3

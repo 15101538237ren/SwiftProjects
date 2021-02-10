@@ -12,7 +12,6 @@
 		55370FAF2553B5800003CAD5 /* GlobalVariables.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55370FAE2553B5800003CAD5 /* GlobalVariables.swift */; };
 		55370FB22553B5A10003CAD5 /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55370FB12553B5A10003CAD5 /* Category.swift */; };
 		55370FBD2553B7130003CAD5 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55370FBC2553B7130003CAD5 /* Reachability.swift */; };
-		55537E2E254B2572005081CF /* ClickerScript-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 55537E2D254B2572005081CF /* ClickerScript-Regular.ttf */; };
 		55537E31254B341C005081CF /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55537E30254B341C005081CF /* TabBarController.swift */; };
 		55537E34254B3ECD005081CF /* CategoryVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55537E33254B3ECD005081CF /* CategoryVC.swift */; };
 		55537E37254B3F1D005081CF /* CategoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55537E36254B3F1D005081CF /* CategoryTableViewCell.swift */; };
@@ -30,6 +29,7 @@
 		C32CB0CC2579F47C000DDCF1 /* SetUserProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C32CB0CB2579F47C000DDCF1 /* SetUserProfileVC.swift */; };
 		C33D6FFA25998DD500C934F5 /* Device.swift in Sources */ = {isa = PBXBuildFile; fileRef = C33D6FF925998DD500C934F5 /* Device.swift */; };
 		C3543295258C761600D66A8A /* UIColor+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3543294258C761600D66A8A /* UIColor+Ext.swift */; };
+		C36DC66325D3A4F30016464A /* ClickerScript-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C36DC66225D3A4F30016464A /* ClickerScript-Regular.ttf */; };
 		C36F6FE82569A9B60072AEDE /* SearchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C36F6FE72569A9B60072AEDE /* SearchVC.swift */; };
 		C3770DA9255CF99700D240CB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 55F3992F254A624D0094A477 /* Assets.xcassets */; };
 		C3770DCE255D143F00D240CB /* SettingTableViewCellWithValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3770DCD255D143F00D240CB /* SettingTableViewCellWithValue.swift */; };
@@ -41,7 +41,6 @@
 		C3B10821258E81BD0074F741 /* UMCommonSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3B1081E258E81BD0074F741 /* UMCommonSwift.swift */; };
 		C3B33253259BBF82001D5C5C /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3B33252259BBF82001D5C5C /* StoreKit.framework */; };
 		C3B33256259BBFC6001D5C5C /* IAP_ProductIDs.plist in Resources */ = {isa = PBXBuildFile; fileRef = C3B33255259BBFC6001D5C5C /* IAP_ProductIDs.plist */; };
-		C3B33259259BC011001D5C5C /* IAPManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3B33258259BC011001D5C5C /* IAPManager.swift */; };
 		C3C3565325570EB7006F137B /* CategoryCollectionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C3565225570EB7006F137B /* CategoryCollectionVC.swift */; };
 		C3C3565625571DA7006F137B /* SettingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C3565525571DA7006F137B /* SettingTableViewCell.swift */; };
 		C3C3565925572154006F137B /* SettingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C3565825572154006F137B /* SettingVC.swift */; };
@@ -73,7 +72,6 @@
 		55370FAE2553B5800003CAD5 /* GlobalVariables.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalVariables.swift; sourceTree = "<group>"; };
 		55370FB12553B5A10003CAD5 /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
 		55370FBC2553B7130003CAD5 /* Reachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
-		55537E2D254B2572005081CF /* ClickerScript-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ClickerScript-Regular.ttf"; sourceTree = "<group>"; };
 		55537E30254B341C005081CF /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		55537E33254B3ECD005081CF /* CategoryVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryVC.swift; sourceTree = "<group>"; };
 		55537E36254B3F1D005081CF /* CategoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryTableViewCell.swift; sourceTree = "<group>"; };
@@ -95,6 +93,7 @@
 		C32CB0CB2579F47C000DDCF1 /* SetUserProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetUserProfileVC.swift; sourceTree = "<group>"; };
 		C33D6FF925998DD500C934F5 /* Device.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Device.swift; sourceTree = "<group>"; };
 		C3543294258C761600D66A8A /* UIColor+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Ext.swift"; sourceTree = "<group>"; };
+		C36DC66225D3A4F30016464A /* ClickerScript-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ClickerScript-Regular.ttf"; sourceTree = "<group>"; };
 		C36F6FE72569A9B60072AEDE /* SearchVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchVC.swift; sourceTree = "<group>"; };
 		C3770DCD255D143F00D240CB /* SettingTableViewCellWithValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingTableViewCellWithValue.swift; sourceTree = "<group>"; };
 		C3871DEF255A6CA7001DF6C4 /* LoginVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
@@ -105,7 +104,6 @@
 		C3B1081E258E81BD0074F741 /* UMCommonSwift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UMCommonSwift.swift; sourceTree = "<group>"; };
 		C3B33252259BBF82001D5C5C /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		C3B33255259BBFC6001D5C5C /* IAP_ProductIDs.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = IAP_ProductIDs.plist; sourceTree = "<group>"; };
-		C3B33258259BC011001D5C5C /* IAPManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IAPManager.swift; sourceTree = "<group>"; };
 		C3C3565225570EB7006F137B /* CategoryCollectionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCollectionVC.swift; sourceTree = "<group>"; };
 		C3C3565525571DA7006F137B /* SettingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingTableViewCell.swift; sourceTree = "<group>"; };
 		C3C3565825572154006F137B /* SettingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingVC.swift; sourceTree = "<group>"; };
@@ -269,8 +267,8 @@
 		55F39942254A7CE00094A477 /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
+				C36DC66225D3A4F30016464A /* ClickerScript-Regular.ttf */,
 				C3E09BDA255CBE1600C4F238 /* AiNiChuanYueRenHai.ttf */,
-				55537E2D254B2572005081CF /* ClickerScript-Regular.ttf */,
 			);
 			path = Fonts;
 			sourceTree = "<group>";
@@ -309,7 +307,6 @@
 			isa = PBXGroup;
 			children = (
 				C3B33255259BBFC6001D5C5C /* IAP_ProductIDs.plist */,
-				C3B33258259BC011001D5C5C /* IAPManager.swift */,
 			);
 			path = "In-App Purchases";
 			sourceTree = "<group>";
@@ -386,12 +383,12 @@
 				C30B71F7258D2F76002A673D /* Main.storyboard in Resources */,
 				C3C3566025572489006F137B /* night.plist in Resources */,
 				C3E09BDB255CBE1600C4F238 /* AiNiChuanYueRenHai.ttf in Resources */,
+				C36DC66325D3A4F30016464A /* ClickerScript-Regular.ttf in Resources */,
 				C3B33256259BBFC6001D5C5C /* IAP_ProductIDs.plist in Resources */,
 				55F39933254A624D0094A477 /* LaunchScreen.storyboard in Resources */,
 				C3C3565D2557247F006F137B /* day.plist in Resources */,
 				C3CA897F258FF1FF001E2EA2 /* TermsView.xib in Resources */,
 				C3770DA9255CF99700D240CB /* Assets.xcassets in Resources */,
-				55537E2E254B2572005081CF /* ClickerScript-Regular.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -497,7 +494,6 @@
 				C3B10821258E81BD0074F741 /* UMCommonSwift.swift in Sources */,
 				55F39929254A624D0094A477 /* SceneDelegate.swift in Sources */,
 				55537E37254B3F1D005081CF /* CategoryTableViewCell.swift in Sources */,
-				C3B33259259BC011001D5C5C /* IAPManager.swift in Sources */,
 				C3CA897B258FF0D8001E2EA2 /* TermsView.swift in Sources */,
 				55370FAC2553B5700003CAD5 /* GlobalFunctions.swift in Sources */,
 				C311F9C6255E14B5000FCED2 /* GlobalEnums.swift in Sources */,

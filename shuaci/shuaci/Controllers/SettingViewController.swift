@@ -22,7 +22,6 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
         SettingItem(symbol_name : "book", name: "选择单词书", value: ""),
         SettingItem(symbol_name : "scope", name: "设置学习计划", value: "乱序,20个/组"),
         SettingItem(symbol_name : "alarm", name: "每日提醒", value: ""),
-        SettingItem(symbol_name : "clean", name: "清除缓存", value: "3.25M"),
         SettingItem(symbol_name : "rate_app", name: "评价应用", value: "v1.0.0"),
         SettingItem(symbol_name : "bubble.left.and.bubble.right", name: "意见反馈", value: ""),
         SettingItem(symbol_name : "share", name: "推荐给好友", value: ""),
@@ -338,7 +337,7 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
             DispatchQueue.main.async {
                 self.present(reminderTimePickerVC, animated: true, completion: nil)
             }
-        case 7:
+        case 6:
             showFeedBackMailComposer()
         default:
             break
