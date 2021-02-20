@@ -56,6 +56,7 @@
 		C3D5D81E257C694C006DA951 /* WallpaperInReview.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3D5D81D257C694C006DA951 /* WallpaperInReview.swift */; };
 		C3D5D821257D74BB006DA951 /* UserProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3D5D820257D74BA006DA951 /* UserProfileVC.swift */; };
 		C3E09BDB255CBE1600C4F238 /* AiNiChuanYueRenHai.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C3E09BDA255CBE1600C4F238 /* AiNiChuanYueRenHai.ttf */; };
+		C3E3E49125E09A39002E142E /* MembershipCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3E3E49025E09A39002E142E /* MembershipCollectionViewCell.swift */; };
 		C3E860752567531900559783 /* Date+NSDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3E860742567531900559783 /* Date+NSDate.swift */; };
 		C3F737D82582B856008D0095 /* SettingTableViewCellWithImg.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3F737D72582B856008D0095 /* SettingTableViewCellWithImg.swift */; };
 		C3F737DB25833620008D0095 /* VIPBenefitsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3F737DA25833620008D0095 /* VIPBenefitsVC.swift */; };
@@ -119,6 +120,7 @@
 		C3D5D81D257C694C006DA951 /* WallpaperInReview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WallpaperInReview.swift; sourceTree = "<group>"; };
 		C3D5D820257D74BA006DA951 /* UserProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileVC.swift; sourceTree = "<group>"; };
 		C3E09BDA255CBE1600C4F238 /* AiNiChuanYueRenHai.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = AiNiChuanYueRenHai.ttf; sourceTree = "<group>"; };
+		C3E3E49025E09A39002E142E /* MembershipCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembershipCollectionViewCell.swift; sourceTree = "<group>"; };
 		C3E860742567531900559783 /* Date+NSDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+NSDate.swift"; sourceTree = "<group>"; };
 		C3F194E825952CD6000EB57E /* fullwallpaper.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = fullwallpaper.entitlements; sourceTree = "<group>"; };
 		C3F737D72582B856008D0095 /* SettingTableViewCellWithImg.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingTableViewCellWithImg.swift; sourceTree = "<group>"; };
@@ -260,6 +262,7 @@
 				C3CA897E258FF1FF001E2EA2 /* TermsView.xib */,
 				C3F737D72582B856008D0095 /* SettingTableViewCellWithImg.swift */,
 				C3CA897A258FF0D8001E2EA2 /* TermsView.swift */,
+				C3E3E49025E09A39002E142E /* MembershipCollectionViewCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -479,6 +482,7 @@
 				55F3992B254A624D0094A477 /* WallpaperVC.swift in Sources */,
 				C311F9C3255E1124000FCED2 /* UploadWallpaperVC.swift in Sources */,
 				55537E3A254BBEE4005081CF /* WallpaperDetailVC.swift in Sources */,
+				C3E3E49125E09A39002E142E /* MembershipCollectionViewCell.swift in Sources */,
 				5577BE10254A88F0008A1F14 /* GlobalConstants.swift in Sources */,
 				5577BE0B254A8767008A1F14 /* WallpaperCollectionViewCell.swift in Sources */,
 				C30B71FB258DB868002A673D /* PolicyVC.swift in Sources */,
