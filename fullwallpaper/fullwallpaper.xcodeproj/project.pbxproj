@@ -22,6 +22,7 @@
 		55F39929254A624D0094A477 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55F39928254A624D0094A477 /* SceneDelegate.swift */; };
 		55F3992B254A624D0094A477 /* WallpaperVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55F3992A254A624D0094A477 /* WallpaperVC.swift */; };
 		55F39933254A624D0094A477 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 55F39931254A624D0094A477 /* LaunchScreen.storyboard */; };
+		C300E4AD25E1B6630009BEFA /* VIP.swift in Sources */ = {isa = PBXBuildFile; fileRef = C300E4AC25E1B6630009BEFA /* VIP.swift */; };
 		C30B71F7258D2F76002A673D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C30B71F6258D2F76002A673D /* Main.storyboard */; };
 		C30B71FB258DB868002A673D /* PolicyVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C30B71FA258DB868002A673D /* PolicyVC.swift */; };
 		C311F9C3255E1124000FCED2 /* UploadWallpaperVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C311F9C2255E1124000FCED2 /* UploadWallpaperVC.swift */; };
@@ -86,6 +87,7 @@
 		55F3992F254A624D0094A477 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		55F39932254A624D0094A477 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		55F39934254A624D0094A477 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C300E4AC25E1B6630009BEFA /* VIP.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VIP.swift; sourceTree = "<group>"; };
 		C30B71F6258D2F76002A673D /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		C30B71FA258DB868002A673D /* PolicyVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolicyVC.swift; sourceTree = "<group>"; };
 		C311F9C2255E1124000FCED2 /* UploadWallpaperVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadWallpaperVC.swift; sourceTree = "<group>"; };
@@ -158,6 +160,7 @@
 				55370FB12553B5A10003CAD5 /* Category.swift */,
 				C38E1DFC255662E4004D008A /* Wallpaper.swift */,
 				C3D5D81D257C694C006DA951 /* WallpaperInReview.swift */,
+				C300E4AC25E1B6630009BEFA /* VIP.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -474,6 +477,7 @@
 				C3F737DB25833620008D0095 /* VIPBenefitsVC.swift in Sources */,
 				C33D6FFA25998DD500C934F5 /* Device.swift in Sources */,
 				C39C47C2259532D700444A7F /* Config.swift in Sources */,
+				C300E4AD25E1B6630009BEFA /* VIP.swift in Sources */,
 				C3543295258C761600D66A8A /* UIColor+Ext.swift in Sources */,
 				C3770DCE255D143F00D240CB /* SettingTableViewCellWithValue.swift in Sources */,
 				C3FC6231257DCC2F00E1A547 /* UIImage+Ext.swift in Sources */,

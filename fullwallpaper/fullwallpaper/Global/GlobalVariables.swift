@@ -16,3 +16,4 @@ var categoryENtoCN:[String : String] = [:]
 
 var progressBarVisible: Bool = false
 var userLikedWPs:[String] = []
+

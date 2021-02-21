@@ -12,6 +12,8 @@ import JGProgressHUD
 
 
 //Constants
+let sharedSecret = "02096ef5b63b455fa533027056c5ee73" //secret key for In-App Purchase
+let bundleId = "com.hongleir.fullscreenwallpaper.cn"
 let LCAppId: String = "Y3wzJERyrbjHzR7exzMChF7I-gzGzoHsz"
 let LCKey: String = "cVvbrIE2rMLLziICGIvM52c8"
 

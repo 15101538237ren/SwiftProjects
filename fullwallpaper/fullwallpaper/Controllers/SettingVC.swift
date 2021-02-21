@@ -16,7 +16,7 @@ class SettingVC: UIViewController , UITableViewDataSource, UITableViewDelegate {
     let settingItems:[[SettingItem]] = [
         [SettingItem(symbol_name : "user", name: "登录 / 注册")],
         
-        [SettingItem(symbol_name : "membership", name: "年会员「限时5折」!")],
+        [SettingItem(symbol_name : "membership", name: "会员权益")],
         
         [SettingItem(symbol_name : "rate", name: "评价我们"),
          SettingItem(symbol_name : "share", name: "分享给朋友"),
@@ -169,7 +169,7 @@ class SettingVC: UIViewController , UITableViewDataSource, UITableViewDelegate {
             }
             return cell
         }
-        else if !(section == 2 && row == 0){
+        else if !(section == 3 && row == 0){
             let cell = tableView.dequeueReusableCell(withIdentifier: "settingTableViewCell", for: indexPath) as! SettingTableViewCell
             cell.imgView.image = settingItems[section][row].icon
             cell.titleLbl.text = settingItems[section][row].name
@@ -410,7 +410,7 @@ class SettingVC: UIViewController , UITableViewDataSource, UITableViewDelegate {
     func showVIPBenefitsVC() {
         let MainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
         let vipBenefitsVC = MainStoryBoard.instantiateViewController(withIdentifier: "vipBenefitsVC") as! VIPBenefitsVC
-        vipBenefitsVC.modalPresentationStyle = .fullScreen
+        vipBenefitsVC.modalPresentationStyle = .overCurrentContext
         DispatchQueue.main.async {
             self.present(vipBenefitsVC, animated: true, completion: nil)
         }

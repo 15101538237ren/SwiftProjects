@@ -83,7 +83,7 @@ class CategoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate, 
         
         categoryCollectionVC.category = category
         categoryCollectionVC.categoryCN = categoryCN
-        categoryCollectionVC.modalPresentationStyle = .fullScreen
+        categoryCollectionVC.modalPresentationStyle = .overCurrentContext
         
         DispatchQueue.main.async {
             self.present(categoryCollectionVC, animated: true, completion: nil)

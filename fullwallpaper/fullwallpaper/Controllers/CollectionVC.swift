@@ -164,7 +164,7 @@ class CollectionVC: UIViewController, UITableViewDataSource, UITableViewDelegate
         
         collectionItemsVC.collection = collection
         
-        collectionItemsVC.modalPresentationStyle = .fullScreen
+        collectionItemsVC.modalPresentationStyle = .overCurrentContext
         
         DispatchQueue.main.async {
             self.present(collectionItemsVC, animated: true, completion: nil)

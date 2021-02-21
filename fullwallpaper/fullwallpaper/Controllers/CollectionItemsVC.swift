@@ -26,6 +26,7 @@ class CollectionItemsVC: UIViewController, UICollectionViewDelegate, UICollectio
     var NoMoreData: [Bool] = [false, false]
     var urlsOfHotWallpapers:[String] = []
     var skipOfHotWallpapers:Int = 0
+    var viewTranslation = CGPoint(x: 0, y: 0)
     
     var latestWallpapers:[Wallpaper] = []
     var minDateOfLastLatestWallpaperFetch: String? = nil
@@ -72,11 +73,48 @@ class CollectionItemsVC: UIViewController, UICollectionViewDelegate, UICollectio
     override func viewDidLoad() {
         super.viewDidLoad()
         let _ = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(tictoc), userInfo: nil, repeats: true)
+        enableEdgeSwipeGesture()
         setupCollectionView()
         setSegmentedControl()
         initIndicator(view: self.view)
         loadWallpapers()
     }
+    
+    func enableEdgeSwipeGesture(){
+        let edgePan = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(screenEdgeSwiped))
+        edgePan.edges = .left
+        view.addGestureRecognizer(edgePan)
+    }
+    
+    @objc func screenEdgeSwiped(sender: UIScreenEdgePanGestureRecognizer){
+        switch sender.state {
+        case .changed:
+            viewTranslation = sender.translation(in: view)
+            
+            if viewTranslation.x > 0 {
+                UIView.animate(withDuration: 0.2, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+                    self.view.transform = CGAffineTransform(translationX: self.viewTranslation.x, y: 0)
+                })
+            }
+        case .ended:
+            if viewTranslation.x < (view.width/3.0) {
+                UIView.animate(withDuration: 0.2, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+                    self.view.transform = .identity
+                })
+            } else {
+                let transition = CATransition()
+                transition.duration = 0.7
+                transition.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeOut)
+                transition.type = CATransitionType.fade
+                transition.subtype = CATransitionSubtype.fromLeft
+                self.view.window!.layer.add(transition, forKey: nil)
+                self.dismiss(animated: false, completion: nil)
+            }
+        default:
+            break
+        }
+    }
+    
     
     @objc func tictoc(){
         timeOnThisPage += 1

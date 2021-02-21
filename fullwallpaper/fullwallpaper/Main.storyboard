@@ -2555,11 +2555,24 @@
                                             <action selector="unwind:" destination="n72-qV-2xb" eventType="touchUpInside" id="bO1-CX-4sk"/>
                                         </connections>
                                     </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nJ2-VT-xjn">
+                                        <rect key="frame" x="333" y="63" width="66" height="32"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <state key="normal" title="恢复购买">
+                                            <color key="titleColor" red="0.69701474910000005" green="0.60949951410000003" blue="0.4823313951" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="restoreVIP:" destination="n72-qV-2xb" eventType="touchUpInside" id="wEc-9t-Qtg"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="nJ2-VT-xjn" secondAttribute="trailing" constant="15" id="1QR-pu-6Hd"/>
                                     <constraint firstItem="NwT-pI-m1Y" firstAttribute="centerX" secondItem="fB0-0r-PSf" secondAttribute="centerX" id="L7j-kf-HV8"/>
                                     <constraint firstAttribute="bottom" secondItem="NwT-pI-m1Y" secondAttribute="bottom" constant="10" id="Q5p-cs-BW0"/>
+                                    <constraint firstAttribute="bottom" secondItem="nJ2-VT-xjn" secondAttribute="bottom" constant="5" id="SMV-EY-BhH"/>
                                     <constraint firstAttribute="height" constant="100" id="TkV-jc-uhg"/>
                                     <constraint firstAttribute="bottom" secondItem="WxX-sY-nKF" secondAttribute="bottom" constant="10" id="h2r-qB-Apw"/>
                                     <constraint firstItem="WxX-sY-nKF" firstAttribute="leading" secondItem="fB0-0r-PSf" secondAttribute="leading" constant="15" id="ufW-wu-RCm"/>
@@ -2613,6 +2626,9 @@
                                             <color key="titleColor" red="0.99150353670000002" green="0.95012694600000003" blue="0.87057679889999995" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                             <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="default"/>
                                         </state>
+                                        <connections>
+                                            <action selector="purchaseVIP:" destination="n72-qV-2xb" eventType="touchUpInside" id="pLg-jv-M1I"/>
+                                        </connections>
                                     </button>
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="vEe-hh-jAj">
                                         <rect key="frame" x="20" y="13" width="229.5" height="29"/>
@@ -2836,7 +2852,7 @@
         <image name="mail" width="551" height="551"/>
         <image name="menu" width="384" height="384"/>
         <image name="message.fill" catalog="system" width="128" height="113"/>
-        <image name="mid-icons" width="312" height="140"/>
+        <image name="mid-icons" width="314" height="139"/>
         <image name="more" width="512" height="512"/>
         <image name="phone" width="28" height="28"/>
         <image name="photo" catalog="system" width="128" height="93"/>

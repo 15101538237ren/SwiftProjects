@@ -7,6 +7,12 @@
 
 import Foundation
 
+enum RegisteredPurchase : String {
+    case ThreeMonthVIP = "threemonthvip"
+    case YearVIP = "yearvip"
+    case OneMonthVIP = "onemonthvip"
+}
+
 enum SortType {
     case byLike
     case byCreateDate
