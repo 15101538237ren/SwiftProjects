@@ -118,7 +118,7 @@ class AuditVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
     func loadDetailVC(imageUrl: URL, wallpaperObjectId: String) -> Void{
         let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
         let detailVC = mainStoryBoard.instantiateViewController(withIdentifier: "detailVC") as! WallpaperDetailVC
-        
+        detailVC.isPro = false
         detailVC.imageUrl = imageUrl
         detailVC.wallpaperObjectId = wallpaperObjectId
         detailVC.modalPresentationStyle = .overCurrentContext

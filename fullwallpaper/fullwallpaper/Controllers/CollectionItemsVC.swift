@@ -103,7 +103,7 @@ class CollectionItemsVC: UIViewController, UICollectionViewDelegate, UICollectio
                 })
             } else {
                 let transition = CATransition()
-                transition.duration = 0.7
+                transition.duration = fadeDuration
                 transition.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeOut)
                 transition.type = CATransitionType.fade
                 transition.subtype = CATransitionSubtype.fromLeft
@@ -130,10 +130,10 @@ class CollectionItemsVC: UIViewController, UICollectionViewDelegate, UICollectio
         UMAnalyticsSwift.event(eventId: "Um_Event_PageView", attributes: info)
     }
 
-    func loadDetailVC(imageUrl: URL, wallpaperObjectId: String) -> Void{
+    func loadDetailVC(imageUrl: URL, wallpaperObjectId: String, pro: Bool) -> Void{
         let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
         let detailVC = mainStoryBoard.instantiateViewController(withIdentifier: "detailVC") as! WallpaperDetailVC
-        
+        detailVC.isPro = pro
         detailVC.imageUrl = imageUrl
         detailVC.wallpaperObjectId = wallpaperObjectId
         detailVC.modalPresentationStyle = .overCurrentContext
@@ -306,25 +306,11 @@ class CollectionItemsVC: UIViewController, UICollectionViewDelegate, UICollectio
         return CGSize(width: width, height: height)
     }
     
-    func showVIPBenefitsVC(showHint: Bool) {
-        let MainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
-        let vipBenefitsVC = MainStoryBoard.instantiateViewController(withIdentifier: "vipBenefitsVC") as! VIPBenefitsVC
-        vipBenefitsVC.showHint = showHint
-        vipBenefitsVC.modalPresentationStyle = .fullScreen
-        DispatchQueue.main.async {
-            self.present(vipBenefitsVC, animated: true, completion: nil)
-        }
-    }
-    
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let wallpaper:Wallpaper = sortType == .byLike ? hotWallpapers[indexPath.row] : latestWallpapers[indexPath.row]
-        if wallpaper.isPro && !isPro{
-            showVIPBenefitsVC(showHint: true)
-        }else{
-            if let imgUrl = URL(string: wallpaper.imgUrl){
-                loadDetailVC(imageUrl: imgUrl, wallpaperObjectId: wallpaper.objectId)
-            }
+        if let imgUrl = URL(string: wallpaper.imgUrl){
+            loadDetailVC(imageUrl: imgUrl, wallpaperObjectId: wallpaper.objectId, pro: wallpaper.isPro)
         }
     }
     

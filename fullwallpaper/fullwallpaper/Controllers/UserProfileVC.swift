@@ -119,10 +119,10 @@ class UserProfileVC: UIViewController, UICollectionViewDelegate, UICollectionVie
         }
     }
     
-    func loadDetailVC(imageUrl: URL, wallpaperObjectId: String) -> Void{
+    func loadDetailVC(imageUrl: URL, wallpaperObjectId: String, pro: Bool) -> Void{
         let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
         let detailVC = mainStoryBoard.instantiateViewController(withIdentifier: "detailVC") as! WallpaperDetailVC
-        
+        detailVC.isPro = pro
         detailVC.imageUrl = imageUrl
         detailVC.wallpaperObjectId = wallpaperObjectId
         detailVC.modalPresentationStyle = .overCurrentContext
@@ -283,28 +283,14 @@ class UserProfileVC: UIViewController, UICollectionViewDelegate, UICollectionVie
         return cell
     }
     
-    func showVIPBenefitsVC(showHint: Bool) {
-        let MainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
-        let vipBenefitsVC = MainStoryBoard.instantiateViewController(withIdentifier: "vipBenefitsVC") as! VIPBenefitsVC
-        vipBenefitsVC.showHint = showHint
-        vipBenefitsVC.modalPresentationStyle = .fullScreen
-        DispatchQueue.main.async {
-            self.present(vipBenefitsVC, animated: true, completion: nil)
-        }
-    }
-    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         let selectedIndex: Int = segmentedControl.selectedSegmentIndex
         
         let wallpaper:Wallpaper = wallpapers[selectedIndex]![indexPath.row]
         
-        if (selectedIndex == 0) && wallpaper.isPro && !isPro{
-            showVIPBenefitsVC(showHint: true)
-        }else{
-            if let imgUrl = URL(string: wallpaper.imgUrl){
-                loadDetailVC(imageUrl: imgUrl, wallpaperObjectId: wallpaper.objectId)
-            }
+        if let imgUrl = URL(string: wallpaper.imgUrl){
+            loadDetailVC(imageUrl: imgUrl, wallpaperObjectId: wallpaper.objectId, pro: wallpaper.isPro)
         }
     }
     

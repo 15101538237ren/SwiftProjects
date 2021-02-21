@@ -9,7 +9,7 @@ import Foundation
 import LeanCloud
 
 var imageCache = NSCache<NSString, NSString>()
-var isPro: Bool = true
+var isProValid: Bool = false
 var isDisabled: Bool = false
 var categories:[Category] = []
 var categoryENtoCN:[String : String] = [:]

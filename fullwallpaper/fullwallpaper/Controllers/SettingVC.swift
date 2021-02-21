@@ -28,7 +28,6 @@ class SettingVC: UIViewController , UITableViewDataSource, UITableViewDelegate {
     ]
     
     var displayName: String = ""
-    var isPro:Bool = false
     
     @IBOutlet var tableView: UITableView!
     
@@ -58,15 +57,6 @@ class SettingVC: UIViewController , UITableViewDataSource, UITableViewDelegate {
                     if !name.isEmpty{
                         self.displayName = name
                         changed = true
-                    }
-                    
-                    if let proDUE = user.get("proDue"){
-                        if let proDUEdate = proDUE.dateValue{
-                            if proDUEdate > Date(){
-                                self.isPro = true
-                                changed = true
-                            }
-                        }
                     }
                     
                     if changed {
@@ -148,7 +138,7 @@ class SettingVC: UIViewController , UITableViewDataSource, UITableViewDelegate {
             cell.backgroundColor = .clear
             cell.imgView.image = settingItems[section][row].icon
             
-            if isPro {
+            if isProValid {
                 cell.proImgView.alpha = 1
             }else{
                 cell.proImgView.alpha = 0

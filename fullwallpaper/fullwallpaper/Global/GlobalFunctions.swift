@@ -12,6 +12,7 @@ import JGProgressHUD
 import LeanCloud
 import CropViewController
 import SwiftTheme
+import SwiftyStoreKit
 
 
 func getSegmentedCtrlUnselectedTextColor() -> String{
@@ -221,6 +222,49 @@ func loadCategories(completion: @escaping () -> Void)
             }
         }
     }
+    }
+}
+
+
+func makeProductId(purchase: RegisteredPurchase)-> String{
+    return "\(bundleId).\(purchase.rawValue)"
+}
+
+func getTimeInterval(product: RegisteredPurchase) -> TimeInterval{
+    switch product {
+    case .OneMonthVIP:
+        return 3600 * 24 * 30
+    case .YearVIP:
+        return 3600 * 24 * 365
+    case .ThreeMonthVIP:
+        return 3600 * 24 * 90
+    }
+}
+
+
+func verifyPurcahse() {
+    for vip in vips{
+        let product = vip.purchase
+        SwiftyStoreKit.verifyReceipt(using: appleValidator, forceRefresh: false, completion: {
+            result in
+
+            switch result{
+            case .success(let receipt):
+
+                let productID = makeProductId(purchase: product)
+
+                let purchaseResult = SwiftyStoreKit.verifySubscription(ofType: .nonRenewing(validDuration: getTimeInterval(product: product)), productId: productID, inReceipt: receipt, validUntil: Date())
+
+                switch purchaseResult {
+                    case .purchased:
+                        isProValid = true
+                    default:
+                        break
+                }
+            case .error:
+                break
+            }
+        })
     }
 }
 

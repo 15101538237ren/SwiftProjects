@@ -89,9 +89,10 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
         })
     }
     
-    func checkUserStatus(){
+    func checkUserStatus()
+    {
         if let user = LCApplication.default.currentUser {
-            _ = user.fetch(keys: ["proDue", "disabled"]) { result in
+            _ = user.fetch(keys: ["disabled"]) { result in
                 switch result {
                 case .success:
                     if let disabledLCObj = user.get("disabled"){
@@ -107,14 +108,6 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
                         }
                     }
                     
-                    if let proDUE = user.get("proDue"){
-                        if let proDUEdate = proDUE.dateValue{
-                            if proDUEdate > Date(){
-                                isPro = true
-                            }
-                        }
-                    }
-                    
                 case .failure(error: let error):
                     print(error.localizedDescription)
                 }
@@ -124,21 +117,7 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        let productIDs = getProductIDs()
-        
-        SwiftyStoreKit.retrieveProductsInfo(Set(productIDs)) { result in
-            if let product = result.retrievedProducts.first {
-                let priceString = product.localizedPrice!
-                print("Product: \(product.localizedDescription), price: \(priceString)")
-            }
-            else if let invalidProductId = result.invalidProductIDs.first {
-                print("Invalid product identifier: \(invalidProductId)")
-            }
-            else {
-                print("Error: \(result.error)")
-            }
-        }
+        verifyPurcahse()
         let _ = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(tictoc), userInfo: nil, repeats: true)
         popPrivacyMessage()
         titleLabel.theme_textColor = "BarTitleColor"
@@ -208,10 +187,10 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
         }
     }
     
-    func loadDetailVC(imageUrl: URL, wallpaperObjectId: String) -> Void{
+    func loadDetailVC(imageUrl: URL, wallpaperObjectId: String, pro: Bool) -> Void{
         let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
         let detailVC = mainStoryBoard.instantiateViewController(withIdentifier: "detailVC") as! WallpaperDetailVC
-        
+        detailVC.isPro = pro
         detailVC.imageUrl = imageUrl
         detailVC.wallpaperObjectId = wallpaperObjectId
         detailVC.modalPresentationStyle = .overCurrentContext
@@ -362,12 +341,8 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let wallpaper:Wallpaper = sortType == .byLike ? hotWallpapers[indexPath.row] : latestWallpapers[indexPath.row]
-        if wallpaper.isPro && !isPro{
-            showVIPBenefitsVC(showHint: true)
-        }else{
-            if let imgUrl = URL(string: wallpaper.imgUrl){
-                loadDetailVC(imageUrl: imgUrl, wallpaperObjectId: wallpaper.objectId)
-            }
+        if let imgUrl = URL(string: wallpaper.imgUrl){
+            loadDetailVC(imageUrl: imgUrl, wallpaperObjectId: wallpaper.objectId, pro:wallpaper.isPro)
         }
     }
     
@@ -440,7 +415,9 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
         let emailVC = LoginRegStoryBoard.instantiateViewController(withIdentifier: "loginVC") as! LoginVC
         emailVC.modalPresentationStyle = .overCurrentContext
         DispatchQueue.main.async {
-            self.present(emailVC, animated: true, completion: nil)
+            self.present(emailVC, animated: true, completion: {
+                emailVC.view.makeToast("请先「登录」或「注册」以上传壁纸", duration: 1.5, position: .center)
+            })
         }
     }
     
@@ -487,7 +464,7 @@ extension WallpaperVC: PopMenuViewControllerDelegate {
     func popMenuDidSelectItem(_ popMenuViewController: PopMenuViewController, at index: Int) {
         if popMenuViewController.view.tag == 1{
             if index == 0{
-                if isPro {
+                if isProValid {
                     loadSearchVC()
                 }else{
                     showVIPBenefitsVC(showHint: false)

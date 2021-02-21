@@ -18,6 +18,7 @@ enum SortType {
     case byCreateDate
 }
 
+
 enum DisplayMode {
     case Plain
     case LockScreen
