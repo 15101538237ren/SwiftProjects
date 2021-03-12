@@ -411,7 +411,7 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
             success in
             
             if success{
-                self.downloadBookJson(completionHandler: { success in
+                self.downloadBooksJson(completionHandler: { success in
                     if success
                     {
                         self.loadBooksNRecordsFinished()
@@ -428,7 +428,7 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
     }
     
     func loadBooksNRecordsFinished(){
-        
+        downloadHistoryBooks(completionHandler: {_ in })
     }
     
     func animationDidStop(_ anim: CAAnimation, finished flag: Bool) {
@@ -563,8 +563,66 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
             
     }
     
+    func downloadHistoryBooksJson(bookId:String, text: String){
+        if !Disk.exists("\(bookId).json", in: .documents) {
+            DispatchQueue.global(qos: .background).async {
+            do {
+                let query = LCQuery(className: "Book")
+                query.whereKey("identifier", .equalTo(bookId))
+                _ = query.getFirst() { result in
+                    
+                    switch result {
+                    case .success(object: let result):
+                        if let bookJson = result.get("data") as? LCFile {
+                            let url = URL(string: bookJson.url?.stringValue ?? "")!
+                            let data = try? Data(contentsOf: url)
+                            
+                            if let jsonData = data {
+                                savejson(fileName: bookId, jsonData: jsonData)
+                            }
+                        }
+                    case .failure(error: let error):
+                        print(error.localizedDescription)
+                    }
+                }
+                }
+            }
+        }
+    }
     
-    func downloadBookJson(completionHandler: @escaping CompletionHandler){
+    func downloadHistoryBooks(completionHandler: @escaping CompletionHandler){
+        let downloadText:String = "正在下载历史单词书..."
+        startRotating(text: downloadText)
+        
+        if let preference = preference{
+            if let current_book_id: String = preference.current_book_id{
+                let bookSets:Set<String> = Set<String>(global_vocabs_records.map{ $0.BookId })
+                var books_to_download:[String] = []
+                for book_id in bookSets{
+                    if book_id != current_book_id && !Disk.exists("\(book_id).json", in: .documents) {
+                        books_to_download.append(book_id)
+                    }
+                }
+                
+                for idx in 0..<books_to_download.count{
+                    let time_to_delay: Double = 0.5 * Double(idx)
+                    DispatchQueue.main.asyncAfter(deadline: .now() + time_to_delay) { [self] in
+                        downloadHistoryBooksJson(bookId: books_to_download[idx], text: downloadText)
+                    }
+                }
+                
+                stopRotating()
+                
+            }else{
+                stopRotating()
+            }
+            
+        }else{
+            stopRotating()
+        }
+    }
+    
+    func downloadBooksJson(completionHandler: @escaping CompletionHandler){
         startRotating(text: "正在同步数据...")
         
         if let preference = preference{
@@ -577,7 +635,7 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
                     completionHandler(true)
                 }
                 else{
-                    initActivityIndicator(text: "正在下载您的单词书...")
+                    initActivityIndicator(text: "正在下载单词书...")
                     
                     DispatchQueue.global(qos: .background).async {
                     do {

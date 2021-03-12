@@ -28,6 +28,7 @@ func isKeyPresentInUserDefaults(key: String) -> Bool {
 }
 
 // MARK: - Preference Util
+
 /**
  
  Load Preference from disk to memory, if not exist, initallize.
@@ -109,6 +110,7 @@ func saveRecordsToDisk(userId: String){
     do {
         try Disk.save(global_vocabs_records, to: .documents, as: vocab_records_fp)
         print("Saved VocabRecords to Disk Successful!")
+        
         try Disk.save(global_records, to: .documents, as: records_fp)
         print("Saved Records to Disk Successful!")
     } catch {
@@ -1058,16 +1060,25 @@ func loadIntArrayFromFile(fp: String) -> [Int] {
 // MARK: - Words Functions
 
 func get_words_need_to_be_review(vocab_rec_need_to_be_review: [VocabularyRecord]) -> [JSON]{
-    let chapters = currentbook_json_obj["chapters"].arrayValue
-    let words_dict = currentbook_json_obj["words"].dictionaryValue
+    
+    let bookSets:Set<String> = Set<String>(vocab_rec_need_to_be_review.map{ $0.BookId })
     var review_words:[JSON] = []
-    for vocab in vocab_rec_need_to_be_review{
-        let ind_arr = words_dict[vocab.VocabHead]!.arrayValue
-        let chpt_idx = ind_arr[0].intValue
-        let word_idx = ind_arr[1].intValue
-        let word_data = chapters[chpt_idx]["data"].arrayValue[word_idx]
-        review_words.append(word_data)
+    
+    for bookId in bookSets{
+        let vocabsTemp: [VocabularyRecord] = vocab_rec_need_to_be_review.filter{ $0.BookId == bookId}
+        let book_json_obj = load_json(fileName: bookId)
+        let chapters = book_json_obj["chapters"].arrayValue
+        let words_dict = book_json_obj["words"].dictionaryValue
+        
+        for vocab in vocabsTemp{
+            let ind_arr = words_dict[vocab.VocabHead]!.arrayValue
+            let chpt_idx = ind_arr[0].intValue
+            let word_idx = ind_arr[1].intValue
+            let word_data = chapters[chpt_idx]["data"].arrayValue[word_idx]
+            review_words.append(word_data)
+        }
     }
+    
     return review_words
 }
 
