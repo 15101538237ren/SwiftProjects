@@ -21,8 +21,6 @@ class StatViewController: UIViewController, ScrollableGraphViewDataSource {
     var cumReviewedOrMastered:[Double] = []
     var cumLearned:[Double] = []
     
-    @IBOutlet var displayLabels: [UILabel]!
-    
     @IBOutlet weak var barTitleLabel: UILabel!
     @IBOutlet weak var backBtn: UIButton!
     var learnStatusByDaySelected: Bool = true
@@ -191,9 +189,6 @@ class StatViewController: UIViewController, ScrollableGraphViewDataSource {
     
     override func viewDidLoad() {
         view.theme_backgroundColor = "Global.viewBackgroundColor"
-        for label in displayLabels{
-            label.theme_textColor = "StatView.displayTextColor"
-        }
         backBtn.theme_tintColor = "Global.backBtnTintColor"
         barTitleLabel.theme_textColor = "Global.barTitleColor"
         setFontofSegmentedControl(selectedForeGroundColor: .white)

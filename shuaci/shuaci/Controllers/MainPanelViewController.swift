@@ -411,24 +411,14 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
             success in
             
             if success{
-                self.downloadBooksJson(completionHandler: { success in
-                    if success
-                    {
-                        self.loadBooksNRecordsFinished()
-                    }
-                    else{
-                        self.view.makeToast("下载您的单词书失败🙁，请检查网络并重新打开APP。", duration: 1.0, position: .center)
-                    }
+                self.downloadCurrentBookJson(completionHandler: { success in
+                    self.downloadHistoryBooks(completionHandler: {_ in })
                 })
             }
             else{
                 self.view.makeToast("从云端下载设置与学习记录失败，请稍后再试!🙁", duration: 1.0, position: .center)
             }
         })
-    }
-    
-    func loadBooksNRecordsFinished(){
-        downloadHistoryBooks(completionHandler: {_ in })
     }
     
     func animationDidStop(_ anim: CAAnimation, finished flag: Bool) {
@@ -593,36 +583,32 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
     func downloadHistoryBooks(completionHandler: @escaping CompletionHandler){
         let downloadText:String = "正在下载历史单词书..."
         startRotating(text: downloadText)
-        
+        var current_book_id = ""
         if let preference = preference{
-            if let current_book_id: String = preference.current_book_id{
-                let bookSets:Set<String> = Set<String>(global_vocabs_records.map{ $0.BookId })
-                var books_to_download:[String] = []
-                for book_id in bookSets{
-                    if book_id != current_book_id && !Disk.exists("\(book_id).json", in: .documents) {
-                        books_to_download.append(book_id)
-                    }
-                }
-                
-                for idx in 0..<books_to_download.count{
-                    let time_to_delay: Double = 0.5 * Double(idx)
-                    DispatchQueue.main.asyncAfter(deadline: .now() + time_to_delay) { [self] in
-                        downloadHistoryBooksJson(bookId: books_to_download[idx], text: downloadText)
-                    }
-                }
-                
-                stopRotating()
-                
-            }else{
-                stopRotating()
+            if let bookId = preference.current_book_id{
+                current_book_id = bookId
             }
-            
-        }else{
-            stopRotating()
         }
+        
+        let bookSets:Set<String> = Set<String>(global_vocabs_records.map{ $0.BookId })
+        var books_to_download:[String] = []
+        for book_id in bookSets{
+            if !Disk.exists("\(book_id).json", in: .documents) && book_id != current_book_id {
+                books_to_download.append(book_id)
+            }
+        }
+        
+        for idx in 0..<books_to_download.count{
+            let time_to_delay: Double = 0.5 * Double(idx)
+            DispatchQueue.main.asyncAfter(deadline: .now() + time_to_delay) { [self] in
+                downloadHistoryBooksJson(bookId: books_to_download[idx], text: downloadText)
+            }
+        }
+        
+        stopRotating()
     }
     
-    func downloadBooksJson(completionHandler: @escaping CompletionHandler){
+    func downloadCurrentBookJson(completionHandler: @escaping CompletionHandler){
         startRotating(text: "正在同步数据...")
         
         if let preference = preference{
@@ -672,10 +658,12 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
                 }
             }else{
                 stopRotating()
+                completionHandler(false)
             }
             
         }else{
             stopRotating()
+            completionHandler(false)
         }
     }
     

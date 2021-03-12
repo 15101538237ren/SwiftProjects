@@ -9,6 +9,7 @@
 import UIKit
 import LeanCloud
 import SwiftTheme
+import Disk
 
 class SetMemOptionViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
     // MARK: - Enumerates
@@ -356,49 +357,78 @@ class SetMemOptionViewController: UIViewController, UIPickerViewDelegate, UIPick
     }
     
     func downloadBookJson(book: Book){
-        if Reachability.isConnectedToNetwork(){
-            DispatchQueue.global(qos: .background).async { [self] in
-            do {
-                DispatchQueue.main.async {
-                    self.initActivityIndicator(text: "书籍下载中")
-                    self.setElements(enable: false)
-                }
-                if self.bookIndex >= 0 {
-                    if let bookJson = resultsItems[self.bookIndex].get("data") as? LCFile {
-                        let url = URL(string: bookJson.url?.stringValue ?? "")!
-                        let data = try? Data(contentsOf: url)
+        if !Disk.exists("\(book.identifier).json", in: .documents){
+            if Reachability.isConnectedToNetwork(){
+                DispatchQueue.global(qos: .background).async { [self] in
+                do {
+                    DispatchQueue.main.async {
+                        self.initActivityIndicator(text: "书籍下载中")
+                        self.setElements(enable: false)
+                    }
+                    if self.bookIndex >= 0 {
+                        if let bookJson = resultsItems[self.bookIndex].get("data") as? LCFile {
+                            let url = URL(string: bookJson.url?.stringValue ?? "")!
+                            let data = try? Data(contentsOf: url)
 
-                        if let jsonData = data {
-                            savejson(fileName: book.identifier, jsonData: jsonData)
-                            currentbook_json_obj = load_json(fileName: book.identifier)
-                            preference.current_book_id = book.identifier
-                            savePreference(userId: currentUser.objectId!.stringValue!, preference: preference)
-                            if let mainVC = mainPanelVC{
-                                mainVC.update_preference()
-                            }
-                            if let settingVC = settingVC{
-                                settingVC.update_preference(pref: preference)
-                            }
-                            _ = update_words(preference: preference)
-                            DispatchQueue.main.async {
-                                self.stopIndicator()
-                                self.dismiss(animated: true, completion: {
-                                     () -> Void in
-                                        if let bookVC = self.bookVC{
-                                            bookVC.dismiss(animated: false, completion: { () -> Void in
-                                            if self.mainPanelVC != nil{
-                                                self.mainPanelVC!.loadLearnController()
-                                            }})
-                                        }
-                                })
+                            if let jsonData = data {
+                                savejson(fileName: book.identifier, jsonData: jsonData)
+                                currentbook_json_obj = load_json(fileName: book.identifier)
+                                preference.current_book_id = book.identifier
+                                savePreference(userId: currentUser.objectId!.stringValue!, preference: preference)
+                                if let mainVC = mainPanelVC{
+                                    mainVC.update_preference()
+                                }
+                                if let settingVC = settingVC{
+                                    settingVC.update_preference(pref: preference)
+                                }
+                                _ = update_words(preference: preference)
+                                DispatchQueue.main.async {
+                                    self.stopIndicator()
+                                    self.dismiss(animated: true, completion: {
+                                         () -> Void in
+                                            if let bookVC = self.bookVC{
+                                                bookVC.dismiss(animated: false, completion: { () -> Void in
+                                                if self.mainPanelVC != nil{
+                                                    self.mainPanelVC!.loadLearnController()
+                                                }})
+                                            }
+                                    })
+                                }
                             }
                         }
-                    }
+                        }
                     }
                 }
+            }else{
+                self.view.makeToast(NoNetworkStr, duration: 1.0, position: .center)
             }
-        }else{
-            self.view.makeToast(NoNetworkStr, duration: 1.0, position: .center)
+        }
+        else{
+            currentbook_json_obj = load_json(fileName: book.identifier)
+            preference.current_book_id = book.identifier
+            savePreference(userId: currentUser.objectId!.stringValue!, preference: preference)
+            
+            if let mainVC = mainPanelVC{
+                mainVC.update_preference()
+            }
+            
+            if let settingVC = settingVC{
+                settingVC.update_preference(pref: preference)
+            }
+            
+            _ = update_words(preference: preference)
+            DispatchQueue.main.async {
+                self.stopIndicator()
+                self.dismiss(animated: true, completion: {
+                     () -> Void in
+                        if let bookVC = self.bookVC{
+                            bookVC.dismiss(animated: false, completion: { () -> Void in
+                            if self.mainPanelVC != nil{
+                                self.mainPanelVC!.loadLearnController()
+                            }})
+                        }
+                })
+            }
         }
         
     }
