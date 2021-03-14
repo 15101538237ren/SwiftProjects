@@ -1135,17 +1135,17 @@
                                         </constraints>
                                     </view>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" alignment="center" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="UCa-LL-BlC">
-                                        <rect key="frame" x="67.5" y="286" width="239" height="27"/>
+                                        <rect key="frame" x="50" y="286" width="274" height="27"/>
                                         <subviews>
                                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" apportionsSegmentWidthsByContent="YES" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="yXM-87-qL2">
-                                                <rect key="frame" x="0.0" y="0.0" width="75" height="28"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="110" height="28"/>
                                                 <constraints>
+                                                    <constraint firstAttribute="width" constant="110" id="59l-bN-WBg"/>
                                                     <constraint firstAttribute="height" constant="27" id="nw4-ED-gHW"/>
-                                                    <constraint firstAttribute="width" constant="75" id="ynv-av-HsX"/>
                                                 </constraints>
                                                 <segments>
-                                                    <segment title="单词量"/>
-                                                    <segment title="时长"/>
+                                                    <segment title="单词量(个)"/>
+                                                    <segment title="时长(h)"/>
                                                 </segments>
                                                 <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <color key="selectedSegmentTintColor" systemColor="systemOrangeColor"/>
@@ -1154,7 +1154,7 @@
                                                 </connections>
                                             </segmentedControl>
                                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" apportionsSegmentWidthsByContent="YES" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="ahS-Ho-rou">
-                                                <rect key="frame" x="87" y="0.0" width="70" height="28"/>
+                                                <rect key="frame" x="122" y="0.0" width="70" height="28"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="70" id="BWa-tC-pef"/>
                                                     <constraint firstAttribute="height" constant="27" id="Rr9-rQ-bYQ"/>
@@ -1170,7 +1170,7 @@
                                                 </connections>
                                             </segmentedControl>
                                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" apportionsSegmentWidthsByContent="YES" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="o4P-kt-yDA">
-                                                <rect key="frame" x="169" y="0.0" width="70" height="28"/>
+                                                <rect key="frame" x="204" y="0.0" width="70" height="28"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="70" id="1i9-UY-TcW"/>
                                                     <constraint firstAttribute="height" constant="27" id="CDB-VJ-G2w"/>
@@ -2099,7 +2099,7 @@
                                         <color key="backgroundColor" systemColor="systemPinkColor"/>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="不熟" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XnJ-x2-xdZ">
-                                        <rect key="frame" x="60" y="153.5" width="160" height="93.5"/>
+                                        <rect key="frame" x="62" y="161.5" width="156.5" height="77.5"/>
                                         <fontDescription key="fontDescription" name="FangYuan" family="FangYuan" pointSize="80"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
@@ -2191,7 +2191,7 @@
                                         <color key="backgroundColor" systemColor="systemPinkColor"/>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="不熟" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Rl-fF-7YP">
-                                        <rect key="frame" x="60" y="153.5" width="160" height="93.5"/>
+                                        <rect key="frame" x="62" y="161.5" width="156.5" height="77.5"/>
                                         <fontDescription key="fontDescription" name="FangYuan" family="FangYuan" pointSize="80"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>

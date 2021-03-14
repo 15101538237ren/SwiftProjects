@@ -98,8 +98,8 @@ class StatViewController: UIViewController, ScrollableGraphViewDataSource {
             cumReviewedOrMastered = getCumHoursByDate(dates: intervalDates, byDay: byDay, cumulated: cumulated, Learn: false)
             cumLearned = getCumHoursByDate(dates: intervalDates, byDay: byDay, cumulated: cumulated, Learn: true)
         }
-        graphView!.reload()
-        graphView!.reload()
+        curveView.removeSubviews()
+        setupPlots()
     }
     
     func getBackgroundViewColor() -> String{
