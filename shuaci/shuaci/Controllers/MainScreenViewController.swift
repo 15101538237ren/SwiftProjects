@@ -54,6 +54,9 @@ class MainScreenViewController: UIViewController {
                                 CardWord.init(headWord: "smile", meaning: "n.微笑", phone: "smaɪl")]
     override func viewDidLoad() {
         super.viewDidLoad()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
         initVC()
     }
     

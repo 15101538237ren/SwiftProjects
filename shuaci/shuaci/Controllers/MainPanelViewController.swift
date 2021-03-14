@@ -82,15 +82,18 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
     // MARK: - Intiallization Functions
     
     func initVC(){
-        
-        preference = loadPreference(userId: currentUser.objectId!.stringValue!)
-        
-        loadTheme()
-        
-        loadBooksNRecords()
-        
-        loadUserPhoto()
-        
+        if let _ = currentUser{
+            preference = loadPreference(userId: currentUser.objectId!.stringValue!)
+            
+            loadTheme()
+            
+            loadBooksNRecords()
+            
+            loadUserPhoto()
+        }
+        else{
+            dismiss(animated: true, completion: nil)
+        }
     }
     
     // MARK: - Outlet Actions

@@ -39,6 +39,28 @@ class StatViewController: UIViewController, ScrollableGraphViewDataSource {
         }
     }
     
+    
+    @IBOutlet var numWordTodayLabel: UILabel!
+    @IBOutlet var numMinutesTodayLabel: UILabel!
+    @IBOutlet var numWordCumulatedLabel: UILabel!
+    @IBOutlet var numMinutesCumulatedLabel: UILabel!
+    
+    @IBOutlet var overView: UIView!{
+        didSet {
+            overView.theme_backgroundColor = "StatView.panelBgColor"
+            overView?.layer.cornerRadius = 15.0
+            overView?.layer.masksToBounds = true
+        }
+    }
+    
+    @IBOutlet var statView: UIView!{
+        didSet {
+            statView.theme_backgroundColor = "StatView.panelBgColor"
+            statView.layer.cornerRadius = 15.0
+            statView.layer.masksToBounds = true
+        }
+    }
+    
     @IBOutlet var curveView: UIView!{
         didSet {
             curveView.theme_backgroundColor = "StatView.panelBgColor"
@@ -195,6 +217,8 @@ class StatViewController: UIViewController, ScrollableGraphViewDataSource {
         setupPlots()
         setUpLearnStatusSelected()
         view.isOpaque = false
+        
+        getStatOfToday()
         super.viewDidLoad()
         
         let font = UIFont.systemFont(ofSize: 10)
@@ -206,6 +230,70 @@ class StatViewController: UIViewController, ScrollableGraphViewDataSource {
         dayMonSegmentedControl.theme_selectedSegmentTintColor = "StatView.segmentedCtrlSelectedTintColor"
         wordTimeSegmentedControl.theme_selectedSegmentTintColor = "StatView.segmentedCtrlSelectedTintColor"
         perTimeCumSegmentedControl.theme_selectedSegmentTintColor = "StatView.segmentedCtrlSelectedTintColor"
+    }
+    
+    func getStatOfToday(){
+        let today = Date()
+        
+        let today_records = getRecordsOfDate(date: today)
+        let todayLearnRec = today_records.filter { $0.recordType == 1}
+        let todayReviewRec = today_records.filter { $0.recordType == 2}
+        var number_of_vocab_today:Int = 0
+        var number_of_learning_secs_today: Int = 0
+        for lrec in todayLearnRec{
+            number_of_vocab_today += lrec.vocabHeads.count
+            let difference = Calendar.current.dateComponents([.second], from: lrec.startDate, to: lrec.endDate)
+            if let secondT = difference.second {
+                number_of_learning_secs_today += secondT
+            }
+        }
+        for rrec in todayReviewRec{
+            number_of_vocab_today += rrec.vocabHeads.count
+            let difference = Calendar.current.dateComponents([.second], from: rrec.startDate, to: rrec.endDate)
+            if let secondT = difference.second {
+                number_of_learning_secs_today += secondT
+            }
+        }
+        
+        var number_of_vocab_cummulated:Int = 0
+        var number_of_learning_secs_cummulated: Int = 0
+        
+        let global_learning_records = global_records.filter { $0.recordType == 1}
+        let global_review_records = global_records.filter { $0.recordType == 2}
+        
+        for lrec in global_learning_records{
+            number_of_vocab_cummulated += lrec.vocabHeads.count
+            let difference = Calendar.current.dateComponents([.second], from: lrec.startDate, to: lrec.endDate)
+            if let secondT = difference.second {
+                number_of_learning_secs_cummulated += secondT
+            }
+        }
+        for rrec in global_review_records{
+            let difference = Calendar.current.dateComponents([.second], from: rrec.startDate, to: rrec.endDate)
+            if let secondT = difference.second {
+                number_of_learning_secs_cummulated += secondT
+            }
+        }
+        
+        DispatchQueue.main.async {
+            self.numWordTodayLabel.text = "\(number_of_vocab_today)"
+            self.numWordCumulatedLabel.text = "\(number_of_vocab_cummulated)"
+            let learning_mins_today = Double(number_of_learning_secs_today)/60.0
+            if learning_mins_today > 1.0 || number_of_learning_secs_today == 0{
+                self.numMinutesTodayLabel.text = String(format: "%d", Int(round(learning_mins_today)))
+            }
+            else{
+                self.numMinutesTodayLabel.text = String(format: "%.1f", learning_mins_today)
+            }
+            let learning_mins_cummulated =  Double(number_of_learning_secs_cummulated)/60.0
+            
+            if learning_mins_cummulated > 1.0 || number_of_learning_secs_cummulated == 0{
+                self.numMinutesCumulatedLabel.text = String(format: "%d", Int(round(learning_mins_cummulated)))
+            }
+            else{
+                self.numMinutesCumulatedLabel.text = String(format: "%.1f", learning_mins_cummulated)
+            }
+        }
     }
     
     @IBAction func unwind(segue: UIStoryboardSegue) {
