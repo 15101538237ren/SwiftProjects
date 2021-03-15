@@ -160,6 +160,7 @@ func loadRecords(currentUser: LCUser, completionHandler: @escaping CompletionHan
         do {
             let records: [Record] = try Disk.retrieve(records_fp, from: .documents, as: [Record].self)
             global_records = records
+            loadRecordsFromCloud(currentUser: currentUser, completionHandler: { _ in})
             print("Loaded Records from Disk Successful!")
             completionHandler(true)
         } catch {
@@ -265,7 +266,6 @@ func saveVocabRecordsToCloud(currentUser: LCUser){
                                     print(error.reason ?? "failed to save VocabRecords")
                                 }
                             }
-                            
                         }
                         catch{
                             print(error.localizedDescription)
@@ -298,6 +298,7 @@ func loadVocabRecordsFromCloud(currentUser: LCUser){
                                     if let vocab_records = try? JSONDecoder().decode([VocabularyRecord].self, from: data)
                                     {
                                         global_vocabs_records = vocab_records
+                                        saveRecordsToDisk(userId: currentUser.objectId!.stringValue!)
                                     } else {
                                         print("bad json in VocabRecord from LeanCloud")
                                     }
@@ -360,7 +361,7 @@ func fetchBatchRecordsFromCloud(currentUser: LCUser, skip: Int = 0, completionHa
                 switch result {
                 case .success(objects: let items):
                     let records = parseLCRecords(items: items)
-                    updateRecords(records: records)
+                    updateRecords(userId: currentUser.objectId!.stringValue!, records: records)
                     completionHandler(true)
                 case .failure(error: let error):
                     print(error.localizedDescription)
@@ -406,12 +407,17 @@ func convertIntegersToCardBehaviorEnums(BehaviorHistory:[Int]) -> [CardBehavior]
     return cardBehaviors
 }
 
-func updateRecords(records: [Record]){
+func updateRecords(userId:String, records: [Record]){
+    var changed:Bool = false
     let uuids:[String] = global_records.map { $0.uuid }
     for record in records{
         if !uuids.contains(record.uuid){
             global_records.append(record)
+            changed = true
         }
+    }
+    if changed{
+        saveRecordsToDisk(userId: userId)
     }
 }
 

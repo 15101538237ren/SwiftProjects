@@ -937,7 +937,7 @@
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="AMQ-JB-XIg">
                                                     <rect key="frame" x="20" y="36.5" width="86" height="47.5"/>
                                                     <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="vocabulary" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gBR-9h-OCQ">
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="vocabulary" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gBR-9h-OCQ">
                                                             <rect key="frame" x="0.0" y="0.0" width="86" height="20.5"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" relation="lessThanOrEqual" constant="180" id="sTF-WC-ytT"/>
@@ -946,7 +946,7 @@
                                                             <color key="textColor" systemColor="darkTextColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ioo-s1-f83">
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ioo-s1-f83">
                                                             <rect key="frame" x="0.0" y="30.5" width="86" height="17"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" relation="lessThanOrEqual" constant="180" id="XZM-SJ-y6s"/>
@@ -1037,25 +1037,42 @@
                                     <outlet property="delegate" destination="wM5-zn-OKs" id="YB6-LA-dvl"/>
                                 </connections>
                             </tableView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nXA-mb-cUn">
-                                <rect key="frame" x="140.5" y="812" width="133" height="45"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="133" id="F6O-av-p6x"/>
-                                    <constraint firstAttribute="height" constant="45" id="d6V-BS-geQ"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="18"/>
-                                <state key="normal" title="复习选中"/>
-                                <connections>
-                                    <action selector="reviewSelectedWords:" destination="wM5-zn-OKs" eventType="touchUpInside" id="qPv-yU-AXj"/>
-                                </connections>
-                            </button>
+                            <stackView opaque="NO" contentMode="scaleToFill" spacing="25" translatesAutoresizingMaskIntoConstraints="NO" id="hkd-Hx-MEc">
+                                <rect key="frame" x="74.5" y="812" width="265" height="45"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nXA-mb-cUn">
+                                        <rect key="frame" x="0.0" y="0.0" width="120" height="45"/>
+                                        <color key="backgroundColor" red="0.60232967140000004" green="0.1190225556" blue="0.078384853899999996" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="120" id="F6O-av-p6x"/>
+                                            <constraint firstAttribute="height" constant="45" id="d6V-BS-geQ"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="18"/>
+                                        <state key="normal" title="选词复习"/>
+                                        <connections>
+                                            <action selector="reviewSelectedWords:" destination="wM5-zn-OKs" eventType="touchUpInside" id="qPv-yU-AXj"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Rfo-v1-B8d">
+                                        <rect key="frame" x="145" y="0.0" width="120" height="45"/>
+                                        <color key="backgroundColor" red="0.0" green="0.58980089430000004" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="120" id="6gS-fB-E9I"/>
+                                            <constraint firstAttribute="height" constant="45" id="wzu-kz-L5A"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="18"/>
+                                        <state key="normal" title="筛选复习"/>
+                                    </button>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="fei-7Q-t0t"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="WF0-7B-zOc" firstAttribute="centerX" secondItem="NSV-KK-5PQ" secondAttribute="centerX" id="3R5-6Z-5lj"/>
-                            <constraint firstItem="nXA-mb-cUn" firstAttribute="centerX" secondItem="NSV-KK-5PQ" secondAttribute="centerX" id="AEt-Rx-4Hu"/>
+                            <constraint firstItem="hkd-Hx-MEc" firstAttribute="centerX" secondItem="NSV-KK-5PQ" secondAttribute="centerX" id="AMX-xj-ydg"/>
                             <constraint firstItem="WF0-7B-zOc" firstAttribute="top" secondItem="a4R-OR-Pey" secondAttribute="bottom" constant="20" id="Alh-AQ-1P3"/>
+                            <constraint firstItem="fei-7Q-t0t" firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="hkd-Hx-MEc" secondAttribute="bottom" constant="5" id="Bvc-ag-XeV"/>
                             <constraint firstItem="fei-7Q-t0t" firstAttribute="bottom" secondItem="h2P-AZ-csD" secondAttribute="bottom" constant="60" id="EF7-ep-5bS"/>
                             <constraint firstItem="a4R-OR-Pey" firstAttribute="centerX" secondItem="NSV-KK-5PQ" secondAttribute="centerX" id="L11-eG-SLe"/>
                             <constraint firstItem="h2P-AZ-csD" firstAttribute="centerX" secondItem="NSV-KK-5PQ" secondAttribute="centerX" id="MRo-ha-SmS"/>
@@ -1066,16 +1083,16 @@
                             <constraint firstItem="h2P-AZ-csD" firstAttribute="leading" secondItem="fei-7Q-t0t" secondAttribute="leading" id="UiX-qN-0vR"/>
                             <constraint firstItem="qq2-LP-pTT" firstAttribute="top" secondItem="fei-7Q-t0t" secondAttribute="top" constant="10" id="bWc-Vz-6qP"/>
                             <constraint firstItem="h2P-AZ-csD" firstAttribute="top" secondItem="WF0-7B-zOc" secondAttribute="bottom" constant="15" id="bsp-LT-huj"/>
-                            <constraint firstItem="nXA-mb-cUn" firstAttribute="top" secondItem="h2P-AZ-csD" secondAttribute="bottom" constant="10" id="mfi-8E-pCO"/>
+                            <constraint firstItem="hkd-Hx-MEc" firstAttribute="top" secondItem="h2P-AZ-csD" secondAttribute="bottom" priority="990" constant="10" id="dzb-55-jDQ"/>
                             <constraint firstItem="a4R-OR-Pey" firstAttribute="top" secondItem="fei-7Q-t0t" secondAttribute="top" constant="12" id="rdb-TU-sMG"/>
                             <constraint firstItem="ywu-dw-2Vg" firstAttribute="leading" secondItem="NSV-KK-5PQ" secondAttribute="leading" constant="10" id="sqM-0g-fEW"/>
-                            <constraint firstItem="fei-7Q-t0t" firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="nXA-mb-cUn" secondAttribute="bottom" constant="5" id="zab-Fu-lGX"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="6eP-K6-Ruf"/>
                     <connections>
                         <outlet property="backBtn" destination="ywu-dw-2Vg" id="031-fY-4lh"/>
                         <outlet property="barTitleLabel" destination="a4R-OR-Pey" id="iLo-xq-PVw"/>
+                        <outlet property="filterBtn" destination="Rfo-v1-B8d" id="1bk-tI-5lr"/>
                         <outlet property="multiSelectionBtn" destination="qq2-LP-pTT" id="8wd-0b-nzr"/>
                         <outlet property="reviewSelectionBtn" destination="nXA-mb-cUn" id="I7s-fe-HQK"/>
                         <outlet property="segmentedControl" destination="WF0-7B-zOc" id="xgu-iC-3pg"/>
