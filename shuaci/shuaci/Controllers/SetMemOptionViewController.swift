@@ -86,6 +86,8 @@ class SetMemOptionViewController: UIViewController, UIPickerViewDelegate, UIPick
         
         preference.current_book_id = self.book.identifier
         
+        preference.current_book_name = self.book.name
+        
         preference.number_of_words_per_group = nwpg
         
         savePreference(userId: currentUser.objectId!.stringValue!, preference: preference)
@@ -374,6 +376,7 @@ class SetMemOptionViewController: UIViewController, UIPickerViewDelegate, UIPick
                                 savejson(fileName: book.identifier, jsonData: jsonData)
                                 currentbook_json_obj = load_json(fileName: book.identifier)
                                 preference.current_book_id = book.identifier
+                                preference.current_book_name = book.name
                                 savePreference(userId: currentUser.objectId!.stringValue!, preference: preference)
                                 if let mainVC = mainPanelVC{
                                     mainVC.update_preference()
@@ -406,6 +409,7 @@ class SetMemOptionViewController: UIViewController, UIPickerViewDelegate, UIPick
         else{
             currentbook_json_obj = load_json(fileName: book.identifier)
             preference.current_book_id = book.identifier
+            preference.current_book_name = book.name
             savePreference(userId: currentUser.objectId!.stringValue!, preference: preference)
             
             if let mainVC = mainPanelVC{

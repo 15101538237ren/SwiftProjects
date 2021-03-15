@@ -28,6 +28,12 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
     
     @IBOutlet weak var nameLabel: UILabel!
     
+    @IBOutlet var bookNameLabel: UILabel!
+    
+    @IBOutlet var progressLabel: UILabel!
+    
+    @IBOutlet var learntWordNumLabel: UILabel!
+    
     @IBOutlet var progressView: UIProgressView!{
         didSet{
             progressView.transform = .init(scaleX: 1, y: 1.5)
@@ -75,6 +81,7 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
         
         backBtn.theme_tintColor = "Global.backBtnTintColor"
         
+        initVC()
         addGestureRecognizers()
         updateUserPhoto()
         updateDisplayName()
@@ -108,6 +115,45 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
                     self.nameLabel.text = name
                 }
             }
+        }
+    }
+    
+    func initVC(){
+        if let current_book_name = preference.current_book_name{
+            self.bookNameLabel.text = "《\(current_book_name)》"
+        }
+        updateProgressLabels()
+    }
+    
+    func updateProgressLabels(){
+        if let bookId = preference.current_book_id {
+            if currentbook_json_obj.count == 0{
+                currentbook_json_obj = load_json(fileName: bookId)
+            }
+            
+            let learnt_word_heads: Set = Set<String>(global_vocabs_records.map{ $0.VocabHead })
+            
+            let chapters = currentbook_json_obj["chapters"].arrayValue
+            var tot_words:[String] = []
+            for chpt_idx in 0..<chapters.count{
+                let chapter = chapters[chpt_idx]
+                let word_heads = chapter["word_heads"].arrayValue.map {$0.stringValue}
+                tot_words.append(contentsOf: word_heads)
+            }
+            
+            let tot_word_set:Set<String> = Set(tot_words)
+            
+            var numOfOvlp:Int = 0
+            for learnt_word in learnt_word_heads{
+                if tot_word_set.contains(learnt_word){
+                    numOfOvlp += 1
+                }
+            }
+            
+            self.learntWordNumLabel.text = "\(numOfOvlp)/\(tot_word_set.count)"
+            let progress:Float = Float(numOfOvlp)/Float(tot_word_set.count)
+            self.progressView.progress = progress
+            self.progressLabel.text = "已学:  \(String(format: "%.1f", progress*100.0))%"
         }
     }
     
@@ -381,6 +427,20 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
            }
         }else{
             self.view.makeToast(NoNetworkStr, duration: 1.0, position: .center)
+        }
+    }
+    
+    
+    @IBAction func changeBook(_ sender: UIButton) {
+        let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+        let booksVC = mainStoryBoard.instantiateViewController(withIdentifier: "booksController") as! BooksViewController
+        booksVC.currentUser = currentUser
+        booksVC.preference = preference
+        booksVC.modalPresentationStyle = .fullScreen
+        booksVC.mainPanelViewController = nil
+        fetchBooks()
+        DispatchQueue.main.async {
+            self.present(booksVC, animated: true, completion: nil)
         }
     }
 }

@@ -19,7 +19,6 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
     let settingItems:[SettingItem] = [
         SettingItem(symbol_name : "auto_pronunciation", name: "自动发音", value: "开"),
         SettingItem(symbol_name : "english_american_pronunce", name: "发音类型", value: "美"),
-        SettingItem(symbol_name : "book", name: "选择单词书", value: ""),
         SettingItem(symbol_name : "scope", name: "设置学习计划", value: "乱序,20个/组"),
         SettingItem(symbol_name : "alarm", name: "每日提醒", value: ""),
         SettingItem(symbol_name : "rate_app", name: "评价应用", value: "v1.0.0"),
@@ -208,7 +207,7 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
             }
             return cell
         }
-        else if row == 3{
+        else if row == 2{
             let cell = tableView.dequeueReusableCell(withIdentifier: "SettingCell", for: indexPath) as! SettingTableViewCell
             
             cell.backgroundColor = .clear
@@ -300,17 +299,6 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
             cell.rightValueLabel.theme_textColor = "TableView.switchOffTextColor"
         }
         case 2:
-            let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
-            let booksVC = mainStoryBoard.instantiateViewController(withIdentifier: "booksController") as! BooksViewController
-            booksVC.currentUser = currentUser
-            booksVC.preference = preference
-            booksVC.modalPresentationStyle = .fullScreen
-            booksVC.mainPanelViewController = nil
-            fetchBooks()
-            DispatchQueue.main.async {
-                self.present(booksVC, animated: true, completion: nil)
-            }
-        case 3:
             if let book = getCurrentBook(preference: preference) {
                 let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
                 let SetMemOptionVC = mainStoryBoard.instantiateViewController(withIdentifier: "SetMemOptionVC") as! SetMemOptionViewController
@@ -327,7 +315,7 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
                     self.present(SetMemOptionVC, animated: true, completion: nil)
                 }
             }
-        case 4:
+        case 3:
             let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
             let reminderTimePickerVC = mainStoryBoard.instantiateViewController(withIdentifier: "reminderTimePickerVC") as! ReminderTimePickerViewController
             reminderTimePickerVC.settingVC = self
@@ -337,7 +325,7 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
             DispatchQueue.main.async {
                 self.present(reminderTimePickerVC, animated: true, completion: nil)
             }
-        case 6:
+        case 5:
             showFeedBackMailComposer()
         default:
             break
