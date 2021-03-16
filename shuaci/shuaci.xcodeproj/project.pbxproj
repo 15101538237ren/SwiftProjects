@@ -71,6 +71,7 @@
 		A5F5154F245F578900F06610 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F5154E245F578900F06610 /* Theme.swift */; };
 		A5F51551245F5E9300F06610 /* Wallpaper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F51550245F5E9300F06610 /* Wallpaper.swift */; };
 		BBA41A7442A9D5542E445471 /* Pods_shuaci.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7904B907E4DC4D8D3DC6FC8C /* Pods_shuaci.framework */; };
+		C31757D526002E78007213C6 /* UIImage+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31757D426002E78007213C6 /* UIImage+Ext.swift */; };
 		C32918CD259FFD9200E6527F /* GlobalConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C32918CC259FFD9200E6527F /* GlobalConstants.swift */; };
 		C32918E125A003D600E6527F /* MainScreenUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C32918E025A003D600E6527F /* MainScreenUIView.swift */; };
 		C34229E425A6A06600FFF918 /* DancingScript-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C34229E325A6A06600FFF918 /* DancingScript-Medium.ttf */; };
@@ -152,6 +153,7 @@
 		A5F5154C245F56DF00F06610 /* ThemeCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeCollectionViewController.swift; sourceTree = "<group>"; };
 		A5F5154E245F578900F06610 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		A5F51550245F5E9300F06610 /* Wallpaper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Wallpaper.swift; sourceTree = "<group>"; };
+		C31757D426002E78007213C6 /* UIImage+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Ext.swift"; sourceTree = "<group>"; };
 		C32918CC259FFD9200E6527F /* GlobalConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalConstants.swift; sourceTree = "<group>"; };
 		C32918E025A003D600E6527F /* MainScreenUIView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainScreenUIView.swift; sourceTree = "<group>"; };
 		C34229E325A6A06600FFF918 /* DancingScript-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "DancingScript-Medium.ttf"; sourceTree = "<group>"; };
@@ -269,6 +271,7 @@
 				55F2B59F247B053500758113 /* Date+Ext.swift */,
 				55F2B5A3247B4B3700758113 /* String+Ext.swift */,
 				5569E93E24AD187D006FBE62 /* UIApplication+Ext.swift */,
+				C31757D426002E78007213C6 /* UIImage+Ext.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -563,6 +566,7 @@
 				A5B821732453669B00963FEC /* CardUIView.swift in Sources */,
 				A5E6973A2473359F004CFA70 /* Array+Ext.swift in Sources */,
 				A52B84DA2471EE3700A002C6 /* Record.swift in Sources */,
+				C31757D526002E78007213C6 /* UIImage+Ext.swift in Sources */,
 				55001E212491B1FC00DF0D0E /* ThemeUtil.swift in Sources */,
 				C32918E125A003D600E6527F /* MainScreenUIView.swift in Sources */,
 				A59EB1D52452A12900F300E1 /* SceneDelegate.swift in Sources */,

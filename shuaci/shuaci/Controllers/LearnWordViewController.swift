@@ -109,7 +109,8 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     override func viewDidLoad() {
-        view.theme_backgroundColor = "Global.viewBackgroundColor"
+//        view.theme_backgroundColor = "Global.viewBackgroundColor"
+        view.backgroundColor = UIColor.init(hex: scene_backgrounds[preference.current_theme]!)!
         super.viewDidLoad()
         initLearningRecord()
     }
@@ -300,12 +301,14 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
         }
     }
     
-    
+    func getRandomColor() -> String{
+        return theme_card_colors[preference.current_theme]!.randomElement()!
+    }
     
     func setCardBackground(){
-        let current_theme_category = preference.current_theme
         for card in cards{
-            card.cardImageView?.image = UIImage(named: cardBackgrounds[current_theme_category]!)
+            card.cardImageView?.image = UIImage()
+            card.cardImageView?.backgroundColor = UIColor.init(hex: getRandomColor())!
         }
     }
     
@@ -313,12 +316,9 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
         let card = cards[currentIndex % 2]
         if isCardBack {
             isCardBack = false
-            let current_theme_category = preference.current_theme
-            card.cardImageView?.image = UIImage(named: cardBackgrounds[current_theme_category]!)
             UIView.transition(with: card, duration: 0.3, options: .transitionFlipFromRight, animations: nil, completion: nil)
         }else{
             isCardBack = true
-            card.cardImageView?.image = UIImage(named: "card_back")
             UIView.transition(with: card, duration: 0.3, options: .transitionFlipFromLeft, animations: nil, completion: nil)
             
         }
@@ -952,6 +952,7 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
         card.transform = CGAffineTransform.identity.scaledBy(x: scaleOfSecondCard, y: scaleOfSecondCard)
         card.center = CGPoint(x: view.center.x, y: view.center.y)
         card.alpha = 1
+        card.cardImageView?.backgroundColor = UIColor.init(hex: getRandomColor())!
     }
         
         func playMp3(url: URL)

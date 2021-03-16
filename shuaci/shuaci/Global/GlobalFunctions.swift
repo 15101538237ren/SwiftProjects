@@ -196,9 +196,11 @@ func saveRecordsToCloud(currentUser: LCUser){
     _ = LCObject.save(lcRecords, completion: { (result) in
         switch result {
         case .success:
-            print("Save \(global_records.count) Records to Cloud Successful!")
+            print("Save \(unsynced_records.count) Unsynchronized Records to Cloud Successful!")
             for rid in 0..<global_records.count{
-                global_records[rid].synced = true
+                if !global_records[rid].synced{
+                    global_records[rid].synced = true
+                }
             }
             saveRecordsToDisk(userId: currentUser.objectId!.stringValue!)
         case .failure(error: let error):
