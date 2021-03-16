@@ -75,6 +75,19 @@ var scene_backgrounds: [Int: String] = [
     10 : "#e9d7df",  // Purple
 ]
 
+var cardBackgrounds: [Int: String] = [
+    1 : "light-blue",
+    2 : "dark_blue",
+    3 : "black",
+    4 : "green",
+    5 : "red",
+    6 : "orange",
+    7 : "blue",
+    8 : "pink",
+    9 : "brown",
+    10 : "purple",
+]
+
 
 
 func getBlurEffect() -> UIBlurEffect {

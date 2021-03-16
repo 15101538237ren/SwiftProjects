@@ -109,8 +109,8 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     override func viewDidLoad() {
-//        view.theme_backgroundColor = "Global.viewBackgroundColor"
-        view.backgroundColor = UIColor.init(hex: scene_backgrounds[preference.current_theme]!)!
+        view.theme_backgroundColor = "Global.viewBackgroundColor"
+//        view.backgroundColor = UIColor.init(hex: scene_backgrounds[preference.current_theme]!)!
         super.viewDidLoad()
         initLearningRecord()
     }
@@ -307,8 +307,9 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
     
     func setCardBackground(){
         for card in cards{
-            card.cardImageView?.image = UIImage()
-            card.cardImageView?.backgroundColor = UIColor.init(hex: getRandomColor())!
+            card.cardImageView?.image = UIImage(named: cardBackgrounds[preference.current_theme]!)
+//            card.cardImageView?.image = UIImage()
+//            card.cardImageView?.backgroundColor = UIColor.init(hex: getRandomColor())!
         }
     }
     
@@ -952,7 +953,7 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
         card.transform = CGAffineTransform.identity.scaledBy(x: scaleOfSecondCard, y: scaleOfSecondCard)
         card.center = CGPoint(x: view.center.x, y: view.center.y)
         card.alpha = 1
-        card.cardImageView?.backgroundColor = UIColor.init(hex: getRandomColor())!
+//        card.cardImageView?.backgroundColor = UIColor.init(hex: getRandomColor())!
     }
         
         func playMp3(url: URL)
