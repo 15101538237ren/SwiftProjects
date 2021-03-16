@@ -36,6 +36,7 @@ let everyDayLearningReminderNotificationIdentifier = "dailyLearningReminder"
 
 let hud = JGProgressHUD(style: .light)
 
+let numOfDayInStatCurve:Int = 7
 
 
 

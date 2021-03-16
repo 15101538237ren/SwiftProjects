@@ -937,7 +937,7 @@
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="AMQ-JB-XIg">
                                                     <rect key="frame" x="20" y="36.5" width="86" height="47.5"/>
                                                     <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="vocabulary" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gBR-9h-OCQ">
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="vocabulary" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gBR-9h-OCQ">
                                                             <rect key="frame" x="0.0" y="0.0" width="86" height="20.5"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" relation="lessThanOrEqual" constant="180" id="sTF-WC-ytT"/>
@@ -946,7 +946,7 @@
                                                             <color key="textColor" systemColor="darkTextColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ioo-s1-f83">
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ioo-s1-f83">
                                                             <rect key="frame" x="0.0" y="30.5" width="86" height="17"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" relation="lessThanOrEqual" constant="180" id="XZM-SJ-y6s"/>
@@ -1138,7 +1138,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Yyq-bS-swR">
-                                <rect key="frame" x="20" y="386" width="374" height="343"/>
+                                <rect key="frame" x="20" y="386" width="374" height="368"/>
                                 <subviews>
                                     <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" apportionsSegmentWidthsByContent="YES" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="9Ml-IN-GDu">
                                         <rect key="frame" x="71.5" y="25" width="231" height="32"/>
@@ -1151,24 +1151,24 @@
                                         <color key="selectedSegmentTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </segmentedControl>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YdH-UP-BSR">
-                                        <rect key="frame" x="0.0" y="71" width="374" height="200"/>
+                                        <rect key="frame" x="0.0" y="71" width="354" height="240"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="200" id="shY-F7-yKJ"/>
+                                            <constraint firstAttribute="height" constant="240" id="shY-F7-yKJ"/>
                                         </constraints>
                                     </view>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" alignment="center" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="UCa-LL-BlC">
-                                        <rect key="frame" x="50" y="296" width="274" height="27"/>
+                                        <rect key="frame" x="55" y="321" width="264" height="27"/>
                                         <subviews>
                                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" apportionsSegmentWidthsByContent="YES" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="yXM-87-qL2">
-                                                <rect key="frame" x="0.0" y="0.0" width="110" height="28"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="90" height="28"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="width" constant="110" id="59l-bN-WBg"/>
+                                                    <constraint firstAttribute="width" constant="90" id="59l-bN-WBg"/>
                                                     <constraint firstAttribute="height" constant="27" id="nw4-ED-gHW"/>
                                                 </constraints>
                                                 <segments>
-                                                    <segment title="单词量(个)"/>
-                                                    <segment title="时长(h)"/>
+                                                    <segment title="单词量"/>
+                                                    <segment title="时长"/>
                                                 </segments>
                                                 <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <color key="selectedSegmentTintColor" systemColor="systemOrangeColor"/>
@@ -1177,9 +1177,9 @@
                                                 </connections>
                                             </segmentedControl>
                                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" apportionsSegmentWidthsByContent="YES" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="ahS-Ho-rou">
-                                                <rect key="frame" x="122" y="0.0" width="70" height="28"/>
+                                                <rect key="frame" x="102" y="0.0" width="80" height="28"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="width" constant="70" id="BWa-tC-pef"/>
+                                                    <constraint firstAttribute="width" constant="80" id="BWa-tC-pef"/>
                                                     <constraint firstAttribute="height" constant="27" id="Rr9-rQ-bYQ"/>
                                                 </constraints>
                                                 <segments>
@@ -1193,7 +1193,7 @@
                                                 </connections>
                                             </segmentedControl>
                                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" apportionsSegmentWidthsByContent="YES" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="o4P-kt-yDA">
-                                                <rect key="frame" x="204" y="0.0" width="70" height="28"/>
+                                                <rect key="frame" x="194" y="0.0" width="70" height="28"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="70" id="1i9-UY-TcW"/>
                                                     <constraint firstAttribute="height" constant="27" id="CDB-VJ-G2w"/>
@@ -1214,12 +1214,12 @@
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
                                     <constraint firstItem="YdH-UP-BSR" firstAttribute="top" secondItem="9Ml-IN-GDu" secondAttribute="bottom" constant="15" id="EWv-OW-Bxk"/>
-                                    <constraint firstItem="UCa-LL-BlC" firstAttribute="top" secondItem="YdH-UP-BSR" secondAttribute="bottom" constant="25" id="EXL-5K-BnN"/>
+                                    <constraint firstItem="UCa-LL-BlC" firstAttribute="top" secondItem="YdH-UP-BSR" secondAttribute="bottom" constant="10" id="EXL-5K-BnN"/>
                                     <constraint firstItem="UCa-LL-BlC" firstAttribute="centerX" secondItem="Yyq-bS-swR" secondAttribute="centerX" id="FKA-G0-1eX"/>
                                     <constraint firstAttribute="bottom" secondItem="UCa-LL-BlC" secondAttribute="bottom" constant="20" id="Ikc-Nd-yyL"/>
                                     <constraint firstItem="9Ml-IN-GDu" firstAttribute="centerX" secondItem="Yyq-bS-swR" secondAttribute="centerX" id="Nhw-z1-fnx"/>
                                     <constraint firstItem="9Ml-IN-GDu" firstAttribute="top" secondItem="Yyq-bS-swR" secondAttribute="top" constant="25" id="Z6v-oH-ufg"/>
-                                    <constraint firstAttribute="trailing" secondItem="YdH-UP-BSR" secondAttribute="trailing" id="aCl-ta-zRt"/>
+                                    <constraint firstAttribute="trailing" secondItem="YdH-UP-BSR" secondAttribute="trailing" constant="20" id="aCl-ta-zRt"/>
                                     <constraint firstItem="YdH-UP-BSR" firstAttribute="leading" secondItem="Yyq-bS-swR" secondAttribute="leading" id="vsJ-CW-UIy"/>
                                 </constraints>
                             </view>
@@ -1438,7 +1438,7 @@
                         <outlet property="barTitleLabel" destination="kW9-FR-IxA" id="VIl-To-ftK"/>
                         <outlet property="curveView" destination="YdH-UP-BSR" id="5ce-49-Shy"/>
                         <outlet property="dayMonSegmentedControl" destination="ahS-Ho-rou" id="6Ty-OA-Zj2"/>
-                        <outlet property="masteredStatusView" destination="YdH-UP-BSR" id="ecO-LF-g8r"/>
+                        <outlet property="masteredAndLearnedCurveView" destination="YdH-UP-BSR" id="QgC-GW-rzD"/>
                         <outlet property="numMinutesCumulatedLabel" destination="vGO-Gf-PDd" id="nZz-wo-poV"/>
                         <outlet property="numMinutesTodayLabel" destination="Q0Q-iV-hGR" id="WDB-g2-A7q"/>
                         <outlet property="numWordCumulatedLabel" destination="PCT-Ki-Cv3" id="g6D-cs-8Wv"/>
@@ -2044,17 +2044,17 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="Cp8-7F-MX9">
-                                <rect key="frame" x="146.5" y="84" width="121.5" height="88.5"/>
+                                <rect key="frame" x="137.5" y="84" width="139" height="88.5"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo" translatesAutoresizingMaskIntoConstraints="NO" id="d65-k0-fWP">
-                                        <rect key="frame" x="15.5" y="0.0" width="90" height="53"/>
+                                        <rect key="frame" x="24.5" y="0.0" width="90" height="53"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="90" id="4SB-Qw-bwE"/>
                                             <constraint firstAttribute="width" secondItem="d65-k0-fWP" secondAttribute="height" multiplier="80:47" id="ZPr-ZI-4O8"/>
                                         </constraints>
                                     </imageView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="你的背单词神器" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Klp-bL-7Sj">
-                                        <rect key="frame" x="0.0" y="68" width="121.5" height="20.5"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="高效背单词的法宝" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Klp-bL-7Sj">
+                                        <rect key="frame" x="0.0" y="68" width="139" height="20.5"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" red="0.2551480532" green="0.25519019370000001" blue="0.25513890389999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
@@ -2299,17 +2299,17 @@
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="XP1-gj-VR4">
-                                        <rect key="frame" x="143" y="350.5" width="128.5" height="95"/>
+                                        <rect key="frame" x="133.5" y="350.5" width="147" height="95"/>
                                         <subviews>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo" translatesAutoresizingMaskIntoConstraints="NO" id="wLm-Pn-a8b">
-                                                <rect key="frame" x="14" y="0.0" width="100" height="58.5"/>
+                                                <rect key="frame" x="23.5" y="0.0" width="100" height="58.5"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="100" id="EpT-7O-S60"/>
                                                     <constraint firstAttribute="width" secondItem="wLm-Pn-a8b" secondAttribute="height" multiplier="80:47" id="Oex-Jk-D5s"/>
                                                 </constraints>
                                             </imageView>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="你的背单词神器" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6fP-N5-hDA">
-                                                <rect key="frame" x="0.0" y="73.5" width="128.5" height="21.5"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="高效背单词的法宝" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6fP-N5-hDA">
+                                                <rect key="frame" x="0.0" y="73.5" width="147" height="21.5"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                 <color key="textColor" red="0.2551480532" green="0.25519019370000001" blue="0.25513890389999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
@@ -2728,17 +2728,17 @@
                                 </connections>
                             </button>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="mpj-Um-wy5">
-                                <rect key="frame" x="146.5" y="194" width="121.5" height="94.5"/>
+                                <rect key="frame" x="137.5" y="194" width="139" height="94.5"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo" translatesAutoresizingMaskIntoConstraints="NO" id="6e6-q0-DCZ">
-                                        <rect key="frame" x="10.5" y="0.0" width="100" height="59"/>
+                                        <rect key="frame" x="19.5" y="0.0" width="100" height="59"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="100" id="M0G-LD-UxV"/>
                                             <constraint firstAttribute="width" secondItem="6e6-q0-DCZ" secondAttribute="height" multiplier="80:47" id="nBc-5X-hZM"/>
                                         </constraints>
                                     </imageView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="你的背单词神器" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="k3I-nh-fuE">
-                                        <rect key="frame" x="0.0" y="74" width="121.5" height="20.5"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="高效背单词的法宝" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="k3I-nh-fuE">
+                                        <rect key="frame" x="0.0" y="74" width="139" height="20.5"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" red="0.2551480532" green="0.25519019370000001" blue="0.25513890389999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>

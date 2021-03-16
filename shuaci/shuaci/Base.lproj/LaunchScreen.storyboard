@@ -18,17 +18,17 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="1H2-Ye-jwX">
-                                <rect key="frame" x="143" y="350.5" width="128.5" height="95"/>
+                                <rect key="frame" x="133.5" y="350.5" width="147" height="95"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo" translatesAutoresizingMaskIntoConstraints="NO" id="AH1-KO-xUR">
-                                        <rect key="frame" x="14" y="0.0" width="100" height="58.5"/>
+                                        <rect key="frame" x="23.5" y="0.0" width="100" height="58.5"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="AH1-KO-xUR" secondAttribute="height" multiplier="80:47" id="8ZT-qM-4Bw"/>
                                             <constraint firstAttribute="width" constant="100" id="xWj-eQ-Rxd"/>
                                         </constraints>
                                     </imageView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="你的背单词神器" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6zn-pn-oId">
-                                        <rect key="frame" x="0.0" y="73.5" width="128.5" height="21.5"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="高效背单词的法宝" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6zn-pn-oId">
+                                        <rect key="frame" x="0.0" y="73.5" width="147" height="21.5"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                         <color key="textColor" red="0.2551480532" green="0.25519019370000001" blue="0.25513890389999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>

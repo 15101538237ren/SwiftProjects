@@ -1,4 +1,5 @@
 ${PODS_ROOT}/Target Support Files/Pods-shuaci/Pods-shuaci-frameworks.sh
+${BUILT_PRODUCTS_DIR}/AAInfographics/AAInfographics.framework
 ${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework
 ${BUILT_PRODUCTS_DIR}/CropViewController/CropViewController.framework
 ${BUILT_PRODUCTS_DIR}/Disk/Disk.framework
@@ -8,7 +9,6 @@ ${BUILT_PRODUCTS_DIR}/LeanCloud/LeanCloud.framework
 ${BUILT_PRODUCTS_DIR}/MKRingProgressView/MKRingProgressView.framework
 ${BUILT_PRODUCTS_DIR}/Nuke/Nuke.framework
 ${BUILT_PRODUCTS_DIR}/PhoneNumberKit/PhoneNumberKit.framework
-${BUILT_PRODUCTS_DIR}/ScrollableGraphView/ScrollableGraphView.framework
 ${BUILT_PRODUCTS_DIR}/SwiftProtobuf/SwiftProtobuf.framework
 ${BUILT_PRODUCTS_DIR}/SwiftTheme/SwiftTheme.framework
 ${BUILT_PRODUCTS_DIR}/SwiftValidators/SwiftValidators.framework

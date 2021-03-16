@@ -577,14 +577,7 @@ func hasSpecialCharacters(str: String) -> Bool {
 
 
 func getMinMaxDateOfVocabRecords() -> [Date]{
-    var minDate = Date()
-    for vocab in global_vocabs_records{
-        if let learnDate = vocab.LearnDate {
-            if learnDate < minDate{
-                minDate = learnDate
-            }
-        }
-    }
+    let minDate = Date().adding(durationVal: -numOfDayInStatCurve + 1, durationType: .day)
     return [minDate, Date()]
 }
 

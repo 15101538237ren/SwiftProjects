@@ -1,4 +1,5 @@
 PODS:
+  - AAInfographics (6.0.0)
   - Alamofire (5.4.1)
   - CropViewController (2.6.0)
   - Disk (0.6.4)
@@ -22,7 +23,6 @@ PODS:
   - PhoneNumberKit/PhoneNumberKitCore (3.3.1)
   - PhoneNumberKit/UIKit (3.3.1):
     - PhoneNumberKit/PhoneNumberKitCore
-  - ScrollableGraphView (4.0.6)
   - SwifterSwift/Foundation (5.2.0)
   - SwifterSwift/UIKit (5.2.0)
   - SwiftProtobuf (1.14.0)
@@ -32,6 +32,7 @@ PODS:
   - Toast-Swift (5.0.1)
 
 DEPENDENCIES:
+  - AAInfographics (from `https://github.com/AAChartModel/AAChartKit-Swift.git`)
   - CropViewController
   - "Disk (from `https://7mxaxlb@gitroyalty.com/saoudrizwan/Disk`, tag `0.6.4`)"
   - JGProgressHUD
@@ -39,7 +40,6 @@ DEPENDENCIES:
   - MKRingProgressView
   - Nuke
   - PhoneNumberKit
-  - ScrollableGraphView
   - SwifterSwift/Foundation
   - SwifterSwift/UIKit
   - SwiftTheme
@@ -57,7 +57,6 @@ SPEC REPOS:
     - MKRingProgressView
     - Nuke
     - PhoneNumberKit
-    - ScrollableGraphView
     - SwifterSwift
     - SwiftProtobuf
     - SwiftTheme
@@ -66,16 +65,22 @@ SPEC REPOS:
     - Toast-Swift
 
 EXTERNAL SOURCES:
+  AAInfographics:
+    :git: https://github.com/AAChartModel/AAChartKit-Swift.git
   Disk:
     :git: "https://7mxaxlb@gitroyalty.com/saoudrizwan/Disk"
     :tag: 0.6.4
 
 CHECKOUT OPTIONS:
+  AAInfographics:
+    :commit: 6c85c5221addb8d1d46822b3e8e9f479d7a21248
+    :git: https://github.com/AAChartModel/AAChartKit-Swift.git
   Disk:
     :git: "https://7mxaxlb@gitroyalty.com/saoudrizwan/Disk"
     :tag: 0.6.4
 
 SPEC CHECKSUMS:
+  AAInfographics: e57c6cc15ddc17df3555db6f586fb0e1b911a0b7
   Alamofire: 2291f7d21ca607c491dd17642e5d40fdcda0e65c
   CropViewController: 7093b39ec3cb508531b22d35773e06cecd7378d8
   Disk: 8ebb79575e81f13c3665e6ab2b9d31f29aec92bb
@@ -85,7 +90,6 @@ SPEC CHECKSUMS:
   MKRingProgressView: 404b3157e7a533ab8668d29ec20042c35d12ca1d
   Nuke: 3dd19fd03612c179036d2af7f56ec57cb84144e2
   PhoneNumberKit: ff153d5e299f6da566cb73c6aa71e354933b2932
-  ScrollableGraphView: 4af35d4ea9ecdec665d34a74da51da161ddff8ac
   SwifterSwift: 334181863c416882d97b7a60c05054d9e4d799e2
   SwiftProtobuf: ed465ed18402f998fd117f631da27e0168e6b59c
   SwiftTheme: 585ead917c78ea3fc508437b0a141d29c034bdb0
@@ -93,6 +97,6 @@ SPEC CHECKSUMS:
   SwiftyJSON: 36413e04c44ee145039d332b4f4e2d3e8d6c4db7
   Toast-Swift: 9b6a70f28b3bf0b96c40d46c0c4b9d6639846711
 
-PODFILE CHECKSUM: ef4f2b86db163461522dddc00edca0cca11f1ef8
+PODFILE CHECKSUM: c7e87e311072c3521f55cc393ddf8eab5d7c9adb
 
 COCOAPODS: 1.9.3
