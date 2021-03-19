@@ -14,9 +14,28 @@ class WordHistoryViewController: UIViewController, UIGestureRecognizerDelegate {
     
     
     let redColor:UIColor = UIColor(red: 168, green: 0, blue: 0, alpha: 1)
+    let darkGreen:UIColor = UIColor(red: 2, green: 108, blue: 69, alpha: 1)
     let headerViewHeight:CGFloat = 30
     
-    var tableISEditing: Bool = false
+    var tableISEditing: Bool = false{
+        didSet{
+            if tableISEditing{
+                if segmentedControl.selectedSegmentIndex == 2{
+                    wordSelectionBtn.setTitle("移出已掌握", for: .normal)
+                }
+                else{
+                    wordSelectionBtn.setTitle("复习选中", for: .normal)
+                }
+                wordSelectionBtn.isEnabled = false
+                wordSelectionBtn.backgroundColor = .lightGray
+            }else{
+                wordSelectionBtn.setTitle("选择词汇", for: .normal)
+                wordSelectionBtn.isEnabled = true
+                wordSelectionBtn.backgroundColor = redColor
+            }
+        }
+    }
+    
     var cellIsSelected:[String:[Bool]] = [:]
     
     var AllData:[String:JSON] = [:]
@@ -32,15 +51,13 @@ class WordHistoryViewController: UIViewController, UIGestureRecognizerDelegate {
     @IBOutlet weak var segmentedControl: UISegmentedControl!
     @IBOutlet weak var wordsTableView: UITableView!
     
-    @IBOutlet weak var multiSelectionBtn: UIButton!
-    
     @IBOutlet weak var backBtn: UIButton!
     @IBOutlet weak var barTitleLabel: UILabel!
     
-    @IBOutlet weak var reviewSelectionBtn: UIButton!{
+    @IBOutlet var wordSelectionBtn: UIButton!{
         didSet {
-            reviewSelectionBtn.layer.cornerRadius = 9.0
-            reviewSelectionBtn.layer.masksToBounds = true
+            wordSelectionBtn.layer.cornerRadius = 9.0
+            wordSelectionBtn.layer.masksToBounds = true
         }
     }
     
@@ -68,43 +85,23 @@ class WordHistoryViewController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     
-    @IBAction func reviewSelectedWords(_ sender: UIButton) {
-        multiSelectionBtn.isEnabled = true
-        tableISEditing = false
-        wordsTableView.setEditing(false, animated: true)
-        for key in sortedKeys{
-            for idx in 0..<groupedVocabs[key]!.count{
-                if cellIsSelected[key]![idx]{
-                    print(groupedVocabs[key]![idx].VocabHead)
+    @IBAction func operateOnSelectedWords(_ sender: UIButton) {
+        
+        if tableISEditing{
+            tableISEditing = false
+            wordsTableView.setEditing(false, animated: true)
+            for key in sortedKeys{
+                for idx in 0..<groupedVocabs[key]!.count{
+                    if cellIsSelected[key]![idx]{
+                        print(groupedVocabs[key]![idx].VocabHead)
+                    }
                 }
             }
         }
-    }
-    
-    @IBAction func multiSelectionTapped(_ sender: UIButton) {
-        tableISEditing.toggle()
-        
-        wordsTableView.setEditing(tableISEditing, animated: true)
-        
-        multiSelectionBtn.setTitleColor(tableISEditing ? .lightGray : .systemBlue, for: .normal)
-    }
-    
-    func disableMultiSelectionBtn(){
-        tableISEditing = false
-        
-        wordsTableView.setEditing(tableISEditing, animated: true)
-        
-        multiSelectionBtn.isEnabled = false
-        multiSelectionBtn.setTitleColor(.lightGray, for: .disabled)
-    }
-    
-    func enableMultiSelectionBtn(){
-        tableISEditing = false
-        
-        wordsTableView.setEditing(tableISEditing, animated: true)
-        
-        multiSelectionBtn.isEnabled = true
-        multiSelectionBtn.setTitleColor(tableISEditing ? .lightGray : .systemBlue, for: .normal)
+        else{
+            tableISEditing = true
+            wordsTableView.setEditing(tableISEditing, animated: true)
+        }
     }
     
     func initCellIsSelected(){
@@ -120,13 +117,10 @@ class WordHistoryViewController: UIViewController, UIGestureRecognizerDelegate {
         switch segmentedControl.selectedSegmentIndex {
             case 0:
                 groupedVocabs = groupVocabRecByDate(dateType: .learn)
-                enableMultiSelectionBtn()
             case 1:
                 groupedVocabs = groupVocabRecByDate(dateType: .collect)
-                enableMultiSelectionBtn()
             case 2:
                 groupedVocabs = groupVocabRecByDate(dateType: .master)
-                disableMultiSelectionBtn()
             default:
                 break
         }
@@ -144,6 +138,7 @@ class WordHistoryViewController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     @IBAction func segControlChanged(_ sender: UISegmentedControl) {
+        
         switch segmentedControl.selectedSegmentIndex {
             case 2:
                 wordsTableView.allowsSelection = false
@@ -151,7 +146,11 @@ class WordHistoryViewController: UIViewController, UIGestureRecognizerDelegate {
                 wordsTableView.allowsSelection = true
         }
         
+        tableISEditing = false
+        wordsTableView.setEditing(false, animated: true)
+        
         getGroupVocabs()
+        
     }
     
     func getSegmentedCtrlUnselectedTextColor() -> String{
@@ -188,7 +187,17 @@ class WordHistoryViewController: UIViewController, UIGestureRecognizerDelegate {
         segmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor(hex: getSegmentedCtrlUnselectedTextColor()) ?? .darkGray], for: .normal)
         segmentedControl.theme_backgroundColor = "WordHistory.segCtrlTintColor"
         segmentedControl.theme_selectedSegmentTintColor = "WordHistory.segmentedCtrlSelectedTintColor"
-//        startTimer()
+    }
+    
+    
+    @IBAction func showFilterVC(_ sender: UIButton) {
+        let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+        let filterVC = mainStoryBoard.instantiateViewController(withIdentifier: "filterVocabHistoryVC") as! FilterVocabHistoryVC
+        filterVC.modalPresentationStyle = .overCurrentContext
+        filterVC.wordHistoryVC = self
+        DispatchQueue.main.async {
+            self.present(filterVC, animated: true, completion: nil)
+        }
     }
     
     @IBAction func unwind(segue: UIStoryboardSegue) {
@@ -405,11 +414,20 @@ extension WordHistoryViewController: UITableViewDataSource, UITableViewDelegate{
         cellIsSelected[sortedKeys[section]]![row].toggle()
         
         print("\(#function)")
+        
         var numberOfSelected:Int = 0
         for key in sortedKeys{
             numberOfSelected += cellIsSelected[key]!.filter({ $0 == true }).count
         }
-        print(numberOfSelected)
+        
+        if numberOfSelected == 0{
+            wordSelectionBtn.isEnabled = false
+            wordSelectionBtn.backgroundColor = .lightGray
+        }
+        else{
+            wordSelectionBtn.isEnabled = true
+            wordSelectionBtn.backgroundColor = .systemBlue
+        }
     }
     
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
@@ -419,6 +437,19 @@ extension WordHistoryViewController: UITableViewDataSource, UITableViewDelegate{
             return
         }
         cellIsSelected[sortedKeys[section]]![row].toggle()
+        
+        var numberOfSelected:Int = 0
+        for key in sortedKeys{
+            numberOfSelected += cellIsSelected[key]!.filter({ $0 == true }).count
+        }
+        if numberOfSelected == 0{
+            wordSelectionBtn.isEnabled = false
+            wordSelectionBtn.backgroundColor = .lightGray
+        }
+        else{
+            wordSelectionBtn.isEnabled = true
+            wordSelectionBtn.backgroundColor = .systemBlue
+        }
     }
 }
 

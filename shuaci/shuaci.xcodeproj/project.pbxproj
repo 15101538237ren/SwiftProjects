@@ -74,6 +74,7 @@
 		C31757D526002E78007213C6 /* UIImage+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31757D426002E78007213C6 /* UIImage+Ext.swift */; };
 		C32918CD259FFD9200E6527F /* GlobalConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C32918CC259FFD9200E6527F /* GlobalConstants.swift */; };
 		C32918E125A003D600E6527F /* MainScreenUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C32918E025A003D600E6527F /* MainScreenUIView.swift */; };
+		C340D9DD2603127700EBE548 /* FilterVocabHistoryVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C340D9DC2603127700EBE548 /* FilterVocabHistoryVC.swift */; };
 		C34229E425A6A06600FFF918 /* DancingScript-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C34229E325A6A06600FFF918 /* DancingScript-Medium.ttf */; };
 		C34BB85B25A14C9E0073F815 /* GlobalVariables.swift in Sources */ = {isa = PBXBuildFile; fileRef = C34BB85A25A14C9E0073F815 /* GlobalVariables.swift */; };
 		C34BB85E25A157F00073F815 /* GlobalEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = C34BB85D25A157F00073F815 /* GlobalEnum.swift */; };
@@ -156,6 +157,7 @@
 		C31757D426002E78007213C6 /* UIImage+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Ext.swift"; sourceTree = "<group>"; };
 		C32918CC259FFD9200E6527F /* GlobalConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalConstants.swift; sourceTree = "<group>"; };
 		C32918E025A003D600E6527F /* MainScreenUIView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainScreenUIView.swift; sourceTree = "<group>"; };
+		C340D9DC2603127700EBE548 /* FilterVocabHistoryVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterVocabHistoryVC.swift; sourceTree = "<group>"; };
 		C34229E325A6A06600FFF918 /* DancingScript-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "DancingScript-Medium.ttf"; sourceTree = "<group>"; };
 		C34BB85A25A14C9E0073F815 /* GlobalVariables.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalVariables.swift; sourceTree = "<group>"; };
 		C34BB85D25A157F00073F815 /* GlobalEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalEnum.swift; sourceTree = "<group>"; };
@@ -366,6 +368,7 @@
 				A5AE220024E4E9D500473EA2 /* SetMemOptionViewController.swift */,
 				55B0673124E87A8F009DA575 /* LearnOrReviewFinishViewController.swift */,
 				559B96C224F82FDA00516475 /* WordDetailViewController.swift */,
+				C340D9DC2603127700EBE548 /* FilterVocabHistoryVC.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -523,6 +526,7 @@
 				55C781A024902C4F00C9F33E /* SettingToggleTableViewCell.swift in Sources */,
 				C3A1AB3225A1497B00921510 /* Preference.swift in Sources */,
 				550534F424FD845100246BCA /* WebViewUtil.swift in Sources */,
+				C340D9DD2603127700EBE548 /* FilterVocabHistoryVC.swift in Sources */,
 				A5134E3624677BF3008B116D /* LearnUIView.swift in Sources */,
 				55B0673224E87A8F009DA575 /* LearnOrReviewFinishViewController.swift in Sources */,
 				A5DD06DE2462343F0051B3E5 /* Level1CollectionViewCell.swift in Sources */,
