@@ -9,9 +9,12 @@
 import UIKit
 import SwiftTheme
 import SwiftyJSON
+import AVFoundation
 
 class WordHistoryViewController: UIViewController, UIGestureRecognizerDelegate {
     
+    var mp3Player: AVAudioPlayer?
+    var Word_indexs_In_Oalecd8:[String:[Int]] = [:]
     
     let redColor:UIColor = UIColor(red: 168, green: 0, blue: 0, alpha: 1)
     let darkGreen:UIColor = UIColor(red: 2, green: 108, blue: 69, alpha: 1)
@@ -73,10 +76,14 @@ class WordHistoryViewController: UIViewController, UIGestureRecognizerDelegate {
            let data = try Data(contentsOf: DICT_URL, options: [])//.mappedIfSafe
            AllData = try JSON(data: data)["data"].dictionary!
             let key_arr = try JSON(data: data)["keys"].arrayValue
-            for key in key_arr{
-                let key_str = key.stringValue
-                AllData_keys.append(key_str)
-                AllInterp_keys.append(AllData[key_str]!.stringValue)
+            let oalecd8_arr = try JSON(data: data)["oalecd8"].arrayValue
+            for kid in 0..<key_arr.count{
+                let key = key_arr[kid].stringValue
+                AllData_keys.append(key)
+                
+                AllInterp_keys.append(AllData[key]!.stringValue)
+                
+                Word_indexs_In_Oalecd8[key] = [kid, oalecd8_arr[kid].intValue]
             }
            print("Load \(DICT_URL) successful!")
         } catch {
@@ -138,14 +145,6 @@ class WordHistoryViewController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     @IBAction func segControlChanged(_ sender: UISegmentedControl) {
-        
-        switch segmentedControl.selectedSegmentIndex {
-            case 2:
-                wordsTableView.allowsSelection = false
-            default:
-                wordsTableView.allowsSelection = true
-        }
-        
         tableISEditing = false
         wordsTableView.setEditing(false, animated: true)
         
@@ -177,6 +176,7 @@ class WordHistoryViewController: UIViewController, UIGestureRecognizerDelegate {
         backBtn.theme_tintColor = "Global.backBtnTintColor"
         barTitleLabel.theme_textColor = "Global.barTitleColor"
         wordsTableView.theme_backgroundColor = "Global.viewBackgroundColor"
+        wordsTableView.allowsSelection = true
         wordsTableView.allowsMultipleSelection = false
         wordsTableView.allowsSelectionDuringEditing = true
         wordsTableView.allowsMultipleSelectionDuringEditing = true
@@ -411,22 +411,49 @@ extension WordHistoryViewController: UITableViewDataSource, UITableViewDelegate{
         if cellIsSelected[sortedKeys[section]]![row]{
             return
         }
+        
         cellIsSelected[sortedKeys[section]]![row].toggle()
         
         print("\(#function)")
         
-        var numberOfSelected:Int = 0
-        for key in sortedKeys{
-            numberOfSelected += cellIsSelected[key]!.filter({ $0 == true }).count
-        }
-        
-        if numberOfSelected == 0{
-            wordSelectionBtn.isEnabled = false
-            wordSelectionBtn.backgroundColor = .lightGray
-        }
-        else{
-            wordSelectionBtn.isEnabled = true
-            wordSelectionBtn.backgroundColor = .systemBlue
+        if tableISEditing{
+            var numberOfSelected:Int = 0
+            for key in sortedKeys{
+                numberOfSelected += cellIsSelected[key]!.filter({ $0 == true }).count
+            }
+            
+            if numberOfSelected == 0{
+                wordSelectionBtn.isEnabled = false
+                wordSelectionBtn.backgroundColor = .lightGray
+            }
+            else{
+                wordSelectionBtn.isEnabled = true
+                wordSelectionBtn.backgroundColor = .systemBlue
+            }
+        }else{
+            let selected_word:String = groupedVocabs[sortedKeys[section]]![row].VocabHead
+            
+            let indexItem:[Int] = Word_indexs_In_Oalecd8[selected_word]!
+            let wordIndex: Int = indexItem[0]
+            let hasValueInOalecd8: Int = indexItem[1]
+            if hasValueInOalecd8 == 1{
+                if Reachability.isConnectedToNetwork(){
+                    print("pronounce \(selected_word)")
+                    if let mp3_url = getWordPronounceURL(word: selected_word){
+                        playMp3(url: mp3_url)
+                    }
+                }
+                
+                let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+                let WordDetailVC = mainStoryBoard.instantiateViewController(withIdentifier: "WordDetailVC") as! WordDetailViewController
+                WordDetailVC.wordIndex = wordIndex
+                WordDetailVC.modalPresentationStyle = .overCurrentContext
+                DispatchQueue.main.async {
+                    self.present(WordDetailVC, animated: true, completion: nil)
+                }
+            }else{
+                view.makeToast("无词典解释☹️", duration: 1.0, position: .center)
+            }
         }
     }
     
@@ -438,17 +465,42 @@ extension WordHistoryViewController: UITableViewDataSource, UITableViewDelegate{
         }
         cellIsSelected[sortedKeys[section]]![row].toggle()
         
-        var numberOfSelected:Int = 0
-        for key in sortedKeys{
-            numberOfSelected += cellIsSelected[key]!.filter({ $0 == true }).count
+        if tableISEditing{
+            var numberOfSelected:Int = 0
+            for key in sortedKeys{
+                numberOfSelected += cellIsSelected[key]!.filter({ $0 == true }).count
+            }
+            if numberOfSelected == 0{
+                wordSelectionBtn.isEnabled = false
+                wordSelectionBtn.backgroundColor = .lightGray
+            }
+            else{
+                wordSelectionBtn.isEnabled = true
+                wordSelectionBtn.backgroundColor = .systemBlue
+            }
         }
-        if numberOfSelected == 0{
-            wordSelectionBtn.isEnabled = false
-            wordSelectionBtn.backgroundColor = .lightGray
-        }
-        else{
-            wordSelectionBtn.isEnabled = true
-            wordSelectionBtn.backgroundColor = .systemBlue
+    }
+    
+    func playMp3(url: URL)
+    {
+        if Reachability.isConnectedToNetwork(){
+            DispatchQueue.global(qos: .background).async {
+            do {
+                var downloadTask: URLSessionDownloadTask
+                downloadTask = URLSession.shared.downloadTask(with: url, completionHandler: { (urlhere, response, error) -> Void in
+                    if let urlhere = urlhere{
+                        do {
+                            self.mp3Player = try AVAudioPlayer(contentsOf: urlhere)
+                            self.mp3Player?.play()
+                        } catch {
+                            print("couldn't load file :( \(urlhere)")
+                        }
+                    }
+            })
+                downloadTask.resume()
+            }}
+        }else{
+            self.view.makeToast(NoNetworkStr, duration: 1.0, position: .center)
         }
     }
 }

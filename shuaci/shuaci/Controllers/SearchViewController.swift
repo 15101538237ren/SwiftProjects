@@ -156,7 +156,7 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
                 self.present(WordDetailVC, animated: true, completion: nil)
             }
         }else{
-            print("No value")
+            view.makeToast("无词典解释☹️", duration: 1.0, position: .center)
         }
     }
     
@@ -181,7 +181,6 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
         }else{
             self.view.makeToast(NoNetworkStr, duration: 1.0, position: .center)
         }
-        
     }
     
 }
