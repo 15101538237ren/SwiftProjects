@@ -9,6 +9,7 @@
 import UIKit
 import LeanCloud
 import SwiftyJSON
+import Disk
 
 class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UICollectionViewDelegate, UICollectionViewDataSource{
     
@@ -20,9 +21,11 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
     var indicator = UIActivityIndicatorView()
     var strLabel = UILabel()
     let effectView = UIVisualEffectView(effect: UIBlurEffect(style: .regular))
+    
+    var currentUser: LCUser!
+    var preference:Preference!
     var tempBooks:[Book] = []
     var tempItems:[LCObject] = []
-    
     var storedOffsets = [Int: CGFloat]()
     @IBOutlet var tableView: UITableView!
  
@@ -137,7 +140,7 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
             cell.btnTapAction = {
                 () in
                 currentSelectedSubCategory = indexPath.row
-                let cell = collectionView.cellForItem(at: indexPath) as! Level2CollectionViewCell
+//                let cell = collectionView.cellForItem(at: indexPath) as! Level2CollectionViewCell
                 DispatchQueue.main.async {
                     collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
                 }
@@ -220,21 +223,26 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         for collectionView in collectionViews{
             collectionView.theme_backgroundColor = "StatView.panelBgColor"
         }
+        
         view.theme_backgroundColor = "Global.viewBackgroundColor"
         backBtn.theme_tintColor = "Global.backBtnTintColor"
         barTitleLabel.theme_textColor = "Global.barTitleColor"
+        
         tableView.theme_backgroundColor = "StatView.panelBgColor"
         tableView.theme_separatorColor = "TableView.separatorColor"
         tableView.separatorStyle = .singleLine
-        category_items = [0:"全部"]
-        currentSelectedCategory = 0
-        currentSelectedSubCategory = 0
         tableView.delegate = self
         tableView.dataSource = self
         tableView.tableFooterView = UIView()
+        
+        category_items = [0:"全部"]
+        currentSelectedCategory = 0
+        currentSelectedSubCategory = 0
+        
         initActivityIndicator(text: "数据加载中..")
         setCollectionViewDataSourceDelegate()
         loadBooks()
@@ -251,8 +259,7 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
     {
         if books.count > 0{
             stopIndicator()
-            let connected = Reachability.isConnectedToNetwork()
-            if connected{
+            if Reachability.isConnectedToNetwork(){
                 DispatchQueue.global(qos: .background).async {
                 do {
                     let query = LCQuery(className: "Book")
@@ -301,16 +308,11 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
                 }
                 }
             }else{
-                if non_network_preseted == false{
-                    let alertCtl = presentNoNetworkAlert()
-                    self.present(alertCtl, animated: true, completion: nil)
-                    non_network_preseted = true
-                }
+                self.view.makeToast(NoNetworkStr, duration: 1.0, position: .center)
             }
             
         }else{
-            let connected = Reachability.isConnectedToNetwork()
-            if connected{
+            if Reachability.isConnectedToNetwork(){
                 DispatchQueue.global(qos: .background).async {
                 do {
                     let query = LCQuery(className: "Book")
@@ -351,11 +353,7 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
                 }
                 }
             }else{
-                if non_network_preseted == false{
-                    let alertCtl = presentNoNetworkAlert()
-                    self.present(alertCtl, animated: true, completion: nil)
-                    non_network_preseted = true
-                }
+                self.view.makeToast(NoNetworkStr, duration: 1.0, position: .center)
             }
         }
         if global_total_books.count == 0{
@@ -386,15 +384,18 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
                 cell.cover.layer.masksToBounds = true
                 // Check if the image is stored in cache
             }
-            
-        if let image = loadPhoto(name_of_photo: "\(books[indexPath.row].name as! NSString).jpg"){
-                // Fetch image from cache
-                DispatchQueue.main.async {
-                    cell.cover.image = image
-                    cell.setNeedsLayout()
-                }
-
+        
+        let image_fp = "\(books[indexPath.row].name).jpg"
+        do {
+            let image = try Disk.retrieve(image_fp, from: .caches, as: UIImage.self)
+            DispatchQueue.main.async {
+                cell.cover.image = image
+                cell.setNeedsLayout()
+            }
+        } catch {
+            print(error)
         }
+        
         cell.backgroundColor = .clear
         return cell
     }
@@ -404,13 +405,15 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return  books.count
+        return books.count
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
         let SetMemOptionVC = mainStoryBoard.instantiateViewController(withIdentifier: "SetMemOptionVC") as! SetMemOptionViewController
         SetMemOptionVC.modalPresentationStyle = .overCurrentContext
+        SetMemOptionVC.currentUser = currentUser
+        SetMemOptionVC.preference = preference
         SetMemOptionVC.book = books[indexPath.row]
         SetMemOptionVC.bookIndex = indexPath.row
         SetMemOptionVC.bookVC = self
@@ -427,7 +430,8 @@ extension BooksViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         var label = ""
         if collectionView.tag == 1{
-            label = categories[indexPath.row]?["category"]?[0] as! String
+            label = categories[indexPath.row]!["category"]![0]!
+            
             return label.size(withAttributes: [
                 NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 14)])
         }

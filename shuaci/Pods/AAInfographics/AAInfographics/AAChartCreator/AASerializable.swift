@@ -22,7 +22,7 @@
  * -------------------------------------------------------------------------------
  * And if you want to contribute for this project, please contact me as well
  * GitHub        : https://github.com/AAChartModel
- * StackOverflow : https://stackoverflow.com/users/7842508/codeforu
+ * StackOverflow : https://stackoverflow.com/users/12302132/codeforu
  * JianShu       : https://www.jianshu.com/u/f1e6753d4254
  * SegmentFault  : https://segmentfault.com/u/huanghunbieguan
  *
@@ -33,15 +33,7 @@
 
 import Foundation
 
-public protocol AAJSONRepresentable {
-    var JSONRepresentation: AnyObject { get }
-}
-
-public protocol AASerializable: AAJSONRepresentable {
-}
-
-public class AAObject: AASerializable  {
-}
+public class AAObject { }
 
 public extension AAObject {
     var classNameString: String {
@@ -50,58 +42,48 @@ public extension AAObject {
     }
 }
 
-public extension AASerializable {
-    var JSONRepresentation: AnyObject {
-        var representation = [String: AnyObject]()
+
+public extension AAObject {
+    func toDic() -> [String: Any]? {
+        var representation = [String: Any]()
         
         let mirrorChildren = Mirror(reflecting: self).children
-        
         for case let (label?, value) in mirrorChildren {
             switch value {
             case let value as AAObject: do {
-//                print("🦁propery name：\(label)     property value：\(value)")
-//                print("To be saved value：\(value.JSONRepresentation)")
-                representation[label] = value.JSONRepresentation
-                }
-                
+                representation[label] = value.toDic()
+            }
+            
             case let value as [AAObject]: do {
-//                print("l🐯propery name：\(label)     property value：\(value)")
-                var aaObjectArr = [AnyObject]()
+                var aaObjectArr = [Any]()
                 
                 let valueCount = value.count
                 for i in 0 ..< valueCount {
                     let aaObject = value[i]
                     let aaObjectDic = aaObject.toDic()
-                    aaObjectArr.append(aaObjectDic as AnyObject)
+                    aaObjectArr.append(aaObjectDic as Any)
                 }
                 
-                representation[label] = aaObjectArr as AnyObject
-                }
-                
+                representation[label] = aaObjectArr
+            }
+            
             case let value as NSObject: do {
-//                  print("🐱propery name：\(label)     property value：\(value)")
                 representation[label] = value
-                }
-                
+            }
+            
             default:
                 // Ignore any unserializable properties
                 break
             }
         }
         
-        return representation as AnyObject
+        return representation as [String: Any]?
     }
-}
-
-public extension AASerializable {
-    func toDic() -> [String: AnyObject]? {
-        let dic = JSONRepresentation as? [String: AnyObject]
-        return dic
-    }
+    
     
     func toJSON() -> String? {
         do {
-            let data = try JSONSerialization.data(withJSONObject: JSONRepresentation, options: [])
+            let data = try JSONSerialization.data(withJSONObject: toDic() as Any, options: [])
             let jsonStr = String(data: data, encoding: String.Encoding.utf8)
             return jsonStr
         } catch {

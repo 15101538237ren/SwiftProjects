@@ -22,7 +22,7 @@
  * -------------------------------------------------------------------------------
  * And if you want to contribute for this project, please contact me as well
  * GitHub        : https://github.com/AAChartModel
- * StackOverflow : https://stackoverflow.com/users/7842508/codeforu
+ * StackOverflow : https://stackoverflow.com/users/12302132/codeforu
  * JianShu       : https://www.jianshu.com/u/f1e6753d4254
  * SegmentFault  : https://segmentfault.com/u/huanghunbieguan
  *
@@ -49,6 +49,10 @@ public class AATooltip: AAObject {
     public var crosshairs: Bool?
     public var valueSuffix: String?
     public var followTouchMove: Bool?//https://api.highcharts.com.cn/highcharts#chart.panning
+    public var shadow: Bool?
+    public var padding: Float?
+    public var pointFormatter: String?
+    public var positioner: String?
         
     
     @discardableResult
@@ -95,9 +99,7 @@ public class AATooltip: AAObject {
     
     @discardableResult
     public func formatter(_ prop: String) -> AATooltip {
-        var pureJSFunctionStr = "(\(prop))"
-        pureJSFunctionStr = AAJSStringPurer.pureJavaScriptFunctionString(pureJSFunctionStr)
-        formatter = pureJSFunctionStr
+        formatter = prop.aa_toPureJSString()
         return self
     }
     
@@ -146,6 +148,30 @@ public class AATooltip: AAObject {
     @discardableResult
     public func followTouchMove(_ prop: Bool?) -> AATooltip {
         followTouchMove = prop
+        return self
+    }
+    
+    @discardableResult
+    public func shadow(_ prop: Bool?) -> AATooltip {
+        shadow = prop
+        return self
+    }
+    
+    @discardableResult
+    public func padding(_ prop: Float?) -> AATooltip {
+        padding = prop
+        return self
+    }
+    
+    @discardableResult
+    public func pointFormatter(_ prop: String) -> AATooltip {
+        pointFormatter = prop.aa_toPureJSString()
+        return self
+    }
+    
+    @discardableResult
+    public func positioner(_ prop: String) -> AATooltip {
+        positioner = prop.aa_toPureJSString()
         return self
     }
     

@@ -9,8 +9,17 @@
 import UIKit
 import LeanCloud
 import SwiftTheme
+import Disk
 
 class SetMemOptionViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
+    // MARK: - Enumerates
+    enum memOrder: Int {
+        case byRandom = 1
+        case byAlphabet = 2
+        case byReversedAlphabet = 3
+    }
+    
+    // MARK: - Outlet Variables
     @IBOutlet weak var backBtn: UIButton!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var memOrderLabel: UILabel!
@@ -22,33 +31,44 @@ class SetMemOptionViewController: UIViewController, UIPickerViewDelegate, UIPick
     @IBOutlet weak var setBtn: UIButton!
     @IBOutlet weak var memOrderSegCtrl: UISegmentedControl!
     @IBOutlet var title_To_Bottom_Y_Constraint: NSLayoutConstraint!
-    var setting_tableView: UITableView?
+    @IBOutlet weak var dailyNumWordPickerView: UIPickerView!
+    
+    
+    
+    func setElements(enable: Bool){
+        self.backBtn.isUserInteractionEnabled = enable
+        self.view.isUserInteractionEnabled = enable
+        self.setBtn.isUserInteractionEnabled = enable
+        self.memOrderSegCtrl.isUserInteractionEnabled = enable
+    }
+    
+    
+    // MARK: - Variables
+    var settingVC: SettingViewController?
     var bookVC: BooksViewController?
     var mainPanelVC: MainPanelViewController?
     
     var indicator = UIActivityIndicatorView()
     var strLabel = UILabel()
-    let effectView = UIVisualEffectView(effect: UIBlurEffect(style: .regular))
-    
     var book: Book!
     var bookIndex: Int!
+    
     var itemToDayDict: [Int: Int] = [:]
     var dayToItemDict: [Int: Int] = [:]
-    @IBOutlet weak var dailyNumWordPickerView: UIPickerView!
     
-    var viewTranslation = CGPoint(x: 0, y: 0)
-    let number_of_words: [Int] = [10, 20, 30, 40, 50, 100, 150, 200, 300, 400, 500]
     var number_of_items:[Int] = []
     var num_days_to_complete: [Int] = []
-    
-    enum memOrder: Int {
-        case byRandom = 1
-        case byAlphabet = 2
-        case byReversedAlphabet = 3
-    }
-    
+    var viewTranslation = CGPoint(x: 0, y: 0)
     var memOrd: memOrder = .byRandom
     
+    var currentUser: LCUser!
+    var preference:Preference!
+    
+    // MARK: - Constants
+    let number_of_words: [Int] = [10, 20, 30, 40, 50, 100]
+    let effectView = UIVisualEffectView(effect: UIBlurEffect(style: .regular))
+    
+    // MARK: - Outlet Actions
     @IBAction func memOrderChanged(_ sender: UISegmentedControl) {
         if memOrderSegCtrl.selectedSegmentIndex == 0{
             memOrd = .byRandom
@@ -59,6 +79,43 @@ class SetMemOptionViewController: UIViewController, UIPickerViewDelegate, UIPick
             memOrd = .byReversedAlphabet
         }
     }
+    
+    @IBAction func setMemOption(_ sender: UIButton) {
+        let nwpg = number_of_words[dailyNumWordPickerView.selectedRow(inComponent: 0)]
+        preference.memory_order = self.memOrd.rawValue
+        
+        preference.current_book_id = self.book.identifier
+        
+        preference.current_book_name = self.book.name
+        
+        preference.number_of_words_per_group = nwpg
+        
+        savePreference(userId: currentUser.objectId!.stringValue!, preference: preference)
+        
+        if let mainVC = mainPanelVC{
+            mainVC.update_preference()
+        }
+        if let settingVC = settingVC{
+            settingVC.update_preference(pref: preference)
+        }
+        
+        if bookVC != nil{
+            downloadBookJson(book: book)
+        }
+        else
+        {
+            if settingVC != nil{
+                DispatchQueue.main.async {
+                    self.dismiss(animated: true, completion: {
+                        self.settingVC!.tableView.reloadRows(at: [IndexPath(row: 3, section: 0)], with: .automatic)
+                    })
+                }
+            }
+            _ = update_words(preference: preference)
+        }
+    }
+    
+    
     
     
     func initActivityIndicator(text: String) {
@@ -186,9 +243,8 @@ class SetMemOptionViewController: UIViewController, UIPickerViewDelegate, UIPick
         
         dailyNumWordPickerView.reloadAllComponents()
         var selected_ind:Int = 0
-        if let numWord = getPreference(key: "number_of_words_per_group") as? Int{
-            selected_ind = selectedFirstIndex(numWord: numWord)
-        }
+        
+        selected_ind = selectedFirstIndex(numWord: preference.number_of_words_per_group)
         
         dailyNumWordPickerView.selectRow(selected_ind, inComponent: 0, animated: true)
         
@@ -197,22 +253,21 @@ class SetMemOptionViewController: UIViewController, UIPickerViewDelegate, UIPick
         if selected_second_ind >= 0{
             dailyNumWordPickerView.selectRow(selected_second_ind, inComponent: 1, animated: true)
         }
+        let memory_order = preference.memory_order
         
-        if let memOrder = getPreference(key: "memOrder") as? Int{
-            switch memOrder {
-            case 1:
-                memOrd = .byRandom
-                memOrderSegCtrl.selectedSegmentIndex = 0
-            case 2:
-                memOrd = .byAlphabet
-                memOrderSegCtrl.selectedSegmentIndex = 1
-            case 3:
-                memOrd = .byReversedAlphabet
-                memOrderSegCtrl.selectedSegmentIndex = 2
-            default:
-                memOrd = .byRandom
-                memOrderSegCtrl.selectedSegmentIndex = 0
-            }
+        switch memory_order {
+        case 1:
+            memOrd = .byRandom
+            memOrderSegCtrl.selectedSegmentIndex = 0
+        case 2:
+            memOrd = .byAlphabet
+            memOrderSegCtrl.selectedSegmentIndex = 1
+        case 3:
+            memOrd = .byReversedAlphabet
+            memOrderSegCtrl.selectedSegmentIndex = 2
+        default:
+            memOrd = .byRandom
+            memOrderSegCtrl.selectedSegmentIndex = 0
         }
     }
     
@@ -304,86 +359,83 @@ class SetMemOptionViewController: UIViewController, UIPickerViewDelegate, UIPick
     }
     
     func downloadBookJson(book: Book){
-        let connected = Reachability.isConnectedToNetwork()
-        if connected{
-            DispatchQueue.global(qos: .background).async {
-            do {
-                DispatchQueue.main.async {
-                    self.initActivityIndicator(text: "书籍下载中")
-                }
-                if self.bookIndex >= 0 {
-                    if let bookJson = resultsItems[self.bookIndex].get("data") as? LCFile {
-                        let url = URL(string: bookJson.url?.stringValue ?? "")!
-                        let data = try? Data(contentsOf: url)
+        if !Disk.exists("\(book.identifier).json", in: .documents){
+            if Reachability.isConnectedToNetwork(){
+                DispatchQueue.global(qos: .background).async { [self] in
+                do {
+                    DispatchQueue.main.async {
+                        self.initActivityIndicator(text: "书籍下载中")
+                        self.setElements(enable: false)
+                    }
+                    if self.bookIndex >= 0 {
+                        if let bookJson = resultsItems[self.bookIndex].get("data") as? LCFile {
+                            let url = URL(string: bookJson.url?.stringValue ?? "")!
+                            let data = try? Data(contentsOf: url)
 
-                        if let jsonData = data {
-                            savejson(fileName: book.identifier, jsonData: jsonData)
-                            currentbook_json_obj = load_json(fileName: book.identifier)
-                            clear_words()
-                            update_words()
-                            get_words()
-                            DispatchQueue.main.async {
-                                self.stopIndicator()
-                                self.dismiss(animated: true, completion: {
-                                     () -> Void in
-                                        if let bookVC = self.bookVC{
-                                            bookVC.dismiss(animated: false, completion: { () -> Void in
-                                            if self.mainPanelVC != nil{
-                                                self.mainPanelVC!.loadLearnController()
-                                            }})
-                                        }
-                                })
+                            if let jsonData = data {
+                                savejson(fileName: book.identifier, jsonData: jsonData)
+                                currentbook_json_obj = load_json(fileName: book.identifier)
+                                preference.current_book_id = book.identifier
+                                preference.current_book_name = book.name
+                                savePreference(userId: currentUser.objectId!.stringValue!, preference: preference)
+                                if let mainVC = mainPanelVC{
+                                    mainVC.update_preference()
+                                }
+                                if let settingVC = settingVC{
+                                    settingVC.update_preference(pref: preference)
+                                }
+                                _ = update_words(preference: preference)
+                                DispatchQueue.main.async {
+                                    self.stopIndicator()
+                                    self.dismiss(animated: true, completion: {
+                                         () -> Void in
+                                            if let bookVC = self.bookVC{
+                                                bookVC.dismiss(animated: false, completion: { () -> Void in
+                                                if self.mainPanelVC != nil{
+                                                    self.mainPanelVC!.loadLearnController()
+                                                }})
+                                            }
+                                    })
+                                }
                             }
                         }
-                    }
+                        }
                     }
                 }
+            }else{
+                self.view.makeToast(NoNetworkStr, duration: 1.0, position: .center)
             }
-        }else{
-            if non_network_preseted == false{
-                let alertCtl = presentNoNetworkAlert()
-                self.present(alertCtl, animated: true, completion: nil)
-                non_network_preseted = true
+        }
+        else{
+            currentbook_json_obj = load_json(fileName: book.identifier)
+            preference.current_book_id = book.identifier
+            preference.current_book_name = book.name
+            savePreference(userId: currentUser.objectId!.stringValue!, preference: preference)
+            
+            if let mainVC = mainPanelVC{
+                mainVC.update_preference()
+            }
+            
+            if let settingVC = settingVC{
+                settingVC.update_preference(pref: preference)
+            }
+            
+            _ = update_words(preference: preference)
+            DispatchQueue.main.async {
+                self.stopIndicator()
+                self.dismiss(animated: true, completion: {
+                     () -> Void in
+                        if let bookVC = self.bookVC{
+                            bookVC.dismiss(animated: false, completion: { () -> Void in
+                            if self.mainPanelVC != nil{
+                                self.mainPanelVC!.loadLearnController()
+                            }})
+                        }
+                })
             }
         }
         
     }
-    func getSettingTextforTableView(number_of_words_per_group: Int) -> String {
-        var order = "乱序"
-        switch memOrd {
-        case .byRandom:
-            order = "乱序"
-        case .byAlphabet:
-            order = "顺序"
-        case .byReversedAlphabet:
-            order = "倒序"
-        }
-        return "\(order) s \(number_of_words_per_group)个/组"
-    }
     
-    @IBAction func setMemOption(_ sender: UIButton) {
-        print(self.memOrd.rawValue)
-        setPreference(key: "memOrder", value: self.memOrd.rawValue)
-        setPreference(key: "current_book_id", value: self.book.identifier)
-        let number_of_words_per_group:Int = number_of_words[dailyNumWordPickerView.selectedRow(inComponent: 0)]
-        setPreference(key: "number_of_words_per_group", value: number_of_words_per_group)
-        if bookVC != nil{
-            downloadBookJson(book: book)
-        }
-        else
-        {
-            if setting_tableView != nil{
-                let setText =  getSettingTextforTableView(number_of_words_per_group: number_of_words_per_group)
-                DispatchQueue.main.async {
-                    let indexPath_in_setting = IndexPath(row: 3, section: 0)
-                    let cell_in_setting = self.setting_tableView!.dequeueReusableCell(withIdentifier: "SettingCell", for: indexPath_in_setting) as! SettingTableViewCell
-                    cell_in_setting.valueLabel?.text = setText
-                    self.setting_tableView!.reloadRows(at: [indexPath_in_setting], with: .none)
-                    self.dismiss(animated: true, completion: nil)
-                }
-            }
-            update_words()
-        }
-    }
     
 }

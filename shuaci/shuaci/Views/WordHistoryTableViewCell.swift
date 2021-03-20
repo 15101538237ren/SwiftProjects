@@ -28,17 +28,15 @@ class WordHistoryTableViewCell: UITableViewCell {
         }
     }
     
-    @IBOutlet weak var masteredUILabel: UILabel!{
+    @IBOutlet weak var statLabel: UILabel!{
         didSet{
-            masteredUILabel.theme_textColor = "TableView.valueTextColor"
+            statLabel.theme_textColor = "TableView.valueTextColor"
         }
     }
     
-    @IBOutlet weak var masterPercentLabel: UILabel!{
-        didSet{
-            masterPercentLabel.theme_textColor = "TableView.valueTextColor"
-        }
-    }
+    
+    @IBOutlet weak var statStackView: UIStackView!
+    
     @IBOutlet weak var progressView: UIProgressView!
     
     override func awakeFromNib() {

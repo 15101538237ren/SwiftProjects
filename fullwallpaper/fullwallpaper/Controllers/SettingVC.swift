@@ -6,33 +6,119 @@
 //
 
 import UIKit
-import SwiftTheme
 import MessageUI
 import Nuke
 import LeanCloud
+import PopMenu
 
 class SettingVC: UIViewController , UITableViewDataSource, UITableViewDelegate {
+    
     let settingItems:[[SettingItem]] = [
         [SettingItem(symbol_name : "user", name: "登录 / 注册")],
-        [SettingItem(symbol_name : "membership", name: "会员权益"),
-         SettingItem(symbol_name : "restore", name: "恢复购买")],
-        [SettingItem(symbol_name : "theme", name: "主题"),
-         SettingItem(symbol_name : "clean", name: "清空壁纸缓存")],
+        
+        [SettingItem(symbol_name : "membership", name: "会员权益")],
+        
         [SettingItem(symbol_name : "rate", name: "评价我们"),
          SettingItem(symbol_name : "share", name: "分享给朋友"),
          SettingItem(symbol_name : "feedback", name: "意见反馈")],
-        [SettingItem(symbol_name : "privacy", name: "用户条款与隐私政策")]
+        
+        [SettingItem(symbol_name : "clean", name: "清空壁纸缓存"),
+        SettingItem(symbol_name : "document", name: "服务条款"),
+        SettingItem(symbol_name : "privacy", name: "隐私政策")]
     ]
     
+    var displayName: String = ""
+    
     @IBOutlet var tableView: UITableView!
+    
+    @IBOutlet weak var titleLabel: UILabel!
+    
     let separatorHeight:CGFloat = 0.5
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.theme_backgroundColor = "View.BackgroundColor"
+        titleLabel.theme_textColor = "BarTitleColor"
         self.tableView.delegate = self
         self.tableView.dataSource = self
+        view.isOpaque = false
         self.tableView.backgroundColor = .clear
         self.tableView.separatorColor = .clear
+        updateDisplayName()
+    }
+    
+    func updateDisplayName(){
+        if let user = LCApplication.default.currentUser {
+            _ = user.fetch(keys: ["name", "proDue"]) { result in
+                switch result {
+                case .success:
+                    var changed = false
+                    
+                    let name:String = user.get("name")?.stringValue ?? ""
+                    if !name.isEmpty{
+                        self.displayName = name
+                        changed = true
+                    }
+                    
+                    if changed {
+                        let indexPath = IndexPath(row: 0, section: 0)
+                        DispatchQueue.main.async {
+                            self.tableView.reloadRows(at: [indexPath], with: .none)
+                        }
+                    }
+                    
+                case .failure(error: let error):
+                    print(error.localizedDescription)
+                }
+            }
+        }
+    }
+    
+    func requestWriteReview(){
+        if let url = productURL{
+            // 1.
+            var components = URLComponents(url: url, resolvingAgainstBaseURL: false)
+
+            // 2.
+            components?.queryItems = [
+              URLQueryItem(name: "action", value: "write-review")
+            ]
+
+            // 3.
+            guard let writeReviewURL = components?.url else {
+              return
+            }
+
+            // 4.
+            UIApplication.shared.open(writeReviewURL)
+        }
+    }
+    
+    func setDisplayNameAndUpdate(name : String){
+        self.displayName = name
+        let indexPath = IndexPath(row: 0, section: 0)
+        DispatchQueue.main.async {
+            self.tableView.reloadRows(at: [indexPath], with: .none)
+        }
+    }
+    
+    func askUserExperienceBeforeReview(){
+        let alertController = UIAlertController(title: "评价反馈", message: "您在本应用使用体验如何?", preferredStyle: .alert)
+        let okayAction = UIAlertAction(title: "很赞!必须五星好评", style: .default, handler: { action in
+            let info = [ "Um_Key_SourcePage": "设置页", "Um_Key_ButtonName" : "评价我们-很赞"]
+            UMAnalyticsSwift.event(eventId: "Um_Event_ModularClick", attributes: info)
+                self.requestWriteReview()
+            
+            })
+        let cancelAction = UIAlertAction(title: "用的不爽，反馈意见给开发者", style: .default, handler: {
+            action in
+            
+            let info = [ "Um_Key_SourcePage": "设置页", "Um_Key_ButtonName" : "评价我们-不爽"]
+            UMAnalyticsSwift.event(eventId: "Um_Event_ModularClick", attributes: info)
+            self.showFeedBackMailComposer()
+        })
+        alertController.addAction(okayAction)
+        alertController.addAction(cancelAction)
+        self.present(alertController, animated: true, completion: nil)
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -46,15 +132,44 @@ class SettingVC: UIViewController , UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let section: Int = indexPath.section
         let row: Int = indexPath.row
-        if !(section == 2 && row == 1){
-            let cell = tableView.dequeueReusableCell(withIdentifier: "settingTableViewCell", for: indexPath) as! SettingTableViewCell
+        if section == 0 && row == 0{
+            let cell = tableView.dequeueReusableCell(withIdentifier: "settingTableViewCellWithImg", for: indexPath) as! SettingTableViewCellWithImg
+            
+            cell.backgroundColor = .clear
             cell.imgView.image = settingItems[section][row].icon
-            cell.titleLbl.text = settingItems[section][row].name
+            
+            if isProValid {
+                cell.proImgView.alpha = 1
+            }else{
+                cell.proImgView.alpha = 0
+            }
+            
+            if !displayName.isEmpty {
+                cell.titleLbl.text = displayName
+            }else{
+                cell.titleLbl.text = settingItems[section][row].name
+            }
             if row != settingItems[section].count - 1{
                 let bottomBorder = CALayer()
 
                 bottomBorder.frame = CGRect(x: 0.0, y: cell.contentView.frame.size.height - separatorHeight, width: cell.contentView.frame.size.width, height: separatorHeight)
-                bottomBorder.backgroundColor = UIColor(white: 0.92, alpha: 1.0).cgColor
+                bottomBorder.theme_backgroundColor = "TableCell.SeparatorColor"
+                
+                cell.contentView.layer.addSublayer(bottomBorder)
+            }
+            return cell
+        }
+        else if !(section == 3 && row == 0){
+            let cell = tableView.dequeueReusableCell(withIdentifier: "settingTableViewCell", for: indexPath) as! SettingTableViewCell
+            cell.imgView.image = settingItems[section][row].icon
+            cell.titleLbl.text = settingItems[section][row].name
+            
+            cell.backgroundColor = .clear
+            if row != settingItems[section].count - 1{
+                let bottomBorder = CALayer()
+
+                bottomBorder.frame = CGRect(x: 0.0, y: cell.contentView.frame.size.height - separatorHeight, width: cell.contentView.frame.size.width, height: separatorHeight)
+                bottomBorder.theme_backgroundColor = "TableCell.SeparatorColor"
                 
                 cell.contentView.layer.addSublayer(bottomBorder)
             }
@@ -63,6 +178,8 @@ class SettingVC: UIViewController , UITableViewDataSource, UITableViewDelegate {
             let cell = tableView.dequeueReusableCell(withIdentifier: "settingTableViewCellWithValue", for: indexPath) as! SettingTableViewCellWithValue
             cell.imgView.image = settingItems[section][row].icon
             cell.titleLbl.text = settingItems[section][row].name
+            
+            cell.backgroundColor = .clear
             let currentDiskUsageInBytes: Int = Nuke.DataLoader.sharedUrlCache.currentDiskUsage
             let bytesOfMB:Float = 1024*1024
             cell.labelValue.text = String(format: "%.0fMB", Float(currentDiskUsageInBytes)/bytesOfMB)
@@ -70,7 +187,7 @@ class SettingVC: UIViewController , UITableViewDataSource, UITableViewDelegate {
                 let bottomBorder = CALayer()
 
                 bottomBorder.frame = CGRect(x: 0.0, y: cell.contentView.frame.size.height - separatorHeight, width: cell.contentView.frame.size.width, height: separatorHeight)
-                bottomBorder.backgroundColor = UIColor(white: 0.92, alpha: 1.0).cgColor
+                bottomBorder.theme_backgroundColor = "TableCell.SeparatorColor"
                 
                 cell.contentView.layer.addSublayer(bottomBorder)
             }
@@ -79,31 +196,97 @@ class SettingVC: UIViewController , UITableViewDataSource, UITableViewDelegate {
         }
     }
     
-    func presentAlertInView(title: String, message: String, okText: String){
-        let alertController = presentAlert(title: title, message: message, okText: okText)
-        self.present(alertController, animated: true)
+    func popThemeMenu(){
+        let iconWidthHeight:CGFloat = 20
+        let dayAction = PopMenuDefaultAction(title: "白天", image: UIImage(named: "sunlight"), color: UIColor.darkGray)
+        let nightAction = PopMenuDefaultAction(title: "夜晚", image: UIImage(named: "moon"), color: UIColor.darkGray)
+        let systemAction = PopMenuDefaultAction(title: "跟随系统", image: UIImage(named: "setting"), color: UIColor.darkGray)
+        
+        dayAction.iconWidthHeight = iconWidthHeight
+        nightAction.iconWidthHeight = iconWidthHeight
+        systemAction.iconWidthHeight = iconWidthHeight
+        
+        
+        let indexPath = IndexPath(row: 1, section: 0)
+        let cell = tableView.cellForRow(at: indexPath)
+        
+        let menuVC = PopMenuViewController(sourceView: cell, actions: [dayAction, nightAction, systemAction])
+        menuVC.delegate = self
+        menuVC.appearance.popMenuFont = .systemFont(ofSize: 15, weight: .regular)
+        
+        menuVC.appearance.popMenuColor.backgroundColor = .solid(fill: UIColor(red: 240, green: 240, blue: 240, alpha: 1))
+        self.present(menuVC, animated: true, completion: nil)
     }
+    
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch indexPath.section {
         case 0:
-            if let _ = LCApplication.default.currentUser {
-                self.presentAlertInView(title: "用户已登录!", message: "", okText: "好")
+            if let user = LCApplication.default.currentUser {
+                
+                let info = [ "Um_Key_SourcePage": "设置页", "Um_Key_ButtonName" : "查看Profile"]
+                UMAnalyticsSwift.event(eventId: "Um_Event_ModularClick", attributes: info)
+                 
+                initIndicator(view: view)
+                let name:String = user.get("name")?.stringValue ?? ""
+                let file = user.get("avatar") as? LCFile
+                DispatchQueue.main.async { [self] in
+                    stopIndicator()
+                    
+                    if (name.isEmpty && file != nil){
+                        let imgUrl = file!.url!.stringValue!
+                        showSetProfileVC(previousName: nil, imageUrl: imgUrl)
+                    }else if (!name.isEmpty && file == nil){
+                        showSetProfileVC(previousName: name, imageUrl: nil)
+                    }else if (name.isEmpty && file == nil){
+                        showSetProfileVC(previousName: nil, imageUrl: nil)
+                    }
+                    else{
+                        showProfileVC()
+                    }
+                }
             } else {
                 // 显示注册或登录页面
+                
+                let info = [ "Um_Key_SourcePage": "设置页", "Um_Key_ButtonName" : "注册登录"]
+                UMAnalyticsSwift.event(eventId: "Um_Event_ModularClick", attributes: info)
                 showLoginOrRegisterVC()
             }
+            
+        case 1:
+            let info = [ "Um_Key_SourcePage": "设置页", "Um_Key_ButtonName" : "查看会员权益"]
+            UMAnalyticsSwift.event(eventId: "Um_Event_ModularClick", attributes: info)
+            showVIPBenefitsVC()
         case 2:
             switch indexPath.row {
+                case 0:
+                    askUserExperienceBeforeReview()
                 case 1:
-                    cleanImageCache()
+                    showShareVC()
+                case 2:
+                    let info = [ "Um_Key_SourcePage": "设置页", "Um_Key_ButtonName" : "意见反馈"]
+                    UMAnalyticsSwift.event(eventId: "Um_Event_ModularClick", attributes: info)
+                    showFeedBackMailComposer()
                 default:
                     break
             }
         case 3:
             switch indexPath.row {
+                case 0:
+                    let info = [ "Um_Key_SourcePage": "设置页", "Um_Key_ButtonName" : "清空缓存"]
+                    UMAnalyticsSwift.event(eventId: "Um_Event_ModularClick", attributes: info)
+                    cleanImageCache()
+                case 1:
+                    let info = [ "Um_Key_SourcePage": "设置页", "Um_Key_ButtonName" : "服务条款"]
+                    UMAnalyticsSwift.event(eventId: "Um_Event_ModularClick", attributes: info)
+                    let url = URL(string: "\(githubLink)/terms.html")!
+                    loadPolicyVC(url: url)
                 case 2:
-                    showFeedBackMailComposer()
+                    let info = [ "Um_Key_SourcePage": "设置页", "Um_Key_ButtonName" : "隐私政策"]
+                    UMAnalyticsSwift.event(eventId: "Um_Event_ModularClick", attributes: info)
+                    let url = URL(string: "\(githubLink)/privacy.html")!
+                    loadPolicyVC(url: url)
+                
                 default:
                     break
             }
@@ -112,12 +295,27 @@ class SettingVC: UIViewController , UITableViewDataSource, UITableViewDelegate {
         }
     }
     
+    func loadPolicyVC(url: URL){
+        let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+        let policyVC = mainStoryBoard.instantiateViewController(withIdentifier: "policyVC") as! PolicyVC
+        
+        policyVC.url = url
+        
+        DispatchQueue.main.async {
+            self.present(policyVC, animated: true, completion: nil)
+        }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        let indexPath = IndexPath(row: 1, section: 2)
+        self.tableView.reloadRows(at: [indexPath], with: .fade)
+    }
+    
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
 
         if (cell.responds(to: #selector(getter: UIView.tintColor))){
             if tableView == self.tableView {
                 let cornerRadius: CGFloat = 12.0
-                cell.backgroundColor = .clear
                 let layer: CAShapeLayer = CAShapeLayer()
                 let path: CGMutablePath = CGMutablePath()
                 let bounds: CGRect = cell.bounds
@@ -144,7 +342,7 @@ class SettingVC: UIViewController , UITableViewDataSource, UITableViewDelegate {
                 }
 
                 layer.path = path
-                layer.fillColor = UIColor.white.withAlphaComponent(0.8).cgColor
+                layer.theme_fillColor = "TableCell.BackGroundColor"
 
                 if addLine {
                     let lineLayer: CALayer = CALayer()
@@ -162,20 +360,65 @@ class SettingVC: UIViewController , UITableViewDataSource, UITableViewDelegate {
         }
     }
     
-    func showLoginOrRegisterVC() {
-        let LoginRegStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
-        let emailVC = LoginRegStoryBoard.instantiateViewController(withIdentifier: "emailVC") as! EmailVC
-        emailVC.modalPresentationStyle = .overCurrentContext
+    func showShareVC(){
+        if let url = productURL, !url.absoluteString.isEmpty {
+            let textToShare = "我发现了一款宝藏「全面屏壁纸」APP，快来试试吧"
+            let activityVC = UIActivityViewController(activityItems: [textToShare, url], applicationActivities: nil)
+            activityVC.excludedActivityTypes = [.airDrop, .addToReadingList, .addToiCloudDrive, .assignToContact, .markupAsPDF, .openInIBooks, .saveToCameraRoll, .print, .postToFlickr, .postToLinkedIn, .postToTencentWeibo, .postToVimeo, .postToXing]
+            self.present(activityVC, animated: true, completion: nil)
+        }
+    }
+    
+    func showProfileVC() {
+        let MainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+        let userProfileVC = MainStoryBoard.instantiateViewController(withIdentifier: "userProfileVC") as! UserProfileVC
+        userProfileVC.settingVC = self
+        userProfileVC.modalPresentationStyle = .fullScreen
         DispatchQueue.main.async {
-            self.present(emailVC, animated: true, completion: nil)
+            self.present(userProfileVC, animated: true, completion: nil)
+        }
+    }
+    
+    func showSetProfileVC(previousName: String?, imageUrl: String? = nil) {
+        let MainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+        let setUserProfileVC = MainStoryBoard.instantiateViewController(withIdentifier: "setUserProfileVC") as! SetUserProfileVC
+        setUserProfileVC.settingVC = self
+        if let imgUrl = imageUrl{
+            setUserProfileVC.imageUrl = URL(string: imgUrl)!
+        }
+        
+        if let name = previousName{
+            setUserProfileVC.previousName = name
+        }
+        
+        setUserProfileVC.modalPresentationStyle = .fullScreen
+        DispatchQueue.main.async {
+            self.present(setUserProfileVC, animated: true, completion: nil)
+        }
+    }
+    
+    func showVIPBenefitsVC() {
+        let MainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+        let vipBenefitsVC = MainStoryBoard.instantiateViewController(withIdentifier: "vipBenefitsVC") as! VIPBenefitsVC
+        vipBenefitsVC.modalPresentationStyle = .overCurrentContext
+        DispatchQueue.main.async {
+            self.present(vipBenefitsVC, animated: true, completion: nil)
+        }
+    }
+    
+    func showLoginOrRegisterVC() {
+        let MainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+        let loginVC = MainStoryBoard.instantiateViewController(withIdentifier: "loginVC") as! LoginVC
+        loginVC.modalPresentationStyle = .overCurrentContext
+        loginVC.settingVC = self
+        DispatchQueue.main.async {
+            self.present(loginVC, animated: true, completion: nil)
         }
     }
     
     func showFeedBackMailComposer(){
         guard MFMailComposeViewController.canSendMail() else{
-            let ac = UIAlertController(title: "无法使用邮箱", message: "请检查您的网络或者邮箱设置。", preferredStyle: .alert)
-            ac.addAction(UIAlertAction(title: "好", style: .default, handler: nil))
-            present(ac, animated: true, completion: nil)
+            self.view.makeToast("无法使用邮箱, 请检查您的网络或者邮箱设置!", duration: 2.0, position: .center)
             return
         }
         let composer = MFMailComposeViewController()
@@ -187,16 +430,14 @@ class SettingVC: UIViewController , UITableViewDataSource, UITableViewDelegate {
     }
     
     func cleanImageCache() {
-        let indexPath:IndexPath = IndexPath(row: 1, section: 2)
         Nuke.ImageCache.shared.removeAll()
         Nuke.DataLoader.sharedUrlCache.removeAllCachedResponses()
-        let ac = UIAlertController(title: "缓存清除成功", message: "", preferredStyle: .alert)
-        ac.addAction(UIAlertAction(title: "好", style: .default, handler: { _ in
-                DispatchQueue.main.async {
-                    self.tableView.reloadRows(at: [indexPath], with: .automatic)
-                }
-        }))
-        present(ac, animated: true, completion: nil)
+        let indexPath = IndexPath(row: 0, section: 3)
+        DispatchQueue.main.async {
+            self.tableView.reloadRows(at: [indexPath], with: .automatic)
+        }
+        
+        self.view.makeToast("缓存清除成功!", duration: 1.0, position: .center)
     }
     
 }
@@ -210,12 +451,22 @@ extension SettingVC : MFMailComposeViewControllerDelegate{
         var feedback_sent = false
         switch result {
         case .cancelled:
+            let info = [ "Um_Key_SourcePage": "设置页", "Um_Key_ButtonName" : "意见反馈-用户取消发送"]
+            UMAnalyticsSwift.event(eventId: "Um_Event_ModularClick", attributes: info)
             print("User Canceled")
         case .failed:
+            let info = [ "Um_Key_SourcePage": "设置页", "Um_Key_ButtonName" : "意见反馈-发送失败"]
+            UMAnalyticsSwift.event(eventId: "Um_Event_ModularClick", attributes: info)
             print("Send Failed")
         case .saved:
             print("Draft Saved")
         case .sent:
+            var userId: String = ""
+            if let user = LCApplication.default.currentUser{
+                userId = user.objectId!.stringValue!
+            }
+            let info = [ "Um_Key_SourcePage": "设置页", "Um_Key_ButtonName" : "意见反馈-发送成功", "Um_Key_UserID" : userId]
+            UMAnalyticsSwift.event(eventId: "Um_Event_ModularClick", attributes: info)
             print("Send Successful!")
             feedback_sent = true
         default:
@@ -223,10 +474,25 @@ extension SettingVC : MFMailComposeViewControllerDelegate{
         }
         controller.dismiss(animated: true, completion: {
             if feedback_sent == true{
-                let ac = UIAlertController(title: "反馈已发送", message: "感谢您的反馈，我们会认真考虑并在需要时给您回复。", preferredStyle: .alert)
-                ac.addAction(UIAlertAction(title: "好", style: .default, handler: nil))
-                self.present(ac, animated: true, completion: nil)
+                self.view.makeToast("感谢您的反馈！我们会认真考虑您的建议，并在需要时给您回复。", duration: 2.0, position: .center)
             }
         })
+    }
+}
+
+// MARK: - Pop Menu Protocal Implementation
+extension SettingVC: PopMenuViewControllerDelegate {
+
+    // This will be called when a pop menu action was selected
+    func popMenuDidSelectItem(_ popMenuViewController: PopMenuViewController, at index: Int) {
+        
+        if index == 0{
+            setTheme(theme: .day)
+        }else if index == 1{
+            setTheme(theme: .night)
+        }
+        else{
+            setTheme(theme: .system)
+        }
     }
 }

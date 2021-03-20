@@ -22,7 +22,7 @@
  * -------------------------------------------------------------------------------
  * And if you want to contribute for this project, please contact me as well
  * GitHub        : https://github.com/AAChartModel
- * StackOverflow : https://stackoverflow.com/users/7842508/codeforu
+ * StackOverflow : https://stackoverflow.com/users/12302132/codeforu
  * JianShu       : https://www.jianshu.com/u/f1e6753d4254
  * SegmentFault  : https://segmentfault.com/u/huanghunbieguan
  *
@@ -37,10 +37,11 @@ public class AADataLabels: AAObject {
     public var align: String?
     public var style: AAStyle?
     public var format: String?
+    public var formatter: String?
     public var rotation: Float?
     public var allowOverlap: Bool?
     public var useHTML: Bool?
-    public var distance: Float?
+    public var distance: Any?
     public var verticalAlign: String?
     public var x: Float?
     public var y: Float?
@@ -79,6 +80,14 @@ public class AADataLabels: AAObject {
     }
     
     @discardableResult
+    public func formatter(_ prop: String?) -> AADataLabels {
+        if prop != nil {
+            formatter = prop!.aa_toPureJSString()
+        }
+        return self
+    }
+    
+    @discardableResult
     public func rotation(_ prop: Float?) -> AADataLabels {
         rotation = prop
         return self
@@ -97,7 +106,7 @@ public class AADataLabels: AAObject {
     }
     
     @discardableResult
-    public func distance(_ prop: Float?) -> AADataLabels {
+    public func distance(_ prop: Any?) -> AADataLabels {
         distance = prop
         return self
     }
@@ -175,6 +184,7 @@ public class AADataLabels: AAObject {
     }
     
     public override init() {
+        enabled = true
     }
 }
 
@@ -211,5 +221,28 @@ public class AAStyle: AAObject {
     }
     
     public override init() {
+        
+    }
+}
+
+public extension AAStyle {
+    convenience init(color : String?) {
+        self.init(color: color, fontSize: nil)
+    }
+    
+    convenience init(color : String?, fontSize: Float?) {
+        self.init(color: color, fontSize: fontSize,weight: nil)
+    }
+    
+    convenience init(color : String?, fontSize: Float?, weight: AAChartFontWeightType?) {
+      self.init(color: color, fontSize: fontSize,weight: weight, outline: nil)
+    }
+    
+    convenience init(color : String?, fontSize: Float?, weight: AAChartFontWeightType?, outline: String?) {
+        self.init()
+        self.color(color)
+        .fontSize(fontSize)
+        .fontWeight(weight)
+        .textOutline(outline)
     }
 }

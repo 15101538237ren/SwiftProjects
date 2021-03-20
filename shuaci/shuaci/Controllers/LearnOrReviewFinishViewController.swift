@@ -8,6 +8,7 @@
 
 import UIKit
 import LeanCloud
+import Nuke
 
 class LearnOrReviewFinishViewController: UIViewController {
     var mainPanelViewController: MainPanelViewController!
@@ -32,6 +33,10 @@ class LearnOrReviewFinishViewController: UIViewController {
     let effectView = UIVisualEffectView(effect: UIBlurEffect(style: .regular))
     
     var viewTranslation = CGPoint(x: 0, y: 0)
+    
+    func setElements(enable: Bool){
+        self.view.isUserInteractionEnabled = enable
+    }
     
     @objc func handleDismiss(sender: UIPanGestureRecognizer) {
         switch sender.state {
@@ -115,20 +120,22 @@ class LearnOrReviewFinishViewController: UIViewController {
     
     func setTodyWordNum() {
         let today = Date()
-        let todayLearnRec = getLearningRecordsOf(date: today)
-        let todayReviewRec = getReviewRecordsOf(date: today)
+        let today_records = getRecordsOfDate(date: today)
+        let todayLearnRec = today_records.filter { $0.recordType == 1}
+        let todayReviewRec = today_records.filter { $0.recordType == 2}
+        
         var number_of_vocab_today:Int = 0
         var number_of_learning_secs_today: Int = 0
         for lrec in todayLearnRec{
-            number_of_vocab_today += lrec.VocabRecHeads.count
-            let difference = Calendar.current.dateComponents([.second], from: lrec.StartDate, to: lrec.EndDate)
+            number_of_vocab_today += lrec.vocabHeads.count
+            let difference = Calendar.current.dateComponents([.second], from: lrec.startDate, to: lrec.endDate)
             if let secondT = difference.second {
                 number_of_learning_secs_today += secondT
             }
         }
         for rrec in todayReviewRec{
-            number_of_vocab_today += rrec.VocabRecHeads.count
-            let difference = Calendar.current.dateComponents([.second], from: rrec.StartDate, to: rrec.EndDate)
+            number_of_vocab_today += rrec.vocabHeads.count
+            let difference = Calendar.current.dateComponents([.second], from: rrec.startDate, to: rrec.endDate)
             if let secondT = difference.second {
                 number_of_learning_secs_today += secondT
             }
@@ -171,15 +178,20 @@ class LearnOrReviewFinishViewController: UIViewController {
                             case .success(object: let quote):
                                 // wallpapers 是包含满足条件的 (className: "Wallpaper") 对象的数组
                                 print("Downloaded Qoute \(rand_index)")
-                                if let qoute_image = quote.get("img") as? LCFile {
-                                    //let imgData = photoData.value as! LCData
-                                    let url = URL(string: qoute_image.url?.stringValue ?? "")!
-                                    DispatchQueue.global(qos: .background).async{
-                                    do{
-                                        let data = try? Data(contentsOf: url)
-                                        if let imageData = data {
-                                            if let image = UIImage(data: imageData){
-                                                _ = savePhoto(image: image, name_of_photo: "today_quote.jpg")
+                                if let file = quote.get("img") as? LCFile {
+                                    
+                                    let imgUrl = URL(string: file.url!.stringValue!)!
+                                    
+                                    _ = ImagePipeline.shared.loadImage(
+                                        with: imgUrl,
+                                        completion: { [self] response in
+                                            self.stopIndicator()
+                                            self.setElements(enable: true)
+                                            switch response {
+                                              case .failure:
+                                                break
+                                              case let .success(imageResponse):
+                                                let image = imageResponse.image
                                                 DispatchQueue.main.async {
                                                     self.qouteImageView.image = image
                                                     if let sentence = quote.sentence?.stringValue {
@@ -197,35 +209,36 @@ class LearnOrReviewFinishViewController: UIViewController {
                                                     if let source_cn = quote.source_cn?.stringValue {
                                                         self.cnSourceLabel.text = "——《\(source_cn)》"
                                                     }
-                                                    self.stopIndicator()
+                                                    
                                                     self.view.layoutIfNeeded()
                                                 }
-                                            }
+                                              }
                                         }
-                                    }}
+                                    )
                                 }
                                 break
                             case .failure(error: let error):
                                 print(error.localizedDescription)
+                                self.setElements(enable: true)
                                 self.stopIndicator()
                             }
                         }
+                    }else{
+                        self.setElements(enable: true)
                     }
                 }
             }
             }
         }else{
-            if non_network_preseted == false{
-                let alertCtl = presentNoNetworkAlert()
-                self.present(alertCtl, animated: true, completion: nil)
-                non_network_preseted = true
-            }
+            self.view.makeToast(NoNetworkStr, duration: 1.0, position: .center)
+            setElements(enable: true)
         }
     }
     
     func loadScene(){
         addBlurBackgroundView()
         initActivityIndicator(text: "正在加载打卡数据😊..")
+        setElements(enable: false)
         getQoute()
         setTodyWordNum()
         setInsistDay()

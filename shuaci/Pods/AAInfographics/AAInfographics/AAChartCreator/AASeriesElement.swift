@@ -22,7 +22,7 @@
  * -------------------------------------------------------------------------------
  * And if you want to contribute for this project, please contact me as well
  * GitHub        : https://github.com/AAChartModel
- * StackOverflow : https://stackoverflow.com/users/7842508/codeforu
+ * StackOverflow : https://stackoverflow.com/users/12302132/codeforu
  * JianShu       : https://www.jianshu.com/u/f1e6753d4254
  * SegmentFault  : https://segmentfault.com/u/huanghunbieguan
  *
@@ -52,16 +52,18 @@
     public var colorByPoint: Bool?         //When using automatic point colors pulled from the `options.colors` collection, this option determines whether the chart should receive one color per series or one color per point.
     public var allowPointSelect: Bool?     //Allow this series' points to be selected by clicking on the markers, bars or pie slices
     public var zIndex: Int?                //Define the visual z index of the series.
-    public var size: Any?                  //The innder size for pie chart
-    public var innerSize: String?          //The innder size for pie chart
-    public var shadow: Any?
-    public var zones: [Any]?
+    public var size: Any?                  //The innder size for pie chart (String | Number)
+    public var innerSize: Any?             //The innder size for pie chart (String | Number)
+    public var minSize: Any?               //The minimum size for a pie in response to auto margins, Only useful for pie, bubble, funnel, Pyramid (String | Number)
+    public var shadow: AAShadow?
+    public var zones: [AAZonesElement]?
+    public var zoneAxis: String?           //Defines the Axis on which the zones are applied. defalut value：y.
     public var stack: String?
     public var tooltip: AATooltip?
     public var pointPlacement: Any?
     public var enableMouseTracking: Bool?
     public var dataSorting: AADataSorting?
-    public var reversed: Bool?//Only useful for pyramid chart and funnel chart
+    public var reversed: Bool?             //Only useful for pyramid chart and funnel chart
     
     @discardableResult
     public func type(_ prop: AAChartType) -> AASeriesElement {
@@ -196,20 +198,32 @@
     }
     
     @discardableResult
-    public func innerSize(_ prop: String) -> AASeriesElement {
+    public func innerSize(_ prop: Any) -> AASeriesElement {
         innerSize = prop
         return self
     }
     
     @discardableResult
+    public func minSize(_ prop: Any) -> AASeriesElement {
+        minSize = prop
+        return self
+    }
+        
+    @discardableResult
     public func shadow(_ prop: AAShadow) -> AASeriesElement {
-        shadow = prop.toDic()!
+        shadow = prop
         return self
     }
     
     @discardableResult
-    public func zones(_ prop: [Any]) -> AASeriesElement {
+    public func zones(_ prop: [AAZonesElement]) -> AASeriesElement {
         zones = prop
+        return self
+    }
+    
+    @discardableResult
+    public func zoneAxis(_ prop: String) -> AASeriesElement {
+        zoneAxis = prop
         return self
     }
     
@@ -255,6 +269,7 @@
 
 public class AADataElement: AAObject {
     public var name: String?
+    public var x: Float?
     public var y: Float?
     public var color: Any?
     public var dataLabels: AADataLabels?
@@ -263,6 +278,12 @@ public class AADataElement: AAObject {
     @discardableResult
     public func name(_ prop: String) -> AADataElement {
         name = prop
+        return self
+    }
+    
+    @discardableResult
+    public func x(_ prop: Float) -> AADataElement {
+        x = prop
         return self
     }
     
@@ -291,6 +312,7 @@ public class AADataElement: AAObject {
     }
     
     public override init() {
+        
     }
 }
 
@@ -332,6 +354,35 @@ public class AAShadow: AAObject {
     }
     
     public override init() {
+        
+    }
+}
+
+public class AAZonesElement: AAObject {
+    public var value: Double?
+    public var color: String?
+    public var dashStyle: String?
+
+    @discardableResult
+    public func value(_ prop: Double) -> AAZonesElement {
+        value = prop
+        return self
+    }
+    
+    @discardableResult
+    public func color(_ prop: String) -> AAZonesElement {
+        color = prop
+        return self
+    }
+    
+    @discardableResult
+    public func dashStyle(_ prop: AAChartLineDashStyleType) -> AAZonesElement {
+        dashStyle = prop.rawValue
+        return self
+    }
+    
+    public override init() {
+        
     }
 }
 
@@ -352,6 +403,7 @@ public class AADataSorting: AAObject {
     }
     
     public override init() {
+        
     }
 }
 

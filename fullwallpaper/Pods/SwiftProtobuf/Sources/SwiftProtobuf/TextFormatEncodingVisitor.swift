@@ -63,6 +63,12 @@ internal struct TextFormatEncodingVisitor: Visitor {
     self.options = options
   }
 
+  // TODO: This largely duplicates emitFieldName() below.
+  // But, it's slower so we don't want to just have emitFieldName() use
+  // formatFieldName().  Also, we need to measure whether the optimization
+  // this provides to repeated fields is worth the effort; consider just
+  // removing this and having repeated fields just re-run emitFieldName()
+  // for each item.
   private func formatFieldName(lookingUp fieldNumber: Int) -> [UInt8] {
       var bytes = [UInt8]()
       if let protoName = nameMap?.names(for: fieldNumber)?.proto {
@@ -150,7 +156,7 @@ internal struct TextFormatEncodingVisitor: Visitor {
               encoder.endRegularField()
           case .lengthDelimited:
               encoder.emitFieldNumber(number: tag.fieldNumber)
-              var bytes = Internal.emptyData
+              var bytes = Data()
               try decoder.decodeSingularBytesField(value: &bytes)
               bytes.withUnsafeBytes { (body: UnsafeRawBufferPointer) -> () in
                   if let baseAddress = body.baseAddress, body.count > 0 {
@@ -605,9 +611,10 @@ internal struct TextFormatEncodingVisitor: Visitor {
   private mutating func _visitMap<K, V>(
     map: Dictionary<K, V>,
     fieldNumber: Int,
+    isOrderedBefore: (K, K) -> Bool,
     coder: (inout TextFormatEncodingVisitor, K, V) throws -> ()
   ) throws {
-      for (k,v) in map {
+      for (k,v) in map.sorted(by: { isOrderedBefore( $0.0, $1.0) }) {
           emitFieldName(lookingUp: fieldNumber)
           encoder.startMessageField()
           var visitor = TextFormatEncodingVisitor(nameMap: nil, nameResolver: mapNameResolver, extensions: nil, encoder: encoder, options: options)
@@ -622,7 +629,7 @@ internal struct TextFormatEncodingVisitor: Visitor {
     value: _ProtobufMap<KeyType, ValueType>.BaseType,
     fieldNumber: Int
   ) throws {
-      try _visitMap(map: value, fieldNumber: fieldNumber) {
+      try _visitMap(map: value, fieldNumber: fieldNumber, isOrderedBefore: KeyType._lessThan) {
           (visitor: inout TextFormatEncodingVisitor, key, value) throws -> () in
           try KeyType.visitSingular(value: key, fieldNumber: 1, with: &visitor)
           try ValueType.visitSingular(value: value, fieldNumber: 2, with: &visitor)
@@ -634,7 +641,7 @@ internal struct TextFormatEncodingVisitor: Visitor {
     value: _ProtobufEnumMap<KeyType, ValueType>.BaseType,
     fieldNumber: Int
   ) throws where ValueType.RawValue == Int {
-      try _visitMap(map: value, fieldNumber: fieldNumber) {
+      try _visitMap(map: value, fieldNumber: fieldNumber, isOrderedBefore: KeyType._lessThan) {
           (visitor: inout TextFormatEncodingVisitor, key, value) throws -> () in
           try KeyType.visitSingular(value: key, fieldNumber: 1, with: &visitor)
           try visitor.visitSingularEnumField(value: value, fieldNumber: 2)
@@ -646,7 +653,7 @@ internal struct TextFormatEncodingVisitor: Visitor {
     value: _ProtobufMessageMap<KeyType, ValueType>.BaseType,
     fieldNumber: Int
   ) throws {
-      try _visitMap(map: value, fieldNumber: fieldNumber) {
+      try _visitMap(map: value, fieldNumber: fieldNumber, isOrderedBefore: KeyType._lessThan) {
           (visitor: inout TextFormatEncodingVisitor, key, value) throws -> () in
           try KeyType.visitSingular(value: key, fieldNumber: 1, with: &visitor)
           try visitor.visitSingularMessageField(value: value, fieldNumber: 2)

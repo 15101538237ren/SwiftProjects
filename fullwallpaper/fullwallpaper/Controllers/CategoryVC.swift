@@ -6,159 +6,193 @@
 //
 
 import UIKit
-import LeanCloud
-import SwiftyJSON
 import Nuke
+import LeanCloud
 import UIEmptyState
+import JGProgressHUD
+import SwiftTheme
 
 
 class CategoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UIEmptyStateDataSource, UIEmptyStateDelegate {
+    //Constants
+    let loadCollectionLimit:Int = 1000
     
     //Variables
-    var indicator = UIActivityIndicatorView()
-    var NoNetWork:Bool = false
-    
-    var categories:[Category] = []
+    var isCategory:Bool = true // Whether is category or collection
+    var NoNetwork = false
+    var collections:[LCObject] = []
+    var minVolOfLastCollectionFetch: Int? = nil
     
     @IBOutlet var tableView: UITableView!
+    @IBOutlet weak var headerView: UIView!
+    @IBOutlet weak var segmentedControl: UISegmentedControl!
     
+    @IBOutlet weak var titleLabel: UILabel!
+    fileprivate var timeOnThisPage: Int = 0
     override func viewDidLoad() {
         super.viewDidLoad()
+        let _ = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(tictoc), userInfo: nil, repeats: true)
+        initTableView()
+        setSegmentedControl()
+    }
+    
+    @objc func tictoc(){
+        timeOnThisPage += 1
+    }
+    
+    func setSegmentedControl(){
+        segmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor(hex: getSegmentedCtrlUnselectedTextColor()) ?? .darkGray], for: .selected)
+        segmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor(hex: getSegmentedCtrlUnselectedTextColor()) ?? .darkGray], for: .normal)
+        segmentedControl.theme_backgroundColor = "SegmentedCtrlTintColor"
+        segmentedControl.theme_selectedSegmentTintColor = "SegmentedCtrlSelectedTintColor"
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        var info = ["Um_Key_PageName": "分类/专题浏览", "Um_Key_Duration": timeOnThisPage] as [String : Any]
+        if let user = LCApplication.default.currentUser{
+            let userId = user.objectId!.stringValue!
+            info["Um_Key_UserID"] = userId
+        }
+        UMAnalyticsSwift.event(eventId: "Um_Event_PageView", attributes: info)
+    }
+    
+    func initTableView(){
+        titleLabel.theme_textColor = "BarTitleColor"
         self.tableView.delegate = self
         self.tableView.dataSource = self
+        
         emptyStateDataSource = self
         emptyStateDelegate = self
+        
         self.tableView.separatorColor = .clear
         self.tableView.tableFooterView = UIView(frame: CGRect.zero)
-        initActivityIndicator()
-        loadCategories()
-    }
-    
-    func initActivityIndicator() {
-        indicator.removeFromSuperview()
-        let height:CGFloat = 46.0
-        indicator = .init(style: .medium)
-        indicator.color = .lightGray
-        indicator.frame = CGRect(x: view.frame.midX - height/2, y: view.frame.midY - height/2, width: height, height: height)
-        indicator.alpha = 1.0
-        indicator.startAnimating()
-        view.addSubview(indicator)
-    }
-    
-    func stopIndicator(){
-        self.indicator.stopAnimating()
-        self.indicator.hidesWhenStopped = true
-    }
-    
-    func loadCategoryFromLocal(){
-        if let json_objects = loadJson(fileName: categoryJsonFileName){
-            categories = []
-            let json_arr = json_objects.arrayValue
-            for json_obj in json_arr{
-                let coverUrl = json_obj["coverUrl"].stringValue
-                let name = json_obj["name"].stringValue
-                let eng = json_obj["eng"].stringValue
-                let category = Category(name: name, eng: eng, coverUrl: coverUrl)
-                categories.append(category)
-            }
-            self.tableView.reloadData()
-            self.reloadEmptyStateForTableView(self.tableView)
-            self.stopIndicator()
-        }
-    }
-    
-    func encodeSaveJson(){
-        do {
-            let jsonData: Data = try JSONEncoder().encode(categories)
-            if let jsonString = String(data: jsonData, encoding: .utf8){
-                saveStringTo(cacheType: .json, fileName: categoryJsonFileName, jsonStr: jsonString)
-            }else{
-                print("Error in Saving json, Nil Json String!")
-            }
-        }catch {
-            print(error.localizedDescription)
+        
+        
+        if categories.count == 0{
+            initIndicator(view: self.view)
+            loadCategories(completion: loadCategoryCompletionHandler)
         }
         
+        self.tableView.addLoadMore(action: { [weak self] in
+            self?.handleLoadMore()
+        })
+        
+        loadCollections()
     }
     
-    func loadCategories()
-    {
-        loadCategoryFromLocal()
+    private func handleLoadMore() {
+        loadCollections()
+    }
+    
+    func loadCollections(){
         
         if !Reachability.isConnectedToNetwork(){
-            NoNetWork = true
+            self.tableView.reloadData()
+            NoNetwork = true
             self.reloadEmptyStateForTableView(self.tableView)
-            self.stopIndicator()
+            stopIndicator()
             return
         }
         
         DispatchQueue.global(qos: .utility).async { [self] in
         do {
-            let query = LCQuery(className: "Category")
-            let updated_count = query.count()
-            print("Fetched \(updated_count.intValue) categories")
-            if categories.count != updated_count.intValue{
-                _ = query.find() { result in
-                    switch result {
-                    case .success(objects: let results):
-                        categories = []
-                        for rid in 0..<results.count{
-                            let res = results[rid]
-                            let name = res.get("name")?.stringValue ?? ""
-                            let eng = res.get("eng")?.stringValue ?? ""
-                            
-                            if let file = res.get("cover") as? LCFile {
-                                let category = Category(name: name, eng: eng, coverUrl: file.url!.stringValue!)
-                                categories.append(category)
-                            }
-                        }
+            let query = LCQuery(className: "Collection")
+            
+            query.whereKey("vol", .descending)
+            
+            if (minVolOfLastCollectionFetch != nil){
+                query.whereKey("vol", .lessThan(minVolOfLastCollectionFetch!))
+            }
+            
+            query.limit = loadCollectionLimit
+            
+            _ = query.find() { result in
+                switch result {
+                case .success(objects: let results):
+                    if results.count == 0{
                         DispatchQueue.main.async {
-                            self.tableView.reloadData()
-                            self.NoNetWork = false
-                            self.reloadEmptyStateForTableView(self.tableView)
-                            self.stopIndicator()
+                            tableView.stopLoadMore()
+                            tableView.setLoadMoreEnable(false)
+                            self.reloadEmptyStateForTableView(tableView)
+                            stopIndicator()
                         }
-                        
-                        encodeSaveJson()
-                        
-                        break
-                    case .failure(error: let error):
-                        print(error.localizedDescription)
+                        return
                     }
-                }
-            }else{
-                DispatchQueue.main.async {
-                    self.NoNetWork = false
-                    self.reloadEmptyStateForTableView(self.tableView)
-                    self.stopIndicator()
+                    
+                    print("Fetched \(results.count) collections")
+                    collections.append(contentsOf: results)
+                    
+                    if let vol = collections[collections.count - 1].get("vol")?.intValue{
+                        
+                        minVolOfLastCollectionFetch = vol
+                    }
+                    
+                    DispatchQueue.main.async {
+                        tableView.reloadData()
+                        NoNetwork = false
+                        self.reloadEmptyStateForTableView(tableView)
+                        stopIndicator()
+                        if collections.count > loadCollectionLimit{
+                            self.tableView.stopLoadMore()
+                        }
+                    }
+                    
+                    break
+                case .failure(error: let error):
+                    print(error.localizedDescription)
                 }
             }
         }
         }
     }
-
+    
+    func loadCategoryCompletionHandler() -> Void{
+        self.tableView.reloadData()
+        self.reloadEmptyStateForTableView(self.tableView)
+        stopIndicator()
+    }
+    
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return categories.count
+        let count = isCategory ? categories.count : collections.count
+        return count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "categoryTableViewCell", for: indexPath) as! CategoryTableViewCell
         let row: Int = indexPath.row
-        cell.titleLabel.text = categories[row].name
-        let imgUrl = URL(string: categories[row].coverUrl)!
-        Nuke.loadImage(with: imgUrl, options: categoryLoadingOptions, into: cell.imageV)
+        if isCategory{
+            cell.titleLabel.text = categories[row].name
+            
+            let imgUrl = URL(string: categories[row].coverUrl)!
+            Nuke.loadImage(with: imgUrl, options: categoryLoadingOptions, into: cell.imageV)
+        }else{
+            if let title = collections[row].get("name")?.stringValue{
+                
+                if let volume = collections[row].get("vol")?.intValue{
+                    cell.titleLabel.text = "第 \(volume) 期 - \(title)"
+                }
+                
+            }
+            
+            if let file = collections[row].get("cover") as? LCFile{
+                let imgUrl = URL(string: file.url!.stringValue!)!
+                Nuke.loadImage(with: imgUrl, options: categoryLoadingOptions, into: cell.imageV)
+            }
+        }
+        
         return cell
     }
     
-    func loadCategoryCollectionVC(category: String){
+    func loadCategoryCollectionVC(category: String, categoryCN: String){
         let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
         let categoryCollectionVC = mainStoryBoard.instantiateViewController(withIdentifier: "categoryCollectionVC") as! CategoryCollectionVC
         
         categoryCollectionVC.category = category
+        categoryCollectionVC.categoryCN = categoryCN
         categoryCollectionVC.modalPresentationStyle = .overCurrentContext
         
         DispatchQueue.main.async {
@@ -166,17 +200,42 @@ class CategoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate, 
         }
     }
     
+    func loadCollectionItemsVC(collection: LCObject){
+        let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+        
+        let collectionItemsVC = mainStoryBoard.instantiateViewController(withIdentifier: "collectionItemsVC") as! CollectionItemsVC
+        
+        collectionItemsVC.collection = collection
+        
+        collectionItemsVC.modalPresentationStyle = .overCurrentContext
+        
+        DispatchQueue.main.async {
+            self.present(collectionItemsVC, animated: true, completion: nil)
+        }
+    }
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        loadCategoryCollectionVC(category: categories[indexPath.row].eng)
+        if isCategory{
+            loadCategoryCollectionVC(category: categories[indexPath.row].eng, categoryCN: categories[indexPath.row].name)
+        }else{
+            loadCollectionItemsVC(collection: collections[indexPath.row])
+        }
+        
     }
     // MARK: - Empty State Data Source
     
     var emptyStateTitle: NSAttributedString {
             let attrs = [NSAttributedString.Key.foregroundColor: UIColor.lightGray,
                          NSAttributedString.Key.font: UIFont.systemFont(ofSize: 18)]
-            let title: String = NoNetWork ? "没有数据，请检查网络！" : "没有数据"
+            let title: String = "没有数据，请检查网络！"
             return NSAttributedString(string: title, attributes: attrs)
         }
+    
+    @IBAction func segControlChanged(_ sender: UISegmentedControl) {
+        isCategory.toggle()
+        tableView.reloadData()
+    }
+    
     func emptyStateViewWillShow(view: UIView) {
         guard let emptyView = view as? UIEmptyStateView else { return }
         emptyView.contentView.layer.borderColor = UIColor.clear.cgColor

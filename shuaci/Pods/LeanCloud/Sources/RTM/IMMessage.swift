@@ -324,6 +324,7 @@ open class IMCategorizedMessage: IMMessage, IMMessageCategorizing {
         case objId = "objId"
         case url = "url"
         case metaData = "metaData"
+        case name = "name"
         case width = "width"
         case height = "height"
         case duration = "duration"
@@ -451,7 +452,15 @@ open class IMCategorizedMessage: IMMessage, IMMessageCategorizing {
     }
     
     func encodingMessageContent(application: LCApplication) throws {
-        self.rawData[ReservedKey.type.rawValue] = type(of: self).messageType
+        if type(of: self).messageType == ReservedType.none.rawValue,
+            let _ = self.rawData[ReservedKey.type.rawValue] {
+            /*
+             For being compatible with Flutter Plugin SDK,
+             DO NOT overwrite value of `_lctype` if it exists.
+             */
+        } else {
+            self.rawData[ReservedKey.type.rawValue] = type(of: self).messageType
+        }
         self.rawData[ReservedKey.text.rawValue] = self.text
         self.rawData[ReservedKey.attributes.rawValue] = self.attributes
         if let file = self.file,
@@ -460,7 +469,7 @@ open class IMCategorizedMessage: IMMessage, IMMessageCategorizing {
             guard file.application === application else {
                 throw LCError(
                     code: .inconsistency,
-                    reason: "application of file is not equal to application of client.")
+                    reason: "`file.application` !== `client.application`, they should be the same instance.")
             }
             var fileData: [String: Any] = [
                 FileKey.objId.rawValue: objectID,
@@ -505,6 +514,9 @@ open class IMCategorizedMessage: IMMessage, IMMessageCategorizing {
             return nil
         }
         var metaData: [String: Any] = [:]
+        if let name = file.name?.value {
+            metaData[FileKey.name.rawValue] = name
+        }
         if let size = file.metaData?[FileKey.size.rawValue]?.doubleValue {
             metaData[FileKey.size.rawValue] = size
         }
@@ -641,6 +653,11 @@ open class IMImageMessage: IMCategorizedMessage {
         return ReservedType.image.rawValue
     }
     
+    /// The name of image.
+    public var name: String? {
+        return self.decodingFileMetaData(with: .name)
+    }
+    
     /// The width of image.
     public var width: Double? {
         return self.decodingFileMetaData(with: .width)
@@ -678,6 +695,11 @@ open class IMAudioMessage: IMCategorizedMessage {
         return ReservedType.audio.rawValue
     }
     
+    /// The name of audio.
+    public var name: String? {
+        return self.decodingFileMetaData(with: .name)
+    }
+    
     /// The duration of audio.
     public var duration: Double? {
         return self.decodingFileMetaData(with: .duration)
@@ -710,6 +732,11 @@ open class IMVideoMessage: IMCategorizedMessage {
         return ReservedType.video.rawValue
     }
     
+    /// The name of video.
+    public var name: String? {
+        return self.decodingFileMetaData(with: .name)
+    }
+    
     /// The duration of video.
     public var duration: Double? {
         return self.decodingFileMetaData(with: .duration)
@@ -740,6 +767,11 @@ open class IMFileMessage: IMCategorizedMessage {
     
     public class override var messageType: MessageType {
         return ReservedType.file.rawValue
+    }
+    
+    /// The name of file.
+    public var name: String? {
+        return self.decodingFileMetaData(with: .name)
     }
     
     /// The data size of file.

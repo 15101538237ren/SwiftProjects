@@ -22,7 +22,7 @@
  * -------------------------------------------------------------------------------
  * And if you want to contribute for this project, please contact me as well
  * GitHub        : https://github.com/AAChartModel
- * StackOverflow : https://stackoverflow.com/users/7842508/codeforu
+ * StackOverflow : https://stackoverflow.com/users/12302132/codeforu
  * JianShu       : https://www.jianshu.com/u/f1e6753d4254
  * SegmentFault  : https://segmentfault.com/u/huanghunbieguan
  *
@@ -36,7 +36,7 @@ public class AAPlotLinesElement: AAObject {
     public var color: Any?
     public var dashStyle: String?
     public var width: Float?
-    public var value: Float?
+    public var value: Double?
     public var zIndex: Int?
     public var label: AALabel?
     
@@ -59,7 +59,7 @@ public class AAPlotLinesElement: AAObject {
     }
     
     @discardableResult
-    public func value(_ prop: Float) -> AAPlotLinesElement {
+    public func value(_ prop: Double) -> AAPlotLinesElement {
         value = prop
         return self
     }
@@ -77,6 +77,7 @@ public class AAPlotLinesElement: AAObject {
     }
     
     public override init() {
+        
     }
 
 }

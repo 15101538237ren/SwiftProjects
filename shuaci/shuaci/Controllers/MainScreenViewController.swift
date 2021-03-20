@@ -12,6 +12,7 @@ import AVFoundation
 
 class MainScreenViewController: UIViewController {
     @IBOutlet var mainScreenUIView: MainScreenUIView!
+    @IBOutlet var launchUIView: UIView!
     @IBOutlet var cards: [CardUIView]!{
         didSet {
             for card in cards{
@@ -53,10 +54,26 @@ class MainScreenViewController: UIViewController {
                                 CardWord.init(headWord: "smile", meaning: "n.微笑", phone: "smaɪl")]
     override func viewDidLoad() {
         super.viewDidLoad()
-        initCards()
-        let card = cards[0]
-        let xshift:CGFloat = card.frame.size.width/8.0
-        card.transform = CGAffineTransform(translationX: -xshift, y:0.0).rotated(by: -xshift*0.61/card.center.x)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        initVC()
+    }
+    
+    func initVC(){
+        if let user = LCApplication.default.currentUser {
+            showMainPanel(currentUser: user)
+        }
+        else {
+            
+            initCards()
+            let card = cards[0]
+            let xshift:CGFloat = card.frame.size.width/8.0
+            card.transform = CGAffineTransform(translationX: -xshift, y:0.0).rotated(by: -xshift*0.61/card.center.x)
+            UIView.animate(withDuration: 1.0, animations: {
+                self.launchUIView.alpha = 0.0
+            })
+        }
     }
     
     func setFieldsOfCard(card: CardUIView, cardWord: CardWord){
@@ -70,12 +87,12 @@ class MainScreenViewController: UIViewController {
             
             card.meaningLabel?.text = cardWord.meaning
             if cardWord.memMethod != ""{
-                card.wordLabel_Top_Space_Constraint.constant = 130
+                card.wordLabel_Top_Space_Constraint.constant = 110
                 card.memMethodLabel?.alpha = 1
                 card.memMethodLabel?.text = "记: \(cardWord.memMethod)"
             }
             else{
-                card.wordLabel_Top_Space_Constraint.constant = 150
+                card.wordLabel_Top_Space_Constraint.constant = 130
                 card.memMethodLabel?.alpha = 0
             }
             card.cardImageView?.image = UIImage(named: cardWord.headWord)
@@ -223,45 +240,34 @@ class MainScreenViewController: UIViewController {
         card.transform = .identity
     }
     
-    func showMainPanel(){
-        let LoginRegStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
-        let mainPanelViewController = LoginRegStoryBoard.instantiateViewController(withIdentifier: "mainPanelViewController") as! MainPanelViewController
-        mainPanelViewController.modalPresentationStyle = .overCurrentContext
-        
+    func showMainPanel(currentUser: LCUser){
+        let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+        let mainPanelViewController = mainStoryBoard.instantiateViewController(withIdentifier: "mainPanelViewController") as! MainPanelViewController
+        mainPanelViewController.modalPresentationStyle = .fullScreen
+        mainPanelViewController.currentUser = currentUser
         DispatchQueue.main.async {
-            self.present(mainPanelViewController, animated: true, completion: nil)
+            self.present(mainPanelViewController, animated: false, completion: {
+                self.launchUIView.alpha = 0.0
+            })
             
         }
     }
     
     
-    @IBAction func emailLogin(_ sender: UIButton) {
-        let LoginRegStoryBoard : UIStoryboard = UIStoryboard(name: "LoginReg", bundle:nil)
-        let emailLoginVC = LoginRegStoryBoard.instantiateViewController(withIdentifier: "emailLoginVC") as! EmailLoginViewController
-        emailLoginVC.modalPresentationStyle = .fullScreen
-        emailLoginVC.mainScreenVC = self
+    @IBAction func showLoginVC(_ sender: UIButton) {
+        let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+        let loginVC = mainStoryBoard.instantiateViewController(withIdentifier: "loginVC") as! LoginVC
+        loginVC.modalPresentationStyle = .overCurrentContext
+        loginVC.mainScreenVC = self
         DispatchQueue.main.async {
-            self.present(emailLoginVC, animated: true, completion: nil)
-            
-        }
-    }
-    
-    @IBAction func phoneLogin(_ sender: UIButton) {
-        let LoginRegStoryBoard : UIStoryboard = UIStoryboard(name: "LoginReg", bundle:nil)
-        let phoneLoginVC = LoginRegStoryBoard.instantiateViewController(withIdentifier: "phoneLogin") as! PhoneLoginViewController
-        phoneLoginVC.modalPresentationStyle = .fullScreen
-        phoneLoginVC.mainScreenVC = self
-        DispatchQueue.main.async {
-            self.present(phoneLoginVC, animated: true, completion: nil)
-            
+            self.present(loginVC, animated: true, completion: nil)
         }
     }
     
     
     func playMp3(url: URL)
     {
-        let connected = Reachability.isConnectedToNetwork()
-        if connected{
+        if Reachability.isConnectedToNetwork(){
             DispatchQueue.global(qos: .background).async {
             do {
                 var downloadTask: URLSessionDownloadTask
@@ -278,28 +284,18 @@ class MainScreenViewController: UIViewController {
                 downloadTask.resume()
             }}
         }else{
-            let alertCtl = presentNoNetworkAlert()
-            if non_network_preseted == false{
-                self.present(alertCtl, animated: true, completion: nil)
-                non_network_preseted = true
-            }
+            self.view.makeToast(NoNetworkStr, duration: 1.0, position: .center)
         }
-        
     }
     
     @IBAction func playAudio(_ sender: UIButton) {
-        let connected = Reachability.isConnectedToNetwork()
-        if connected{
+        if Reachability.isConnectedToNetwork(){
             let cardWord = cardWords[currentIndex % cardWords.count]
             let wordStr: String = cardWord.headWord
             if let mp3_url = getWordPronounceURL(word: wordStr, fromMainScreen: true){
                 playMp3(url: mp3_url)
             }
-        }else{
-            let alertCtl = presentNoNetworkAlert()
-            UIApplication.topViewController()?.present(alertCtl, animated: true, completion: nil)
         }
-        
     }
     
     

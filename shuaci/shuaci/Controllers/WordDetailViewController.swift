@@ -59,8 +59,7 @@ class WordDetailViewController: UIViewController {
     func loadHTML(){
         initActivityIndicator(text: "获取单词中..")
         
-        let connected = Reachability.isConnectedToNetwork()
-        if connected{
+        if Reachability.isConnectedToNetwork(){
             DispatchQueue.global(qos: .background).async {
             do {
                 let query = LCQuery(className: "OALECD8")
@@ -84,11 +83,11 @@ class WordDetailViewController: UIViewController {
                 }
                 }}
         }else{
-            if non_network_preseted == false{
-                let alertCtl = presentNoNetworkAlert()
-                self.present(alertCtl, animated: true, completion: nil)
-                non_network_preseted = true
-            }
+            self.view.makeToast(NoNetworkStr, duration: 1.0, position: .center)
         }
+    }
+    
+    @IBAction func unwind(sender: UIButton) {
+        self.dismiss(animated: true, completion: nil)
     }
 }

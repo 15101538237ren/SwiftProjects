@@ -12,31 +12,36 @@ import SwiftyJSON
 import LeanCloud
 import SwiftTheme
 
-class LearnWordViewController: UIViewController {
-    var mainPanelViewController: MainPanelViewController!
-    @IBOutlet var learnUIView: LearnUIView!
-    @IBOutlet var cards: [CardUIView]!{
-        didSet {
-            for card in cards{
-                card.layer.cornerRadius = 20.0
-                card.layer.masksToBounds = true
-            }
-        }
-    }
+class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
     
-    @IBOutlet var cardDictionaryBtn: [UIButton]!
-
+    // MARK: - Constants
     let card_Y_constant:CGFloat = -30
-    var card_behaviors:[Int: [Int]] = [:] //word index: Int , card Behavoirs[forget: 0, remember: 1, trash: 2\]
-    var card_collect_behaviors: [CardCollectBehavior] = [] // card Behavoir: (collect: 1, else 0)
-    @IBOutlet var gestureRecognizers:[UIPanGestureRecognizer]!
-    var secondsPST:Int = 0 // number of seconds past after load
-    @IBOutlet var timeLabel: UILabel!
-//    @IBOutlet var progressLabel: UILabel!
+    let animationDuration = 0.15
+    let firstReviewDelayInMin = 60
+    let progressViewAnimationDuration = 2.5
+    var currentMode:Int! // 1: Learn, 2: Review
     
-    @IBOutlet var firstMemLeft: UILabel!
-    @IBOutlet var enToCNLeft: UILabel!
-    @IBOutlet var cnToENLeft: UILabel!
+    // MARK: - Variables
+    
+    private var wordsQueue: Array<[Int]> = []
+    private var wordsQArray: Array<[Int]> = []
+    private var DICT_URL: URL = Bundle.main.url(forResource: "DICT.json", withExtension: nil)!
+    private var currentRec: Record?
+    private var vocabRecordsOfCurrent:[VocabularyRecord] = []
+    
+    var vocab_rec_need_to_be_review:[VocabularyRecord]!
+    
+    var currentUser: LCUser!
+    var preference:Preference!
+    var mainPanelViewController: MainPanelViewController!
+    var words:[JSON]!
+    
+    var secondsPST:Int = 0 // number of seconds past after load
+    var card_behaviors:[Int: [Int]] = [:] //word index: Int , card Behavoirs[forget: 0, remember: 1, trash: 2\]
+    var card_actions:[Int: [Int]] = [:] //word index: Int , card Behavoirs[forget: 0, remember: 1, trash: 2\]
+    var card_behavior_dates:[Int: [Date]] = [:] //word index: Int , card Behavoirs[forget: 0, remember: 1, trash: 2\]
+    
+    var card_collect_behaviors: [CardCollectBehavior] = [] // card Behavoir: (collect: 1, else 0)
     
     var firstMemLeftNum: Int = 0
     var enToCNLeftNum: Int = 0
@@ -48,16 +53,30 @@ class LearnWordViewController: UIViewController {
     
     var scaleOfSecondCard:CGFloat = 0.9
     var currentIndex:Int = 0
-    let animationDuration = 0.15
     var viewTranslation = CGPoint(x: 0, y: 0)
-    private var wordsQueue: Array<[Int]> = []
-    private var wordsQArray: Array<[Int]> = []
     var currentWordLabelQueue:Array<[Int]> = []
-    let firstReviewDelayInMin = 60
     var mastered:[Bool] = []
-    
-    private var DICT_URL: URL = Bundle.main.url(forResource: "DICT.json", withExtension: nil)!
     var Word_indexs_In_Oalecd8:[String:[Int]] = [:]
+    
+    // MARK: - Outlet Variables
+    @IBOutlet var learnUIView: LearnUIView!
+    @IBOutlet var backBtn: UIButton!
+    @IBOutlet var gestureRecognizers:[UIPanGestureRecognizer]!
+    @IBOutlet var timeLabel: UILabel!
+//    @IBOutlet var progressLabel: UILabel!
+    
+    @IBOutlet var firstMemLeft: UILabel!
+    @IBOutlet var enToCNLeft: UILabel!
+    @IBOutlet var cnToENLeft: UILabel!
+    
+    @IBOutlet var cards: [CardUIView]!{
+        didSet {
+            for card in cards{
+                card.layer.cornerRadius = 20.0
+                card.layer.masksToBounds = true
+            }
+        }
+    }
     
     func load_DICT(){
         do {
@@ -90,17 +109,27 @@ class LearnWordViewController: UIViewController {
     }
     
     override func viewDidLoad() {
-        //view.backgroundColor = UIColor(red: 238, green: 241, blue: 245, alpha: 1.0)
-        
         view.theme_backgroundColor = "Global.viewBackgroundColor"
+//        view.backgroundColor = UIColor.init(hex: scene_backgrounds[preference.current_theme]!)!
         super.viewDidLoad()
-        currentLearningRec.StartDate = Date()
+        initLearningRecord()
+    }
+    
+    func initLearningRecord(){
+        let uuids:[String] = global_records.map { $0.uuid}
+        var uuid = UUID().uuidString
+        
+        while uuids.contains(uuid) {
+            uuid = UUID().uuidString
+        }
+        
+        currentRec = Record(uuid: uuid, recordType: currentMode, startDate: Date(), endDate: Date(), vocabHeads: [])
     }
     
     @objc func relayout(){
         for index in [currentIndex, currentIndex+1]{
             let word = words[index % words.count]
-            let cardWord = getFeildsOfWord(word: word, usphone: getUSPhone())
+            let cardWord = getFeildsOfWord(word: word, usphone: preference.us_pronunciation)
             let card: CardUIView = cards[index % 2]
             DispatchQueue.main.async {
                 if cardWord.memMethod != ""{
@@ -127,32 +156,43 @@ class LearnWordViewController: UIViewController {
             
             switch currentMemStage{
                 case WordMemStage.memory.rawValue:
-                    self.firstMemLeft.theme_textColor = "LearningVC.DarkerTextLabelColor"
+                    if self.currentMode == 1{
+                        self.firstMemLeft.theme_textColor = "LearningVC.DarkerTextLabelColor"
+                    }else{
+                        self.enToCNLeft.theme_textColor = "LearningVC.DarkerTextLabelColor"
+                    }
                 case WordMemStage.enToCn.rawValue:
-                    self.enToCNLeft.theme_textColor = "LearningVC.DarkerTextLabelColor"
+                    if self.currentMode == 1{
+                        self.enToCNLeft.theme_textColor = "LearningVC.DarkerTextLabelColor"
+                    }else{
+                        self.firstMemLeft.theme_textColor = "LearningVC.DarkerTextLabelColor"
+                    }
+                    
                 case WordMemStage.cnToEn.rawValue:
                     self.cnToENLeft.theme_textColor = "LearningVC.DarkerTextLabelColor"
                 default:
                     print("Nothing")
             }
-            
-            let firstMemText = "1. 初记忆  \(self.firstMemLeftNum)"
+            let memText:String = self.currentMode == 1 ? "1. 初记忆" : "1. 初回忆"
+            let firstNum = self.currentMode == 1 ? self.firstMemLeftNum : self.enToCNLeftNum
+            let firstMemText = "\(memText)  \(firstNum)"
             var attributeString: NSMutableAttributedString =  NSMutableAttributedString(string: firstMemText)
-            if self.firstMemLeftNum == 0{
+            if firstNum == 0{
                 attributeString.addAttribute(NSAttributedString.Key.strikethroughStyle, value: 2, range: NSMakeRange(0, attributeString.length))
             }
             self.firstMemLeft.attributedText = attributeString
             
-            let enToCNLeftText = "2. 英忆中  \(self.enToCNLeftNum)"
+            let secondNum = self.currentMode == 1 ? self.enToCNLeftNum : self.firstMemLeftNum
+            let enToCNLeftText = self.currentMode == 1 ? "2. 英忆中  \(secondNum)" : "2. 再记忆  \(secondNum)"
             attributeString =  NSMutableAttributedString(string: enToCNLeftText)
-            if self.firstMemLeftNum == 0 &&  self.enToCNLeftNum == 0{
+            if firstNum == 0 && secondNum == 0{
                 attributeString.addAttribute(NSAttributedString.Key.strikethroughStyle, value: 2, range: NSMakeRange(0, attributeString.length))
             }
             self.enToCNLeft.attributedText = attributeString
             
             let cnToENLeftText = "3. 中忆英  \(self.cnToENLeftNum)"
             attributeString =  NSMutableAttributedString(string: cnToENLeftText)
-            if self.firstMemLeftNum == 0 &&  self.enToCNLeftNum == 0 && self.cnToENLeftNum == 0 {
+            if firstNum == 0 &&  secondNum == 0 && self.cnToENLeftNum == 0 {
                 attributeString.addAttribute(NSAttributedString.Key.strikethroughStyle, value: 2, range: NSMakeRange(0, attributeString.length))
             }
             self.cnToENLeft.attributedText = attributeString
@@ -160,10 +200,11 @@ class LearnWordViewController: UIViewController {
     }
     
     func initWordLeftNumbers(){
-        firstMemLeftNum = words.count
-        enToCNLeftNum = 0
+        firstMemLeftNum = currentMode == 1 ?  words.count : 0
+        enToCNLeftNum = currentMode == 1 ?  0 : words.count
         cnToENLeftNum = 0
-        updateWordLeftLabels(currentMemStage : WordMemStage.memory.rawValue)
+        let currentStage = currentMode == 1 ? WordMemStage.memory.rawValue : WordMemStage.enToCn.rawValue
+        updateWordLeftLabels(currentMemStage : currentStage)
     }
     
     override func viewWillAppear(_ animated: Bool){
@@ -175,6 +216,8 @@ class LearnWordViewController: UIViewController {
         let card = cards[0]
         let xshift:CGFloat = card.frame.size.width/8.0
         card.transform = CGAffineTransform(translationX: -xshift, y:0.0).rotated(by: -xshift*0.61/card.center.x)
+
+        
         DispatchQueue.main.async {
             self.timeLabel.text = timeString(time: self.secondsPST)
         }
@@ -183,12 +226,68 @@ class LearnWordViewController: UIViewController {
                                        name: UIApplication.willEnterForegroundNotification,
                                        object: nil)
         startTimer()
-//        self.updateProgressLabel(index: self.currentIndex)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        let card = cards[0]
+        if currentMode == 2{
+            DispatchQueue.main.async {
+                UIView.animate(withDuration: self.progressViewAnimationDuration, animations: {
+                    card.ringView?.progress = 1.0
+                }) { (finished) in
+                    card.ringView?.alpha = 0.0
+                    
+                    UIView.animate(withDuration: 1.0, animations: {
+                        card.meaningLabel?.alpha = 1.0
+                        card.memMethodLabel?.alpha = 1.0
+                    })
+                }
+            }
+        }
     }
     
     @IBAction func unwind(segue: UIStoryboardSegue) {
         self.mp3Player?.stop()
-        self.dismiss(animated: true, completion: nil)
+        if self.currentIndex > 0{
+            if currentMode == 1{
+                let alertController = UIAlertController(title: "确定「放弃学习」?", message: "伟大的作品不是靠力量，而是靠坚持来完成的。——约翰逊", preferredStyle: .alert)
+                let okayAction = UIAlertAction(title: "确定", style: .default, handler: { _ in
+                    self.dismiss(animated: true, completion: nil)
+                })
+                let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: { action in
+                    alertController.dismiss(animated: true, completion: nil)
+                })
+                alertController.addAction(okayAction)
+                alertController.addAction(cancelAction)
+                self.present(alertController, animated: true, completion: nil)
+            }else{
+                let alertController = UIAlertController(title: "是否保存当前复习记录?", message: "", preferredStyle: .alert)
+                let okayAction = UIAlertAction(title: "是", style: .default, handler: { [self] _ in
+                    
+                    summary_records_into_vocab_records()
+                    saveRecordsFromLearning()
+                    
+                    if currentMode == 1{
+                        _ = update_words(preference: preference)
+                    }
+                    DispatchQueue.main.async {
+                        self.dismiss(animated: true, completion: nil)
+                    }
+                })
+                let cancelAction = UIAlertAction(title: "否", style: .cancel, handler: { action in
+                    DispatchQueue.main.async {
+                        self.dismiss(animated: true, completion: nil)
+                    }
+                })
+                alertController.addAction(okayAction)
+                alertController.addAction(cancelAction)
+                self.present(alertController, animated: true, completion: nil)
+            }
+        }else{
+            DispatchQueue.main.async {
+                self.dismiss(animated: true, completion: nil)
+            }
+        }
     }
     
     
@@ -202,38 +301,15 @@ class LearnWordViewController: UIViewController {
         }
     }
     
-    
-    
-    func setCardBackground(){
-        let current_theme_category = getPreference(key: "current_theme_category") as! Int
-        for card in cards{
-            card.cardImageView?.image = UIImage(named: cardBackgrounds[current_theme_category]!)
-        }
+    func getRandomColor() -> String{
+        return theme_card_colors[preference.current_theme]!.randomElement()!
     }
     
-    @IBAction func showfullCard(_ sender: UITapGestureRecognizer) {
-        let card = cards[currentIndex % 2]
-        if card.meaningLabel!.alpha < 1e-5 {
-            UIView.animate(withDuration: 1.0, animations: {
-                card.meaningLabel!.alpha = 1.0
-            }) { (finished) in
-                // fade out
-                UIView.animate(withDuration: 1.0, animations: {
-                    card.memMethodLabel!.alpha = 1.0
-                })
-            }
-        }
-        if card.wordLabel!.alpha < 1e-5 {
-           let word: String = card.wordLabel?.text ?? ""
-           playMp3GivenWord(word: word)
-           UIView.animate(withDuration: 1.0, animations: {
-                card.wordLabel!.alpha = 1.0
-            }) { (finished) in
-                // fade out
-                UIView.animate(withDuration: 1.0, animations: {
-                    card.memMethodLabel!.alpha = 1.0
-                })
-            }
+    func setCardBackground(){
+        for card in cards{
+            card.cardImageView?.image = UIImage(named: cardBackgrounds[preference.current_theme]!)
+//            card.cardImageView?.image = UIImage()
+//            card.cardImageView?.backgroundColor = UIColor.init(hex: getRandomColor())!
         }
     }
     
@@ -241,25 +317,16 @@ class LearnWordViewController: UIViewController {
         let card = cards[currentIndex % 2]
         if isCardBack {
             isCardBack = false
-            let current_theme_category = getPreference(key: "current_theme_category") as! Int
-            card.cardImageView?.image = UIImage(named: cardBackgrounds[current_theme_category]!)
             UIView.transition(with: card, duration: 0.3, options: .transitionFlipFromRight, animations: nil, completion: nil)
         }else{
             isCardBack = true
-            card.cardImageView?.image = UIImage(named: "card_back")
             UIView.transition(with: card, duration: 0.3, options: .transitionFlipFromLeft, animations: nil, completion: nil)
             
         }
     }
     
-//    func updateProgressLabel(index: Int){
-//        DispatchQueue.main.async {
-//            self.progressLabel.text = "\(index + 1)/\(words.count)"
-//        }
-//    }
-    
     func playMp3GivenWord(word: String){
-        let auto_pronunciation:Bool = getPreference(key: "auto_pronunciation") as! Bool
+        let auto_pronunciation:Bool = preference.auto_pronunciation
         
         let mp3_url = getWordPronounceURL(word: word)
         if auto_pronunciation && (mp3_url != nil) {
@@ -268,8 +335,9 @@ class LearnWordViewController: UIViewController {
     }
     
     func initWordQueue(){
+        let status = currentMode == 1 ? WordMemStage.memory.rawValue : WordMemStage.enToCn.rawValue
         for wid in 0..<words.count{
-            wordsQueue.enqueue([wid, WordMemStage.memory.rawValue])
+            wordsQueue.enqueue([wid, status])
         }
     }
     
@@ -288,7 +356,7 @@ class LearnWordViewController: UIViewController {
             let word = words[wordIndex]
             let wordQuequeItem = wordsQueue.dequeue()
             currentWordLabelQueue.enqueue(wordQuequeItem!)
-            let cardWord = getFeildsOfWord(word: word, usphone: getUSPhone())
+            let cardWord = getFeildsOfWord(word: word, usphone: preference.us_pronunciation)
             setFieldsOfCard(card: card, cardWord: cardWord, collected: false, memStage: memStage)
             if index == 1
             {
@@ -298,7 +366,45 @@ class LearnWordViewController: UIViewController {
                 let word: String = card.wordLabel?.text ?? ""
                 playMp3GivenWord(word: word)
             }
+            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(backToCardFront(_:)) )
+            tapGesture.delegate = self
+            card.cardBackView?.webView.addGestureRecognizer(tapGesture)
         }
+    }
+    
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+      return true
+    }
+    
+    @IBAction func cardTapped(_ sender: UITapGestureRecognizer)
+    {
+        let card = cards[currentIndex % 2]
+        let current_word: String = card.wordLabel?.text ?? ""
+        if current_word != ""{
+            let indexItem:[Int] = Word_indexs_In_Oalecd8[current_word]!
+            let wordIndex: Int = indexItem[0]
+            let hasValueInOalecd8: Int = indexItem[1]
+            if hasValueInOalecd8 == 1{
+                UIView.transition(with: card, duration: 0.3, options: .transitionFlipFromRight, animations: nil, completion: nil)
+                load_html(wordHead: current_word, wordIndex: wordIndex)
+            }else{
+                card.makeToast("无词典解释☹️", duration: 1.0, position: .center)
+            }
+        }
+    }
+    
+    @IBAction func backToCardFront(_ sender: UITapGestureRecognizer) {
+        let card = cards[currentIndex % 2]
+        card.cardBackView!.isUserInteractionEnabled = false
+        card.cardBackView!.alpha = 0
+        card.dragable = true
+        UIView.transition(with: card, duration: 0.3, options: .transitionFlipFromLeft, animations: nil, completion: nil)
+    }
+    
+    @IBAction func cardBackTapped(_ sender: UITapGestureRecognizer)
+    {
+        let card = cards[currentIndex % 2]
+        UIView.transition(with: card, duration: 0.3, options: .transitionFlipFromRight, animations: nil, completion: nil)
     }
     
     func setFieldsOfCard(card: CardUIView, cardWord: CardWord, collected: Bool, memStage: Int){
@@ -323,18 +429,8 @@ class LearnWordViewController: UIViewController {
             meaningLabelTxt = finalStringArr.joined(separator: "")
         }
         card.wordLabel?.text = cardWord.headWord
-        let current_word: String = cardWord.headWord
-        let indexItem:[Int] = Word_indexs_In_Oalecd8[current_word]!
-        let hasValueInOalecd8: Int = indexItem[1]
+        
         DispatchQueue.main.async {
-            if hasValueInOalecd8 == 0{
-                self.cardDictionaryBtn[self.currentIndex % 2].alpha = 0
-            }
-            else
-            {
-                self.cardDictionaryBtn[self.currentIndex % 2].alpha = 1
-            }
-            
             if cardWord.headWord.count >= 10{
                 card.wordLabel?.font = card.wordLabel?.font.withSize(35.0)
             }else{
@@ -360,55 +456,167 @@ class LearnWordViewController: UIViewController {
             }else{
                 card.collectImageView.alpha = 0
             }
-            card.meaningLabel?.alpha = 1
-            card.wordLabel?.alpha = 1
             
-            if memStage == 2{
+            if memStage == 1{
+                card.ringView?.alpha = 0
+                card.ringView?.progress = 0
+                card.meaningLabel?.alpha = 1
+                card.wordLabel?.alpha = 1
+            }
+            else if memStage == 2{
+                card.ringView?.alpha = 1
+                card.ringView?.progress = 0
+                card.wordLabel?.alpha = 1
                 card.meaningLabel?.alpha = 0
             } else if memStage == 3{
+                card.ringView?.alpha = 1
+                card.ringView?.progress = 0
                 card.wordLabel?.alpha = 0
+                card.meaningLabel?.alpha = 1
             }
 
-            if memStage > 1{
-                card.memMethodLabel?.alpha = 0
+            if memStage == 1 && cardWord.memMethod != ""{
+                card.memMethodLabel?.alpha = 1
             }else{
-                if cardWord.memMethod != ""{
-                    card.memMethodLabel?.alpha = 1
-                }
+                card.memMethodLabel?.alpha = 0
             }
         }
     }
     
     func initVocabRecords(){
-        vocabRecordsOfCurrentLearning = []
-        let current_book_id:String = getPreference(key: "current_book_id") as! String
-        for index in 0..<words.count
+        if let current_book_id:String =  preference.current_book_id
         {
-            mastered.append(false)
-            let word = words[index % words.count]
-            let cardWord = getFeildsOfWord(word: word, usphone: getUSPhone())
-            let vocabRecord: VocabularyRecord = VocabularyRecord.init(VocabHead: "\(cardWord.headWord)", BookId: current_book_id, LearnDate: nil, CollectDate: nil, Mastered: false, MasteredDate: nil, ReviewDUEDate: nil, BehaviorHistory: [])
-            vocabRecordsOfCurrentLearning.append(vocabRecord)
-            card_collect_behaviors.append(.no)
+            if currentMode == 1{
+                vocabRecordsOfCurrent = []
+                for index in 0..<words.count
+                {
+                    
+                    let word = words[index % words.count]
+                    let cardWord = getFeildsOfWord(word: word, usphone: preference.us_pronunciation)
+                    let vocabRecord: VocabularyRecord = VocabularyRecord.init(VocabHead: "\(cardWord.headWord)", BookId: current_book_id, LearnDate: nil, CollectDate: nil, Mastered: false, MasteredDate: nil, ReviewDUEDate: nil, BehaviorHistory: [], BehaviorDates: [])
+                    
+                    vocabRecordsOfCurrent.append(vocabRecord)
+                    card_collect_behaviors.append(.no)
+                    mastered.append(false)
+                }
+            }else{
+                vocabRecordsOfCurrent = vocab_rec_need_to_be_review
+                for index in 0..<words.count
+                {
+                    if let _ = vocab_rec_need_to_be_review[index].CollectDate {
+                        card_collect_behaviors.append(.yes)
+                    }
+                    else{
+                        card_collect_behaviors.append(.no)
+                    }
+                    mastered.append(vocab_rec_need_to_be_review[index].Mastered)
+                    card_behaviors[index] = vocabRecordsOfCurrent[index].BehaviorHistory
+                    card_behavior_dates[index] = vocabRecordsOfCurrent[index].BehaviorDates
+                }
+            }
+            
         }
     }
     
+    func get_reviewed_vocabRec()->[VocabularyRecord]{
+        if currentMode == 1{
+            return vocabRecordsOfCurrent
+        }else{
+            var reviewed_vocabRec:[VocabularyRecord] = []
+            for index in 0..<vocabRecordsOfCurrent.count
+            {
+                if mastered[index] && !vocabRecordsOfCurrent[index].Mastered{
+                    reviewed_vocabRec.append(vocabRecordsOfCurrent[index])
+                    vocabRecordsOfCurrent[index].NumOfReview += 1
+                    continue
+                }
+                if let bhvs = card_behaviors[index]{
+                    if bhvs.count != vocabRecordsOfCurrent[index].BehaviorHistory.count{
+                        
+                        reviewed_vocabRec.append(vocabRecordsOfCurrent[index])
+                        
+                        vocabRecordsOfCurrent[index].NumOfReview += 1
+                        continue
+                    }
+                }
+            }
+            return reviewed_vocabRec
+        }
+    }
     
-    func summary_learn_records_into_vocab_records(){
-        for index in 0..<vocabRecordsOfCurrentLearning.count
+    func summary_records_into_vocab_records(){
+        
+        currentRec!.endDate = Date()
+        let reviewed_vocabRec = get_reviewed_vocabRec()
+        for index in 0..<vocabRecordsOfCurrent.count
         {
+            
+            if currentMode == 1{
+                vocabRecordsOfCurrent[index].LearnDate = Date()
+            }
+            
             if card_collect_behaviors[index] == .yes{
-                vocabRecordsOfCurrentLearning[index].CollectDate = Date()
+                vocabRecordsOfCurrent[index].CollectDate = Date()
             }
             
             if mastered[index] {
-                vocabRecordsOfCurrentLearning[index].Mastered = mastered[index]
+                vocabRecordsOfCurrent[index].Mastered = mastered[index]
+                vocabRecordsOfCurrent[index].MasteredDate = Date()
             }
-            vocabRecordsOfCurrentLearning[index].ReviewDUEDate =  Date().adding(durationVal: firstReviewDelayInMin, durationType: .minute)
+            
+            if currentMode == 1{
+                vocabRecordsOfCurrent[index].ReviewDUEDate =  Date().adding(durationVal: firstReviewDelayInMin, durationType: .minute)
+            } else{
+                if let bhvs = card_behaviors[index]{
+                    if bhvs.count != vocabRecordsOfCurrent[index].BehaviorHistory.count{
+                        
+                        vocabRecordsOfCurrent[index].ReviewDUEDate = Date().adding(durationVal: calcSecondsDurationGivenBehaviorHistory(cardBehaviorHistory: bhvs), durationType: .second)
+                    }
+                }
+            }
+            
             if let bhvs = card_behaviors[index]{
-                vocabRecordsOfCurrentLearning[index].BehaviorHistory = bhvs
+                vocabRecordsOfCurrent[index].BehaviorHistory = bhvs
+            }
+            
+            if let bhvs_dates = card_behavior_dates[index]{
+                vocabRecordsOfCurrent[index].BehaviorDates = bhvs_dates
             }
         }
+        
+        currentRec!.vocabHeads = reviewed_vocabRec.map {$0.VocabHead}
+    }
+    
+    func saveRecordsFromLearning() {
+        global_records.append(currentRec!)
+        if currentMode == 1{
+            global_vocabs_records.append(contentsOf: vocabRecordsOfCurrent)
+        }else{
+            updateGlobalVocabRecords(vocabs_updated: vocabRecordsOfCurrent)
+        }
+        
+        saveRecordsToDisk(userId: currentUser.objectId!.stringValue!)
+        saveRecordsToCloud(currentUser: currentUser)
+        saveVocabRecordsToCloud(currentUser: currentUser)
+    }
+    
+    func updateGlobalVocabRecords(vocabs_updated: [VocabularyRecord]){
+        var vocab_new_heads:[String] = []
+        for vocab in vocabs_updated{
+            vocab_new_heads.append(vocab.VocabHead)
+        }
+        var temp_GlobalVocabRec:[VocabularyRecord] = []
+        for vi in 0..<global_vocabs_records.count{
+            let vocab:VocabularyRecord = global_vocabs_records[vi]
+            if !vocab_new_heads.contains(vocab.VocabHead){
+                temp_GlobalVocabRec.append(vocab)
+            }
+        }
+        
+        for vocab in vocabs_updated{
+            temp_GlobalVocabRec.append(vocab)
+        }
+        global_vocabs_records = temp_GlobalVocabRec
     }
     
     @objc func moveCard(behavior: NSNumber) {
@@ -416,8 +624,11 @@ class LearnWordViewController: UIViewController {
         let wordQuequeItem = currentWordLabelQueue.dequeue()!
         let wordIndex: Int = wordQuequeItem[0]
         let memStage:Int = wordQuequeItem[1]
+        
         let masteredAction: Bool = mastered[wordIndex]
+        
         let bhv:Int = behavior.intValue
+        
         wordsQArray.enqueue([wordIndex, memStage, bhv]) // record Stage Behavior
         
         switch memStage {
@@ -431,13 +642,37 @@ class LearnWordViewController: UIViewController {
                 print("Nothing")
         }
         
-        if !masteredAction{
-            let cardAction: Int = card_behaviors[wordIndex]!.last!
+        self.updateWordLeftLabels(currentMemStage: memStage)
+        
+        if !masteredAction {
+            let cardAction: Int = card_actions[wordIndex]!.last!
             if !(memStage == WordMemStage.cnToEn.rawValue && cardAction == CardBehavior.remember.rawValue){
                 var nextStage = WordMemStage.memory.rawValue
                 if memStage == WordMemStage.memory.rawValue{
-                    nextStage = WordMemStage.enToCn.rawValue
-                }else{
+                    if currentMode == 1{ // Learning Mode
+                        nextStage = WordMemStage.enToCn.rawValue
+                    }else{
+                        // Review Mode: E->CN, Review*, CN-> EN
+                        if cardAction == CardBehavior.remember.rawValue{
+                            nextStage = WordMemStage.cnToEn.rawValue
+                        }else {
+                            nextStage = WordMemStage.memory.rawValue
+                        }
+                    }
+                }
+                else if memStage == WordMemStage.enToCn.rawValue{
+                    if currentMode == 1{
+                        if cardAction == CardBehavior.forget.rawValue{
+                            nextStage = WordMemStage.enToCn.rawValue
+                        }else if cardAction == CardBehavior.remember.rawValue{
+                            nextStage = WordMemStage.cnToEn.rawValue
+                        }
+                    }else{
+                        // Review Mode: E->CN*, Review, CN-> EN
+                        nextStage = WordMemStage.memory.rawValue
+                    }
+                }
+                else{
                     if cardAction == CardBehavior.forget.rawValue{
                         nextStage = memStage
                     }else if cardAction == CardBehavior.remember.rawValue{
@@ -462,12 +697,14 @@ class LearnWordViewController: UIViewController {
             let wordQuequeItem = wordsQueue.dequeue()
             currentWordLabelQueue.enqueue(wordQuequeItem!)
         }
+        
         if wordsQueue.count == 0 && currentWordLabelQueue .count == 0{
-            currentLearningRec.EndDate = Date()
-            currentLearningRec.VocabRecHeads = getVocabHeadsFromVocabRecords(VocabRecords: vocabRecordsOfCurrentLearning)
-            summary_learn_records_into_vocab_records()
-            saveLearningRecordsFromLearning()
-            update_words()
+            
+            summary_records_into_vocab_records()
+            saveRecordsFromLearning()
+            if currentMode == 1{
+                _ = update_words(preference: preference)
+            }
             DispatchQueue.main.async {
                 self.dismiss(animated: true, completion: nil)
                 self.mainPanelViewController.loadLearnOrReviewFinishController()
@@ -483,11 +720,41 @@ class LearnWordViewController: UIViewController {
             learnUIView.bringSubviewToFront(next_card)
             next_card.dragable = !next_card.dragable
             
-            
             let wordQuequeItem = currentWordLabelQueue.first!
             let memStageCurrent: Int = wordQuequeItem[1]
-            updateWordLeftLabels(currentMemStage: memStageCurrent)
-//            self.updateProgressLabel(index: wordIndex)
+            
+            if memStageCurrent == WordMemStage.enToCn.rawValue {
+                next_card.ringView?.alpha = 1
+                
+                UIView.animate(withDuration: progressViewAnimationDuration, animations: {
+                    next_card.ringView?.progress = 1.0
+                }) { (finished) in
+                    // fade out
+                    next_card.ringView?.alpha = 0.0
+                    
+                    UIView.animate(withDuration: 1.0, animations: {
+                        next_card.meaningLabel!.alpha = 1.0
+                        next_card.memMethodLabel!.alpha = 1.0
+                    })
+                }
+            }
+            if memStageCurrent == WordMemStage.cnToEn.rawValue {
+                next_card.ringView?.alpha = 1
+                
+                UIView.animate(withDuration: progressViewAnimationDuration, animations: {
+                    next_card.ringView?.progress = 1.0
+                }) { (finished) in
+                    // fade out
+                    next_card.ringView?.alpha = 0.0
+                    UIView.animate(withDuration: 1.0, animations: {
+                        next_card.wordLabel!.alpha = 1.0
+                        next_card.memMethodLabel!.alpha = 1.0
+                    })
+                    
+                    let wordStr: String = next_card.wordLabel?.text ?? ""
+                    self.playMp3GivenWord(word: wordStr)
+                }
+            }
             
             //Prepare Next Card
             if currentWordLabelQueue.count > 1{
@@ -495,7 +762,7 @@ class LearnWordViewController: UIViewController {
                 let wordIndex: Int = wordQuequeItem[0]
                 let memStage:Int = wordQuequeItem[1]
                 let word = words[wordIndex]
-                let cardWord = getFeildsOfWord(word: word, usphone: getUSPhone())
+                let cardWord = getFeildsOfWord(word: word, usphone: preference.us_pronunciation)
                 let collected = card_collect_behaviors[wordIndex] == .yes ? true : false
                 setFieldsOfCard(card: card, cardWord: cardWord, collected: collected, memStage: memStage)
                 
@@ -558,10 +825,29 @@ class LearnWordViewController: UIViewController {
                     })
                     
                     let wordIndex: Int = currentWordLabelQueue[0][0]
-                    if card_behaviors[wordIndex] == nil{
-                        card_behaviors[wordIndex] = []
+                    
+                    if card_actions[wordIndex] == nil{
+                        card_actions[wordIndex] = []
                     }
-                    card_behaviors[wordIndex]!.append(CardBehavior.remember.rawValue)
+                    
+                    card_actions[wordIndex]!.append(CardBehavior.remember.rawValue)
+                    
+                    let currentMemStage: Int = currentWordLabelQueue[0][1]
+                    let statusToCompare: Int = currentMode == 1 ? WordMemStage.memory.rawValue : WordMemStage.enToCn.rawValue
+                    if currentMemStage == statusToCompare{
+                        
+                        if card_behaviors[wordIndex] == nil{
+                            card_behaviors[wordIndex] = []
+                        }
+                        
+                        if card_behavior_dates[wordIndex] == nil{
+                            card_behavior_dates[wordIndex] = []
+                        }
+                        
+                        card_behaviors[wordIndex]!.append(CardBehavior.remember.rawValue)
+                        
+                        card_behavior_dates[wordIndex]!.append(Date())
+                    }
                     
                     self.currentIndex += 1
                     if currentWordLabelQueue.count > 1{
@@ -593,13 +879,32 @@ class LearnWordViewController: UIViewController {
                     })
                     
                     let wordIndex: Int = currentWordLabelQueue[0][0]
-                    if card_behaviors[wordIndex] == nil{
-                        card_behaviors[wordIndex] = []
-                        
-                    }
-                    card_behaviors[wordIndex]!.append(CardBehavior.forget.rawValue)
                     
-
+                    if card_actions[wordIndex] == nil{
+                        card_actions[wordIndex] = []
+                    }
+                    
+                    card_actions[wordIndex]!.append(CardBehavior.forget.rawValue)
+                    
+                    let currentMemStage: Int = currentWordLabelQueue[0][1]
+                    let statusToCompare: Int = currentMode == 1 ? WordMemStage.memory.rawValue : WordMemStage.enToCn.rawValue
+                    
+                    if currentMemStage == statusToCompare{
+                        if card_behaviors[wordIndex] == nil{
+                            card_behaviors[wordIndex] = []
+                            
+                        }
+                        
+                        if card_behavior_dates[wordIndex] == nil{
+                            card_behavior_dates[wordIndex] = []
+                            
+                        }
+                        
+                        card_behaviors[wordIndex]!.append(CardBehavior.forget.rawValue)
+                        
+                        card_behavior_dates[wordIndex]!.append(Date())
+                    }
+                    
                     sender.view!.frame = card.frame
                     self.currentIndex += 1
                     if currentWordLabelQueue.count > 1{
@@ -614,7 +919,6 @@ class LearnWordViewController: UIViewController {
                 }
                 resetCardToCenter(card: card)
             }
-//            view.layoutIfNeeded()
         }
     
     func resetCardToCenter(card: CardUIView){
@@ -639,19 +943,22 @@ class LearnWordViewController: UIViewController {
         card.rememberImageView?.alpha = 0
         card.rememberLabel?.text = ""
         card.rememberLabel?.alpha = 0
+        card.memMethodLabel?.alpha = 0
         card.memMethodLabel?.text = ""
+        card.wordLabel?.alpha = 0
         card.wordLabel?.text = ""
+        card.meaningLabel?.alpha = 0
         card.meaningLabel?.text = ""
         card.layer.removeAllAnimations()
         card.transform = CGAffineTransform.identity.scaledBy(x: scaleOfSecondCard, y: scaleOfSecondCard)
         card.center = CGPoint(x: view.center.x, y: view.center.y)
         card.alpha = 1
+//        card.cardImageView?.backgroundColor = UIColor.init(hex: getRandomColor())!
     }
         
         func playMp3(url: URL)
         {
-            let connected = Reachability.isConnectedToNetwork()
-            if connected{
+            if Reachability.isConnectedToNetwork(){
                 DispatchQueue.global(qos: .background).async {
                 do {
                     var downloadTask: URLSessionDownloadTask
@@ -668,11 +975,7 @@ class LearnWordViewController: UIViewController {
                     downloadTask.resume()
                 }}
             }else{
-                if non_network_preseted == false{
-                    let alertCtl = presentNoNetworkAlert()
-                    self.present(alertCtl, animated: true, completion: nil)
-                    non_network_preseted = true
-                }
+                self.view.makeToast(NoNetworkStr, duration: 1.0, position: .center)
             }
             
         }
@@ -686,34 +989,19 @@ class LearnWordViewController: UIViewController {
                     playMp3(url: mp3_url)
                 }
             }else{
-                let alertCtl = presentNoNetworkAlert()
-                if non_network_preseted == false{
-                    self.present(alertCtl, animated: true, completion: nil)
-                    non_network_preseted = true
-                }
+                self.view.makeToast(NoNetworkStr, duration: 1.0, position: .center)
             }
             
         }
     
-    
-    @IBAction func backToCardFront(_ sender: UIButton) {
-        let card = cards[currentIndex % 2]
-        card.cardBackView!.isUserInteractionEnabled = false
-        card.cardBackView!.alpha = 0
-        card.dragable = true
-        UIView.transition(with: card, duration: 0.3, options: .transitionFlipFromLeft, animations: nil, completion: nil)
-    }
-    
     func load_html(wordHead: String, wordIndex: Int){
-        let connected = Reachability.isConnectedToNetwork()
-        if connected{
+        if Reachability.isConnectedToNetwork(){
             let card = cards[currentIndex % 2]
             if let _ = card.cardBackView {
                 card.dragable = false
                 card.cardBackView!.isUserInteractionEnabled = true
                 card.cardBackView!.alpha = 1
                 card.cardBackView!.initActivityIndicator(text: "获取单词中..")
-                card.cardBackView!.wordLabel?.text = wordHead
                 
                 DispatchQueue.global(qos: .background).async {
                 do {
@@ -724,12 +1012,11 @@ class LearnWordViewController: UIViewController {
                         case .success(object: let word):
                             if let html_content = word.get("html_content")?.stringValue
                             {
-                                let html_final = build_html_with_given_content(html_content: html_content)
+                                let html_final = build_html_with_given_content(html_content: html_content, remove_newline: true)
                                 card.cardBackView!.webView.loadHTMLString(html_final, baseURL: nil)
                                 card.cardBackView!.stopIndicator()
                             }else{
                                 card.cardBackView!.stopIndicator()
-                                self.dismiss(animated: true, completion: nil)
                             }
                             break
                         case .failure(error: let error):
@@ -739,37 +1026,19 @@ class LearnWordViewController: UIViewController {
                     }}
             }
         }else{
-            if non_network_preseted == false{
-                let alertCtl = presentNoNetworkAlert()
-                self.present(alertCtl, animated: true, completion: nil)
-                non_network_preseted = true
-            }
-        }
-    }
-    
-    @IBAction func lookUpDictionary(_ sender: UIButton) {
-        let card = cards[currentIndex % 2]
-        let current_word: String = card.wordLabel?.text ?? ""
-        if current_word != ""{
-            let indexItem:[Int] = Word_indexs_In_Oalecd8[current_word]!
-            let wordIndex: Int = indexItem[0]
-            let hasValueInOalecd8: Int = indexItem[1]
-            if hasValueInOalecd8 == 1{
-                UIView.transition(with: card, duration: 0.3, options: .transitionFlipFromRight, animations: nil, completion: nil)
-                load_html(wordHead: current_word, wordIndex: wordIndex)
-            }
+            self.view.makeToast(NoNetworkStr, duration: 1.0, position: .center)
         }
     }
     
     func removeLastVocabRecord(index: Int, cardBehavior: CardBehavior){
-        vocabRecordsOfCurrentLearning[index].ReviewDUEDate = nil
+        vocabRecordsOfCurrent[index].ReviewDUEDate = nil
         switch cardBehavior {
         case .forget:
-            vocabRecordsOfCurrentLearning[index].BehaviorHistory.removeLast()
+            vocabRecordsOfCurrent[index].BehaviorHistory.removeLast()
         case .remember:
-            vocabRecordsOfCurrentLearning[index].BehaviorHistory.removeLast()
+            vocabRecordsOfCurrent[index].BehaviorHistory.removeLast()
         case .trash:
-            vocabRecordsOfCurrentLearning[index].Mastered = false
+            vocabRecordsOfCurrent[index].Mastered = false
         }
     }
     
@@ -809,7 +1078,7 @@ class LearnWordViewController: UIViewController {
             let wordIndexOfThisCard: Int = wordQuequeThisCard[0]
             let memStageOfThisCard:Int = wordQuequeThisCard[1]
             let wordOfThisCard = words[wordIndexOfThisCard]
-            let cardWordOfThisCard = getFeildsOfWord(word: wordOfThisCard, usphone: getUSPhone())
+            let cardWordOfThisCard = getFeildsOfWord(word: wordOfThisCard, usphone: preference.us_pronunciation)
             let collectedOfThisCard = card_collect_behaviors[wordIndexOfThisCard] == .yes ? true : false
             setFieldsOfCard(card: thisCard, cardWord: cardWordOfThisCard, collected: collectedOfThisCard, memStage: memStageOfThisCard)
             
@@ -818,7 +1087,7 @@ class LearnWordViewController: UIViewController {
             lastCard.transform = CGAffineTransform.identity.scaledBy(x: 1.0, y: 1.0)
             
             let word = words[lastWordIndex]
-            let cardWord = getFeildsOfWord(word: word, usphone: getUSPhone())
+            let cardWord = getFeildsOfWord(word: word, usphone: preference.us_pronunciation)
             let collect = card_collect_behaviors[lastWordIndex] == .yes ? true: false
             
             setFieldsOfCard(card: lastCard, cardWord: cardWord, collected: collect, memStage: lastMemStage)
@@ -843,8 +1112,39 @@ class LearnWordViewController: UIViewController {
                 lastCard.X_Constraint.constant = lastCard.center.x - self.view.center.x
                 lastCard.Y_Constraint.constant = lastCard.center.y - self.view.center.y
                 lastCard.alpha = 1
+            }, completion: { [self] _ in
+                if lastMemStage == WordMemStage.enToCn.rawValue {
+                    lastCard.ringView?.alpha = 1
+                    UIView.animate(withDuration: progressViewAnimationDuration, animations: {
+                        lastCard.ringView?.progress = 1.0
+                    }) { (finished) in
+                        // fade out
+                        lastCard.ringView?.alpha = 0.0
+                        
+                        UIView.animate(withDuration: 1.0, animations: {
+                            lastCard.meaningLabel!.alpha = 1.0
+                            lastCard.memMethodLabel!.alpha = 1.0
+                        })
+                    }
+                }
+                if lastMemStage == WordMemStage.cnToEn.rawValue  {
+                    lastCard.ringView?.alpha = 1
+                    
+                    UIView.animate(withDuration: progressViewAnimationDuration, animations: {
+                        lastCard.ringView?.progress = 1.0
+                    }) { (finished) in
+                        // fade out
+                        lastCard.ringView?.alpha = 0.0
+                        UIView.animate(withDuration: 1.0, animations: {
+                            lastCard.wordLabel!.alpha = 1.0
+                            lastCard.memMethodLabel!.alpha = 1.0
+                        })
+                        
+                        let wordStr: String = lastCard.wordLabel?.text ?? ""
+                        self.playMp3GivenWord(word: wordStr)
+                    }
+                }
             })
-            
             
             let gestureRecognizer = self.gestureRecognizers[currentIndex % 2]
             gestureRecognizer.view!.frame = lastCard.frame
@@ -874,11 +1174,21 @@ class LearnWordViewController: UIViewController {
             }
             
             wordsQArray.removeLast()
-            if card_behaviors[lastWordIndex] != nil && card_behaviors[lastWordIndex]!.count > 0{
-                card_behaviors[lastWordIndex]!.removeLast()
+            
+            if card_actions[lastWordIndex] != nil && card_actions[lastWordIndex]!.count > 0{
+                card_actions[lastWordIndex]!.removeLast()
+            }
+            let statusToCompare = currentMode == 1 ?  WordMemStage.memory.rawValue:  WordMemStage.enToCn.rawValue
+            if lastMemStage == statusToCompare {
+                if card_behaviors[lastWordIndex] != nil && card_behaviors[lastWordIndex]!.count > 0{
+                    card_behaviors[lastWordIndex]!.removeLast()
+                }
+                
+                if card_behavior_dates[lastWordIndex] != nil && card_behavior_dates[lastWordIndex]!.count > 0{
+                    card_behavior_dates[lastWordIndex]!.removeLast()
+                }
             }
             
-//            self.updateProgressLabel(index: lastWordIndex)
             enableBtns()
         }
         else{
@@ -920,14 +1230,39 @@ class LearnWordViewController: UIViewController {
                     self.gestureRecognizers[self.currentIndex % 2].view!.frame = card.frame
                     
                     let wordIndex: Int = self.currentWordLabelQueue[0][0]
-                    if self.card_behaviors[wordIndex] == nil{
-                        self.card_behaviors[wordIndex] = []
+                    
+                    if self.card_actions[wordIndex] == nil{
+                        self.card_actions[wordIndex] = []
+                    }
+                    
+                    let currentMemStage: Int = self.currentWordLabelQueue[0][0]
+                    let statusToCompare = self.currentMode == 1 ? WordMemStage.memory.rawValue : WordMemStage.enToCn.rawValue
+                    
+                    if currentMemStage == statusToCompare{
+                        if self.card_behaviors[wordIndex] == nil{
+                            self.card_behaviors[wordIndex] = []
+                        }
+                        
+                        if self.card_behavior_dates[wordIndex] == nil{
+                            self.card_behavior_dates[wordIndex] = []
+                        }
                     }
                     switch cardBehavior{
                     case .remember:
-                        self.card_behaviors[wordIndex]!.append(CardBehavior.remember.rawValue)
+                        self.card_actions[wordIndex]!.append(CardBehavior.remember.rawValue)
+                        
+                        if currentMemStage == statusToCompare{
+                            self.card_behaviors[wordIndex]!.append(CardBehavior.remember.rawValue)
+                            self.card_behavior_dates[wordIndex]!.append(Date())
+                        }
+                        
                     case .forget:
-                        self.card_behaviors[wordIndex]!.append(CardBehavior.forget.rawValue)
+                        self.card_actions[wordIndex]!.append(CardBehavior.forget.rawValue)
+                        if currentMemStage == statusToCompare{
+                            self.card_behaviors[wordIndex]!.append(CardBehavior.forget.rawValue)
+                            self.card_behavior_dates[wordIndex]!.append(Date())
+                        }
+                        
                     case .trash:
                         self.mastered[wordIndex] = true
                     }
@@ -951,6 +1286,7 @@ class LearnWordViewController: UIViewController {
     
     func disableBtns(){
         DispatchQueue.main.async {
+            self.backBtn.isEnabled = false
             self.learnUIView.collectBtn.isEnabled = false
             self.learnUIView.undoBtn.isEnabled = false
             self.learnUIView.yesBtn.isEnabled = false
@@ -965,6 +1301,7 @@ class LearnWordViewController: UIViewController {
     
     func enableBtns(){
         DispatchQueue.main.async {
+            self.backBtn.isEnabled = true
             self.learnUIView.collectBtn.isEnabled = true
             self.learnUIView.undoBtn.isEnabled = true
             self.learnUIView.yesBtn.isEnabled = true

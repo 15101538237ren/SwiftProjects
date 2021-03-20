@@ -10,11 +10,6 @@ import UIKit
 import WebKit
 
 class CardBackView: UIView {
-    @IBOutlet var wordLabel: UILabel?{
-        didSet {
-            wordLabel?.numberOfLines = 0
-        }
-    }
     var indicator = UIActivityIndicatorView()
     var strLabel = UILabel()
     let effectView = UIVisualEffectView(effect: UIBlurEffect(style: .regular))
@@ -29,17 +24,6 @@ class CardBackView: UIView {
     @IBOutlet var interpIndicator: UIButton!{
         didSet {
             interpIndicator.alpha = 1
-        }
-    }
-    @IBOutlet var wordRootLabel: UILabel!{
-        didSet {
-            wordRootLabel.textColor = .lightGray
-        }
-    }
-    
-    @IBOutlet var wordRootIndicator: UIButton!{
-        didSet {
-            wordRootIndicator.alpha = 0
         }
     }
     

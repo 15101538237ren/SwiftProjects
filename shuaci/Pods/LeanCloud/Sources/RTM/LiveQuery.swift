@@ -54,7 +54,10 @@ public class LiveQuery {
     var queryID: RemoteQueryID?
     
     deinit {
-        LiveQueryClientManager.default.releaseLocalInstanceID(self.localInstanceID)
+        LiveQueryClientManager.default
+            .unregister(application: self.application)
+        LiveQueryClientManager.default
+            .releaseLocalInstanceID(self.localInstanceID)
     }
     
     public init(
@@ -64,6 +67,11 @@ public class LiveQuery {
         eventHandler: @escaping (LiveQuery, Event) -> Void)
         throws
     {
+        guard application === query.application else {
+            throw LCError(
+                code: .inconsistency,
+                reason: "`application` !== `query.application`, they should be the same instance.")
+        }
         self.application = application
         self.query = query
         self.eventQueue = eventQueue
@@ -97,14 +105,13 @@ public class LiveQuery {
         var parameter: [String: Any] = [
             "query": self.query.lconValue,
             "id": self.client.ID,
-            "clientTimestamp": clientTimestamp
+            "clientTimestamp": clientTimestamp,
         ]
         if let sessionToken: String = self.application._currentUser?.sessionToken?.value {
             parameter["sessionToken"] = sessionToken
         }
         _ = self.application.httpClient.request(
-            .post,
-            "LiveQuery/subscribe",
+            .post, "LiveQuery/subscribe",
             parameters: parameter)
         { (response) in
             let handleError: (LCError) -> Void = { error in
@@ -147,11 +154,10 @@ public class LiveQuery {
         self.client.removeSubscribedLiveQuery(localInstanceID: self.localInstanceID, remoteQueryID: queryID)
         let parameter: [String: Any] = [
             "id": self.client.ID,
-            "query_id": queryID
+            "query_id": queryID,
         ]
         _ = self.application.httpClient.request(
-            .post,
-            "LiveQuery/unsubscribe",
+            .post, "LiveQuery/unsubscribe",
             parameters: parameter)
         { (response) in
             if let error = LCError(response: response) {

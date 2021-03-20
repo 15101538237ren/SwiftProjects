@@ -2,14 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSCameraUsageDescription</key>
-	<string>本应用需要使用相机来设置您的头像或上传图片</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>本应用需要使用相片库来设置您的头像或上传图片</string>
-	<key>CFBundleDisplayName</key>
-	<string></string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
+	<key>CFBundleDisplayName</key>
+	<string>刷词</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -26,6 +22,21 @@
 	<string>1</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
+	<key>NSCameraUsageDescription</key>
+	<string>本应用需要使用相机来设置您的头像或上传图片</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>本应用需要访问您的照片库来保存您喜爱的壁纸</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>本应用需要使用相片库来设置您的头像或上传图片</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>DancingScript-Medium.ttf</string>
+	</array>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
@@ -59,13 +70,6 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
-	<key>NSAppTransportSecurity</key>
-	<dict>
-		<key>NSAllowsArbitraryLoads</key>
-		<true/>
-	</dict>
-	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>本应用需要访问您的照片库来保存您喜爱的壁纸</string>
 	<key>UISupportedInterfaceOrientations~ipad</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>

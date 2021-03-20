@@ -20,14 +20,6 @@
         <script>
             let aaGlobalChart;
             function loadTheHighChartView(sender, receivedWidth, receivedHeight) {
-                let aaOptions = JSON.parse(sender);
-                if (aaOptions.xAxisArray) {
-                    aaOptions.xAxis = aaOptions.xAxisArray
-                }
-                if (aaOptions.yAxisArray) {
-                    aaOptions.yAxis = aaOptions.yAxisArray
-                }
-                
                 let container = document.getElementById('container');
                 if (receivedWidth != 0) {
                     container.style.width = receivedWidth;
@@ -36,26 +28,31 @@
                     container.style.height = receivedHeight;
                 }
                 
-                aaOptions.credits = {
-                    enabled: false
-                };
+                var aaOptions = JSON.parse(sender, function (key, value) {
+                  if (   typeof(value) == 'string'
+                      && value.indexOf('function') != -1) {
+                     return eval(value)
+                  }
+                   return value;
+                });
                 
-                //Global options(you can configure chart themes by it)
-                //refer to https://api.hcharts.cn/highcharts#Highcharts.setOptions
-                let globalOptions = {
-                    lang: {
-                        thousandsSep: ",",
-                        resetZoom: "ResetZoom"
-                    }
-                };
-                Highcharts.setOptions(globalOptions);
-
+                if (aaOptions.defaultOptions) {
+                    Highcharts.setOptions({
+                        lang: aaOptions.defaultOptions
+                    });
+                }
+                
+                if (aaOptions.xAxisArray) {
+                    aaOptions.xAxis = aaOptions.xAxisArray
+                }
+                if (aaOptions.yAxisArray) {
+                    aaOptions.yAxis = aaOptions.yAxisArray
+                }
+                
                 if (aaOptions.plotOptions) {
                     configurePlotOptions(aaOptions);
                 }
-                
-                configureOptionsFormatters(aaOptions);
-
+                                
                 aaGlobalChart = Highcharts.chart('container', aaOptions);
             };
 
@@ -67,54 +64,34 @@
                 animation.easing = configureTheChartAnimationEasingType(animationEasingType);
             }
             
-            // configure chart touch event
             if (aaOptions.touchEventEnabled == true && aaPlotOptions.series) {
                 configureChartTouchEvent(aaPlotOptions);
             }
         }
         
         function configureChartTouchEvent(aaPlotOptions) {
-            let mouseOverFunc = function() {
-                //console.log(this)
-                let message = {
+            var mouseOverFunc = function() {
+                var message = {
                     name: this.series.name,
-                    y :this.y,
+                    y: this.y,
                     x: this.x,
-                    category: this.category,
-                    offset: {
-                        plotX: this.plotX,
-                        plotY: this.plotY
-                    },
+                    category:this.category,
+                    offset: {plotX: this.plotX, plotY: this.plotY},
                     index: this.index,
                 };
-            window.webkit.messageHandlers.mouseover.postMessage(message);
+                window.webkit.messageHandlers.mouseover.postMessage(message);
             };
             
-            let seriesPoint = {
-                events:{
-                    mouseOver: mouseOverFunc,
-                }
-            };
-            aaPlotOptions.series.point = seriesPoint;
-        }
-
-        function configureOptionsFormatters(aaOptions) {
-            if (aaOptions.tooltip
-                && aaOptions.tooltip.formatter) {
-                aaOptions.tooltip.formatter = eval(aaOptions.tooltip.formatter);
+            if (aaPlotOptions.series.point) {// set property directlly for series point
+                aaPlotOptions.series.point.events.mouseOver = mouseOverFunc;
+            } else {// creat a new series point object instance
+                var seriesPoint = {
+                    events:{
+                        mouseOver: mouseOverFunc,
+                    }
+                };
+                aaPlotOptions.series.point = seriesPoint;
             }
-
-            if (aaOptions.xAxis
-                && aaOptions.xAxis.labels
-                && aaOptions.xAxis.labels.formatter) {
-                aaOptions.xAxis.labels.formatter = eval(aaOptions.xAxis.labels.formatter);
-            }
-
-            if (aaOptions.yAxis
-                && aaOptions.yAxis.labels
-                && aaOptions.yAxis.labels.formatter) {
-                aaOptions.yAxis.labels.formatter = eval(aaOptions.yAxis.labels.formatter);
-            } 
         }
         
         function onlyRefreshTheChartDataWithSeries(receivedSeries, animation) {
@@ -150,7 +127,6 @@
             aaGlobalChart.redraw(animationBool);
         }
         
-        //pragma mark -- setter method
         function setTheChartViewContentWidth(receivedWidth) {
             let container = document.getElementById('container');
             container.style.width = receivedWidth;

@@ -22,7 +22,7 @@
  * -------------------------------------------------------------------------------
  * And if you want to contribute for this project, please contact me as well
  * GitHub        : https://github.com/AAChartModel
- * StackOverflow : https://stackoverflow.com/users/7842508/codeforu
+ * StackOverflow : https://stackoverflow.com/users/12302132/codeforu
  * JianShu       : https://www.jianshu.com/u/f1e6753d4254
  * SegmentFault  : https://segmentfault.com/u/huanghunbieguan
  *
@@ -33,8 +33,8 @@
 import Foundation
 
 public class AAPlotBandsElement: AAObject {
-    public var from: Float?
-    public var to: Float?
+    public var from: Double?
+    public var to: Double?
     public var color: Any?
     public var borderColor: String?
     public var borderWidth: Float?
@@ -46,13 +46,13 @@ public class AAPlotBandsElement: AAObject {
     
     
     @discardableResult
-    public func from(_ prop: Float) -> AAPlotBandsElement {
+    public func from(_ prop: Double) -> AAPlotBandsElement {
         from = prop
         return self
     }
     
     @discardableResult
-    public func to(_ prop: Float) -> AAPlotBandsElement {
+    public func to(_ prop: Double) -> AAPlotBandsElement {
         to = prop
         return self
     }
@@ -106,6 +106,7 @@ public class AAPlotBandsElement: AAObject {
     }
     
     public override init() {
+        
     }   
 
 }

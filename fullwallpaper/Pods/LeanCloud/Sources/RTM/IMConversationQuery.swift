@@ -47,68 +47,85 @@ public class IMConversationQuery: LCQuery {
     
     // MARK: Combine
     
-    /**
-     Get logic AND of another query.
-     Note that it only combine constraints of two queries, the limit and skip option will be discarded.
-     
-     - parameter query: The another query.
-     - returns: The logic AND of two queries.
-     */
-    public func and(_ query: IMConversationQuery) throws -> IMConversationQuery? {
-        return try self.combine(op: "$and", query: query)
+    private func validateClient(_ query: IMConversationQuery) throws {
+        guard let selfClient = self.client,
+              let queryClient = query.client,
+              selfClient === queryClient else {
+            throw LCError(
+                code: .inconsistency,
+                reason: "`self.client` !== query.client, they should be the same instance.")
+        }
     }
     
-    /**
-     Get logic OR of another query.
-     Note that it only combine constraints of two queries, the limit and skip option will be discarded.
-     
-     - parameter query: The another query.
-     - returns: The logic OR of two queries.
-     */
-    public func or(_ query: IMConversationQuery) throws -> IMConversationQuery? {
-        return try self.combine(op: "$or", query: query)
+    private static func validateClient(_ queries: [IMConversationQuery]) throws {
+        guard let first = queries.first else {
+            return
+        }
+        for item in queries {
+            try first.validateClient(item)
+        }
     }
     
-    private func combine(op: String, query: IMConversationQuery) throws -> IMConversationQuery? {
-        guard let client = self.client else {
+    private static func combine(
+        queries: [IMConversationQuery],
+        operation: String) throws -> IMConversationQuery?
+    {
+        guard let first = queries.first else {
+            throw LCError(
+                code: .inconsistency,
+                reason: "`queries` is empty.")
+        }
+        guard let client = first.client else {
             return nil
         }
-        guard client === query.client else {
-            throw LCError(code: .inconsistency, reason: "Different IM client.")
-        }
-        let result = IMConversationQuery(client: client, eventQueue: self.eventQueue)
-        result.constraintDictionary[op] = [self.constraintDictionary, query.constraintDictionary]
-        return result
+        try self.validateClient(queries)
+        let query = IMConversationQuery(
+            client: client,
+            eventQueue: first.eventQueue)
+        query.constraintDictionary[operation] = queries.map { $0.constraintDictionary }
+        return query
     }
     
-    // MARK: Where Condition
+    /// Performs a logical AND operation on an array of one or more expressions of query.
+    /// - Parameter queries: An array of one or more expressions of query.
+    /// - Throws: `LCError`
+    /// - Returns: An optional `IMConversationQuery`
+    public static func and(_ queries: [IMConversationQuery]) throws -> IMConversationQuery? {
+        return try self.combine(queries: queries, operation: "$and")
+    }
     
-    /// If this property is a non-nil value, query will always use it as where condition, default is nil.
-    public var whereString: String?
+    /// Performs a logical AND operation on self and the query.
+    /// - Parameter query: The query.
+    /// - Throws: `LCError`
+    /// - Returns: An optional `IMConversationQuery`
+    public func and(_ query: IMConversationQuery) throws -> IMConversationQuery? {
+        return try IMConversationQuery.and([self, query])
+    }
     
-    /// Add constraint in query.
-    ///
-    /// - Parameters:
-    ///   - key: The key.
-    ///   - constraint: The constraint.
+    /// Performs a logical OR operation on an array of one or more expressions of query.
+    /// - Parameter queries: An array of one or more expressions of query.
+    /// - Throws: `LCError`
+    /// - Returns: An optional `IMConversationQuery`
+    public static func or(_ queries: [IMConversationQuery]) throws -> IMConversationQuery? {
+        return try self.combine(queries: queries, operation: "$or")
+    }
+    
+    /// Performs a logical OR operation on self and the query.
+    /// - Parameter query: The query.
+    /// - Throws: `LCError`
+    /// - Returns: An optional `IMConversationQuery`
+    public func or(_ query: IMConversationQuery) throws -> IMConversationQuery? {
+        return try IMConversationQuery.or([self, query])
+    }
+    
+    // MARK: Where
+    
     public override func `where`(_ key: String, _ constraint: Constraint) throws {
-        let typeChecker: (LCQuery) throws -> Void = { query in
-            guard let _ = query as? IMConversationQuery else {
-                throw LCError(code: .inconsistency, reason: "\(type(of: query)) not support")
-            }
-        }
         switch constraint {
         case .included, .selected:
-            throw LCError(code: .inconsistency, reason: "\(constraint) not support")
-            /* Query matching. */
-        case let .matchedQuery(query):
-            try typeChecker(query)
-        case let .notMatchedQuery(query):
-            try typeChecker(query)
-        case let .matchedQueryAndKey(query, _):
-            try typeChecker(query)
-        case let .notMatchedQueryAndKey(query, _):
-            try typeChecker(query)
+            throw LCError(
+                code: .inconsistency,
+                reason: "\(constraint) not support.")
         default:
             break
         }
@@ -312,6 +329,16 @@ public class IMConversationQuery: LCQuery {
     }
     
     @available(*, unavailable)
+    public override class func and(_ queries: [LCQuery]) throws -> LCQuery {
+        fatalError("not support")
+    }
+    
+    @available(*, unavailable)
+    public override class func or(_ queries: [LCQuery]) throws -> LCQuery {
+        fatalError("not support")
+    }
+    
+    @available(*, unavailable)
     public override func and(_ query: LCQuery) throws -> LCQuery {
         fatalError("not support")
     }
@@ -391,18 +418,8 @@ private extension IMConversationQuery {
     }
     
     func whereAndSort() throws -> (whereString: String?, sortString: String?) {
-        let dictionary = self.lconValue
-        var whereString: String?
-        var sortString: String?
-        if let whereCondition = self.whereString {
-            whereString = whereCondition
-        } else if let whereCondition: Any = dictionary["where"] {
-            let data = try JSONSerialization.data(withJSONObject: whereCondition)
-            whereString = String(data: data, encoding: .utf8)
-        }
-        if let sortCondition: String = dictionary["order"] as? String {
-            sortString = sortCondition
-        }
+        let whereString = try self.lconWhereString()
+        let sortString = self.orderedKeys
         return (whereString, sortString)
     }
     

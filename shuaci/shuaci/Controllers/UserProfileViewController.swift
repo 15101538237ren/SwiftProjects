@@ -10,65 +10,56 @@ import UIKit
 import LeanCloud
 import CropViewController
 import SwiftTheme
+import Disk
+import Nuke
+import SwifterSwift
 
-class UserProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, CropViewControllerDelegate , UITableViewDataSource, UITableViewDelegate {
+class UserProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, CropViewControllerDelegate{
+    
+    var currentUser = LCApplication.default.currentUser!
+    var mainPanelViewController: MainPanelViewController!
+    var preference:Preference!
+    
     var activityIndicator = UIActivityIndicatorView()
     var activityLabel = UILabel()
+    var imagePicker = UIImagePickerController()
+    
     let activityEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .regular))
-    @IBOutlet var logoutBtn: UIButton!{
+    
+    @IBOutlet weak var nameLabel: UILabel!
+    
+    @IBOutlet var bookNameLabel: UILabel!
+    
+    @IBOutlet var progressLabel: UILabel!
+    
+    @IBOutlet var learntWordNumLabel: UILabel!
+    
+    @IBOutlet var progressView: UIProgressView!{
         didSet{
-            logoutBtn.theme_backgroundColor = "Global.logOutBtnBgColor"
-            logoutBtn.theme_setTitleColor("Global.logOutTextColor", forState: .normal)
-            logoutBtn.layer.cornerRadius = 9.0
-            logoutBtn.layer.masksToBounds = true
+            progressView.transform = .init(scaleX: 1, y: 1.5)
         }
     }
-    var user = LCApplication.default.currentUser!
-    let username = getUserName()
-    let settingItems:[SettingItem] = [
-        SettingItem(symbol_name : "person", name: "昵 称", value: "未设置"),
-        SettingItem(symbol_name : "envelope", name: "邮 箱", value: "未绑定"),
-        SettingItem(symbol_name : "phone", name: "手 机", value: "未绑定")
-    ]
-    
-//    ,SettingItem(icon: UIImage(named: "wechat_setting") ?? UIImage(), name: "微 信", value: "未绑定"),
-//    SettingItem(icon: UIImage(named: "qq_setting") ?? UIImage(), name: "QQ", value: "未绑定"),
-//    SettingItem(icon: UIImage(named: "weibo_setting") ?? UIImage(), name: "新浪微博", value: "未绑定")
-    
-    func initActivityIndicator(text: String) {
-        activityLabel.removeFromSuperview()
-        activityIndicator.removeFromSuperview()
-        activityEffectView.removeFromSuperview()
-        let height:CGFloat = 46.0
-        activityLabel = UILabel(frame: CGRect(x: 50, y: 0, width: 200, height: height))
-        activityLabel.text = text
-        activityLabel.font = .systemFont(ofSize: 14, weight: .medium)
-        activityLabel.textColor = .darkGray
-        activityLabel.alpha = 1.0
-        activityEffectView.frame = CGRect(x: view.frame.midX - activityLabel.frame.width/2, y: view.frame.midY - activityLabel.frame.height/2 , width: 220, height: height)
-        activityEffectView.layer.cornerRadius = 15
-        activityEffectView.layer.masksToBounds = true
-        activityEffectView.backgroundColor = UIColor(red: 244, green: 244, blue: 245, alpha: 1.0)
-        
-        activityEffectView.alpha = 1.0
-        activityIndicator = .init(style: .medium)
-        activityIndicator.frame = CGRect(x: 0, y: 0, width: height, height: height)
-        activityIndicator.alpha = 1.0
-        activityIndicator.startAnimating()
-
-        activityEffectView.contentView.addSubview(activityIndicator)
-        activityEffectView.contentView.addSubview(activityLabel)
-        view.addSubview(activityEffectView)
+    @IBOutlet var changeBookBtn: UIButton!{
+        didSet{
+            changeBookBtn.layer.cornerRadius = 9.0
+            changeBookBtn.layer.masksToBounds = true
+        }
     }
     
-    func stopIndicator(){
-        self.activityIndicator.stopAnimating()
-        self.activityIndicator.hidesWhenStopped = true
-        self.activityEffectView.alpha = 0
-        self.activityLabel.alpha = 0
+    @IBOutlet var currentLearningView: UIView!{
+        didSet {
+            currentLearningView.theme_backgroundColor = "StatView.panelBgColor"
+            currentLearningView?.layer.cornerRadius = 15.0
+            currentLearningView?.layer.masksToBounds = true
+        }
     }
     
-    @IBOutlet var tableView: UITableView!
+    @IBOutlet var logoutBtn: UIButton!{
+        didSet{
+            logoutBtn.theme_tintColor = "Global.backBtnTintColor"
+        }
+    }
+    
     @IBOutlet var userPhotoBtn: UIButton!{
         didSet {
             userPhotoBtn.layer.cornerRadius = userPhotoBtn.layer.frame.width/2.0
@@ -76,17 +67,9 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
         }
     }
     
-    @IBOutlet weak var cameraIconBtn: UIButton!{
-        didSet {
-            cameraIconBtn.theme_tintColor = "UserProfile.cameraIconTintColor"
-        }
-    }
-    
-    var mainPanelViewController: MainPanelViewController!
     var viewTranslation = CGPoint(x: 0, y: 0)
     
     @IBOutlet weak var backBtn: UIButton!
-    @IBOutlet weak var barTitleLabel: UILabel!
     
     @IBAction func unwind(segue: UIStoryboardSegue) {
         self.dismiss(animated: true, completion: nil)
@@ -94,245 +77,240 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
     
     override func viewDidLoad() {
         view.theme_backgroundColor = "Global.viewBackgroundColor"
-        backBtn.theme_tintColor = "Global.backBtnTintColor"
-        barTitleLabel.theme_textColor = "Global.barTitleColor"
-        tableView.theme_backgroundColor = "Global.viewBackgroundColor"
-        self.updateUserPhoto()
-        self.tableView.delegate = self
-        self.tableView.dataSource = self
-        self.tableView.separatorColor = .clear
-        self.modalPresentationStyle = .overCurrentContext
-        
         view.isOpaque = false
-        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-        navigationController?.navigationBar.shadowImage = UIImage()
-        navigationController?.navigationBar.tintColor = .white
         
-        view.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(handleDismiss)))
+        backBtn.theme_tintColor = "Global.backBtnTintColor"
+        
+        initVC()
+        addGestureRecognizers()
+        updateUserPhoto()
+        updateDisplayName()
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
     }
     
+    func addGestureRecognizers(){
+        let labelTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(popNameTextInputAlert(tapGestureRecognizer:)))
+        nameLabel.isUserInteractionEnabled = true
+        nameLabel.addGestureRecognizer(labelTapGestureRecognizer)
+    }
     
+    func updateDisplayName(){
+        let key:String = "\(currentUser.objectId!.stringValue!)_display_name"
+        if !isKeyPresentInUserDefaults(key: key){
+            _ = currentUser.fetch(keys: ["name"]) { result in
+                switch result {
+                case .success:
+                    if let name:String = self.currentUser.get("name")?.stringValue{
+                        DispatchQueue.main.async {
+                            self.nameLabel.text = name
+                        }
+                    }
+                case .failure(error: let error):
+                    print(error.localizedDescription)
+                }
+            }
+        }else{
+            if let name:String = UserDefaults.standard.string(forKey: key){
+                DispatchQueue.main.async {
+                    self.nameLabel.text = name
+                }
+            }
+        }
+    }
+    
+    func initVC(){
+        if let current_book_name = preference.current_book_name{
+            self.bookNameLabel.text = "《\(current_book_name)》"
+        }
+        updateProgressLabels()
+    }
+    
+    func updateProgressLabels(){
+        if let bookId = preference.current_book_id {
+            if currentbook_json_obj.count == 0{
+                currentbook_json_obj = load_json(fileName: bookId)
+            }
+            
+            let learnt_word_heads: Set = Set<String>(global_vocabs_records.map{ $0.VocabHead })
+            
+            let chapters = currentbook_json_obj["chapters"].arrayValue
+            var tot_words:[String] = []
+            for chpt_idx in 0..<chapters.count{
+                let chapter = chapters[chpt_idx]
+                let word_heads = chapter["word_heads"].arrayValue.map {$0.stringValue}
+                tot_words.append(contentsOf: word_heads)
+            }
+            
+            let tot_word_set:Set<String> = Set(tot_words)
+            
+            var numOfOvlp:Int = 0
+            for learnt_word in learnt_word_heads{
+                if tot_word_set.contains(learnt_word){
+                    numOfOvlp += 1
+                }
+            }
+            
+            self.learntWordNumLabel.text = "\(numOfOvlp)/\(tot_word_set.count)"
+            let progress:Float = Float(numOfOvlp)/Float(tot_word_set.count)
+            self.progressView.progress = progress
+            self.progressLabel.text = "已学:  \(String(format: "%.1f", progress*100.0))%"
+        }
+    }
+    
+    func setElements(enable: Bool){
+        self.view.isUserInteractionEnabled = enable
+        self.backBtn.isUserInteractionEnabled = enable
+        self.logoutBtn.isUserInteractionEnabled = enable
+        self.nameLabel.isUserInteractionEnabled = enable
+        self.userPhotoBtn.isUserInteractionEnabled = enable
+    }
+    
+    func setDisplayName(name: String){
+        if !Reachability.isConnectedToNetwork(){
+            self.view.makeToast(NoNetworkStr, duration: 1.0, position: .center)
+            return
+        }
+        initIndicator(view: self.view)
+        setElements(enable: false)
+        do {
+            try currentUser.set("name", value: name)
+            _ = currentUser.save { [self] result in
+                stopIndicator()
+                switch result {
+                case .success:
+                    print("updated display name successful!")
+                    UserDefaults.standard.setValue(name, forKey: "\(currentUser.objectId!.stringValue!)_display_name")
+                    mainPanelViewController.currentUser = currentUser
+                    DispatchQueue.main.async { [self] in
+                        nameLabel.text = name
+                    }
+                case .failure(error: let error):
+                    self.view.makeToast("设置失败，请稍后重试!\(error.reason?.stringValue ?? "")", duration: 1.2, position: .center)
+                }
+                self.setElements(enable: true)
+            }
+        }catch {
+            stopIndicator()
+            self.setElements(enable: true)
+            self.view.makeToast("设置失败，请稍后重试!", duration: 1.0, position: .center)
+        }
+    }
+    
+    @objc func popNameTextInputAlert(tapGestureRecognizer: UITapGestureRecognizer){
+        let alertController = UIAlertController(title: "设置显示名称", message: "", preferredStyle: .alert)
+        
+        alertController.addTextField(text: "", placeholder: "输入显示名称", editingChangedTarget: nil, editingChangedSelector: nil)
+        
+        let setAction = UIAlertAction(title: "确定", style: .default){ _ in
+            let name: String = alertController.textFields!.first!.text ?? ""
+            if !name.isEmpty{
+                self.setDisplayName(name: name)
+                alertController.dismiss(animated: true, completion: nil)
+            }else{
+                self.view.makeToast("请输入显示名称", duration: 1.2, position: .center)
+            }
+            
+         }
+        
+        let cancelAction = UIAlertAction(title: "取消", style: .cancel){ _ in
+            alertController.dismiss(animated: true, completion: nil)
+        }
+
+        alertController.addAction(setAction)
+        alertController.addAction(cancelAction)
+
+        present(alertController, animated: true)
+    }
+    
+    func updateUserPhoto() {
+        let userId = currentUser.objectId!.stringValue!
+        let avatar_fp = "user_avatar_\(userId).jpg"
+        do {
+            let retrievedImage = try Disk.retrieve(avatar_fp, from: .documents, as: UIImage.self)
+            print("retrieved Avatar Successful!")
+            DispatchQueue.main.async {
+                self.userPhotoBtn.setImage(retrievedImage, for: [])
+                self.userPhotoBtn.setNeedsDisplay()
+            }
+        } catch {
+            getUserPhoto()
+            print(error)
+        }
+    }
+    
+    func getUserPhoto(){
+        if Reachability.isConnectedToNetwork(){
+            DispatchQueue.global(qos: .background).async { [self] in
+                if let file = currentUser.get("avatar") as? LCFile {
+                    
+                    let imgUrl = URL(string: file.url!.stringValue!)!
+                    
+                    _ = ImagePipeline.shared.loadImage(
+                        with: imgUrl,
+                        completion: { [self] response in
+                            switch response {
+                              case .failure:
+                                break
+                              case let .success(imageResponse):
+                                let image = imageResponse.image
+                                
+                                DispatchQueue.main.async {
+                                    self.userPhotoBtn.setImage(image, for: [])
+                                    self.userPhotoBtn.setNeedsDisplay()
+                                }
+                                let userID = currentUser.objectId!.stringValue!
+                                
+                                let avatar_fp = "user_avatar_\(userID).jpg"
+                                
+                                do {
+                                    try Disk.save(image, to: .documents, as: avatar_fp)
+                                    print("Save Downloaded Avatar Successful!")
+                                } catch {
+                                    print(error)
+                                }
+                              }
+                        }
+                    )
+                }
+            }
+        }else{
+            self.view.makeToast(NoNetworkStr, duration: 1.0, position: .center)
+        }
+
+    }
     
     func presentAlertInView(title: String, message: String, okText: String){
         let alertController = presentAlert(title: title, message: message, okText: okText)
         self.present(alertController, animated: true)
     }
     
-    @objc func handleDismiss(sender: UIPanGestureRecognizer) {
-        switch sender.state {
-        case .changed:
-            viewTranslation = sender.translation(in: view)
-            
-            if viewTranslation.y > 0 {
-                UIView.animate(withDuration: 0.2, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
-                    self.view.transform = CGAffineTransform(translationX: 0, y: self.viewTranslation.y)
-                })
-            }
-        case .ended:
-            if viewTranslation.y < 200 {
-                UIView.animate(withDuration: 0.2, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
-                    self.view.transform = .identity
-                })
-            } else {
-                DispatchQueue.main.async {
-                    self.dismiss(animated: true, completion: nil)
-                }
-            }
-        default:
-            break
-        }
-    }
-    
-    func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 1
-    }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return settingItems.count
-    }
-    
-    func getSetted(row: Int)-> String{
-        var textStr: String = "未绑定"
-        switch row {
-            case 0:
-                if let user_nickname = user.get("nickname")?.stringValue{
-                    textStr = user_nickname
-                }
-                else{
-                    textStr = "未设置"
-                }
-            case 1:
-                if let _ = user.get("email")?.stringValue{
-                    let verified = user.get("emailVerified")!.boolValue!
-                    if verified{
-                        textStr = "已绑定"
-                    }else{
-                        textStr = "未验证"
-                    }
-                }
-            case 2:
-                if let _ = user.get("mobilePhoneNumber")?.stringValue{
-                    let verified = user.get("mobilePhoneVerified")!.boolValue!
-                    if verified{
-                        textStr = "已绑定"
-                    }else{
-                        textStr = "未验证"
-                    }
-                }
-            default:
-                    textStr = "未验证"
-        }
-            return textStr
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let row = indexPath.row
-        let cell = tableView.dequeueReusableCell(withIdentifier: "ProfileSettingCell", for: indexPath) as! SettingTableViewCell
-        cell.separatorInset = UIEdgeInsets(top: 0, left: cell.bounds.size.width, bottom: 0, right: 0);
-        let settingItem:SettingItem = settingItems[row]
-        cell.iconView?.image = settingItem.icon
-        cell.iconView.theme_tintColor = "Global.settingIconTintColor"
-        cell.nameLabel?.text = settingItem.name
-        let textStr: String = getSetted(row: row)
-        cell.valueLabel?.theme_textColor = ["未验证", "未设置", "未绑定"].contains(textStr) ? "TableView.switchOnTextColor" : "TableView.switchOffTextColor"
-        cell.valueLabel?.text = textStr
-        cell.backgroundColor = .clear
-        return cell
-    }
-    
-    
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let row: Int = indexPath.row
-        let textStr: String = getSetted(row: row)
-        
-        switch row {
-        case 0:
-            let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
-            let setNickNameVC = mainStoryBoard.instantiateViewController(withIdentifier: "setNickNameVC") as! setNickNameViewController
-            if let user_nickname = user.get("nickname")?.stringValue{
-                setNickNameVC.nickname = user_nickname
-            }else{
-                setNickNameVC.nickname = ""
-            }
-            
-            setNickNameVC.modalPresentationStyle = .fullScreen
-            self.present(setNickNameVC, animated: true, completion: nil)
-        case 1:
-            if textStr == "未绑定"{
-                let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
-                let bindEmailVC = mainStoryBoard.instantiateViewController(withIdentifier: "bindEmailVC") as! bindEmailViewController
-                bindEmailVC.modalPresentationStyle = .fullScreen
-                self.present(bindEmailVC, animated: true, completion: nil)
-            }else if textStr == "未验证"{
-                var lastEmailLoginClickTime:Date? = nil
-                let emailVerficationSendTimeKey:String = "EmailVerficationSendTime"
-                if isKeyPresentInUserDefaults(key: emailVerficationSendTimeKey){
-                    lastEmailLoginClickTime = UserDefaults.standard.object(forKey: emailVerficationSendTimeKey) as? Date
-                }
-                if lastEmailLoginClickTime == nil ||  minutesBetweenDates(lastEmailLoginClickTime!, Date()) > 1 {
-                    if let email = getEmail(){
-                        UserDefaults.standard.set(Date(), forKey: emailVerficationSendTimeKey)
-                        _ = LCUser.requestVerificationMail(email: email) { result in
-                            switch result {
-                            case .success:
-                                let alertController = UIAlertController(title: "已发送验证邮件到\(email)\n请验证后重新登录!", message: "", preferredStyle: .alert)
-                                let okayAction = UIAlertAction(title: "好", style: .default, handler: { action in
-                                    LCUser.logOut()
-                                    self.dismiss(animated: true, completion: nil)
-                                    self.mainPanelViewController.showLoginScreen()
-                                    })
-                                alertController.addAction(okayAction)
-                                self.present(alertController, animated: true, completion: nil)
-                            case .failure(error: let error):
-                                self.presentAlertInView(title: error.localizedDescription, message: "", okText: "好")
-                            }
-                        }
-                    } else{
-                        self.presentAlertInView(title: "获取Email出现问题，请稍后再试!", message: "", okText: "好")
-                    }
-                } else{
-                    self.presentAlertInView(title: "尝试过于频繁，请稍等1分钟!", message: "", okText: "好")
-                }
-            }
-        case 2:
-            if ["未验证", "未绑定"].contains(textStr){
-                let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
-                let bindPhonerVC = mainStoryBoard.instantiateViewController(withIdentifier: "bindPhonerVC") as! bindPhoneViewController
-                bindPhonerVC.phoneNumber = getPhoneNumber()
-                bindPhonerVC.modalPresentationStyle = .fullScreen
-                self.present(bindPhonerVC, animated: true, completion: nil)
-            }
-        default:
-            break
-        }
-        tableView.deselectRow(at: indexPath, animated: true)
-    }
-    
-    override func viewWillAppear(_ animated: Bool){
-        self.tableView.reloadData()
-    }
-    
-    func updateUserPhoto() {
-        if let userImage = loadPhoto(name_of_photo: "user_avatar_\(username).jpg") {
-            DispatchQueue.main.async {
-                self.userPhotoBtn.setImage(userImage, for: [])
-            }
-        }
-    }
-    
     @IBAction func logOut(_ sender: UIButton) {
-        let connected = Reachability.isConnectedToNetwork()
-        if connected{
+        if Reachability.isConnectedToNetwork(){
            let alertController = UIAlertController(title: "提示", message: "确定注销?", preferredStyle: .alert)
-           let okayAction = UIAlertAction(title: "确定", style: .default, handler: { action in
+           
+            let okayAction = UIAlertAction(title: "确定", style: .default, handler: { action in
                LCUser.logOut()
-               self.dismiss(animated: false, completion: nil)
-               self.mainPanelViewController.showLoginScreen()
+               self.dismiss(animated: false, completion: {
+                self.mainPanelViewController.dismiss(animated: true, completion: nil)
+               })
            })
+            
            let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
            alertController.addAction(okayAction)
            alertController.addAction(cancelAction)
            self.present(alertController, animated: true, completion: nil)
         }else{
-            let alertCtl = presentNoNetworkAlert()
-            self.present(alertCtl, animated: true, completion: nil)
+            self.view.makeToast(NoNetworkStr, duration: 1.0, position: .center)
         }
     }
     
     @IBAction func selectImage(_ sender: UIButton) {
-        
-        let photoSourceController = UIAlertController(title: "", message: NSLocalizedString("选择您的头像", comment: "选择您的头像") , preferredStyle: .actionSheet)
-        let cameraAction = UIAlertAction(title: NSLocalizedString("相机", comment: "相机") , style: .default, handler: {
-            (action) in
-            if UIImagePickerController.isSourceTypeAvailable(.camera){
-                let imagePicker = UIImagePickerController()
-//                imagePicker.allowsEditing = true
-                imagePicker.sourceType = .camera
-                imagePicker.delegate = self
-                self.present(imagePicker, animated: true, completion: nil)
-            }
-        })
-        let photoLibraryAction = UIAlertAction(title: NSLocalizedString("照片库", comment: "照片库") , style: .default, handler: {
-            (action) in
-            if UIImagePickerController.isSourceTypeAvailable(.photoLibrary){
-                let imagePicker = UIImagePickerController()
-//                imagePicker.allowsEditing = true
-                imagePicker.sourceType = .photoLibrary
-                imagePicker.delegate = self
-                self.present(imagePicker, animated: true, completion: nil)
-            }
-        })
-        let cancelAction = UIAlertAction(title: NSLocalizedString("取消", comment: "取消"), style: .cancel, handler: nil)
-        
-        photoSourceController.addAction(cameraAction)
-        photoSourceController.addAction(photoLibraryAction)
-        photoSourceController.addAction(cancelAction)
-        
-        present(photoSourceController, animated: true, completion: nil)
+        if UIImagePickerController.isSourceTypeAvailable(.photoLibrary){
+            imagePicker.sourceType = .photoLibrary
+            imagePicker.delegate = self
+            imagePicker.mediaTypes = ["public.image"]
+            self.present(imagePicker, animated: true, completion: nil)
+        }
     }
     
     func resizeImage(image: UIImage, newWidth: CGFloat) -> UIImage {
@@ -348,64 +326,68 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        
         if let pickedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage{
-            picker.dismiss(animated: true, completion: nil)
-            let cropVC = CropViewController(image: pickedImage)
-            cropVC.delegate = self
-            cropVC.aspectRatioPickerButtonHidden = true
-            cropVC.aspectRatioPreset = .presetSquare
-            cropVC.aspectRatioLockEnabled = true
-            cropVC.resetAspectRatioEnabled = false
-            self.present(cropVC, animated: false, completion: nil)
+            DispatchQueue.main.async { [self] in
+                picker.dismiss(animated: true, completion: nil)
+                
+                let targetLength:CGFloat = view.bounds.width * UIScreen.main.scale
+                
+                let leftPosition = (pickedImage.size.width * pickedImage.scale - targetLength)/2.0
+                let topPosition = (pickedImage.size.height * pickedImage.scale - targetLength)/2.0
+                let cropController = CropViewController(image: pickedImage)
+                cropController.title = "「缩放」或「拖拽」来调整"
+                cropController.doneButtonTitle = "确定"
+                cropController.cancelButtonTitle = "取消"
+                cropController.imageCropFrame = CGRect(x: leftPosition, y: topPosition, width: targetLength, height: targetLength)
+                cropController.aspectRatioPreset = .presetSquare
+                cropController.rotateButtonsHidden = true
+                cropController.rotateClockwiseButtonHidden = true
+                cropController.resetButtonHidden = true
+                cropController.aspectRatioLockEnabled = true
+                cropController.resetAspectRatioEnabled = false
+                cropController.aspectRatioPickerButtonHidden = true
+                cropController.delegate = self
+                self.present(cropController, animated: true, completion: nil)
+            }
         }
     }
     
     
     func cropViewController(_ cropViewController: CropViewController, didCropToImage image: UIImage, withRect cropRect: CGRect, angle: Int) {
         // Write the image to local file for temporary use
-        let imageFileURL = getDocumentsDirectory().appendingPathComponent("user_avatar_\(username).jpg")
-        let cropped_img = resizeImage(image: image, newWidth: 300.0)
-        try? cropped_img.jpegData(compressionQuality: 0.8)?.write(to: imageFileURL)
         
-        DispatchQueue.main.async {
-            cropViewController.dismiss(animated: true, completion: nil)
-            self.initActivityIndicator(text: "头像上传中..")
-            self.dismiss(animated: true, completion: nil)
+        let userId = currentUser.objectId!.stringValue!
+        
+        let imageData:Data = resizeImage(image: image, newWidth: 300.0).jpegData(compressionQuality: 1.0)!
+        
+        let avatar_fp = "user_avatar_\(userId).jpg"
+        
+        do {
+            try Disk.save(imageData, to: .documents, as: avatar_fp)
+            print("Save Avatar Successful!")
+        } catch {
+            print(error)
         }
         
-        let connected = Reachability.isConnectedToNetwork()
-        if connected{
+        if Reachability.isConnectedToNetwork(){
             DispatchQueue.global(qos: .background).async {
             do {
-                let user = LCApplication.default.currentUser!
-                do {
-                    let query = LCQuery(className: "_User")
-                    _ = query.get(user.objectId as! LCStringConvertible) { result in
-                        switch result {
-                            case .success(object: let unauthenticatedUser):
-                                if let old_photo = unauthenticatedUser.get("avatar"){
-                                 let old_file = old_photo as! LCFile
-                                 if let obj_id:String = old_file.objectId?.stringValue{
-                                    let old_photo_file = LCObject(className: "_File", objectId: obj_id as LCStringConvertible)
-                                         old_photo_file.delete()
-                                     print("File with id: \(obj_id) deleted")
-                                     }
-                                }
-                            case .failure(error: let error):
-                                print(error)
-                        }
+                let file = LCFile(payload: .data(data: imageData))
+                if let _ =  file.get("name")?.stringValue{
+                    
+                }else
+                {
+                    do{
+                        try file.set("name", value: "unnamed")
+                    }catch{
+                        print("无法设置文件名称")
                     }
                 }
-                
-                let file = LCFile(payload: .fileURL(fileURL: imageFileURL))
                 _ = file.save { result in
                         switch result {
                         case .success:
-                            if let objectId:String = file.objectId?.value {
-                                print("用户头像上传完成。")
-                                self.update_user_photo(file: file)
-                            }
+                            self.update_user_photo_lc(file: file)
+                            break
                         case .failure(error: let error):
                             // 保存失败，可能是文件无法被读取，或者上传过程中出现问题
                             print(error)
@@ -414,42 +396,51 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
                 }
             }
         }else{
-            let alertCtl = presentNoNetworkAlert()
-            self.present(alertCtl, animated: true, completion: nil)
-            non_network_preseted = true
+            self.view.makeToast(NoNetworkStr, duration: 1.0, position: .center)
         }
         
+        DispatchQueue.main.async {
+            self.updateUserPhoto()
+            self.mainPanelViewController.loadUserPhoto()
+            cropViewController.dismiss(animated: true, completion: nil)
+        }
     }
     
-    func update_user_photo(file: LCFile){
-        let connected = Reachability.isConnectedToNetwork()
-        if connected{
-           DispatchQueue.global(qos: .background).async {
+    func update_user_photo_lc(file: LCFile){
+        if Reachability.isConnectedToNetwork(){
+            DispatchQueue.global(qos: .background).async { [self] in
            do {
-               let user = LCApplication.default.currentUser!
                do {
-                try user.set("avatar", value: file)
-                user.save { (result) in
+                try currentUser.set("avatar", value: file)
+                currentUser.save { (result) in
                     switch result {
                     case .success:
+                        mainPanelViewController.currentUser = currentUser
                         print("Cloud User Photo Saved Successful!")
-                        self.updateUserPhoto()
-                        self.mainPanelViewController.updateUserPhoto()
-                        self.stopIndicator()
                     case .failure(error: let error):
-                        self.stopIndicator()
+                        print(error)
                     }
                 }
                } catch {
-                   self.stopIndicator()
                }
                }
            }
         }else{
-            let alertCtl = presentNoNetworkAlert()
-            self.present(alertCtl, animated: true, completion: nil)
-            non_network_preseted = true
+            self.view.makeToast(NoNetworkStr, duration: 1.0, position: .center)
         }
-        
+    }
+    
+    
+    @IBAction func changeBook(_ sender: UIButton) {
+        let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+        let booksVC = mainStoryBoard.instantiateViewController(withIdentifier: "booksController") as! BooksViewController
+        booksVC.currentUser = currentUser
+        booksVC.preference = preference
+        booksVC.modalPresentationStyle = .fullScreen
+        booksVC.mainPanelViewController = nil
+        fetchBooks()
+        DispatchQueue.main.async {
+            self.present(booksVC, animated: true, completion: nil)
+        }
     }
 }

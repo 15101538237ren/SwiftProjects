@@ -8,19 +8,44 @@
 import UIKit
 import AVFoundation
 import Nuke
+import Toast_Swift
+import LeanCloud
+import PopMenu
+import SwiftTheme
 
 class WallpaperDetailVC: UIViewController {
 
-    //Outlet Variables
-    @IBOutlet weak var backBtn: UIButton!
+    // MARK: - Outlet Variables
     @IBOutlet var imageView: UIImageView!
-    @IBOutlet var lockScreenPreviewImgV: UIImageView!
-    @IBOutlet var homeScreenPreviewImgV: UIImageView!
-    @IBOutlet weak var largeHeartImgV: UIImageView!
-    @IBOutlet weak var likeImgV: UIImageView!
-    @IBOutlet weak var downloadImgV: UIImageView!
-    @IBOutlet weak var lockScreenImgV: UIImageView!
-    @IBOutlet weak var homeScreenImgV: UIImageView!
+    @IBOutlet var lockScreenPreviewImgV: UIImageView!{
+        didSet{
+            if Device.IS_5_5_INCHES(){
+                lockScreenPreviewImgV.image = UIImage(named: "LockScreen_small")
+            }
+        }
+    }
+    @IBOutlet var homeScreenPreviewImgV: UIImageView!{
+        didSet{
+            if Device.IS_5_5_INCHES(){
+                homeScreenPreviewImgV.image = UIImage(named: "HomeScreen_small")
+            }
+        }
+    }
+    @IBOutlet weak var downloadImgV: UIImageView!{
+        didSet{
+            downloadImgV.theme_tintColor = "CollectionCellTextColor"
+        }
+    }
+    @IBOutlet weak var previewImgV: UIImageView!{
+        didSet{
+            previewImgV.theme_tintColor = "CollectionCellTextColor"
+        }
+    }
+    @IBOutlet weak var optionImgV: UIImageView!{
+        didSet{
+            optionImgV.theme_tintColor = "CollectionCellTextColor"
+        }
+    }
     @IBOutlet weak var dimUIView: UIView!{
         didSet{
             dimUIView.layer.cornerRadius = 15.0
@@ -30,26 +55,79 @@ class WallpaperDetailVC: UIViewController {
         }
     }
     
-    // Variables
-    var imageUrl: URL!
-    var lockInPreview: Bool = false
-    var homeInPreview: Bool = false
-    var liked: Bool = false
-    var viewTranslation = CGPoint(x: 0, y: 0)
+    @IBOutlet weak var imageDimUIView: UIView!{
+        didSet{
+            imageDimUIView.theme_alpha = "DimView.Alpha"
+        }
+    }
     
+    
+    // MARK: - Variables
+    
+    var imageUrl: URL!
+    var wallpaperObjectId: String!
+    var previewStatus: DisplayMode = .Plain
+    var liked: Bool = false
+    var isPro: Bool = false
+    var viewTranslation = CGPoint(x: 0, y: 0)
+    var reviewFuncCalled: Bool = false
+    var reportClassification:[Int : String] = [2:"不良内容", 3: "清晰度不佳", 4: "壁纸侵权", 5: "分类有误"]
+    
+    // MARK: - Constants
     let scaleForAnimation: CGFloat = 2
+    
+    // MARK: - ViewController Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        Nuke.loadImage(with: imageUrl, options: wallpaperLoadingOptions, into: imageView)
-        addGestureRcg()
+        checkIfDisabled()
+    }
+    
+    func checkIfDisabled(){
+        if isDisabled {
+            DispatchQueue.main.async {
+                let alertController:UIAlertController = getBannedAlert()
+                self.present(alertController, animated: true, completion: nil)
+            }
+            return
+        }else{
+            loadImage(url: imageUrl)
+            addGestureRcg()
+        }
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        if !Reachability.isConnectedToNetwork(){
+            self.imageView.image = UIImage(named: "image_to_upload")!
+            self.view.makeToast(NoNetworkStr, duration: 1.0, position: .center)
+        }
+    }
+    
+    // MARK: - Custom Functions
+    
+    func loadImage(url: URL){
+        if Reachability.isConnectedToNetwork(){
+            initIndicator(view: self.view)
+            _ = ImagePipeline.shared.loadImage(
+                with: url,
+                completion: { response in
+                    stopIndicator()
+                    switch response {
+                      case .failure:
+                        self.imageView.image = ImageLoadingOptions.shared.failureImage
+                        self.imageView.contentMode = .scaleAspectFit
+                      case let .success(imageResponse):
+                        self.imageView.image = imageResponse.image
+                      }
+                }
+            )
+        }
     }
     
     func addGestureRcg(){
         addGestureRcgToView()
-        addGestureRcgToLike()
         addGestureRcgToDownload()
-        addGestureRcgToLockScreen()
-        addGestureRcgToHomeScreen()
+        addGestureRcgToPreview()
+        addGestureRcgToOption()
         view.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(handleDismiss)))
     }
     
@@ -80,23 +158,20 @@ class WallpaperDetailVC: UIViewController {
     
     func hideButtons(){
         DispatchQueue.main.async {
-            self.backBtn.alpha = 0
-            self.likeImgV.alpha = 0
             self.downloadImgV.alpha = 0
-            self.lockScreenImgV.alpha = 0
-            self.homeScreenImgV.alpha = 0
+            self.previewImgV.alpha = 0
+            self.optionImgV.alpha = 0
             self.dimUIView.alpha = 0
         }
     }
     
     
     func showButtons(){
+        previewStatus = .Plain
         DispatchQueue.main.async {
-            self.backBtn.alpha = 1
-            self.likeImgV.alpha = 1
             self.downloadImgV.alpha = 1
-            self.lockScreenImgV.alpha = 1
-            self.homeScreenImgV.alpha = 1
+            self.previewImgV.alpha = 1
+            self.optionImgV.alpha = 1
             self.dimUIView.alpha = dimUIViewAlpha
         }
     }
@@ -107,48 +182,120 @@ class WallpaperDetailVC: UIViewController {
         view.addGestureRecognizer(tapGestureRecognizer)
     }
     
-    func addGestureRcgToLike(){
-        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(likeImgViewTapped(tapGestureRecognizer:)))
-        likeImgV.isUserInteractionEnabled = true
-        likeImgV.addGestureRecognizer(tapGestureRecognizer)
-    }
-    
     
     @objc func viewTapped(tapGestureRecognizer: UITapGestureRecognizer)
     {
-        if lockInPreview{
+        switch previewStatus {
+        case .Plain:
+            hideButtons()
+            showLockScreenPreview()
+        case .LockScreen:
             hideLockScreenPreview()
-            lockInPreview.toggle()
-        }
-        if homeInPreview {
+            showHomeScreenPreview()
+        case .HomeScreen:
             hideHomeScreenPreview()
-            homeInPreview.toggle()
-        }
-        if backBtn.alpha < 0.05{
             showButtons()
         }
     }
     
-    func toggleLikeBtn() {
-        liked.toggle()
-        let tmp_image = liked ? UIImage(systemName: "heart.fill") ?? UIImage(named: "heart-fill-icon") : UIImage(systemName: "heart") ?? UIImage(named: "heart-icon")
-        likeImgV.image = tmp_image
-        largeHeartImgV.image = tmp_image
-        
-        UIView.animate(withDuration: 0.25, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 5, options: .curveEaseInOut, animations: {
-            self.largeHeartImgV.alpha = 1.0
-            self.largeHeartImgV.transform = self.largeHeartImgV.transform.scaledBy(x: self.scaleForAnimation, y: self.scaleForAnimation)
-            }, completion: { _ in
-                UIView.animate(withDuration: 0.2, animations: {
-                    self.largeHeartImgV.alpha = 0.0
-                    self.largeHeartImgV.transform = .identity
-                })
-        })
+    func showVIPBenefitsVC(showHint: Bool) {
+        let MainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+        let vipBenefitsVC = MainStoryBoard.instantiateViewController(withIdentifier: "vipBenefitsVC") as! VIPBenefitsVC
+        vipBenefitsVC.showHint = showHint
+        vipBenefitsVC.modalPresentationStyle = .fullScreen
+        DispatchQueue.main.async {
+            self.present(vipBenefitsVC, animated: true, completion: nil)
+        }
     }
     
-    @objc func likeImgViewTapped(tapGestureRecognizer: UITapGestureRecognizer)
-    {
-        toggleLikeBtn()
+    func downloadImage() {
+        if isPro && !isProValid{
+            showVIPBenefitsVC(showHint: true)
+        }else{
+            if let user = LCApplication.default.currentUser {
+                initIndicator(view: view)
+                if let image = imageView.image{
+                    do{
+                        let wallpaper = LCObject(className: "Wallpaper", objectId: wallpaperObjectId!)
+                        try wallpaper.increase("likes", by: 1)
+                        wallpaper.save { (result) in
+                                switch result {
+                                case .success:
+                                    DispatchQueue.main.async {
+                                        do {
+                                            try user.append("likedWPs", element: self.wallpaperObjectId!, unique: true)
+                                            
+                                            user.save{ [self] (result) in
+                                                switch result {
+                                                case .success:
+                                                    
+                                                    var info = ["Um_Key_ContentID": wallpaper.objectId!.stringValue!] as [String : Any]
+                                                    
+                                                    if let caption = wallpaper.get("caption"){
+                                                        info["Um_Key_ContentName"] = caption.stringValue
+                                                    }
+                                                    
+                                                    if let category = wallpaper.get("category"){
+                                                        info["Um_Key_ContentCategory"] = category.stringValue
+                                                    }
+                                                    
+                                                    if let uploader = wallpaper.get("uploader") as? LCObject {
+                                                        info["Um_Key_PublisherID"] = uploader.objectId!.stringValue!
+                                                    }
+                                                    
+                                                    if let user = LCApplication.default.currentUser{
+                                                        let userId = user.objectId!.stringValue!
+                                                        info["Um_Key_UserID"] = userId
+                                                    }
+                                                    UMAnalyticsSwift.event(eventId: "Um_Event_ContentFavorite", attributes: info)
+                                                    
+                                                    UIImageWriteToSavedPhotosAlbum(image, self, #selector(image(_:didFinishSavingWithError:contextInfo:)), nil)
+                                                    if !reviewFuncCalled {
+                                                        AppStoreReviewManager.requestReviewIfAppropriate()
+                                                        reviewFuncCalled = true
+                                                    }
+                                                    userLikedWPs.append(self.wallpaperObjectId!)
+                                                    stopIndicator()
+                                                case .failure:
+                                                    stopIndicator()
+                                                    self.view.makeToast("下载失败，请重试!", duration: 1.0, position: .center)
+                                                }
+                                            }
+                                        } catch {
+                                            stopIndicator()
+                                            self.view.makeToast("下载失败，请重试!", duration: 1.0, position: .center)
+                                        }
+                                    }
+                                case .failure:
+                                    stopIndicator()
+                                    self.view.makeToast("下载失败，请重试!", duration: 1.0, position: .center)
+                                }
+                            }
+                    } catch {
+                        stopIndicator()
+                        self.view.makeToast("下载失败，请重试!", duration: 1.0, position: .center)
+                    }
+                }else{
+                    stopIndicator()
+                    self.view.makeToast("下载失败，请重试!", duration: 1.0, position: .center)
+                }
+            } else {
+                if let image = imageView.image{
+                    UIImageWriteToSavedPhotosAlbum(image, self, #selector(image(_:didFinishSavingWithError:contextInfo:)), nil)
+                }
+            }
+        }
+    }
+    
+    func showLoginOrRegisterVC(action: String) {
+        let LoginRegStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+        let emailVC = LoginRegStoryBoard.instantiateViewController(withIdentifier: "loginVC") as! LoginVC
+        emailVC.modalPresentationStyle = .overCurrentContext
+        DispatchQueue.main.async {
+            self.present(emailVC, animated: true, completion: {
+                emailVC.view.makeToast("请先「登录」或「注册」以\(action)壁纸", duration: 1.5, position: .center)
+            })
+        }
     }
     
     func addGestureRcgToDownload(){
@@ -159,18 +306,17 @@ class WallpaperDetailVC: UIViewController {
     
     @objc func downloadImgViewTapped(tapGestureRecognizer: UITapGestureRecognizer)
     {
-        if let image = imageView.image{
-            UIImageWriteToSavedPhotosAlbum(image, self, #selector(image(_:didFinishSavingWithError:contextInfo:)), nil)
-        }
+        downloadImage()
     }
     
-    func addGestureRcgToLockScreen(){
-        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(lockScreenImgViewTapped(tapGestureRecognizer:)))
-        lockScreenImgV.isUserInteractionEnabled = true
-        lockScreenImgV.addGestureRecognizer(tapGestureRecognizer)
+    func addGestureRcgToPreview(){
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(preview(tapGestureRecognizer:)))
+        previewImgV.isUserInteractionEnabled = true
+        previewImgV.addGestureRecognizer(tapGestureRecognizer)
     }
     
     func showLockScreenPreview(){
+        previewStatus = .LockScreen
         DispatchQueue.main.async {
             self.lockScreenPreviewImgV.alpha = 1.0
         }
@@ -182,20 +328,20 @@ class WallpaperDetailVC: UIViewController {
         }
     }
     
-    @objc func lockScreenImgViewTapped(tapGestureRecognizer: UITapGestureRecognizer)
+    @objc func preview(tapGestureRecognizer: UITapGestureRecognizer)
     {
-        lockInPreview = true
         hideButtons()
         showLockScreenPreview()
     }
     
-    func addGestureRcgToHomeScreen(){
-        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(homeScreenImgViewTapped(tapGestureRecognizer:)))
-        homeScreenImgV.isUserInteractionEnabled = true
-        homeScreenImgV.addGestureRecognizer(tapGestureRecognizer)
+    func addGestureRcgToOption(){
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(options(tapGestureRecognizer:)))
+        optionImgV.isUserInteractionEnabled = true
+        optionImgV.addGestureRecognizer(tapGestureRecognizer)
     }
     
     func showHomeScreenPreview(){
+        previewStatus = .HomeScreen
         DispatchQueue.main.async {
             self.homeScreenPreviewImgV.alpha = 1
         }
@@ -207,27 +353,116 @@ class WallpaperDetailVC: UIViewController {
         }
     }
     
-    @objc func homeScreenImgViewTapped(tapGestureRecognizer: UITapGestureRecognizer)
-    {
-        homeInPreview = true
-        hideButtons()
-        showHomeScreenPreview()
+    
+    @objc func options(tapGestureRecognizer: UITapGestureRecognizer){
+        let iconWidthHeight:CGFloat = 20
+        let contentAction = PopMenuDefaultAction(title: "不良内容", image: UIImage(named: "alarm"), color: UIColor.darkGray)
+        let resolutionAction = PopMenuDefaultAction(title: "清晰度不佳", image: UIImage(named: "frown"), color: UIColor.darkGray)
+        let copyrightAction = PopMenuDefaultAction(title: "壁纸侵权", image: UIImage(named: "copyright"), color: UIColor.darkGray)
+        let classificationAction = PopMenuDefaultAction(title: "分类有误", image: UIImage(named: "warning"), color: UIColor.darkGray)
+        
+        contentAction.iconWidthHeight = iconWidthHeight
+        resolutionAction.iconWidthHeight = iconWidthHeight
+        copyrightAction.iconWidthHeight = iconWidthHeight
+        classificationAction.iconWidthHeight = iconWidthHeight
+        
+        let menuVC = PopMenuViewController(sourceView: optionImgV, actions: [contentAction, resolutionAction, copyrightAction, classificationAction])
+        menuVC.delegate = self
+        menuVC.appearance.popMenuFont = .systemFont(ofSize: 15, weight: .regular)
+        
+        menuVC.appearance.popMenuColor.backgroundColor = .solid(fill: UIColor(red: 240, green: 240, blue: 240, alpha: 1))
+        self.present(menuVC, animated: true, completion: nil)
     }
     
     @objc func image(_ image:UIImage, didFinishSavingWithError error: Error?, contextInfo: UnsafeRawPointer){
         if let error = error {
-            let ac = UIAlertController(title: "出现错误: \(error.localizedDescription)", message: "", preferredStyle: .alert)
-            ac.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-            present(ac, animated: true, completion: nil)
+                self.view.makeToast("出现错误: \(error.localizedDescription)", duration: 1.0, position: .center)
         }
         else{
-            let ac = UIAlertController(title: "保存成功!", message: "", preferredStyle: .alert)
-            ac.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-            present(ac, animated: true, completion: nil)
+            self.view.makeToast("下载成功!", duration: 1.0, position: .center)
         }
     }
     
     @IBAction func unwind(_ sender: UIButton) {
         self.dismiss(animated: true, completion: nil)
+    }
+}
+
+
+// MARK: - Pop Menu Protocal Implementation
+extension WallpaperDetailVC: PopMenuViewControllerDelegate {
+
+    func reportWallpaperProblem(code: Int, popMenuViewController: PopMenuViewController){
+        
+        let alertController = UIAlertController(title: "确定举报壁纸？", message: "", preferredStyle: .alert)
+        
+        let reportAction = UIAlertAction(title: "举报", style: .destructive){ _ in
+            do{
+                let wallpaper = LCObject(className: "Wallpaper", objectId: self.wallpaperObjectId!)
+                try wallpaper.set("status", value: code)
+                wallpaper.save { (result) in
+                        switch result {
+                        case .success:
+                            var info = ["Um_Key_ContentID": self.wallpaperObjectId!, "Um_Key_ContentTag" : self.reportClassification[code]! ] as [String : Any]
+                            
+                            if let user = LCApplication.default.currentUser{
+                                let userId = user.objectId!.stringValue!
+                                info["Um_Key_UserID"] = userId
+                            }
+                            
+                            if let category = wallpaper.get("category"){
+                                info["Um_Key_ContentCategory"] = category.stringValue
+                            }
+                            
+                            if let uploader = wallpaper.get("uploader") as? LCObject {
+                                info["Um_Key_PublisherID"] = uploader.objectId!.stringValue!
+                            }
+                            
+                            UMAnalyticsSwift.event(eventId: "Um_Event_ContentReport", attributes: info)
+                            
+                            DispatchQueue.main.async {
+                                self.view.makeToast("举报成功!", duration: 1.0, position: .center)
+                            }
+                        case .failure(error: let error):
+                            self.view.makeToast(error.reason, duration: 1.0, position: .center)
+                        }
+                    }
+            } catch {
+                self.view.makeToast("出现错误，请重试！", duration: 1.0, position: .center)
+            }
+         }
+        
+        let cancelAction = UIAlertAction(title: "取消", style: .cancel){ _ in
+            alertController.dismiss(animated: true, completion: nil)
+        }
+
+        alertController.addAction(reportAction)
+        alertController.addAction(cancelAction)
+        
+        popMenuViewController.dismiss(animated: false, completion: {
+            self.present(alertController, animated: true)
+        })
+        
+        
+        
+        
+    }
+    
+    // This will be called when a pop menu action was selected
+    func popMenuDidSelectItem(_ popMenuViewController: PopMenuViewController, at index: Int) {
+        if let _ = LCApplication.default.currentUser {
+            if index == 0{
+                reportWallpaperProblem(code: 2, popMenuViewController: popMenuViewController)
+            }else if index == 1{
+                reportWallpaperProblem(code: 3, popMenuViewController: popMenuViewController)
+            }else if index == 2{
+                reportWallpaperProblem(code: 4, popMenuViewController: popMenuViewController)
+            }
+            else{
+                reportWallpaperProblem(code: 5, popMenuViewController: popMenuViewController)
+            }
+        }else{
+            showLoginOrRegisterVC(action: ACTION_TYPE.report.rawValue)
+        }
     }
 }

@@ -7,9 +7,11 @@
 //
 
 import UIKit
+import MKRingProgressView
 
 class CardUIView: UIView {
     @IBOutlet var dimUIView: UIView?
+    @IBOutlet var ringView: RingProgressView?
     @IBOutlet var cardBackView: CardBackView?
     @IBOutlet var cardImageView: UIImageView?{
         didSet {

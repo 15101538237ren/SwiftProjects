@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>VIP.TextColor</key>
+	<string>#d9c397</string>
+	<key>TableCell.BackGroundColor</key>
+	<string>#fafafa</string>
+	<key>TableCell.TextColor</key>
+	<string>#595959</string>
+	<key>TableCell.SeparatorColor</key>
+	<string>#e8e8e8</string>
+	<key>IndicatorColor</key>
+	<string>#A9A9A9</string>
+	<key>SegmentedCtrlTintColor</key>
+	<string>#edeeee</string>
+	<key>SegmentedCtrlSelectedTintColor</key>
+	<string>#FFFFFF</string>
+	<key>SegmentedCtrlTextColor</key>
+	<string>#000</string>
+	<key>CollectionCellTextColor</key>
+	<string>#FFFFFF</string>
+	<key>BackBtnTintColor</key>
+	<string>#A9A9A9</string>
+	<key>BarTitleColor</key>
+	<string>#000</string>
+	<key>DimView.Alpha</key>
+	<real>0.05</real>
+	<key>VIPPageDimView.Alpha </key>
+	<integer>0</integer>
+	<key>View.BackgroundColor</key>
+	<string>#FFFFFF</string>
+</dict>
+</plist>

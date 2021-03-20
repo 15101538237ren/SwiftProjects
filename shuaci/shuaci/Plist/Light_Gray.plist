@@ -26,7 +26,7 @@
 		<key>overdueTextColor</key>
 		<string>#920912</string>
 		<key>LowProgressBarColor</key>
-		<string>#676767</string>
+		<string>#c4c4c4</string>
 		<key>MiddleLowProgressBarColor</key>
 		<string>#f99326</string>
 		<key>MiddleHighProgressBarColor</key>

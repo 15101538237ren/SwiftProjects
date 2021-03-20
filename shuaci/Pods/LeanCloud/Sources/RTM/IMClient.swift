@@ -147,24 +147,26 @@ public class IMClient {
         }
     }
     
-    /// ref: `https://github.com/leancloud/avoscloud-push/blob/develop/push-server/doc/protocol.md`
+    /// ref: https://github.com/leancloud/avoscloud-push/tree/master/doc/protocols
     struct SessionConfigs: OptionSet {
         let rawValue: Int64
         
-        static let patchMessage = SessionConfigs(rawValue: 1 << 0)
-        static let temporaryConversationMessage = SessionConfigs(rawValue: 1 << 1)
-        static let autoBindDeviceidAndInstallation = SessionConfigs(rawValue: 1 << 2)
-        static let transientMessageACK = SessionConfigs(rawValue: 1 << 3)
-        static let notification = SessionConfigs(rawValue: 1 << 4)
-        static let partialFailedMessage = SessionConfigs(rawValue: 1 << 5)
-        static let groupChatRCP = SessionConfigs(rawValue: 1 << 6)
+        static let patchMessage = SessionConfigs(rawValue:                      1 << 0)
+        static let temporaryConversationMessage = SessionConfigs(rawValue:      1 << 1)
+        static let autoBindDeviceIDAndInstallation = SessionConfigs(rawValue:   1 << 2)
+        static let transientMessageACK = SessionConfigs(rawValue:               1 << 3)
+        static let keepNotification = SessionConfigs(rawValue:                  1 << 4)
+        static let partialFailedMessage = SessionConfigs(rawValue:              1 << 5)
+        static let groupChatReceipt = SessionConfigs(rawValue:                  1 << 6)
+        static let omitPeerID = SessionConfigs(rawValue:                        1 << 7)
         
         static let support: SessionConfigs = [
             .patchMessage,
             .temporaryConversationMessage,
             .transientMessageACK,
-            .notification,
-            .partialFailedMessage
+            .keepNotification,
+            .partialFailedMessage,
+//            .omitPeerID,
         ]
     }
     
@@ -248,6 +250,7 @@ public class IMClient {
         self.connectionDelegator = RTMConnection.Delegator(
             queue: self.serialQueue)
         
+        self.currentDeviceToken = self.installation.deviceToken?.value
         self.deviceTokenObservation = self.installation.observe(
             \.deviceToken,
             options: [.old, .new, .initial]
@@ -509,9 +512,13 @@ extension IMClient {
             var outCommand = IMGenericCommand()
             outCommand.cmd = .session
             outCommand.op = .close
-            outCommand.peerID = self.ID
             outCommand.sessionMessage = IMSessionCommand()
-            self.connection.send(command: outCommand, callingQueue: self.serialQueue) { [weak self] (result) in
+            self.connection.send(
+                command: outCommand,
+                service: .instantMessaging,
+                peerID: self.ID,
+                callingQueue: self.serialQueue)
+            { [weak self] (result) in
                 guard let client: IMClient = self else { return }
                 assert(client.specificAssertion)
                 switch result {
@@ -1116,22 +1123,29 @@ extension IMClient {
         constructor: () -> IMGenericCommand,
         completion: ((IMClient, RTMConnection.CommandCallback.Result) -> Void)? = nil)
     {
-        var outCommand: IMGenericCommand = constructor()
-        outCommand.peerID = self.ID
+        let outCommand: IMGenericCommand = constructor()
         guard self.isSessionOpened else {
             let error = LCError(code: .clientNotOpen)
             completion?(self, .error(error))
             return
         }
         if let completion = completion {
-            self.connection.send(command: outCommand, callingQueue: self.serialQueue) { [weak self] (result) in
+            self.connection.send(
+                command: outCommand,
+                service: .instantMessaging,
+                peerID: self.ID,
+                callingQueue: self.serialQueue)
+            { [weak self] (result) in
                 guard let client: IMClient = self else {
                     return
                 }
                 completion(client, result)
             }
         } else {
-            self.connection.send(command: outCommand)
+            self.connection.send(
+                command: outCommand,
+                service: .instantMessaging,
+                peerID: self.ID)
         }
     }
     
@@ -1152,30 +1166,31 @@ extension IMClient {
             case .success(value: let token):
                 let parameters: [String: Any] = [
                     "client_id": client.ID,
-                    "start_ts": serverTimestamp
+                    "start_ts": serverTimestamp,
                 ]
-                let headers: [String: String] = ["X-LC-IM-Session-Token": token]
+                let headers: [String: String] = [
+                    "X-LC-IM-Session-Token": token,
+                ]
                 let _ = client.application.httpClient.request(
-                    .get,
-                    "/rtm/notifications",
+                    .get, "/rtm/notifications",
                     parameters: parameters,
                     headers: headers,
-                    completionDispatchQueue: client.serialQueue)
+                    completionQueue: client.serialQueue)
                 { [weak client] (response) in
-                    guard let sClient: IMClient = client else {
+                    guard let client = client else {
                         return
                     }
-                    assert(sClient.specificAssertion)
-                    sClient.validInFetchingNotificationsCachedConvMapSnapshot = nil
+                    assert(client.specificAssertion)
+                    client.validInFetchingNotificationsCachedConvMapSnapshot = nil
                     if let error = LCError(response: response) {
                         Logger.shared.error(error)
-                    } else if let responseValue: [String: Any] = response.value as? [String: Any] {
-                        sClient.handleOfflineEvents(
+                    } else if let responseValue = response.value as? [String: Any] {
+                        client.handleOfflineEvents(
                             response: responseValue,
-                            convsSnapshot: Array(currentConvCollection.values)
-                        )
+                            convsSnapshot: Array(currentConvCollection.values))
                     } else {
-                        Logger.shared.error("unknown response value: \(String(describing: response.value))")
+                        Logger.shared.error(
+                            "unknown response value: \(String(describing: response.value))")
                     }
                 }
             }
@@ -1320,11 +1335,11 @@ extension IMClient {
         var outCommand = IMGenericCommand()
         outCommand.cmd = .session
         outCommand.op = op
-        outCommand.appID = self.application.id
-        outCommand.peerID = self.ID
         var sessionCommand = IMSessionCommand()
         switch op {
         case .open:
+            outCommand.appID = self.application.id
+            outCommand.peerID = self.ID
             sessionCommand.configBitmap = SessionConfigs.support.rawValue
             sessionCommand.deviceToken = self.currentDeviceToken
                 ?? Utility.UDID
@@ -1366,15 +1381,15 @@ extension IMClient {
     {
         _ = self.application.httpClient.request(
             .post, "/rtm/sign",
-            parameters: ["session_token": token])
+            parameters: ["session_token": token],
+            completionQueue: self.serialQueue)
         { [weak self] (response) in
             guard let self = self else {
                 return
             }
+            assert(self.specificAssertion)
             if let error = LCError(response: response) {
-                self.serialQueue.async {
-                    completion(self, .failure(error: error))
-                }
+                completion(self, .failure(error: error))
             } else {
                 guard let value = response.value as? [String: Any],
                     let signature = value["signature"] as? String,
@@ -1384,18 +1399,14 @@ extension IMClient {
                             code: .malformedData,
                             reason: "response data malformed",
                             userInfo: ["data": response.value ?? "nil"])
-                        self.serialQueue.async {
-                            completion(self, .failure(error: error))
-                        }
+                        completion(self, .failure(error: error))
                         return
                 }
                 let sign = IMSignature(
                     signature: signature,
                     timestamp: timestamp,
                     nonce: nonce)
-                self.serialQueue.async {
-                    completion(self, .success(value: sign))
-                }
+                completion(self, .success(value: sign))
             }
         }
     }
@@ -1452,6 +1463,8 @@ extension IMClient {
         assert(self.specificAssertion)
         self.connection.send(
             command: command,
+            service: .instantMessaging,
+            peerID: self.ID,
             callingQueue: self.serialQueue)
         { [weak self] (result) in
             guard let client = self else {
@@ -1463,14 +1476,11 @@ extension IMClient {
                 client.handleSessionOpenCallback(command: command)
             case .error(let error):
                 switch error.code {
-                case LCError.InternalErrorCode
-                    .commandTimeout.rawValue:
+                case LCError.InternalErrorCode.commandTimeout.rawValue:
                     client.sendSessionReopenCommand(command: command)
-                case LCError.InternalErrorCode
-                    .connectionLost.rawValue:
+                case LCError.InternalErrorCode.connectionLost.rawValue:
                     Logger.shared.debug(error)
-                case LCError.ServerErrorCode
-                    .sessionTokenExpired.rawValue:
+                case LCError.ServerErrorCode.sessionTokenExpired.rawValue:
                     client.getSessionOpenCommand(
                         isReopen: true)
                     { (client, openCommand) in
@@ -2429,6 +2439,8 @@ extension IMClient: RTMConnectionDelegate {
                 weak var wClient = client
                 client.connection.send(
                     command: openCommand,
+                    service: .instantMessaging,
+                    peerID: client.ID,
                     callingQueue: client.serialQueue)
                 { (result) in
                     guard let sClient = wClient else {

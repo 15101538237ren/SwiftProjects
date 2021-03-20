@@ -11,37 +11,37 @@ import LeanCloud
 import AVFoundation
 import SwiftyJSON
 import SwiftTheme
+import Disk
+import Nuke
+
 
 class MainPanelViewController: UIViewController, CAAnimationDelegate {
-    let btnTag: Int = 7
-    @IBOutlet var mainPanelUIView: MainPanelUIView!
-    @IBOutlet var wordLabel: UILabel!
-    @IBOutlet var meaningLabel: UILabel!
-    @IBOutlet var todayImageView: UIImageView!
     
-    var activityIndicator = UIActivityIndicatorView()
-    var activityLabel = UILabel()
+    // MARK: - Constants
+    let btnTag: Int = 7
     let activityEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .regular))
     
-    let username:String = getUserName()
-    var mp3Player: AVAudioPlayer?
-    @IBOutlet var userPhotoBtn: UIButton!{
-        didSet {
-            userPhotoBtn.layer.cornerRadius = userPhotoBtn.layer.frame.width/2.0
-            userPhotoBtn.layer.masksToBounds = true
+    
+    // MARK: - Outlet Variables
+    @IBOutlet var mainPanelUIView: MainPanelUIView!
+    @IBOutlet var todayImageView: UIImageView!
+    
+    @IBOutlet var wordLabel: UILabel!
+    @IBOutlet var meaningLabel: UILabel!
+    @IBOutlet var syncLabel: UILabel!{
+        didSet{
+            syncLabel.alpha = 0.0
         }
     }
-    var isRotating = false
-    var shouldStopRotating = false
     
-    @IBOutlet var syncLabel: UILabel!
-    
+    @IBOutlet var themeBtn: UIButton!
+    @IBOutlet var collectBtn: UIButton!
+    @IBOutlet var statBtn: UIButton!
+    @IBOutlet var settingBtn: UIButton!
     @IBOutlet var searchBtn: UIButton!
     
     @IBOutlet var learnBtn: UIButton!{
         didSet {
-            learnBtn.theme_setTitleColor("Global.btnTitleColor", forState: .normal)
-            learnBtn.theme_tintColor = "Global.btnTintColor"
             learnBtn.layer.cornerRadius = 9.0
             learnBtn.layer.masksToBounds = true
             learnBtn.backgroundColor = .clear
@@ -49,14 +49,69 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
     }
     @IBOutlet var reviewBtn: UIButton!{
         didSet {
-            reviewBtn.theme_setTitleColor("Global.btnTitleColor", forState: .normal)
-            reviewBtn.theme_tintColor = "Global.btnTintColor"
             reviewBtn.layer.cornerRadius = 9.0
             reviewBtn.layer.masksToBounds = true
             reviewBtn.backgroundColor = .clear
         }
     }
     
+    @IBOutlet var userPhotoBtn: UIButton!{
+        didSet {
+            userPhotoBtn.layer.cornerRadius = userPhotoBtn.layer.frame.width/2.0
+            userPhotoBtn.layer.masksToBounds = true
+        }
+    }
+    
+    // MARK: - Variables
+    var currentUser: LCUser!
+    var activityIndicator = UIActivityIndicatorView()
+    var activityLabel = UILabel()
+    var mp3Player: AVAudioPlayer?
+    
+    var isRotating = false
+    var shouldStopRotating = false
+    var preference:Preference? = nil
+    var current_words:[JSON] = []
+    
+    // MARK: - View Controller Life Cycles
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        initVC()
+    }
+    
+    // MARK: - Intiallization Functions
+    
+    func initVC(){
+        if let _ = currentUser{
+            preference = loadPreference(userId: currentUser.objectId!.stringValue!)
+            
+            loadTheme()
+            
+            loadBooksNRecords()
+            
+            loadUserPhoto()
+        }
+        else{
+            dismiss(animated: true, completion: nil)
+        }
+    }
+    
+    // MARK: - Outlet Actions
+    
+    @IBAction func searchBtnTouched(_ sender: UIButton) {
+        let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+        
+        let searchVC = mainStoryBoard.instantiateViewController(withIdentifier: "searchVC") as! SearchViewController
+        
+        searchVC.modalPresentationStyle = .overCurrentContext
+        
+        DispatchQueue.main.async {
+            self.present(searchVC, animated: true, completion: nil)
+        }
+    }
+    
+    
+    // MARK: - UI Functions
     func initActivityIndicator(text: String) {
         activityLabel.removeFromSuperview()
         activityIndicator.removeFromSuperview()
@@ -84,10 +139,12 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
     }
     
     func stopIndicator(){
-        self.activityIndicator.stopAnimating()
-        self.activityIndicator.hidesWhenStopped = true
-        self.activityEffectView.alpha = 0
-        self.activityLabel.alpha = 0
+        DispatchQueue.main.async {
+            self.activityIndicator.stopAnimating()
+            self.activityIndicator.hidesWhenStopped = true
+            self.activityEffectView.alpha = 0
+            self.activityLabel.alpha = 0
+        }
     }
     
     func addBlurBtnView(){
@@ -130,143 +187,241 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
         }
     }
     
-    @IBOutlet var themeBtn: UIButton!
-    @IBOutlet var collectBtn: UIButton!
-    @IBOutlet var statBtn: UIButton!
-    @IBOutlet var settingBtn: UIButton!
-    var getNextWallpaperCalled = false
-    func updateUserPhoto() {
-        if let userImage = loadPhoto(name_of_photo: "user_avatar_\(username).jpg") {
+    func loadUserPhoto() {
+        let userId = currentUser.objectId!.stringValue!
+        let avatar_fp = "user_avatar_\(userId).jpg"
+        do {
+            let retrievedImage = try Disk.retrieve(avatar_fp, from: .documents, as: UIImage.self)
+            print("retrieved Avatar Successful!")
             DispatchQueue.main.async {
-                self.userPhotoBtn.setImage(userImage, for: [])
+                self.userPhotoBtn.setImage(retrievedImage, for: [])
                 self.userPhotoBtn.setNeedsDisplay()
             }
-        }
-        else{
+        } catch {
             self.getUserPhoto()
+            print(error)
         }
     }
     
-    @IBAction func searchBtnTouched(_ sender: UIButton) {
-        let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
-        let searchVC = mainStoryBoard.instantiateViewController(withIdentifier: "searchVC") as! SearchViewController
-        searchVC.modalPresentationStyle = .overCurrentContext
-        DispatchQueue.main.async {
-            self.present(searchVC, animated: true, completion: nil)
-        }
-    }
     
-    func downloadBookJson(completionHandler: @escaping CompletionHandler){
-        if let bookId: String = getPreference(key: "current_book_id") as? String{
-            if fileExist(fileFp: "\(bookId).json"){
-                completionHandler(true)
-                if currentbook_json_obj.count == 0{
-                    currentbook_json_obj = load_json(fileName: bookId)
-                }
-            }
-            else{
-                initActivityIndicator(text: "正在下载您的单词书...")
-                DispatchQueue.global(qos: .background).async {
-                do {
-                    let query = LCQuery(className: "Book")
-                    query.whereKey("identifier", .equalTo(bookId))
-                    _ = query.getFirst() { result in
-                        switch result {
-                        case .success(object: let result):
-                            if let bookJson = result.get("data") as? LCFile {
-                                let url = URL(string: bookJson.url?.stringValue ?? "")!
-                                let data = try? Data(contentsOf: url)
-                                
-                                if let jsonData = data {
-                                    savejson(fileName: bookId, jsonData: jsonData)
-                                    currentbook_json_obj = load_json(fileName: bookId)
-                                    update_words()
-                                    get_words()
-                                    completionHandler(true)
-                                }
-                            }
-                        case .failure(error: let error):
-                            print(error.localizedDescription)
-                            completionHandler(false)
-                        }
-                    }
-                    
-                    }
-                }
-            }
-        }else{
+    func loadTheme(){
+        if let preference = preference{
+            let theme_category = preference.current_theme
+            ThemeManager.setTheme(plistName: theme_category_to_name[theme_category]!.rawValue, path: .mainBundle)
+            
+            loadWallpaper()
+            NotificationCenter.default.addObserver(self, selector: #selector(loadWallpaper), name: UIApplication.willEnterForegroundNotification, object: nil)
+            
             DispatchQueue.main.async {
-                self.shouldStopRotating = true
-                self.syncLabel.alpha = 0.0
+                self.syncLabel.theme_textColor = "Global.textColor"
+                self.wordLabel.theme_textColor = "Global.textColor"
+                self.meaningLabel.theme_textColor = "Global.textColor"
+                self.themeBtn.theme_tintColor = "Global.btnTintColor"
+                self.collectBtn.theme_tintColor = "Global.btnTintColor"
+                self.statBtn.theme_tintColor = "Global.btnTintColor"
+                self.settingBtn.theme_tintColor = "Global.btnTintColor"
+                self.searchBtn.theme_tintColor = "Global.btnTintColor"
+                
+                self.learnBtn.theme_setTitleColor("Global.btnTitleColor", forState: .normal)
+                self.learnBtn.theme_tintColor = "Global.btnTintColor"
+                
+                self.reviewBtn.theme_setTitleColor("Global.btnTitleColor", forState: .normal)
+                self.reviewBtn.theme_tintColor = "Global.btnTintColor"
             }
-        }
-    }
-    func loadUserPhoto(){
-        if let userImage = loadPhoto(name_of_photo: "user_avatar_\(username).jpg") {
-            self.userPhotoBtn.setImage(userImage, for: [])
-            self.userPhotoBtn.setNeedsDisplay()
-        }
-        else {
-            self.getUserPhoto()
-        }
-    }
-    
-    func loadSettingAndRecords(){
-        DispatchQueue.main.async {
-            self.syncLabel.alpha = 1.0
-            self.syncLabel.text = "正在同步数据..."
-            self.userPhotoBtn.rotate360Degrees(completionDelegate: self)
-            self.isRotating = true
         }
         
-        prepareRecordsAndPreference(completionHandler: {success in
-            if success{
-                if let theme_category = getPreference(key: "current_theme_category")  as? Int{
-                    ThemeManager.setTheme(plistName: theme_category_to_name[theme_category]!.rawValue, path: .mainBundle)
-                    self.loadTheme()
-                    self.loadUserPhoto()
-                    self.setWallpaper()
-                }
-                
-                self.downloadBookJson(completionHandler: { success in
-                    if success{
-                        self.loadSettingAndRecordsFinished()
-                    }
-                    else{
-                        self.stopIndicator()
-                        let ac = UIAlertController(title: "下载正在学的单词书失败，请检查您的网络!", message: "", preferredStyle: .alert)
-                        ac.addAction(UIAlertAction(title: "好", style: .default, handler: nil))
-                        self.present(ac, animated: true, completion: nil)
-                    }
-                })
-            }
-            else{
-                let ac = UIAlertController(title: "从云端下载设置与学习记录失败，请稍后再试!", message: "", preferredStyle: .alert)
-                ac.addAction(UIAlertAction(title: "好", style: .default, handler: nil))
-                self.present(ac, animated: true, completion: nil)
-            }
-        })
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(updateBlurBtnView),
+            name: NSNotification.Name(rawValue: ThemeUpdateNotification),
+            object: nil
+        )
+        addBlurBtnView()
     }
-    func loadSettingAndRecordsFinished(){
-        get_words()
+    
+    @objc func loadWallpaper(){
+        if let preference = preference{
+            let theme_category = preference.current_theme
+            let wallpaper_fp = "current_wallpaper.jpg"
+            if Disk.exists(wallpaper_fp, in: .documents)
+            {
+                do{
+                    let current_wallpaper = try Disk.retrieve(wallpaper_fp, from: .documents, as: UIImage.self)
+                    let trans = UserDefaults.standard.string(forKey: "trans")!
+                    let word = UserDefaults.standard.string(forKey: "word")!
+                    wallpaperNeedDisplay(image: current_wallpaper, word: word, meaning: trans)
+                }catch{
+                    setDefaultWallpaper(theme_category: theme_category)
+                }
+            }else{
+                setDefaultWallpaper(theme_category: theme_category)
+            }
+            getNextWallpaper(category: theme_category)
+        }
+    }
+    
+    func startRotating(text: String){
+        DispatchQueue.main.async {
+            self.userPhotoBtn.rotate360Degrees(completionDelegate: self)
+            self.isRotating = true
+            self.syncLabel.alpha = 1.0
+            self.syncLabel.text = text
+        }
+    }
+    
+    func stopRotating(){
         DispatchQueue.main.async {
             self.shouldStopRotating = true
             self.syncLabel.alpha = 0.0
-            self.stopIndicator()
         }
     }
     
-    @objc func image(_ image:UIImage, didFinishSavingWithError error: Error?, contextInfo: UnsafeRawPointer){
-        if let error = error {
-            let ac = UIAlertController(title: "\(error.localizedDescription)", message: "", preferredStyle: .alert)
-            ac.addAction(UIAlertAction(title: "好的", style: .default, handler: nil))
-            present(ac, animated: true, completion: nil)
+    func getNextWallpaper(category: Int){
+        if Reachability.isConnectedToNetwork(){
+            startRotating(text: "正在下载壁纸...")
+            DispatchQueue.global(qos: .background).async{
+            do{
+                do {
+                    let count_query = LCQuery(className: "Wallpaper")
+                    
+                    count_query.whereKey("theme_category", .equalTo(category))
+                    
+                    count_query.count{ count in
+                    
+                        let count = count.intValue
+                        
+                        if count > 0 {
+                            let rand_index = Int.random(in: 0 ... count - 1)
+                            
+                            let query = LCQuery(className: "Wallpaper")
+                            query.whereKey("theme_category", .equalTo(category))
+                            query.limit = 1
+                            query.skip = rand_index
+                            
+                            _ = query.getFirst { result in
+                                switch result {
+                                case .success(object: let wallpaper):
+                                    if let file = wallpaper.get("image") as? LCFile {
+                                        
+                                        let imgUrl = URL(string: file.url!.stringValue!)!
+                                        
+                                        _ = ImagePipeline.shared.loadImage(
+                                            with: imgUrl,
+                                            completion: { [self] response in
+                                                stopRotating()
+                                                switch response {
+                                                  case .failure:
+                                                    break
+                                                  case let .success(imageResponse):
+                                                    let image = imageResponse.image
+                                                    
+                                                    let wallpaper_fp = "current_wallpaper.jpg"
+                                                    
+                                                    do {
+                                                        try Disk.save(image, to: .documents, as: wallpaper_fp)
+                                                        
+                                                        print("Save Wallpaper Successful!")
+                                                        
+                                                        let word = wallpaper.get("word")?.stringValue
+                                                        let trans = wallpaper.get("trans")?.stringValue
+                                                        
+                                                        UserDefaults.standard.set(word, forKey: "word")
+                                                        UserDefaults.standard.set(trans, forKey: "trans")
+                                                    } catch {
+                                                        print(error)
+                                                    }
+                                                  }
+                                            }
+                                        )
+                                    }
+                                case .failure(error: let error):
+                                    print(error.localizedDescription)
+                                    self.stopRotating()
+                                }
+                            }
+                        }
+                    }
+                    
+                }
+                }}
+        }else{
+            self.view.makeToast(NoNetworkStr, duration: 1.0, position: .center)
+            self.stopRotating()
         }
-        else{
-            let ac = UIAlertController(title: "图片保存成功!", message: "", preferredStyle: .alert)
-            ac.addAction(UIAlertAction(title: "好的", style: .default, handler: nil))
-            present(ac, animated: true, completion: nil)
+    }
+    
+    func wallpaperNeedDisplay(image: UIImage, word: String, meaning: String){
+        DispatchQueue.main.async {
+            self.todayImageView?.image = image
+            self.wordLabel.text = word
+            self.meaningLabel.text = meaning
+            
+            self.todayImageView?.setNeedsDisplay()
+            self.wordLabel.setNeedsDisplay()
+            self.meaningLabel.setNeedsDisplay()
         }
+    }
+    
+    func setDefaultWallpaper(theme_category: Int){
+        let image = UIImage(named: "theme_\(theme_category)") ?? UIImage()
+        let wallpaper = default_wallpapers[theme_category - 1]
+        wallpaperNeedDisplay(image: image, word: wallpaper.word, meaning: wallpaper.trans)
+    }
+    
+    func getUserPhoto(){
+        if Reachability.isConnectedToNetwork(){
+            DispatchQueue.global(qos: .background).async { [self] in
+                if let file = currentUser.get("avatar") as? LCFile {
+                    
+                    let imgUrl = URL(string: file.url!.stringValue!)!
+                    
+                    _ = ImagePipeline.shared.loadImage(
+                        with: imgUrl,
+                        completion: { [self] response in
+                            switch response {
+                              case .failure:
+                                break
+                              case let .success(imageResponse):
+                                let image = imageResponse.image
+                                
+                                DispatchQueue.main.async {
+                                    self.userPhotoBtn.setImage(image, for: [])
+                                    self.userPhotoBtn.setNeedsDisplay()
+                                }
+                                let userID = currentUser.objectId!.stringValue!
+                                
+                                let avatar_fp = "user_avatar_\(userID).jpg"
+                                
+                                do {
+                                    try Disk.save(image, to: .documents, as: avatar_fp)
+                                    print("Save Downloaded Avatar Successful!")
+                                } catch {
+                                    print(error)
+                                }
+                              }
+                        }
+                    )
+                }
+            }
+        }else{
+            self.view.makeToast(NoNetworkStr, duration: 1.0, position: .center)
+        }
+
+    }
+    
+    func loadBooksNRecords(){
+        loadRecords(currentUser: currentUser, completionHandler: { [self]
+            success in
+            
+            if success{
+                self.downloadCurrentBookJson(completionHandler: { success in
+                    self.downloadHistoryBooks(completionHandler: {_ in })
+                })
+            }
+            else{
+                self.view.makeToast("从云端下载设置与学习记录失败，请稍后再试!🙁", duration: 1.0, position: .center)
+            }
+        })
     }
     
     func animationDidStop(_ anim: CAAnimation, finished flag: Bool) {
@@ -282,360 +437,16 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
         self.isRotating = false
     }
     
-    func loadTheme(){
-        DispatchQueue.main.async {
-            self.syncLabel.theme_textColor = "Global.textColor"
-            self.wordLabel.theme_textColor = "Global.textColor"
-            self.meaningLabel.theme_textColor = "Global.textColor"
-            self.themeBtn.theme_tintColor = "Global.btnTintColor"
-            self.collectBtn.theme_tintColor = "Global.btnTintColor"
-            self.statBtn.theme_tintColor = "Global.btnTintColor"
-            self.settingBtn.theme_tintColor = "Global.btnTintColor"
-            self.searchBtn.theme_tintColor = "Global.btnTintColor"
-        }
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(updateBlurBtnView),
-            name: NSNotification.Name(rawValue: ThemeUpdateNotification),
-            object: nil
-        )
-        loadTheme()
-        addBlurBtnView()
-        if !isKeyPresentInUserDefaults(key: "getNextWallpaperCalled"){
-            UserDefaults.standard.set(false, forKey: "getNextWallpaperCalled")
-        }
-        getNextWallpaperCalled = UserDefaults.standard.bool(forKey: "getNextWallpaperCalled")
-        
-        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-        navigationController?.navigationBar.shadowImage = UIImage()
-        
-        navigationController?.navigationBar.tintColor = .white
-        if let _ = LCApplication.default.currentUser {
-            syncLabel.alpha = 0
-            // 跳到首页
-            GlobalUserName = getUserName()
-            loadSettingAndRecords()
-            NotificationCenter.default.addObserver(self, selector: #selector(updateWallpaper), name: UIApplication.willEnterForegroundNotification, object: nil)
-        } else {
-            // 显示注册或登录页面
-            showLoginScreen()
-        }
-    }
-    
-    
-    
-    func getUserPhoto(){
-        let connected = Reachability.isConnectedToNetwork()
-        if connected{
-            DispatchQueue.global(qos: .background).async {
-                let user = LCApplication.default.currentUser
-                if let photoData = user?.get("avatar") as? LCFile {
-                    //let imgData = photoData.value as! LCData
-                    let url = URL(string: photoData.url?.stringValue ?? "")!
-                    let data = try? Data(contentsOf: url)
-                    if let imageData = data {
-                        if let image = UIImage(data: imageData){
-                            savePhoto(image: image, name_of_photo: "user_avatar_\(self.username).jpg")
-                            DispatchQueue.main.async {
-                                // qos' default value is ´DispatchQoS.QoSClass.default`
-                                self.userPhotoBtn.setImage(image, for: [])
-                                self.userPhotoBtn.setNeedsDisplay()
-                            }
-                        }
-                    }
-                }
-            }
-        }else{
-            if non_network_preseted == false{
-                let alertCtl = presentNoNetworkAlert()
-                self.present(alertCtl, animated: true, completion: nil)
-                non_network_preseted = true
-            }
-        }
-
-    }
-    
-    
-    
-    func getNextWallpaper(category: Int){
-        
-        UserDefaults.standard.removeObject(forKey: "word_next")
-        UserDefaults.standard.removeObject(forKey: "trans_next")
-        UserDefaults.standard.synchronize()
-        deletePhoto(name_of_photo: "wallpaper_next.jpg")
-        
-        let connected = Reachability.isConnectedToNetwork()
-        if connected{
-            DispatchQueue.main.async {
-                self.userPhotoBtn.rotate360Degrees(completionDelegate: self)
-                self.isRotating = true
-                self.syncLabel.alpha = 1.0
-                self.syncLabel.text = "正在更新壁纸..."
-            }
-            DispatchQueue.global(qos: .background).async{
-            do{ //
-                do {
-                    let count_query = LCQuery(className: "Wallpaper")
-                    count_query.whereKey("theme_category", .equalTo(category))
-                    count_query.count{ count in
-                        let count = count.intValue
-                        if count > 0 {
-                            let rand_index = Int.random(in: 0 ... count - 1)
-                            let query = LCQuery(className: "Wallpaper")
-                            query.whereKey("theme_category", .equalTo(category))
-                            query.limit = 1
-                            query.skip = rand_index
-                            _ = query.getFirst { result in
-                                switch result {
-                                case .success(object: let wallpaper):
-                                    // wallpapers 是包含满足条件的 (className: "Wallpaper") 对象的数组
-//                                    print("Downloaded Wallpaper \(rand_index)")
-                                    if let wallpaper_image = wallpaper.get("image") as? LCFile {
-                                        //let imgData = photoData.value as! LCData
-                                        let url = URL(string: wallpaper_image.url?.stringValue ?? "")!
-                                        DispatchQueue.global(qos: .background).async{
-                                        do{
-                                            let data = try? Data(contentsOf: url)
-                                            if let imageData = data {
-                                                if let image = UIImage(data: imageData){
-                                                    _ = savePhoto(image: image, name_of_photo: "wallpaper_next.jpg")
-
-                                                    let word = wallpaper.word?.stringValue
-                                                    let trans = wallpaper.trans?.stringValue
-                                                    
-                                                    UserDefaults.standard.set(word, forKey: "word_next")
-                                                    UserDefaults.standard.set(trans, forKey: "trans_next")
-                                                    
-                                                    self.getNextWallpaperCalled = true
-                                                    UserDefaults.standard.set(true, forKey: "getNextWallpaperCalled")
-                                                }
-                                            }
-                                        }}
-                                        
-                                        DispatchQueue.main.async {
-                                            self.shouldStopRotating = true
-                                            self.syncLabel.alpha = 0.0
-                                        }
-                                    }
-                                    break
-                                case .failure(error: let error):
-                                    print(error.localizedDescription)
-                                    DispatchQueue.main.async {
-                                        self.shouldStopRotating = true
-                                        self.syncLabel.alpha = 0.0
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    
-                }
-                }}
-        }else{
-            let alertCtl = presentNoNetworkAlert()
-            self.present(alertCtl, animated: true, completion: nil)
-            
-            DispatchQueue.main.async {
-                self.shouldStopRotating = true
-                self.syncLabel.alpha = 0.0
-            }
-        }
-    }
-    
-    @objc func updateWallpaper(){
-        let connected = Reachability.isConnectedToNetwork()
-        if connected{
-            DispatchQueue.global(qos: .background).async{
-            do{ //
-                do {
-                    let category = getPreference(key: "current_theme_category") as! Int
-                    let imageFileURL = getDocumentsDirectory().appendingPathComponent("wallpaper_next.jpg")
-                    do {
-                        self.getNextWallpaperCalled = false
-                        UserDefaults.standard.set(false, forKey: "getNextWallpaperCalled")
-                        let imageData = try Data(contentsOf: imageFileURL)
-                        
-                        
-                        if let trans = UserDefaults.standard.string(forKey: "trans_next")
-                        {
-                            if let word = UserDefaults.standard.string(forKey: "word_next")
-                            {
-                                if let image = UIImage(data: imageData){
-                                    DispatchQueue.global(qos: .background).async{
-                                    do{
-                                        _ = savePhoto(image: image, name_of_photo: "wallpaper.jpg")
-                                    }}
-                                    
-                                    UserDefaults.standard.removeObject(forKey: "word_next")
-                                    UserDefaults.standard.removeObject(forKey: "trans_next")
-                                    UserDefaults.standard.synchronize()
-                                    
-                                    UserDefaults.standard.set(word, forKey: "word")
-                                    UserDefaults.standard.set(trans, forKey: "trans")
-                                    deletePhoto(name_of_photo: "wallpaper_next.jpg")
-                                    self.wallpaperNeedDisplay(image: image, word: word, meaning: trans)
-                                }
-                            }
-                        }
-                        
-                        let count_query = LCQuery(className: "Wallpaper")
-                        count_query.whereKey("theme_category", .equalTo(category))
-                        count_query.count{ count in
-                            let count = count.intValue
-                            if count > 0{
-                                let rand_index = Int.random(in: 0 ... count - 1)
-                                let query = LCQuery(className: "Wallpaper")
-                                query.whereKey("theme_category", .equalTo(category))
-                                query.limit = 1
-                                query.skip = rand_index
-                                _ = query.getFirst { result in
-                                    switch result {
-                                    case .success(object: let wallpaper):
-                                        if let wallpaper_image = wallpaper.get("image") as? LCFile {
-                                            //let imgData = photoData.value as! LCData
-                                            let url = URL(string: wallpaper_image.url?.stringValue ?? "")!
-                                            
-                                            DispatchQueue.global(qos: .background).async{
-                                            do{
-                                                let data = try? Data(contentsOf: url)
-                                                if let imageData = data {
-                                                    if let image = UIImage(data: imageData){
-                                                        _ = savePhoto(image: image, name_of_photo: "wallpaper_next.jpg")
-//                                                        print("Downloaded \(rand_index)")
-                                                        
-                                                        let word = wallpaper.word?.stringValue
-                                                        let trans = wallpaper.trans?.stringValue
-                                                        UserDefaults.standard.set(word, forKey: "word_next")
-                                                        UserDefaults.standard.set(trans, forKey: "trans_next")
-                                                        self.getNextWallpaperCalled = true
-                                                        UserDefaults.standard.set(true, forKey: "getNextWallpaperCalled")
-                                                    }
-                                                }
-                                            }}
-                                            
-                                        }
-                                        break
-                                    case .failure(error: let error):
-                                        print(error.localizedDescription)
-                                        if !self.getNextWallpaperCalled{
-                                            self.getNextWallpaper(category: category)
-                                        }
-                                    }
-                                }
-                            }
-                            
-                        }
-                        
-                    } catch {
-                        print(error.localizedDescription)
-                        if !self.getNextWallpaperCalled{
-                            self.getNextWallpaper(category: category)
-                        }
-                    }
-                }
-                }}
-        }else{
-            if non_network_preseted == false{
-                let alertCtl = presentNoNetworkAlert()
-                self.present(alertCtl, animated: true, completion: nil)
-                non_network_preseted = true
-            }
-            DispatchQueue.main.async {
-                self.shouldStopRotating = true
-                self.syncLabel.alpha = 0.0
-            }
-        }
-    }
-    
-    func wallpaperNeedDisplay(image: UIImage, word: String, meaning: String){
-        DispatchQueue.main.async {
-            self.todayImageView?.image = image
-            self.todayImageView?.setNeedsDisplay()
-            self.wordLabel.text = word
-            self.wordLabel.setNeedsDisplay()
-            self.meaningLabel.text = meaning
-            self.meaningLabel.setNeedsDisplay()
-        }
-    }
-    
-    func setWallpaper(){
-        var current_theme_category:Int = 4
-        var last_theme_category:Int = 4
-        if let current_category = getPreference(key: "current_theme_category") as? Int
-        {
-            current_theme_category = current_category
-            last_theme_category = getPreference(key: "last_theme_category") as! Int
-        }
-        
-        if (current_theme_category != last_theme_category)
-        {
-            let image = UIImage(named: "theme_\(current_theme_category)")
-            let wallpaper = default_wallpapers[current_theme_category - 1]
-            
-            _ = savePhoto(image: image!, name_of_photo: "wallpaper.jpg")
-            UserDefaults.standard.set(wallpaper.word, forKey: "word")
-            UserDefaults.standard.set(wallpaper.trans, forKey: "trans")
-            
-            UserDefaults.standard.removeObject(forKey: "word_next")
-            UserDefaults.standard.removeObject(forKey: "trans_next")
-            UserDefaults.standard.synchronize()
-            deletePhoto(name_of_photo: "wallpaper_next.jpg")
-            wallpaperNeedDisplay(image: image ?? UIImage(), word: wallpaper.word, meaning: wallpaper.trans)
-            setPreference(key: "last_theme_category", value: current_theme_category)
-            
-            self.getNextWallpaper(category: current_theme_category)
-        }
-        else
-        {
-            let imageFileURL = getDocumentsDirectory().appendingPathComponent("wallpaper.jpg")
-            do {
-                let imageData = try Data(contentsOf: imageFileURL)
-                let image = UIImage(data: imageData)
-                let trans = UserDefaults.standard.string(forKey: "trans")!
-                let word = UserDefaults.standard.string(forKey: "word")!
-                DispatchQueue.global(qos: .background).async {
-                do {
-                    self.wallpaperNeedDisplay(image: image ?? UIImage(), word: word, meaning: trans)
-                }}
-            } catch {
-                print("Error loading image : \(error)")
-                let image = UIImage(named: "theme_\(current_theme_category)")
-                _ = savePhoto(image: image!, name_of_photo: "wallpaper.jpg")
-                let wallpaper = default_wallpapers[current_theme_category - 1]
-                DispatchQueue.global(qos: .background).async {
-                do {
-                    self.wallpaperNeedDisplay(image: image ?? UIImage(), word: wallpaper.word, meaning: wallpaper.trans)
-                }}
-                UserDefaults.standard.set(wallpaper.word, forKey: "word")
-                UserDefaults.standard.set(wallpaper.trans, forKey: "trans")
-                
-                if !getNextWallpaperCalled{
-                    self.getNextWallpaper(category: current_theme_category)
-                }
-            }
-        }
-    }
-    
-    override func viewWillAppear(_ animated: Bool){
-        if LCApplication.default.currentUser != nil {
-            setWallpaper()
-            self.updateUserPhoto()
-            get_words()
-        }
-        else {
-            // 显示注册或登录页面
-            showLoginScreen()
-        }
+    func update_preference(){
+        preference = loadPreference(userId: currentUser.objectId!.stringValue!)
     }
     
     func loadThemeController(){
         let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
         let themeVC = mainStoryBoard.instantiateViewController(withIdentifier: "themeVC") as! ThemeCollectionViewController
         themeVC.modalPresentationStyle = .overCurrentContext
+        themeVC.userId = currentUser.objectId!.stringValue!
+        themeVC.preference = get_preference()
         themeVC.mainPanelViewController = self
         DispatchQueue.main.async {
             self.present(themeVC, animated: true, completion: nil)
@@ -646,6 +457,31 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
         let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Learning", bundle:nil)
         let learnVC = mainStoryBoard.instantiateViewController(withIdentifier: "learnWordController") as! LearnWordViewController
         learnVC.modalPresentationStyle = .overCurrentContext
+        learnVC.currentUser = currentUser
+        let pref = get_preference()
+        learnVC.preference = pref
+        learnVC.words = get_words(currentUser: currentUser, preference: pref)
+        learnVC.currentMode = 1
+        learnVC.vocab_rec_need_to_be_review = []
+        learnVC.mainPanelViewController = self
+        DispatchQueue.main.async {
+            self.present(learnVC, animated: true, completion: nil)
+        }
+    }
+    
+    
+    func loadReviewController(){
+        let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Learning", bundle:nil)
+        let learnVC = mainStoryBoard.instantiateViewController(withIdentifier: "learnWordController") as! LearnWordViewController
+        learnVC.modalPresentationStyle = .overCurrentContext
+        learnVC.currentUser = currentUser
+        let pref = get_preference()
+        learnVC.preference = pref
+        let vocab_rec_need_to_be_review = get_vocab_rec_need_to_be_review()
+        learnVC.vocab_rec_need_to_be_review = vocab_rec_need_to_be_review
+        let review_words = get_words_need_to_be_review(vocab_rec_need_to_be_review: vocab_rec_need_to_be_review)
+        learnVC.words = review_words
+        learnVC.currentMode = 2
         learnVC.mainPanelViewController = self
         DispatchQueue.main.async {
             self.present(learnVC, animated: true, completion: nil)
@@ -662,117 +498,246 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
         }
     }
     
+    func loadBooksVC(NoBookSelected:Bool = false){
+        let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+        let booksVC = mainStoryBoard.instantiateViewController(withIdentifier: "booksController") as! BooksViewController
+        booksVC.modalPresentationStyle = .fullScreen
+        booksVC.mainPanelViewController = self
+        booksVC.currentUser = currentUser
+        booksVC.preference = get_preference()
+        DispatchQueue.main.async {
+            self.present(booksVC, animated: true, completion: {
+                if NoBookSelected{
+                    booksVC.view.makeToast("您还没有选择单词书😅", duration: 1.0, position: .center)
+                }
+            })
+        }
+    }
+    
     @IBAction func themeBtnClicked(_ sender: UIButton) {
         loadThemeController()
     }
     
     
     @IBAction func ReciteNewWords(_ sender: UIButton) {
-        if let _ = getPreference(key: "current_book_id") as? String{
-            loadLearnController()
+        if let preference = preference{
+            if let _ : String = preference.current_book_id{
+                loadLearnController()
+            }else{
+                loadBooksVC(NoBookSelected: true)
+            }
         }
         else{
-            let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
-            let booksVC = mainStoryBoard.instantiateViewController(withIdentifier: "booksController") as! BooksViewController
-            booksVC.modalPresentationStyle = .fullScreen
-            booksVC.mainPanelViewController = self
-            DispatchQueue.main.async {
-                self.present(booksVC, animated: true, completion: nil)
-            }
+            loadBooksVC(NoBookSelected: true)
         }
     }
     
-    func loadReviewController(){
-        let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Learning", bundle:nil)
-        let reviewVC = mainStoryBoard.instantiateViewController(withIdentifier: "reviewWordController") as! ReviewWordViewController
-        reviewVC.modalPresentationStyle = .overCurrentContext
-        reviewVC.mainPanelViewController = self
-        DispatchQueue.main.async {
-            self.present(reviewVC, animated: true, completion: nil)
-        }
-    }
     
     @IBAction func ReviewWords(_ sender: UIButton) {
-        if let _ = getPreference(key: "current_book_id") as? String{
-            let vocab_rec_need_to_be_review:[VocabularyRecord] = get_vocab_rec_need_to_be_review()
-            if vocab_rec_need_to_be_review.count > 0{
-                loadReviewController()
-            }
-            else
-            {
-                let ac = UIAlertController(title: "您当前没有待复习的单词，\n放松一下吧😊", message: "", preferredStyle: .alert)
-                ac.addAction(UIAlertAction(title: "好", style: .default, handler: nil))
-                present(ac, animated: true, completion: nil)
+        
+        if let preference = preference{
+            if let _ : String = preference.current_book_id{
+                let vocab_rec_need_to_be_review:[VocabularyRecord] = get_vocab_rec_need_to_be_review()
+                if vocab_rec_need_to_be_review.count > 0{
+                    loadReviewController()
+                }
+                else
+                {
+                    self.view.makeToast("您当前没有待复习的单词，\n放松一下吧😊", duration: 1.0, position: .center)
+                }
+            }else{
+                loadBooksVC(NoBookSelected: true)
             }
         }
         else{
-            let ac = UIAlertController(title: "您还没有选择单词书，请点击【学新词】选择!", message: "", preferredStyle: .alert)
-            ac.addAction(UIAlertAction(title: "好", style: .default, handler: nil))
-            present(ac, animated: true, completion: nil)
+            loadBooksVC(NoBookSelected: true)
+        }
+        
+            
+    }
+    
+    func downloadHistoryBooksJson(bookId:String, text: String){
+        if !Disk.exists("\(bookId).json", in: .documents) {
+            DispatchQueue.global(qos: .background).async {
+            do {
+                let query = LCQuery(className: "Book")
+                query.whereKey("identifier", .equalTo(bookId))
+                _ = query.getFirst() { result in
+                    
+                    switch result {
+                    case .success(object: let result):
+                        if let bookJson = result.get("data") as? LCFile {
+                            let url = URL(string: bookJson.url?.stringValue ?? "")!
+                            let data = try? Data(contentsOf: url)
+                            
+                            if let jsonData = data {
+                                savejson(fileName: bookId, jsonData: jsonData)
+                            }
+                        }
+                    case .failure(error: let error):
+                        print(error.localizedDescription)
+                    }
+                }
+                }
+            }
         }
     }
     
+    func downloadHistoryBooks(completionHandler: @escaping CompletionHandler){
+        let downloadText:String = "正在下载历史单词书..."
+        startRotating(text: downloadText)
+        var current_book_id = ""
+        if let preference = preference{
+            if let bookId = preference.current_book_id{
+                current_book_id = bookId
+            }
+        }
+        
+        let bookSets:Set<String> = Set<String>(global_vocabs_records.map{ $0.BookId })
+        var books_to_download:[String] = []
+        for book_id in bookSets{
+            if !Disk.exists("\(book_id).json", in: .documents) && book_id != current_book_id {
+                books_to_download.append(book_id)
+            }
+        }
+        
+        for idx in 0..<books_to_download.count{
+            let time_to_delay: Double = 0.5 * Double(idx)
+            DispatchQueue.main.asyncAfter(deadline: .now() + time_to_delay) { [self] in
+                downloadHistoryBooksJson(bookId: books_to_download[idx], text: downloadText)
+            }
+        }
+        
+        stopRotating()
+    }
     
-    @IBAction func pernounce_word(_ sender: UITapGestureRecognizer) {
-        let connected = Reachability.isConnectedToNetwork()
-        if connected{
-            let usphone = getUSPhone() == true ? 0 : 1
-            let word:String = wordLabel.text ?? ""
-            if word != ""{
-                let replaced_word = word.replacingOccurrences(of: " ", with: "+")
-                let url_string: String = "http://dict.youdao.com/dictvoice?type=\(usphone)&audio=\(replaced_word)"
-                let mp3_url:URL = URL(string: url_string)!
-                DispatchQueue.global(qos: .background).async {
-                do {
-                    var downloadTask: URLSessionDownloadTask
-                    downloadTask = URLSession.shared.downloadTask(with: mp3_url, completionHandler: { (urlhere, response, error) -> Void in
-                    if let urlhere = urlhere{
-                        do {
-                            self.mp3Player = try AVAudioPlayer(contentsOf: urlhere)
-                            self.mp3Player?.play()
-                        } catch {
-                            print("couldn't load file :( \(urlhere)")
+    func downloadCurrentBookJson(completionHandler: @escaping CompletionHandler){
+        startRotating(text: "正在同步数据...")
+        
+        if let preference = preference{
+            if let bookId: String = preference.current_book_id{
+                if Disk.exists("\(bookId).json", in: .documents) {
+                    if currentbook_json_obj.count == 0{
+                        currentbook_json_obj = load_json(fileName: bookId)
+                    }
+                    self.stopRotating()
+                    completionHandler(true)
+                }
+                else{
+                    initActivityIndicator(text: "正在下载单词书...")
+                    
+                    DispatchQueue.global(qos: .background).async {
+                    do {
+                        let query = LCQuery(className: "Book")
+                        query.whereKey("identifier", .equalTo(bookId))
+                        _ = query.getFirst() { result in
+                            
+                            self.stopIndicator()
+                            self.stopRotating()
+                            switch result {
+                            case .success(object: let result):
+                                if let bookJson = result.get("data") as? LCFile {
+                                    let url = URL(string: bookJson.url?.stringValue ?? "")!
+                                    let data = try? Data(contentsOf: url)
+                                    
+                                    if let jsonData = data {
+                                        savejson(fileName: bookId, jsonData: jsonData)
+                                        
+                                        currentbook_json_obj = load_json(fileName: bookId)
+                                        if let pref = self.preference{
+                                            _ = update_words(preference: pref)
+                                        }
+                                        completionHandler(true)
+                                    }
+                                }
+                            case .failure(error: let error):
+                                print(error.localizedDescription)
+                                completionHandler(false)
+                            }
+                        }
+                        
                         }
                     }
-                })
-                    downloadTask.resume()
-                }}
+                }
+            }else{
+                stopRotating()
+                completionHandler(false)
             }
             
+        }else{
+            stopRotating()
+            completionHandler(false)
         }
-        else {
-            if non_network_preseted == false{
-                let alertCtl = presentNoNetworkAlert()
-                self.present(alertCtl, animated: true, completion: nil)
-                non_network_preseted = true
+    }
+    
+    @IBAction func pernounce_word(_ sender: UITapGestureRecognizer) {
+        if let preference = preference{
+            let usphone = preference.us_pronunciation ? 0 : 1
+            if Reachability.isConnectedToNetwork(){
+                
+                let word:String = wordLabel.text ?? ""
+                if word != ""{
+                    let replaced_word = word.replacingOccurrences(of: " ", with: "+")
+                    let url_string: String = "http://dict.youdao.com/dictvoice?type=\(usphone)&audio=\(replaced_word)"
+                    let mp3_url:URL = URL(string: url_string)!
+                    DispatchQueue.global(qos: .background).async {
+                    do {
+                        var downloadTask: URLSessionDownloadTask
+                        downloadTask = URLSession.shared.downloadTask(with: mp3_url, completionHandler: { (urlhere, response, error) -> Void in
+                        if let urlhere = urlhere{
+                            do {
+                                self.mp3Player = try AVAudioPlayer(contentsOf: urlhere)
+                                self.mp3Player?.play()
+                            } catch {
+                                print("couldn't load file :( \(urlhere)")
+                            }
+                        }
+                    })
+                        downloadTask.resume()
+                    }}
+                }
+                
+            }
+            else {
+                self.view.makeToast(NoNetworkStr, duration: 1.0, position: .center)
             }
         }
     }
     
-    func showLoginScreen() {
-        let LoginRegStoryBoard : UIStoryboard = UIStoryboard(name: "LoginReg", bundle:nil)
-        let mainScreenViewController = LoginRegStoryBoard.instantiateViewController(withIdentifier: "StartScreen") as! MainScreenViewController
-        mainScreenViewController.modalPresentationStyle = .fullScreen
-        DispatchQueue.main.async {
-            self.present(mainScreenViewController, animated: false, completion: nil)
+    func get_preference() -> Preference{
+        if let pref = preference{
+            return pref
+        }else{
+            let pref = loadPreference(userId: currentUser.objectId!.stringValue!)
+            return pref
         }
     }
-//
+    
 //    // MARK: - Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "userProfileSegue"{
             let destinationController = segue.destination as! UserProfileViewController
+            destinationController.currentUser = currentUser
+            destinationController.preference = get_preference()
             destinationController.mainPanelViewController = self
-            destinationController.modalPresentationStyle = .overCurrentContext
+            destinationController.modalPresentationStyle = .fullScreen
         }
         else if segue.identifier == "settingSegue"{
+            
             let destinationController = segue.destination as! SettingViewController
-            destinationController.modalPresentationStyle = .overCurrentContext
+            destinationController.currentUser = currentUser
+            destinationController.preference = get_preference()
             destinationController.mainPanelViewController = self
+            destinationController.modalPresentationStyle = .overCurrentContext
         }
         
         else if segue.identifier == "showStatSeague"{
+            
             let destinationController = segue.destination as! StatViewController
+            
+            destinationController.currentUser = currentUser
+            destinationController.preference = get_preference()
+            destinationController.mainPanelViewController = self
             destinationController.modalPresentationStyle = .overCurrentContext
         }
     }

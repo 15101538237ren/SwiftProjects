@@ -11,19 +11,10 @@ import UIKit
 class MainScreenUIView: UIView {
     @IBOutlet var logoImageView: UIImageView!
     @IBOutlet var introLabel: UILabel!
-    
-    @IBOutlet var emailLoginBtn: UIButton!{
-        didSet {
-            emailLoginBtn.layer.cornerRadius = 9.0
-            emailLoginBtn.layer.masksToBounds = true
+    @IBOutlet var loginButton: UIButton!{
+        didSet{
+            loginButton.layer.cornerRadius = 9.0
+            loginButton.layer.masksToBounds = true
         }
     }
-    @IBOutlet var mobileLoginBtn: UIButton!{
-        didSet {
-            mobileLoginBtn.layer.cornerRadius = 9.0
-            mobileLoginBtn.layer.masksToBounds = true
-        }
-    }
-    @IBOutlet var fastLoginBtn: UIButton!
-
 }

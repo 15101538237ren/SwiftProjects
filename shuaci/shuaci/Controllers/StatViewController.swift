@@ -7,15 +7,19 @@
 //
 
 import UIKit
-import AAInfographics
 import SwiftTheme
+import LeanCloud
+import AAInfographics
 
-class StatViewController: UIViewController {
-    @IBOutlet var numWordTodayLabel: UILabel!
-    @IBOutlet var displayLabels: [UILabel]!
-    @IBOutlet var numMinutesTodayLabel: UILabel!
-    @IBOutlet var numWordCumulatedLabel: UILabel!
-    @IBOutlet var numMinutesCumulatedLabel: UILabel!
+class StatViewController: UIViewController{
+    
+    var masteredChartView = AAChartView()
+    var currentUser: LCUser!
+    var mainPanelViewController: MainPanelViewController!
+    var preference:Preference!
+    var categories:[String] = []
+    var cumReviewedOrMastered:[Double] = []
+    var cumLearned:[Double] = []
     
     @IBOutlet weak var barTitleLabel: UILabel!
     @IBOutlet weak var backBtn: UIButton!
@@ -27,15 +31,19 @@ class StatViewController: UIViewController {
     
     @IBOutlet weak var perTimeCumSegmentedControl: UISegmentedControl!
     
-    var masteredChartView = AAChartView()
-    
-    @IBOutlet var masteredStatusView: UIView!{
-        didSet {
-            masteredStatusView.theme_backgroundColor = "StatView.panelBgColor"
-            masteredStatusView?.layer.cornerRadius = 15.0
-            masteredStatusView?.layer.masksToBounds = true
+    @IBOutlet var masteredAndLearnedCurveView: UIView!{
+            didSet {
+                masteredAndLearnedCurveView.theme_backgroundColor = "StatView.panelBgColor"
+                masteredAndLearnedCurveView?.layer.cornerRadius = 15.0
+                masteredAndLearnedCurveView?.layer.masksToBounds = true
+            }
         }
-    }
+    
+    
+    @IBOutlet var numWordTodayLabel: UILabel!
+    @IBOutlet var numMinutesTodayLabel: UILabel!
+    @IBOutlet var numWordCumulatedLabel: UILabel!
+    @IBOutlet var numMinutesCumulatedLabel: UILabel!
     
     @IBOutlet var overView: UIView!{
         didSet {
@@ -45,11 +53,19 @@ class StatViewController: UIViewController {
         }
     }
     
-    @IBOutlet var masteredAndLearnedCurveView: UIView!{
+    @IBOutlet var statView: UIView!{
         didSet {
-            masteredAndLearnedCurveView.theme_backgroundColor = "StatView.panelBgColor"
-            masteredAndLearnedCurveView?.layer.cornerRadius = 15.0
-            masteredAndLearnedCurveView?.layer.masksToBounds = true
+            statView.theme_backgroundColor = "StatView.panelBgColor"
+            statView.layer.cornerRadius = 15.0
+            statView.layer.masksToBounds = true
+        }
+    }
+    
+    @IBOutlet var curveView: UIView!{
+        didSet {
+            curveView.theme_backgroundColor = "StatView.panelBgColor"
+            curveView.layer.cornerRadius = 15.0
+            curveView.layer.masksToBounds = true
         }
     }
     
@@ -68,23 +84,8 @@ class StatViewController: UIViewController {
     
     func setUpLearnStatusSelected(initial: Bool = false){
         if !initial{
-            masteredChartView.aa_refreshChartWholeContentWithChartOptions(getLearnStatusOptions())
+                masteredChartView.aa_refreshChartWholeContentWithChartOptions(getLearnStatusOptions())
         }
-    }
-    
-    func getBackgroundViewColor() -> String{
-        let viewBackgroundColor = ThemeManager.currentTheme?.value(forKeyPath: "StatView.panelBgColor") as! String
-        return viewBackgroundColor
-    }
-    
-    func getDisplayTextColor() -> String{
-        let viewBackgroundColor = ThemeManager.currentTheme?.value(forKeyPath: "StatView.displayTextColor") as! String
-        return viewBackgroundColor
-    }
-    
-    func getSegmentedCtrlUnselectedTextColor() -> String{
-        let viewBackgroundColor = ThemeManager.currentTheme?.value(forKeyPath: "StatView.segmentedCtrlUnselectedColor") as! String
-        return viewBackgroundColor
     }
     
     func getLearnStatusOptions() -> AAOptions{
@@ -100,8 +101,8 @@ class StatViewController: UIViewController {
         let intervalDates:[Date] = generateDatesForMinMaxDates(minMaxDates: minMaxDates, byDay: byDay)
         let categories:[String] = formatDateAsCategory(dates: intervalDates, byDay: byDay)
         if byWordCnt{
-            let cumMasteredCount:[Int] = getCumulatedMasteredByDate(dates: intervalDates, byDay: byDay, cumulated: cumulated)
-            let cumLearnedCount:[Int] = getCumulatedLearnedByDate(dates: intervalDates, byDay: byDay, cumulated: cumulated)
+            let cumMasteredCount:[Double] = getCumulatedMasteredByDate( dates: intervalDates, byDay: byDay, cumulated: cumulated)
+            let cumLearnedCount:[Double] = getCumulatedLearnedByDate(dates: intervalDates, byDay: byDay, cumulated: cumulated)
             
             let masteredStatusChartModel = AAChartModel()
             .backgroundColor(getBackgroundViewColor())
@@ -109,7 +110,8 @@ class StatViewController: UIViewController {
                 .animationType(.elastic)
             .tooltipValueSuffix(suffixLabel)//the value suffix of the chart tooltip
             .dataLabelsEnabled(false) //Enable or disable the data labels. Defaults to false
-    //        .yAxisVisible(false)
+            .yAxisLabelsEnabled(true)
+            .yAxisTitle("单词量")
             .categories(categories)
             .axesTextColor(getDisplayTextColor())
             .colorsTheme(["#4fa83d","#3f8ada"])
@@ -124,8 +126,8 @@ class StatViewController: UIViewController {
             let aa_options: AAOptions = AAOptionsConstructor.configureChartOptions(masteredStatusChartModel)
             return aa_options
         } else{
-            let cumReviewedHours:[Float] = getCumHoursByDate(dates: intervalDates, byDay: byDay, cumulated: cumulated, Learn: false)
-            let cumLearnedHours:[Float] = getCumHoursByDate(dates: intervalDates, byDay: byDay, cumulated: cumulated, Learn: true)
+            let cumReviewedHours:[Double] = getCumHoursByDate(dates: intervalDates, byDay: byDay, cumulated: cumulated, Learn: false)
+            let cumLearnedHours:[Double] = getCumHoursByDate(dates: intervalDates, byDay: byDay, cumulated: cumulated, Learn: true)
             
             let masteredStatusChartModel = AAChartModel()
             .backgroundColor(getBackgroundViewColor())
@@ -133,7 +135,8 @@ class StatViewController: UIViewController {
                 .animationType(.elastic)
             .tooltipValueSuffix(suffixLabel)//the value suffix of the chart tooltip
             .dataLabelsEnabled(false) //Enable or disable the data labels. Defaults to false
-    //        .yAxisVisible(false)
+            .yAxisLabelsEnabled(true)
+            .yAxisTitle("分钟")
             .categories(categories)
             .axesTextColor(getDisplayTextColor())
             .yAxisAllowDecimals(false)
@@ -153,29 +156,53 @@ class StatViewController: UIViewController {
         
     }
     
+    func getBackgroundViewColor() -> String{
+        let viewBackgroundColor = ThemeManager.currentTheme?.value(forKeyPath: "StatView.panelBgColor") as! String
+        return viewBackgroundColor
+    }
+    
+    func getDisplayTextColor() -> String{
+        let viewBackgroundColor = ThemeManager.currentTheme?.value(forKeyPath: "StatView.displayTextColor") as! String
+        return viewBackgroundColor
+    }
+    
+    func getSegmentedCtrlUnselectedTextColor() -> String{
+        let viewBackgroundColor = ThemeManager.currentTheme?.value(forKeyPath: "StatView.segmentedCtrlUnselectedColor") as! String
+        return viewBackgroundColor
+    }
+    
+    func label(atIndex pointIndex: Int) -> String {
+        return categories[pointIndex]
+    }
+
+    func numberOfPoints() -> Int {
+        return categories.count
+    }
+    
     func setFontofSegmentedControl(selectedForeGroundColor: UIColor){
         dayMonSegmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: selectedForeGroundColor], for: .selected)
         wordTimeSegmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: selectedForeGroundColor], for: .selected)
         perTimeCumSegmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: selectedForeGroundColor], for: .selected)
     }
     
+    
     override func viewDidLoad() {
         view.theme_backgroundColor = "Global.viewBackgroundColor"
-        for label in displayLabels{
-            label.theme_textColor = "StatView.displayTextColor"
-        }
         backBtn.theme_tintColor = "Global.backBtnTintColor"
         barTitleLabel.theme_textColor = "Global.barTitleColor"
+        
         setFontofSegmentedControl(selectedForeGroundColor: .white)
-        getStatOfToday()
         setUpLearnStatusSelected(initial: true)
+        
+        view.isOpaque = false
         
         masteredChartView.theme_backgroundColor = "Global.viewBackgroundColor"
         masteredChartView.frame = CGRect(x: 0, y: 0, width: masteredAndLearnedCurveView.bounds.width, height: masteredAndLearnedCurveView.bounds.height)
-        masteredChartView.contentWidth = masteredAndLearnedCurveView.bounds.width
+        masteredChartView.contentWidth = masteredAndLearnedCurveView.bounds.width - 30.0
         masteredAndLearnedCurveView.addSubview(masteredChartView)
         masteredChartView.aa_drawChartWithChartOptions(getLearnStatusOptions())
-        view.isOpaque = false
+        
+        getStatOfToday()
         super.viewDidLoad()
         
         let font = UIFont.systemFont(ofSize: 10)
@@ -189,23 +216,24 @@ class StatViewController: UIViewController {
         perTimeCumSegmentedControl.theme_selectedSegmentTintColor = "StatView.segmentedCtrlSelectedTintColor"
     }
     
-
     func getStatOfToday(){
         let today = Date()
-        let todayLearnRec = getLearningRecordsOf(date: today)
-        let todayReviewRec = getReviewRecordsOf(date: today)
+        
+        let today_records = getRecordsOfDate(date: today)
+        let todayLearnRec = today_records.filter { $0.recordType == 1}
+        let todayReviewRec = today_records.filter { $0.recordType == 2}
         var number_of_vocab_today:Int = 0
         var number_of_learning_secs_today: Int = 0
         for lrec in todayLearnRec{
-            number_of_vocab_today += lrec.VocabRecHeads.count
-            let difference = Calendar.current.dateComponents([.second], from: lrec.StartDate, to: lrec.EndDate)
+            number_of_vocab_today += lrec.vocabHeads.count
+            let difference = Calendar.current.dateComponents([.second], from: lrec.startDate, to: lrec.endDate)
             if let secondT = difference.second {
                 number_of_learning_secs_today += secondT
             }
         }
         for rrec in todayReviewRec{
-            number_of_vocab_today += rrec.VocabRecHeads.count
-            let difference = Calendar.current.dateComponents([.second], from: rrec.StartDate, to: rrec.EndDate)
+            number_of_vocab_today += rrec.vocabHeads.count
+            let difference = Calendar.current.dateComponents([.second], from: rrec.startDate, to: rrec.endDate)
             if let secondT = difference.second {
                 number_of_learning_secs_today += secondT
             }
@@ -213,15 +241,19 @@ class StatViewController: UIViewController {
         
         var number_of_vocab_cummulated:Int = 0
         var number_of_learning_secs_cummulated: Int = 0
-        for lrec in GlobalLearningRecords{
-            number_of_vocab_cummulated += lrec.VocabRecHeads.count
-            let difference = Calendar.current.dateComponents([.second], from: lrec.StartDate, to: lrec.EndDate)
+        
+        let global_learning_records = global_records.filter { $0.recordType == 1}
+        let global_review_records = global_records.filter { $0.recordType == 2}
+        
+        for lrec in global_learning_records{
+            number_of_vocab_cummulated += lrec.vocabHeads.count
+            let difference = Calendar.current.dateComponents([.second], from: lrec.startDate, to: lrec.endDate)
             if let secondT = difference.second {
                 number_of_learning_secs_cummulated += secondT
             }
         }
-        for rrec in GlobalReviewRecords{
-            let difference = Calendar.current.dateComponents([.second], from: rrec.StartDate, to: rrec.EndDate)
+        for rrec in global_review_records{
+            let difference = Calendar.current.dateComponents([.second], from: rrec.startDate, to: rrec.endDate)
             if let secondT = difference.second {
                 number_of_learning_secs_cummulated += secondT
             }
@@ -253,3 +285,4 @@ class StatViewController: UIViewController {
     }
 
 }
+

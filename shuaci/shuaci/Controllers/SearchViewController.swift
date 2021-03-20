@@ -7,6 +7,7 @@
 //
 import UIKit
 import SwiftyJSON
+import AVFoundation
 
 class SearchViewController: UIViewController {
     var searchResults:[String] = []
@@ -16,6 +17,8 @@ class SearchViewController: UIViewController {
     var Word_indexs_In_Oalecd8:[String:[Int]] = [:]
     var AllInterp_keys:[String] = []
     var searching = false
+    var mp3Player: AVAudioPlayer?
+    
     let maxNumOfResult = 50
     var isSearchTextAscii = true
     @IBOutlet weak var backBtn: UIButton!
@@ -95,6 +98,8 @@ class SearchViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    
+    
     @IBAction func unwind(_ sender: UIButton) {
         self.dismiss(animated: true, completion: nil)
     }
@@ -136,16 +141,48 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
         let wordIndex: Int = indexItem[0]
         let hasValueInOalecd8: Int = indexItem[1]
         if hasValueInOalecd8 == 1{
+            if Reachability.isConnectedToNetwork(){
+                print("pronounce \(selected_word)")
+                if let mp3_url = getWordPronounceURL(word: selected_word){
+                    playMp3(url: mp3_url)
+                }
+            }
+            
             let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
             let WordDetailVC = mainStoryBoard.instantiateViewController(withIdentifier: "WordDetailVC") as! WordDetailViewController
             WordDetailVC.wordIndex = wordIndex
+            WordDetailVC.modalPresentationStyle = .overCurrentContext
             DispatchQueue.main.async {
                 self.present(WordDetailVC, animated: true, completion: nil)
             }
         }else{
-            print("No value")
+            view.makeToast("无词典解释☹️", duration: 1.0, position: .center)
         }
     }
+    
+    func playMp3(url: URL)
+    {
+        if Reachability.isConnectedToNetwork(){
+            DispatchQueue.global(qos: .background).async {
+            do {
+                var downloadTask: URLSessionDownloadTask
+                downloadTask = URLSession.shared.downloadTask(with: url, completionHandler: { (urlhere, response, error) -> Void in
+                    if let urlhere = urlhere{
+                        do {
+                            self.mp3Player = try AVAudioPlayer(contentsOf: urlhere)
+                            self.mp3Player?.play()
+                        } catch {
+                            print("couldn't load file :( \(urlhere)")
+                        }
+                    }
+            })
+                downloadTask.resume()
+            }}
+        }else{
+            self.view.makeToast(NoNetworkStr, duration: 1.0, position: .center)
+        }
+    }
+    
 }
 extension SearchViewController: UISearchBarDelegate, UISearchControllerDelegate {
     
