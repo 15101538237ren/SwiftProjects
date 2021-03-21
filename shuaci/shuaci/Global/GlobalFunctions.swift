@@ -10,7 +10,7 @@ import Foundation
 import Disk
 import LeanCloud
 import SwiftyJSON
-
+import Accelerate
 
 func initIndicator(view: UIView){
     hud.textLabel.text = "加载中"
@@ -713,6 +713,92 @@ func formatDateAsCategory(dates: [Date], byDay: Bool = true) -> [String] {
         
     }
     return categories
+}
+
+func getTimeSlotIndex(t0:Date, t1:Date) -> Int{
+    let hour = Double(t1.hours(from: t0))
+    var index: Int = -1
+    for hi in 1..<hoursOfEbbinhaus.count{
+        if hour < hoursOfEbbinhaus[hi]{
+            index = hi - 1
+            break
+        }
+    }
+    return index
+}
+
+func getRetentionsFromVocabRecords() -> [Double]{
+    var vocabs:[VocabularyRecord] = []
+    
+    //Get the vocab records that are forgotten at the first learning time
+    for vocab in global_vocabs_records{
+        if vocab.BehaviorHistory.count > 1{
+            if vocab.BehaviorHistory[0] == CardBehavior.forget.rawValue{
+                vocabs.append(vocab)
+            }
+        }
+    }
+    var hoursSlotCountOfRemember:[Double] = [] // Count the number of remembered words for each time slot
+    var hoursSlotCountOfTotal:[Double] = [] // Count the number of total words for each time slot
+    
+    //Init
+    for _ in 0..<hoursOfEbbinhaus.count-1{
+        hoursSlotCountOfRemember.append(0)
+        hoursSlotCountOfTotal.append(0)
+    }
+    
+    for vocab in vocabs{
+        if vocab.BehaviorHistory.count > 1{
+            let card_bhvs = vocab.BehaviorHistory
+            let card_bhv_dates = vocab.BehaviorDates
+            let t0 = vocab.BehaviorDates[0]
+            for ci in 1..<card_bhv_dates.count{
+                let behav_date = card_bhv_dates[ci]
+                let time_slot_ind = getTimeSlotIndex(t0: t0, t1: behav_date)
+                if time_slot_ind > -1{
+                    let card_bhv = card_bhvs[ci]
+                    if card_bhv == CardBehavior.remember.rawValue{
+                        hoursSlotCountOfRemember[time_slot_ind] += 1
+                    }
+                    hoursSlotCountOfTotal[time_slot_ind] += 1
+                }
+            }
+        }
+    }
+    
+    var values:[Float] = [100.0]
+    var indices:[Float] = [0.0]
+    
+    for hi in 0..<hoursSlotCountOfTotal.count{
+        let n_rem = hoursSlotCountOfRemember[hi]
+        let n_tot = hoursSlotCountOfTotal[hi]
+        if n_tot > minNumOfVocabsForRetentionCalc{
+            values.append(Float(n_rem*100.0/n_tot))
+            indices.append(Float(hoursOfEbbinhaus[hi + 1]))
+        }
+    }
+    let maxIndex: Float = indices.max()!
+    for hour in hoursOfEbbinhaus{
+        if Float(hour) > maxIndex{
+            indices.append(Float(hour))
+            values.append(Float(0.0))
+        }
+    }
+    let n = vDSP_Length(Int(hoursOfEbbinhaus.max()!))
+    let stride = vDSP_Stride(1)
+    var result = [Float](repeating: 0,
+                           count: Int(n))
+    vDSP_vgenp(values, stride,
+               indices, stride,
+               &result, stride,
+               n,
+               vDSP_Length(values.count))
+    var retentions:[Double] = [100.0]
+    for hi in 0..<hoursOfEbbinhaus.count-1{
+        let hour: Int = Int(hoursOfEbbinhaus[hi+1])
+        retentions.append(Double(result[hour-1]))
+    }
+    return retentions
 }
 
 func generateDatesForMinMaxDates(minMaxDates:[Date], byDay: Bool = true)-> [Date]{

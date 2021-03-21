@@ -1135,11 +1135,14 @@
                                         <rect key="frame" x="71.5" y="25" width="231" height="32"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <segments>
-                                            <segment title="学习情况"/>
+                                            <segment title="遗忘曲线"/>
                                             <segment title="遗忘曲线"/>
                                             <segment title="记忆持久度"/>
                                         </segments>
                                         <color key="selectedSegmentTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <connections>
+                                            <action selector="dataTypeChanged:" destination="4a5-3m-NM6" eventType="valueChanged" id="vOG-HJ-1V1"/>
+                                        </connections>
                                     </segmentedControl>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YdH-UP-BSR">
                                         <rect key="frame" x="0.0" y="71" width="354" height="240"/>
@@ -1428,7 +1431,9 @@
                         <outlet property="backBtn" destination="NXW-YI-P3Y" id="lty-Hh-guC"/>
                         <outlet property="barTitleLabel" destination="kW9-FR-IxA" id="VIl-To-ftK"/>
                         <outlet property="curveView" destination="YdH-UP-BSR" id="5ce-49-Shy"/>
+                        <outlet property="dataTypeSegmentedControl" destination="9Ml-IN-GDu" id="86o-NO-bCG"/>
                         <outlet property="dayMonSegmentedControl" destination="ahS-Ho-rou" id="6Ty-OA-Zj2"/>
+                        <outlet property="learningStackView" destination="UCa-LL-BlC" id="kfC-Wd-KA6"/>
                         <outlet property="masteredAndLearnedCurveView" destination="YdH-UP-BSR" id="QgC-GW-rzD"/>
                         <outlet property="numMinutesCumulatedLabel" destination="vGO-Gf-PDd" id="nZz-wo-poV"/>
                         <outlet property="numMinutesTodayLabel" destination="Q0Q-iV-hGR" id="WDB-g2-A7q"/>

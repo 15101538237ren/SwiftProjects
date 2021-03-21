@@ -23,7 +23,11 @@ class StatViewController: UIViewController{
     
     @IBOutlet weak var barTitleLabel: UILabel!
     @IBOutlet weak var backBtn: UIButton!
+    @IBOutlet weak var learningStackView: UIStackView!
+    
     var learnStatusByDaySelected: Bool = true
+    
+    @IBOutlet weak var dataTypeSegmentedControl: UISegmentedControl!
     
     @IBOutlet weak var dayMonSegmentedControl: UISegmentedControl!
     
@@ -32,13 +36,12 @@ class StatViewController: UIViewController{
     @IBOutlet weak var perTimeCumSegmentedControl: UISegmentedControl!
     
     @IBOutlet var masteredAndLearnedCurveView: UIView!{
-            didSet {
-                masteredAndLearnedCurveView.theme_backgroundColor = "StatView.panelBgColor"
-                masteredAndLearnedCurveView?.layer.cornerRadius = 15.0
-                masteredAndLearnedCurveView?.layer.masksToBounds = true
-            }
+        didSet {
+            masteredAndLearnedCurveView.theme_backgroundColor = "StatView.panelBgColor"
+            masteredAndLearnedCurveView?.layer.cornerRadius = 15.0
+            masteredAndLearnedCurveView?.layer.masksToBounds = true
         }
-    
+    }
     
     @IBOutlet var numWordTodayLabel: UILabel!
     @IBOutlet var numMinutesTodayLabel: UILabel!
@@ -66,6 +69,17 @@ class StatViewController: UIViewController{
             curveView.theme_backgroundColor = "StatView.panelBgColor"
             curveView.layer.cornerRadius = 15.0
             curveView.layer.masksToBounds = true
+        }
+    }
+    
+    @IBAction func dataTypeChanged(_ sender: UISegmentedControl) {
+        masteredAndLearnedCurveView.removeSubviews()
+        if sender.selectedSegmentIndex == 1{
+            initMasterChartView(dataType: .learnStatus)
+        }else if sender.selectedSegmentIndex == 0{
+            initMasterChartView(dataType: .ebbinhaus)
+        }else{
+            initMasterChartView(dataType: .learnStatus)
         }
     }
     
@@ -156,6 +170,43 @@ class StatViewController: UIViewController{
         
     }
     
+    func getEbbinhausOptions() -> AAOptions{
+        let retentions = getRetentionsFromVocabRecords()
+        var series:[AASeriesElement] = []
+        if retentions.count > 0{
+            series = [
+                AASeriesElement()
+                .name("艾宾浩斯曲线")
+                .data(retentionOfEbbinhaus),
+                AASeriesElement()
+                .name("你的记忆曲线")
+                .data(retentions)]
+        }
+        else{
+            series = [
+                AASeriesElement()
+                .name("艾宾浩斯曲线")
+                .data(retentionOfEbbinhaus)]
+        }
+        let ebbinhausStatusChartModel = AAChartModel()
+        .backgroundColor(getBackgroundViewColor())
+            .chartType(.line)
+            .animationType(.elastic)
+        .tooltipValueSuffix("%")//the value suffix of the chart tooltip
+        .dataLabelsEnabled(false) //Enable or disable the data labels. Defaults to false
+        .yAxisLabelsEnabled(true)
+        .yAxisTitle("记得的百分比(%)")
+        .yAxisMax(100.0)
+        .categories(daysLabels)
+        .axesTextColor(getDisplayTextColor())
+        .colorsTheme(["#bfc0c0","#ef8354"])
+            .zoomType(.none)
+        .series(series)
+        let aa_options: AAOptions = AAOptionsConstructor.configureChartOptions(ebbinhausStatusChartModel)
+        aa_options.tooltip?.valueDecimals(1)
+        return aa_options
+    }
+    
     func getBackgroundViewColor() -> String{
         let viewBackgroundColor = ThemeManager.currentTheme?.value(forKeyPath: "StatView.panelBgColor") as! String
         return viewBackgroundColor
@@ -171,20 +222,36 @@ class StatViewController: UIViewController{
         return viewBackgroundColor
     }
     
-    func label(atIndex pointIndex: Int) -> String {
-        return categories[pointIndex]
-    }
-
-    func numberOfPoints() -> Int {
-        return categories.count
-    }
-    
     func setFontofSegmentedControl(selectedForeGroundColor: UIColor){
         dayMonSegmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: selectedForeGroundColor], for: .selected)
         wordTimeSegmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: selectedForeGroundColor], for: .selected)
         perTimeCumSegmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: selectedForeGroundColor], for: .selected)
     }
     
+    enum DataType {
+        case learnStatus
+        case ebbinhaus
+        case lasting
+    }
+    
+    func initMasterChartView(dataType: DataType){
+        if dataTypeSegmentedControl.selectedSegmentIndex == 1{
+            learningStackView.alpha = 1
+        }else{
+            learningStackView.alpha = 0
+        }
+        masteredChartView.frame = CGRect(x: 0, y: 0, width: masteredAndLearnedCurveView.bounds.width, height: masteredAndLearnedCurveView.bounds.height)
+        masteredChartView.contentWidth = masteredAndLearnedCurveView.bounds.width - 30.0
+        masteredAndLearnedCurveView.addSubview(masteredChartView)
+        switch dataType {
+        case .learnStatus:
+            masteredChartView.aa_drawChartWithChartOptions(getLearnStatusOptions())
+        case .ebbinhaus:
+            masteredChartView.aa_drawChartWithChartOptions(getEbbinhausOptions())
+        default:
+            masteredChartView.aa_drawChartWithChartOptions(getLearnStatusOptions())
+        }
+    }
     
     override func viewDidLoad() {
         view.theme_backgroundColor = "Global.viewBackgroundColor"
@@ -197,11 +264,7 @@ class StatViewController: UIViewController{
         view.isOpaque = false
         
         masteredChartView.theme_backgroundColor = "Global.viewBackgroundColor"
-        masteredChartView.frame = CGRect(x: 0, y: 0, width: masteredAndLearnedCurveView.bounds.width, height: masteredAndLearnedCurveView.bounds.height)
-        masteredChartView.contentWidth = masteredAndLearnedCurveView.bounds.width - 30.0
-        masteredAndLearnedCurveView.addSubview(masteredChartView)
-        masteredChartView.aa_drawChartWithChartOptions(getLearnStatusOptions())
-        
+        initMasterChartView(dataType: .ebbinhaus)
         getStatOfToday()
         super.viewDidLoad()
         
@@ -252,6 +315,7 @@ class StatViewController: UIViewController{
                 number_of_learning_secs_cummulated += secondT
             }
         }
+        
         for rrec in global_review_records{
             let difference = Calendar.current.dateComponents([.second], from: rrec.startDate, to: rrec.endDate)
             if let secondT = difference.second {
