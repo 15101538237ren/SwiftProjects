@@ -21,4 +21,5 @@ target 'shuaci' do
   pod 'MKRingProgressView'
   pod 'AAInfographics', :git => 'https://github.com/AAChartModel/AAChartKit-Swift.git'
   pod 'MBRadioCheckboxButton'
+  pod 'UIEmptyState'
 end

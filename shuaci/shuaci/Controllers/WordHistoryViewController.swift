@@ -11,8 +11,9 @@ import SwiftTheme
 import SwiftyJSON
 import AVFoundation
 import LeanCloud
+import UIEmptyState
 
-class WordHistoryViewController: UIViewController, UIGestureRecognizerDelegate {
+class WordHistoryViewController: UIViewController, UIGestureRecognizerDelegate, UIEmptyStateDataSource, UIEmptyStateDelegate {
     
     var mainPanelViewController: MainPanelViewController!
     var preference:Preference!
@@ -158,6 +159,8 @@ class WordHistoryViewController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     func getGroupVocabs(){
+        tableISEditing = false
+        wordsTableView.setEditing(false, animated: true)
         var dateType: DateType = .learn
         switch segmentedControl.selectedSegmentIndex {
             case 0:
@@ -249,15 +252,12 @@ class WordHistoryViewController: UIViewController, UIGestureRecognizerDelegate {
         }
         initCellIsSelected()
         wordsTableView.reloadData()
+        self.reloadEmptyStateForTableView(self.wordsTableView)
     }
     
     
     @IBAction func segControlChanged(_ sender: UISegmentedControl) {
-        tableISEditing = false
-        wordsTableView.setEditing(false, animated: true)
-        
         getGroupVocabs()
-        
     }
     
     func getSegmentedCtrlUnselectedTextColor() -> String{
@@ -288,7 +288,9 @@ class WordHistoryViewController: UIViewController, UIGestureRecognizerDelegate {
         wordsTableView.allowsMultipleSelection = false
         wordsTableView.allowsSelectionDuringEditing = true
         wordsTableView.allowsMultipleSelectionDuringEditing = true
-
+        emptyStateDataSource = self
+        emptyStateDelegate = self
+        
         getGroupVocabs()
         
         segmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.white], for: .selected)
@@ -610,6 +612,21 @@ extension WordHistoryViewController: UITableViewDataSource, UITableViewDelegate{
         }else{
             self.view.makeToast(NoNetworkStr, duration: 1.0, position: .center)
         }
+    }
+    
+    // MARK: - Empty State Data Source
+    
+    var emptyStateTitle: NSAttributedString {
+            let attrs = [NSAttributedString.Key.foregroundColor: UIColor.lightGray,
+                         NSAttributedString.Key.font: UIFont.systemFont(ofSize: 18)]
+            let title: String = "无单词"
+            return NSAttributedString(string: title, attributes: attrs)
+        }
+    
+    func emptyStateViewWillShow(view: UIView) {
+        guard let emptyView = view as? UIEmptyStateView else { return }
+        emptyView.contentView.layer.borderColor = UIColor.clear.cgColor
+        emptyView.contentView.layer.backgroundColor = UIColor.clear.cgColor
     }
 }
 

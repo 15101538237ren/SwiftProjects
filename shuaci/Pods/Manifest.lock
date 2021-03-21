@@ -31,6 +31,7 @@ PODS:
   - SwiftValidators (9.0.3)
   - SwiftyJSON (5.0.0)
   - Toast-Swift (5.0.1)
+  - UIEmptyState (5.0.0)
 
 DEPENDENCIES:
   - AAInfographics (from `https://github.com/AAChartModel/AAChartKit-Swift.git`)
@@ -48,6 +49,7 @@ DEPENDENCIES:
   - SwiftValidators
   - SwiftyJSON
   - Toast-Swift
+  - UIEmptyState
 
 SPEC REPOS:
   trunk:
@@ -66,6 +68,7 @@ SPEC REPOS:
     - SwiftValidators
     - SwiftyJSON
     - Toast-Swift
+    - UIEmptyState
 
 EXTERNAL SOURCES:
   AAInfographics:
@@ -100,7 +103,8 @@ SPEC CHECKSUMS:
   SwiftValidators: b1cb650ce02ef6ad894f1d471f970b249c794342
   SwiftyJSON: 36413e04c44ee145039d332b4f4e2d3e8d6c4db7
   Toast-Swift: 9b6a70f28b3bf0b96c40d46c0c4b9d6639846711
+  UIEmptyState: 69a89a434a6609365f6adcf691458936c70f6d00
 
-PODFILE CHECKSUM: 8d5732a18f885d741324144939aae288b87574d1
+PODFILE CHECKSUM: 92fbef949e31952bcbcb050978a431a9116e961d
 
 COCOAPODS: 1.9.3
