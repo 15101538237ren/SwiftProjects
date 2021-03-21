@@ -10,8 +10,13 @@ import UIKit
 import SwiftTheme
 import SwiftyJSON
 import AVFoundation
+import LeanCloud
 
 class WordHistoryViewController: UIViewController, UIGestureRecognizerDelegate {
+    
+    var mainPanelViewController: MainPanelViewController!
+    var preference:Preference!
+    var currentUser = LCApplication.default.currentUser!
     
     var mp3Player: AVAudioPlayer?
     var Word_indexs_In_Oalecd8:[String:[Int]] = [:]
@@ -19,6 +24,10 @@ class WordHistoryViewController: UIViewController, UIGestureRecognizerDelegate {
     let redColor:UIColor = UIColor(red: 168, green: 0, blue: 0, alpha: 1)
     let darkGreen:UIColor = UIColor(red: 2, green: 108, blue: 69, alpha: 1)
     let headerViewHeight:CGFloat = 30
+    
+    var vocabDatePeriod: VocabDatePeriod = .Unlimited
+    var memConstraint: MemConstraint = .Unlimited
+    var numOfContinuousMemTimes:[Int] = []
     
     var tableISEditing: Bool = false{
         didSet{
@@ -97,12 +106,39 @@ class WordHistoryViewController: UIViewController, UIGestureRecognizerDelegate {
         if tableISEditing{
             tableISEditing = false
             wordsTableView.setEditing(false, animated: true)
-            for key in sortedKeys{
-                for idx in 0..<groupedVocabs[key]!.count{
-                    if cellIsSelected[key]![idx]{
-                        print(groupedVocabs[key]![idx].VocabHead)
+            if segmentedControl.selectedSegmentIndex != 2{
+                var vocab_rec_need_to_be_review: [VocabularyRecord] = []
+                for key in sortedKeys{
+                    for idx in 0..<groupedVocabs[key]!.count{
+                        if cellIsSelected[key]![idx]{
+                            vocab_rec_need_to_be_review.append(groupedVocabs[key]![idx])
+                        }
                     }
                 }
+                DispatchQueue.main.async {
+                    self.dismiss(animated: false, completion: {
+                        self.mainPanelViewController.loadReviewController(vocab_rec_need_to_be_review: vocab_rec_need_to_be_review)
+                    })
+                 }
+            }else{
+                
+                var vocab_rec_rmv_mastered: [VocabularyRecord] = []
+                for key in sortedKeys{
+                    for idx in 0..<groupedVocabs[key]!.count{
+                        if cellIsSelected[key]![idx]{
+                            vocab_rec_rmv_mastered.append(groupedVocabs[key]![idx])
+                        }
+                    }
+                }
+                
+                for vi in 0..<vocab_rec_rmv_mastered.count{
+                    vocab_rec_rmv_mastered[vi].Mastered = false
+                }
+                updateGlobalVocabRecords(vocabs_updated: vocab_rec_rmv_mastered)
+                saveRecordsToDisk(userId: currentUser.objectId!.stringValue!, withRecords: false)
+                getGroupVocabs()
+                view.makeToast("移出成功😊", duration: 1.0, position: .center)
+                saveVocabRecordsToCloud(currentUser: currentUser)
             }
         }
         else{
@@ -120,18 +156,89 @@ class WordHistoryViewController: UIViewController, UIGestureRecognizerDelegate {
             }
         }
     }
+    
     func getGroupVocabs(){
+        var dateType: DateType = .learn
         switch segmentedControl.selectedSegmentIndex {
             case 0:
-                groupedVocabs = groupVocabRecByDate(dateType: .learn)
+                dateType = .learn
             case 1:
-                groupedVocabs = groupVocabRecByDate(dateType: .collect)
+                dateType = .collect
             case 2:
-                groupedVocabs = groupVocabRecByDate(dateType: .master)
+                dateType = .master
             default:
                 break
         }
+        
+        groupedVocabs = groupVocabRecByDate(dateType: dateType)
+        
         sortedKeys = Array(groupedVocabs.keys).sorted(by: >)
+        if dateType != .master{
+            var temp_groupedVocabs:[String : [VocabularyRecord]] = [:]
+            
+            for key in sortedKeys{
+                for idx in 0..<groupedVocabs[key]!.count{
+                    let vocab: VocabularyRecord = groupedVocabs[key]![idx]
+                    if let learningDate = vocab.LearnDate{
+                        if vocabDatePeriod != .Unlimited{
+                            var hoursLimit: Int = 999999999
+                            switch vocabDatePeriod {
+                            case .OneDay:
+                                hoursLimit = 24
+                            case .ThreeDays:
+                                hoursLimit = 72
+                            case .OneWeek:
+                                hoursLimit = 168
+                            default:
+                                hoursLimit = 999999999
+                            }
+                            
+                            let hours = Date().hours(from: learningDate)
+                            if hours > hoursLimit{
+                                continue
+                            }
+                        }
+                    }
+                    
+                    if let dueDate = vocab.ReviewDUEDate{
+                        if memConstraint != .Unlimited {
+                            switch memConstraint {
+                            case .Overdue:
+                                if Date() < dueDate{
+                                    // Within Due, Not valid
+                                    continue
+                                }
+                            case .Withindue:
+                                if Date() > dueDate{
+                                    // Overdue, Not valid
+                                    continue
+                                }
+                            default: break
+                            }
+                        }
+                    }
+                    
+                    if numOfContinuousMemTimes.count > 0{
+                        let numOfSeqMem:Int = getNumOfSeqMem(vocab: vocab)
+                        if !numOfContinuousMemTimes.contains(numOfSeqMem){
+                            continue
+                        }
+                    }
+                    
+                    if let _ = temp_groupedVocabs[key] {
+                        temp_groupedVocabs[key]!.append(vocab)
+                    }else{
+                        temp_groupedVocabs[key] = []
+                        temp_groupedVocabs[key]!.append(vocab)
+                    }
+                }
+            }
+            
+            groupedVocabs = temp_groupedVocabs
+            
+            sortedKeys = Array(groupedVocabs.keys).sorted(by: >)
+        }
+        
         sectionsExpanded = []
         for idx in 0..<sortedKeys.count{
             if idx == 0 {
@@ -143,6 +250,7 @@ class WordHistoryViewController: UIViewController, UIGestureRecognizerDelegate {
         initCellIsSelected()
         wordsTableView.reloadData()
     }
+    
     
     @IBAction func segControlChanged(_ sender: UISegmentedControl) {
         tableISEditing = false

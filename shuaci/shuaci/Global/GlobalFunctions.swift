@@ -104,15 +104,16 @@ func savePreference(userId: String, preference: Preference){
  
  */
 
-func saveRecordsToDisk(userId: String){
+func saveRecordsToDisk(userId: String, withRecords:Bool = true){
     let vocab_records_fp:String = "\(userId)_vocab_records.json"
     let records_fp:String = "\(userId)_records.json"
     do {
         try Disk.save(global_vocabs_records, to: .documents, as: vocab_records_fp)
         print("Saved VocabRecords to Disk Successful!")
-        
-        try Disk.save(global_records, to: .documents, as: records_fp)
-        print("Saved Records to Disk Successful!")
+        if withRecords{
+            try Disk.save(global_records, to: .documents, as: records_fp)
+            print("Saved Records to Disk Successful!")
+        }
     } catch {
         print(error)
     }
@@ -458,6 +459,19 @@ enum DateType {
     case collect
 }
 
+enum VocabDatePeriod {
+    case Unlimited
+    case OneDay
+    case ThreeDays
+    case OneWeek
+}
+
+enum MemConstraint {
+    case Unlimited
+    case Overdue
+    case Withindue
+}
+
 // MARK: - Book Util
 
 func fetchBooks(){
@@ -502,6 +516,25 @@ func fetchBooks(){
         }
     }
     
+}
+
+func updateGlobalVocabRecords(vocabs_updated: [VocabularyRecord]){
+    var vocab_new_heads:[String] = []
+    for vocab in vocabs_updated{
+        vocab_new_heads.append(vocab.VocabHead)
+    }
+    var temp_GlobalVocabRec:[VocabularyRecord] = []
+    for vi in 0..<global_vocabs_records.count{
+        let vocab:VocabularyRecord = global_vocabs_records[vi]
+        if !vocab_new_heads.contains(vocab.VocabHead){
+            temp_GlobalVocabRec.append(vocab)
+        }
+    }
+    
+    for vocab in vocabs_updated{
+        temp_GlobalVocabRec.append(vocab)
+    }
+    global_vocabs_records = temp_GlobalVocabRec
 }
 
 // MARK: - Common Functions

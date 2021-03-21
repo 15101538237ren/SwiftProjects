@@ -453,6 +453,18 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
         }
     }
     
+    func loadWordHistoryVC(){
+        let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+        let wordHistoryVC = mainStoryBoard.instantiateViewController(withIdentifier: "WordHistoryVC") as! WordHistoryViewController
+        wordHistoryVC.modalPresentationStyle = .overCurrentContext
+        wordHistoryVC.currentUser = currentUser
+        wordHistoryVC.preference = get_preference()
+        wordHistoryVC.mainPanelViewController = self
+        DispatchQueue.main.async {
+            self.present(wordHistoryVC, animated: true, completion: nil)
+        }
+    }
+    
     func loadLearnController(){
         let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Learning", bundle:nil)
         let learnVC = mainStoryBoard.instantiateViewController(withIdentifier: "learnWordController") as! LearnWordViewController
@@ -470,19 +482,20 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
     }
     
     
-    func loadReviewController(){
+    func loadReviewController(vocab_rec_need_to_be_review: [VocabularyRecord]){
         let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Learning", bundle:nil)
         let learnVC = mainStoryBoard.instantiateViewController(withIdentifier: "learnWordController") as! LearnWordViewController
         learnVC.modalPresentationStyle = .overCurrentContext
         learnVC.currentUser = currentUser
-        let pref = get_preference()
-        learnVC.preference = pref
-        let vocab_rec_need_to_be_review = get_vocab_rec_need_to_be_review()
+        learnVC.preference = preference
+        learnVC.mainPanelViewController = self
+        
         learnVC.vocab_rec_need_to_be_review = vocab_rec_need_to_be_review
+        
         let review_words = get_words_need_to_be_review(vocab_rec_need_to_be_review: vocab_rec_need_to_be_review)
         learnVC.words = review_words
+        
         learnVC.currentMode = 2
-        learnVC.mainPanelViewController = self
         DispatchQueue.main.async {
             self.present(learnVC, animated: true, completion: nil)
         }
@@ -518,6 +531,10 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
         loadThemeController()
     }
     
+    @IBAction func wordHistoryBtnClicked(_ sender: UIButton) {
+        loadWordHistoryVC()
+    }
+    
     
     @IBAction func ReciteNewWords(_ sender: UIButton) {
         if let preference = preference{
@@ -539,7 +556,7 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
             if let _ : String = preference.current_book_id{
                 let vocab_rec_need_to_be_review:[VocabularyRecord] = get_vocab_rec_need_to_be_review()
                 if vocab_rec_need_to_be_review.count > 0{
-                    loadReviewController()
+                    loadReviewController(vocab_rec_need_to_be_review: vocab_rec_need_to_be_review)
                 }
                 else
                 {

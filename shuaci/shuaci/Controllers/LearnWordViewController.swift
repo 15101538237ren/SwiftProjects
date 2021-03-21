@@ -449,6 +449,7 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
                 card.wordLabel_Top_Space_Constraint.constant = 170
                 card.meaningLabel_Top_Space_Constraint.constant = 70
                 card.memMethodLabel?.alpha = 0
+                card.memMethodLabel?.text = ""
             }
             
             if collected{
@@ -598,25 +599,6 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
         saveRecordsToDisk(userId: currentUser.objectId!.stringValue!)
         saveRecordsToCloud(currentUser: currentUser)
         saveVocabRecordsToCloud(currentUser: currentUser)
-    }
-    
-    func updateGlobalVocabRecords(vocabs_updated: [VocabularyRecord]){
-        var vocab_new_heads:[String] = []
-        for vocab in vocabs_updated{
-            vocab_new_heads.append(vocab.VocabHead)
-        }
-        var temp_GlobalVocabRec:[VocabularyRecord] = []
-        for vi in 0..<global_vocabs_records.count{
-            let vocab:VocabularyRecord = global_vocabs_records[vi]
-            if !vocab_new_heads.contains(vocab.VocabHead){
-                temp_GlobalVocabRec.append(vocab)
-            }
-        }
-        
-        for vocab in vocabs_updated{
-            temp_GlobalVocabRec.append(vocab)
-        }
-        global_vocabs_records = temp_GlobalVocabRec
     }
     
     @objc func moveCard(behavior: NSNumber) {

@@ -7,13 +7,25 @@
 //
 
 import UIKit
+import MBRadioCheckboxButton
 
 class FilterVocabHistoryVC: UIViewController {
     var wordHistoryVC: WordHistoryViewController!
     var viewTranslation = CGPoint(x: 0, y: 0)
+    @IBOutlet var periodSegCtrl: UISegmentedControl!
+    @IBOutlet var statusSegCtrl: UISegmentedControl!
+    
+    var numOfContinuousMemTimes:[Int] = []
+    
+    @IBOutlet weak var option1: CheckboxButton!
+    @IBOutlet weak var option2: CheckboxButton!
+    @IBOutlet weak var option3: CheckboxButton!
+    var btnCtn = CheckboxButtonContainer()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        btnCtn.addButtons([option1, option2, option3])
+        btnCtn.delegate = self
         view.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(handleDismiss)))
     }
     
@@ -40,11 +52,63 @@ class FilterVocabHistoryVC: UIViewController {
     }
     
     @IBAction func filter(_ sender: UIButton) {
-        
+        if periodSegCtrl.selectedSegmentIndex == 0 && statusSegCtrl.selectedSegmentIndex == 0 && numOfContinuousMemTimes.count == 0{
+            view.makeToast("您什么也没做☹️", duration: 1.0, position: .center)
+        }else{
+            var period: VocabDatePeriod = .Unlimited
+            switch periodSegCtrl.selectedSegmentIndex {
+            case 0:
+                period = .Unlimited
+            case 1:
+                period = .OneDay
+            case 2:
+                period = .ThreeDays
+            case 3:
+                period = .OneWeek
+            default:
+                break
+            }
+            
+            var status: MemConstraint = .Unlimited
+            switch statusSegCtrl.selectedSegmentIndex {
+            case 0:
+                status = .Unlimited
+            case 1:
+                status = .Overdue
+            case 2:
+                status = .Withindue
+            default:
+                break
+            }
+            DispatchQueue.main.async {
+                self.dismiss(animated: false, completion: {
+                    self.wordHistoryVC.vocabDatePeriod = period
+                    self.wordHistoryVC.memConstraint = status
+                    self.wordHistoryVC.numOfContinuousMemTimes = self.numOfContinuousMemTimes
+                    self.wordHistoryVC.getGroupVocabs()
+                })
+             }
+        }
     }
     
     @IBAction func unwind(_ sender: UIButton) {
         self.dismiss(animated: true, completion: nil)
     }
     
+}
+
+extension FilterVocabHistoryVC: CheckboxButtonDelegate {
+    
+    func chechboxButtonDidSelect(_ button: CheckboxButton) {
+        numOfContinuousMemTimes.append(button.tag)
+    }
+    
+    func chechboxButtonDidDeselect(_ button: CheckboxButton) {
+        for ni in 0..<numOfContinuousMemTimes.count{
+            if numOfContinuousMemTimes[ni] == button.tag{
+                numOfContinuousMemTimes.remove(at: ni)
+                break
+            }
+        }
+    }
 }
