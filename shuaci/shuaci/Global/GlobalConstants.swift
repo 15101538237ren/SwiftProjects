@@ -16,7 +16,10 @@ typealias CompletionHandler = (_ success:Bool) -> Void
 typealias CompletionHandlerWithData = (_ data: Data?, _ fromCloud: Bool) -> Void
 
 let hoursOfEbbinhaus:[Double] = [0, 1, 24, 72, 120, 168, 720, 2160, 4320]
-let daysLabels:[String] = ["刚复习", "1小时", "1天后", "3天后", "5天后", "1周后", "1月后", "3月后", "半年后"]
+let hoursLabels:[String] = ["刚复习", "1小时", "1天后", "3天后", "5天后", "1周后", "1月后", "3月后", "半年后"]
+
+let daysOfLongTerm:[Int] = [0, 3, 7, 15, 30, 90, 180, 365]
+let daysLabels:[String] = ["今天", "3天后", "1周后", "15天后", "1个月后", "3个月后", "半年后", "1年后"]
 let retentionOfEbbinhaus:[Double] = [100.0, 44.2, 33.7, 27.2, 26.0, 25.2, 21, 15, 11.5]
 let minNumOfVocabsForRetentionCalc:Double = 2
 // MARK: - Constants

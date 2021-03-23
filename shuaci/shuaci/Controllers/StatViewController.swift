@@ -73,10 +73,12 @@ class StatViewController: UIViewController{
     }
     
     @IBAction func dataTypeChanged(_ sender: UISegmentedControl) {
+        
         masteredAndLearnedCurveView.removeSubviews()
+        
         if sender.selectedSegmentIndex == 1{
             initMasterChartView(dataType: .learnStatus)
-        }else if sender.selectedSegmentIndex == 0{
+        }else if sender.selectedSegmentIndex == 2{
             initMasterChartView(dataType: .ebbinhaus)
         }else{
             initMasterChartView(dataType: .learnStatus)
@@ -179,7 +181,7 @@ class StatViewController: UIViewController{
                 .name("艾宾浩斯曲线")
                 .data(retentionOfEbbinhaus),
                 AASeriesElement()
-                .name("你的记忆曲线")
+                .name("你的记忆规律")
                 .data(retentions)]
         }
         else{
@@ -197,13 +199,38 @@ class StatViewController: UIViewController{
         .yAxisLabelsEnabled(true)
         .yAxisTitle("记得的百分比(%)")
         .yAxisMax(100.0)
-        .categories(daysLabels)
+        .categories(hoursLabels)
         .axesTextColor(getDisplayTextColor())
         .colorsTheme(["#bfc0c0","#ef8354"])
             .zoomType(.none)
         .series(series)
         let aa_options: AAOptions = AAOptionsConstructor.configureChartOptions(ebbinhausStatusChartModel)
         aa_options.tooltip?.valueDecimals(1)
+        return aa_options
+    }
+    
+    func getLongTermOptions() -> AAOptions{
+        let vocabNums = getLongTermMemNumbers()
+        let series:[AASeriesElement] = [
+            AASeriesElement()
+            .name("当前的单词长期掌握度")
+            .data(vocabNums)]
+        let longTermVocabRememberedChartModel = AAChartModel()
+        .backgroundColor(getBackgroundViewColor())
+            .chartType(.line)
+            .animationType(.elastic)
+        .tooltipValueSuffix("个")//the value suffix of the chart tooltip
+        .dataLabelsEnabled(false) //Enable or disable the data labels. Defaults to false
+        .yAxisLabelsEnabled(true)
+        .yAxisTitle("记得的单词数")
+        .yAxisMax(100.0)
+        .categories(daysLabels)
+        .axesTextColor(getDisplayTextColor())
+        .colorsTheme(["#ef8354"])
+            .zoomType(.none)
+        .series(series)
+        let aa_options: AAOptions = AAOptionsConstructor.configureChartOptions(longTermVocabRememberedChartModel)
+        aa_options.tooltip?.valueDecimals(0)
         return aa_options
     }
     
@@ -248,8 +275,8 @@ class StatViewController: UIViewController{
             masteredChartView.aa_drawChartWithChartOptions(getLearnStatusOptions())
         case .ebbinhaus:
             masteredChartView.aa_drawChartWithChartOptions(getEbbinhausOptions())
-        default:
-            masteredChartView.aa_drawChartWithChartOptions(getLearnStatusOptions())
+        case .lasting:
+            masteredChartView.aa_drawChartWithChartOptions(getLongTermOptions())
         }
     }
     
@@ -264,7 +291,7 @@ class StatViewController: UIViewController{
         view.isOpaque = false
         
         masteredChartView.theme_backgroundColor = "Global.viewBackgroundColor"
-        initMasterChartView(dataType: .ebbinhaus)
+        initMasterChartView(dataType: .lasting)
         getStatOfToday()
         super.viewDidLoad()
         

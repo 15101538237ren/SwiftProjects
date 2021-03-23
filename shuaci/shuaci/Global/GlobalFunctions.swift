@@ -727,6 +727,33 @@ func getTimeSlotIndex(t0:Date, t1:Date) -> Int{
     return index
 }
 
+func getNumerOfVocabsWithinDate(date: Date) -> Double{
+    var numOfVocabRemembered:Double = 0.0
+    for vocab in global_vocabs_records{
+        if vocab.Mastered{
+            numOfVocabRemembered += 1.0
+        }
+        else{
+            if let dueDate = vocab.ReviewDUEDate{
+                if dueDate > date{
+                    numOfVocabRemembered += 1.0
+                }
+            }
+        }
+    }
+    return numOfVocabRemembered
+}
+
+func getLongTermMemNumbers() -> [Double]{
+    var vocabNums:[Double] = []
+    let dateNow = Date()
+    for di in 0..<daysOfLongTerm.count{
+        let futureDate = dateNow.adding(durationVal: daysOfLongTerm[di], durationType: .day)
+        vocabNums.append(getNumerOfVocabsWithinDate(date: futureDate))
+    }
+    return vocabNums
+}
+
 func getRetentionsFromVocabRecords() -> [Double]{
     var vocabs:[VocabularyRecord] = []
     
