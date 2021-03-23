@@ -258,8 +258,15 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
         return "\(order)  \(number_of_words_per_group)个/组"
     }
     
+    func updateMemOptionDisplay(){
+        let indexPath = IndexPath(row: 2, section: 0)
+        DispatchQueue.main.async {
+            self.tableView.reloadRows(at: [indexPath], with: .automatic)
+        }
+    }
+    
     func updateReminderTime(){
-        let indexPath = IndexPath(row: 4, section: 0)
+        let indexPath = IndexPath(row: 3, section: 0)
         DispatchQueue.main.async {
             self.tableView.reloadRows(at: [indexPath], with: .fade)
         }
@@ -335,6 +342,7 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
     
     func update_preference(pref: Preference){
         preference = pref
+        self.mainPanelViewController.update_preference()
     }
     
     @objc func autoPronunceSwitched(uiSwitch: UISwitch) {

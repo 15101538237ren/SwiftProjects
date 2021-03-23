@@ -107,7 +107,7 @@ class SetMemOptionViewController: UIViewController, UIPickerViewDelegate, UIPick
             if settingVC != nil{
                 DispatchQueue.main.async {
                     self.dismiss(animated: true, completion: {
-                        self.settingVC!.tableView.reloadRows(at: [IndexPath(row: 3, section: 0)], with: .automatic)
+                        self.settingVC!.updateMemOptionDisplay()
                     })
                 }
             }
@@ -383,6 +383,7 @@ class SetMemOptionViewController: UIViewController, UIPickerViewDelegate, UIPick
                                 }
                                 if let settingVC = settingVC{
                                     settingVC.update_preference(pref: preference)
+                                    settingVC.updateMemOptionDisplay()
                                 }
                                 _ = update_words(preference: preference)
                                 DispatchQueue.main.async {
@@ -418,6 +419,7 @@ class SetMemOptionViewController: UIViewController, UIPickerViewDelegate, UIPick
             
             if let settingVC = settingVC{
                 settingVC.update_preference(pref: preference)
+                settingVC.updateMemOptionDisplay()
             }
             
             _ = update_words(preference: preference)

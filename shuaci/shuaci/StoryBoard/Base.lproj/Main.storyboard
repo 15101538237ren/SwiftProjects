@@ -1137,7 +1137,7 @@
                                         <segments>
                                             <segment title="长期掌握度"/>
                                             <segment title="学习情况"/>
-                                            <segment title="遗忘曲线"/>
+                                            <segment title="记忆规律"/>
                                         </segments>
                                         <color key="selectedSegmentTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <connections>
