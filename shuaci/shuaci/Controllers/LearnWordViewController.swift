@@ -110,9 +110,9 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
     
     override func viewDidLoad() {
         view.theme_backgroundColor = "Global.viewBackgroundColor"
-//        view.backgroundColor = UIColor.init(hex: scene_backgrounds[preference.current_theme]!)!
         super.viewDidLoad()
         initLearningRecord()
+        stopIndicator()
     }
     
     func initLearningRecord(){

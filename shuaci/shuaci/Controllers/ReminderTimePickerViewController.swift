@@ -140,6 +140,7 @@ class ReminderTimePickerViewController: UIViewController {
         center.removePendingNotificationRequests(withIdentifiers:[everyDayLearningReminderNotificationIdentifier])
         preference.reminder_time = nil
         savePreference(userId: currentUser.objectId!.stringValue!, preference: preference)
+        settingVC.preference = loadPreference(userId: currentUser.objectId!.stringValue!)
         DispatchQueue.main.async {
             self.dismiss(animated: true, completion: nil)
             self.settingVC.updateReminderTime()

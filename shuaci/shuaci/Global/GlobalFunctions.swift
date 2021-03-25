@@ -906,7 +906,7 @@ func filterBehaviorsInDiffDays(bhvs:[Int], dates:[Date]) -> [Int]{
 }
 
 func isExactSeqMemory(vocab: VocabularyRecord) -> Bool{
-    let behaviors:[Int] = vocab.BehaviorHistory//filterBehaviorsInDiffDays(bhvs: vocab.BehaviorHistory, dates: vocab.BehaviorDates)
+    let behaviors:[Int] = filterBehaviorsInDiffDays(bhvs: vocab.BehaviorHistory, dates: vocab.BehaviorDates)//vocab.BehaviorHistory//
     if behaviors.count < numberOfContDaysForMasteredAWord{
         return false
     }
@@ -943,7 +943,7 @@ func isExactSeqMemory(vocab: VocabularyRecord) -> Bool{
 
 func getNumOfSeqMem(vocab: VocabularyRecord) -> Int{
     var numOfSeqMem:Int = 0
-    let behaviors:[Int] = vocab.BehaviorHistory.reversed()//filterBehaviorsInDiffDays(bhvs: vocab.BehaviorHistory, dates: vocab.BehaviorDates).reversed()
+    let behaviors:[Int] = filterBehaviorsInDiffDays(bhvs: vocab.BehaviorHistory, dates: vocab.BehaviorDates).reversed()//vocab.BehaviorHistory.reversed()//
     
     var idx = 0
     while idx < behaviors.count && behaviors[idx] == CardBehavior.remember.rawValue{

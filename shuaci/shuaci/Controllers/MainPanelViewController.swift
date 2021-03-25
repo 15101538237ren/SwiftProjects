@@ -466,12 +466,13 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
     }
     
     func loadLearnController(){
+        initIndicator(view: self.view)
         let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Learning", bundle:nil)
         let learnVC = mainStoryBoard.instantiateViewController(withIdentifier: "learnWordController") as! LearnWordViewController
         learnVC.modalPresentationStyle = .overCurrentContext
         learnVC.currentUser = currentUser
         let pref = get_preference()
-        learnVC.preference = get_preference()
+        learnVC.preference = pref
         learnVC.words = get_words(currentUser: currentUser, preference: pref)
         learnVC.currentMode = 1
         learnVC.vocab_rec_need_to_be_review = []
@@ -489,7 +490,6 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
         learnVC.currentUser = currentUser
         learnVC.preference = get_preference()
         learnVC.mainPanelViewController = self
-        
         learnVC.vocab_rec_need_to_be_review = vocab_rec_need_to_be_review
         
         let review_words = get_words_need_to_be_review(vocab_rec_need_to_be_review: vocab_rec_need_to_be_review)
@@ -498,6 +498,17 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
         learnVC.currentMode = 2
         DispatchQueue.main.async {
             self.present(learnVC, animated: true, completion: nil)
+        }
+    }
+    
+    func loadSetNumToReviewVC(vocab_rec_need_to_be_review: [VocabularyRecord]){
+        let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+        let setNumOfReviewVC = mainStoryBoard.instantiateViewController(withIdentifier: "setNumOfReviewVC") as! SetNumOfReviewVC
+        setNumOfReviewVC.modalPresentationStyle = .overCurrentContext
+        setNumOfReviewVC.mainPanelViewController = self
+        setNumOfReviewVC.vocab_rec_need_to_be_review = vocab_rec_need_to_be_review
+        DispatchQueue.main.async {
+            self.present(setNumOfReviewVC, animated: true, completion: nil)
         }
     }
     
@@ -556,7 +567,7 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
             if let _ : String = preference.current_book_id{
                 let vocab_rec_need_to_be_review:[VocabularyRecord] = get_vocab_rec_need_to_be_review()
                 if vocab_rec_need_to_be_review.count > 0{
-                    loadReviewController(vocab_rec_need_to_be_review: vocab_rec_need_to_be_review)
+                    loadSetNumToReviewVC(vocab_rec_need_to_be_review: vocab_rec_need_to_be_review)
                 }
                 else
                 {

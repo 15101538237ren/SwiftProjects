@@ -229,7 +229,7 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
             cell.iconView.image = settingItem.icon
             cell.iconView.theme_tintColor = "Global.settingIconTintColor"
             cell.nameLabel.text = settingItem.name
-            cell.valueLabel.text = row == 4 ? getStringOfReminderTime(reminderTime: preference.reminder_time) : settingItem.value
+            cell.valueLabel.text = row == 3 ? getStringOfReminderTime(reminderTime: preference.reminder_time) : settingItem.value
             return cell
         }
     }
@@ -272,10 +272,9 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
         }
         
         let timeStr = getStringOfReminderTime(reminderTime: preference.reminder_time)
-        
-        let reminderStr = timeStr == "" ? "已移除每日学习提醒" : "已设置每日提醒: \(timeStr)"
-        
-        self.view.makeToast(reminderStr, duration: 1.0, position: .center)
+        if timeStr != ""{
+            self.view.makeToast("已设置每日提醒: \(timeStr)", duration: 1.0, position: .center)
+        }
     }
     
     
