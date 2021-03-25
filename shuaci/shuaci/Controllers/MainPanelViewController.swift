@@ -102,7 +102,7 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
         let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
         
         let searchVC = mainStoryBoard.instantiateViewController(withIdentifier: "searchVC") as! SearchViewController
-        
+        searchVC.preference = get_preference()
         searchVC.modalPresentationStyle = .overCurrentContext
         
         DispatchQueue.main.async {

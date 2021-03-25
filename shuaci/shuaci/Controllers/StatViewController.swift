@@ -81,7 +81,7 @@ class StatViewController: UIViewController{
         }else if sender.selectedSegmentIndex == 2{
             initMasterChartView(dataType: .ebbinhaus)
         }else{
-            initMasterChartView(dataType: .learnStatus)
+            initMasterChartView(dataType: .lasting)
         }
     }
     
@@ -329,21 +329,10 @@ class StatViewController: UIViewController{
             }
         }
         
-        var number_of_vocab_cummulated:Int = 0
+        let number_of_vocab_cummulated:Int = global_vocabs_records.count
         var number_of_learning_secs_cummulated: Int = 0
         
-        let global_learning_records = global_records.filter { $0.recordType == 1}
-        let global_review_records = global_records.filter { $0.recordType == 2}
-        
-        for lrec in global_learning_records{
-            number_of_vocab_cummulated += lrec.vocabHeads.count
-            let difference = Calendar.current.dateComponents([.second], from: lrec.startDate, to: lrec.endDate)
-            if let secondT = difference.second {
-                number_of_learning_secs_cummulated += secondT
-            }
-        }
-        
-        for rrec in global_review_records{
+        for rrec in global_records{
             let difference = Calendar.current.dateComponents([.second], from: rrec.startDate, to: rrec.endDate)
             if let secondT = difference.second {
                 number_of_learning_secs_cummulated += secondT

@@ -328,7 +328,7 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
     func playMp3GivenWord(word: String){
         let auto_pronunciation:Bool = preference.auto_pronunciation
         
-        let mp3_url = getWordPronounceURL(word: word)
+        let mp3_url = getWordPronounceURL(word: word, us_pronounce: preference.us_pronunciation)
         if auto_pronunciation && (mp3_url != nil) {
             playMp3(url: mp3_url!)
         }
@@ -967,7 +967,7 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
             if connected{
                 let card = cards[currentIndex % 2]
                 let wordStr: String = card.wordLabel?.text ?? ""
-                if let mp3_url = getWordPronounceURL(word: wordStr){
+                if let mp3_url = getWordPronounceURL(word: wordStr, us_pronounce: preference.us_pronunciation){
                     playMp3(url: mp3_url)
                 }
             }else{

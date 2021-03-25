@@ -17,6 +17,7 @@ class FilterVocabHistoryVC: UIViewController {
     
     var numOfContinuousMemTimes:[Int] = []
     
+    @IBOutlet weak var option0: CheckboxButton!
     @IBOutlet weak var option1: CheckboxButton!
     @IBOutlet weak var option2: CheckboxButton!
     @IBOutlet weak var option3: CheckboxButton!
@@ -24,7 +25,7 @@ class FilterVocabHistoryVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        btnCtn.addButtons([option1, option2, option3])
+        btnCtn.addButtons([option0, option1, option2, option3])
         btnCtn.delegate = self
         view.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(handleDismiss)))
     }

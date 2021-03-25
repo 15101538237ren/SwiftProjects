@@ -104,6 +104,7 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
                         DispatchQueue.main.async {
                             self.nameLabel.text = name
                         }
+                        UserDefaults.standard.setValue(name, forKey: key)
                     }
                 case .failure(error: let error):
                     print(error.localizedDescription)

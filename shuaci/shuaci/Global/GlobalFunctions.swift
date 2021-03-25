@@ -872,8 +872,41 @@ func generateDatesByMonth(fromDate: Date, endDate: Date) -> [Date]{
     return dates
 }
 
+func isSameDay(date1: Date, date2: Date) -> Bool {
+    let diffDay = Calendar.current.dateComponents([.day, .month, .year], from: date1, to: date2)
+    
+    if diffDay.day == 0 && diffDay.month == 0 && diffDay.year == 0{
+        return true
+    } else {
+        return false
+    }
+}
+
+func filterBehaviorsInDiffDays(bhvs:[Int], dates:[Date]) -> [Int]{
+    var dateIndexsInDiffDays:[Int] = []
+    var lastDate:Date = Date().adding(durationVal: -100, durationType: .year)
+    let fiftyYrsAgo:Date = Date().adding(durationVal: -50, durationType: .year)
+    for di in 0..<dates.count{
+        if lastDate < fiftyYrsAgo{
+            lastDate = dates[di]
+            dateIndexsInDiffDays.append(di)
+        }else{
+            if !isSameDay(date1: dates[di], date2: lastDate){
+                lastDate = dates[di]
+                dateIndexsInDiffDays.append(di)
+            }
+        }
+    }
+    
+    var bhvsInDiffDays:[Int] = []
+    for dindex in dateIndexsInDiffDays{
+        bhvsInDiffDays.append(bhvs[dindex])
+    }
+    return bhvsInDiffDays
+}
+
 func isExactSeqMemory(vocab: VocabularyRecord) -> Bool{
-    let behaviors:[Int] = vocab.BehaviorHistory
+    let behaviors:[Int] = vocab.BehaviorHistory//filterBehaviorsInDiffDays(bhvs: vocab.BehaviorHistory, dates: vocab.BehaviorDates)
     if behaviors.count < numberOfContDaysForMasteredAWord{
         return false
     }
@@ -910,8 +943,7 @@ func isExactSeqMemory(vocab: VocabularyRecord) -> Bool{
 
 func getNumOfSeqMem(vocab: VocabularyRecord) -> Int{
     var numOfSeqMem:Int = 0
-    
-    let behaviors:[Int] = vocab.BehaviorHistory.reversed()
+    let behaviors:[Int] = vocab.BehaviorHistory.reversed()//filterBehaviorsInDiffDays(bhvs: vocab.BehaviorHistory, dates: vocab.BehaviorDates).reversed()
     
     var idx = 0
     while idx < behaviors.count && behaviors[idx] == CardBehavior.remember.rawValue{
@@ -925,7 +957,7 @@ func getNumOfSeqMem(vocab: VocabularyRecord) -> Int{
 
 func get_vocab_rec_need_to_be_review() -> [VocabularyRecord]{
     
-    let vocab_rec_need_to_be_review:[VocabularyRecord] = global_vocabs_records.filter{ !$0.Mastered && ($0.ReviewDUEDate ?? Date().adding(durationVal: 1, durationType: .hour) < Date())}
+    let vocab_rec_need_to_be_review:[VocabularyRecord] = global_vocabs_records.filter{ !$0.Mastered && !isExactSeqMemory(vocab: $0) && ($0.ReviewDUEDate ?? Date().adding(durationVal: 1, durationType: .hour) < Date())}
     
     return vocab_rec_need_to_be_review
 }

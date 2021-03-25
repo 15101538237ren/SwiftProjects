@@ -18,7 +18,7 @@ class SearchViewController: UIViewController {
     var AllInterp_keys:[String] = []
     var searching = false
     var mp3Player: AVAudioPlayer?
-    
+    var preference:Preference!
     let maxNumOfResult = 50
     var isSearchTextAscii = true
     @IBOutlet weak var backBtn: UIButton!
@@ -142,9 +142,10 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
         let hasValueInOalecd8: Int = indexItem[1]
         if hasValueInOalecd8 == 1{
             if Reachability.isConnectedToNetwork(){
-                print("pronounce \(selected_word)")
-                if let mp3_url = getWordPronounceURL(word: selected_word){
-                    playMp3(url: mp3_url)
+                if preference.auto_pronunciation{
+                    if let mp3_url = getWordPronounceURL(word: selected_word, us_pronounce: preference.us_pronunciation){
+                        playMp3(url: mp3_url)
+                    }
                 }
             }
             

@@ -58,6 +58,38 @@ class WordHistoryViewController: UIViewController, UIGestureRecognizerDelegate, 
     var groupedVocabs:[String : [VocabularyRecord]] = [:]
     var sortedKeys:[String] = []
     var sectionsExpanded:[Bool] = []
+    var allSelected:Bool = false{
+        didSet{
+            tableISEditing = allSelected
+            wordsTableView.setEditing(tableISEditing, animated: true)
+            for section in 0..<sortedKeys.count{
+                let key:String = sortedKeys[section]
+                if let groupVocab = groupedVocabs[key]{
+                    for row in 0..<groupVocab.count{
+                        cellIsSelected[key]![row] = allSelected
+                        if sectionsExpanded[section]{
+                            let indexPath = IndexPath(row: row, section: section)
+                            wordsTableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
+                        }
+                    }
+                }
+            }
+            if tableISEditing{
+                if allSelected {
+                    wordSelectionBtn.isEnabled = true
+                    wordSelectionBtn.backgroundColor = .systemBlue
+                    
+                }
+                else{
+                    wordSelectionBtn.isEnabled = false
+                    wordSelectionBtn.backgroundColor = .lightGray
+                }
+            }
+            
+            let str:String = allSelected ? "已全选" : "已清除全选"
+            view.makeToast(str, duration: 1.0, position: .center)
+        }
+    }
     
     private var DICT_URL: URL = Bundle.main.url(forResource: "DICT.json", withExtension: nil)!
     
@@ -74,12 +106,7 @@ class WordHistoryViewController: UIViewController, UIGestureRecognizerDelegate, 
         }
     }
     
-    @IBOutlet weak var filterBtn: UIButton!{
-        didSet {
-            filterBtn.layer.cornerRadius = 9.0
-            filterBtn.layer.masksToBounds = true
-        }
-    }
+    @IBOutlet weak var filterBtn: UIButton!
     
     func load_DICT(){
         do {
@@ -99,6 +126,10 @@ class WordHistoryViewController: UIViewController, UIGestureRecognizerDelegate, 
         } catch {
             print(error.localizedDescription)
         }
+    }
+    
+    @IBAction func selectAllCells(_ sender: UIButton) {
+        allSelected.toggle()
     }
     
     
@@ -548,9 +579,10 @@ extension WordHistoryViewController: UITableViewDataSource, UITableViewDelegate{
             let hasValueInOalecd8: Int = indexItem[1]
             if hasValueInOalecd8 == 1{
                 if Reachability.isConnectedToNetwork(){
-                    print("pronounce \(selected_word)")
-                    if let mp3_url = getWordPronounceURL(word: selected_word){
-                        playMp3(url: mp3_url)
+                    if preference.auto_pronunciation{
+                        if let mp3_url = getWordPronounceURL(word: selected_word, us_pronounce: preference.us_pronunciation){
+                            playMp3(url: mp3_url)
+                        }
                     }
                 }
                 
