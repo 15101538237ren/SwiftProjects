@@ -471,7 +471,7 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
         learnVC.modalPresentationStyle = .overCurrentContext
         learnVC.currentUser = currentUser
         let pref = get_preference()
-        learnVC.preference = pref
+        learnVC.preference = get_preference()
         learnVC.words = get_words(currentUser: currentUser, preference: pref)
         learnVC.currentMode = 1
         learnVC.vocab_rec_need_to_be_review = []
@@ -487,7 +487,7 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
         let learnVC = mainStoryBoard.instantiateViewController(withIdentifier: "learnWordController") as! LearnWordViewController
         learnVC.modalPresentationStyle = .overCurrentContext
         learnVC.currentUser = currentUser
-        learnVC.preference = preference
+        learnVC.preference = get_preference()
         learnVC.mainPanelViewController = self
         
         learnVC.vocab_rec_need_to_be_review = vocab_rec_need_to_be_review
@@ -722,12 +722,8 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
     }
     
     func get_preference() -> Preference{
-        if let pref = preference{
-            return pref
-        }else{
-            let pref = loadPreference(userId: currentUser.objectId!.stringValue!)
-            return pref
-        }
+        preference = loadPreference(userId: currentUser.objectId!.stringValue!)
+        return preference!
     }
     
 //    // MARK: - Navigation

@@ -46,6 +46,13 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
         }
     }
     
+    @IBOutlet var selectBookBtn: UIButton!{
+        didSet{
+            selectBookBtn.layer.cornerRadius = 15.0
+            selectBookBtn.layer.masksToBounds = true
+        }
+    }
+    
     @IBOutlet var currentLearningView: UIView!{
         didSet {
             currentLearningView.theme_backgroundColor = "StatView.panelBgColor"
@@ -124,6 +131,11 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
             self.bookNameLabel.text = "《\(current_book_name)》"
         }
         updateProgressLabels()
+        if let _ = preference.current_book_id {
+        }
+        else{
+            currentLearningView.alpha = 0.0
+        }
     }
     
     func updateProgressLabels(){
@@ -430,7 +442,6 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
             self.view.makeToast(NoNetworkStr, duration: 1.0, position: .center)
         }
     }
-    
     
     @IBAction func changeBook(_ sender: UIButton) {
         let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
