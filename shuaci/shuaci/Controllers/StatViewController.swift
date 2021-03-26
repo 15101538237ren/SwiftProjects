@@ -78,7 +78,7 @@ class StatViewController: UIViewController{
         
         if sender.selectedSegmentIndex == 1{
             initMasterChartView(dataType: .learnStatus)
-        }else if sender.selectedSegmentIndex == 2{
+        }else if sender.selectedSegmentIndex == 0{
             initMasterChartView(dataType: .ebbinhaus)
         }else{
             initMasterChartView(dataType: .lasting)
@@ -291,7 +291,7 @@ class StatViewController: UIViewController{
         view.isOpaque = false
         
         masteredChartView.theme_backgroundColor = "Global.viewBackgroundColor"
-        initMasterChartView(dataType: .lasting)
+        initMasterChartView(dataType: .ebbinhaus)
         getStatOfToday()
         super.viewDidLoad()
         
