@@ -36,6 +36,7 @@
 	<key>UIAppFonts</key>
 	<array>
 		<string>DancingScript-Medium.ttf</string>
+		<string>hydsj.ttf</string>
 	</array>
 	<key>UIApplicationSceneManifest</key>
 	<dict>

@@ -19,7 +19,7 @@ class SetNumOfReviewVC: UIViewController, UIPickerViewDelegate, UIPickerViewData
     @IBOutlet weak var setNumBtn: UIButton!
     var mainPanelViewController: MainPanelViewController!
     var vocab_rec_need_to_be_review:[VocabularyRecord]!
-    var numToReview: Int = 0
+    var numToReview: Int = 10
     let number_of_words: [Int] = [10, 20, 30, 50]
     var number_of_wordsReal: [Int] = []
     

@@ -9,12 +9,50 @@
 import UIKit
 
 class BookItemTableViewCell: UITableViewCell {
-    @IBOutlet var cover: UIImageView!{
-        didSet {
-            cover.layer.cornerRadius = 9.0
-            cover.layer.masksToBounds = true
+    var corner_radius: CGFloat = 9.0
+    @IBOutlet var upperView: UIView!{
+        didSet{
+            upperView.clipsToBounds = true
+            if #available(iOS 11.0, *) {
+                upperView.layer.cornerRadius = corner_radius
+                upperView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+                } else
+            {
+                let path = UIBezierPath(roundedRect: upperView.bounds, byRoundingCorners: [.topRight, .topLeft], cornerRadii: CGSize(width: corner_radius, height: corner_radius))
+                let maskLayer = CAShapeLayer()
+                maskLayer.path = path.cgPath
+                upperView.layer.mask = maskLayer
+            }
         }
     }
+    @IBOutlet var bottomView: UIView!{
+        didSet{
+            bottomView.clipsToBounds = true
+            if #available(iOS 11.0, *) {
+                bottomView.layer.cornerRadius = corner_radius
+                bottomView.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
+                } else
+            {
+                let path = UIBezierPath(roundedRect: bottomView.bounds, byRoundingCorners: [.bottomLeft, .bottomRight], cornerRadii: CGSize(width: corner_radius, height: corner_radius))
+                let maskLayer = CAShapeLayer()
+                maskLayer.path = path.cgPath
+                upperView.layer.mask = maskLayer
+            }
+        }
+    }
+    @IBOutlet var bookTitle: UILabel!{
+        didSet{
+            bookTitle.setLineSpacing(lineSpacing: 1.5, lineHeightMultiple: 1.0)
+            bookTitle.textAlignment = .center
+        }
+    }
+    @IBOutlet var bookSubtitle: UILabel!{
+        didSet{
+            bookSubtitle.setLineSpacing(lineSpacing: 1.5, lineHeightMultiple: 1.0)
+            bookSubtitle.textAlignment = .center
+        }
+    }
+    
     @IBOutlet weak var dimUIView: UIView!{
         didSet{
             dimUIView.theme_backgroundColor = "Global.viewBackgroundColor"

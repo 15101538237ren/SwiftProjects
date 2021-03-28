@@ -36,6 +36,39 @@ let categories:[Int: [String: [Int: String]]] = [
     8: ["category": [0:"其他"], "subcategory": [0:"全部", 1: "词组", 2: "新概念", 3: "老版词书", 4: "词汇量", 9: "全国等级考试", 10: "其他"]],
 ]
 
+let categories_with_fullnames:[Int] = [2, 5, 6]
+
+let color_categories:[Int :[Int:String]] = [1 : [1: "red1", 2: "red1", 3: "red1", 4: "red2", 5: "red2", 6: "red2", 7: "red2", 8: "red2"],
+                        2: [1: "blue1", 2: "blue2", 3: "blue3", 4: "blue4", 5: "blue4", 6: "blue1", 7: "blue2"],
+                        3: [1: "purple1", 2: "purple2", 3: "purple3", 4: "purple4", 5: "purple4"],
+                        4: [1: "blue5", 2: "green6"],
+                        5: [1: "green1", 2: "green2", 3: "green3",
+                                                               4: "green4", 5: "green5", 6: "green6",
+                                                               7: "green1", 8: "green2", 9: "green3"],
+                        6: [1: "pink1", 2: "pink2", 3: "red2", 4: "orange1", 5: "orange2"
+                            , 6: "yellow2", 7: "yellow1", 8: "blue2", 9: "blue3", 10: "yellow2"
+                            , 11: "green1", 12: "red1", 13: "blue1", 14: "purple1", 15: "purple2"],
+                        7: [1: "brown1", 2: "brown2", 3: "brown3"],
+                        8: [1: "orange1", 2: "orange1", 3: "yellow2", 4: "yellow1", 9: "yellow1", 10: "yellow2"]]
+
+let light_color_palatte = ["pink1": "f6bed6", "pink2": "ffc1fa",
+                           "red1": "cf1b1b", "red2": "f67280",
+                           "orange1": "fa7d09", "orange2": "ffcdab", "orange3": "ff8585",
+                           "yellow1": "edbc49", "yellow2": "f7b679",
+                           "green1": "76bd69", "green2": "a2de96", "green3": "a7d7c5", "green4": "cdffeb", "green5": "c6e377", "green6": "b9e937",
+                          "blue1": "b2ebf2", "blue2": "bbe1fa", "blue3": "1e56a0", "blue4": "2e94b9", "blue5": "c7eeff",
+                          "purple1": "8186d5", "purple2": "a06ee1", "purple3": "caabd8", "purple4": "9873b9",
+                          "brown1": "905858", "brown2": "d2c8c8", "brown3": "d65f00"]
+
+let dark_color_palatte = ["pink1": "e79cc2", "pink2": "f09ae9",
+                          "red1": "900d0d", "red2": "c06c84",
+                          "orange1": "ff4301", "orange2": "ffcdab", "orange3": "ff5757",
+                          "yellow1": "e79c2a", "yellow2": "ffd00c",
+                          "green1": "46914e", "green2": "3ca59d", "green3": "74b49b", "green4": "009f9d", "green5": "729d39", "green6": "57d131",
+                          "blue1": "00bcd4", "blue2": "3282b8", "blue3": "163172", "blue4": "005691", "blue5": "2e94b9",
+                          "purple1": "494ca2", "purple2": "421b9b", "purple3": "9873b9", "purple4": "0077c0",
+                          "brown1": "5d3a3a", "brown2": "a3816a", "brown3": "c04d00"]
+
 func getCurrentBook(preference: Preference) -> Book?{
     if let bookId = preference.current_book_id{
         if currentbook_json_obj.count == 0{

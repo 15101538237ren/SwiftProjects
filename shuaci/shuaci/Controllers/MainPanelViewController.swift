@@ -502,13 +502,18 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
     }
     
     func loadSetNumToReviewVC(vocab_rec_need_to_be_review: [VocabularyRecord]){
-        let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
-        let setNumOfReviewVC = mainStoryBoard.instantiateViewController(withIdentifier: "setNumOfReviewVC") as! SetNumOfReviewVC
-        setNumOfReviewVC.modalPresentationStyle = .overCurrentContext
-        setNumOfReviewVC.mainPanelViewController = self
-        setNumOfReviewVC.vocab_rec_need_to_be_review = vocab_rec_need_to_be_review
-        DispatchQueue.main.async {
-            self.present(setNumOfReviewVC, animated: true, completion: nil)
+        if vocab_rec_need_to_be_review.count < 10{
+            loadReviewController(vocab_rec_need_to_be_review: vocab_rec_need_to_be_review)
+        }
+        else{
+            let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+            let setNumOfReviewVC = mainStoryBoard.instantiateViewController(withIdentifier: "setNumOfReviewVC") as! SetNumOfReviewVC
+            setNumOfReviewVC.modalPresentationStyle = .overCurrentContext
+            setNumOfReviewVC.mainPanelViewController = self
+            setNumOfReviewVC.vocab_rec_need_to_be_review = vocab_rec_need_to_be_review
+            DispatchQueue.main.async {
+                self.present(setNumOfReviewVC, animated: true, completion: nil)
+            }
         }
     }
     

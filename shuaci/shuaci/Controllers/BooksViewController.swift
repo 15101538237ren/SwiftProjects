@@ -370,31 +370,25 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
             let cell = tableView.dequeueReusableCell(withIdentifier: "bookItemCell", for: indexPath) as! BookItemTableViewCell
-            cell.cover.image = UIImage(named: "english_book")
             cell.selectionStyle = .none
             let index: Int = indexPath.row
             if index < books.count{
                 let book = books[index]
                 cell.identifier = book.identifier
                 cell.name.text = book.name
-                cell.introduce.text = book.description
+                let level1_category:Int = book.level1_category.intValue!
+                let level2_category:Int = book.level2_category.intValue!
+                let level1_category_name:String = categories[level1_category]!["category"]![0]!
+                let level2_category_name:String = categories[level1_category]!["subcategory"]![level2_category]!
+                let category_name = categories_with_fullnames.contains(level1_category) ? "\(level1_category_name)\(level2_category_name)" : level2_category_name
+                cell.bookTitle.text = category_name
+                cell.bookSubtitle.text = book.name
+                cell.upperView.backgroundColor = UIColor.init(hex: "#\(dark_color_palatte[color_categories[level1_category]![level2_category]!]!)") ?? .systemGreen
+                cell.bottomView.backgroundColor = UIColor.init(hex: "#\(light_color_palatte[color_categories[level1_category]![level2_category]!]!)") ?? .systemGreen
+                cell.introduce.text = book.name
                 cell.num_word.text = "\(book.word_num)"
                 cell.num_recite.text = (book.recite_user_num > 10000) ? "\(Int(Float(book.recite_user_num) / 10000.0))万" : "\(book.recite_user_num)"
-                cell.cover.layer.cornerRadius = 9.0
-                cell.cover.layer.masksToBounds = true
-                // Check if the image is stored in cache
             }
-        
-        let image_fp = "\(books[indexPath.row].name).jpg"
-        do {
-            let image = try Disk.retrieve(image_fp, from: .caches, as: UIImage.self)
-            DispatchQueue.main.async {
-                cell.cover.image = image
-                cell.setNeedsLayout()
-            }
-        } catch {
-            print(error)
-        }
         
         cell.backgroundColor = .clear
         return cell

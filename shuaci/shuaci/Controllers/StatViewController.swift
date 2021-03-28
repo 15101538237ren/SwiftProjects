@@ -282,6 +282,7 @@ class StatViewController: UIViewController{
     
     override func viewDidLoad() {
         view.theme_backgroundColor = "Global.viewBackgroundColor"
+//        view.backgroundColor = .white
         backBtn.theme_tintColor = "Global.backBtnTintColor"
         barTitleLabel.theme_textColor = "Global.barTitleColor"
         
