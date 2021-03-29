@@ -24,7 +24,9 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
         SettingItem(symbol_name : "rate_app", name: "评价应用", value: "v1.0.0"),
         SettingItem(symbol_name : "bubble.left.and.bubble.right", name: "意见反馈", value: ""),
         SettingItem(symbol_name : "share", name: "推荐给好友", value: ""),
-        SettingItem(symbol_name : "q_and_a", name: "常见问题", value: "")
+        SettingItem(symbol_name : "q_and_a", name: "常见问题", value: ""),
+        SettingItem(symbol_name : "document", name: "服务条款", value: ""),
+        SettingItem(symbol_name : "privacy", name: "隐私政策", value: "")
     ]
     
     
@@ -331,12 +333,46 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
             DispatchQueue.main.async {
                 self.present(reminderTimePickerVC, animated: true, completion: nil)
             }
+        case 4:
+            askUserExperienceBeforeReview()
         case 5:
             showFeedBackMailComposer()
         default:
             break
         }
         tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
+    func askUserExperienceBeforeReview(){
+        let alertController = UIAlertController(title: "评价反馈", message: "您在本应用使用体验如何?", preferredStyle: .alert)
+        let okayAction = UIAlertAction(title: "很赞!必须五星好评", style: .default, handler: { action in
+            self.requestWriteReview()
+        })
+        let cancelAction = UIAlertAction(title: "用的不爽，反馈意见给开发者", style: .default, handler: { action in self.showFeedBackMailComposer()
+        })
+        alertController.addAction(okayAction)
+        alertController.addAction(cancelAction)
+        self.present(alertController, animated: true, completion: nil)
+    }
+    
+    func requestWriteReview(){
+        if let url = productURL{
+            // 1.
+            var components = URLComponents(url: url, resolvingAgainstBaseURL: false)
+
+            // 2.
+            components?.queryItems = [
+              URLQueryItem(name: "action", value: "write-review")
+            ]
+
+            // 3.
+            guard let writeReviewURL = components?.url else {
+              return
+            }
+
+            // 4.
+            UIApplication.shared.open(writeReviewURL)
+        }
     }
     
     func update_preference(pref: Preference){

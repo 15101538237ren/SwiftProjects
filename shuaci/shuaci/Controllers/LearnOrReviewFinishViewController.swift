@@ -106,7 +106,9 @@ class LearnOrReviewFinishViewController: UIViewController {
     }
     
     @IBAction func unwind(segue: UIButton) {
-        self.dismiss(animated: true, completion: nil)
+        self.dismiss(animated: true, completion: {
+            AppStoreReviewManager.requestReviewIfAppropriate()
+        })
     }
     
     func setDateLabel(){

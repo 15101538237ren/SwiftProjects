@@ -24,6 +24,8 @@ let retentionOfEbbinhaus:[Double] = [100.0, 44.2, 33.7, 27.2, 26.0, 25.2, 21, 15
 let minNumOfVocabsForRetentionCalc:Double = 2
 // MARK: - Constants
 
+let productURL = URL(string: "https://itunes.apple.com/app/id1560571805")
+let minimumReviewWorthyActionCount = 2
 let LCAppId: String = "5uWh02cHlO4NIBMyM1rAaRRm-gzGzoHsz"
 let LCKey: String = "MbgqYXQna9aFYQq7GRqRWHkA"
 let OfficialEmail = "shuaci@outlook.com"
