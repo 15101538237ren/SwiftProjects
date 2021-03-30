@@ -46,5 +46,6 @@ let hud = JGProgressHUD(style: .light)
 
 let numOfDayInStatCurve:Int = 7
 
-
+let wexinAppId:String = "wx42c3db507ab657fd"
+let wexinAppSecret:String = "05aa97ef930d5dd0a63e070167455456"
 

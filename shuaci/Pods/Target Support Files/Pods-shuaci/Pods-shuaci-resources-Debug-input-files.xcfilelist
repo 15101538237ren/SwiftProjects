@@ -1,0 +1,5 @@
+${PODS_ROOT}/Target Support Files/Pods-shuaci/Pods-shuaci-resources.sh
+${PODS_ROOT}/UMCCommonLog/UMCommonLog/UMCommonLog.bundle
+${PODS_ROOT}/UMCShare/UMShare/SocialLibraries/Twitter/TwitterKitResources.bundle
+${PODS_ROOT}/UMCShare/UMShare/SocialLibraries/Twitter/TwitterShareExtensionUIResources.bundle
+${PODS_ROOT}/UMCShare/UMShare/UMSocialUI/UMSocialSDKResources.bundle

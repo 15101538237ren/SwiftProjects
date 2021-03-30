@@ -79,6 +79,7 @@
 		55537E39254BBEE4005081CF /* WallpaperDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WallpaperDetailVC.swift; sourceTree = "<group>"; };
 		5577BE0A254A8767008A1F14 /* WallpaperCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WallpaperCollectionViewCell.swift; sourceTree = "<group>"; };
 		5577BE0F254A88F0008A1F14 /* GlobalConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalConstants.swift; sourceTree = "<group>"; };
+		559CC01D2612A65200CA7746 /* fullwallpaper-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "fullwallpaper-Bridging-Header.h"; path = "fullwallpaper/fullwallpaper-Bridging-Header.h"; sourceTree = "<group>"; };
 		55F39923254A624D0094A477 /* fullwallpaper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = fullwallpaper.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		55F39926254A624D0094A477 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		55F39928254A624D0094A477 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -91,7 +92,6 @@
 		C30B71FA258DB868002A673D /* PolicyVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolicyVC.swift; sourceTree = "<group>"; };
 		C311F9C2255E1124000FCED2 /* UploadWallpaperVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadWallpaperVC.swift; sourceTree = "<group>"; };
 		C311F9C5255E14B5000FCED2 /* GlobalEnums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalEnums.swift; sourceTree = "<group>"; };
-		C316911B258E7DAD00C8B06F /* fullwallpaper-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "fullwallpaper-Bridging-Header.h"; sourceTree = "<group>"; };
 		C32CB0CB2579F47C000DDCF1 /* SetUserProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetUserProfileVC.swift; sourceTree = "<group>"; };
 		C33D6FF925998DD500C934F5 /* Device.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Device.swift; sourceTree = "<group>"; };
 		C3543294258C761600D66A8A /* UIColor+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Ext.swift"; sourceTree = "<group>"; };
@@ -189,6 +189,7 @@
 		55F3991A254A624D0094A477 = {
 			isa = PBXGroup;
 			children = (
+				559CC01D2612A65200CA7746 /* fullwallpaper-Bridging-Header.h */,
 				55F39925254A624D0094A477 /* fullwallpaper */,
 				55F39924254A624D0094A477 /* Products */,
 				1CC78923427563132D934FFC /* Pods */,
@@ -224,7 +225,6 @@
 				55F3992F254A624D0094A477 /* Assets.xcassets */,
 				55F39931254A624D0094A477 /* LaunchScreen.storyboard */,
 				55F39934254A624D0094A477 /* Info.plist */,
-				C316911B258E7DAD00C8B06F /* fullwallpaper-Bridging-Header.h */,
 			);
 			path = fullwallpaper;
 			sourceTree = "<group>";
@@ -648,7 +648,7 @@
 				CODE_SIGN_ENTITLEMENTS = fullwallpaper/fullwallpaper.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = WDA59C4558;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = fullwallpaper/Info.plist;
@@ -659,7 +659,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.hongleir.fullwallpaper.cn;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_OBJC_BRIDGING_HEADER = "/Users/hongleir/Projects/SwiftProject/fullwallpaper/fullwallpaper/fullwallpaper-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "/Users/emmanueldollinger/SwiftProject/fullwallpaper/fullwallpaper/fullwallpaper-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -674,7 +674,7 @@
 				CODE_SIGN_ENTITLEMENTS = fullwallpaper/fullwallpaper.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = WDA59C4558;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = fullwallpaper/Info.plist;
@@ -685,7 +685,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.hongleir.fullwallpaper.cn;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_OBJC_BRIDGING_HEADER = "/Users/hongleir/Projects/SwiftProject/fullwallpaper/fullwallpaper/fullwallpaper-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "/Users/emmanueldollinger/SwiftProject/fullwallpaper/fullwallpaper/fullwallpaper-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};

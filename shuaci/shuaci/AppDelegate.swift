@@ -20,6 +20,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        self.setupLeanCloud()
+        self.setupUmeng(launchOptions: launchOptions)
+        return true
+    }
+    
+    func setupLeanCloud(){
         do {
             
             try LCApplication.default.set(
@@ -29,10 +35,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         } catch {
             print(error)
         }
-        
-//        LCApplication.logLevel = .all
-        return true
     }
+    
+    func setupUmeng(launchOptions: [UIApplication.LaunchOptionsKey: Any]?) {
+            
+            /// 友盟初始化
+            UMCommonLogSwift.setUpUMCommonLogManager()
+            UMCommonSwift.initWithAppkey(appKey: Config.share.keyUmeng, channel: Config.share.channelID)
+            UMCommonSwift.setLogEnabled(bFlag: Config.share.isEnableUmengLog)
+            print("Device ID")
+            print(UMCommonSwift.deviceIDForIntegration())
+        }
 
     // MARK: UISceneSession Lifecycle
 
@@ -47,7 +60,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // If any sessions were discarded while the application was not running, this will be called shortly after application:didFinishLaunchingWithOptions.
         // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
     }
-
 
 }
 

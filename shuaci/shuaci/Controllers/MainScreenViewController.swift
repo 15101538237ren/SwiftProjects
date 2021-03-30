@@ -299,5 +299,8 @@ class MainScreenViewController: UIViewController {
     }
     
     
+    @IBAction func wexinLogin(_ sender: UIButton) {
+        
+    }
     
 }

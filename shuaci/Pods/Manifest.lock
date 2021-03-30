@@ -30,8 +30,41 @@ PODS:
   - SwiftTheme (0.5.5)
   - SwiftValidators (9.0.3)
   - SwiftyJSON (5.0.0)
+  - SwiftyStoreKit (0.16.1)
   - Toast-Swift (5.0.1)
   - UIEmptyState (5.0.0)
+  - UMAPM (1.1.1)
+  - UMCCommon (7.2.5):
+    - UMAPM
+    - UMDevice
+  - UMCCommonLog (2.0.0)
+  - UMCPush (3.3.1):
+    - UMCCommon
+  - UMCSecurityPlugins (1.0.6)
+  - UMCShare/Core (6.10.2):
+    - UMCCommon
+  - UMCShare/Social/Douban (6.10.2):
+    - UMCCommon
+    - UMCShare/Core
+  - UMCShare/Social/Facebook (6.10.2):
+    - UMCCommon
+    - UMCShare/Core
+  - UMCShare/Social/ReducedQQ (6.10.2):
+    - UMCCommon
+    - UMCShare/Core
+  - UMCShare/Social/ReducedSina (6.10.2):
+    - UMCCommon
+    - UMCShare/Core
+  - UMCShare/Social/ReducedWeChat (6.10.2):
+    - UMCCommon
+    - UMCShare/Core
+  - UMCShare/Social/Twitter (6.10.2):
+    - UMCCommon
+    - UMCShare/Core
+  - UMCShare/UI (6.10.2):
+    - UMCCommon
+    - UMCShare/Core
+  - UMDevice (1.1.0)
 
 DEPENDENCIES:
   - AAInfographics (from `https://github.com/AAChartModel/AAChartKit-Swift.git`)
@@ -48,8 +81,21 @@ DEPENDENCIES:
   - SwiftTheme
   - SwiftValidators
   - SwiftyJSON
+  - SwiftyStoreKit
   - Toast-Swift
   - UIEmptyState
+  - UMAPM
+  - UMCCommon
+  - UMCCommonLog
+  - UMCPush
+  - UMCSecurityPlugins
+  - UMCShare/Social/Douban
+  - UMCShare/Social/Facebook
+  - UMCShare/Social/ReducedQQ
+  - UMCShare/Social/ReducedSina
+  - UMCShare/Social/ReducedWeChat
+  - UMCShare/Social/Twitter
+  - UMCShare/UI
 
 SPEC REPOS:
   trunk:
@@ -67,8 +113,16 @@ SPEC REPOS:
     - SwiftTheme
     - SwiftValidators
     - SwiftyJSON
+    - SwiftyStoreKit
     - Toast-Swift
     - UIEmptyState
+    - UMAPM
+    - UMCCommon
+    - UMCCommonLog
+    - UMCPush
+    - UMCSecurityPlugins
+    - UMCShare
+    - UMDevice
 
 EXTERNAL SOURCES:
   AAInfographics:
@@ -102,9 +156,17 @@ SPEC CHECKSUMS:
   SwiftTheme: 585ead917c78ea3fc508437b0a141d29c034bdb0
   SwiftValidators: b1cb650ce02ef6ad894f1d471f970b249c794342
   SwiftyJSON: 36413e04c44ee145039d332b4f4e2d3e8d6c4db7
+  SwiftyStoreKit: 6b9c08810269f030586dac1fae8e75871a82e84a
   Toast-Swift: 9b6a70f28b3bf0b96c40d46c0c4b9d6639846711
   UIEmptyState: 69a89a434a6609365f6adcf691458936c70f6d00
+  UMAPM: d0623e0b3ca8b1a1df855e0bddb91b5c002d097d
+  UMCCommon: f7480d316381612f90cdde3a3c0f39a7e2c0a788
+  UMCCommonLog: 9b7ddde5d14a52fc1986ba5ac3121b8b2f433638
+  UMCPush: af977ec99bbf34558825e907c58f6b76f6c7f897
+  UMCSecurityPlugins: 0831a08f3988f3cea9f1d3a7626cd9bee4fef150
+  UMCShare: e14e1399673fa361cddbde3a05b3743e10f673f7
+  UMDevice: 28d21a568c8e8322e5a03bbd53b138d0c098d3b3
 
-PODFILE CHECKSUM: 92fbef949e31952bcbcb050978a431a9116e961d
+PODFILE CHECKSUM: 845aec469cb2de6ea9af5924036c9aaf6a8dc796
 
 COCOAPODS: 1.9.3
