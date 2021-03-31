@@ -77,7 +77,7 @@ var scene_backgrounds: [Int: String] = [
 
 var cardBackgrounds: [Int: String] = [
     1 : "light-blue",
-    2 : "dark_blue",
+    2 : "dark-blue",
     3 : "black",
     4 : "green",
     5 : "red",

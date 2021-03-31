@@ -1,7 +1,7 @@
 {
   "images" : [
     {
-      "filename" : "purple.png",
+      "filename" : "light-blue.jpeg",
       "idiom" : "universal",
       "scale" : "1x"
     },
@@ -19,7 +19,6 @@
     "version" : 1
   },
   "properties" : {
-    "compression-type" : "lossless",
     "template-rendering-intent" : "original"
   }
 }
