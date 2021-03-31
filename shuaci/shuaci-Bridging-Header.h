@@ -26,4 +26,8 @@
 // U-Share分享面板SDK，未添加分享面板SDK可将此行去掉
 #import <UShareUI/UShareUI.h>
 
+#import "WXApi.h"
+#import "WXApiObject.h"
+#import <CommonCrypto/CommonCrypto.h>
+
 #endif /* shuaci_Bridging_Header_h */

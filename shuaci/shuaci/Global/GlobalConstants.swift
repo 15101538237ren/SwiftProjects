@@ -47,8 +47,8 @@ let hud = JGProgressHUD(style: .light)
 let numOfDayInStatCurve:Int = 7
 
 let wexinAppId:String = "wx42c3db507ab657fd"
-let wexinAppSecret:String = "05aa97ef930d5dd0a63e070167455456"
+let wexinAppSecret:String = "b7ead6152fe001e053255c989c64b940"
 
-let QQKey:String = "wx42c3db507ab657fd"
-let QQAppSecret:String = "05aa97ef930d5dd0a63e070167455456"
+let QQKey:String = "101943862"
+let QQAppSecret:String = "60e06004933e39bc3c565f1f79a8ad58"
 
