@@ -30,29 +30,25 @@ class MainScreenViewController: UIViewController {
     let animationDuration = 0.1
     
     var cardWords:[CardWord] = [
-                                CardWord.init(headWord: "forest", meaning: "n. 森林", phone: "ˈfɔːrɪst"),
-                                CardWord.init(headWord: "sea", meaning: "n.海；海洋", phone: "siː"),
-                                CardWord.init(headWord: "canyon", meaning: "n. 峡谷", phone: "ˈkænjən"),
-                                CardWord.init(headWord: "aurora", meaning: "n.极光；曙光", phone: "ɔ:'rɔ:rə"),
-                                CardWord.init(headWord: "coast", meaning: "n. 海岸", phone: "koʊst"),
-                                CardWord.init(headWord: "bonfire", meaning: "n. 篝火", phone: "ˈbɑːnfaɪər"),
-                                CardWord.init(headWord: "glacier", meaning: "n. 冰河，冰川", phone: "ˈɡleɪʃər"),
-                                CardWord.init(headWord: "marriage", meaning: "n. 结婚；婚姻", phone: "ˈmærɪdʒ"),
-                                CardWord.init(headWord: "metropolis", meaning: "n. 大都市", phone: "məˈtrɑːpəlɪs"),
-                                CardWord.init(headWord: "Paris", meaning: "n.巴黎", phone: "'pærɪs"),
-                                CardWord.init(headWord: "Cappuccino", meaning: "n. 卡布奇诺咖啡", phone: "ˌkæpuˈtʃiːnoʊ"),
-                                CardWord.init(headWord: "strawberry", meaning: "n. 草莓", phone: "ˈstrɔːberi"),
-                                CardWord.init(headWord: "galaxy", meaning: "n.星系；银河系", phone: "ˈɡæləksi"),
-                                CardWord.init(headWord: "character", meaning: "n. 角色；特性", phone: "ˈkærəktər"),
-                                CardWord.init(headWord: "cliff", meaning: "n. 悬崖", phone: "klɪf"),
-                                CardWord.init(headWord: "hiking", meaning: "n. 徒步旅行", phone: "ˈhaɪkɪŋ"),
-                                CardWord.init(headWord: "avocado", meaning: "n. 牛油果；鳄梨", phone: "ˌævəˈkɑːdoʊ"),
-                                CardWord.init(headWord: "bridge", meaning: "n. 桥", phone: "brɪdʒ"),
-                                CardWord.init(headWord: "portrait", meaning: "n. 人像", phone: "ˈpɔːrtrət"),
-                                CardWord.init(headWord: "beach", meaning: "n.海滩，沙滩", phone: "bitʃ"),
-                                CardWord.init(headWord: "robot", meaning: "n. 机器人", phone: "ˈroʊbɑːt"),
-                                CardWord.init(headWord: "penguin", meaning: "n. 企鹅", phone: "ˈpeŋɡwɪn"),
-                                CardWord.init(headWord: "smile", meaning: "n.微笑", phone: "smaɪl")]
+                                CardWord.init(headWord: "rainforest", meaning: "n. 雨林", memMethod: "rain(雨) + forest(森林) → 雨林"),
+                                CardWord.init(headWord: "starfish", meaning: "n. 海星", memMethod: "star(星星) + fish(鱼) → 星形鱼 → 海星"),
+                                CardWord.init(headWord: "strawberry", meaning: "n.草莓", memMethod: "straw(稻)草 + berry (浆果) → 草莓"),
+                                CardWord.init(headWord: "cupcake", meaning: "n.纸杯蛋糕", memMethod: "cup(杯子) + cake(蛋糕) → 纸杯蛋糕"),
+                                CardWord.init(headWord: "glacier", meaning: "n. 冰河，冰川", memMethod: "glac(冰) + ier → 冰川"),
+                                CardWord.init(headWord: "bookmark", meaning: "n.书签", memMethod: "book(书) + mark(标记) → 书签"),
+                                CardWord.init(headWord: "rainbow", meaning: "n.彩虹", memMethod: "rain(雨) ＋ bow(弓) → 雨后天边出现如弓的彩虹 → 彩虹"),
+                                CardWord.init(headWord: "metropolis", meaning: "n.大都市", memMethod: "metro(大的) + polis(城市) → 大都市"),
+                                CardWord.init(headWord: "armchair", meaning: "n. 扶手椅", memMethod: "arm(手臂) + chair(椅子) → 可以放手臂的椅子"),
+                                CardWord.init(headWord: "sunhat", meaning: "n.遮阳帽", memMethod: "sun(太阳) + hat(帽) → 遮阳帽"),
+                                CardWord.init(headWord: "ceramic", meaning: "adj.陶器的", memMethod: "ceram(陶瓷) + ic → 陶器的"),
+                                CardWord.init(headWord: "doughnut", meaning: "n.甜甜圈", memMethod: "dough(面团) + nut(坚果、核心) → 核心空心的带坚果的面团"),
+                                CardWord.init(headWord: "galaxy", meaning: "n.星系；银河系", memMethod: "ˈ源自希腊文galaxias， 词根gala意为乳汁。"),
+                                CardWord.init(headWord: "snowflake", meaning: "n. 雪花", memMethod: "snow(雪) ＋ flake(片) → 雪花,雪片"),
+                                CardWord.init(headWord: "crosswalk", meaning: "n.人行横道", memMethod: "cross(交叉，十字) + walk(走) → 十字路口供行人走的路"),
+                                CardWord.init(headWord: "cliff", meaning: "n. 悬崖", memMethod: "cli(看作climb， 爬) ＋ ff(像两个钩子) → 用钩子攀岩 → 悬崖， 峭壁"),
+                                CardWord.init(headWord: "sunflower", meaning: "n. 向日葵", memMethod: "sun(太阳) + flower(花) → 向日葵又称太阳花"),
+                                CardWord.init(headWord: "necklace", meaning: "n. 项链", memMethod: "neck(脖子) + lace(绳，花边，蕾丝) → 项链"),
+                                CardWord.init(headWord: "cowboy", meaning: "n. 牛仔", memMethod: "cow(母牛) + boy(男孩) → 农场管理母牛的男孩 → 牛仔")]
     override func viewDidLoad() {
         super.viewDidLoad()
     }

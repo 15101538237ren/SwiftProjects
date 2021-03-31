@@ -15,7 +15,7 @@ class CardWord
     var phone: String
     var accent: String
     var memMethod: String
-    init(headWord: String, meaning:String, phone: String,accent: String="美", memMethod: String = "") {
+    init(headWord: String, meaning:String, phone: String = "",accent: String="美", memMethod: String = "") {
         self.headWord = headWord
         self.phone = phone
         self.accent = accent
