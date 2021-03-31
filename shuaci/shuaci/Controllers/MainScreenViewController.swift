@@ -11,6 +11,7 @@ import LeanCloud
 import AVFoundation
 
 class MainScreenViewController: UIViewController {
+    var isGetUserInfo = false
     @IBOutlet var mainScreenUIView: MainScreenUIView!
     @IBOutlet var launchUIView: UIView!
     @IBOutlet var cards: [CardUIView]!{
@@ -300,7 +301,19 @@ class MainScreenViewController: UIViewController {
     
     
     @IBAction func wexinLogin(_ sender: UIButton) {
+        if isGetUserInfo {
+            getAuthInfoFromWechatUser(withVC: self, completion: { (info, error) -> (Void) in
+                 print(error)
+                 print("INFO")
+                 print(info)
+            })
         
+        } else {
+            getUserInfo(withType: UMSocialPlatformType.wechatSession, withVC: self, completion: { (info, error) -> (Void) in
+                print("INFO")
+                print(info)
+            })
+        }
     }
     
 }

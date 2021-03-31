@@ -35,4 +35,5 @@ target 'shuaci' do
   pod 'UMCShare/Social/Facebook'
   pod 'UMCShare/Social/Twitter'
   pod 'UMCShare/Social/Douban'
+  pod 'WechatOpenSDK'
 end

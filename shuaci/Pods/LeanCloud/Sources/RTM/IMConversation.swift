@@ -441,12 +441,19 @@ public class IMConversation {
         try self._update(attribution: data, completion: completion)
     }
 
-    /// Fetching the table of member infomation in the conversation.
-    /// The result will be cached by the property `memberInfoTable`.
+    /// Fetching the table of member infomation in this conversation.
+    /// The result will be cached in the property `memberInfoTable`.
     ///
-    /// - Parameter completion: Result of callback.
-    public func fetchMemberInfoTable(completion: @escaping (LCBooleanResult) -> Void) {
-        self._fetchMemberInfoTable { (client, result) in
+    /// - Parameters:
+    ///   - limit: The max number of results, default is `500`.
+    ///   - offset: The number of objects to skip.
+    ///   - completion: Result of callback.
+    public func fetchMemberInfoTable(
+        limit: Int = 500,
+        offset: Int? = nil,
+        completion: @escaping (LCBooleanResult) -> Void)
+    {
+        self._fetchMemberInfoTable(limit: limit, offset: offset) { (client, result) in
             client.eventQueue.async {
                 completion(result)
             }
@@ -878,11 +885,14 @@ extension IMConversation {
     // MARK: Message Reading
 
     private func _read(message: IMMessage?) {
-        guard self.unreadMessageCount > 0,
+        guard
+            self.convType != .transient,
+            self.unreadMessageCount > 0,
             let message = message ?? self.lastMessage,
             let messageID = message.ID,
-            let timestamp = message.sentTimestamp else {
-                return
+            let timestamp = message.sentTimestamp
+        else {
+            return
         }
         self.isUnreadMessageContainMention = false
         self.client?.sendCommand(constructor: { () -> IMGenericCommand in
@@ -1168,6 +1178,17 @@ extension IMConversation {
                     code: .inconsistency,
                     reason: "Not support, client options not contains \(IMClient.Options.receiveUnreadMessageCountAfterSessionDidOpen).")
             }
+        }
+        guard
+            self.convType != .transient,
+            self.convType != .system
+        else {
+            let convClassName = (self.convType == .transient)
+                ? "\(IMChatRoom.self)"
+                : "\(IMServiceConversation.self)"
+            throw LCError(
+                code: .inconsistency,
+                reason: "\(convClassName) NOT support this function.")
         }
         self.client?.sendCommand(constructor: { () -> IMGenericCommand in
             var outCommand = IMGenericCommand()
@@ -1915,39 +1936,55 @@ extension IMConversation {
         }
     }
 
-    private func _fetchMemberInfoTable(completion: @escaping (IMClient, LCBooleanResult) -> Void) {
+    private func _fetchMemberInfoTable(
+        limit: Int = 500,
+        offset: Int? = nil,
+        completion: @escaping (IMClient, LCBooleanResult) -> Void)
+    {
         self.client?.serialQueue.async {
             self.client?.getSessionToken(completion: { (client, result) in
                 assert(client.specificAssertion)
                 switch result {
                 case .success(value: let token):
-                    let header: [String: String] = [
-                        "X-LC-IM-Session-Token": token,
-                    ]
-                    let parameters: [String: Any] = [
-                        "client_id": client.ID,
-                        "cid": self.ID,
-                    ]
-                    _ = client.application.httpClient.request(
-                        .get, "classes/_ConversationMemberInfo",
-                        parameters: parameters,
-                        headers: header)
-                    { (response) in
-                        if let error = LCError(response: response) {
-                            completion(client, .failure(error: error))
-                        } else if let results = response.results as? [[String: Any]] {
-                            let creator = self.creator
-                            var table: [String: MemberInfo] = [:]
-                            for rawData in results {
-                                if let info = MemberInfo(rawData: rawData, creator: creator) {
-                                    table[info.ID] = info
-                                }
-                            }
-                            self.sync(self._memberInfoTable = table)
-                            completion(client, .success)
-                        } else {
+                    do {
+                        guard let whereString = try ["cid": self.ID].jsonString() else {
                             completion(client, .failure(error: LCError(code: .malformedData)))
+                            return
                         }
+                        let header: [String: String] = [
+                            "X-LC-IM-Session-Token": token,
+                        ]
+                        var parameters: [String: Any] = [
+                            "client_id": client.ID,
+                            "where": whereString,
+                            "limit": limit,
+                        ]
+                        if let offset = offset {
+                            parameters["skip"] = offset
+                        }
+                        _ = client.application.httpClient.request(
+                            .get, "classes/_ConversationMemberInfo",
+                            parameters: parameters,
+                            headers: header)
+                        { (response) in
+                            if let error = LCError(response: response) {
+                                completion(client, .failure(error: error))
+                            } else if let results = response.results as? [[String: Any]] {
+                                let creator = self.creator
+                                var table: [String: MemberInfo] = [:]
+                                for rawData in results {
+                                    if let info = MemberInfo(rawData: rawData, creator: creator) {
+                                        table[info.ID] = info
+                                    }
+                                }
+                                self.sync(self._memberInfoTable = table)
+                                completion(client, .success)
+                            } else {
+                                completion(client, .failure(error: LCError(code: .malformedData)))
+                            }
+                        }
+                    } catch {
+                        completion(client, .failure(error: LCError(error: error)))
                     }
                 case .failure(error: let error):
                     completion(client, .failure(error: error))
@@ -2969,7 +3006,7 @@ public class IMServiceConversation: IMConversation {
     }
 
     @available(*, unavailable)
-    public override func fetchMemberInfoTable(completion: @escaping (LCBooleanResult) -> Void) {
+    public override func fetchMemberInfoTable(limit: Int = 500, offset: Int? = nil, completion: @escaping (LCBooleanResult) -> Void) {
         completion(.failure(error: LCError.conversationNotSupport(convType: type(of: self))))
     }
 
@@ -3110,7 +3147,7 @@ public class IMTemporaryConversation: IMConversation {
     }
 
     @available(*, unavailable)
-    public override func fetchMemberInfoTable(completion: @escaping (LCBooleanResult) -> Void) {
+    public override func fetchMemberInfoTable(limit: Int = 500, offset: Int? = nil, completion: @escaping (LCBooleanResult) -> Void) {
         completion(.failure(error: LCError.conversationNotSupport(convType: type(of: self))))
     }
 

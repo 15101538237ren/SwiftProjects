@@ -129,9 +129,10 @@ class StatViewController: UIViewController{
             .yAxisLabelsEnabled(true)
             .yAxisTitle("单词量")
             .categories(categories)
-            .axesTextColor(getDisplayTextColor())
             .colorsTheme(["#4fa83d","#3f8ada"])
             .zoomType(.x)
+            .xAxisLabelsStyle(AAStyle(color: getDisplayTextColor()))
+            .yAxisLabelsStyle(AAStyle(color: getDisplayTextColor()))
             .series([
                 AASeriesElement()
                 .name(seriesNames[0])
@@ -154,10 +155,11 @@ class StatViewController: UIViewController{
             .yAxisLabelsEnabled(true)
             .yAxisTitle("分钟")
             .categories(categories)
-            .axesTextColor(getDisplayTextColor())
             .yAxisAllowDecimals(false)
             .zoomType(.x)
             .colorsTheme(["#4fa83d","#3f8ada"])
+            .xAxisLabelsStyle(AAStyle(color: getDisplayTextColor()))
+            .yAxisLabelsStyle(AAStyle(color: getDisplayTextColor()))
             .series([
                 AASeriesElement()
                 .name(seriesNames[0])
@@ -200,7 +202,8 @@ class StatViewController: UIViewController{
         .yAxisTitle("记得的百分比(%)")
         .yAxisMax(100.0)
         .categories(hoursLabels)
-        .axesTextColor(getDisplayTextColor())
+        .xAxisLabelsStyle(AAStyle(color: getDisplayTextColor()))
+        .yAxisLabelsStyle(AAStyle(color: getDisplayTextColor()))
         .colorsTheme(["#bfc0c0","#ef8354"])
             .zoomType(.none)
         .series(series)
@@ -225,7 +228,8 @@ class StatViewController: UIViewController{
         .yAxisTitle("记得的单词数")
         .yAxisMax(100.0)
         .categories(daysLabels)
-        .axesTextColor(getDisplayTextColor())
+        .xAxisLabelsStyle(AAStyle(color: getDisplayTextColor()))
+        .yAxisLabelsStyle(AAStyle(color: getDisplayTextColor()))
         .colorsTheme(["#ef8354"])
             .zoomType(.none)
         .series(series)
@@ -241,7 +245,11 @@ class StatViewController: UIViewController{
     
     func getDisplayTextColor() -> String{
         let viewBackgroundColor = ThemeManager.currentTheme?.value(forKeyPath: "StatView.displayTextColor") as! String
-        return viewBackgroundColor
+        if let color = UIColor.init(hex: viewBackgroundColor){
+            let rgba = color.rgba
+            return AAColor.rgbaColor(Int(rgba.red * CGFloat(255.0)), Int(rgba.green * CGFloat(255.0)), Int(rgba.blue * CGFloat(255.0)))
+        }
+        return AAColor.white
     }
     
     func getSegmentedCtrlUnselectedTextColor() -> String{

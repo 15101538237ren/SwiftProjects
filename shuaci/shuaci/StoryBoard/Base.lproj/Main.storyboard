@@ -998,7 +998,7 @@
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="AMQ-JB-XIg">
                                                     <rect key="frame" x="20" y="36.5" width="86" height="47.5"/>
                                                     <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="vocabulary" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gBR-9h-OCQ">
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="vocabulary" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gBR-9h-OCQ">
                                                             <rect key="frame" x="0.0" y="0.0" width="86" height="20.5"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" relation="lessThanOrEqual" constant="180" id="sTF-WC-ytT"/>
@@ -1007,7 +1007,7 @@
                                                             <color key="textColor" systemColor="darkTextColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ioo-s1-f83">
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ioo-s1-f83">
                                                             <rect key="frame" x="0.0" y="30.5" width="86" height="17"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" relation="lessThanOrEqual" constant="180" id="XZM-SJ-y6s"/>
@@ -2397,7 +2397,7 @@
                                 </connections>
                             </view>
                             <stackView opaque="NO" contentMode="scaleToFill" spacing="25" translatesAutoresizingMaskIntoConstraints="NO" id="lhc-CA-BSv">
-                                <rect key="frame" x="55.5" y="718" width="303" height="50"/>
+                                <rect key="frame" x="55.5" y="722" width="303" height="50"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zio-1z-ujq">
                                         <rect key="frame" x="0.0" y="0.0" width="139" height="50"/>
@@ -2405,7 +2405,7 @@
                                             <constraint firstAttribute="width" secondItem="Zio-1z-ujq" secondAttribute="height" multiplier="139:50" id="PuH-UE-PQm"/>
                                             <constraint firstAttribute="width" constant="139" id="oHB-X1-PnE"/>
                                         </constraints>
-                                        <state key="normal" title="手机登录" image="wechat_login">
+                                        <state key="normal" image="wechat_login">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
                                         <connections>
@@ -2418,7 +2418,7 @@
                                             <constraint firstAttribute="width" secondItem="fP9-DK-zf6" secondAttribute="height" multiplier="139:50" id="0Wu-ma-LNa"/>
                                             <constraint firstAttribute="width" constant="139" id="86M-hy-z10"/>
                                         </constraints>
-                                        <state key="normal" title="手机登录" image="mobile_login">
+                                        <state key="normal" image="mobile_login">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
                                         <connections>
@@ -2432,9 +2432,9 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="EUU-LC-4Ju" firstAttribute="centerY" secondItem="80p-y3-fcf" secondAttribute="centerY" id="0cp-vU-q4U"/>
+                            <constraint firstItem="MHe-r7-cbr" firstAttribute="bottom" secondItem="lhc-CA-BSv" secondAttribute="bottom" constant="90" id="D2u-Md-nIR"/>
                             <constraint firstItem="Skd-2V-S3g" firstAttribute="centerY" secondItem="80p-y3-fcf" secondAttribute="centerY" id="ISZ-hD-hOF"/>
                             <constraint firstItem="EUU-LC-4Ju" firstAttribute="centerX" secondItem="80p-y3-fcf" secondAttribute="centerX" id="LuS-V6-opI"/>
-                            <constraint firstItem="lhc-CA-BSv" firstAttribute="top" secondItem="Skd-2V-S3g" secondAttribute="bottom" constant="70" id="OxX-nK-An9"/>
                             <constraint firstAttribute="bottom" secondItem="c7Y-8O-mbC" secondAttribute="bottom" id="P6F-pN-Md8"/>
                             <constraint firstItem="Cp8-7F-MX9" firstAttribute="top" secondItem="MHe-r7-cbr" secondAttribute="top" constant="40" id="ZkT-XM-PWn"/>
                             <constraint firstItem="Skd-2V-S3g" firstAttribute="centerX" secondItem="80p-y3-fcf" secondAttribute="centerX" id="a9c-Mp-3Xi"/>
@@ -3004,28 +3004,28 @@
                                                         <rect key="frame" x="0.0" y="33" width="300" height="45"/>
                                                         <subviews>
                                                             <stackView opaque="NO" contentMode="scaleToFill" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="BFs-hd-TKU">
-                                                                <rect key="frame" x="0.0" y="13.5" width="300" height="18"/>
+                                                                <rect key="frame" x="45" y="7.5" width="210" height="30"/>
                                                                 <subviews>
                                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Uf3-1L-BUC" customClass="CheckboxButton" customModule="MBRadioCheckboxButton">
-                                                                        <rect key="frame" x="0.0" y="0.0" width="53" height="18"/>
+                                                                        <rect key="frame" x="0.0" y="0.0" width="30" height="30"/>
                                                                         <state key="normal" title="0 次">
                                                                             <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                         </state>
                                                                     </button>
                                                                     <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ldk-Hh-BFG" customClass="CheckboxButton" customModule="MBRadioCheckboxButton">
-                                                                        <rect key="frame" x="83" y="0.0" width="51" height="18"/>
+                                                                        <rect key="frame" x="60" y="0.0" width="30" height="30"/>
                                                                         <state key="normal" title="1 次">
                                                                             <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                         </state>
                                                                     </button>
                                                                     <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="s7t-WN-d2I" customClass="CheckboxButton" customModule="MBRadioCheckboxButton">
-                                                                        <rect key="frame" x="164" y="0.0" width="53" height="18"/>
+                                                                        <rect key="frame" x="120" y="0.0" width="30" height="30"/>
                                                                         <state key="normal" title="2 次">
                                                                             <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                         </state>
                                                                     </button>
                                                                     <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Mnv-rr-To1" customClass="CheckboxButton" customModule="MBRadioCheckboxButton">
-                                                                        <rect key="frame" x="247" y="0.0" width="53" height="18"/>
+                                                                        <rect key="frame" x="180" y="0.0" width="30" height="30"/>
                                                                         <state key="normal" title="3 次">
                                                                             <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                         </state>

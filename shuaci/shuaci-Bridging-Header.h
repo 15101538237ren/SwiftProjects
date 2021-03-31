@@ -21,4 +21,9 @@
 //导入UUMessage的OC的头文件
 #import <UMPush/UMessage.h>
 
+// U-Share核心SDK
+#import <UMShare/UMShare.h>
+// U-Share分享面板SDK，未添加分享面板SDK可将此行去掉
+#import <UShareUI/UShareUI.h>
+
 #endif /* shuaci_Bridging_Header_h */
