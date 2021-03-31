@@ -301,32 +301,7 @@ class MainScreenViewController: UIViewController {
     
     
     @IBAction func wexinLogin(_ sender: UIButton) {
-        UMSocialManager.default().getUserInfo(with: .wechatSession, currentViewController: self, completion: { (result, userError) in
-                if (result != nil) {
-                    //获取用户的个人信息
-                    let userInfo = result as! UMSocialUserInfoResponse
-                    print("User info")
-                    print(userInfo)
-                        userInfo.uid...
-                   //调用本地登录接口
-                }else
-                {
-                    debugPrint("--",userError.debugDescription)
-                }
-            })
-//        if isGetUserInfo {
-//            getAuthInfoFromWechatUser(withVC: self, completion: { (info, error) -> (Void) in
-//                 print(error)
-//                 print("INFO")
-//                 print(info)
-//            })
-//        
-//        } else {
-//            getUserInfo(withType: UMSocialPlatformType.wechatSession, withVC: self, completion: { (info, error) -> (Void) in
-//                print("INFO")
-//                print(info)
-//            })
-//        }
+        
     }
     
 }

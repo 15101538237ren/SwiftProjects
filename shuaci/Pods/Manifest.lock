@@ -41,31 +41,7 @@ PODS:
   - UMCPush (3.3.1):
     - UMCCommon
   - UMCSecurityPlugins (1.0.6)
-  - UMCShare/Core (6.10.2):
-    - UMCCommon
-  - UMCShare/Social/Douban (6.10.2):
-    - UMCCommon
-    - UMCShare/Core
-  - UMCShare/Social/Facebook (6.10.2):
-    - UMCCommon
-    - UMCShare/Core
-  - UMCShare/Social/ReducedQQ (6.10.2):
-    - UMCCommon
-    - UMCShare/Core
-  - UMCShare/Social/ReducedSina (6.10.2):
-    - UMCCommon
-    - UMCShare/Core
-  - UMCShare/Social/ReducedWeChat (6.10.2):
-    - UMCCommon
-    - UMCShare/Core
-  - UMCShare/Social/Twitter (6.10.2):
-    - UMCCommon
-    - UMCShare/Core
-  - UMCShare/UI (6.10.2):
-    - UMCCommon
-    - UMCShare/Core
   - UMDevice (1.1.0)
-  - WechatOpenSDK (1.8.7.1)
 
 DEPENDENCIES:
   - AAInfographics (from `https://github.com/AAChartModel/AAChartKit-Swift.git`)
@@ -90,14 +66,6 @@ DEPENDENCIES:
   - UMCCommonLog
   - UMCPush
   - UMCSecurityPlugins
-  - UMCShare/Social/Douban
-  - UMCShare/Social/Facebook
-  - UMCShare/Social/ReducedQQ
-  - UMCShare/Social/ReducedSina
-  - UMCShare/Social/ReducedWeChat
-  - UMCShare/Social/Twitter
-  - UMCShare/UI
-  - WechatOpenSDK
 
 SPEC REPOS:
   trunk:
@@ -123,9 +91,7 @@ SPEC REPOS:
     - UMCCommonLog
     - UMCPush
     - UMCSecurityPlugins
-    - UMCShare
     - UMDevice
-    - WechatOpenSDK
 
 EXTERNAL SOURCES:
   AAInfographics:
@@ -167,10 +133,8 @@ SPEC CHECKSUMS:
   UMCCommonLog: 9b7ddde5d14a52fc1986ba5ac3121b8b2f433638
   UMCPush: af977ec99bbf34558825e907c58f6b76f6c7f897
   UMCSecurityPlugins: 0831a08f3988f3cea9f1d3a7626cd9bee4fef150
-  UMCShare: e14e1399673fa361cddbde3a05b3743e10f673f7
   UMDevice: 28d21a568c8e8322e5a03bbd53b138d0c098d3b3
-  WechatOpenSDK: 6a4d1436c15b3b5fe2a0bd383f3046010186da44
 
-PODFILE CHECKSUM: e331ba5054534a00897ac5bac013120de84f0e36
+PODFILE CHECKSUM: 5f4a88133c9151e7b931cab0831450c712a21a5c
 
 COCOAPODS: 1.9.3

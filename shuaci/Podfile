@@ -28,12 +28,4 @@ target 'shuaci' do
   pod 'UMCPush'
   pod 'UMCSecurityPlugins'
   pod 'SwiftyStoreKit'
-  pod 'UMCShare/UI'
-  pod 'UMCShare/Social/ReducedWeChat'
-  pod 'UMCShare/Social/ReducedQQ'
-  pod 'UMCShare/Social/ReducedSina'
-  pod 'UMCShare/Social/Facebook'
-  pod 'UMCShare/Social/Twitter'
-  pod 'UMCShare/Social/Douban'
-  pod 'WechatOpenSDK'
 end

@@ -33,7 +33,6 @@
 		559B96C324F82FDA00516475 /* WordDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559B96C224F82FDA00516475 /* WordDetailViewController.swift */; };
 		55B0673224E87A8F009DA575 /* LearnOrReviewFinishViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55B0673124E87A8F009DA575 /* LearnOrReviewFinishViewController.swift */; };
 		55B422FB2614FB830092CA48 /* UMessageSwiftInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55B422FA2614FB830092CA48 /* UMessageSwiftInterface.swift */; };
-		55B422FF2614FD980092CA48 /* GMThirdPartyLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55B422FE2614FD980092CA48 /* GMThirdPartyLogin.swift */; };
 		55B63A2324D530D300B6B8B5 /* SearchWordTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55B63A2224D530D300B6B8B5 /* SearchWordTableViewCell.swift */; };
 		55BFC12824C366A0006DA60B /* ReminderTimePickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55BFC12724C366A0006DA60B /* ReminderTimePickerViewController.swift */; };
 		55C5E20224B03A40005D2956 /* StatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55C5E20124B03A40005D2956 /* StatViewController.swift */; };
@@ -125,7 +124,6 @@
 		559B96C224F82FDA00516475 /* WordDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordDetailViewController.swift; sourceTree = "<group>"; };
 		55B0673124E87A8F009DA575 /* LearnOrReviewFinishViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearnOrReviewFinishViewController.swift; sourceTree = "<group>"; };
 		55B422FA2614FB830092CA48 /* UMessageSwiftInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UMessageSwiftInterface.swift; sourceTree = "<group>"; };
-		55B422FE2614FD980092CA48 /* GMThirdPartyLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GMThirdPartyLogin.swift; sourceTree = "<group>"; };
 		55B63A1B24D523AB00B6B8B5 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		55B63A2224D530D300B6B8B5 /* SearchWordTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchWordTableViewCell.swift; sourceTree = "<group>"; };
 		55BFC12724C366A0006DA60B /* ReminderTimePickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderTimePickerViewController.swift; sourceTree = "<group>"; };
@@ -212,7 +210,6 @@
 				553C24DD2613B6C20038D2D7 /* UMCommonLogSwift.swift */,
 				553C24DF2613B6C20038D2D7 /* UMCommonSwift.swift */,
 				55B422FA2614FB830092CA48 /* UMessageSwiftInterface.swift */,
-				55B422FE2614FD980092CA48 /* GMThirdPartyLogin.swift */,
 			);
 			name = UMSwift;
 			sourceTree = "<group>";
@@ -612,7 +609,6 @@
 				553C24E02613B6C20038D2D7 /* UMCommonLogSwift.swift in Sources */,
 				C34BB85E25A157F00073F815 /* GlobalEnum.swift in Sources */,
 				A5BE9C2D2462242500302F38 /* Book.swift in Sources */,
-				55B422FF2614FD980092CA48 /* GMThirdPartyLogin.swift in Sources */,
 				55C781A224902F1600C9F33E /* SettingItem.swift in Sources */,
 				A5F5154F245F578900F06610 /* Theme.swift in Sources */,
 				A5BE9C2F246229DC00302F38 /* BooksViewController.swift in Sources */,
