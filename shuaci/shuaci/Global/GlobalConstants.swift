@@ -52,3 +52,7 @@ let wexinAppSecret:String = "b7ead6152fe001e053255c989c64b940"
 let QQKey:String = "101943862"
 let QQAppSecret:String = "60e06004933e39bc3c565f1f79a8ad58"
 
+let githubLink:String = "https://15101538237ren.github.io"
+
+let privacyViewedKey: String = "privacyViewed"
+let welcomeText: String = "欢迎使用「刷词」，请您仔细阅读隐私协议和服务条款，并确定您是否同意我们的规则。我们深知个人信息的重要性，并且会全力保护您的个人信息安全可靠。"

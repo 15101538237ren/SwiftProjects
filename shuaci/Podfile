@@ -28,4 +28,5 @@ target 'shuaci' do
   pod 'UMCPush'
   pod 'UMCSecurityPlugins'
   pod 'SwiftyStoreKit'
+  pod 'SwiftMessages'
 end

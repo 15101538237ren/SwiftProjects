@@ -40,6 +40,8 @@
 		55C7819E24902BAE00C9F33E /* SettingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55C7819D24902BAE00C9F33E /* SettingTableViewCell.swift */; };
 		55C781A024902C4F00C9F33E /* SettingToggleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55C7819F24902C4F00C9F33E /* SettingToggleTableViewCell.swift */; };
 		55C781A224902F1600C9F33E /* SettingItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55C781A124902F1600C9F33E /* SettingItem.swift */; };
+		55E4DB6B261567D2008D2A34 /* TermsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E4DB6A261567D2008D2A34 /* TermsView.swift */; };
+		55E4DB8C26156983008D2A34 /* TermsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 55E4DB8B26156982008D2A34 /* TermsView.xib */; };
 		55E7C6C5261170AD0006D8E7 /* AppStoreReviewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E7C6C4261170AD0006D8E7 /* AppStoreReviewManager.swift */; };
 		55E7C6C8261170EB0006D8E7 /* UserDefaults+Key.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E7C6C7261170EB0006D8E7 /* UserDefaults+Key.swift */; };
 		55F2B5A0247B053500758113 /* Date+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55F2B59F247B053500758113 /* Date+Ext.swift */; };
@@ -132,6 +134,8 @@
 		55C7819D24902BAE00C9F33E /* SettingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingTableViewCell.swift; sourceTree = "<group>"; };
 		55C7819F24902C4F00C9F33E /* SettingToggleTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingToggleTableViewCell.swift; sourceTree = "<group>"; };
 		55C781A124902F1600C9F33E /* SettingItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingItem.swift; sourceTree = "<group>"; };
+		55E4DB6A261567D2008D2A34 /* TermsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsView.swift; sourceTree = "<group>"; };
+		55E4DB8B26156982008D2A34 /* TermsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TermsView.xib; sourceTree = "<group>"; };
 		55E7C6C4261170AD0006D8E7 /* AppStoreReviewManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppStoreReviewManager.swift; sourceTree = "<group>"; };
 		55E7C6C7261170EB0006D8E7 /* UserDefaults+Key.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UserDefaults+Key.swift"; sourceTree = "<group>"; };
 		55F2B59F247B053500758113 /* Date+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Ext.swift"; sourceTree = "<group>"; };
@@ -375,6 +379,7 @@
 		A5B821752453698D00963FEC /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				55E4DB8B26156982008D2A34 /* TermsView.xib */,
 				C32918E025A003D600E6527F /* MainScreenUIView.swift */,
 				A59A0B16245488EC000845F2 /* MainPanelUIView.swift */,
 				5547AE8924BA45540096B41E /* WordHistoryTableViewCell.swift */,
@@ -390,6 +395,7 @@
 				55B63A2224D530D300B6B8B5 /* SearchWordTableViewCell.swift */,
 				A5AE21FE24E4E6EF00473EA2 /* SetMemOptionView.swift */,
 				550534F524FD8F1200246BCA /* CardBackView.swift */,
+				55E4DB6A261567D2008D2A34 /* TermsView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -501,6 +507,7 @@
 			files = (
 				557B66F724CCF7660068AB05 /* Dark.plist in Resources */,
 				A59EB1DF2452A12A00F300E1 /* LaunchScreen.storyboard in Resources */,
+				55E4DB8C26156983008D2A34 /* TermsView.xib in Resources */,
 				A5134E322467719C008B116D /* Learning.storyboard in Resources */,
 				A56375BC2457745500BA5293 /* HuaKangFangYuan.ttf in Resources */,
 				559B96C124F82DE800516475 /* DICT.json in Resources */,
@@ -624,6 +631,7 @@
 				559B96C324F82FDA00516475 /* WordDetailViewController.swift in Sources */,
 				A59A0B1A2454C04E000845F2 /* UIColor+Ext.swift in Sources */,
 				A5DD06E0246267A60051B3E5 /* BookItemTableViewCell.swift in Sources */,
+				55E4DB6B261567D2008D2A34 /* TermsView.swift in Sources */,
 				55F2B5A4247B4B3700758113 /* String+Ext.swift in Sources */,
 				55C5E20224B03A40005D2956 /* StatViewController.swift in Sources */,
 				A5F5154B245F56BF00F06610 /* ThemeCollectionViewCell.swift in Sources */,

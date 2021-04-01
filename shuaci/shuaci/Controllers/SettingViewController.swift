@@ -337,10 +337,24 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
             askUserExperienceBeforeReview()
         case 5:
             showFeedBackMailComposer()
+        case 8:
+            let url = URL(string: "\(githubLink)/shuaci/terms.html")!
+            loadURL(url: url)
+        case 9:
+            let url = URL(string: "\(githubLink)/shuaci/privacy.html")!
+            loadURL(url: url)
         default:
             break
         }
         tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
+    func loadURL(url: URL){
+        if #available(iOS 10.0, *) {
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        } else {
+            UIApplication.shared.openURL(url)
+        }
     }
     
     func askUserExperienceBeforeReview(){

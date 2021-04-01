@@ -286,7 +286,6 @@ class SettingVC: UIViewController , UITableViewDataSource, UITableViewDelegate {
                     UMAnalyticsSwift.event(eventId: "Um_Event_ModularClick", attributes: info)
                     let url = URL(string: "\(githubLink)/privacy.html")!
                     loadPolicyVC(url: url)
-                
                 default:
                     break
             }

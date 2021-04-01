@@ -13,7 +13,7 @@ import SwiftyJSON
 import SwiftTheme
 import Disk
 import Nuke
-
+import SwiftMessages
 
 class MainPanelViewController: UIViewController, CAAnimationDelegate {
     
@@ -79,9 +79,31 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
         initVC()
     }
     
+    func popPrivacyMessage(){
+        if !isKeyPresentInUserDefaults(key: privacyViewedKey){
+            let messageView: TermsView = try! SwiftMessages.viewFromNib()
+            messageView.configureDropShadow()
+            messageView.backgroundView.backgroundColor = UIColor.init(white: 0.97, alpha: 1)
+            messageView.backgroundView.layer.cornerRadius = 10
+            messageView.agreeAction = {
+                UserDefaults.standard.set(true, forKey: privacyViewedKey)
+                SwiftMessages.hide()
+            }
+            messageView.cancelAction = { UIControl().sendAction(#selector(URLSessionTask.suspend), to: UIApplication.shared, for: nil)}
+            var config = SwiftMessages.defaultConfig
+            config.presentationContext = .window(windowLevel: UIWindow.Level.statusBar)
+            config.duration = .forever
+            config.presentationStyle = .center
+            config.dimMode = .blur(style: .light, alpha: 0.6, interactive: false)
+            SwiftMessages.show(config: config, view: messageView)
+            
+        }
+    }
+    
     // MARK: - Intiallization Functions
     
     func initVC(){
+        popPrivacyMessage()
         if let _ = currentUser{
             preference = loadPreference(userId: currentUser.objectId!.stringValue!)
             
