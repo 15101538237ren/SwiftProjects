@@ -292,7 +292,6 @@ class LearnOrReviewFinishViewController: UIViewController {
     
     func registerNotification() {
             let center = UNUserNotificationCenter.current()
-            center.removeAllPendingNotificationRequests()
             center.requestAuthorization(options: [.alert, .badge, .sound]) { (granted, error) in
                 if granted {
                     if let nextReviewDate = obtainNextReviewDate(vocabs: self.vocabsLearned) {

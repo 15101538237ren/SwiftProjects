@@ -972,6 +972,19 @@ func get_vocab_rec_need_to_be_review_for_record(vocabHeads:[String]) ->[Vocabula
     return vocab_rec_need_to_be_review
 }
 
+func printRecords(){
+    let wordhead:String = "leather"
+    
+    for record in global_records{
+        if record.vocabHeads.contains(wordhead){
+            let vocabs:[VocabularyRecord] = global_vocabs_records.filter {record.vocabHeads.contains($0.VocabHead)}
+            for vocab in vocabs{
+                print("\(vocab.VocabHead):\(vocab.Mastered)\t\(vocab.BehaviorHistory)")
+            }
+        }
+    }
+}
+
 func get_recent_vocab_rec_need_to_be_review() -> [VocabularyRecord]{
     var vocab_rec_need_to_be_review:[VocabularyRecord] = []
     if let recentRecord:Record = global_records.max(by: ({ $0.endDate < $1.endDate })){
@@ -1537,10 +1550,11 @@ func timeString(time: Int) -> String {
 }
 
 func printDate(date: Date) -> String{
-    let dateFormatter = DateFormatter()
-    dateFormatter.dateFormat = DateFormatter.dateFormat(fromTemplate: "HH:mm E, dd MM", options: 0, locale: Locale.current)
-    let dateString = dateFormatter.string(from: date)
-    print(dateString)
+    var calendar = Calendar.current
+    calendar.timeZone = TimeZone.current
+    let dc = calendar.dateComponents([.month, .day, .hour, .minute], from: date)
+    let dateString = "\(dc.month!)月\(dc.day!)日 \(dc.hour!):\(dc.minute!)"
+    print("PRINT DATE: \(dateString)")
     return dateString
 }
 

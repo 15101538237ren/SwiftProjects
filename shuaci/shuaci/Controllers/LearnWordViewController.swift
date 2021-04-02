@@ -408,7 +408,9 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
         UIView.transition(with: card, duration: 0.3, options: .transitionFlipFromRight, animations: nil, completion: nil)
     }
     
+    
     func setFieldsOfCard(card: CardUIView, cardWord: CardWord, collected: Bool, memStage: Int){
+        
         var meaningLabelTxt:String = cardWord.meaning
         var finalStringArr:[String] = []
         let meaningArr:[String] = meaningLabelTxt.components(separatedBy: "\n")
@@ -1218,7 +1220,7 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
                         self.card_actions[wordIndex] = []
                     }
                     
-                    let currentMemStage: Int = self.currentWordLabelQueue[0][0]
+                    let currentMemStage: Int = self.currentWordLabelQueue[0][1]
                     let statusToCompare = self.currentMode == 1 ? WordMemStage.memory.rawValue : WordMemStage.enToCn.rawValue
                     
                     if currentMemStage == statusToCompare{
