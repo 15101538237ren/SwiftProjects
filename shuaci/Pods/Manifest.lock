@@ -17,6 +17,7 @@ PODS:
     - SwiftProtobuf (~> 1.15)
   - MBRadioCheckboxButton (2.0)
   - MKRingProgressView (2.2.3)
+  - NewPopMenu (2.1.2)
   - Nuke (9.4.1)
   - PhoneNumberKit (3.3.3):
     - PhoneNumberKit/PhoneNumberKitCore (= 3.3.3)
@@ -54,6 +55,7 @@ DEPENDENCIES:
   - LeanCloud
   - MBRadioCheckboxButton
   - MKRingProgressView
+  - NewPopMenu (~> 2.0)
   - Nuke
   - PhoneNumberKit
   - SwifterSwift/Foundation
@@ -80,6 +82,7 @@ SPEC REPOS:
     - LeanCloud
     - MBRadioCheckboxButton
     - MKRingProgressView
+    - NewPopMenu
     - Nuke
     - PhoneNumberKit
     - SwifterSwift
@@ -123,6 +126,7 @@ SPEC CHECKSUMS:
   LeanCloud: ff95ea8076a30e10358542ecaa53e87c4308c8bd
   MBRadioCheckboxButton: 6e2a2cdc441e292e45b64c4e65eb8fc1fc05eef2
   MKRingProgressView: 404b3157e7a533ab8668d29ec20042c35d12ca1d
+  NewPopMenu: c6129e08e8192f6257ceb5f9a4357e1b59c6e2e7
   Nuke: ca782d1a417904db70f2c65d6feb2329a2679491
   PhoneNumberKit: 4ce83273551c4d2ae10b7361162f4283dd02835f
   SwifterSwift: 334181863c416882d97b7a60c05054d9e4d799e2
@@ -141,6 +145,6 @@ SPEC CHECKSUMS:
   UMCSecurityPlugins: 0831a08f3988f3cea9f1d3a7626cd9bee4fef150
   UMDevice: 28d21a568c8e8322e5a03bbd53b138d0c098d3b3
 
-PODFILE CHECKSUM: 995109cecd6fdd7d015767186a565a1060ee1369
+PODFILE CHECKSUM: 644c3dce6ac9031f04d4ffa64bdc7d396d48f883
 
 COCOAPODS: 1.9.3

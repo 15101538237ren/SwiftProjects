@@ -31,6 +31,8 @@
 		557B66F724CCF7660068AB05 /* Dark.plist in Resources */ = {isa = PBXBuildFile; fileRef = 557B66F624CCF7660068AB05 /* Dark.plist */; };
 		559B96C124F82DE800516475 /* DICT.json in Resources */ = {isa = PBXBuildFile; fileRef = 559B96C024F82DE800516475 /* DICT.json */; };
 		559B96C324F82FDA00516475 /* WordDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559B96C224F82FDA00516475 /* WordDetailViewController.swift */; };
+		55AD480926167B78002B0BD6 /* NotificationAskView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 55AD480826167B78002B0BD6 /* NotificationAskView.xib */; };
+		55AD480C26167BA3002B0BD6 /* NotificationAskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55AD480B26167BA3002B0BD6 /* NotificationAskView.swift */; };
 		55B0673224E87A8F009DA575 /* LearnOrReviewFinishViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55B0673124E87A8F009DA575 /* LearnOrReviewFinishViewController.swift */; };
 		55B422FB2614FB830092CA48 /* UMessageSwiftInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55B422FA2614FB830092CA48 /* UMessageSwiftInterface.swift */; };
 		55B63A2324D530D300B6B8B5 /* SearchWordTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55B63A2224D530D300B6B8B5 /* SearchWordTableViewCell.swift */; };
@@ -124,6 +126,8 @@
 		557B66F624CCF7660068AB05 /* Dark.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Dark.plist; sourceTree = "<group>"; };
 		559B96C024F82DE800516475 /* DICT.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = DICT.json; sourceTree = "<group>"; };
 		559B96C224F82FDA00516475 /* WordDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordDetailViewController.swift; sourceTree = "<group>"; };
+		55AD480826167B78002B0BD6 /* NotificationAskView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NotificationAskView.xib; sourceTree = "<group>"; };
+		55AD480B26167BA3002B0BD6 /* NotificationAskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationAskView.swift; sourceTree = "<group>"; };
 		55B0673124E87A8F009DA575 /* LearnOrReviewFinishViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearnOrReviewFinishViewController.swift; sourceTree = "<group>"; };
 		55B422FA2614FB830092CA48 /* UMessageSwiftInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UMessageSwiftInterface.swift; sourceTree = "<group>"; };
 		55B63A1B24D523AB00B6B8B5 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
@@ -379,6 +383,7 @@
 		A5B821752453698D00963FEC /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				55AD480826167B78002B0BD6 /* NotificationAskView.xib */,
 				55E4DB8B26156982008D2A34 /* TermsView.xib */,
 				C32918E025A003D600E6527F /* MainScreenUIView.swift */,
 				A59A0B16245488EC000845F2 /* MainPanelUIView.swift */,
@@ -396,6 +401,7 @@
 				A5AE21FE24E4E6EF00473EA2 /* SetMemOptionView.swift */,
 				550534F524FD8F1200246BCA /* CardBackView.swift */,
 				55E4DB6A261567D2008D2A34 /* TermsView.swift */,
+				55AD480B26167BA3002B0BD6 /* NotificationAskView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -522,6 +528,7 @@
 				A5B82171245360F700963FEC /* PingFang SC Regular.ttf in Resources */,
 				A5B82177245370CD00963FEC /* Songti SC Regular.ttf in Resources */,
 				55414C5524D66217004E4E7D /* Light_Black.plist in Resources */,
+				55AD480926167B78002B0BD6 /* NotificationAskView.xib in Resources */,
 				5526A9F726112BF800D03669 /* hydsj.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -657,6 +664,7 @@
 				C32918E125A003D600E6527F /* MainScreenUIView.swift in Sources */,
 				A59EB1D52452A12900F300E1 /* SceneDelegate.swift in Sources */,
 				55C7819C24901AFA00C9F33E /* SettingViewController.swift in Sources */,
+				55AD480C26167BA3002B0BD6 /* NotificationAskView.swift in Sources */,
 				55F2B5A2247B4A0F00758113 /* LearnOrReviewFinishUIView.swift in Sources */,
 				A5E6973E2473404A004CFA70 /* CardWord.swift in Sources */,
 			);

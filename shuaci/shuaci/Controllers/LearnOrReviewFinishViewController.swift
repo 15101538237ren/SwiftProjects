@@ -9,6 +9,7 @@
 import UIKit
 import LeanCloud
 import Nuke
+import SwiftMessages
 
 class LearnOrReviewFinishViewController: UIViewController {
     var mainPanelViewController: MainPanelViewController!
@@ -28,6 +29,7 @@ class LearnOrReviewFinishViewController: UIViewController {
     @IBOutlet var numbOfPeopleOnline: UILabel!
     @IBOutlet var dateLabel: UILabel!
     @IBOutlet weak var dimUIView: UIView!
+    var vocabsLearned:[VocabularyRecord]!
     var indicator = UIActivityIndicatorView()
     var strLabel = UILabel()
     let effectView = UIVisualEffectView(effect: UIBlurEffect(style: .regular))
@@ -245,6 +247,7 @@ class LearnOrReviewFinishViewController: UIViewController {
         setTodyWordNum()
         setInsistDay()
         setDateLabel()
+        popNotificationMessage()
     }
     
     override func viewDidLoad() {
@@ -256,4 +259,55 @@ class LearnOrReviewFinishViewController: UIViewController {
         loadScene()
     }
 
+    func popNotificationMessage(){
+        if !isKeyPresentInUserDefaults(key: notificationAskedKey){
+            let messageView: NotificationAskView = try! SwiftMessages.viewFromNib()
+            messageView.textView.text = ebbinhausNotificationText
+            messageView.configureDropShadow()
+            messageView.backgroundView.backgroundColor = UIColor.init(white: 0.97, alpha: 1)
+            messageView.backgroundView.layer.cornerRadius = 10
+            messageView.agreeAction = {
+                //同意开启通知
+                UserDefaults.standard.set(true, forKey: notificationAskedKey)
+                SwiftMessages.hide()
+                //设置艾宾浩斯提醒⏰
+                self.registerNotification()
+            }
+            messageView.cancelAction = {
+                //不同意通知，不提醒。
+                SwiftMessages.hide()
+                self.view.makeToast(notificationRejectedText, duration: durationOfNotificationText, position: .center)
+            }
+            
+            var config = SwiftMessages.defaultConfig
+            config.presentationContext = .window(windowLevel: UIWindow.Level.statusBar)
+            config.duration = .forever
+            config.presentationStyle = .center
+            config.dimMode = .blur(style: .light, alpha: 0.6, interactive: false)
+            SwiftMessages.show(config: config, view: messageView)
+        }else{
+            registerNotification()
+        }
+    }
+    
+    func registerNotification() {
+            let center = UNUserNotificationCenter.current()
+            center.removeAllPendingNotificationRequests()
+            center.requestAuthorization(options: [.alert, .badge, .sound]) { (granted, error) in
+                if granted {
+                    if let nextReviewDate = obtainNextReviewDate(vocabs: self.vocabsLearned) {
+                        if let notification_request = add_notification_date(notification_date: nextReviewDate){
+                            UNUserNotificationCenter.current().add(notification_request, withCompletionHandler: nil)
+                            
+                            DispatchQueue.main.async {
+                                self.view.makeToast("根据遗忘规律，\(nicknameOfApp)将在\(printDate(date: nextReviewDate))提醒您复习🙂", duration: durationOfNotificationText, position: .center)
+                            }
+                        }
+                    }
+                } else {
+                    self.view.makeToast(notificationRejectedText, duration: durationOfNotificationText, position: .center)
+                }
+            }
+        }
+    
 }

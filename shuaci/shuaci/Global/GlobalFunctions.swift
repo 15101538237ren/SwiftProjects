@@ -962,6 +962,25 @@ func get_vocab_rec_need_to_be_review() -> [VocabularyRecord]{
     return vocab_rec_need_to_be_review
 }
 
+func get_vocab_rec_need_to_be_review_for_record(vocabHeads:[String]) ->[VocabularyRecord]{
+    var vocab_rec_need_to_be_review:[VocabularyRecord] = []
+    for vocab in global_vocabs_records{
+        if vocabHeads.contains(vocab.VocabHead) && !vocab.Mastered{
+            vocab_rec_need_to_be_review.append(vocab)
+        }
+    }
+    return vocab_rec_need_to_be_review
+}
+
+func get_recent_vocab_rec_need_to_be_review() -> [VocabularyRecord]{
+    var vocab_rec_need_to_be_review:[VocabularyRecord] = []
+    if let recentRecord:Record = global_records.max(by: ({ $0.endDate < $1.endDate })){
+        vocab_rec_need_to_be_review = get_vocab_rec_need_to_be_review_for_record(vocabHeads: recentRecord.vocabHeads)
+    }
+    
+    return vocab_rec_need_to_be_review
+}
+
 func getCumulatedMasteredByDate(dates: [Date], byDay: Bool = true, cumulated: Bool = true) -> [Double]{
     
     var reviewedVocabIdDateDict:[String: Date] = [:]
@@ -1519,7 +1538,7 @@ func timeString(time: Int) -> String {
 
 func printDate(date: Date) -> String{
     let dateFormatter = DateFormatter()
-    dateFormatter.dateFormat = "HH:mm E, d MMM y"
+    dateFormatter.dateFormat = DateFormatter.dateFormat(fromTemplate: "HH:mm E, dd MM", options: 0, locale: Locale.current)
     let dateString = dateFormatter.string(from: date)
     print(dateString)
     return dateString
@@ -1601,4 +1620,36 @@ func initLoadingIndicator(view: UIView){
 
 func stopLoadingIndicator(){
     hud.dismiss()
+}
+
+func obtainNextReviewDate(vocabs:[VocabularyRecord]) -> Date?{
+    var vocabsNeedReview:[VocabularyRecord] = []
+    
+    //Get rid of the mastered vocabs
+    for vocabRecord in vocabs{
+        if !vocabRecord.Mastered{
+            vocabsNeedReview.append(vocabRecord)
+        }
+    }
+    
+    //Get the max review date
+    var maxReviewDate:Date? = nil
+    if vocabsNeedReview.count > 0{
+        for vocab in vocabsNeedReview{
+            if let tempMaxReviewDate = maxReviewDate{
+                if let reviewDate = vocab.ReviewDUEDate{
+                    if tempMaxReviewDate < reviewDate{
+                        maxReviewDate = reviewDate
+                    }
+                }
+            }
+            else{
+                if let reviewDate = vocab.ReviewDUEDate{
+                    maxReviewDate = reviewDate
+                }
+            }
+            
+        }
+    }
+    return maxReviewDate
 }

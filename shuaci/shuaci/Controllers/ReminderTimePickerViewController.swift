@@ -10,6 +10,7 @@ import UIKit
 import SwiftTheme
 import UserNotifications
 import LeanCloud
+import SwiftMessages
 
 class ReminderTimePickerViewController: UIViewController {
     
@@ -96,7 +97,43 @@ class ReminderTimePickerViewController: UIViewController {
         }
     }
     
+    func popNotificationMessage(){
+        if !isKeyPresentInUserDefaults(key: notificationAskedKey){
+            let messageView: NotificationAskView = try! SwiftMessages.viewFromNib()
+            messageView.textView.text = everydayNotificationText
+            messageView.configureDropShadow()
+            messageView.backgroundView.backgroundColor = UIColor.init(white: 0.97, alpha: 1)
+            messageView.backgroundView.layer.cornerRadius = 10
+            messageView.agreeAction = {
+                //同意开启通知
+                UserDefaults.standard.set(true, forKey: notificationAskedKey)
+                SwiftMessages.hide()
+                //设置艾宾浩斯提醒⏰
+                self.registerNotification()
+            }
+            messageView.cancelAction = {
+                //不同意通知，不提醒。
+                SwiftMessages.hide()
+                self.view.makeToast(notificationRejectedText, duration: durationOfNotificationText, position: .center)
+            }
+            
+            var config = SwiftMessages.defaultConfig
+            config.presentationContext = .window(windowLevel: UIWindow.Level.statusBar)
+            config.duration = .forever
+            config.presentationStyle = .center
+            config.dimMode = .blur(style: .light, alpha: 0.6, interactive: false)
+            SwiftMessages.show(config: config, view: messageView)
+            
+        }else{
+            registerNotification()
+        }
+    }
+    
     @IBAction func setReminderClock(_ sender: UIButton) {
+        popNotificationMessage()
+    }
+    
+    func registerNotification(){
         let timePickerDate = Calendar.current.dateComponents([.hour, .minute], from: self.timePicker.date)
         let center = UNUserNotificationCenter.current()
         center.requestAuthorization(options: [.alert, .badge, .sound]) { [self] (granted, error) in
@@ -115,11 +152,6 @@ class ReminderTimePickerViewController: UIViewController {
                 content.body = "你的努力，终将成就自己。开始今天的单词学习吧😊"
                 content.categoryIdentifier = "learnEveryday"
                 content.sound = UNNotificationSound.default
-                if let url = Bundle.main.url(forResource: "study.jpg", withExtension: nil) {
-                    if let attachement = try? UNNotificationAttachment(identifier: "attachment", url: url, options: nil) {
-                        content.attachments = [attachement]
-                    }
-                }
                 
                 let request = UNNotificationRequest(identifier: everyDayLearningReminderNotificationIdentifier, content: content, trigger: trigger)
                 center.add(request)
@@ -129,8 +161,7 @@ class ReminderTimePickerViewController: UIViewController {
                     self.settingVC.updateReminderTime()
                 }
             } else {
-                
-                self.view.makeToast("请开启【通知】权限，以使用每日学习提醒", duration: 1.0, position: .center)
+                self.view.makeToast(notificationRejectedText, duration: durationOfNotificationText, position: .center)
             }
         }
     }

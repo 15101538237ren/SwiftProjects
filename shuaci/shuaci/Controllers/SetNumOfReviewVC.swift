@@ -67,8 +67,11 @@ class SetNumOfReviewVC: UIViewController, UIPickerViewDelegate, UIPickerViewData
     
     
     @IBAction func setNumToReview(_ sender: UIButton) {
-        let vocabTRS = vocab_rec_need_to_be_review.shuffled()
-        let vocabSelected:[VocabularyRecord] = Array<VocabularyRecord>(vocabTRS.choose(numToReview))
+        var vocabSelected:[VocabularyRecord] = vocab_rec_need_to_be_review
+        if vocab_rec_need_to_be_review.count > numToReview
+        {
+            vocabSelected = Array(vocab_rec_need_to_be_review.sorted(by: {$0.LearnDate!.compare($1.LearnDate!) == .orderedDescending}).prefix(numToReview))
+        }
         initIndicator(view: self.mainPanelViewController.view)
         self.dismiss(animated: true, completion: {
             self.mainPanelViewController.loadReviewController(vocab_rec_need_to_be_review: vocabSelected)

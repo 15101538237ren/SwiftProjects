@@ -29,4 +29,5 @@ target 'shuaci' do
   pod 'UMCSecurityPlugins'
   pod 'SwiftyStoreKit'
   pod 'SwiftMessages'
+  pod 'NewPopMenu', '~> 2.0'
 end

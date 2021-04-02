@@ -55,4 +55,17 @@ let QQAppSecret:String = "60e06004933e39bc3c565f1f79a8ad58"
 let githubLink:String = "https://15101538237ren.github.io"
 
 let privacyViewedKey: String = "privacyViewed"
+let notificationAskedKey: String = "notificationAsked"
 let welcomeText: String = "欢迎使用「刷词」，请您仔细阅读隐私协议和服务条款，并确定您是否同意我们的规则。我们深知个人信息的重要性，并且会全力保护您的个人信息安全可靠。"
+
+let nicknameOfApp:String = "小刷"
+
+let ebbinhausNotificationText: String = "\(nicknameOfApp)需要开启「通知」权限来根据「艾宾浩斯遗忘规律」，提醒您在最高效的时间复习。"
+
+let everydayNotificationText: String = "\(nicknameOfApp)需要开启「通知」权限，来每日提醒您复习。"
+
+let noVocabToReviewText:String = "您当前没有待复习的单词，\n放松一下吧😊"
+
+let notificationRejectedText:String = "您拒绝了开启「通知」，\(nicknameOfApp)将无法提醒您复习☹️。如需提醒，您可以前往「设置」，手动开启「通知」权限。"
+
+let durationOfNotificationText: Double = 4.0

@@ -14,6 +14,7 @@ import SwiftTheme
 import Disk
 import Nuke
 import SwiftMessages
+import PopMenu
 
 class MainPanelViewController: UIViewController, CAAnimationDelegate {
     
@@ -72,6 +73,11 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
     var shouldStopRotating = false
     var preference:Preference? = nil
     var current_words:[JSON] = []
+    
+    enum ReviewMode{
+        case ReviewRecent
+        case ReviewHistory
+    }
     
     // MARK: - View Controller Life Cycles
     override func viewDidLoad() {
@@ -539,11 +545,12 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
         }
     }
     
-    func loadLearnOrReviewFinishController(){
+    func loadLearnOrReviewFinishController(vocabsLearned: [VocabularyRecord]){
         let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Learning", bundle:nil)
         let learnOrReviewFinishVC = mainStoryBoard.instantiateViewController(withIdentifier: "learnOrReviewFinishController") as! LearnOrReviewFinishViewController
         learnOrReviewFinishVC.mainPanelViewController = self
         learnOrReviewFinishVC.modalPresentationStyle = .overCurrentContext
+        learnOrReviewFinishVC.vocabsLearned = vocabsLearned
         DispatchQueue.main.async {
             self.present(learnOrReviewFinishVC, animated: true, completion: nil)
         }
@@ -588,18 +595,28 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
     }
     
     
-    @IBAction func ReviewWords(_ sender: UIButton) {
-        
+    func ReviewWords(reviewMode: ReviewMode) {
         if let preference = preference{
             if let _ : String = preference.current_book_id{
-                let vocab_rec_need_to_be_review:[VocabularyRecord] = get_vocab_rec_need_to_be_review()
-                if vocab_rec_need_to_be_review.count > 0{
-                    loadSetNumToReviewVC(vocab_rec_need_to_be_review: vocab_rec_need_to_be_review)
+                if reviewMode == .ReviewHistory{
+                    let vocab_rec_need_to_be_review:[VocabularyRecord] = get_vocab_rec_need_to_be_review()
+                    if vocab_rec_need_to_be_review.count > 0{
+                        loadSetNumToReviewVC(vocab_rec_need_to_be_review: vocab_rec_need_to_be_review)
+                    }else
+                    {
+                        self.view.makeToast(noVocabToReviewText, duration: 1.0, position: .center)
+                    }
                 }
-                else
-                {
-                    self.view.makeToast("您当前没有待复习的单词，\n放松一下吧😊", duration: 1.0, position: .center)
+                else{
+                    let vocab_rec_need_to_be_review:[VocabularyRecord] = get_recent_vocab_rec_need_to_be_review()
+                    if vocab_rec_need_to_be_review.count > 0{
+                        self.loadReviewController(vocab_rec_need_to_be_review: vocab_rec_need_to_be_review)
+                    }else
+                    {
+                        self.view.makeToast(noVocabToReviewText, duration: 1.0, position: .center)
+                    }
                 }
+                
             }else{
                 loadBooksVC(NoBookSelected: true)
             }
@@ -725,6 +742,30 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
         }
     }
     
+    func getThemeColor(key:String) -> UIColor{
+        let color = UIColor(hex: ThemeManager.currentTheme?.value(forKeyPath: key) as! String) ?? .white
+        return color
+    }
+    
+    @IBAction func presentPopMenu(_ sender: UIButton) {
+            let textColor = getThemeColor(key: "WordHistory.segTextColor")
+            let iconWidthHeight:CGFloat = 20
+            let reviewRecentAction = PopMenuDefaultAction(title: "复习刚学", image: UIImage(named: "book"), color: textColor)
+            let reviewHistoryAction = PopMenuDefaultAction(title: "复习历史", image: UIImage(named: "history"), color: textColor)
+        
+            reviewRecentAction.iconWidthHeight = iconWidthHeight
+            reviewHistoryAction.iconWidthHeight = iconWidthHeight
+            
+            let popActions: [PopMenuAction] = [reviewRecentAction, reviewHistoryAction]
+            
+            let menuVC = PopMenuViewController(sourceView:sender, actions: popActions)
+            menuVC.delegate = self
+            menuVC.appearance.popMenuFont = .systemFont(ofSize: 15, weight: .regular)
+            let menuBgColor = getThemeColor(key: "WordHistory.segCtrlTintColor")
+            menuVC.appearance.popMenuColor.backgroundColor = .solid(fill: menuBgColor)
+            self.present(menuVC, animated: true, completion: nil)
+        }
+    
     @IBAction func pernounce_word(_ sender: UITapGestureRecognizer) {
         if let preference = preference{
             let usphone = preference.us_pronunciation ? 0 : 1
@@ -795,3 +836,14 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
 
 }
 
+extension MainPanelViewController: PopMenuViewControllerDelegate {
+
+    // This will be called when a pop menu action was selected
+    func popMenuDidSelectItem(_ popMenuViewController: PopMenuViewController, at index: Int) {
+        var reviewMode:ReviewMode = .ReviewRecent
+        if index == 1{
+            reviewMode = .ReviewHistory
+        }
+        ReviewWords(reviewMode: reviewMode)
+    }
+}

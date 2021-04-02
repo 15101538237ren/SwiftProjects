@@ -690,7 +690,7 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
             }
             DispatchQueue.main.async {
                 self.dismiss(animated: true, completion: nil)
-                self.mainPanelViewController.loadLearnOrReviewFinishController()
+                self.mainPanelViewController.loadLearnOrReviewFinishController(vocabsLearned: self.vocabRecordsOfCurrent)
             }
         }else{
             let card = cards[(currentIndex - 1) % 2]
