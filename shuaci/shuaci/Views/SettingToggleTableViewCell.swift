@@ -40,8 +40,11 @@ class SettingToggleTableViewCell: UITableViewCell {
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
+        if selected {
+             contentView.theme_backgroundColor = "TableView.selectedColor"
+         } else {
+            contentView.theme_backgroundColor = "Global.viewBackgroundColor"
+         }
     }
 
 }

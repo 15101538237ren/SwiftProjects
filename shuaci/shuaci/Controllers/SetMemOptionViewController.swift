@@ -155,11 +155,6 @@ class SetMemOptionViewController: UIViewController, UIPickerViewDelegate, UIPick
         dismiss(animated: true, completion: nil)
     }
     
-    func getDisplayTextColor() -> String{
-        let viewBackgroundColor = ThemeManager.currentTheme?.value(forKeyPath: "TableView.labelTextColor") as! String
-        return viewBackgroundColor
-    }
-    
     func selectedFirstIndex(numWord: Int) -> Int{
         for i in 0..<number_of_items.count{
             if number_of_items[i] == numWord{
@@ -210,14 +205,22 @@ class SetMemOptionViewController: UIViewController, UIPickerViewDelegate, UIPick
         let blurEffectView = UIVisualEffectView(effect: blurEffect)
         blurEffectView.frame = view.bounds
         blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        let btmView: UIView = UIView()
-        btmView.frame = view.bounds
-        btmView.backgroundColor = .white
-        btmView.alpha = 0.8
-        btmView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        view.insertSubview(btmView, at: 0)
-        view.insertSubview(blurEffectView, at: 1)
+        view.insertSubview(blurEffectView, at: 0)
     }
+    
+    func addBlurBackgroundViewWithGray(){
+            let blurEffect = getBlurEffect()
+            let blurEffectView = UIVisualEffectView(effect: blurEffect)
+            blurEffectView.frame = view.bounds
+            blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+            let btmView: UIView = UIView()
+            btmView.frame = view.bounds
+            btmView.theme_backgroundColor = "Global.viewBackgroundColor"
+            btmView.alpha = 0.8
+            btmView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+            view.insertSubview(btmView, at: 0)
+            view.insertSubview(blurEffectView, at: 1)
+        }
     
     func initPickerView() {
         num_days_to_complete = []
@@ -271,21 +274,40 @@ class SetMemOptionViewController: UIViewController, UIPickerViewDelegate, UIPick
         }
     }
     
+    func setupTheme(){
+        backBtn.theme_tintColor = "Global.backBtnTintColor"
+        titleLabel.theme_textColor = "TableView.labelTextColor"
+        everyDayNumWordLabel.theme_textColor = "TableView.labelTextColor"
+        memOrderLabel.theme_textColor = "TableView.labelTextColor"
+        everyDayPlanLabel.theme_textColor = "TableView.labelTextColor"
+        estDaysLabel.theme_textColor = "TableView.labelTextColor"
+        ESTLabel.theme_textColor = "TableView.labelTextColor"
+        ESTTime.theme_textColor = "TableView.labelTextColor"
+        setBtn.theme_setTitleColor("TableView.labelTextColor", forState: .normal)
+        view.backgroundColor = .clear
+        
+        if let _ = bookVC{
+            addBlurBackgroundViewWithGray()
+        }else{
+            addBlurBackgroundView()
+        }
+        
+        memOrderSegCtrl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.white], for: .selected)
+        memOrderSegCtrl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor(hex: getThemeColor(key: "WordHistory.segTextColor")) ?? .darkGray], for: .normal)
+        memOrderSegCtrl.theme_backgroundColor = "WordHistory.segCtrlTintColor"
+        memOrderSegCtrl.theme_selectedSegmentTintColor = "WordHistory.segmentedCtrlSelectedTintColor"
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .clear
-        addBlurBackgroundView()
+        setupTheme()
         view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleDismiss)))
         
         view.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(handleSlideDismiss(sender:))))
         
         view.isUserInteractionEnabled = true
         
-        backBtn.theme_tintColor = "Global.backBtnTintColor"
-        titleLabel.theme_textColor = "TableView.labelTextColor"
         titleLabel.text = book.name
-        setBtn.theme_setTitleColor("TableView.labelTextColor", forState: .normal)
-        
         dailyNumWordPickerView.delegate = self
         dailyNumWordPickerView.dataSource = self
         loadContentFromBook()
@@ -336,7 +358,7 @@ class SetMemOptionViewController: UIViewController, UIPickerViewDelegate, UIPick
         if component != 0{
             itemLabel = "\(num_days_to_complete[row])天"
         }
-        return NSAttributedString(string: itemLabel, attributes: [NSAttributedString.Key.foregroundColor: UIColor(hex: getDisplayTextColor()) ?? UIColor.black])
+        return NSAttributedString(string: itemLabel, attributes: [NSAttributedString.Key.foregroundColor: UIColor(hex: getThemeColor(key: "TableView.labelTextColor")) ?? UIColor.black])
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {

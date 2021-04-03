@@ -12,6 +12,7 @@ import LeanCloud
 
 class WordDetailViewController: UIViewController {
     @IBOutlet var webView: WKWebView!
+    @IBOutlet var dimUIView: UIView!
     var indicator = UIActivityIndicatorView()
     var strLabel = UILabel()
     let effectView = UIVisualEffectView(effect: UIBlurEffect(style: .regular))
@@ -53,6 +54,7 @@ class WordDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        dimUIView.theme_alpha = "MainPanel.dimAlpha"
         loadHTML()
 //        self.webView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
     }

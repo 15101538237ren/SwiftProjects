@@ -66,8 +66,8 @@ class ReminderTimePickerViewController: UIViewController {
         return viewBackgroundColor
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    
+    func setupTheme(){
         backBtn.theme_tintColor = "Global.backBtnTintColor"
         titleLabel.theme_textColor = "TableView.labelTextColor"
         nextTimeLabel.theme_textColor = "TableView.labelTextColor"
@@ -77,6 +77,10 @@ class ReminderTimePickerViewController: UIViewController {
         timePicker.setValue(UIColor(hex: getDisplayTextColor()), forKeyPath: "textColor")
         view.backgroundColor = .clear
         addBlurBackgroundView()
+    }
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setupTheme()
         view.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(handleDismiss)))
         view.isUserInteractionEnabled = true
         // Do any additional setup after loading the view.

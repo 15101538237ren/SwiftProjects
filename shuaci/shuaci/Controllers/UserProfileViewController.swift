@@ -29,6 +29,7 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
     @IBOutlet weak var nameLabel: UILabel!
     
     @IBOutlet var bookNameLabel: UILabel!
+    @IBOutlet var currentLearningLabel: UILabel!
     
     @IBOutlet var progressLabel: UILabel!
     
@@ -82,13 +83,21 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
         self.dismiss(animated: true, completion: nil)
     }
     
-    override func viewDidLoad() {
+    func setupTheme(){
         view.theme_backgroundColor = "Global.viewBackgroundColor"
         view.isOpaque = false
         
         backBtn.theme_tintColor = "Global.backBtnTintColor"
-        
+        nameLabel.theme_textColor = "Global.barTitleColor"
+        currentLearningLabel.theme_textColor = "Global.barTitleColor"
+        progressLabel.theme_textColor = "Global.barTitleColor"
+        bookNameLabel.theme_textColor = "Global.barTitleColor"
+        learntWordNumLabel.theme_textColor = "Global.barTitleColor"
+    }
+    
+    override func viewDidLoad() {
         initVC()
+        setupTheme()
         addGestureRecognizers()
         updateUserPhoto()
         updateDisplayName()

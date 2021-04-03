@@ -22,6 +22,15 @@ class StatViewController: UIViewController{
     var cumLearned:[Double] = []
     
     @IBOutlet weak var barTitleLabel: UILabel!
+    @IBOutlet weak var asbtractLabel: UILabel!
+    @IBOutlet weak var curveLabel: UILabel!
+    
+    @IBOutlet weak var todayLearnWLabel: UILabel!
+    @IBOutlet weak var todayLearnMinLabel: UILabel!
+    
+    @IBOutlet weak var cumLearnMinLabel: UILabel!
+    @IBOutlet weak var cumLearnWLabel: UILabel!
+    
     @IBOutlet weak var backBtn: UIButton!
     @IBOutlet weak var learningStackView: UIStackView!
     
@@ -258,6 +267,7 @@ class StatViewController: UIViewController{
     }
     
     func setFontofSegmentedControl(selectedForeGroundColor: UIColor){
+        dataTypeSegmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: selectedForeGroundColor], for: .selected)
         dayMonSegmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: selectedForeGroundColor], for: .selected)
         wordTimeSegmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: selectedForeGroundColor], for: .selected)
         perTimeCumSegmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: selectedForeGroundColor], for: .selected)
@@ -276,7 +286,8 @@ class StatViewController: UIViewController{
             learningStackView.alpha = 0
         }
         masteredChartView.frame = CGRect(x: 0, y: 0, width: masteredAndLearnedCurveView.bounds.width, height: masteredAndLearnedCurveView.bounds.height)
-        masteredChartView.contentWidth = masteredAndLearnedCurveView.bounds.width - 30.0
+        masteredChartView.contentWidth = masteredAndLearnedCurveView.bounds.width
+        masteredChartView.theme_backgroundColor = "StatView.panelBgColor"
         masteredAndLearnedCurveView.addSubview(masteredChartView)
         switch dataType {
         case .learnStatus:
@@ -288,31 +299,52 @@ class StatViewController: UIViewController{
         }
     }
     
-    override func viewDidLoad() {
+    func setupTheme(){
+        view.isOpaque = false
         view.theme_backgroundColor = "Global.viewBackgroundColor"
-//        view.backgroundColor = .white
+        masteredAndLearnedCurveView.theme_backgroundColor = "StatView.panelBgColor"
+        
         backBtn.theme_tintColor = "Global.backBtnTintColor"
         barTitleLabel.theme_textColor = "Global.barTitleColor"
         
-        setFontofSegmentedControl(selectedForeGroundColor: .white)
-        setUpLearnStatusSelected(initial: true)
+        asbtractLabel.theme_textColor = "Global.barTitleColor"
+        curveLabel.theme_textColor = "Global.barTitleColor"
         
-        view.isOpaque = false
+        todayLearnWLabel.theme_textColor = "Global.barTitleColor"
+        todayLearnMinLabel.theme_textColor = "Global.barTitleColor"
+        cumLearnWLabel.theme_textColor = "Global.barTitleColor"
+        cumLearnMinLabel.theme_textColor = "Global.barTitleColor"
+        
+        numWordTodayLabel.theme_textColor = "Global.barTitleColor"
+        numMinutesTodayLabel.theme_textColor = "Global.barTitleColor"
+        numWordCumulatedLabel.theme_textColor = "Global.barTitleColor"
+        numMinutesCumulatedLabel.theme_textColor = "Global.barTitleColor"
         
         masteredChartView.theme_backgroundColor = "Global.viewBackgroundColor"
-        initMasterChartView(dataType: .ebbinhaus)
-        getStatOfToday()
-        super.viewDidLoad()
-        
-        let font = UIFont.systemFont(ofSize: 10)
-        dayMonSegmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor(hex: getSegmentedCtrlUnselectedTextColor()) ?? .darkGray, NSAttributedString.Key.font: font], for: .normal)
-        wordTimeSegmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor(hex: getSegmentedCtrlUnselectedTextColor()) ?? .darkGray, NSAttributedString.Key.font: font], for: .normal)
-        perTimeCumSegmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor(hex: getSegmentedCtrlUnselectedTextColor()) ?? .darkGray, NSAttributedString.Key.font: font], for: .normal)
-        // Do any additional setup after loading the view.
-        
+        setFontofSegmentedControl(selectedForeGroundColor: .white)
+        dataTypeSegmentedControl.theme_selectedSegmentTintColor = "StatView.segmentedCtrlSelectedTintColor"
         dayMonSegmentedControl.theme_selectedSegmentTintColor = "StatView.segmentedCtrlSelectedTintColor"
         wordTimeSegmentedControl.theme_selectedSegmentTintColor = "StatView.segmentedCtrlSelectedTintColor"
         perTimeCumSegmentedControl.theme_selectedSegmentTintColor = "StatView.segmentedCtrlSelectedTintColor"
+        
+        
+        let font = UIFont.systemFont(ofSize: 10)
+        dataTypeSegmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor(hex: getSegmentedCtrlUnselectedTextColor()) ?? .darkGray, NSAttributedString.Key.font: font], for: .normal)
+        dayMonSegmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor(hex: getSegmentedCtrlUnselectedTextColor()) ?? .darkGray, NSAttributedString.Key.font: font], for: .normal)
+        wordTimeSegmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor(hex: getSegmentedCtrlUnselectedTextColor()) ?? .darkGray, NSAttributedString.Key.font: font], for: .normal)
+        perTimeCumSegmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor(hex: getSegmentedCtrlUnselectedTextColor()) ?? .darkGray, NSAttributedString.Key.font: font], for: .normal)
+    }
+    
+    override func viewDidLoad() {
+        setupTheme()
+        
+        view.isOpaque = false
+        setUpLearnStatusSelected(initial: true)
+        initMasterChartView(dataType: .ebbinhaus)
+        getStatOfToday()
+        super.viewDidLoad()
+        // Do any additional setup after loading the view.
+        
     }
     
     func getStatOfToday(){

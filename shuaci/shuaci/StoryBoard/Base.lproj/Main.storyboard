@@ -34,6 +34,10 @@
                                     <wkPreferences key="preferences"/>
                                 </wkWebViewConfiguration>
                             </wkWebView>
+                            <view userInteractionEnabled="NO" alpha="0.10000000149011612" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2Tc-of-Vyk">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
                             <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pAZ-hD-o7k">
                                 <rect key="frame" x="374" y="54" width="30" height="30"/>
                                 <constraints>
@@ -55,8 +59,12 @@
                         <viewLayoutGuide key="safeArea" id="CDK-im-AFJ"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="2Tc-of-Vyk" firstAttribute="leading" secondItem="CDK-im-AFJ" secondAttribute="leading" id="70m-H6-1oM"/>
+                            <constraint firstAttribute="bottom" secondItem="2Tc-of-Vyk" secondAttribute="bottom" id="LvL-Nz-wWj"/>
+                            <constraint firstItem="2Tc-of-Vyk" firstAttribute="top" secondItem="eEN-m0-0nM" secondAttribute="top" id="Vuq-2s-sSj"/>
                             <constraint firstItem="CDK-im-AFJ" firstAttribute="bottom" secondItem="Oky-PQ-Yfk" secondAttribute="bottom" id="Z4x-Ly-IlO"/>
                             <constraint firstItem="Oky-PQ-Yfk" firstAttribute="top" secondItem="CDK-im-AFJ" secondAttribute="top" id="gf7-D0-xUP"/>
+                            <constraint firstItem="2Tc-of-Vyk" firstAttribute="trailing" secondItem="CDK-im-AFJ" secondAttribute="trailing" id="lNk-Dl-Gos"/>
                             <constraint firstItem="CDK-im-AFJ" firstAttribute="trailing" secondItem="Oky-PQ-Yfk" secondAttribute="trailing" id="skm-pf-XwW"/>
                             <constraint firstItem="pAZ-hD-o7k" firstAttribute="top" secondItem="CDK-im-AFJ" secondAttribute="top" constant="10" id="snS-Ga-Yb5"/>
                             <constraint firstItem="CDK-im-AFJ" firstAttribute="trailing" secondItem="pAZ-hD-o7k" secondAttribute="trailing" constant="10" id="uvV-gK-ofO"/>
@@ -64,6 +72,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="dimUIView" destination="2Tc-of-Vyk" id="ykx-MS-zZc"/>
                         <outlet property="webView" destination="Oky-PQ-Yfk" id="R7h-Qa-cC4"/>
                     </connections>
                 </viewController>
@@ -667,6 +676,7 @@
                                             <outlet property="bookSubtitle" destination="3pQ-hr-npA" id="KCf-0U-DEf"/>
                                             <outlet property="bookTitle" destination="aVz-nO-vhh" id="yhn-jF-HR8"/>
                                             <outlet property="bottomView" destination="j1p-MX-XEN" id="bzS-Qp-ZvK"/>
+                                            <outlet property="coverView" destination="Ova-ix-tmj" id="dih-2n-wRr"/>
                                             <outlet property="dimUIView" destination="sb7-nE-Ls4" id="byv-CR-iqM"/>
                                             <outlet property="introduce" destination="DNK-b4-HaI" id="3Wv-pS-x7t"/>
                                             <outlet property="name" destination="X7N-zk-sDn" id="SyF-gM-80i"/>
@@ -919,6 +929,7 @@
                         <outlet property="backBtn" destination="Agh-jn-UNO" id="MQI-FW-zKc"/>
                         <outlet property="bookNameLabel" destination="5lc-ng-WfJ" id="QVB-WD-JRY"/>
                         <outlet property="changeBookBtn" destination="xri-bM-taa" id="b2U-Sv-caH"/>
+                        <outlet property="currentLearningLabel" destination="ey0-yZ-2ho" id="6Gt-Sc-GkU"/>
                         <outlet property="currentLearningView" destination="JFW-JA-bm9" id="gw3-OG-wcq"/>
                         <outlet property="learntWordNumLabel" destination="oyL-IW-hhQ" id="GNf-cT-gXi"/>
                         <outlet property="logoutBtn" destination="Jcd-UN-SIv" id="5JR-k9-eNY"/>
@@ -1225,12 +1236,12 @@
                                 <subviews>
                                     <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" apportionsSegmentWidthsByContent="YES" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="9Ml-IN-GDu">
                                         <rect key="frame" x="71.5" y="25" width="231" height="32"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <segments>
                                             <segment title="记忆规律"/>
                                             <segment title="学习情况"/>
                                             <segment title="长期掌握度"/>
                                         </segments>
+                                        <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <color key="selectedSegmentTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <connections>
                                             <action selector="dataTypeChanged:" destination="4a5-3m-NM6" eventType="valueChanged" id="vOG-HJ-1V1"/>
@@ -1520,8 +1531,12 @@
                     </view>
                     <navigationItem key="navigationItem" id="Ftz-Ln-bCP"/>
                     <connections>
+                        <outlet property="asbtractLabel" destination="ed3-qa-v1e" id="14f-mF-yAb"/>
                         <outlet property="backBtn" destination="NXW-YI-P3Y" id="lty-Hh-guC"/>
                         <outlet property="barTitleLabel" destination="kW9-FR-IxA" id="VIl-To-ftK"/>
+                        <outlet property="cumLearnMinLabel" destination="0FL-zy-Dv6" id="1l3-YN-WpK"/>
+                        <outlet property="cumLearnWLabel" destination="zwo-WF-fzM" id="Qy3-2n-sdk"/>
+                        <outlet property="curveLabel" destination="xxj-3N-dca" id="ZSn-kX-PQM"/>
                         <outlet property="curveView" destination="YdH-UP-BSR" id="5ce-49-Shy"/>
                         <outlet property="dataTypeSegmentedControl" destination="9Ml-IN-GDu" id="86o-NO-bCG"/>
                         <outlet property="dayMonSegmentedControl" destination="ahS-Ho-rou" id="6Ty-OA-Zj2"/>
@@ -1534,6 +1549,8 @@
                         <outlet property="overView" destination="GC4-hx-XIQ" id="AiN-K2-6Lv"/>
                         <outlet property="perTimeCumSegmentedControl" destination="o4P-kt-yDA" id="M52-oO-jwG"/>
                         <outlet property="statView" destination="Yyq-bS-swR" id="hT3-Nt-q1w"/>
+                        <outlet property="todayLearnMinLabel" destination="xHH-0Y-Tqo" id="NsG-6Y-peh"/>
+                        <outlet property="todayLearnWLabel" destination="G0U-9d-smS" id="wmf-FE-b5i"/>
                         <outlet property="wordTimeSegmentedControl" destination="yXM-87-qL2" id="wol-xa-CtM"/>
                     </connections>
                 </viewController>
@@ -3081,12 +3098,19 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="backBtn" destination="684-wH-wQh" id="tli-VA-6A3"/>
+                        <outlet property="continuesMemLabel" destination="Mjb-uq-OTf" id="TaN-nf-YqL"/>
+                        <outlet property="filterBtn" destination="k6r-Xe-PA6" id="9Wt-Ls-JmT"/>
+                        <outlet property="memStatusLabel" destination="ZLK-3Z-csE" id="EUJ-nV-Tfv"/>
                         <outlet property="option0" destination="Uf3-1L-BUC" id="UGE-TQ-U6x"/>
                         <outlet property="option1" destination="Ldk-Hh-BFG" id="bYu-9d-gFZ"/>
                         <outlet property="option2" destination="s7t-WN-d2I" id="HKG-un-O7K"/>
                         <outlet property="option3" destination="Mnv-rr-To1" id="5Wf-Ia-BtL"/>
                         <outlet property="periodSegCtrl" destination="scI-cj-1fY" id="0UB-wW-2np"/>
+                        <outlet property="smallView" destination="dKa-8u-yLb" id="gIS-1k-qGQ"/>
                         <outlet property="statusSegCtrl" destination="qG5-9r-3Ww" id="kdb-3U-LvC"/>
+                        <outlet property="titleLabel" destination="cn7-Eh-snB" id="oXt-Vz-5zH"/>
+                        <outlet property="vocabDateLabel" destination="Zev-Te-Aoj" id="eJK-48-jnR"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KYE-KK-39Z" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -3207,16 +3231,16 @@
     </scenes>
     <designables>
         <designable name="Ldk-Hh-BFG">
-            <size key="intrinsicContentSize" width="51" height="18"/>
+            <size key="intrinsicContentSize" width="30" height="30"/>
         </designable>
         <designable name="Mnv-rr-To1">
-            <size key="intrinsicContentSize" width="53" height="18"/>
+            <size key="intrinsicContentSize" width="30" height="30"/>
         </designable>
         <designable name="Uf3-1L-BUC">
-            <size key="intrinsicContentSize" width="53" height="18"/>
+            <size key="intrinsicContentSize" width="30" height="30"/>
         </designable>
         <designable name="s7t-WN-d2I">
-            <size key="intrinsicContentSize" width="53" height="18"/>
+            <size key="intrinsicContentSize" width="30" height="30"/>
         </designable>
     </designables>
     <resources>

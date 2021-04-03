@@ -11,6 +11,7 @@ import Disk
 import LeanCloud
 import SwiftyJSON
 import Accelerate
+import SwiftTheme
 
 func initIndicator(view: UIView){
     hud.textLabel.text = "加载中"
@@ -26,6 +27,12 @@ func stopIndicator(){
 func isKeyPresentInUserDefaults(key: String) -> Bool {
     return UserDefaults.standard.object(forKey: key) != nil
 }
+
+func getThemeColor(key: String) -> String{
+    let viewBackgroundColor = ThemeManager.currentTheme?.value(forKeyPath: key) as! String
+    return viewBackgroundColor
+}
+
 
 // MARK: - Preference Util
 

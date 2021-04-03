@@ -62,6 +62,8 @@
 	</dict>
 	<key>TableView</key>
 	<dict>
+		<key>selectedColor</key>
+		<string>#1E1E1E</string>
 		<key>switchOnTintColor</key>
 		<string>#ebf0eb</string>
 		<key>switchThumbTintColor</key>

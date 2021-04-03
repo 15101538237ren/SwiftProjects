@@ -17,14 +17,58 @@ class FilterVocabHistoryVC: UIViewController {
     
     var numOfContinuousMemTimes:[Int] = []
     
+    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var vocabDateLabel: UILabel!
+    @IBOutlet weak var memStatusLabel: UILabel!
+    @IBOutlet weak var continuesMemLabel: UILabel!
+    @IBOutlet weak var backBtn: UIButton!
+    @IBOutlet weak var filterBtn: UIButton!
+    @IBOutlet weak var smallView: UIView!
+    
     @IBOutlet weak var option0: CheckboxButton!
     @IBOutlet weak var option1: CheckboxButton!
     @IBOutlet weak var option2: CheckboxButton!
     @IBOutlet weak var option3: CheckboxButton!
     var btnCtn = CheckboxButtonContainer()
     
+    func addBlurBackgroundView(){
+        let blurEffect = getBlurEffect()
+        let blurEffectView = UIVisualEffectView(effect: blurEffect)
+        blurEffectView.frame = view.bounds
+        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        view.insertSubview(blurEffectView, at: 0)
+    }
+    
+    
+    func setupTheme(){
+        view.backgroundColor = .clear
+        smallView.backgroundColor = .clear
+        addBlurBackgroundView()
+        
+        backBtn.theme_setTitleColor("Global.barTitleColor", forState: .normal)
+        filterBtn.theme_setTitleColor("Global.barTitleColor", forState: .normal)
+        option0.theme_setTitleColor("Global.barTitleColor", forState: .normal)
+        option1.theme_setTitleColor("Global.barTitleColor", forState: .normal)
+        option2.theme_setTitleColor("Global.barTitleColor", forState: .normal)
+        option3.theme_setTitleColor("Global.barTitleColor", forState: .normal)
+        
+        titleLabel.theme_textColor = "TableView.labelTextColor"
+        vocabDateLabel.theme_textColor = "Global.barTitleColor"
+        memStatusLabel.theme_textColor = "Global.barTitleColor"
+        continuesMemLabel.theme_textColor = "Global.barTitleColor"
+        periodSegCtrl.theme_backgroundColor = "WordHistory.segCtrlTintColor"
+        periodSegCtrl.theme_selectedSegmentTintColor = "WordHistory.segmentedCtrlSelectedTintColor"
+        periodSegCtrl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.white], for: .selected)
+        periodSegCtrl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor(hex: getThemeColor(key: "WordHistory.segTextColor")) ?? .darkGray], for: .normal)
+        statusSegCtrl.theme_backgroundColor = "WordHistory.segCtrlTintColor"
+        statusSegCtrl.theme_selectedSegmentTintColor = "WordHistory.segmentedCtrlSelectedTintColor"
+        statusSegCtrl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.white], for: .selected)
+        statusSegCtrl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor(hex: getThemeColor(key: "WordHistory.segTextColor")) ?? .darkGray], for: .normal)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupTheme()
         btnCtn.addButtons([option0, option1, option2, option3])
         btnCtn.delegate = self
         view.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(handleDismiss)))
