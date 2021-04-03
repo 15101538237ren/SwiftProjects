@@ -251,11 +251,23 @@ class MainScreenViewController: UIViewController {
     }
     
     
-    @IBAction func showLoginVC(_ sender: UIButton) {
+    @IBAction func showPhoneLoginVC(_ sender: UIButton) {
         let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
         let loginVC = mainStoryBoard.instantiateViewController(withIdentifier: "loginVC") as! LoginVC
         loginVC.modalPresentationStyle = .overCurrentContext
         loginVC.mainScreenVC = self
+        loginVC.loginType = .Phone
+        DispatchQueue.main.async {
+            self.present(loginVC, animated: true, completion: nil)
+        }
+    }
+    
+    @IBAction func showEmailLoginVC(_ sender: UIButton) {
+        let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+        let loginVC = mainStoryBoard.instantiateViewController(withIdentifier: "loginVC") as! LoginVC
+        loginVC.modalPresentationStyle = .overCurrentContext
+        loginVC.mainScreenVC = self
+        loginVC.loginType = .Email
         DispatchQueue.main.async {
             self.present(loginVC, animated: true, completion: nil)
         }

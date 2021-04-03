@@ -435,8 +435,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="选择单词书" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TSQ-wf-wmG">
-                                <rect key="frame" x="163.5" y="59" width="87" height="26"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="选择词库" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TSQ-wf-wmG">
+                                <rect key="frame" x="172.5" y="59" width="69.5" height="26"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="26" id="pJx-8j-Mgu"/>
                                 </constraints>
@@ -851,7 +851,7 @@
                                         <rect key="frame" x="296" y="15" width="53" height="24"/>
                                         <color key="backgroundColor" systemColor="systemGreenColor"/>
                                         <fontDescription key="fontDescription" type="system" weight="medium" pointSize="10"/>
-                                        <state key="normal" title="  更换词书  ">
+                                        <state key="normal" title="  更换词库  ">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
                                         <connections>
@@ -2416,21 +2416,8 @@
                             <stackView opaque="NO" contentMode="scaleToFill" spacing="25" translatesAutoresizingMaskIntoConstraints="NO" id="lhc-CA-BSv">
                                 <rect key="frame" x="55.5" y="722" width="303" height="50"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zio-1z-ujq">
-                                        <rect key="frame" x="0.0" y="0.0" width="139" height="50"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" secondItem="Zio-1z-ujq" secondAttribute="height" multiplier="139:50" id="PuH-UE-PQm"/>
-                                            <constraint firstAttribute="width" constant="139" id="oHB-X1-PnE"/>
-                                        </constraints>
-                                        <state key="normal" image="wechat_login">
-                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="wexinLogin:" destination="jWR-as-xvL" eventType="touchUpInside" id="zZK-E5-NFi"/>
-                                        </connections>
-                                    </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fP9-DK-zf6">
-                                        <rect key="frame" x="164" y="0.0" width="139" height="50"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="139" height="50"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="fP9-DK-zf6" secondAttribute="height" multiplier="139:50" id="0Wu-ma-LNa"/>
                                             <constraint firstAttribute="width" constant="139" id="86M-hy-z10"/>
@@ -2439,7 +2426,22 @@
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
                                         <connections>
-                                            <action selector="showLoginVC:" destination="jWR-as-xvL" eventType="touchUpInside" id="a8f-4W-mAB"/>
+                                            <action selector="showPhoneLoginVC:" destination="jWR-as-xvL" eventType="touchUpInside" id="w0B-Na-57k"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zio-1z-ujq">
+                                        <rect key="frame" x="164" y="0.0" width="139" height="50"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="Zio-1z-ujq" secondAttribute="height" multiplier="139:50" id="PuH-UE-PQm"/>
+                                            <constraint firstAttribute="width" constant="139" id="oHB-X1-PnE"/>
+                                        </constraints>
+                                        <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <state key="normal" image="email_login">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="showEmailLoginVC:" destination="jWR-as-xvL" eventType="touchUpInside" id="0Vs-oP-cXN"/>
+                                            <action selector="wexinLogin:" destination="jWR-as-xvL" eventType="touchUpInside" id="zZK-E5-NFi"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -3253,6 +3255,7 @@
         <image name="colors" width="512" height="512"/>
         <image name="cum_time" width="500" height="500"/>
         <image name="cum_word" width="500" height="500"/>
+        <image name="email_login" width="139" height="47"/>
         <image name="english_american_pronunce" width="480" height="480"/>
         <image name="filter" width="512" height="512"/>
         <image name="house.fill" catalog="system" width="128" height="106"/>
@@ -3270,7 +3273,6 @@
         <image name="settings" width="512" height="512"/>
         <image name="speaker.2" catalog="system" width="128" height="90"/>
         <image name="user_profile" width="55" height="55"/>
-        <image name="wechat_login" width="139" height="47"/>
         <image name="xmark.circle" catalog="system" width="128" height="121"/>
         <systemColor name="darkTextColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

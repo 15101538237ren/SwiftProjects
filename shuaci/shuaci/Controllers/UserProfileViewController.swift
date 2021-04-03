@@ -137,7 +137,7 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
     
     func initVC(){
         if let current_book_name = preference.current_book_name{
-            self.bookNameLabel.text = "《\(current_book_name)》"
+            self.bookNameLabel.text = "「\(current_book_name)」"
         }
         updateProgressLabels()
         if let _ = preference.current_book_id {
