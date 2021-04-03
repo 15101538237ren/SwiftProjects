@@ -3230,19 +3230,129 @@
             </objects>
             <point key="canvasLocation" x="2404" y="88"/>
         </scene>
+        <!--View Controller-->
+        <scene sceneID="tbs-bf-zRR">
+            <objects>
+                <viewController storyboardIdentifier="reminderTimePickerVC" modalPresentationStyle="overCurrentContext" id="L3f-vg-QZu" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Cth-mQ-CVB">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RIf-fS-6kS">
+                                <rect key="frame" x="20" y="59" width="30" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="30" id="1jG-nY-cQi"/>
+                                    <constraint firstAttribute="height" constant="30" id="MDh-CJ-CId"/>
+                                </constraints>
+                                <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal" image="chevron.down" catalog="system">
+                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="large"/>
+                                </state>
+                                <connections>
+                                    <action selector="unwind:" destination="L3f-vg-QZu" eventType="touchUpInside" id="2l6-7h-rdl"/>
+                                </connections>
+                            </button>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="shuci_vip_icon" translatesAutoresizingMaskIntoConstraints="NO" id="Dqr-A5-Efq">
+                                <rect key="frame" x="152" y="104" width="150" height="55.5"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="150" id="I72-iC-Ygt"/>
+                                </constraints>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="iphone_demo" translatesAutoresizingMaskIntoConstraints="NO" id="zuN-D6-LgA">
+                                <rect key="frame" x="92" y="189.5" width="230" height="464.5"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="230" id="G5r-xH-aGc"/>
+                                </constraints>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="whf-Cg-Rpu">
+                                <rect key="frame" x="328" y="59" width="66" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal" title="恢复购买">
+                                    <color key="titleColor" red="0.57659810779999998" green="0.57252913709999997" blue="0.57255297900000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                </state>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Jyi-XB-uXV">
+                                <rect key="frame" x="120" y="676" width="174" height="42"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="174" id="L4P-gL-ZZK"/>
+                                    <constraint firstAttribute="width" secondItem="Jyi-XB-uXV" secondAttribute="height" multiplier="174:42" id="zfQ-Vn-M51"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="18"/>
+                                <state key="normal" image="try_btn"/>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="免费试用1个月，之后￥6.00/月" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zKh-8K-UQm">
+                                <rect key="frame" x="122" y="649" width="170" height="15"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="br2-mb-mYX">
+                                <rect key="frame" x="25" y="758" width="364" height="72"/>
+                                <string key="text">自动续费服务说明：
+1. 确认购买并付款后计入iTunes 账号。
+2. 如需取消自动扣费，请在当前订阅到期24小时前，手动在 iTunes/Apple ID 订阅管理中关闭自动续费功能。
+3. 苹果 iTunes 账号会在到期前24小时内扣款，扣款成功后订阅顺延一个周期。
+4. 可随时取消自动续费服务，取消后不再续费。</string>
+                                <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jQF-G7-umJ">
+                                <rect key="frame" x="166" y="838" width="82" height="24"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal" title="自动续费服务协议">
+                                    <color key="titleColor" red="0.19741946460000001" green="0.25166311860000001" blue="0.67368507389999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                </state>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="wDZ-GQ-6Og"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="Dqr-A5-Efq" firstAttribute="top" secondItem="wDZ-GQ-6Og" secondAttribute="top" constant="60" id="8hP-xD-ZZK"/>
+                            <constraint firstItem="zuN-D6-LgA" firstAttribute="width" secondItem="zuN-D6-LgA" secondAttribute="height" multiplier="205:414" id="ANo-DT-I8y"/>
+                            <constraint firstItem="zKh-8K-UQm" firstAttribute="centerX" secondItem="Cth-mQ-CVB" secondAttribute="centerX" id="EAT-sA-KKM"/>
+                            <constraint firstItem="Dqr-A5-Efq" firstAttribute="width" secondItem="Dqr-A5-Efq" secondAttribute="height" multiplier="133:49" id="Gwj-ZP-Svf"/>
+                            <constraint firstItem="br2-mb-mYX" firstAttribute="centerX" secondItem="Cth-mQ-CVB" secondAttribute="centerX" id="Hg9-I1-bNy"/>
+                            <constraint firstItem="jQF-G7-umJ" firstAttribute="top" secondItem="br2-mb-mYX" secondAttribute="bottom" constant="8" id="ITq-X5-T1o"/>
+                            <constraint firstItem="jQF-G7-umJ" firstAttribute="centerX" secondItem="Cth-mQ-CVB" secondAttribute="centerX" id="Mp8-jz-JXP"/>
+                            <constraint firstItem="zKh-8K-UQm" firstAttribute="top" secondItem="zuN-D6-LgA" secondAttribute="bottom" constant="-5" id="Nvw-Dr-Vb6"/>
+                            <constraint firstItem="RIf-fS-6kS" firstAttribute="top" secondItem="wDZ-GQ-6Og" secondAttribute="top" constant="15" id="Q4a-Td-QSi"/>
+                            <constraint firstItem="Jyi-XB-uXV" firstAttribute="top" secondItem="zKh-8K-UQm" secondAttribute="bottom" constant="12" id="U9s-c4-IRg"/>
+                            <constraint firstItem="br2-mb-mYX" firstAttribute="leading" secondItem="Cth-mQ-CVB" secondAttribute="leading" constant="25" id="WQu-mt-pdz"/>
+                            <constraint firstItem="zuN-D6-LgA" firstAttribute="top" secondItem="Dqr-A5-Efq" secondAttribute="bottom" constant="30" id="Wc4-6b-PSh"/>
+                            <constraint firstAttribute="trailing" secondItem="br2-mb-mYX" secondAttribute="trailing" constant="25" id="c5n-zk-JUw"/>
+                            <constraint firstItem="RIf-fS-6kS" firstAttribute="leading" secondItem="wDZ-GQ-6Og" secondAttribute="leading" constant="20" id="cm5-RZ-VsS"/>
+                            <constraint firstItem="zuN-D6-LgA" firstAttribute="centerX" secondItem="Cth-mQ-CVB" secondAttribute="centerX" id="gyg-WW-xNv"/>
+                            <constraint firstItem="Dqr-A5-Efq" firstAttribute="centerX" secondItem="Cth-mQ-CVB" secondAttribute="centerX" constant="20" id="iRd-cb-lcf"/>
+                            <constraint firstItem="Jyi-XB-uXV" firstAttribute="centerX" secondItem="Cth-mQ-CVB" secondAttribute="centerX" id="muW-V6-QXf"/>
+                            <constraint firstItem="br2-mb-mYX" firstAttribute="top" secondItem="Jyi-XB-uXV" secondAttribute="bottom" constant="40" id="xAU-2n-ADH"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="backBtn" destination="RIf-fS-6kS" id="Sep-3Y-Tsy"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="mes-R0-FdS" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4705.7971014492759" y="839.73214285714278"/>
+        </scene>
     </scenes>
     <designables>
         <designable name="Ldk-Hh-BFG">
-            <size key="intrinsicContentSize" width="30" height="30"/>
+            <size key="intrinsicContentSize" width="51" height="18"/>
         </designable>
         <designable name="Mnv-rr-To1">
-            <size key="intrinsicContentSize" width="30" height="30"/>
+            <size key="intrinsicContentSize" width="53" height="18"/>
         </designable>
         <designable name="Uf3-1L-BUC">
-            <size key="intrinsicContentSize" width="30" height="30"/>
+            <size key="intrinsicContentSize" width="53" height="18"/>
         </designable>
         <designable name="s7t-WN-d2I">
-            <size key="intrinsicContentSize" width="30" height="30"/>
+            <size key="intrinsicContentSize" width="53" height="18"/>
         </designable>
     </designables>
     <resources>
@@ -3259,6 +3369,7 @@
         <image name="english_american_pronunce" width="480" height="480"/>
         <image name="filter" width="512" height="512"/>
         <image name="house.fill" catalog="system" width="128" height="106"/>
+        <image name="iphone_demo" width="239" height="440"/>
         <image name="lock" width="150" height="150"/>
         <image name="logo" width="80" height="47"/>
         <image name="logout" width="512" height="512"/>
@@ -3271,7 +3382,9 @@
         <image name="select" width="149" height="149"/>
         <image name="seo" width="512" height="512"/>
         <image name="settings" width="512" height="512"/>
+        <image name="shuci_vip_icon" width="134" height="51"/>
         <image name="speaker.2" catalog="system" width="128" height="90"/>
+        <image name="try_btn" width="174" height="42"/>
         <image name="user_profile" width="55" height="55"/>
         <image name="xmark.circle" catalog="system" width="128" height="121"/>
         <systemColor name="darkTextColor">
