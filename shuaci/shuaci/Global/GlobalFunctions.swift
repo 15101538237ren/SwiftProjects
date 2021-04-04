@@ -804,6 +804,21 @@ func getNumerOfVocabsWithinDate(date: Date) -> Double{
     return numOfVocabRemembered
 }
 
+func getDeviceId(deviceToken: Data){
+    var deviceId = String()
+    if #available(iOS 13.0, *) {
+        let bytes = [UInt8](deviceToken)
+        for item in bytes {
+            deviceId += String(format:"%02x", item&0x000000FF)
+        }
+        print("iOS 13 deviceToken：\(deviceId)")
+    } else {
+        let device = NSData(data: deviceToken)
+        deviceId = device.description.replacingOccurrences(of:"<", with:"").replacingOccurrences(of:">", with:"").replacingOccurrences(of:" ", with:"")
+        print("我的deviceToken：\(deviceId)")
+    }
+}
+
 func getLongTermMemNumbers() -> [Double]{
     var vocabNums:[Double] = []
     let dateNow = Date()

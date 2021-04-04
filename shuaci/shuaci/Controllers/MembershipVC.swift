@@ -8,9 +8,12 @@
 
 import UIKit
 import SwiftyStoreKit
+import LeanCloud
 
 class MembershipVC: UIViewController {
     
+    var currentUser: LCUser!
+    fileprivate var timeOnThisPage: Int = 0
     @IBOutlet weak var demoImgView: UIImageView!
     var viewTranslation = CGPoint(x: 0, y: 0)
     override func viewDidLoad() {
@@ -18,7 +21,13 @@ class MembershipVC: UIViewController {
         loadGIF()
         stopIndicator()
         view.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(handleDismiss(sender:))))
+        let _ = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(tictoc), userInfo: nil, repeats: true)
     }
+    
+    @objc func tictoc(){
+        timeOnThisPage += 1
+    }
+    
     @objc func handleDismiss(sender: UIPanGestureRecognizer) {
         switch sender.state {
         case .changed:
@@ -65,12 +74,16 @@ class MembershipVC: UIViewController {
     func purchase(purchase : RegisteredPurchase) {
         initIndicator(view: self.view)
         view.isUserInteractionEnabled = false
+        let userInfo = ["Um_Key_UserID" : currentUser.objectId!.stringValue!]
+        UMAnalyticsSwift.event(eventId: "Um_Event_VipClick", attributes: userInfo)
         SwiftyStoreKit.purchaseProduct( makeProductId(purchase: purchase), quantity: 1, atomically: true, completion: {
             result in
             stopIndicator()
             self.view.isUserInteractionEnabled = true
             switch result{
             case .success:
+                UMAnalyticsSwift.event(eventId: "Um_Event_VipSuc", attributes: userInfo)
+                
                 DispatchQueue.main.async {
                     self.dismiss(animated: true, completion: nil)
                 }
@@ -88,10 +101,20 @@ class MembershipVC: UIViewController {
                     break
                 }
                 
+                let errInfo = ["Um_Key_Reasons": err_msg, "Um_Key_UserID" : self.currentUser.objectId!.stringValue!]
+                
+                UMAnalyticsSwift.event(eventId: "Um_Event_VipFailed", attributes: errInfo)
+                
                 let alertVC = self.alertWithTitle(title: "购买失败", message: err_msg)
                 self.showAlert(alert: alertVC)
             }
         })
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        let info = ["Um_Key_PageName": "会员购买页", "Um_Key_Duration": timeOnThisPage, "Um_Key_UserID" : currentUser.objectId!.stringValue!] as [String : Any]
+        
+        UMAnalyticsSwift.event(eventId: "Um_Event_PageView", attributes: info)
     }
     
     @IBAction func restorePurchases(_ sender: UIButton) {

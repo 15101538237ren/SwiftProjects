@@ -391,8 +391,19 @@ class LoginVC: UIViewController {
                                 })
                             }
                             //登录成功
+                        
+                            let userID: String = user.objectId!.stringValue!
+                            
+                            let userInfo = ["Um_Key_LoginType" : "邮箱登录", "Um_Key_UserID" : userID]
+                            
+                            UMAnalyticsSwift.event(eventId: "Um_Event_LoginSuc", attributes: userInfo)
                             
                         case .failure(error: let error):
+                            
+                            let errorInfo = ["Um_Key_Reasons" : error.localizedDescription]
+                            
+                            UMAnalyticsSwift.event(eventId: "Um_Event_LoginFailed", attributes: errorInfo)
+                            
                             DispatchQueue.main.async {
                                 self.stopIndicator()
                                 self.setElements(enable: true)
@@ -424,11 +435,20 @@ class LoginVC: UIViewController {
                                                     self.setElements(enable: true)
                                                 }
                                                 
+                                                let regInfo = ["Um_Key_RegisterType" : "注册邮箱邮件发送成功"]
+                                                
+                                                UMAnalyticsSwift.event(eventId: "Um_Event_RegisterSuc", attributes: regInfo)
+                                                
                                             case .failure(error: let error):
+                                                
                                                 DispatchQueue.main.async {
                                                     self.stopIndicator()
                                                     self.setElements(enable: true)
                                                 }
+                                                
+                                                let errorInfo = ["Um_Key_Reasons" : error.reason]
+                                                
+                                                UMAnalyticsSwift.event(eventId: "Um_Event_LoginFailed", attributes: errorInfo)
                                                 switch error.code {
                                                 case 202 :
                                                     self.view.makeToast("该邮箱已注册!", duration: 1.0, position: .center)
@@ -511,7 +531,9 @@ class LoginVC: UIViewController {
                                                 self.verificationBtnTimeChange()
                                                 self.view.makeToast("验证码已发送!", duration: 1.0, position: .center)
                                             case .failure(error: let error):
+                                                let info = ["Um_Key_Reasons" : "验证码发送失败, \(String(describing: error.reason))"]
                                                 
+                                                UMAnalyticsSwift.event(eventId: "Um_Event_LoginFailed", attributes: info)
                                                 self.view.makeToast("发送失败:\(error.reason?.stringValue ?? "")", duration: 1.0, position: .center)
                                             }
                                         }
@@ -524,6 +546,9 @@ class LoginVC: UIViewController {
                                     self.present(alertController, animated: true, completion: nil)
                                 default:
                                     self.view.makeToast("发送失败:\(error.reason?.stringValue ?? "")!", duration: 1.0, position: .center)
+                                    let info = ["Um_Key_Reasons" : "验证码发送失败, \(String(describing: error.reason))"]
+                                    
+                                    UMAnalyticsSwift.event(eventId: "Um_Event_LoginFailed", attributes: info)
                                 }
                         }
                     }
@@ -593,8 +618,17 @@ class LoginVC: UIViewController {
                                         self.mainScreenVC.showMainPanel(currentUser: user)
                                     })
                                  }
+                            
+                                let userID: String = user.objectId!.stringValue!
+                                let info = ["Um_Key_LoginType" : "手机登录成功", "Um_Key_UserID" : userID]
+                                 
+                                UMAnalyticsSwift.event(eventId: "Um_Event_LoginSuc", attributes: info)
                            case .failure(error: let error):
                             self.view.makeToast("\(error.reason ?? "登录失败，请稍后重试")", duration: 1.0, position: .center)
+                            
+                            let info = ["Um_Key_Reasons" : "手机登录失败:\(String(describing: error.reason))"]
+                             
+                            UMAnalyticsSwift.event(eventId: "Um_Event_LoginFailed", attributes: info)
                            }
                         })
                     }else{

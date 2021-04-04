@@ -28,6 +28,7 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
     private var DICT_URL: URL = Bundle.main.url(forResource: "DICT.json", withExtension: nil)!
     private var currentRec: Record?
     private var vocabRecordsOfCurrent:[VocabularyRecord] = []
+    fileprivate var timeOnThisPage: Int = 0
     
     var vocab_rec_need_to_be_review:[VocabularyRecord]!
     
@@ -112,6 +113,7 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
         view.theme_backgroundColor = "Global.viewBackgroundColor"
 //        view.backgroundColor = .white
         super.viewDidLoad()
+        let _ = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(tictoc), userInfo: nil, repeats: true)
         initLearningRecord()
         stopIndicator()
     }
@@ -125,6 +127,10 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
         }
         
         currentRec = Record(uuid: uuid, recordType: currentMode, startDate: Date(), endDate: Date(), vocabHeads: [])
+    }
+    
+    @objc func tictoc(){
+        timeOnThisPage += 1
     }
     
     @objc func relayout(){
@@ -245,6 +251,13 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
                 }
             }
         }
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        let pageName:String = currentMode == 1 ? "背单词" : "复习"
+        let info = ["Um_Key_PageName": pageName, "Um_Key_Duration": timeOnThisPage, "Um_Key_UserID" : currentUser.objectId!.stringValue!] as [String : Any]
+        
+        UMAnalyticsSwift.event(eventId: "Um_Event_PageView", attributes: info)
     }
     
     @IBAction func unwind(segue: UIStoryboardSegue) {

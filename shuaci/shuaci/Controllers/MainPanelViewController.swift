@@ -583,6 +583,7 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
         let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
         let membershipVC = mainStoryBoard.instantiateViewController(withIdentifier: "membershipVC") as! MembershipVC
         membershipVC.modalPresentationStyle = .overCurrentContext
+        membershipVC.currentUser = currentUser
         DispatchQueue.main.async {
             self.present(membershipVC, animated: true, completion: nil)
         }

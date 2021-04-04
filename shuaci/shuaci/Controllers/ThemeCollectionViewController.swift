@@ -73,6 +73,9 @@ class ThemeCollectionViewController: UIViewController, UICollectionViewDelegate,
         
         ThemeManager.setTheme(plistName: theme_category_to_name[theme.category]!.rawValue, path: .mainBundle)
         
+        let info = ["Um_Key_ButtonName" : "\(theme.name)", "Um_Key_SourcePage":"选主题", "Um_Key_UserID" : userId]
+        UMAnalyticsSwift.event(eventId: "Um_Event_ModularClick", attributes: info)
+        
         mainPanelViewController.setDefaultWallpaper(theme_category: theme_category)
         mainPanelViewController.getNextWallpaper(category: theme_category)
         self.dismiss(animated: true, completion: nil)

@@ -98,6 +98,9 @@ class SetMemOptionViewController: UIViewController, UIPickerViewDelegate, UIPick
         }
         
         if bookVC != nil{
+            let info = ["Um_Key_ButtonName" : "\(book.name)", "Um_Key_SourcePage":"选了书", "Um_Key_UserID" : currentUser.objectId!.stringValue!]
+            UMAnalyticsSwift.event(eventId: "Um_Event_ModularClick", attributes: info)
+            
             downloadBookJson(book: book)
         }
         else

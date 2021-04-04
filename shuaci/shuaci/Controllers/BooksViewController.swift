@@ -403,12 +403,14 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let book = books[indexPath.row]
+        
         let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
         let SetMemOptionVC = mainStoryBoard.instantiateViewController(withIdentifier: "SetMemOptionVC") as! SetMemOptionViewController
         SetMemOptionVC.modalPresentationStyle = .overCurrentContext
         SetMemOptionVC.currentUser = currentUser
         SetMemOptionVC.preference = preference
-        SetMemOptionVC.book = books[indexPath.row]
+        SetMemOptionVC.book = book
         SetMemOptionVC.bookIndex = indexPath.row
         SetMemOptionVC.bookVC = self
         SetMemOptionVC.mainPanelVC = mainPanelViewController
