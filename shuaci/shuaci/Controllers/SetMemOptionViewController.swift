@@ -452,9 +452,13 @@ class SetMemOptionViewController: UIViewController, UIPickerViewDelegate, UIPick
                      () -> Void in
                         if let bookVC = self.bookVC{
                             bookVC.dismiss(animated: false, completion: { () -> Void in
-                            if self.mainPanelVC != nil{
-                                self.mainPanelVC!.loadLearnController()
-                            }})
+                                if self.mainPanelVC != nil{
+                                    self.mainPanelVC!.loadLearnController()
+                                }
+                                if let profileVC = bookVC.userProfileVC{
+                                    profileVC.updateBookName()
+                                }
+                            })
                         }
                 })
             }

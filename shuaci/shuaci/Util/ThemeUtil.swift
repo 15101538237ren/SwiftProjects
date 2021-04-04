@@ -49,7 +49,7 @@ var theme_card_colors:[Int:[String]] = [
 ]
 
 var default_wallpapers:[Wallpaper] = [
-    Wallpaper(word: "calendar", trans: "日历", category: 1), //Light
+    Wallpaper(word: "leaves", trans: "叶", category: 1), //Light
     Wallpaper(word: "firework", trans: "烟花", category: 2), //Dark
     Wallpaper(word: "moon", trans: "月球", category: 3), //Black
     Wallpaper(word: "leaf", trans: "叶子", category: 4), // Green

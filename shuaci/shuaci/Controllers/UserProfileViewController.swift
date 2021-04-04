@@ -147,6 +147,19 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
         }
     }
     
+    func updateBookName(){
+        preference = loadPreference(userId: currentUser.objectId!.stringValue!)
+        mainPanelViewController.update_preference()
+        if let current_book_name = preference.current_book_name {
+            currentLearningView.alpha = 1.0
+            self.bookNameLabel.text = "「\(current_book_name)」"
+            updateProgressLabels()
+        }
+        else{
+            currentLearningView.alpha = 0.0
+        }
+    }
+    
     func updateProgressLabels(){
         if let bookId = preference.current_book_id {
             if currentbook_json_obj.count == 0{
@@ -219,9 +232,9 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
     }
     
     @objc func popNameTextInputAlert(tapGestureRecognizer: UITapGestureRecognizer){
-        let alertController = UIAlertController(title: "设置显示名称", message: "", preferredStyle: .alert)
+        let alertController = UIAlertController(title: "设置昵称", message: "", preferredStyle: .alert)
         
-        alertController.addTextField(text: "", placeholder: "输入显示名称", editingChangedTarget: nil, editingChangedSelector: nil)
+        alertController.addTextField(text: "", placeholder: "填入你喜欢的昵称", editingChangedTarget: nil, editingChangedSelector: nil)
         
         let setAction = UIAlertAction(title: "确定", style: .default){ _ in
             let name: String = alertController.textFields!.first!.text ?? ""
@@ -229,7 +242,7 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
                 self.setDisplayName(name: name)
                 alertController.dismiss(animated: true, completion: nil)
             }else{
-                self.view.makeToast("请输入显示名称", duration: 1.2, position: .center)
+                self.view.makeToast("请输入你喜欢的昵称", duration: 1.2, position: .center)
             }
             
          }
@@ -459,6 +472,7 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
         booksVC.preference = preference
         booksVC.modalPresentationStyle = .fullScreen
         booksVC.mainPanelViewController = nil
+        booksVC.userProfileVC = self
         fetchBooks()
         DispatchQueue.main.async {
             self.present(booksVC, animated: true, completion: nil)

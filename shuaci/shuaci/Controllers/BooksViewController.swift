@@ -24,6 +24,7 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     var currentUser: LCUser!
     var preference:Preference!
+    var userProfileVC: UserProfileViewController?
     var tempBooks:[Book] = []
     var tempItems:[LCObject] = []
     var storedOffsets = [Int: CGFloat]()
@@ -222,6 +223,7 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
     }
     
     override func viewDidLoad() {
+        stopIndicator()
         super.viewDidLoad()
         
         for collectionView in collectionViews{
@@ -248,7 +250,7 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
         loadBooks()
     }
     
-    func stopIndicator(){
+    func stopSelfIndicator(){
         self.indicator.stopAnimating()
         self.indicator.hidesWhenStopped = true
         self.effectView.alpha = 0
@@ -258,7 +260,7 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
     func loadBooks()
     {
         if books.count > 0{
-            stopIndicator()
+            stopSelfIndicator()
             if Reachability.isConnectedToNetwork(){
                 DispatchQueue.global(qos: .background).async {
                 do {
@@ -343,7 +345,7 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
                             resultsItems = self.tempItems
                             DispatchQueue.main.async {
                                 self.tableView.reloadData()
-                                self.stopIndicator()
+                                self.stopSelfIndicator()
                             }
                             break
                         case .failure(error: let error):
@@ -404,7 +406,6 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let book = books[indexPath.row]
-        
         let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
         let SetMemOptionVC = mainStoryBoard.instantiateViewController(withIdentifier: "SetMemOptionVC") as! SetMemOptionViewController
         SetMemOptionVC.modalPresentationStyle = .overCurrentContext

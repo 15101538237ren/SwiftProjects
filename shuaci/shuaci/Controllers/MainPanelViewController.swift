@@ -165,7 +165,7 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
         view.addSubview(activityEffectView)
     }
     
-    func stopIndicator(){
+    func stopSelfIndicator(){
         DispatchQueue.main.async {
             self.activityIndicator.stopAnimating()
             self.activityIndicator.hidesWhenStopped = true
@@ -721,7 +721,7 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
                         query.whereKey("identifier", .equalTo(bookId))
                         _ = query.getFirst() { result in
                             
-                            self.stopIndicator()
+                            self.stopSelfIndicator()
                             self.stopRotating()
                             switch result {
                             case .success(object: let result):
