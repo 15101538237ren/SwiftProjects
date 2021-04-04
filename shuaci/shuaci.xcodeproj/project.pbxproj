@@ -49,6 +49,8 @@
 		55F2B5A0247B053500758113 /* Date+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55F2B59F247B053500758113 /* Date+Ext.swift */; };
 		55F2B5A2247B4A0F00758113 /* LearnOrReviewFinishUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55F2B5A1247B4A0F00758113 /* LearnOrReviewFinishUIView.swift */; };
 		55F2B5A4247B4B3700758113 /* String+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55F2B5A3247B4B3700758113 /* String+Ext.swift */; };
+		55F4E03326194B7500730DB7 /* VIP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55F4E03226194B7500730DB7 /* VIP.swift */; };
+		55F4E03626194FCA00730DB7 /* MembershipVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55F4E03526194FCA00730DB7 /* MembershipVC.swift */; };
 		A5134E322467719C008B116D /* Learning.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A5134E312467719C008B116D /* Learning.storyboard */; };
 		A5134E34246772B4008B116D /* LearnWordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5134E33246772B4008B116D /* LearnWordViewController.swift */; };
 		A5134E3624677BF3008B116D /* LearnUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5134E3524677BF3008B116D /* LearnUIView.swift */; };
@@ -145,6 +147,8 @@
 		55F2B59F247B053500758113 /* Date+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Ext.swift"; sourceTree = "<group>"; };
 		55F2B5A1247B4A0F00758113 /* LearnOrReviewFinishUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearnOrReviewFinishUIView.swift; sourceTree = "<group>"; };
 		55F2B5A3247B4B3700758113 /* String+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Ext.swift"; sourceTree = "<group>"; };
+		55F4E03226194B7500730DB7 /* VIP.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VIP.swift; sourceTree = "<group>"; };
+		55F4E03526194FCA00730DB7 /* MembershipVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembershipVC.swift; sourceTree = "<group>"; };
 		7904B907E4DC4D8D3DC6FC8C /* Pods_shuaci.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_shuaci.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A175FCA5411DABB0C4A1A6DE /* Pods-shuaci.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-shuaci.debug.xcconfig"; path = "Target Support Files/Pods-shuaci/Pods-shuaci.debug.xcconfig"; sourceTree = "<group>"; };
 		A5134E312467719C008B116D /* Learning.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Learning.storyboard; sourceTree = "<group>"; };
@@ -272,6 +276,7 @@
 				A5E6973D2473404A004CFA70 /* CardWord.swift */,
 				55C781A124902F1600C9F33E /* SettingItem.swift */,
 				C3A1AB3125A1497B00921510 /* Preference.swift */,
+				55F4E03226194B7500730DB7 /* VIP.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -426,6 +431,7 @@
 				559B96C224F82FDA00516475 /* WordDetailViewController.swift */,
 				C340D9DC2603127700EBE548 /* FilterVocabHistoryVC.swift */,
 				55538E11260D2EF500480A30 /* SetNumOfReviewVC.swift */,
+				55F4E03526194FCA00730DB7 /* MembershipVC.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -615,6 +621,7 @@
 				55538E12260D2EF500480A30 /* SetNumOfReviewVC.swift in Sources */,
 				5547AE8A24BA45540096B41E /* WordHistoryTableViewCell.swift in Sources */,
 				A5AE220124E4E9D500473EA2 /* SetMemOptionViewController.swift in Sources */,
+				55F4E03626194FCA00730DB7 /* MembershipVC.swift in Sources */,
 				553C24E12613B6C20038D2D7 /* UMAnalyticsSwift.swift in Sources */,
 				A5AE21FF24E4E6EF00473EA2 /* SetMemOptionView.swift in Sources */,
 				5547AE8824BA37400096B41E /* WordHistoryViewController.swift in Sources */,
@@ -635,6 +642,7 @@
 				A59EB1D72452A12900F300E1 /* MainScreenViewController.swift in Sources */,
 				55E7C6C5261170AD0006D8E7 /* AppStoreReviewManager.swift in Sources */,
 				A59EB1D32452A12900F300E1 /* AppDelegate.swift in Sources */,
+				55F4E03326194B7500730DB7 /* VIP.swift in Sources */,
 				559B96C324F82FDA00516475 /* WordDetailViewController.swift in Sources */,
 				A59A0B1A2454C04E000845F2 /* UIColor+Ext.swift in Sources */,
 				A5DD06E0246267A60051B3E5 /* BookItemTableViewCell.swift in Sources */,

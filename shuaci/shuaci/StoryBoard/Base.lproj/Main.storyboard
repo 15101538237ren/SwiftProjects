@@ -3230,51 +3230,28 @@
             </objects>
             <point key="canvasLocation" x="2404" y="88"/>
         </scene>
-        <!--View Controller-->
+        <!--MembershipVC-->
         <scene sceneID="tbs-bf-zRR">
             <objects>
-                <viewController storyboardIdentifier="reminderTimePickerVC" modalPresentationStyle="overCurrentContext" id="L3f-vg-QZu" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="membershipVC" modalPresentationStyle="overCurrentContext" id="L3f-vg-QZu" customClass="MembershipVC" customModule="刷词" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Cth-mQ-CVB">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RIf-fS-6kS">
-                                <rect key="frame" x="20" y="59" width="30" height="30"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="30" id="1jG-nY-cQi"/>
-                                    <constraint firstAttribute="height" constant="30" id="MDh-CJ-CId"/>
-                                </constraints>
-                                <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <state key="normal" image="chevron.down" catalog="system">
-                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="large"/>
-                                </state>
-                                <connections>
-                                    <action selector="unwind:" destination="L3f-vg-QZu" eventType="touchUpInside" id="2l6-7h-rdl"/>
-                                </connections>
-                            </button>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="shuci_vip_icon" translatesAutoresizingMaskIntoConstraints="NO" id="Dqr-A5-Efq">
-                                <rect key="frame" x="152" y="104" width="150" height="55.5"/>
+                                <rect key="frame" x="152" y="64" width="150" height="55.5"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="150" id="I72-iC-Ygt"/>
                                 </constraints>
                             </imageView>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="iphone_demo" translatesAutoresizingMaskIntoConstraints="NO" id="zuN-D6-LgA">
-                                <rect key="frame" x="92" y="189.5" width="230" height="464.5"/>
+                                <rect key="frame" x="107" y="134.5" width="200" height="403.5"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="230" id="G5r-xH-aGc"/>
+                                    <constraint firstAttribute="width" constant="200" id="G5r-xH-aGc"/>
                                 </constraints>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="whf-Cg-Rpu">
-                                <rect key="frame" x="328" y="59" width="66" height="32"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <state key="normal" title="恢复购买">
-                                    <color key="titleColor" red="0.57659810779999998" green="0.57252913709999997" blue="0.57255297900000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                </state>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Jyi-XB-uXV">
-                                <rect key="frame" x="120" y="676" width="174" height="42"/>
+                                <rect key="frame" x="120" y="575" width="174" height="42"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="174" id="L4P-gL-ZZK"/>
@@ -3282,15 +3259,18 @@
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="18"/>
                                 <state key="normal" image="try_btn"/>
+                                <connections>
+                                    <action selector="subscribeVIP:" destination="L3f-vg-QZu" eventType="touchUpInside" id="hx0-bM-wE9"/>
+                                </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="免费试用1个月，之后￥6.00/月" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zKh-8K-UQm">
-                                <rect key="frame" x="122" y="649" width="170" height="15"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <rect key="frame" x="121.5" y="548" width="171" height="15"/>
+                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="12"/>
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="br2-mb-mYX">
-                                <rect key="frame" x="25" y="758" width="364" height="72"/>
+                                <rect key="frame" x="25" y="731" width="364" height="72"/>
                                 <string key="text">自动续费服务说明：
 1. 确认购买并付款后计入iTunes 账号。
 2. 如需取消自动扣费，请在当前订阅到期24小时前，手动在 iTunes/Apple ID 订阅管理中关闭自动续费功能。
@@ -3301,40 +3281,53 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jQF-G7-umJ">
-                                <rect key="frame" x="166" y="838" width="82" height="24"/>
+                                <rect key="frame" x="45" y="823" width="82" height="24"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <state key="normal" title="自动续费服务协议">
                                     <color key="titleColor" red="0.19741946460000001" green="0.25166311860000001" blue="0.67368507389999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 </state>
+                                <connections>
+                                    <action selector="loadSubscriptionURL:" destination="L3f-vg-QZu" eventType="touchUpInside" id="RIY-V3-AsE"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QWz-Ai-SAM">
+                                <rect key="frame" x="328" y="823" width="41" height="24"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal" title="恢复购买">
+                                    <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="restorePurchases:" destination="L3f-vg-QZu" eventType="touchUpInside" id="7uy-7X-QDk"/>
+                                </connections>
                             </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="wDZ-GQ-6Og"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="Dqr-A5-Efq" firstAttribute="top" secondItem="wDZ-GQ-6Og" secondAttribute="top" constant="60" id="8hP-xD-ZZK"/>
+                            <constraint firstItem="jQF-G7-umJ" firstAttribute="top" secondItem="br2-mb-mYX" secondAttribute="bottom" priority="999" constant="20" id="6MV-cD-K9L"/>
+                            <constraint firstItem="Dqr-A5-Efq" firstAttribute="top" secondItem="wDZ-GQ-6Og" secondAttribute="top" constant="20" id="8hP-xD-ZZK"/>
                             <constraint firstItem="zuN-D6-LgA" firstAttribute="width" secondItem="zuN-D6-LgA" secondAttribute="height" multiplier="205:414" id="ANo-DT-I8y"/>
+                            <constraint firstItem="QWz-Ai-SAM" firstAttribute="top" secondItem="br2-mb-mYX" secondAttribute="bottom" priority="999" constant="20" id="DMl-3o-sUS"/>
                             <constraint firstItem="zKh-8K-UQm" firstAttribute="centerX" secondItem="Cth-mQ-CVB" secondAttribute="centerX" id="EAT-sA-KKM"/>
                             <constraint firstItem="Dqr-A5-Efq" firstAttribute="width" secondItem="Dqr-A5-Efq" secondAttribute="height" multiplier="133:49" id="Gwj-ZP-Svf"/>
                             <constraint firstItem="br2-mb-mYX" firstAttribute="centerX" secondItem="Cth-mQ-CVB" secondAttribute="centerX" id="Hg9-I1-bNy"/>
-                            <constraint firstItem="jQF-G7-umJ" firstAttribute="top" secondItem="br2-mb-mYX" secondAttribute="bottom" constant="8" id="ITq-X5-T1o"/>
-                            <constraint firstItem="jQF-G7-umJ" firstAttribute="centerX" secondItem="Cth-mQ-CVB" secondAttribute="centerX" id="Mp8-jz-JXP"/>
-                            <constraint firstItem="zKh-8K-UQm" firstAttribute="top" secondItem="zuN-D6-LgA" secondAttribute="bottom" constant="-5" id="Nvw-Dr-Vb6"/>
-                            <constraint firstItem="RIf-fS-6kS" firstAttribute="top" secondItem="wDZ-GQ-6Og" secondAttribute="top" constant="15" id="Q4a-Td-QSi"/>
+                            <constraint firstItem="jQF-G7-umJ" firstAttribute="leading" secondItem="wDZ-GQ-6Og" secondAttribute="leading" constant="45" id="LJm-1f-y5y"/>
+                            <constraint firstItem="zKh-8K-UQm" firstAttribute="top" secondItem="zuN-D6-LgA" secondAttribute="bottom" constant="10" id="Nvw-Dr-Vb6"/>
                             <constraint firstItem="Jyi-XB-uXV" firstAttribute="top" secondItem="zKh-8K-UQm" secondAttribute="bottom" constant="12" id="U9s-c4-IRg"/>
                             <constraint firstItem="br2-mb-mYX" firstAttribute="leading" secondItem="Cth-mQ-CVB" secondAttribute="leading" constant="25" id="WQu-mt-pdz"/>
-                            <constraint firstItem="zuN-D6-LgA" firstAttribute="top" secondItem="Dqr-A5-Efq" secondAttribute="bottom" constant="30" id="Wc4-6b-PSh"/>
+                            <constraint firstItem="zuN-D6-LgA" firstAttribute="top" secondItem="Dqr-A5-Efq" secondAttribute="bottom" constant="15" id="Wc4-6b-PSh"/>
+                            <constraint firstItem="wDZ-GQ-6Og" firstAttribute="trailing" secondItem="QWz-Ai-SAM" secondAttribute="trailing" constant="45" id="bwL-QO-MbL"/>
                             <constraint firstAttribute="trailing" secondItem="br2-mb-mYX" secondAttribute="trailing" constant="25" id="c5n-zk-JUw"/>
-                            <constraint firstItem="RIf-fS-6kS" firstAttribute="leading" secondItem="wDZ-GQ-6Og" secondAttribute="leading" constant="20" id="cm5-RZ-VsS"/>
                             <constraint firstItem="zuN-D6-LgA" firstAttribute="centerX" secondItem="Cth-mQ-CVB" secondAttribute="centerX" id="gyg-WW-xNv"/>
                             <constraint firstItem="Dqr-A5-Efq" firstAttribute="centerX" secondItem="Cth-mQ-CVB" secondAttribute="centerX" constant="20" id="iRd-cb-lcf"/>
                             <constraint firstItem="Jyi-XB-uXV" firstAttribute="centerX" secondItem="Cth-mQ-CVB" secondAttribute="centerX" id="muW-V6-QXf"/>
-                            <constraint firstItem="br2-mb-mYX" firstAttribute="top" secondItem="Jyi-XB-uXV" secondAttribute="bottom" constant="40" id="xAU-2n-ADH"/>
+                            <constraint firstItem="wDZ-GQ-6Og" firstAttribute="bottom" secondItem="jQF-G7-umJ" secondAttribute="bottom" constant="15" id="nJd-2X-fHh"/>
+                            <constraint firstItem="wDZ-GQ-6Og" firstAttribute="bottom" secondItem="QWz-Ai-SAM" secondAttribute="bottom" constant="15" id="uEJ-ag-84u"/>
+                            <constraint firstItem="br2-mb-mYX" firstAttribute="top" relation="greaterThanOrEqual" secondItem="Jyi-XB-uXV" secondAttribute="bottom" constant="15" id="xAU-2n-ADH"/>
                         </constraints>
                     </view>
-                    <connections>
-                        <outlet property="backBtn" destination="RIf-fS-6kS" id="Sep-3Y-Tsy"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mes-R0-FdS" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

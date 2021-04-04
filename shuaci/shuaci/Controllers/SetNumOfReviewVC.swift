@@ -17,6 +17,7 @@ class SetNumOfReviewVC: UIViewController, UIPickerViewDelegate, UIPickerViewData
     @IBOutlet weak var numToReviewLabel: UILabel!
     @IBOutlet weak var numWordPickerView: UIPickerView!
     @IBOutlet weak var setNumBtn: UIButton!
+    var viewTranslation = CGPoint(x: 0, y: 0)
     var mainPanelViewController: MainPanelViewController!
     var vocab_rec_need_to_be_review:[VocabularyRecord]!
     var numToReview: Int = 10
@@ -30,6 +31,7 @@ class SetNumOfReviewVC: UIViewController, UIPickerViewDelegate, UIPickerViewData
     }
     
     func initVC(){
+        stopIndicator()
         backBtn.theme_tintColor = "Global.backBtnTintColor"
         titleLabel.theme_textColor = "TableView.labelTextColor"
         ntrLabel.theme_textColor = "TableView.labelTextColor"
@@ -44,6 +46,29 @@ class SetNumOfReviewVC: UIViewController, UIPickerViewDelegate, UIPickerViewData
             if ntv < vocab_rec_need_to_be_review.count{
                 number_of_wordsReal.append(ntv)
             }
+        }
+        view.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(handleDismiss(sender:))))
+    }
+    
+    @objc func handleDismiss(sender: UIPanGestureRecognizer) {
+        switch sender.state {
+        case .changed:
+            viewTranslation = sender.translation(in: view)
+            if viewTranslation.y > 0 {
+                UIView.animate(withDuration: 0.2, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+                    self.view.transform = CGAffineTransform(translationX: 0, y: self.viewTranslation.y)
+                })
+            }
+        case .ended:
+            if viewTranslation.y < 200 {
+                UIView.animate(withDuration: 0.2, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+                    self.view.transform = .identity
+                })
+            } else {
+                dismiss(animated: true, completion: nil)
+            }
+        default:
+            break
         }
     }
     

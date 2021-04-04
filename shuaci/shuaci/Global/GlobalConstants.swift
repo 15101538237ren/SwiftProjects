@@ -9,10 +9,12 @@ import Foundation
 import UIKit
 import JGProgressHUD
 import Toast_Swift
+import SwiftyStoreKit
 
 // MARK: - typealias
 
 typealias CompletionHandler = (_ success:Bool) -> Void
+typealias Completion = () -> Void
 typealias CompletionHandlerWithData = (_ data: Data?, _ fromCloud: Bool) -> Void
 
 let hoursOfEbbinhaus:[Double] = [0, 1, 24, 72, 120, 168, 720, 2160, 4320]
@@ -25,6 +27,9 @@ let minNumOfVocabsForRetentionCalc:Double = 2
 // MARK: - Constants
 
 let productURL = URL(string: "https://itunes.apple.com/app/id1560571805")
+let sharedSecret = "3a2e76c0ad73427ea047d8835842c883" //secret key for In-App Purchase
+let appleValidator = AppleReceiptValidator(service: .sandbox, sharedSecret: sharedSecret)
+let bundleId = "com.shuaci"
 let minimumReviewWorthyActionCount = 2
 let LCAppId: String = "5uWh02cHlO4NIBMyM1rAaRRm-gzGzoHsz"
 let LCKey: String = "MbgqYXQna9aFYQq7GRqRWHkA"

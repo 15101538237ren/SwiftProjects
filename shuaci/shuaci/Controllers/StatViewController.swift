@@ -235,7 +235,6 @@ class StatViewController: UIViewController{
         .dataLabelsEnabled(false) //Enable or disable the data labels. Defaults to false
         .yAxisLabelsEnabled(true)
         .yAxisTitle("记得的单词数")
-        .yAxisMax(100.0)
         .categories(daysLabels)
         .xAxisLabelsStyle(AAStyle(color: getDisplayTextColor()))
         .yAxisLabelsStyle(AAStyle(color: getDisplayTextColor()))

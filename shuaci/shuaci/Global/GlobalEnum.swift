@@ -8,3 +8,6 @@
 
 import Foundation
 
+enum RegisteredPurchase : String {
+    case MonthlySubscribed = "monthlysubscribed"
+}

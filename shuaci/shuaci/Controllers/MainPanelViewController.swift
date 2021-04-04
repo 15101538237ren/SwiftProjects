@@ -112,7 +112,6 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
         popPrivacyMessage()
         if let _ = currentUser{
             preference = loadPreference(userId: currentUser.objectId!.stringValue!)
-            
             loadTheme()
             
             loadBooksNRecords()
@@ -580,52 +579,69 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
         loadWordHistoryVC()
     }
     
+    func loadMembershipVC(){
+        let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+        let membershipVC = mainStoryBoard.instantiateViewController(withIdentifier: "membershipVC") as! MembershipVC
+        membershipVC.modalPresentationStyle = .overCurrentContext
+        DispatchQueue.main.async {
+            self.present(membershipVC, animated: true, completion: nil)
+        }
+    }
     
     @IBAction func ReciteNewWords(_ sender: UIButton) {
-        if let preference = preference{
-            if let _ : String = preference.current_book_id{
-                loadLearnController()
-            }else{
-                loadBooksVC(NoBookSelected: true)
+        initIndicator(view: self.view)
+        checkIfVIPSubsciptionValid(successCompletion: { [self] in
+            stopIndicator()
+            if let preference = preference{
+                if let _ : String = preference.current_book_id{
+                    loadLearnController()
+                }else{
+                    loadBooksVC(NoBookSelected: true)
+                }
             }
-        }
-        else{
-            loadBooksVC(NoBookSelected: true)
-        }
+            else{
+                loadBooksVC(NoBookSelected: true)
+            }}, failedCompletion: { [self] in
+                loadMembershipVC()
+            })
     }
     
     
     func ReviewWords(reviewMode: ReviewMode) {
-        if let preference = preference{
-            if let _ : String = preference.current_book_id{
-                if reviewMode == .ReviewHistory{
-                    let vocab_rec_need_to_be_review:[VocabularyRecord] = get_vocab_rec_need_to_be_review()
-                    if vocab_rec_need_to_be_review.count > 0{
-                        loadSetNumToReviewVC(vocab_rec_need_to_be_review: vocab_rec_need_to_be_review)
-                    }else
-                    {
-                        self.view.makeToast(noVocabToReviewText, duration: 1.0, position: .center)
+        initIndicator(view: self.view)
+        checkIfVIPSubsciptionValid(successCompletion: { [self] in
+            stopIndicator()
+            if let preference = preference{
+                if let _ : String = preference.current_book_id{
+                    if reviewMode == .ReviewHistory{
+                        let vocab_rec_need_to_be_review:[VocabularyRecord] = get_vocab_rec_need_to_be_review()
+                        if vocab_rec_need_to_be_review.count > 0{
+                            loadSetNumToReviewVC(vocab_rec_need_to_be_review: vocab_rec_need_to_be_review)
+                        }else
+                        {
+                            self.view.makeToast(noVocabToReviewText, duration: 1.0, position: .center)
+                        }
                     }
-                }
-                else{
-                    let vocab_rec_need_to_be_review:[VocabularyRecord] = get_recent_vocab_rec_need_to_be_review()
-                    if vocab_rec_need_to_be_review.count > 0{
-                        self.loadReviewController(vocab_rec_need_to_be_review: vocab_rec_need_to_be_review)
-                    }else
-                    {
-                        self.view.makeToast(noVocabToReviewText, duration: 1.0, position: .center)
+                    else{
+                        let vocab_rec_need_to_be_review:[VocabularyRecord] = get_recent_vocab_rec_need_to_be_review()
+                        if vocab_rec_need_to_be_review.count > 0{
+                            self.loadReviewController(vocab_rec_need_to_be_review: vocab_rec_need_to_be_review)
+                        }else
+                        {
+                            self.view.makeToast(noVocabToReviewText, duration: 1.0, position: .center)
+                        }
                     }
+                    
+                }else{
+                    loadBooksVC(NoBookSelected: true)
                 }
-                
-            }else{
+            }
+            else{
                 loadBooksVC(NoBookSelected: true)
             }
-        }
-        else{
-            loadBooksVC(NoBookSelected: true)
-        }
-        
-            
+        }, failedCompletion: { [self] in
+            loadMembershipVC()
+        })
     }
     
     func downloadHistoryBooksJson(bookId:String, text: String){

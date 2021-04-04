@@ -349,14 +349,6 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
-    func loadURL(url: URL){
-        if #available(iOS 10.0, *) {
-            UIApplication.shared.open(url, options: [:], completionHandler: nil)
-        } else {
-            UIApplication.shared.openURL(url)
-        }
-    }
-    
     func askUserExperienceBeforeReview(){
         let alertController = UIAlertController(title: "评价反馈", message: "您在本应用使用体验如何?", preferredStyle: .alert)
         let okayAction = UIAlertAction(title: "很赞!必须五星好评", style: .default, handler: { action in

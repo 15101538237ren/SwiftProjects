@@ -33,8 +33,6 @@ class SetMemOptionViewController: UIViewController, UIPickerViewDelegate, UIPick
     @IBOutlet var title_To_Bottom_Y_Constraint: NSLayoutConstraint!
     @IBOutlet weak var dailyNumWordPickerView: UIPickerView!
     
-    
-    
     func setElements(enable: Bool){
         self.backBtn.isUserInteractionEnabled = enable
         self.view.isUserInteractionEnabled = enable

@@ -12,6 +12,15 @@ import LeanCloud
 import SwiftyJSON
 import Accelerate
 import SwiftTheme
+import SwiftyStoreKit
+
+func loadURL(url: URL){
+    if #available(iOS 10.0, *) {
+        UIApplication.shared.open(url, options: [:], completionHandler: nil)
+    } else {
+        UIApplication.shared.openURL(url)
+    }
+}
 
 func initIndicator(view: UIView){
     hud.textLabel.text = "加载中"
@@ -33,6 +42,50 @@ func getThemeColor(key: String) -> String{
     return viewBackgroundColor
 }
 
+// MARK: - VIP Util
+
+func checkIfVIPSubsciptionValid(successCompletion: @escaping Completion, failedCompletion: @escaping Completion){
+    let vip = VIP(purchase: .MonthlySubscribed)
+    let product = vip.purchase
+    let productID = makeProductId(purchase: product)
+    SwiftyStoreKit.verifyReceipt(using: appleValidator) { result in
+        switch result {
+        case .success(let receipt):
+            // Verify the purchase of a Subscription
+            let purchaseResult = SwiftyStoreKit.verifySubscription(
+                ofType: .autoRenewable,
+                productId: productID,
+                inReceipt: receipt)
+                
+            switch purchaseResult {
+            case .purchased(let expiryDate, let items):
+                print("\(productID) is valid until \(expiryDate)\n\(items)\n")
+                successCompletion()
+            case .expired(let expiryDate, let items):
+                print("\(productID) is expired since \(expiryDate)\n\(items)\n")
+                failedCompletion()
+            case .notPurchased:
+                print("The user has never purchased \(productID)")
+                failedCompletion()
+            }
+
+        case .error(let error):
+            print("Receipt verification failed: \(error)")
+            failedCompletion()
+        }
+    }
+}
+
+func makeProductId(purchase: RegisteredPurchase)-> String{
+    return "\(bundleId).\(purchase.rawValue)"
+}
+
+func getTimeInterval(product: RegisteredPurchase) -> TimeInterval{
+    switch product {
+    case .MonthlySubscribed:
+        return 3600 * 24 * 30
+    }
+}
 
 // MARK: - Preference Util
 

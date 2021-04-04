@@ -295,6 +295,5 @@ extension VIPBenefitsVC {
         else {
             return alertWithTitle(title: "无历史购买", message: "")
         }
-        
     }
 }
