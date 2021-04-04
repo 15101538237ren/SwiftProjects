@@ -11,9 +11,11 @@ import SwiftyStoreKit
 
 class MembershipVC: UIViewController {
     
+    @IBOutlet weak var demoImgView: UIImageView!
     var viewTranslation = CGPoint(x: 0, y: 0)
     override func viewDidLoad() {
         super.viewDidLoad()
+        loadGIF()
         stopIndicator()
         view.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(handleDismiss(sender:))))
     }
@@ -36,6 +38,17 @@ class MembershipVC: UIViewController {
             }
         default:
             break
+        }
+    }
+    
+    func loadGIF(){
+        var imageData: Data? = nil
+        do {
+            imageData = try Data(contentsOf: Bundle.main.url(forResource: "card_animation", withExtension: "gif")!)
+            let advTimeGif = UIImage.gifImageWithData(imageData!)
+            demoImgView.image = advTimeGif
+        } catch {
+            print("error when loading gif")
         }
     }
     

@@ -3245,13 +3245,13 @@
                                 </constraints>
                             </imageView>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="iphone_demo" translatesAutoresizingMaskIntoConstraints="NO" id="zuN-D6-LgA">
-                                <rect key="frame" x="107" y="134.5" width="200" height="403.5"/>
+                                <rect key="frame" x="107" y="134.5" width="200" height="380"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="200" id="G5r-xH-aGc"/>
                                 </constraints>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Jyi-XB-uXV">
-                                <rect key="frame" x="120" y="575" width="174" height="42"/>
+                                <rect key="frame" x="120" y="603.5" width="174" height="42"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="174" id="L4P-gL-ZZK"/>
@@ -3263,14 +3263,8 @@
                                     <action selector="subscribeVIP:" destination="L3f-vg-QZu" eventType="touchUpInside" id="hx0-bM-wE9"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="免费试用1个月，之后￥6.00/月" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zKh-8K-UQm">
-                                <rect key="frame" x="121.5" y="548" width="171" height="15"/>
-                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="12"/>
-                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="br2-mb-mYX">
-                                <rect key="frame" x="25" y="731" width="364" height="72"/>
+                                <rect key="frame" x="25" y="741" width="364" height="72"/>
                                 <string key="text">自动续费服务说明：
 1. 确认购买并付款后计入iTunes 账号。
 2. 如需取消自动扣费，请在当前订阅到期24小时前，手动在 iTunes/Apple ID 订阅管理中关闭自动续费功能。
@@ -3281,7 +3275,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jQF-G7-umJ">
-                                <rect key="frame" x="45" y="823" width="82" height="24"/>
+                                <rect key="frame" x="45" y="828" width="82" height="24"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <state key="normal" title="自动续费服务协议">
@@ -3292,7 +3286,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QWz-Ai-SAM">
-                                <rect key="frame" x="328" y="823" width="41" height="24"/>
+                                <rect key="frame" x="328" y="828" width="41" height="24"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <state key="normal" title="恢复购买">
@@ -3302,32 +3296,48 @@
                                     <action selector="restorePurchases:" destination="L3f-vg-QZu" eventType="touchUpInside" id="7uy-7X-QDk"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="解锁「卡片式背单词」 + 「艾宾浩斯复习提醒」" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="j1m-jo-o8d">
+                                <rect key="frame" x="56" y="534.5" width="302" height="17"/>
+                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="14"/>
+                                <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="免费试用1个月，之后￥6.00/月" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zKh-8K-UQm">
+                                <rect key="frame" x="108" y="566.5" width="198.5" height="17"/>
+                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="14"/>
+                                <color key="textColor" red="0.4756349325" green="0.47564673419999998" blue="0.47564041610000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="wDZ-GQ-6Og"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="jQF-G7-umJ" firstAttribute="top" secondItem="br2-mb-mYX" secondAttribute="bottom" priority="999" constant="20" id="6MV-cD-K9L"/>
+                            <constraint firstItem="jQF-G7-umJ" firstAttribute="top" secondItem="br2-mb-mYX" secondAttribute="bottom" priority="999" constant="15" id="6MV-cD-K9L"/>
                             <constraint firstItem="Dqr-A5-Efq" firstAttribute="top" secondItem="wDZ-GQ-6Og" secondAttribute="top" constant="20" id="8hP-xD-ZZK"/>
-                            <constraint firstItem="zuN-D6-LgA" firstAttribute="width" secondItem="zuN-D6-LgA" secondAttribute="height" multiplier="205:414" id="ANo-DT-I8y"/>
-                            <constraint firstItem="QWz-Ai-SAM" firstAttribute="top" secondItem="br2-mb-mYX" secondAttribute="bottom" priority="999" constant="20" id="DMl-3o-sUS"/>
+                            <constraint firstItem="zuN-D6-LgA" firstAttribute="width" secondItem="zuN-D6-LgA" secondAttribute="height" multiplier="200:380" id="ANo-DT-I8y"/>
+                            <constraint firstItem="j1m-jo-o8d" firstAttribute="top" secondItem="zuN-D6-LgA" secondAttribute="bottom" constant="20" id="CVL-gl-KcQ"/>
                             <constraint firstItem="zKh-8K-UQm" firstAttribute="centerX" secondItem="Cth-mQ-CVB" secondAttribute="centerX" id="EAT-sA-KKM"/>
                             <constraint firstItem="Dqr-A5-Efq" firstAttribute="width" secondItem="Dqr-A5-Efq" secondAttribute="height" multiplier="133:49" id="Gwj-ZP-Svf"/>
                             <constraint firstItem="br2-mb-mYX" firstAttribute="centerX" secondItem="Cth-mQ-CVB" secondAttribute="centerX" id="Hg9-I1-bNy"/>
+                            <constraint firstItem="zuN-D6-LgA" firstAttribute="top" secondItem="Dqr-A5-Efq" secondAttribute="bottom" constant="15" id="KVA-HG-obn"/>
                             <constraint firstItem="jQF-G7-umJ" firstAttribute="leading" secondItem="wDZ-GQ-6Og" secondAttribute="leading" constant="45" id="LJm-1f-y5y"/>
-                            <constraint firstItem="zKh-8K-UQm" firstAttribute="top" secondItem="zuN-D6-LgA" secondAttribute="bottom" constant="10" id="Nvw-Dr-Vb6"/>
-                            <constraint firstItem="Jyi-XB-uXV" firstAttribute="top" secondItem="zKh-8K-UQm" secondAttribute="bottom" constant="12" id="U9s-c4-IRg"/>
+                            <constraint firstItem="Jyi-XB-uXV" firstAttribute="top" secondItem="zKh-8K-UQm" secondAttribute="bottom" constant="20" id="PeX-hJ-2DI"/>
+                            <constraint firstItem="j1m-jo-o8d" firstAttribute="centerX" secondItem="Cth-mQ-CVB" secondAttribute="centerX" id="V3f-Ey-A5Q"/>
                             <constraint firstItem="br2-mb-mYX" firstAttribute="leading" secondItem="Cth-mQ-CVB" secondAttribute="leading" constant="25" id="WQu-mt-pdz"/>
-                            <constraint firstItem="zuN-D6-LgA" firstAttribute="top" secondItem="Dqr-A5-Efq" secondAttribute="bottom" constant="15" id="Wc4-6b-PSh"/>
                             <constraint firstItem="wDZ-GQ-6Og" firstAttribute="trailing" secondItem="QWz-Ai-SAM" secondAttribute="trailing" constant="45" id="bwL-QO-MbL"/>
                             <constraint firstAttribute="trailing" secondItem="br2-mb-mYX" secondAttribute="trailing" constant="25" id="c5n-zk-JUw"/>
                             <constraint firstItem="zuN-D6-LgA" firstAttribute="centerX" secondItem="Cth-mQ-CVB" secondAttribute="centerX" id="gyg-WW-xNv"/>
                             <constraint firstItem="Dqr-A5-Efq" firstAttribute="centerX" secondItem="Cth-mQ-CVB" secondAttribute="centerX" constant="20" id="iRd-cb-lcf"/>
                             <constraint firstItem="Jyi-XB-uXV" firstAttribute="centerX" secondItem="Cth-mQ-CVB" secondAttribute="centerX" id="muW-V6-QXf"/>
-                            <constraint firstItem="wDZ-GQ-6Og" firstAttribute="bottom" secondItem="jQF-G7-umJ" secondAttribute="bottom" constant="15" id="nJd-2X-fHh"/>
-                            <constraint firstItem="wDZ-GQ-6Og" firstAttribute="bottom" secondItem="QWz-Ai-SAM" secondAttribute="bottom" constant="15" id="uEJ-ag-84u"/>
+                            <constraint firstItem="wDZ-GQ-6Og" firstAttribute="bottom" secondItem="jQF-G7-umJ" secondAttribute="bottom" constant="10" id="nJd-2X-fHh"/>
+                            <constraint firstItem="wDZ-GQ-6Og" firstAttribute="bottom" secondItem="QWz-Ai-SAM" secondAttribute="bottom" constant="10" id="uEJ-ag-84u"/>
+                            <constraint firstItem="zKh-8K-UQm" firstAttribute="top" secondItem="j1m-jo-o8d" secondAttribute="bottom" constant="15" id="wU9-lG-sHv"/>
                             <constraint firstItem="br2-mb-mYX" firstAttribute="top" relation="greaterThanOrEqual" secondItem="Jyi-XB-uXV" secondAttribute="bottom" constant="15" id="xAU-2n-ADH"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="demoImgView" destination="zuN-D6-LgA" id="f3w-cV-YwG"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mes-R0-FdS" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
