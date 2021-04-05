@@ -157,7 +157,7 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
                 self.present(WordDetailVC, animated: true, completion: nil)
             }
         }else{
-            view.makeToast("无词典解释☹️", duration: 1.0, position: .center)
+            view.makeToast(noDictMeaningText, duration: 1.0, position: .center)
         }
     }
     

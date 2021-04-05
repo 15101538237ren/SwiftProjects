@@ -91,7 +91,7 @@ class ReminderTimePickerViewController: UIViewController {
         let upComingDate = Calendar.current.nextDate(after: Date(), matching: timePickerDate, matchingPolicy: .nextTime)!
         
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "MM月dd日 HH:mm"
+        dateFormatter.dateFormat = reminderFmtText
         return dateFormatter.string(from: upComingDate)
     }
     
@@ -153,7 +153,7 @@ class ReminderTimePickerViewController: UIViewController {
                 }
                 
                 let content = UNMutableNotificationContent()
-                content.body = "你的努力，终将成就自己。开始今天的单词学习吧😊"
+                content.body = notificationBodyText
                 content.categoryIdentifier = "learnEveryday"
                 content.sound = UNNotificationSound.default
                 

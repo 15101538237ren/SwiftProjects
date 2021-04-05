@@ -40,7 +40,7 @@ class SetNumOfReviewVC: UIViewController, UIPickerViewDelegate, UIPickerViewData
         setNumBtn.theme_setTitleColor("TableView.labelTextColor", forState: .normal)
         numWordPickerView.delegate = self
         numWordPickerView.dataSource = self
-        numToReviewLabel.text = "\(vocab_rec_need_to_be_review.count)个"
+        numToReviewLabel.text = "\(vocab_rec_need_to_be_review.count)\(geText)"
         
         for ntv in number_of_words{
             if ntv < vocab_rec_need_to_be_review.count{
@@ -104,7 +104,7 @@ class SetNumOfReviewVC: UIViewController, UIPickerViewDelegate, UIPickerViewData
     }
     
     func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
-        let itemLabel:String = "\(number_of_wordsReal[row])个"
+        let itemLabel:String = "\(number_of_wordsReal[row])\(geText)"
         return NSAttributedString(string: itemLabel, attributes: [NSAttributedString.Key.foregroundColor: UIColor(hex: getDisplayTextColor()) ?? UIColor.black])
     }
     

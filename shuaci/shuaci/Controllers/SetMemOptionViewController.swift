@@ -326,7 +326,7 @@ class SetMemOptionViewController: UIViewController, UIPickerViewDelegate, UIPick
         let estDate = Calendar.current.date(byAdding: dateComponent, to: currentDate) ?? Date()
         
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "YYYY年MM月dd日"
+        dateFormatter.dateFormat = dateFmtText
         let dateStr = dateFormatter.string(from: estDate)
         DispatchQueue.main.async {
             self.ESTTime.text = "\(dateStr)"
@@ -357,7 +357,7 @@ class SetMemOptionViewController: UIViewController, UIPickerViewDelegate, UIPick
     func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
         var itemLabel:String = String(number_of_items[row])
         if component != 0{
-            itemLabel = "\(num_days_to_complete[row])天"
+            itemLabel = "\(num_days_to_complete[row])\(daysText)"
         }
         return NSAttributedString(string: itemLabel, attributes: [NSAttributedString.Key.foregroundColor: UIColor(hex: getThemeColor(key: "TableView.labelTextColor")) ?? UIColor.black])
     }
@@ -387,7 +387,7 @@ class SetMemOptionViewController: UIViewController, UIPickerViewDelegate, UIPick
                 DispatchQueue.global(qos: .background).async { [self] in
                 do {
                     DispatchQueue.main.async {
-                        self.initActivityIndicator(text: "书籍下载中")
+                        self.initActivityIndicator(text: downloadingBookText)
                         self.setElements(enable: false)
                     }
                     if self.bookIndex >= 0 {

@@ -34,15 +34,15 @@ class WordHistoryViewController: UIViewController, UIGestureRecognizerDelegate, 
         didSet{
             if tableISEditing{
                 if segmentedControl.selectedSegmentIndex == 2{
-                    wordSelectionBtn.setTitle("移出已掌握", for: .normal)
+                    wordSelectionBtn.setTitle(removeFromMasteredText, for: .normal)
                 }
                 else{
-                    wordSelectionBtn.setTitle("复习选中", for: .normal)
+                    wordSelectionBtn.setTitle(reviewSelectedText, for: .normal)
                 }
                 wordSelectionBtn.isEnabled = false
                 wordSelectionBtn.backgroundColor = .lightGray
             }else{
-                wordSelectionBtn.setTitle("选择词汇", for: .normal)
+                wordSelectionBtn.setTitle(selectWordsText, for: .normal)
                 wordSelectionBtn.isEnabled = true
                 wordSelectionBtn.backgroundColor = redColor
             }
@@ -86,7 +86,7 @@ class WordHistoryViewController: UIViewController, UIGestureRecognizerDelegate, 
                 }
             }
             
-            let str:String = allSelected ? "已全选" : "已清除全选"
+            let str:String = allSelected ? selectedAllText : unselectedAllText
             view.makeToast(str, duration: 1.0, position: .center)
         }
     }
@@ -169,7 +169,7 @@ class WordHistoryViewController: UIViewController, UIGestureRecognizerDelegate, 
                 updateGlobalVocabRecords(vocabs_updated: vocab_rec_rmv_mastered)
                 saveRecordsToDisk(userId: currentUser.objectId!.stringValue!, withRecords: false)
                 getGroupVocabs()
-                view.makeToast("移出成功😊", duration: 1.0, position: .center)
+                view.makeToast(removedSuccessfullyText, duration: 1.0, position: .center)
                 saveVocabRecordsToCloud(currentUser: currentUser)
             }
         }
@@ -392,21 +392,21 @@ extension WordHistoryViewController: UITableViewDataSource, UITableViewDelegate{
             let minuteDiff = dc.minute ?? 0
             let secondDiff = dc.second ?? 0
             var timer_text = ""
-            var negative: String = "距第\(vocab.NumOfReview + 1)轮复习: "
+            var negative: String = "\(tillText)\(vocab.NumOfReview + 1)\(reviewTurnText): "
             if date > dueDate{
-                negative = "第\(vocab.NumOfReview + 1)轮逾期: "
+                negative = "\(overduePreText)\(vocab.NumOfReview + 1)\(overdueNumText): "
             }
             if (dayDiff != 0){
-                timer_text = timer_text + "\(abs(dayDiff))天"
+                timer_text = timer_text + "\(abs(dayDiff))\(daysText)"
             }
             if ((hourDiff != 0) || (dayDiff != 0)) {
-                timer_text = timer_text + String(format: "%02d", abs(hourDiff)) + "时"
+                timer_text = timer_text + String(format: "%02d", abs(hourDiff)) + hoursText
             }
             if ((minuteDiff != 0) || (hourDiff != 0)) {
-                timer_text = timer_text + String(format: "%02d", abs(minuteDiff)) + "分"
+                timer_text = timer_text + String(format: "%02d", abs(minuteDiff)) + minsText
             }
             if dayDiff == 0{
-                timer_text = timer_text + String(format: "%02d", abs(secondDiff)) + "秒"
+                timer_text = timer_text + String(format: "%02d", abs(secondDiff)) + secsText
             }
             if timer_text != ""{
                 return "\(negative)\(timer_text)"
@@ -431,7 +431,7 @@ extension WordHistoryViewController: UITableViewDataSource, UITableViewDelegate{
         cell.progressView.transform = .init(scaleX: 1, y: 2)
         
         if segmentedControl.selectedSegmentIndex == 2{
-            cell.statLabel.text = "已掌握"
+            cell.statLabel.text = masteredText
             
             cell.progressView.progress = 1.0
             cell.progressView.theme_progressTintColor = "WordHistory.HighProgressBarColor"
@@ -439,7 +439,7 @@ extension WordHistoryViewController: UITableViewDataSource, UITableViewDelegate{
         }else{
             let numOfSeqMem:Int = getNumOfSeqMem(vocab: vocab)
             
-            cell.statLabel.text = "连续记住 \(numOfSeqMem) / \(numberOfContDaysForMasteredAWord) 次"
+            cell.statLabel.text = "\(rememberSeqText) \(numOfSeqMem) / \(numberOfContDaysForMasteredAWord) \(timesText)"
             
             let progress:Float = Float(numOfSeqMem)/Float(numberOfContDaysForMasteredAWord)
             
@@ -480,7 +480,7 @@ extension WordHistoryViewController: UITableViewDataSource, UITableViewDelegate{
         
         let header_label = UILabel()
         
-        header_label.text = "\(sortedKeys[section].components(separatedBy: "-")[0]) (\(groupedVocabsCount)词)"
+        header_label.text = "\(sortedKeys[section].components(separatedBy: "-")[0]) (\(groupedVocabsCount)\(wordsText)"
         header_label.font = UIFont.boldSystemFont(ofSize: 16)
         header_label.frame = CGRect(x: 20, y: -5, width: 200, height: 40)
         header_label.textAlignment = .left
@@ -594,7 +594,7 @@ extension WordHistoryViewController: UITableViewDataSource, UITableViewDelegate{
                     self.present(WordDetailVC, animated: true, completion: nil)
                 }
             }else{
-                view.makeToast("无词典解释☹️", duration: 1.0, position: .center)
+                view.makeToast(noDictMeaningText, duration: 1.0, position: .center)
             }
         }
     }
@@ -651,7 +651,7 @@ extension WordHistoryViewController: UITableViewDataSource, UITableViewDelegate{
     var emptyStateTitle: NSAttributedString {
             let attrs = [NSAttributedString.Key.foregroundColor: UIColor.lightGray,
                          NSAttributedString.Key.font: UIFont.systemFont(ofSize: 18)]
-            let title: String = "无单词"
+            let title: String = noWordText
             return NSAttributedString(string: title, attributes: attrs)
         }
     

@@ -188,7 +188,7 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
             self.learntWordNumLabel.text = "\(numOfOvlp)/\(tot_word_set.count)"
             let progress:Float = Float(numOfOvlp)/Float(tot_word_set.count)
             self.progressView.progress = progress
-            self.progressLabel.text = "已学:  \(String(format: "%.1f", progress*100.0))%"
+            self.progressLabel.text = "\(learnedProgressText):  \(String(format: "%.1f", progress*100.0))%"
         }
     }
     
@@ -220,34 +220,34 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
                         nameLabel.text = name
                     }
                 case .failure(error: let error):
-                    self.view.makeToast("设置失败，请稍后重试!\(error.reason?.stringValue ?? "")", duration: 1.2, position: .center)
+                    self.view.makeToast("\(setFailedTryLaterText).\(error.reason?.stringValue ?? "")", duration: 1.2, position: .center)
                 }
                 self.setElements(enable: true)
             }
         }catch {
             stopIndicator()
             self.setElements(enable: true)
-            self.view.makeToast("设置失败，请稍后重试!", duration: 1.0, position: .center)
+            self.view.makeToast(setFailedTryLaterText, duration: 1.0, position: .center)
         }
     }
     
     @objc func popNameTextInputAlert(tapGestureRecognizer: UITapGestureRecognizer){
-        let alertController = UIAlertController(title: "设置昵称", message: "", preferredStyle: .alert)
+        let alertController = UIAlertController(title: setNickNameText, message: "", preferredStyle: .alert)
         
-        alertController.addTextField(text: "", placeholder: "填入你喜欢的昵称", editingChangedTarget: nil, editingChangedSelector: nil)
+        alertController.addTextField(text: "", placeholder: inputNickNameText, editingChangedTarget: nil, editingChangedSelector: nil)
         
-        let setAction = UIAlertAction(title: "确定", style: .default){ _ in
+        let setAction = UIAlertAction(title: ensureText, style: .default){ _ in
             let name: String = alertController.textFields!.first!.text ?? ""
             if !name.isEmpty{
                 self.setDisplayName(name: name)
                 alertController.dismiss(animated: true, completion: nil)
             }else{
-                self.view.makeToast("请输入你喜欢的昵称", duration: 1.2, position: .center)
+                self.view.makeToast(inputNickNameText, duration: 1.2, position: .center)
             }
             
          }
         
-        let cancelAction = UIAlertAction(title: "取消", style: .cancel){ _ in
+        let cancelAction = UIAlertAction(title: cancelText, style: .cancel){ _ in
             alertController.dismiss(animated: true, completion: nil)
         }
 
@@ -321,16 +321,16 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
     
     @IBAction func logOut(_ sender: UIButton) {
         if Reachability.isConnectedToNetwork(){
-           let alertController = UIAlertController(title: "提示", message: "确定注销?", preferredStyle: .alert)
+           let alertController = UIAlertController(title: promptText, message: isLoggingOffText, preferredStyle: .alert)
            
-            let okayAction = UIAlertAction(title: "确定", style: .default, handler: { action in
+            let okayAction = UIAlertAction(title: ensureText, style: .default, handler: { action in
                LCUser.logOut()
                self.dismiss(animated: false, completion: {
                 self.mainPanelViewController.dismiss(animated: true, completion: nil)
                })
            })
             
-           let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
+           let cancelAction = UIAlertAction(title: cancelText, style: .cancel, handler: nil)
            alertController.addAction(okayAction)
            alertController.addAction(cancelAction)
            self.present(alertController, animated: true, completion: nil)
@@ -370,9 +370,9 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
                 let leftPosition = (pickedImage.size.width * pickedImage.scale - targetLength)/2.0
                 let topPosition = (pickedImage.size.height * pickedImage.scale - targetLength)/2.0
                 let cropController = CropViewController(image: pickedImage)
-                cropController.title = "「缩放」或「拖拽」来调整"
-                cropController.doneButtonTitle = "确定"
-                cropController.cancelButtonTitle = "取消"
+                cropController.title = zoomOrDragText
+                cropController.doneButtonTitle = ensureText
+                cropController.cancelButtonTitle = cancelText
                 cropController.imageCropFrame = CGRect(x: leftPosition, y: topPosition, width: targetLength, height: targetLength)
                 cropController.aspectRatioPreset = .presetSquare
                 cropController.rotateButtonsHidden = true

@@ -159,7 +159,6 @@ class LearnOrReviewFinishViewController: UIViewController {
     
     func setInsistDay(){
         let numOfInsistDay = getNumOfDayInsist()
-        print("坚持了\(numOfInsistDay)天✊")
         DispatchQueue.main.async {
             self.insistDaysValue.text = "\(numOfInsistDay)"
         }
@@ -181,7 +180,6 @@ class LearnOrReviewFinishViewController: UIViewController {
                             switch result {
                             case .success(object: let quote):
                                 // wallpapers 是包含满足条件的 (className: "Wallpaper") 对象的数组
-                                print("Downloaded Qoute \(rand_index)")
                                 if let file = quote.get("img") as? LCFile {
                                     
                                     let imgUrl = URL(string: file.url!.stringValue!)!
@@ -241,7 +239,7 @@ class LearnOrReviewFinishViewController: UIViewController {
     
     func loadScene(){
         addBlurBackgroundView()
-        initActivityIndicator(text: "正在加载打卡数据😊..")
+        initActivityIndicator(text: loadingDakaText)
         setElements(enable: false)
         getQoute()
         setTodyWordNum()
@@ -299,7 +297,7 @@ class LearnOrReviewFinishViewController: UIViewController {
                             UNUserNotificationCenter.current().add(notification_request, withCompletionHandler: nil)
                             
                             DispatchQueue.main.async {
-                                self.view.makeToast("根据遗忘规律，\(nicknameOfApp)将在\(printDate(date: nextReviewDate))提醒您复习🙂", duration: durationOfNotificationText, position: .center)
+                                self.view.makeToast("\(basedOnMemLawsText) \(nicknameOfApp) \(willText) \(printDate(date: nextReviewDate)) \(willRemindText)", duration: durationOfNotificationText, position: .center)
                             }
                         }
                     }

@@ -245,7 +245,7 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
         currentSelectedCategory = 0
         currentSelectedSubCategory = 0
         
-        initActivityIndicator(text: "数据加载中..")
+        initActivityIndicator(text: dataLoadingText)
         setCollectionViewDataSourceDelegate()
         loadBooks()
     }
@@ -389,7 +389,7 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
                 cell.bottomView.backgroundColor = UIColor.init(hex: "#\(light_color_palatte[color_categories[level1_category]![level2_category]!]!)") ?? .systemGreen
                 cell.introduce.text = book.name
                 cell.num_word.text = "\(book.word_num)"
-                cell.num_recite.text = (book.recite_user_num > 10000) ? "\(Int(Float(book.recite_user_num) / 10000.0))万" : "\(book.recite_user_num)"
+                cell.num_recite.text = (book.recite_user_num > 10000) ? "\(Int(Float(book.recite_user_num) / 10000.0))\(tenThousandText)" : "\(book.recite_user_num)"
             }
         
         cell.backgroundColor = .clear

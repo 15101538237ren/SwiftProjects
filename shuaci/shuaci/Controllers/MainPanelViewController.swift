@@ -305,7 +305,7 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
     
     func getNextWallpaper(category: Int){
         if Reachability.isConnectedToNetwork(){
-            startRotating(text: "正在下载壁纸...")
+            startRotating(text: downloadingWallpaperText)
             DispatchQueue.global(qos: .background).async{
             do{
                 do {
@@ -446,7 +446,7 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
                 })
             }
             else{
-                self.view.makeToast("从云端下载设置与学习记录失败，请稍后再试!🙁", duration: 1.0, position: .center)
+                self.view.makeToast(downloadRecordFailedText, duration: 1.0, position: .center)
             }
         })
     }
@@ -565,7 +565,7 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
         DispatchQueue.main.async {
             self.present(booksVC, animated: true, completion: {
                 if NoBookSelected{
-                    booksVC.view.makeToast("您还没有选择单词书😅", duration: 1.0, position: .center)
+                    booksVC.view.makeToast(noBookSelectedText, duration: 1.0, position: .center)
                 }
             })
         }
@@ -673,8 +673,8 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
     }
     
     func downloadHistoryBooks(completionHandler: @escaping CompletionHandler){
-        let downloadText:String = "正在下载历史单词书..."
-        startRotating(text: downloadText)
+        let downloadText:String = downloadingBooksInHistoryText
+        startRotating(text: downloadingBooksInHistoryText)
         var current_book_id = ""
         if let preference = preference{
             if let bookId = preference.current_book_id{
@@ -701,7 +701,7 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
     }
     
     func downloadCurrentBookJson(completionHandler: @escaping CompletionHandler){
-        startRotating(text: "正在同步数据...")
+        startRotating(text: syncingDataText)
         
         if let preference = preference{
             if let bookId: String = preference.current_book_id{
@@ -713,7 +713,7 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
                     completionHandler(true)
                 }
                 else{
-                    initActivityIndicator(text: "正在下载单词书...")
+                    initActivityIndicator(text: downloadingBookText)
                     
                     DispatchQueue.global(qos: .background).async {
                     do {
@@ -767,8 +767,8 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
     @IBAction func presentPopMenu(_ sender: UIButton) {
             let textColor = getThemeColor(key: "WordHistory.segTextColor")
             let iconWidthHeight:CGFloat = 20
-            let reviewRecentAction = PopMenuDefaultAction(title: "复习刚学", image: UIImage(named: "book"), color: textColor)
-            let reviewHistoryAction = PopMenuDefaultAction(title: "复习历史", image: UIImage(named: "history"), color: textColor)
+            let reviewRecentAction = PopMenuDefaultAction(title: reviewJustLearnedText, image: UIImage(named: "book"), color: textColor)
+            let reviewHistoryAction = PopMenuDefaultAction(title: reviewLearnedInHistoryText, image: UIImage(named: "history"), color: textColor)
         
             reviewRecentAction.iconWidthHeight = iconWidthHeight
             reviewHistoryAction.iconWidthHeight = iconWidthHeight

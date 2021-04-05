@@ -180,7 +180,7 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
                 default:
                     print("Nothing")
             }
-            let memText:String = self.currentMode == 1 ? "1. 初记忆" : "1. 初回忆"
+            let memText:String = self.currentMode == 1 ? "1. \(firstLearningText)" : "1. \(firstReviewText)"
             let firstNum = self.currentMode == 1 ? self.firstMemLeftNum : self.enToCNLeftNum
             let firstMemText = "\(memText)  \(firstNum)"
             var attributeString: NSMutableAttributedString =  NSMutableAttributedString(string: firstMemText)
@@ -190,14 +190,14 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
             self.firstMemLeft.attributedText = attributeString
             
             let secondNum = self.currentMode == 1 ? self.enToCNLeftNum : self.firstMemLeftNum
-            let enToCNLeftText = self.currentMode == 1 ? "2. 英忆中  \(secondNum)" : "2. 再记忆  \(secondNum)"
+            let enToCNLeftText = self.currentMode == 1 ? "2. \(enToCnText)  \(secondNum)" : "2. \(reLearningText)  \(secondNum)"
             attributeString =  NSMutableAttributedString(string: enToCNLeftText)
             if firstNum == 0 && secondNum == 0{
                 attributeString.addAttribute(NSAttributedString.Key.strikethroughStyle, value: 2, range: NSMakeRange(0, attributeString.length))
             }
             self.enToCNLeft.attributedText = attributeString
             
-            let cnToENLeftText = "3. 中忆英  \(self.cnToENLeftNum)"
+            let cnToENLeftText = "3. \(cnToEnText)  \(self.cnToENLeftNum)"
             attributeString =  NSMutableAttributedString(string: cnToENLeftText)
             if firstNum == 0 &&  secondNum == 0 && self.cnToENLeftNum == 0 {
                 attributeString.addAttribute(NSAttributedString.Key.strikethroughStyle, value: 2, range: NSMakeRange(0, attributeString.length))
@@ -264,19 +264,19 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
         self.mp3Player?.stop()
         if self.currentIndex > 0{
             if currentMode == 1{
-                let alertController = UIAlertController(title: "确定「放弃学习」?", message: "伟大的作品不是靠力量，而是靠坚持来完成的。——约翰逊", preferredStyle: .alert)
-                let okayAction = UIAlertAction(title: "确定", style: .default, handler: { _ in
+                let alertController = UIAlertController(title: giveupEnsureText, message: mottoText, preferredStyle: .alert)
+                let okayAction = UIAlertAction(title: ensureText, style: .default, handler: { _ in
                     self.dismiss(animated: true, completion: nil)
                 })
-                let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: { action in
+                let cancelAction = UIAlertAction(title: cancelText, style: .cancel, handler: { action in
                     alertController.dismiss(animated: true, completion: nil)
                 })
                 alertController.addAction(okayAction)
                 alertController.addAction(cancelAction)
                 self.present(alertController, animated: true, completion: nil)
             }else{
-                let alertController = UIAlertController(title: "是否保存当前复习记录?", message: "", preferredStyle: .alert)
-                let okayAction = UIAlertAction(title: "是", style: .default, handler: { [self] _ in
+                let alertController = UIAlertController(title: saveReviewRecordText, message: "", preferredStyle: .alert)
+                let okayAction = UIAlertAction(title: yesText, style: .default, handler: { [self] _ in
                     
                     summary_records_into_vocab_records()
                     saveRecordsFromLearning()
@@ -288,7 +288,7 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
                         self.dismiss(animated: true, completion: nil)
                     }
                 })
-                let cancelAction = UIAlertAction(title: "否", style: .cancel, handler: { action in
+                let cancelAction = UIAlertAction(title: noText, style: .cancel, handler: { action in
                     DispatchQueue.main.async {
                         self.dismiss(animated: true, completion: nil)
                     }
@@ -402,7 +402,7 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
                 UIView.transition(with: card, duration: 0.3, options: .transitionFlipFromRight, animations: nil, completion: nil)
                 load_html(wordHead: current_word, wordIndex: wordIndex)
             }else{
-                card.makeToast("无词典解释☹️", duration: 1.0, position: .center)
+                card.makeToast(noDictMeaningText, duration: 1.0, position: .center)
             }
         }
     }
@@ -999,7 +999,7 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
                 card.dragable = false
                 card.cardBackView!.isUserInteractionEnabled = true
                 card.cardBackView!.alpha = 1
-                card.cardBackView!.initActivityIndicator(text: "获取单词中..")
+                card.cardBackView!.initActivityIndicator(text: gettingVocabsText)
                 
                 DispatchQueue.global(qos: .background).async {
                 do {
@@ -1190,7 +1190,7 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
             enableBtns()
         }
         else{
-            let alertCtl = presentAlert(title: "已经是第一张啦!", message: "", okText: "好的")
+            let alertCtl = presentAlert(title: firstCardText, message: "", okText: okText)
             self.present(alertCtl, animated: true, completion: nil)
         }
     }

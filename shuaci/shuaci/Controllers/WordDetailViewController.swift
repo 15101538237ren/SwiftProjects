@@ -59,7 +59,7 @@ class WordDetailViewController: UIViewController {
 //        self.webView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
     }
     func loadHTML(){
-        initActivityIndicator(text: "获取单词中..")
+        initActivityIndicator(text: getWordText)
         
         if Reachability.isConnectedToNetwork(){
             DispatchQueue.global(qos: .background).async {

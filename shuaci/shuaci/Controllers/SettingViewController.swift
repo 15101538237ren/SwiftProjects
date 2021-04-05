@@ -17,16 +17,14 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
     let activityEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .regular))
     
     let settingItems:[SettingItem] = [
-        SettingItem(symbol_name : "auto_pronunciation", name: "自动发音", value: "开"),
-        SettingItem(symbol_name : "english_american_pronunce", name: "发音类型", value: "美"),
-        SettingItem(symbol_name : "scope", name: "设置学习计划", value: "乱序,20个/组"),
-        SettingItem(symbol_name : "alarm", name: "每日提醒", value: ""),
-        SettingItem(symbol_name : "rate_app", name: "评价应用", value: "v1.0.0"),
-        SettingItem(symbol_name : "bubble.left.and.bubble.right", name: "意见反馈", value: ""),
-        SettingItem(symbol_name : "share", name: "推荐给好友", value: ""),
-        SettingItem(symbol_name : "q_and_a", name: "常见问题", value: ""),
-        SettingItem(symbol_name : "document", name: "服务条款", value: ""),
-        SettingItem(symbol_name : "privacy", name: "隐私政策", value: "")
+        SettingItem(symbol_name : "auto_pronunciation", name: autoPronounceText, value: onText),
+        SettingItem(symbol_name : "english_american_pronunce", name: pronounceTypeText, value: usText),
+        SettingItem(symbol_name : "scope", name: setLearningPlanText, value: defaultPlanText),
+        SettingItem(symbol_name : "alarm", name: everyDayNotificationText, value: ""),
+        SettingItem(symbol_name : "rate_app", name: rateAppText, value: "v1.0.0"),
+        SettingItem(symbol_name : "bubble.left.and.bubble.right", name: feedBackText, value: ""),
+        SettingItem(symbol_name : "document", name: serviceTermText, value: ""),
+        SettingItem(symbol_name : "privacy", name: privacyText, value: "")
     ]
     
     
@@ -169,8 +167,8 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
             cell.iconView.image = settingItem.icon
             cell.iconView.theme_tintColor = "Global.settingIconTintColor"
             cell.nameLabel.text = settingItem.name
-            cell.leftValueLabel.text = "关"
-            cell.rightValueLabel.text = "开"
+            cell.leftValueLabel.text = offText
+            cell.rightValueLabel.text = onText
             cell.toggleSwitch.addTarget(self, action: #selector(autoPronunceSwitched), for: UIControl.Event.valueChanged)
             let autoPronunce = preference.auto_pronunciation
             if autoPronunce{
@@ -194,8 +192,8 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
             cell.iconView.image = settingItem.icon
             cell.iconView.theme_tintColor = "Global.settingIconTintColor"
             cell.nameLabel.text = settingItem.name
-            cell.leftValueLabel.text = "美"
-            cell.rightValueLabel.text = "英"
+            cell.leftValueLabel.text = usText
+            cell.rightValueLabel.text = ukText
             let usPronunce = preference.us_pronunciation
             if usPronunce{
                 cell.toggleSwitch.isOn = false
@@ -246,18 +244,18 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     
     func getSettingTextforTableView(number_of_words_per_group: Int) -> String {
-        var order = "乱序"
+        var order = randomOrderText
         switch preference.memory_order {
         case 1:
-            order = "乱序"
+            order = randomOrderText
         case 2:
-            order = "顺序"
+            order = alphabetOrderText
         case 3:
-            order = "倒序"
+            order = reversedText
         default:
-            order = "乱序"
+            order = randomOrderText
         }
-        return "\(order)  \(number_of_words_per_group)个/组"
+        return "\(order)  \(number_of_words_per_group)\(unitText)"
     }
     
     func updateMemOptionDisplay(){
@@ -275,7 +273,7 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
         
         let timeStr = getStringOfReminderTime(reminderTime: preference.reminder_time)
         if timeStr != ""{
-            self.view.makeToast("已设置每日提醒: \(timeStr)", duration: 1.0, position: .center)
+            self.view.makeToast("\(planSetText) \(timeStr)", duration: 1.0, position: .center)
         }
     }
     
@@ -337,10 +335,10 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
             askUserExperienceBeforeReview()
         case 5:
             showFeedBackMailComposer()
-        case 8:
+        case 6:
             let url = URL(string: "\(githubLink)/shuaci/terms.html")!
             loadURL(url: url)
-        case 9:
+        case 7:
             let url = URL(string: "\(githubLink)/shuaci/privacy.html")!
             loadURL(url: url)
         default:
@@ -350,11 +348,11 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     
     func askUserExperienceBeforeReview(){
-        let alertController = UIAlertController(title: "评价反馈", message: "您在本应用使用体验如何?", preferredStyle: .alert)
-        let okayAction = UIAlertAction(title: "很赞!必须五星好评", style: .default, handler: { action in
+        let alertController = UIAlertController(title: feedBackTitleText, message: askExperienceText, preferredStyle: .alert)
+        let okayAction = UIAlertAction(title: greatResponseText, style: .default, handler: { action in
             self.requestWriteReview()
         })
-        let cancelAction = UIAlertAction(title: "用的不爽，反馈意见给开发者", style: .default, handler: { action in self.showFeedBackMailComposer()
+        let cancelAction = UIAlertAction(title: awefulResponseText, style: .default, handler: { action in self.showFeedBackMailComposer()
         })
         alertController.addAction(okayAction)
         alertController.addAction(cancelAction)
@@ -433,15 +431,15 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
     
     func showFeedBackMailComposer(){
         guard MFMailComposeViewController.canSendMail() else{
-            let ac = UIAlertController(title: "无法发送邮件，请检查网络或设置!", message: "", preferredStyle: .alert)
-            ac.addAction(UIAlertAction(title: "好的", style: .default, handler: nil))
+            let ac = UIAlertController(title: canNotSendEmailText, message: "", preferredStyle: .alert)
+            ac.addAction(UIAlertAction(title: okText, style: .default, handler: nil))
             present(ac, animated: true, completion: nil)
             return 
         }
         let composer = MFMailComposeViewController()
         composer.mailComposeDelegate = self
         composer.setToRecipients([OfficialEmail])
-        composer.setSubject("「刷词」意见反馈")
+        composer.setSubject(emailTitleText)
         composer.setMessageBody("", isHTML: false)
         present(composer, animated: true)
     }
@@ -469,8 +467,8 @@ extension SettingViewController : MFMailComposeViewControllerDelegate{
         }
         controller.dismiss(animated: true, completion: {
             if feedback_sent == true{
-                let ac = UIAlertController(title: "提示", message: "感谢您的反馈！我们会认真阅读您的意见,并在1-3天内给您回复", preferredStyle: .alert)
-                ac.addAction(UIAlertAction(title: "好的", style: .default, handler: nil))
+                let ac = UIAlertController(title: promptText, message: thanksForFeedbackText, preferredStyle: .alert)
+                ac.addAction(UIAlertAction(title: okText, style: .default, handler: nil))
                 self.present(ac, animated: true, completion: nil)
             }
         })

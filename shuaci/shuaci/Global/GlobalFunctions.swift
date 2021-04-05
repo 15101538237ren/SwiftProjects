@@ -23,7 +23,7 @@ func loadURL(url: URL){
 }
 
 func initIndicator(view: UIView){
-    hud.textLabel.text = "加载中"
+    hud.textLabel.text = loadingText
     hud.textLabel.theme_textColor = "IndicatorColor"
     hud.backgroundColor = .clear
     hud.show(in: view)
@@ -1711,7 +1711,7 @@ func load_json(fileName: String) -> JSON{
 //
 
 func initLoadingIndicator(view: UIView){
-    hud.textLabel.text = "加载中"
+    hud.textLabel.text = loadingText
     hud.textLabel.theme_textColor = "IndicatorColor"
     hud.backgroundColor = .clear
     hud.show(in: view)

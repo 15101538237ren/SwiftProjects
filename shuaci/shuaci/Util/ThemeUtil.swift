@@ -23,16 +23,16 @@ enum theme: String {
 var theme_category_to_name:[Int : theme] = [ 1: .lightWhite, 2: .dark, 3: .night, 4: .lightWhite, 5: .lightWhite, 6: .lightWhite, 7: .lightWhite, 8: .lightWhite, 9: .lightWhite, 10: .lightWhite]
 
 var themes:[Theme] = [
-    Theme(name: "明 亮", background: "1_Light", category: 1),
-    Theme(name: "深 邃", background: "2_Dark", category: 2),
-    Theme(name: "粉 色", background: "8_Pink", category: 8),
-    Theme(name: "红 色", background: "5_Red", category: 5),
-    Theme(name: "橙 色", background: "6_Orange", category: 6),
-    Theme(name: "绿 色", background: "4_Green", category: 4),
-    Theme(name: "蓝 色", background: "7_Blue", category: 7),
-    Theme(name: "紫 色", background: "10_Purple", category: 10),
-    Theme(name: "棕 色", background: "9_Brown", category: 9),
-    Theme(name: "深 夜", background: "3_Night", category: 3)
+    Theme(name: lightText, background: "1_Light", category: 1),
+    Theme(name: darkText, background: "2_Dark", category: 2),
+    Theme(name: pinkText, background: "8_Pink", category: 8),
+    Theme(name: redText, background: "5_Red", category: 5),
+    Theme(name: orangeText, background: "6_Orange", category: 6),
+    Theme(name: greenText, background: "4_Green", category: 4),
+    Theme(name: blueText, background: "7_Blue", category: 7),
+    Theme(name: purpleText, background: "10_Purple", category: 10),
+    Theme(name: brownText, background: "9_Brown", category: 9),
+    Theme(name: nightText, background: "3_Night", category: 3)
 ]
 
 var theme_card_colors:[Int:[String]] = [

@@ -98,7 +98,7 @@ class FilterVocabHistoryVC: UIViewController {
     
     @IBAction func filter(_ sender: UIButton) {
         if periodSegCtrl.selectedSegmentIndex == 0 && statusSegCtrl.selectedSegmentIndex == 0 && numOfContinuousMemTimes.count == 0{
-            view.makeToast("您什么也没做☹️", duration: 1.0, position: .center)
+            view.makeToast(youDidNothingText, duration: 1.0, position: .center)
         }else{
             var period: VocabDatePeriod = .Unlimited
             switch periodSegCtrl.selectedSegmentIndex {
