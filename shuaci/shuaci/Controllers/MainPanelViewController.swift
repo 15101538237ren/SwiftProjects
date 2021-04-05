@@ -494,7 +494,7 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
     
     func loadLearnController(){
         initIndicator(view: self.view)
-        let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Learning", bundle:nil)
+        let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
         let learnVC = mainStoryBoard.instantiateViewController(withIdentifier: "learnWordController") as! LearnWordViewController
         learnVC.modalPresentationStyle = .overCurrentContext
         learnVC.currentUser = currentUser
@@ -511,7 +511,7 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
     
     
     func loadReviewController(vocab_rec_need_to_be_review: [VocabularyRecord]){
-        let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Learning", bundle:nil)
+        let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
         let learnVC = mainStoryBoard.instantiateViewController(withIdentifier: "learnWordController") as! LearnWordViewController
         learnVC.modalPresentationStyle = .overCurrentContext
         learnVC.currentUser = currentUser
@@ -545,7 +545,7 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
     }
     
     func loadLearnOrReviewFinishController(vocabsLearned: [VocabularyRecord]){
-        let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Learning", bundle:nil)
+        let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
         let learnOrReviewFinishVC = mainStoryBoard.instantiateViewController(withIdentifier: "learnOrReviewFinishController") as! LearnOrReviewFinishViewController
         learnOrReviewFinishVC.mainPanelViewController = self
         learnOrReviewFinishVC.modalPresentationStyle = .overCurrentContext

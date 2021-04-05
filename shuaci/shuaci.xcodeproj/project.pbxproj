@@ -54,7 +54,6 @@
 		55F2B5A4247B4B3700758113 /* String+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55F2B5A3247B4B3700758113 /* String+Ext.swift */; };
 		55F4E03326194B7500730DB7 /* VIP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55F4E03226194B7500730DB7 /* VIP.swift */; };
 		55F4E03626194FCA00730DB7 /* MembershipVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55F4E03526194FCA00730DB7 /* MembershipVC.swift */; };
-		A5134E322467719C008B116D /* Learning.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A5134E312467719C008B116D /* Learning.storyboard */; };
 		A5134E34246772B4008B116D /* LearnWordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5134E33246772B4008B116D /* LearnWordViewController.swift */; };
 		A5134E3624677BF3008B116D /* LearnUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5134E3524677BF3008B116D /* LearnUIView.swift */; };
 		A5134E3A24678C32008B116D /* Collection+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5134E3924678C32008B116D /* Collection+Ext.swift */; };
@@ -157,7 +156,6 @@
 		55F4E03526194FCA00730DB7 /* MembershipVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembershipVC.swift; sourceTree = "<group>"; };
 		7904B907E4DC4D8D3DC6FC8C /* Pods_shuaci.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_shuaci.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A175FCA5411DABB0C4A1A6DE /* Pods-shuaci.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-shuaci.debug.xcconfig"; path = "Target Support Files/Pods-shuaci/Pods-shuaci.debug.xcconfig"; sourceTree = "<group>"; };
-		A5134E312467719C008B116D /* Learning.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Learning.storyboard; sourceTree = "<group>"; };
 		A5134E33246772B4008B116D /* LearnWordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearnWordViewController.swift; sourceTree = "<group>"; };
 		A5134E3524677BF3008B116D /* LearnUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearnUIView.swift; sourceTree = "<group>"; };
 		A5134E3924678C32008B116D /* Collection+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Collection+Ext.swift"; sourceTree = "<group>"; };
@@ -387,7 +385,6 @@
 			isa = PBXGroup;
 			children = (
 				A59EB1D82452A12900F300E1 /* Main.storyboard */,
-				A5134E312467719C008B116D /* Learning.storyboard */,
 			);
 			path = StoryBoard;
 			sourceTree = "<group>";
@@ -505,10 +502,10 @@
 			};
 			buildConfigurationList = A59EB1CA2452A12900F300E1 /* Build configuration list for PBXProject "shuaci" */;
 			compatibilityVersion = "Xcode 9.3";
-			developmentRegion = en;
+			developmentRegion = "zh-Hans";
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				en,
+				"zh-Hans",
 				Base,
 			);
 			mainGroup = A59EB1C62452A12900F300E1;
@@ -529,7 +526,6 @@
 				557B66F724CCF7660068AB05 /* Dark.plist in Resources */,
 				A59EB1DF2452A12A00F300E1 /* LaunchScreen.storyboard in Resources */,
 				55E4DB8C26156983008D2A34 /* TermsView.xib in Resources */,
-				A5134E322467719C008B116D /* Learning.storyboard in Resources */,
 				A56375BC2457745500BA5293 /* HuaKangFangYuan.ttf in Resources */,
 				559B96C124F82DE800516475 /* DICT.json in Resources */,
 				557B66F524CCF47B0068AB05 /* Light_Gray.plist in Resources */,
