@@ -9,6 +9,23 @@ import UIKit
 import SwiftMessages
 
 class NotificationAskView: MessageView, UITextViewDelegate {
+    @IBOutlet var agreeBtn:UIButton!{
+        didSet{
+            agreeBtn.setTitle(okText, for: .normal)
+            agreeBtn.setTitle(okText, for: .selected)
+        }
+    }
+    @IBOutlet var refuseBtn:UIButton!{
+        didSet{
+            refuseBtn.setTitle(refuseText, for: .normal)
+            refuseBtn.setTitle(refuseText, for: .selected)
+        }
+    }
+    @IBOutlet var title:UILabel!{
+        didSet{
+            title.text = notificationRequiredTitleText
+        }
+    }
     @IBOutlet var textView: UITextView!
     
     var agreeAction: (() -> Void)?

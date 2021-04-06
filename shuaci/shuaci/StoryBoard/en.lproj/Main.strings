@@ -1,0 +1,492 @@
+/* Class = "UILabel"; text = "15"; ObjectID = "0ef-wQ-Nsi"; */
+"0ef-wQ-Nsi.text" = "15";
+
+/* Class = "UILabel"; text = "1. 初记忆  0"; ObjectID = "0Ex-uA-MIm"; */
+"0Ex-uA-MIm.text" = "1. 1st Learn  0";
+
+/* Class = "UILabel"; text = "累计学习时长"; ObjectID = "0FL-zy-Dv6"; */
+"0FL-zy-Dv6.text" = "Cum. study";
+
+/* Class = "UILabel"; text = "n. 海滩，沙滩"; ObjectID = "0NS-io-9cp"; */
+"0NS-io-9cp.text" = "n. 海滩，沙滩";
+
+/* Class = "UILabel"; text = "不熟"; ObjectID = "0Rl-fF-7YP"; */
+"0Rl-fF-7YP.text" = "不熟";
+
+/* Class = "UILabel"; text = "距复习: 1天20时3分"; ObjectID = "0ws-Ij-sgU"; */
+"0ws-Ij-sgU.text" = "距复习: 1天20时3分";
+
+/* Class = "UILabel"; text = "7"; ObjectID = "1BQ-tv-XbH"; */
+"1BQ-tv-XbH.text" = "7";
+
+/* Class = "UISearchBar"; placeholder = "请输入要查询的单词"; ObjectID = "2Q3-se-ylx"; */
+"2Q3-se-ylx.placeholder" = "Please enter the word";
+
+/* Class = "UILabel"; text = "美 音"; ObjectID = "2v2-PL-WGz"; */
+"2v2-PL-WGz.text" = "American";
+
+/* Class = "UILabel"; text = "词"; ObjectID = "2XW-pW-6G3"; */
+"2XW-pW-6G3.text" = "words";
+
+/* Class = "UILabel"; text = "全新英语教材"; ObjectID = "3pQ-hr-npA"; */
+"3pQ-hr-npA.text" = "全新英语教材";
+
+/* Class = "UILabel"; text = "设置"; ObjectID = "4yR-X4-MjN"; */
+"4yR-X4-MjN.text" = "Settings";
+
+/* Class = "UILabel"; text = "下次提醒"; ObjectID = "5jh-bG-cXE"; */
+"5jh-bG-cXE.text" = "Next Reminder";
+
+/* Class = "UILabel"; text = "单词书名称"; ObjectID = "5lc-ng-WfJ"; */
+"5lc-ng-WfJ.text" = "Book Name";
+
+/* Class = "UILabel"; text = "待复习"; ObjectID = "5qP-jd-1xT"; */
+"5qP-jd-1xT.text" = "To be reviewed";
+
+/* Class = "UILabel"; text = "高效背单词的法宝"; ObjectID = "6fP-N5-hDA"; */
+"6fP-N5-hDA.text" = "Learn Vocabulary Easily";
+
+/* Class = "UILabel"; text = "记: sea memory"; ObjectID = "7FS-9M-PEo"; */
+"7FS-9M-PEo.text" = "记: sea memory";
+
+/* Class = "UILabel"; text = "25 个"; ObjectID = "7Gz-lV-Hn9"; */
+"7Gz-lV-Hn9.text" = "25 个";
+
+/* Class = "UIButton"; normalTitle = "获取验证码"; ObjectID = "8QO-WA-8ug"; */
+"8QO-WA-8ug.normalTitle" = "Get Code";
+
+/* Class = "UIButton"; normalTitle = "不提醒"; ObjectID = "9bk-00-dtD"; */
+"9bk-00-dtD.normalTitle" = "No Reminder";
+
+/* Class = "UISegmentedControl"; 9Ml-IN-GDu.segmentTitles[0] = "记忆规律"; ObjectID = "9Ml-IN-GDu"; */
+"9Ml-IN-GDu.segmentTitles[0]" = "Memory Law";
+
+/* Class = "UISegmentedControl"; 9Ml-IN-GDu.segmentTitles[1] = "学习情况"; ObjectID = "9Ml-IN-GDu"; */
+"9Ml-IN-GDu.segmentTitles[1]" = "Learning Statistics";
+
+/* Class = "UISegmentedControl"; 9Ml-IN-GDu.segmentTitles[2] = "长期掌握度"; ObjectID = "9Ml-IN-GDu"; */
+"9Ml-IN-GDu.segmentTitles[2]" = "Long term memory";
+
+/* Class = "UIButton"; normalTitle = "全部"; ObjectID = "29P-1k-FHE"; */
+"29P-1k-FHE.normalTitle" = "All";
+
+/* Class = "UILabel"; text = "新概念第一册"; ObjectID = "46t-IM-QFu"; */
+"46t-IM-QFu.text" = "新概念第一册";
+
+/* Class = "UIButton"; normalTitle = "取消"; ObjectID = "684-wH-wQh"; */
+"684-wH-wQh.normalTitle" = "Cancel";
+
+/* Class = "UIViewController"; title = "Main Panel"; ObjectID = "868-VL-FJO"; */
+"868-VL-FJO.title" = "Main Panel";
+
+/* Class = "UILabel"; text = "单词历史"; ObjectID = "a4R-OR-Pey"; */
+"a4R-OR-Pey.text" = "Learning Records";
+
+/* Class = "UILabel"; text = "----"; ObjectID = "a90-GU-n3a"; */
+"a90-GU-n3a.text" = "----";
+
+/* Class = "UISegmentedControl"; ahS-Ho-rou.segmentTitles[0] = "按日"; ObjectID = "ahS-Ho-rou"; */
+"ahS-Ho-rou.segmentTitles[0]" = "By Day";
+
+/* Class = "UISegmentedControl"; ahS-Ho-rou.segmentTitles[1] = "按月"; ObjectID = "ahS-Ho-rou"; */
+"ahS-Ho-rou.segmentTitles[1]" = "By Month";
+
+/* Class = "UILabel"; text = "主题"; ObjectID = "aJv-Ev-Qz6"; */
+"aJv-Ev-Qz6.text" = "Theme";
+
+/* Class = "UILabel"; text = "英语教材"; ObjectID = "aVz-nO-vhh"; */
+"aVz-nO-vhh.text" = "Name";
+
+/* Class = "UILabel"; text = "设置提醒时间"; ObjectID = "b6U-EF-bfv"; */
+"b6U-EF-bfv.text" = "Set Reminder";
+
+/* Class = "UIButton"; normalTitle = "邮箱登录"; ObjectID = "BCj-Fd-0fC"; */
+"BCj-Fd-0fC.normalTitle" = "Email Login";
+
+/* Class = "UIButton"; normalTitle = "忘记密码?"; ObjectID = "BHe-xM-8vJ"; */
+"BHe-xM-8vJ.normalTitle" = "Forget Password?";
+
+/* Class = "UILabel"; text = "n. 大海, 海洋"; ObjectID = "bOc-QN-ZO8"; */
+"bOc-QN-ZO8.text" = "n. 大海, 海洋";
+
+/* Class = "UIButton"; normalTitle = "选择单词书"; ObjectID = "bOY-jO-NTP"; */
+"bOY-jO-NTP.normalTitle" = "Select Book";
+
+/* Class = "UILabel"; text = "自动续费服务说明：\n1. 确认购买并付款后计入iTunes 账号。\n2. 如需取消自动扣费，请在当前订阅到期24小时前，手动在 iTunes/Apple ID 订阅管理中关闭自动续费功能。\n3. 苹果 iTunes 账号会在到期前24小时内扣款，扣款成功后订阅顺延一个周期。\n4. 可随时取消自动续费服务，取消后不再续费。"; ObjectID = "br2-mb-mYX"; */
+"br2-mb-mYX.text" = "自动续费服务说明：\n1. 确认购买并付款后计入iTunes 账号。\n2. 如需取消自动扣费，请在当前订阅到期24小时前，手动在 iTunes/Apple ID 订阅管理中关闭自动续费功能。\n3. 苹果 iTunes 账号会在到期前24小时内扣款，扣款成功后订阅顺延一个周期。\n4. 可随时取消自动续费服务，取消后不再续费。";
+
+/* Class = "UIButton"; normalTitle = "开 始"; ObjectID = "Ceo-Cx-y2f"; */
+"Ceo-Cx-y2f.normalTitle" = "Start";
+
+/* Class = "UILabel"; text = "如果你不去尝试新的事物，就不会失败。"; ObjectID = "CJc-mc-Rvf"; */
+"CJc-mc-Rvf.text" = "如果你不去尝试新的事物，就不会失败。";
+
+/* Class = "UILabel"; text = "筛选条件"; ObjectID = "cn7-Eh-snB"; */
+"cn7-Eh-snB.text" = "Filter Condition";
+
+/* Class = "UINavigationItem"; title = "设置"; ObjectID = "cpQ-c3-buj"; */
+"cpQ-c3-buj.title" = "Setting";
+
+/* Class = "UILabel"; text = "记: sea memory"; ObjectID = "DMg-Vq-vLt"; */
+"DMg-Vq-vLt.text" = "Mem: memory method";
+
+/* Class = "UILabel"; text = "GRE词汇精选是一本很棒的书"; ObjectID = "DNK-b4-HaI"; */
+"DNK-b4-HaI.text" = "Book Description";
+
+/* Class = "UIViewController"; title = "WordDetailVC"; ObjectID = "e9N-FN-ytu"; */
+"e9N-FN-ytu.title" = "WordDetailVC";
+
+/* Class = "UILabel"; text = "概 况"; ObjectID = "ed3-qa-v1e"; */
+"ed3-qa-v1e.text" = "Overview";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "EWL-vY-vnR"; */
+"EWL-vY-vnR.text" = "Label";
+
+/* Class = "UIViewController"; title = "Login"; ObjectID = "EWV-zC-w57"; */
+"EWV-zC-w57.title" = "Login";
+
+/* Class = "UILabel"; text = "自动发音"; ObjectID = "exJ-Dh-LQc"; */
+"exJ-Dh-LQc.text" = "Auto Pronunce";
+
+/* Class = "UILabel"; text = "正在学习"; ObjectID = "ey0-yZ-2ho"; */
+"ey0-yZ-2ho.text" = "Learning";
+
+/* Class = "UILabel"; text = "不熟"; ObjectID = "fmq-Kw-UZL"; */
+"fmq-Kw-UZL.text" = "不熟";
+
+/* Class = "UILabel"; text = "数据同步中..."; ObjectID = "fms-UY-stY"; */
+"fms-UY-stY.text" = "Data Syncing...";
+
+/* Class = "UIButton"; normalTitle = "登 录"; ObjectID = "fpg-l0-2bR"; */
+"fpg-l0-2bR.normalTitle" = "Login";
+
+/* Class = "UILabel"; text = "今日学习&复习"; ObjectID = "G0U-9d-smS"; */
+"G0U-9d-smS.text" = "Today Learn";
+
+/* Class = "UILabel"; text = "2. 英忆中  9"; ObjectID = "g5e-d4-loN"; */
+"g5e-d4-loN.text" = "2. 英忆中  9";
+
+/* Class = "UILabel"; text = "记: sea memory"; ObjectID = "G37-Fk-RZS"; */
+"G37-Fk-RZS.text" = "Mem: memory method";
+
+/* Class = "UILabel"; text = "vocabulary"; ObjectID = "gBR-9h-OCQ"; */
+"gBR-9h-OCQ.text" = "vocabulary";
+
+/* Class = "UILabel"; text = "                        "; ObjectID = "Ge6-Dm-g6C"; */
+"Ge6-Dm-g6C.text" = "                        ";
+
+/* Class = "UILabel"; text = "Beach"; ObjectID = "GeE-1c-uzX"; */
+"GeE-1c-uzX.text" = "Beach";
+
+/* Class = "UILabel"; text = "双解释义"; ObjectID = "hG5-vI-C7j"; */
+"hG5-vI-C7j.text" = "Meaning";
+
+/* Class = "UILabel"; text = "分享你的成长"; ObjectID = "Hq2-ns-5Mv"; */
+"Hq2-ns-5Mv.text" = "Share Your Growth";
+
+/* Class = "UILabel"; text = "选择复习量"; ObjectID = "Htq-84-jON"; */
+"Htq-84-jON.text" = "Select Word Number for Review";
+
+/* Class = "UILabel"; text = "不熟"; ObjectID = "I1f-XP-ioR"; */
+"I1f-XP-ioR.text" = "不熟";
+
+/* Class = "UIButton"; normalTitle = "学新词"; ObjectID = "Ibq-Ch-zq6"; */
+"Ibq-Ch-zq6.normalTitle" = "Learn";
+
+/* Class = "UILabel"; text = "3278"; ObjectID = "IEd-u5-QOx"; */
+"IEd-u5-QOx.text" = "3278";
+
+/* Class = "UILabel"; text = "Beach"; ObjectID = "iqc-MN-U54"; */
+"iqc-MN-U54.text" = "Beach";
+
+/* Class = "UILabel"; text = "预计天数"; ObjectID = "Is3-7B-91u"; */
+"Is3-7B-91u.text" = "Est Days";
+
+/* Class = "UILabel"; text = "分钟"; ObjectID = "iwh-X2-lHT"; */
+"iwh-X2-lHT.text" = "Min.";
+
+/* Class = "UILabel"; text = "解锁「卡片式背单词」 + 「艾宾浩斯复习提醒」"; ObjectID = "j1m-jo-o8d"; */
+"j1m-jo-o8d.text" = "解锁「卡片式背单词」 + 「艾宾浩斯复习提醒」";
+
+/* Class = "UILabel"; text = "2. 每日计划"; ObjectID = "j4s-sg-dkh"; */
+"j4s-sg-dkh.text" = "2. Daily plan";
+
+/* Class = "UILabel"; text = "n. 大海, 海洋"; ObjectID = "JAE-8O-Dk3"; */
+"JAE-8O-Dk3.text" = "n. 大海, 海洋";
+
+/* Class = "UILabel"; text = "关"; ObjectID = "JfL-3L-W7R"; */
+"JfL-3L-W7R.text" = "Off";
+
+/* Class = "UIButton"; normalTitle = "自动续费服务协议"; ObjectID = "jQF-G7-umJ"; */
+"jQF-G7-umJ.normalTitle" = "自动续费服务协议";
+
+/* Class = "UILabel"; text = "第5轮: 连续记住 1 / 4 次"; ObjectID = "JuU-Ne-vEF"; */
+"JuU-Ne-vEF.text" = "第5轮: 连续记住 1 / 4 次";
+
+/* Class = "UIViewController"; title = "Main Screen"; ObjectID = "jWR-as-xvL"; */
+"jWR-as-xvL.title" = "Main Screen";
+
+/* Class = "UILabel"; text = "107.5万"; ObjectID = "k0o-FD-gW2"; */
+"k0o-FD-gW2.text" = "107.5k";
+
+/* Class = "UILabel"; text = "高效背单词的法宝"; ObjectID = "k3I-nh-fuE"; */
+"k3I-nh-fuE.text" = "Learn Vocabulary Easily";
+
+/* Class = "UIButton"; normalTitle = "筛选"; ObjectID = "k6r-Xe-PA6"; */
+"k6r-Xe-PA6.normalTitle" = "Filter";
+
+/* Class = "UILabel"; text = "人在背"; ObjectID = "k14-zl-y6q"; */
+"k14-zl-y6q.text" = "People using";
+
+/* Class = "UIButton"; normalTitle = "复 习"; ObjectID = "Ki5-FW-vys"; */
+"Ki5-FW-vys.normalTitle" = "Review";
+
+/* Class = "UILabel"; text = "高效背单词的法宝"; ObjectID = "Klp-bL-7Sj"; */
+"Klp-bL-7Sj.text" = "Learn Vocabulary Easily";
+
+/* Class = "UILabel"; text = "起个昵称吧～"; ObjectID = "kSk-VG-RqQ"; */
+"kSk-VG-RqQ.text" = "Name yourself～";
+
+/* Class = "UILabel"; text = "统计曲线"; ObjectID = "kW9-FR-IxA"; */
+"kW9-FR-IxA.text" = "Statistics";
+
+/* Class = "UIButton"; normalTitle = "1 次"; ObjectID = "Ldk-Hh-BFG"; */
+"Ldk-Hh-BFG.normalTitle" = "1";
+
+/* Class = "UILabel"; text = "发音类型"; ObjectID = "LUj-AR-JfL"; */
+"LUj-AR-JfL.text" = "Accent";
+
+/* Class = "UILabel"; text = "                        "; ObjectID = "m8f-7k-Hgk"; */
+"m8f-7k-Hgk.text" = "                        ";
+
+/* Class = "UIButton"; normalTitle = "登 录"; ObjectID = "mBM-hF-Lfk"; */
+"mBM-hF-Lfk.normalTitle" = "Login";
+
+/* Class = "UILabel"; text = "连续记住"; ObjectID = "Mjb-uq-OTf"; */
+"Mjb-uq-OTf.text" = "Remembered Times";
+
+/* Class = "UIButton"; normalTitle = "3 次"; ObjectID = "Mnv-rr-To1"; */
+"Mnv-rr-To1.normalTitle" = "3";
+
+/* Class = "UIBarButtonItem"; title = "取消"; ObjectID = "MZ8-qn-Eds"; */
+"MZ8-qn-Eds.title" = "Cancel";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "nEc-yZ-Be3"; */
+"nEc-yZ-Be3.text" = "Label";
+
+/* Class = "UILabel"; text = "预计完成时间 :"; ObjectID = "nvZ-WS-9rZ"; */
+"nvZ-WS-9rZ.text" = "Est Date:";
+
+/* Class = "UIButton"; normalTitle = "选择词汇"; ObjectID = "nXA-mb-cUn"; */
+"nXA-mb-cUn.normalTitle" = "Select";
+
+/* Class = "UISegmentedControl"; o4P-kt-yDA.segmentTitles[0] = "逐次"; ObjectID = "o4P-kt-yDA"; */
+"o4P-kt-yDA.segmentTitles[0]" = "By Times";
+
+/* Class = "UISegmentedControl"; o4P-kt-yDA.segmentTitles[1] = "累计"; ObjectID = "o4P-kt-yDA"; */
+"o4P-kt-yDA.segmentTitles[1]" = "Cumulative";
+
+/* Class = "UINavigationItem"; title = "账号管理"; ObjectID = "OeJ-MX-bXb"; */
+"OeJ-MX-bXb.title" = "Profile";
+
+/* Class = "UILabel"; text = "Beach"; ObjectID = "On3-1R-eT4"; */
+"On3-1R-eT4.text" = "Beach";
+
+/* Class = "UILabel"; text = "If you don't try anything new, you'll never fail."; ObjectID = "oNw-z8-dAE"; */
+"oNw-z8-dAE.text" = "If you don't try anything new, you'll never fail.";
+
+/* Class = "UILabel"; text = "1. 背词顺序"; ObjectID = "Ot9-VT-elk"; */
+"Ot9-VT-elk.text" = "1. Learning order";
+
+/* Class = "UILabel"; text = "已学数量"; ObjectID = "oyL-IW-hhQ"; */
+"oyL-IW-hhQ.text" = "Num. Learned";
+
+/* Class = "UILabel"; text = "n. 海滩，沙滩"; ObjectID = "P2S-7d-UmS"; */
+"P2S-7d-UmS.text" = "n. 海滩，沙滩";
+
+/* Class = "UILabel"; text = "----"; ObjectID = "PCT-Ki-Cv3"; */
+"PCT-Ki-Cv3.text" = "----";
+
+/* Class = "UILabel"; text = "每日单词数"; ObjectID = "phL-hB-Do8"; */
+"phL-hB-Do8.text" = "Daily Num.";
+
+/* Class = "UILabel"; text = "开"; ObjectID = "pzQ-hg-OjG"; */
+"pzQ-hg-OjG.text" = "On";
+
+/* Class = "UILabel"; text = "--"; ObjectID = "Q0Q-iV-hGR"; */
+"Q0Q-iV-hGR.text" = "--";
+
+/* Class = "UILabel"; text = "分钟"; ObjectID = "Q7f-KO-PRq"; */
+"Q7f-KO-PRq.text" = "Mins";
+
+/* Class = "UISegmentedControl"; qG5-9r-3Ww.segmentTitles[0] = "无限制"; ObjectID = "qG5-9r-3Ww"; */
+"qG5-9r-3Ww.segmentTitles[0]" = "Unlimitted";
+
+/* Class = "UISegmentedControl"; qG5-9r-3Ww.segmentTitles[1] = "已逾期"; ObjectID = "qG5-9r-3Ww"; */
+"qG5-9r-3Ww.segmentTitles[1]" = "Overdue";
+
+/* Class = "UISegmentedControl"; qG5-9r-3Ww.segmentTitles[2] = "未逾期"; ObjectID = "qG5-9r-3Ww"; */
+"qG5-9r-3Ww.segmentTitles[2]" = "In Due";
+
+/* Class = "UILabel"; text = "时长(分钟)"; ObjectID = "QGk-h0-wcs"; */
+"QGk-h0-wcs.text" = "Duration(min)";
+
+/* Class = "UILabel"; text = "词"; ObjectID = "qj3-Qg-Ywd"; */
+"qj3-Qg-Ywd.text" = "words";
+
+/* Class = "UILabel"; text = "此次复习"; ObjectID = "qrQ-RF-6n7"; */
+"qrQ-RF-6n7.text" = "Num. This Time";
+
+/* Class = "UIButton"; normalTitle = "恢复购买"; ObjectID = "QWz-Ai-SAM"; */
+"QWz-Ai-SAM.normalTitle" = "Restore";
+
+/* Class = "UIViewController"; title = "search"; ObjectID = "R7q-Up-UwU"; */
+"R7q-Up-UwU.title" = "search";
+
+/* Class = "UIButton"; normalTitle = "设置学习计划"; ObjectID = "R8f-03-i8D"; */
+"R8f-03-i8D.normalTitle" = "Set Plan";
+
+/* Class = "UIButton"; normalTitle = "重置密码"; ObjectID = "Rpx-ka-KJV"; */
+"Rpx-ka-KJV.normalTitle" = "Reset Password";
+
+/* Class = "UIButton"; normalTitle = "2 次"; ObjectID = "s7t-WN-d2I"; */
+"s7t-WN-d2I.normalTitle" = "2";
+
+/* Class = "UISegmentedControl"; scI-cj-1fY.segmentTitles[0] = "无限制"; ObjectID = "scI-cj-1fY"; */
+"scI-cj-1fY.segmentTitles[0]" = "Unlimitted";
+
+/* Class = "UISegmentedControl"; scI-cj-1fY.segmentTitles[1] = "1天内"; ObjectID = "scI-cj-1fY"; */
+"scI-cj-1fY.segmentTitles[1]" = "1 days";
+
+/* Class = "UISegmentedControl"; scI-cj-1fY.segmentTitles[2] = "3天内"; ObjectID = "scI-cj-1fY"; */
+"scI-cj-1fY.segmentTitles[2]" = "3 days";
+
+/* Class = "UISegmentedControl"; scI-cj-1fY.segmentTitles[3] = "1周内"; ObjectID = "scI-cj-1fY"; */
+"scI-cj-1fY.segmentTitles[3]" = "1 week";
+
+/* Class = "UISegmentedControl"; SeM-yE-WzK.segmentTitles[0] = "乱序"; ObjectID = "SeM-yE-WzK"; */
+"SeM-yE-WzK.segmentTitles[0]" = "Random";
+
+/* Class = "UISegmentedControl"; SeM-yE-WzK.segmentTitles[1] = "顺序"; ObjectID = "SeM-yE-WzK"; */
+"SeM-yE-WzK.segmentTitles[1]" = "Alphabet";
+
+/* Class = "UISegmentedControl"; SeM-yE-WzK.segmentTitles[2] = "倒序"; ObjectID = "SeM-yE-WzK"; */
+"SeM-yE-WzK.segmentTitles[2]" = "Reversed";
+
+/* Class = "UITabBarItem"; title = "主页"; ObjectID = "sqx-Hz-drS"; */
+"sqx-Hz-drS.title" = "Index";
+
+/* Class = "UINavigationItem"; title = "单词书"; ObjectID = "SXn-dT-aNu"; */
+"SXn-dT-aNu.title" = "Book";
+
+/* Class = "UILabel"; text = "3567人在与你一起「刷词」"; ObjectID = "tAh-Ex-sOZ"; */
+"tAh-Ex-sOZ.text" = "3567 people are learning with you";
+
+/* Class = "UILabel"; text = "百分比"; ObjectID = "tbD-dU-2lb"; */
+"tbD-dU-2lb.text" = "Percentage";
+
+/* Class = "UIViewController"; title = "Theme"; ObjectID = "TiU-8v-2lf"; */
+"TiU-8v-2lf.title" = "Theme";
+
+/* Class = "UIButton"; normalTitle = "设置"; ObjectID = "Tne-ae-DkL"; */
+"Tne-ae-DkL.normalTitle" = "Setting";
+
+/* Class = "UILabel"; text = "选择词库"; ObjectID = "TSQ-wf-wmG"; */
+"TSQ-wf-wmG.text" = "Select Book";
+
+/* Class = "UILabel"; text = "全部"; ObjectID = "U8X-n6-Jz5"; */
+"U8X-n6-Jz5.text" = "All";
+
+/* Class = "UIButton"; normalTitle = "0 次"; ObjectID = "Uf3-1L-BUC"; */
+"Uf3-1L-BUC.normalTitle" = "0";
+
+/* Class = "UILabel"; text = "Beach"; ObjectID = "uPs-cE-alz"; */
+"uPs-cE-alz.text" = "Beach";
+
+/* Class = "UILabel"; text = "坚持天数"; ObjectID = "uTR-bB-1Li"; */
+"uTR-bB-1Li.text" = "Days Study";
+
+/* Class = "UILabel"; text = "单词量"; ObjectID = "VEE-Zj-a4X"; */
+"VEE-Zj-a4X.text" = "Size";
+
+/* Class = "UILabel"; text = "--"; ObjectID = "vGO-Gf-PDd"; */
+"vGO-Gf-PDd.text" = "--";
+
+/* Class = "UITextField"; placeholder = "邮 箱"; ObjectID = "Vhk-Wt-PpQ"; */
+"Vhk-Wt-PpQ.placeholder" = "Email";
+
+/* Class = "UILabel"; text = "记: sea memory"; ObjectID = "vIQ-JF-YNA"; */
+"vIQ-JF-YNA.text" = "记: sea memory";
+
+/* Class = "UILabel"; text = "August 21, 2020"; ObjectID = "vpv-yW-MGV"; */
+"vpv-yW-MGV.text" = "August 21, 2020";
+
+/* Class = "UILabel"; text = "双解释义"; ObjectID = "wEV-9S-L00"; */
+"wEV-9S-L00.text" = "Meaning";
+
+/* Class = "UISegmentedControl"; WF0-7B-zOc.segmentTitles[0] = "正在学习"; ObjectID = "WF0-7B-zOc"; */
+"WF0-7B-zOc.segmentTitles[0]" = "Learning";
+
+/* Class = "UISegmentedControl"; WF0-7B-zOc.segmentTitles[1] = "收藏本"; ObjectID = "WF0-7B-zOc"; */
+"WF0-7B-zOc.segmentTitles[1]" = "Collected";
+
+/* Class = "UISegmentedControl"; WF0-7B-zOc.segmentTitles[2] = "已掌握"; ObjectID = "WF0-7B-zOc"; */
+"WF0-7B-zOc.segmentTitles[2]" = "Mastered";
+
+/* Class = "UITextField"; placeholder = "密 码"; ObjectID = "wU5-ll-10R"; */
+"wU5-ll-10R.placeholder" = "Password";
+
+/* Class = "UILabel"; text = "今日单词"; ObjectID = "X7M-Gf-6My"; */
+"X7M-Gf-6My.text" = "Today's Num";
+
+/* Class = "UILabel"; text = "GRE词汇精选"; ObjectID = "X7N-zk-sDn"; */
+"X7N-zk-sDn.text" = "GRE词汇精选";
+
+/* Class = "UILabel"; text = "今日学习时长"; ObjectID = "xHH-0Y-Tqo"; */
+"xHH-0Y-Tqo.text" = "Hours. Today";
+
+/* Class = "UILabel"; text = "不熟"; ObjectID = "XnJ-x2-xdZ"; */
+"XnJ-x2-xdZ.text" = "不熟";
+
+/* Class = "UIButton"; normalTitle = "  更换词库  "; ObjectID = "xri-bM-taa"; */
+"xri-bM-taa.normalTitle" = "  Change Book  ";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "xSv-kj-v8W"; */
+"xSv-kj-v8W.text" = "Label";
+
+/* Class = "UILabel"; text = "学习曲线"; ObjectID = "xxj-3N-dca"; */
+"xxj-3N-dca.text" = "Learning Curve";
+
+/* Class = "UITextField"; placeholder = "手机号"; ObjectID = "Y4M-nt-lIO"; */
+"Y4M-nt-lIO.placeholder" = "Phone";
+
+/* Class = "UITextField"; placeholder = "邮 箱"; ObjectID = "YCs-fL-Zfy"; */
+"YCs-fL-Zfy.placeholder" = "Email";
+
+/* Class = "UITextField"; placeholder = "短信验证码"; ObjectID = "YLu-e4-lHu"; */
+"YLu-e4-lHu.placeholder" = "Verify. Code";
+
+/* Class = "UILabel"; text = "0.5"; ObjectID = "yXl-j2-SfQ"; */
+"yXl-j2-SfQ.text" = "0.5";
+
+/* Class = "UISegmentedControl"; yXM-87-qL2.segmentTitles[0] = "单词量"; ObjectID = "yXM-87-qL2"; */
+"yXM-87-qL2.segmentTitles[0]" = "Vocab Size";
+
+/* Class = "UISegmentedControl"; yXM-87-qL2.segmentTitles[1] = "时长"; ObjectID = "yXM-87-qL2"; */
+"yXM-87-qL2.segmentTitles[1]" = "Duration";
+
+/* Class = "UILabel"; text = "单词日期"; ObjectID = "Zev-Te-Aoj"; */
+"Zev-Te-Aoj.text" = "Learning Date";
+
+/* Class = "UILabel"; text = "免费试用1个月，之后￥6.00/月"; ObjectID = "zKh-8K-UQm"; */
+"zKh-8K-UQm.text" = "免费试用1个月，之后￥6.00/月";
+
+/* Class = "UILabel"; text = "记忆情况"; ObjectID = "ZLK-3Z-csE"; */
+"ZLK-3Z-csE.text" = "Mastery";
+
+/* Class = "UILabel"; text = "3. 中忆英  10"; ObjectID = "ZPM-oT-me8"; */
+"ZPM-oT-me8.text" = "3. 中忆英  10";
+
+/* Class = "UILabel"; text = "累计学习"; ObjectID = "zwo-WF-fzM"; */
+"zwo-WF-fzM.text" = "Cum. Learn";
+

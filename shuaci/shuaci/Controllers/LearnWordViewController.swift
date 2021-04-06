@@ -788,12 +788,12 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
             if xFromCenter > 0
             {
                 card.rememberImageView?.backgroundColor = getCardActionColor(cardBehavior: .forget)
-                card.rememberLabel?.text = "不熟"
+                card.rememberLabel?.text = forgetText
             }
             else
             {
                 card.rememberImageView?.backgroundColor = getCardActionColor(cardBehavior: .remember)
-                card.rememberLabel?.text = "会了"
+                card.rememberLabel?.text = rememberedText
             }
             card.rememberImageView?.alpha = 0.7 + (abs(xFromCenter) / view.center.x) * 0.3
             card.rememberLabel?.alpha = 1.0
@@ -1196,7 +1196,7 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     @IBAction func masterThisCard(_ sender: UIButton) {
-        cardAnimation(rememberLabelText: "掌握", backgroundColor:  getCardActionColor(cardBehavior: .trash), cardBehavior: .trash)
+        cardAnimation(rememberLabelText: masterText, backgroundColor:  getCardActionColor(cardBehavior: .trash), cardBehavior: .trash)
     }
     
     func cardAnimation(rememberLabelText: String, backgroundColor: UIColor, cardBehavior: CardBehavior){
@@ -1279,7 +1279,7 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     @IBAction func learntTheCard(_ sender: UIButton) {
-        cardAnimation(rememberLabelText: "会了", backgroundColor:  getCardActionColor(cardBehavior: .remember), cardBehavior: .remember)
+        cardAnimation(rememberLabelText: rememberedText, backgroundColor:  getCardActionColor(cardBehavior: .remember), cardBehavior: .remember)
     }
     
     func disableBtns(){
@@ -1309,7 +1309,7 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     @IBAction func cardDifficultToLearn(_ sender: UIButton) {
-        cardAnimation(rememberLabelText: "不熟", backgroundColor:  getCardActionColor(cardBehavior: .forget), cardBehavior: .forget)
+        cardAnimation(rememberLabelText: forgetText, backgroundColor:  getCardActionColor(cardBehavior: .forget), cardBehavior: .forget)
     }
     
     @IBAction func addWordToCollection(_ sender: UIButton) {

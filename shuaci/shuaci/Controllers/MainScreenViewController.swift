@@ -164,12 +164,12 @@ class MainScreenViewController: UIViewController {
         if xFromCenter > 0
         {
             card.rememberImageView?.backgroundColor = UIColor.systemPink
-            card.rememberLabel?.text = "不熟"
+            card.rememberLabel?.text = forgetText
         }
         else
         {
             card.rememberImageView?.backgroundColor = UIColor.systemGreen
-            card.rememberLabel?.text = "会了"
+            card.rememberLabel?.text = rememberedText
         }
         card.rememberImageView?.alpha = 0.7 + (abs(xFromCenter) / view.center.x) * 0.3
         card.rememberLabel?.alpha = 1.0

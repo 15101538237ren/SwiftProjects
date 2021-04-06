@@ -1,0 +1,10 @@
+/* Bundle display name */
+"CFBundleDisplayName" = "刷词";
+/* Bundle name */
+"CFBundleName" = "刷词";
+/* Privacy - Camera Usage Description */
+"NSCameraUsageDescription" = "本应用需要使用相机来设置您的头像或上传图片";
+/* Privacy - Photo Library Additions Usage Description */
+"NSPhotoLibraryAddUsageDescription" = "本应用需要访问您的照片库来保存您喜爱的壁纸";
+/* Privacy - Photo Library Usage Description */
+"NSPhotoLibraryUsageDescription" = "本应用需要使用相片库来设置您的头像或上传图片";

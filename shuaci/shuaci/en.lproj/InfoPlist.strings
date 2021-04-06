@@ -1,0 +1,9 @@
+/* Privacy - Camera Usage Description */
+"NSCameraUsageDescription" = "We needs to use the camera to set your avatar or upload a picture";
+
+/* Privacy - Photo Library Additions Usage Description */
+"NSPhotoLibraryAddUsageDescription" = "We needs to use the camera to set your avatar or upload a picture";
+
+/* Privacy - Photo Library Usage Description */
+"NSPhotoLibraryUsageDescription" = "We needs to use the camera to set your avatar or upload a picture";
+

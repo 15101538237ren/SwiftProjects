@@ -1,0 +1,1640 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.2" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 http://docs.oasis-open.org/xliff/v1.2/os/xliff-core-1.2-strict.xsd">
+  <file original="shuaci/Base.lproj/LaunchScreen.storyboard" source-language="zh-Hans" target-language="en" datatype="plaintext">
+    <header>
+      <tool tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="12.4" build-num="12D4e"/>
+    </header>
+    <body>
+      <trans-unit id="6zn-pn-oId.text" xml:space="preserve">
+        <source>高效背单词的法宝</source>
+        <target>Learn Vocabulary Easily</target>
+        <note>Class = "UILabel"; text = "高效背单词的法宝"; ObjectID = "6zn-pn-oId";</note>
+      </trans-unit>
+    </body>
+  </file>
+  <file original="shuaci/StoryBoard/Base.lproj/Main.storyboard" source-language="zh-Hans" target-language="en" datatype="plaintext">
+    <header>
+      <tool tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="12.4" build-num="12D4e"/>
+    </header>
+    <body>
+      <trans-unit id="0Ex-uA-MIm.text" xml:space="preserve">
+        <source>1. 初记忆  0</source>
+        <target>1. 1st Learn  0</target>
+        <note>Class = "UILabel"; text = "1. 初记忆  0"; ObjectID = "0Ex-uA-MIm";</note>
+      </trans-unit>
+      <trans-unit id="0FL-zy-Dv6.text" xml:space="preserve">
+        <source>累计学习时长</source>
+        <target>Cumulative study time</target>
+        <note>Class = "UILabel"; text = "累计学习时长"; ObjectID = "0FL-zy-Dv6";</note>
+      </trans-unit>
+      <trans-unit id="0NS-io-9cp.text" xml:space="preserve">
+        <source>n. 海滩，沙滩</source>
+        <target>n. 海滩，沙滩</target>
+        <note>Class = "UILabel"; text = "n. 海滩，沙滩"; ObjectID = "0NS-io-9cp";</note>
+      </trans-unit>
+      <trans-unit id="0Rl-fF-7YP.text" xml:space="preserve">
+        <source>不熟</source>
+        <target>不熟</target>
+        <note>Class = "UILabel"; text = "不熟"; ObjectID = "0Rl-fF-7YP";</note>
+      </trans-unit>
+      <trans-unit id="0ef-wQ-Nsi.text" xml:space="preserve">
+        <source>15</source>
+        <target>15</target>
+        <note>Class = "UILabel"; text = "15"; ObjectID = "0ef-wQ-Nsi";</note>
+      </trans-unit>
+      <trans-unit id="0ws-Ij-sgU.text" xml:space="preserve">
+        <source>距复习: 1天20时3分</source>
+        <target>距复习: 1天20时3分</target>
+        <note>Class = "UILabel"; text = "距复习: 1天20时3分"; ObjectID = "0ws-Ij-sgU";</note>
+      </trans-unit>
+      <trans-unit id="1BQ-tv-XbH.text" xml:space="preserve">
+        <source>7</source>
+        <target>7</target>
+        <note>Class = "UILabel"; text = "7"; ObjectID = "1BQ-tv-XbH";</note>
+      </trans-unit>
+      <trans-unit id="2Q3-se-ylx.placeholder" xml:space="preserve">
+        <source>请输入要查询的单词</source>
+        <target>Please enter the word</target>
+        <note>Class = "UISearchBar"; placeholder = "请输入要查询的单词"; ObjectID = "2Q3-se-ylx";</note>
+      </trans-unit>
+      <trans-unit id="2XW-pW-6G3.text" xml:space="preserve">
+        <source>词</source>
+        <target>词</target>
+        <note>Class = "UILabel"; text = "词"; ObjectID = "2XW-pW-6G3";</note>
+      </trans-unit>
+      <trans-unit id="2v2-PL-WGz.text" xml:space="preserve">
+        <source>美 音</source>
+        <target>American</target>
+        <note>Class = "UILabel"; text = "美 音"; ObjectID = "2v2-PL-WGz";</note>
+      </trans-unit>
+      <trans-unit id="3pQ-hr-npA.text" xml:space="preserve">
+        <source>全新英语教材</source>
+        <target>全新英语教材</target>
+        <note>Class = "UILabel"; text = "全新英语教材"; ObjectID = "3pQ-hr-npA";</note>
+      </trans-unit>
+      <trans-unit id="4yR-X4-MjN.text" xml:space="preserve">
+        <source>设置</source>
+        <target>Settings</target>
+        <note>Class = "UILabel"; text = "设置"; ObjectID = "4yR-X4-MjN";</note>
+      </trans-unit>
+      <trans-unit id="5jh-bG-cXE.text" xml:space="preserve">
+        <source>下次提醒</source>
+        <target>Next Reminder</target>
+        <note>Class = "UILabel"; text = "下次提醒"; ObjectID = "5jh-bG-cXE";</note>
+      </trans-unit>
+      <trans-unit id="5lc-ng-WfJ.text" xml:space="preserve">
+        <source>单词书名称</source>
+        <target>Book Name</target>
+        <note>Class = "UILabel"; text = "单词书名称"; ObjectID = "5lc-ng-WfJ";</note>
+      </trans-unit>
+      <trans-unit id="5qP-jd-1xT.text" xml:space="preserve">
+        <source>待复习</source>
+        <target>To be reviewed</target>
+        <note>Class = "UILabel"; text = "待复习"; ObjectID = "5qP-jd-1xT";</note>
+      </trans-unit>
+      <trans-unit id="6fP-N5-hDA.text" xml:space="preserve">
+        <source>高效背单词的法宝</source>
+        <target>Learn Vocabulary Easily</target>
+        <note>Class = "UILabel"; text = "高效背单词的法宝"; ObjectID = "6fP-N5-hDA";</note>
+      </trans-unit>
+      <trans-unit id="7FS-9M-PEo.text" xml:space="preserve">
+        <source>记: sea memory</source>
+        <target>记: sea memory</target>
+        <note>Class = "UILabel"; text = "记: sea memory"; ObjectID = "7FS-9M-PEo";</note>
+      </trans-unit>
+      <trans-unit id="7Gz-lV-Hn9.text" xml:space="preserve">
+        <source>25 个</source>
+        <target>25 个</target>
+        <note>Class = "UILabel"; text = "25 个"; ObjectID = "7Gz-lV-Hn9";</note>
+      </trans-unit>
+      <trans-unit id="8QO-WA-8ug.normalTitle" xml:space="preserve">
+        <source>获取验证码</source>
+        <target>Get Code</target>
+        <note>Class = "UIButton"; normalTitle = "获取验证码"; ObjectID = "8QO-WA-8ug";</note>
+      </trans-unit>
+      <trans-unit id="9Ml-IN-GDu.segmentTitles[0]" xml:space="preserve">
+        <source>记忆规律</source>
+        <target>Memory Law</target>
+        <note>Class = "UISegmentedControl"; 9Ml-IN-GDu.segmentTitles[0] = "记忆规律"; ObjectID = "9Ml-IN-GDu";</note>
+      </trans-unit>
+      <trans-unit id="9Ml-IN-GDu.segmentTitles[1]" xml:space="preserve">
+        <source>学习情况</source>
+        <target>Learning Statistics</target>
+        <note>Class = "UISegmentedControl"; 9Ml-IN-GDu.segmentTitles[1] = "学习情况"; ObjectID = "9Ml-IN-GDu";</note>
+      </trans-unit>
+      <trans-unit id="9Ml-IN-GDu.segmentTitles[2]" xml:space="preserve">
+        <source>长期掌握度</source>
+        <target>Long term memory</target>
+        <note>Class = "UISegmentedControl"; 9Ml-IN-GDu.segmentTitles[2] = "长期掌握度"; ObjectID = "9Ml-IN-GDu";</note>
+      </trans-unit>
+      <trans-unit id="9bk-00-dtD.normalTitle" xml:space="preserve">
+        <source>不提醒</source>
+        <target>No Reminder</target>
+        <note>Class = "UIButton"; normalTitle = "不提醒"; ObjectID = "9bk-00-dtD";</note>
+      </trans-unit>
+      <trans-unit id="29P-1k-FHE.normalTitle" xml:space="preserve">
+        <source>全部</source>
+        <target>All</target>
+        <note>Class = "UIButton"; normalTitle = "全部"; ObjectID = "29P-1k-FHE";</note>
+      </trans-unit>
+      <trans-unit id="46t-IM-QFu.text" xml:space="preserve">
+        <source>新概念第一册</source>
+        <target>新概念第一册</target>
+        <note>Class = "UILabel"; text = "新概念第一册"; ObjectID = "46t-IM-QFu";</note>
+      </trans-unit>
+      <trans-unit id="684-wH-wQh.normalTitle" xml:space="preserve">
+        <source>取消</source>
+        <target>Cancel</target>
+        <note>Class = "UIButton"; normalTitle = "取消"; ObjectID = "684-wH-wQh";</note>
+      </trans-unit>
+      <trans-unit id="868-VL-FJO.title" xml:space="preserve">
+        <source>Main Panel</source>
+        <target>Main Panel</target>
+        <note>Class = "UIViewController"; title = "Main Panel"; ObjectID = "868-VL-FJO";</note>
+      </trans-unit>
+      <trans-unit id="BCj-Fd-0fC.normalTitle" xml:space="preserve">
+        <source>邮箱登录</source>
+        <target>Email Login</target>
+        <note>Class = "UIButton"; normalTitle = "邮箱登录"; ObjectID = "BCj-Fd-0fC";</note>
+      </trans-unit>
+      <trans-unit id="BHe-xM-8vJ.normalTitle" xml:space="preserve">
+        <source>忘记密码?</source>
+        <target>Forget Password?</target>
+        <note>Class = "UIButton"; normalTitle = "忘记密码?"; ObjectID = "BHe-xM-8vJ";</note>
+      </trans-unit>
+      <trans-unit id="CJc-mc-Rvf.text" xml:space="preserve">
+        <source>如果你不去尝试新的事物，就不会失败。</source>
+        <target>如果你不去尝试新的事物，就不会失败。</target>
+        <note>Class = "UILabel"; text = "如果你不去尝试新的事物，就不会失败。"; ObjectID = "CJc-mc-Rvf";</note>
+      </trans-unit>
+      <trans-unit id="Ceo-Cx-y2f.normalTitle" xml:space="preserve">
+        <source>开 始</source>
+        <target>Start</target>
+        <note>Class = "UIButton"; normalTitle = "开 始"; ObjectID = "Ceo-Cx-y2f";</note>
+      </trans-unit>
+      <trans-unit id="DMg-Vq-vLt.text" xml:space="preserve">
+        <source>记: sea memory</source>
+        <target>Mem: memory method</target>
+        <note>Class = "UILabel"; text = "记: sea memory"; ObjectID = "DMg-Vq-vLt";</note>
+      </trans-unit>
+      <trans-unit id="DNK-b4-HaI.text" xml:space="preserve">
+        <source>GRE词汇精选是一本很棒的书</source>
+        <target>Book Description</target>
+        <note>Class = "UILabel"; text = "GRE词汇精选是一本很棒的书"; ObjectID = "DNK-b4-HaI";</note>
+      </trans-unit>
+      <trans-unit id="EWL-vY-vnR.text" xml:space="preserve">
+        <source>Label</source>
+        <target>Label</target>
+        <note>Class = "UILabel"; text = "Label"; ObjectID = "EWL-vY-vnR";</note>
+      </trans-unit>
+      <trans-unit id="EWV-zC-w57.title" xml:space="preserve">
+        <source>Login</source>
+        <target>Login</target>
+        <note>Class = "UIViewController"; title = "Login"; ObjectID = "EWV-zC-w57";</note>
+      </trans-unit>
+      <trans-unit id="G0U-9d-smS.text" xml:space="preserve">
+        <source>今日学习&amp;复习</source>
+        <target>Today Learn&amp;Review</target>
+        <note>Class = "UILabel"; text = "今日学习&amp;复习"; ObjectID = "G0U-9d-smS";</note>
+      </trans-unit>
+      <trans-unit id="G37-Fk-RZS.text" xml:space="preserve">
+        <source>记: sea memory</source>
+        <target>Mem: memory method</target>
+        <note>Class = "UILabel"; text = "记: sea memory"; ObjectID = "G37-Fk-RZS";</note>
+      </trans-unit>
+      <trans-unit id="Ge6-Dm-g6C.text" xml:space="preserve">
+        <source>                        </source>
+        <target>                        </target>
+        <note>Class = "UILabel"; text = "                        "; ObjectID = "Ge6-Dm-g6C";</note>
+      </trans-unit>
+      <trans-unit id="GeE-1c-uzX.text" xml:space="preserve">
+        <source>Beach</source>
+        <target>Beach</target>
+        <note>Class = "UILabel"; text = "Beach"; ObjectID = "GeE-1c-uzX";</note>
+      </trans-unit>
+      <trans-unit id="Hq2-ns-5Mv.text" xml:space="preserve">
+        <source>分享你的成长</source>
+        <target>Share Your Growth</target>
+        <note>Class = "UILabel"; text = "分享你的成长"; ObjectID = "Hq2-ns-5Mv";</note>
+      </trans-unit>
+      <trans-unit id="Htq-84-jON.text" xml:space="preserve">
+        <source>选择复习量</source>
+        <target>Select Word Number for Review</target>
+        <note>Class = "UILabel"; text = "选择复习量"; ObjectID = "Htq-84-jON";</note>
+      </trans-unit>
+      <trans-unit id="I1f-XP-ioR.text" xml:space="preserve">
+        <source>不熟</source>
+        <target>不熟</target>
+        <note>Class = "UILabel"; text = "不熟"; ObjectID = "I1f-XP-ioR";</note>
+      </trans-unit>
+      <trans-unit id="IEd-u5-QOx.text" xml:space="preserve">
+        <source>3278</source>
+        <target>3278</target>
+        <note>Class = "UILabel"; text = "3278"; ObjectID = "IEd-u5-QOx";</note>
+      </trans-unit>
+      <trans-unit id="Ibq-Ch-zq6.normalTitle" xml:space="preserve">
+        <source>学新词</source>
+        <target>Learn</target>
+        <note>Class = "UIButton"; normalTitle = "学新词"; ObjectID = "Ibq-Ch-zq6";</note>
+      </trans-unit>
+      <trans-unit id="Is3-7B-91u.text" xml:space="preserve">
+        <source>预计天数</source>
+        <target>Est Days</target>
+        <note>Class = "UILabel"; text = "预计天数"; ObjectID = "Is3-7B-91u";</note>
+      </trans-unit>
+      <trans-unit id="JAE-8O-Dk3.text" xml:space="preserve">
+        <source>n. 大海, 海洋</source>
+        <target>n. 大海, 海洋</target>
+        <note>Class = "UILabel"; text = "n. 大海, 海洋"; ObjectID = "JAE-8O-Dk3";</note>
+      </trans-unit>
+      <trans-unit id="JfL-3L-W7R.text" xml:space="preserve">
+        <source>关</source>
+        <target>Off</target>
+        <note>Class = "UILabel"; text = "关"; ObjectID = "JfL-3L-W7R";</note>
+      </trans-unit>
+      <trans-unit id="JuU-Ne-vEF.text" xml:space="preserve">
+        <source>第5轮: 连续记住 1 / 4 次</source>
+        <target>第5轮: 连续记住 1 / 4 次</target>
+        <note>Class = "UILabel"; text = "第5轮: 连续记住 1 / 4 次"; ObjectID = "JuU-Ne-vEF";</note>
+      </trans-unit>
+      <trans-unit id="Ki5-FW-vys.normalTitle" xml:space="preserve">
+        <source>复 习</source>
+        <target>Review</target>
+        <note>Class = "UIButton"; normalTitle = "复 习"; ObjectID = "Ki5-FW-vys";</note>
+      </trans-unit>
+      <trans-unit id="Klp-bL-7Sj.text" xml:space="preserve">
+        <source>高效背单词的法宝</source>
+        <target>Learn Vocabulary Easily</target>
+        <note>Class = "UILabel"; text = "高效背单词的法宝"; ObjectID = "Klp-bL-7Sj";</note>
+      </trans-unit>
+      <trans-unit id="LUj-AR-JfL.text" xml:space="preserve">
+        <source>发音类型</source>
+        <target>Accent</target>
+        <note>Class = "UILabel"; text = "发音类型"; ObjectID = "LUj-AR-JfL";</note>
+      </trans-unit>
+      <trans-unit id="Ldk-Hh-BFG.normalTitle" xml:space="preserve">
+        <source>1 次</source>
+        <target>1</target>
+        <note>Class = "UIButton"; normalTitle = "1 次"; ObjectID = "Ldk-Hh-BFG";</note>
+      </trans-unit>
+      <trans-unit id="MZ8-qn-Eds.title" xml:space="preserve">
+        <source>取消</source>
+        <target>Cancel</target>
+        <note>Class = "UIBarButtonItem"; title = "取消"; ObjectID = "MZ8-qn-Eds";</note>
+      </trans-unit>
+      <trans-unit id="Mjb-uq-OTf.text" xml:space="preserve">
+        <source>连续记住</source>
+        <target>Remembered Times</target>
+        <note>Class = "UILabel"; text = "连续记住"; ObjectID = "Mjb-uq-OTf";</note>
+      </trans-unit>
+      <trans-unit id="Mnv-rr-To1.normalTitle" xml:space="preserve">
+        <source>3 次</source>
+        <target>3</target>
+        <note>Class = "UIButton"; normalTitle = "3 次"; ObjectID = "Mnv-rr-To1";</note>
+      </trans-unit>
+      <trans-unit id="OeJ-MX-bXb.title" xml:space="preserve">
+        <source>账号管理</source>
+        <target>Profile</target>
+        <note>Class = "UINavigationItem"; title = "账号管理"; ObjectID = "OeJ-MX-bXb";</note>
+      </trans-unit>
+      <trans-unit id="On3-1R-eT4.text" xml:space="preserve">
+        <source>Beach</source>
+        <target>Beach</target>
+        <note>Class = "UILabel"; text = "Beach"; ObjectID = "On3-1R-eT4";</note>
+      </trans-unit>
+      <trans-unit id="Ot9-VT-elk.text" xml:space="preserve">
+        <source>1. 背词顺序</source>
+        <target>1. Recitation order</target>
+        <note>Class = "UILabel"; text = "1. 背词顺序"; ObjectID = "Ot9-VT-elk";</note>
+      </trans-unit>
+      <trans-unit id="P2S-7d-UmS.text" xml:space="preserve">
+        <source>n. 海滩，沙滩</source>
+        <target>n. 海滩，沙滩</target>
+        <note>Class = "UILabel"; text = "n. 海滩，沙滩"; ObjectID = "P2S-7d-UmS";</note>
+      </trans-unit>
+      <trans-unit id="PCT-Ki-Cv3.text" xml:space="preserve">
+        <source>----</source>
+        <target>----</target>
+        <note>Class = "UILabel"; text = "----"; ObjectID = "PCT-Ki-Cv3";</note>
+      </trans-unit>
+      <trans-unit id="Q0Q-iV-hGR.text" xml:space="preserve">
+        <source>--</source>
+        <target>--</target>
+        <note>Class = "UILabel"; text = "--"; ObjectID = "Q0Q-iV-hGR";</note>
+      </trans-unit>
+      <trans-unit id="Q7f-KO-PRq.text" xml:space="preserve">
+        <source>分钟</source>
+        <target>Mins</target>
+        <note>Class = "UILabel"; text = "分钟"; ObjectID = "Q7f-KO-PRq";</note>
+      </trans-unit>
+      <trans-unit id="QGk-h0-wcs.text" xml:space="preserve">
+        <source>时长(分钟)</source>
+        <target>Duration(min)</target>
+        <note>Class = "UILabel"; text = "时长(分钟)"; ObjectID = "QGk-h0-wcs";</note>
+      </trans-unit>
+      <trans-unit id="QWz-Ai-SAM.normalTitle" xml:space="preserve">
+        <source>恢复购买</source>
+        <target>Restore</target>
+        <note>Class = "UIButton"; normalTitle = "恢复购买"; ObjectID = "QWz-Ai-SAM";</note>
+      </trans-unit>
+      <trans-unit id="R7q-Up-UwU.title" xml:space="preserve">
+        <source>search</source>
+        <target>search</target>
+        <note>Class = "UIViewController"; title = "search"; ObjectID = "R7q-Up-UwU";</note>
+      </trans-unit>
+      <trans-unit id="R8f-03-i8D.normalTitle" xml:space="preserve">
+        <source>设置学习计划</source>
+        <target>Set Plan</target>
+        <note>Class = "UIButton"; normalTitle = "设置学习计划"; ObjectID = "R8f-03-i8D";</note>
+      </trans-unit>
+      <trans-unit id="Rpx-ka-KJV.normalTitle" xml:space="preserve">
+        <source>重置密码</source>
+        <target>Reset Password</target>
+        <note>Class = "UIButton"; normalTitle = "重置密码"; ObjectID = "Rpx-ka-KJV";</note>
+      </trans-unit>
+      <trans-unit id="SXn-dT-aNu.title" xml:space="preserve">
+        <source>单词书</source>
+        <target>Book</target>
+        <note>Class = "UINavigationItem"; title = "单词书"; ObjectID = "SXn-dT-aNu";</note>
+      </trans-unit>
+      <trans-unit id="SeM-yE-WzK.segmentTitles[0]" xml:space="preserve">
+        <source>乱序</source>
+        <target>Random</target>
+        <note>Class = "UISegmentedControl"; SeM-yE-WzK.segmentTitles[0] = "乱序"; ObjectID = "SeM-yE-WzK";</note>
+      </trans-unit>
+      <trans-unit id="SeM-yE-WzK.segmentTitles[1]" xml:space="preserve">
+        <source>顺序</source>
+        <target>Alphabetical</target>
+        <note>Class = "UISegmentedControl"; SeM-yE-WzK.segmentTitles[1] = "顺序"; ObjectID = "SeM-yE-WzK";</note>
+      </trans-unit>
+      <trans-unit id="SeM-yE-WzK.segmentTitles[2]" xml:space="preserve">
+        <source>倒序</source>
+        <target>Reversed</target>
+        <note>Class = "UISegmentedControl"; SeM-yE-WzK.segmentTitles[2] = "倒序"; ObjectID = "SeM-yE-WzK";</note>
+      </trans-unit>
+      <trans-unit id="TSQ-wf-wmG.text" xml:space="preserve">
+        <source>选择词库</source>
+        <target>Select Book</target>
+        <note>Class = "UILabel"; text = "选择词库"; ObjectID = "TSQ-wf-wmG";</note>
+      </trans-unit>
+      <trans-unit id="TiU-8v-2lf.title" xml:space="preserve">
+        <source>Theme</source>
+        <target>Theme</target>
+        <note>Class = "UIViewController"; title = "Theme"; ObjectID = "TiU-8v-2lf";</note>
+      </trans-unit>
+      <trans-unit id="Tne-ae-DkL.normalTitle" xml:space="preserve">
+        <source>设置</source>
+        <target>Setting</target>
+        <note>Class = "UIButton"; normalTitle = "设置"; ObjectID = "Tne-ae-DkL";</note>
+      </trans-unit>
+      <trans-unit id="U8X-n6-Jz5.text" xml:space="preserve">
+        <source>全部</source>
+        <target>All</target>
+        <note>Class = "UILabel"; text = "全部"; ObjectID = "U8X-n6-Jz5";</note>
+      </trans-unit>
+      <trans-unit id="Uf3-1L-BUC.normalTitle" xml:space="preserve">
+        <source>0 次</source>
+        <target>0</target>
+        <note>Class = "UIButton"; normalTitle = "0 次"; ObjectID = "Uf3-1L-BUC";</note>
+      </trans-unit>
+      <trans-unit id="VEE-Zj-a4X.text" xml:space="preserve">
+        <source>单词量</source>
+        <target>Size</target>
+        <note>Class = "UILabel"; text = "单词量"; ObjectID = "VEE-Zj-a4X";</note>
+      </trans-unit>
+      <trans-unit id="Vhk-Wt-PpQ.placeholder" xml:space="preserve">
+        <source>邮 箱</source>
+        <target>Email</target>
+        <note>Class = "UITextField"; placeholder = "邮 箱"; ObjectID = "Vhk-Wt-PpQ";</note>
+      </trans-unit>
+      <trans-unit id="WF0-7B-zOc.segmentTitles[0]" xml:space="preserve">
+        <source>正在学习</source>
+        <target>Learning</target>
+        <note>Class = "UISegmentedControl"; WF0-7B-zOc.segmentTitles[0] = "正在学习"; ObjectID = "WF0-7B-zOc";</note>
+      </trans-unit>
+      <trans-unit id="WF0-7B-zOc.segmentTitles[1]" xml:space="preserve">
+        <source>收藏本</source>
+        <target>Collected</target>
+        <note>Class = "UISegmentedControl"; WF0-7B-zOc.segmentTitles[1] = "收藏本"; ObjectID = "WF0-7B-zOc";</note>
+      </trans-unit>
+      <trans-unit id="WF0-7B-zOc.segmentTitles[2]" xml:space="preserve">
+        <source>已掌握</source>
+        <target>Mastered</target>
+        <note>Class = "UISegmentedControl"; WF0-7B-zOc.segmentTitles[2] = "已掌握"; ObjectID = "WF0-7B-zOc";</note>
+      </trans-unit>
+      <trans-unit id="X7M-Gf-6My.text" xml:space="preserve">
+        <source>今日单词</source>
+        <target>Today's Num</target>
+        <note>Class = "UILabel"; text = "今日单词"; ObjectID = "X7M-Gf-6My";</note>
+      </trans-unit>
+      <trans-unit id="X7N-zk-sDn.text" xml:space="preserve">
+        <source>GRE词汇精选</source>
+        <target>GRE词汇精选</target>
+        <note>Class = "UILabel"; text = "GRE词汇精选"; ObjectID = "X7N-zk-sDn";</note>
+      </trans-unit>
+      <trans-unit id="XnJ-x2-xdZ.text" xml:space="preserve">
+        <source>不熟</source>
+        <target>不熟</target>
+        <note>Class = "UILabel"; text = "不熟"; ObjectID = "XnJ-x2-xdZ";</note>
+      </trans-unit>
+      <trans-unit id="Y4M-nt-lIO.placeholder" xml:space="preserve">
+        <source>手机号</source>
+        <target>Phone</target>
+        <note>Class = "UITextField"; placeholder = "手机号"; ObjectID = "Y4M-nt-lIO";</note>
+      </trans-unit>
+      <trans-unit id="YCs-fL-Zfy.placeholder" xml:space="preserve">
+        <source>邮 箱</source>
+        <target>Email</target>
+        <note>Class = "UITextField"; placeholder = "邮 箱"; ObjectID = "YCs-fL-Zfy";</note>
+      </trans-unit>
+      <trans-unit id="YLu-e4-lHu.placeholder" xml:space="preserve">
+        <source>短信验证码</source>
+        <target>Verify. Code</target>
+        <note>Class = "UITextField"; placeholder = "短信验证码"; ObjectID = "YLu-e4-lHu";</note>
+      </trans-unit>
+      <trans-unit id="ZLK-3Z-csE.text" xml:space="preserve">
+        <source>记忆情况</source>
+        <target>Mastery</target>
+        <note>Class = "UILabel"; text = "记忆情况"; ObjectID = "ZLK-3Z-csE";</note>
+      </trans-unit>
+      <trans-unit id="ZPM-oT-me8.text" xml:space="preserve">
+        <source>3. 中忆英  10</source>
+        <target>3. 中忆英  10</target>
+        <note>Class = "UILabel"; text = "3. 中忆英  10"; ObjectID = "ZPM-oT-me8";</note>
+      </trans-unit>
+      <trans-unit id="Zev-Te-Aoj.text" xml:space="preserve">
+        <source>单词日期</source>
+        <target>Learning Date</target>
+        <note>Class = "UILabel"; text = "单词日期"; ObjectID = "Zev-Te-Aoj";</note>
+      </trans-unit>
+      <trans-unit id="a4R-OR-Pey.text" xml:space="preserve">
+        <source>单词历史</source>
+        <target>Learning Records</target>
+        <note>Class = "UILabel"; text = "单词历史"; ObjectID = "a4R-OR-Pey";</note>
+      </trans-unit>
+      <trans-unit id="a90-GU-n3a.text" xml:space="preserve">
+        <source>----</source>
+        <target>----</target>
+        <note>Class = "UILabel"; text = "----"; ObjectID = "a90-GU-n3a";</note>
+      </trans-unit>
+      <trans-unit id="aJv-Ev-Qz6.text" xml:space="preserve">
+        <source>主题</source>
+        <target>Theme</target>
+        <note>Class = "UILabel"; text = "主题"; ObjectID = "aJv-Ev-Qz6";</note>
+      </trans-unit>
+      <trans-unit id="aVz-nO-vhh.text" xml:space="preserve">
+        <source>英语教材</source>
+        <target>Name</target>
+        <note>Class = "UILabel"; text = "英语教材"; ObjectID = "aVz-nO-vhh";</note>
+      </trans-unit>
+      <trans-unit id="ahS-Ho-rou.segmentTitles[0]" xml:space="preserve">
+        <source>按日</source>
+        <target>by Day</target>
+        <note>Class = "UISegmentedControl"; ahS-Ho-rou.segmentTitles[0] = "按日"; ObjectID = "ahS-Ho-rou";</note>
+      </trans-unit>
+      <trans-unit id="ahS-Ho-rou.segmentTitles[1]" xml:space="preserve">
+        <source>按月</source>
+        <target>by Month</target>
+        <note>Class = "UISegmentedControl"; ahS-Ho-rou.segmentTitles[1] = "按月"; ObjectID = "ahS-Ho-rou";</note>
+      </trans-unit>
+      <trans-unit id="b6U-EF-bfv.text" xml:space="preserve">
+        <source>设置提醒时间</source>
+        <target>Set Reminder</target>
+        <note>Class = "UILabel"; text = "设置提醒时间"; ObjectID = "b6U-EF-bfv";</note>
+      </trans-unit>
+      <trans-unit id="bOY-jO-NTP.normalTitle" xml:space="preserve">
+        <source>选择单词书</source>
+        <target>Select Book</target>
+        <note>Class = "UIButton"; normalTitle = "选择单词书"; ObjectID = "bOY-jO-NTP";</note>
+      </trans-unit>
+      <trans-unit id="bOc-QN-ZO8.text" xml:space="preserve">
+        <source>n. 大海, 海洋</source>
+        <target>n. 大海, 海洋</target>
+        <note>Class = "UILabel"; text = "n. 大海, 海洋"; ObjectID = "bOc-QN-ZO8";</note>
+      </trans-unit>
+      <trans-unit id="br2-mb-mYX.text" xml:space="preserve">
+        <source>自动续费服务说明：
+1. 确认购买并付款后计入iTunes 账号。
+2. 如需取消自动扣费，请在当前订阅到期24小时前，手动在 iTunes/Apple ID 订阅管理中关闭自动续费功能。
+3. 苹果 iTunes 账号会在到期前24小时内扣款，扣款成功后订阅顺延一个周期。
+4. 可随时取消自动续费服务，取消后不再续费。</source>
+        <target>自动续费服务说明：
+1. 确认购买并付款后计入iTunes 账号。
+2. 如需取消自动扣费，请在当前订阅到期24小时前，手动在 iTunes/Apple ID 订阅管理中关闭自动续费功能。
+3. 苹果 iTunes 账号会在到期前24小时内扣款，扣款成功后订阅顺延一个周期。
+4. 可随时取消自动续费服务，取消后不再续费。</target>
+        <note>Class = "UILabel"; text = "自动续费服务说明：\n1. 确认购买并付款后计入iTunes 账号。\n2. 如需取消自动扣费，请在当前订阅到期24小时前，手动在 iTunes/Apple ID 订阅管理中关闭自动续费功能。\n3. 苹果 iTunes 账号会在到期前24小时内扣款，扣款成功后订阅顺延一个周期。\n4. 可随时取消自动续费服务，取消后不再续费。"; ObjectID = "br2-mb-mYX";</note>
+      </trans-unit>
+      <trans-unit id="cn7-Eh-snB.text" xml:space="preserve">
+        <source>筛选条件</source>
+        <target>Filter Condition</target>
+        <note>Class = "UILabel"; text = "筛选条件"; ObjectID = "cn7-Eh-snB";</note>
+      </trans-unit>
+      <trans-unit id="cpQ-c3-buj.title" xml:space="preserve">
+        <source>设置</source>
+        <target>Setting</target>
+        <note>Class = "UINavigationItem"; title = "设置"; ObjectID = "cpQ-c3-buj";</note>
+      </trans-unit>
+      <trans-unit id="e9N-FN-ytu.title" xml:space="preserve">
+        <source>WordDetailVC</source>
+        <target>WordDetailVC</target>
+        <note>Class = "UIViewController"; title = "WordDetailVC"; ObjectID = "e9N-FN-ytu";</note>
+      </trans-unit>
+      <trans-unit id="ed3-qa-v1e.text" xml:space="preserve">
+        <source>概 况</source>
+        <target>Overview</target>
+        <note>Class = "UILabel"; text = "概 况"; ObjectID = "ed3-qa-v1e";</note>
+      </trans-unit>
+      <trans-unit id="exJ-Dh-LQc.text" xml:space="preserve">
+        <source>自动发音</source>
+        <target>Auto Pronunce</target>
+        <note>Class = "UILabel"; text = "自动发音"; ObjectID = "exJ-Dh-LQc";</note>
+      </trans-unit>
+      <trans-unit id="ey0-yZ-2ho.text" xml:space="preserve">
+        <source>正在学习</source>
+        <target>Learning</target>
+        <note>Class = "UILabel"; text = "正在学习"; ObjectID = "ey0-yZ-2ho";</note>
+      </trans-unit>
+      <trans-unit id="fmq-Kw-UZL.text" xml:space="preserve">
+        <source>不熟</source>
+        <target>不熟</target>
+        <note>Class = "UILabel"; text = "不熟"; ObjectID = "fmq-Kw-UZL";</note>
+      </trans-unit>
+      <trans-unit id="fms-UY-stY.text" xml:space="preserve">
+        <source>数据同步中...</source>
+        <target>Data Syncing...</target>
+        <note>Class = "UILabel"; text = "数据同步中..."; ObjectID = "fms-UY-stY";</note>
+      </trans-unit>
+      <trans-unit id="fpg-l0-2bR.normalTitle" xml:space="preserve">
+        <source>登 录</source>
+        <target>Login</target>
+        <note>Class = "UIButton"; normalTitle = "登 录"; ObjectID = "fpg-l0-2bR";</note>
+      </trans-unit>
+      <trans-unit id="g5e-d4-loN.text" xml:space="preserve">
+        <source>2. 英忆中  9</source>
+        <target>2. 英忆中  9</target>
+        <note>Class = "UILabel"; text = "2. 英忆中  9"; ObjectID = "g5e-d4-loN";</note>
+      </trans-unit>
+      <trans-unit id="gBR-9h-OCQ.text" xml:space="preserve">
+        <source>vocabulary</source>
+        <target>vocabulary</target>
+        <note>Class = "UILabel"; text = "vocabulary"; ObjectID = "gBR-9h-OCQ";</note>
+      </trans-unit>
+      <trans-unit id="hG5-vI-C7j.text" xml:space="preserve">
+        <source>双解释义</source>
+        <target>Meaning</target>
+        <note>Class = "UILabel"; text = "双解释义"; ObjectID = "hG5-vI-C7j";</note>
+      </trans-unit>
+      <trans-unit id="iqc-MN-U54.text" xml:space="preserve">
+        <source>Beach</source>
+        <target>Beach</target>
+        <note>Class = "UILabel"; text = "Beach"; ObjectID = "iqc-MN-U54";</note>
+      </trans-unit>
+      <trans-unit id="iwh-X2-lHT.text" xml:space="preserve">
+        <source>分钟</source>
+        <target>Min.</target>
+        <note>Class = "UILabel"; text = "分钟"; ObjectID = "iwh-X2-lHT";</note>
+      </trans-unit>
+      <trans-unit id="j1m-jo-o8d.text" xml:space="preserve">
+        <source>解锁「卡片式背单词」 + 「艾宾浩斯复习提醒」</source>
+        <target>解锁「卡片式背单词」 + 「艾宾浩斯复习提醒」</target>
+        <note>Class = "UILabel"; text = "解锁「卡片式背单词」 + 「艾宾浩斯复习提醒」"; ObjectID = "j1m-jo-o8d";</note>
+      </trans-unit>
+      <trans-unit id="j4s-sg-dkh.text" xml:space="preserve">
+        <source>2. 每日计划</source>
+        <target>2. Daily plan</target>
+        <note>Class = "UILabel"; text = "2. 每日计划"; ObjectID = "j4s-sg-dkh";</note>
+      </trans-unit>
+      <trans-unit id="jQF-G7-umJ.normalTitle" xml:space="preserve">
+        <source>自动续费服务协议</source>
+        <target>自动续费服务协议</target>
+        <note>Class = "UIButton"; normalTitle = "自动续费服务协议"; ObjectID = "jQF-G7-umJ";</note>
+      </trans-unit>
+      <trans-unit id="jWR-as-xvL.title" xml:space="preserve">
+        <source>Main Screen</source>
+        <target>Main Screen</target>
+        <note>Class = "UIViewController"; title = "Main Screen"; ObjectID = "jWR-as-xvL";</note>
+      </trans-unit>
+      <trans-unit id="k0o-FD-gW2.text" xml:space="preserve">
+        <source>107.5万</source>
+        <target>107.5k</target>
+        <note>Class = "UILabel"; text = "107.5万"; ObjectID = "k0o-FD-gW2";</note>
+      </trans-unit>
+      <trans-unit id="k3I-nh-fuE.text" xml:space="preserve">
+        <source>高效背单词的法宝</source>
+        <target>Learn Vocabulary Easily</target>
+        <note>Class = "UILabel"; text = "高效背单词的法宝"; ObjectID = "k3I-nh-fuE";</note>
+      </trans-unit>
+      <trans-unit id="k6r-Xe-PA6.normalTitle" xml:space="preserve">
+        <source>筛选</source>
+        <target>Filter</target>
+        <note>Class = "UIButton"; normalTitle = "筛选"; ObjectID = "k6r-Xe-PA6";</note>
+      </trans-unit>
+      <trans-unit id="k14-zl-y6q.text" xml:space="preserve">
+        <source>人在背</source>
+        <target>ppl using</target>
+        <note>Class = "UILabel"; text = "人在背"; ObjectID = "k14-zl-y6q";</note>
+      </trans-unit>
+      <trans-unit id="kSk-VG-RqQ.text" xml:space="preserve">
+        <source>起个昵称吧～</source>
+        <target>Name yourself～</target>
+        <note>Class = "UILabel"; text = "起个昵称吧～"; ObjectID = "kSk-VG-RqQ";</note>
+      </trans-unit>
+      <trans-unit id="kW9-FR-IxA.text" xml:space="preserve">
+        <source>统计曲线</source>
+        <target>Statistics</target>
+        <note>Class = "UILabel"; text = "统计曲线"; ObjectID = "kW9-FR-IxA";</note>
+      </trans-unit>
+      <trans-unit id="m8f-7k-Hgk.text" xml:space="preserve">
+        <source>                        </source>
+        <target>                        </target>
+        <note>Class = "UILabel"; text = "                        "; ObjectID = "m8f-7k-Hgk";</note>
+      </trans-unit>
+      <trans-unit id="mBM-hF-Lfk.normalTitle" xml:space="preserve">
+        <source>登 录</source>
+        <target>Login</target>
+        <note>Class = "UIButton"; normalTitle = "登 录"; ObjectID = "mBM-hF-Lfk";</note>
+      </trans-unit>
+      <trans-unit id="nEc-yZ-Be3.text" xml:space="preserve">
+        <source>Label</source>
+        <target>Label</target>
+        <note>Class = "UILabel"; text = "Label"; ObjectID = "nEc-yZ-Be3";</note>
+      </trans-unit>
+      <trans-unit id="nXA-mb-cUn.normalTitle" xml:space="preserve">
+        <source>选择词汇</source>
+        <target>Select</target>
+        <note>Class = "UIButton"; normalTitle = "选择词汇"; ObjectID = "nXA-mb-cUn";</note>
+      </trans-unit>
+      <trans-unit id="nvZ-WS-9rZ.text" xml:space="preserve">
+        <source>预计完成时间 :</source>
+        <target>Est :</target>
+        <note>Class = "UILabel"; text = "预计完成时间 :"; ObjectID = "nvZ-WS-9rZ";</note>
+      </trans-unit>
+      <trans-unit id="o4P-kt-yDA.segmentTitles[0]" xml:space="preserve">
+        <source>逐次</source>
+        <target>by Times</target>
+        <note>Class = "UISegmentedControl"; o4P-kt-yDA.segmentTitles[0] = "逐次"; ObjectID = "o4P-kt-yDA";</note>
+      </trans-unit>
+      <trans-unit id="o4P-kt-yDA.segmentTitles[1]" xml:space="preserve">
+        <source>累计</source>
+        <target>Cumulative</target>
+        <note>Class = "UISegmentedControl"; o4P-kt-yDA.segmentTitles[1] = "累计"; ObjectID = "o4P-kt-yDA";</note>
+      </trans-unit>
+      <trans-unit id="oNw-z8-dAE.text" xml:space="preserve">
+        <source>If you don't try anything new, you'll never fail.</source>
+        <target>If you don't try anything new, you'll never fail.</target>
+        <note>Class = "UILabel"; text = "If you don't try anything new, you'll never fail."; ObjectID = "oNw-z8-dAE";</note>
+      </trans-unit>
+      <trans-unit id="oyL-IW-hhQ.text" xml:space="preserve">
+        <source>已学数量</source>
+        <target>Num. Learned</target>
+        <note>Class = "UILabel"; text = "已学数量"; ObjectID = "oyL-IW-hhQ";</note>
+      </trans-unit>
+      <trans-unit id="phL-hB-Do8.text" xml:space="preserve">
+        <source>每日单词数</source>
+        <target>Daily Num.</target>
+        <note>Class = "UILabel"; text = "每日单词数"; ObjectID = "phL-hB-Do8";</note>
+      </trans-unit>
+      <trans-unit id="pzQ-hg-OjG.text" xml:space="preserve">
+        <source>开</source>
+        <target>On</target>
+        <note>Class = "UILabel"; text = "开"; ObjectID = "pzQ-hg-OjG";</note>
+      </trans-unit>
+      <trans-unit id="qG5-9r-3Ww.segmentTitles[0]" xml:space="preserve">
+        <source>无限制</source>
+        <target>Unlimitted</target>
+        <note>Class = "UISegmentedControl"; qG5-9r-3Ww.segmentTitles[0] = "无限制"; ObjectID = "qG5-9r-3Ww";</note>
+      </trans-unit>
+      <trans-unit id="qG5-9r-3Ww.segmentTitles[1]" xml:space="preserve">
+        <source>已逾期</source>
+        <target>Overdue</target>
+        <note>Class = "UISegmentedControl"; qG5-9r-3Ww.segmentTitles[1] = "已逾期"; ObjectID = "qG5-9r-3Ww";</note>
+      </trans-unit>
+      <trans-unit id="qG5-9r-3Ww.segmentTitles[2]" xml:space="preserve">
+        <source>未逾期</source>
+        <target>In Due</target>
+        <note>Class = "UISegmentedControl"; qG5-9r-3Ww.segmentTitles[2] = "未逾期"; ObjectID = "qG5-9r-3Ww";</note>
+      </trans-unit>
+      <trans-unit id="qj3-Qg-Ywd.text" xml:space="preserve">
+        <source>词</source>
+        <target>词</target>
+        <note>Class = "UILabel"; text = "词"; ObjectID = "qj3-Qg-Ywd";</note>
+      </trans-unit>
+      <trans-unit id="qrQ-RF-6n7.text" xml:space="preserve">
+        <source>此次复习</source>
+        <target>Num. This Time</target>
+        <note>Class = "UILabel"; text = "此次复习"; ObjectID = "qrQ-RF-6n7";</note>
+      </trans-unit>
+      <trans-unit id="s7t-WN-d2I.normalTitle" xml:space="preserve">
+        <source>2 次</source>
+        <target>2</target>
+        <note>Class = "UIButton"; normalTitle = "2 次"; ObjectID = "s7t-WN-d2I";</note>
+      </trans-unit>
+      <trans-unit id="scI-cj-1fY.segmentTitles[0]" xml:space="preserve">
+        <source>无限制</source>
+        <target>Unlimitted</target>
+        <note>Class = "UISegmentedControl"; scI-cj-1fY.segmentTitles[0] = "无限制"; ObjectID = "scI-cj-1fY";</note>
+      </trans-unit>
+      <trans-unit id="scI-cj-1fY.segmentTitles[1]" xml:space="preserve">
+        <source>1天内</source>
+        <target>1 days</target>
+        <note>Class = "UISegmentedControl"; scI-cj-1fY.segmentTitles[1] = "1天内"; ObjectID = "scI-cj-1fY";</note>
+      </trans-unit>
+      <trans-unit id="scI-cj-1fY.segmentTitles[2]" xml:space="preserve">
+        <source>3天内</source>
+        <target>3 days</target>
+        <note>Class = "UISegmentedControl"; scI-cj-1fY.segmentTitles[2] = "3天内"; ObjectID = "scI-cj-1fY";</note>
+      </trans-unit>
+      <trans-unit id="scI-cj-1fY.segmentTitles[3]" xml:space="preserve">
+        <source>1周内</source>
+        <target>1 week</target>
+        <note>Class = "UISegmentedControl"; scI-cj-1fY.segmentTitles[3] = "1周内"; ObjectID = "scI-cj-1fY";</note>
+      </trans-unit>
+      <trans-unit id="sqx-Hz-drS.title" xml:space="preserve">
+        <source>主页</source>
+        <target>Index</target>
+        <note>Class = "UITabBarItem"; title = "主页"; ObjectID = "sqx-Hz-drS";</note>
+      </trans-unit>
+      <trans-unit id="tAh-Ex-sOZ.text" xml:space="preserve">
+        <source>3567人在与你一起「刷词」</source>
+        <target>3567 people are learning with you</target>
+        <note>Class = "UILabel"; text = "3567人在与你一起「刷词」"; ObjectID = "tAh-Ex-sOZ";</note>
+      </trans-unit>
+      <trans-unit id="tbD-dU-2lb.text" xml:space="preserve">
+        <source>百分比</source>
+        <target>Percentage</target>
+        <note>Class = "UILabel"; text = "百分比"; ObjectID = "tbD-dU-2lb";</note>
+      </trans-unit>
+      <trans-unit id="uPs-cE-alz.text" xml:space="preserve">
+        <source>Beach</source>
+        <target>Beach</target>
+        <note>Class = "UILabel"; text = "Beach"; ObjectID = "uPs-cE-alz";</note>
+      </trans-unit>
+      <trans-unit id="uTR-bB-1Li.text" xml:space="preserve">
+        <source>坚持天数</source>
+        <target>坚持天数</target>
+        <note>Class = "UILabel"; text = "坚持天数"; ObjectID = "uTR-bB-1Li";</note>
+      </trans-unit>
+      <trans-unit id="vGO-Gf-PDd.text" xml:space="preserve">
+        <source>--</source>
+        <target>--</target>
+        <note>Class = "UILabel"; text = "--"; ObjectID = "vGO-Gf-PDd";</note>
+      </trans-unit>
+      <trans-unit id="vIQ-JF-YNA.text" xml:space="preserve">
+        <source>记: sea memory</source>
+        <target>记: sea memory</target>
+        <note>Class = "UILabel"; text = "记: sea memory"; ObjectID = "vIQ-JF-YNA";</note>
+      </trans-unit>
+      <trans-unit id="vpv-yW-MGV.text" xml:space="preserve">
+        <source>August 21, 2020</source>
+        <target>August 21, 2020</target>
+        <note>Class = "UILabel"; text = "August 21, 2020"; ObjectID = "vpv-yW-MGV";</note>
+      </trans-unit>
+      <trans-unit id="wEV-9S-L00.text" xml:space="preserve">
+        <source>双解释义</source>
+        <target>Meaning</target>
+        <note>Class = "UILabel"; text = "双解释义"; ObjectID = "wEV-9S-L00";</note>
+      </trans-unit>
+      <trans-unit id="wU5-ll-10R.placeholder" xml:space="preserve">
+        <source>密 码</source>
+        <target>Password</target>
+        <note>Class = "UITextField"; placeholder = "密 码"; ObjectID = "wU5-ll-10R";</note>
+      </trans-unit>
+      <trans-unit id="xHH-0Y-Tqo.text" xml:space="preserve">
+        <source>今日学习时长</source>
+        <target>Hours. Today</target>
+        <note>Class = "UILabel"; text = "今日学习时长"; ObjectID = "xHH-0Y-Tqo";</note>
+      </trans-unit>
+      <trans-unit id="xSv-kj-v8W.text" xml:space="preserve">
+        <source>Label</source>
+        <target>Label</target>
+        <note>Class = "UILabel"; text = "Label"; ObjectID = "xSv-kj-v8W";</note>
+      </trans-unit>
+      <trans-unit id="xri-bM-taa.normalTitle" xml:space="preserve">
+        <source>  更换词库  </source>
+        <target>  Change Book  </target>
+        <note>Class = "UIButton"; normalTitle = "  更换词库  "; ObjectID = "xri-bM-taa";</note>
+      </trans-unit>
+      <trans-unit id="xxj-3N-dca.text" xml:space="preserve">
+        <source>学习曲线</source>
+        <target>Learning Curve</target>
+        <note>Class = "UILabel"; text = "学习曲线"; ObjectID = "xxj-3N-dca";</note>
+      </trans-unit>
+      <trans-unit id="yXM-87-qL2.segmentTitles[0]" xml:space="preserve">
+        <source>单词量</source>
+        <target>Vocab Size</target>
+        <note>Class = "UISegmentedControl"; yXM-87-qL2.segmentTitles[0] = "单词量"; ObjectID = "yXM-87-qL2";</note>
+      </trans-unit>
+      <trans-unit id="yXM-87-qL2.segmentTitles[1]" xml:space="preserve">
+        <source>时长</source>
+        <target>Duration</target>
+        <note>Class = "UISegmentedControl"; yXM-87-qL2.segmentTitles[1] = "时长"; ObjectID = "yXM-87-qL2";</note>
+      </trans-unit>
+      <trans-unit id="yXl-j2-SfQ.text" xml:space="preserve">
+        <source>0.5</source>
+        <target>0.5</target>
+        <note>Class = "UILabel"; text = "0.5"; ObjectID = "yXl-j2-SfQ";</note>
+      </trans-unit>
+      <trans-unit id="zKh-8K-UQm.text" xml:space="preserve">
+        <source>免费试用1个月，之后￥6.00/月</source>
+        <target>免费试用1个月，之后￥6.00/月</target>
+        <note>Class = "UILabel"; text = "免费试用1个月，之后￥6.00/月"; ObjectID = "zKh-8K-UQm";</note>
+      </trans-unit>
+      <trans-unit id="zwo-WF-fzM.text" xml:space="preserve">
+        <source>累计学习</source>
+        <target>Cum. Learn</target>
+        <note>Class = "UILabel"; text = "累计学习"; ObjectID = "zwo-WF-fzM";</note>
+      </trans-unit>
+    </body>
+  </file>
+  <file original="shuaci/zh-Hans.lproj/InfoPlist.strings" datatype="plaintext" source-language="zh-Hans" target-language="en">
+    <header>
+      <tool tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="12.4" build-num="12D4e"/>
+    </header>
+    <body>
+      <trans-unit id="CFBundleDisplayName" xml:space="preserve">
+        <source>刷词</source>
+        <note>Bundle display name</note>
+      </trans-unit>
+      <trans-unit id="CFBundleName" xml:space="preserve">
+        <source>刷词</source>
+        <note>Bundle name</note>
+      </trans-unit>
+      <trans-unit id="NSCameraUsageDescription" xml:space="preserve">
+        <source>本应用需要使用相机来设置您的头像或上传图片</source>
+        <target>We needs to use the camera to set your avatar or upload a picture</target>
+        <note>Privacy - Camera Usage Description</note>
+      </trans-unit>
+      <trans-unit id="NSPhotoLibraryAddUsageDescription" xml:space="preserve">
+        <source>本应用需要访问您的照片库来保存您喜爱的壁纸</source>
+        <target>We needs to use the camera to set your avatar or upload a picture</target>
+        <note>Privacy - Photo Library Additions Usage Description</note>
+      </trans-unit>
+      <trans-unit id="NSPhotoLibraryUsageDescription" xml:space="preserve">
+        <source>本应用需要使用相片库来设置您的头像或上传图片</source>
+        <target>We needs to use the camera to set your avatar or upload a picture</target>
+        <note>Privacy - Photo Library Usage Description</note>
+      </trans-unit>
+    </body>
+  </file>
+  <file original="shuaci/zh-Hans.lproj/Localizable.strings" datatype="plaintext" source-language="zh-Hans" target-language="en">
+    <header>
+      <tool tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="12.4" build-num="12D4e"/>
+    </header>
+    <body>
+      <trans-unit id="(nicknameOfApp)提醒您，根据记忆规律，现在复习单词记忆效果翻倍哦！" xml:space="preserve">
+        <source>(nicknameOfApp)提醒您，根据记忆规律，现在复习单词记忆效果翻倍哦！</source>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="(nicknameOfApp)需要开启「通知」权限来根据「艾宾浩斯遗忘规律」，提醒您在最高效的时间复习。" xml:space="preserve">
+        <source>(nicknameOfApp)需要开启「通知」权限来根据「艾宾浩斯遗忘规律」，提醒您在最高效的时间复习。</source>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="(nicknameOfApp)需要开启「通知」权限，来每日提醒您复习。" xml:space="preserve">
+        <source>(nicknameOfApp)需要开启「通知」权限，来每日提醒您复习。</source>
+        <target>We need Notification Authorization to remind you for review。</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="MM月dd日 HH:mm" xml:space="preserve">
+        <source>MM月dd日 HH:mm</source>
+        <target>dd/MM HH:mm</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="YYYY年MM月dd日" xml:space="preserve">
+        <source>YYYY年MM月dd日</source>
+        <target>dd/MM/YYYY HH:mm</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="「刷词」意见反馈" xml:space="preserve">
+        <source>「刷词」意见反馈</source>
+        <target>Feedback</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="「缩放」或「拖拽」来调整" xml:space="preserve">
+        <source>「缩放」或「拖拽」来调整</source>
+        <target>Zoom or Drag to adjust</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="万" xml:space="preserve">
+        <source>万</source>
+        <target>k</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="个" xml:space="preserve">
+        <source>个</source>
+        <target></target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="个/组" xml:space="preserve">
+        <source>个/组</source>
+        <target>per group</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="中忆英" xml:space="preserve">
+        <source>中忆英</source>
+        <target>CN to En</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="乱序" xml:space="preserve">
+        <source>乱序</source>
+        <target>Random</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="乱序,20个/组" xml:space="preserve">
+        <source>乱序,20个/组</source>
+        <target>Random, 20 per group</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="从云端下载学习记录失败，请稍后再试!🙁" xml:space="preserve">
+        <source>从云端下载学习记录失败，请稍后再试!🙁</source>
+        <target>Failed to download learning records from the cloud, please try again later! 🙁</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="伟大的作品不是靠力量，而是靠坚持来完成的。——约翰逊" xml:space="preserve">
+        <source>伟大的作品不是靠力量，而是靠坚持来完成的。——约翰逊</source>
+        <target>Great works are performed not by strengh,but by perseverance. ——Samuel Johnson</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="你的努力，终将成就自己。开始今天的单词学习吧😊" xml:space="preserve">
+        <source>你的努力，终将成就自己。开始今天的单词学习吧😊</source>
+        <target>Your efforts will eventually pay off. Let's start learning today😊</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="倒序" xml:space="preserve">
+        <source>倒序</source>
+        <target>Reversed</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="关" xml:space="preserve">
+        <source>关</source>
+        <target>Off</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="再记忆" xml:space="preserve">
+        <source>再记忆</source>
+        <target>Rememory</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="出现错误，请重试" xml:space="preserve">
+        <source>出现错误，请重试</source>
+        <target>An error occurred, please try again</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="分" xml:space="preserve">
+        <source>分</source>
+        <target>mins</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="初回忆" xml:space="preserve">
+        <source>初回忆</source>
+        <target>1st Review</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="初记忆" xml:space="preserve">
+        <source>初记忆</source>
+        <target>1st Memory</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="加载中" xml:space="preserve">
+        <source>加载中</source>
+        <target>Loading</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="发送失败" xml:space="preserve">
+        <source>发送失败</source>
+        <target>Send Failed</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="发音类型" xml:space="preserve">
+        <source>发音类型</source>
+        <target>Accent</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="取消" xml:space="preserve">
+        <source>取消</source>
+        <target>Cancel</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="后重新发送" xml:space="preserve">
+        <source>后重新发送</source>
+        <target>s resend</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="否" xml:space="preserve">
+        <source>否</source>
+        <target>No</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="复习刚学" xml:space="preserve">
+        <source>复习刚学</source>
+        <target>Just Learned</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="复习历史" xml:space="preserve">
+        <source>复习历史</source>
+        <target>Earlier</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="复习选中" xml:space="preserve">
+        <source>复习选中</source>
+        <target>Review Selected</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="天" xml:space="preserve">
+        <source>天</source>
+        <target>days</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="好的" xml:space="preserve">
+        <source>好的</source>
+        <target>Ok</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="如有疑问，请联系:(OfficialEmail)" xml:space="preserve">
+        <source>如有疑问，请联系:(OfficialEmail)</source>
+        <target>If you have any questions, please email:(OfficialEmail)</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="密 码" xml:space="preserve">
+        <source>密 码</source>
+        <target>Password</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="密码不正确!" xml:space="preserve">
+        <source>密码不正确!</source>
+        <target>Password incorrect</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="密码应为8-15位，且只包含字母、数字或下划线" xml:space="preserve">
+        <source>密码应为8-15位，且只包含字母、数字或下划线</source>
+        <target>The password should be 8-15 digits and only contain letters, numbers or underscores</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="密码重置邮件已发送至" xml:space="preserve">
+        <source>密码重置邮件已发送至</source>
+        <target>Password resetting email is sent to</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="将在" xml:space="preserve">
+        <source>将在</source>
+        <target>will</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="小刷" xml:space="preserve">
+        <source>小刷</source>
+        <target>shuaci</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="已全选" xml:space="preserve">
+        <source>已全选</source>
+        <target>All Selected</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="已发送验证邮件到" xml:space="preserve">
+        <source>已发送验证邮件到</source>
+        <target>Verification email is sent to</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="已学" xml:space="preserve">
+        <source>已学</source>
+        <target>Learned</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="已掌握" xml:space="preserve">
+        <source>已掌握</source>
+        <target>Mastered</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="已清除全选" xml:space="preserve">
+        <source>已清除全选</source>
+        <target>Selection Cleared</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="已经是第一张啦!" xml:space="preserve">
+        <source>已经是第一张啦!</source>
+        <target>Already 1st card!</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="已设置每日提醒:" xml:space="preserve">
+        <source>已设置每日提醒:</source>
+        <target>Reminder set to</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="开" xml:space="preserve">
+        <source>开</source>
+        <target>On</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="当前产品不支持在您所在的国家购买" xml:space="preserve">
+        <source>当前产品不支持在您所在的国家购买</source>
+        <target>The current product does not support purchase in your country</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="很赞!必须五星好评" xml:space="preserve">
+        <source>很赞!必须五星好评</source>
+        <target>Great! Five-star!</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="恢复购买失败" xml:space="preserve">
+        <source>恢复购买失败</source>
+        <target>Failed to restore purchase</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="恢复购买成功" xml:space="preserve">
+        <source>恢复购买成功</source>
+        <target>Successfully restore purchase</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="您什么也没做☹️" xml:space="preserve">
+        <source>您什么也没做☹️</source>
+        <target>You did nothing☹️</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="您在本应用使用体验如何?" xml:space="preserve">
+        <source>您在本应用使用体验如何?</source>
+        <target>How is your experience using this app?</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="您当前没有待复习的单词，&#10;放松一下吧😊" xml:space="preserve">
+        <source>您当前没有待复习的单词，放松一下吧😊</source>
+        <target>You have no words to review, have fun😊</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="您拒绝了开启「通知」，(nicknameOfApp)将无法提醒您复习☹️。如需提醒，您可以前往「设置」，手动开启「通知」权限。" xml:space="preserve">
+        <source>您拒绝了开启「通知」，(nicknameOfApp)将无法提醒您复习☹️。如需提醒，您可以前往「设置」，手动开启「通知」权限。</source>
+        <target>You have refused to turn on "Notifications", we are able to remind you to review. If you need reminder, go to "Settings" and manually turn on the "Notifications".</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="您的账号目前已被封禁" xml:space="preserve">
+        <source>您的账号目前已被封禁</source>
+        <target>Your account is currently blocked.</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="您还没有选择单词书😅" xml:space="preserve">
+        <source>您还没有选择单词书😅</source>
+        <target>You haven't choose a book😅.</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="意见反馈" xml:space="preserve">
+        <source>意见反馈</source>
+        <target>Feedback</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="感谢您的反馈！我们会认真阅读您的意见,并在1-3天内给您回复" xml:space="preserve">
+        <source>感谢您的反馈！我们会认真阅读您的意见,并在1-3天内给您回复</source>
+        <target>Thanks for your feedback! We will read your comments carefully and reply to you within 1-3 days</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="手机号" xml:space="preserve">
+        <source>手机号</source>
+        <target>Phone</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="手机号有误!" xml:space="preserve">
+        <source>手机号有误!</source>
+        <target>Wrong phone number!</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="手机号登录" xml:space="preserve">
+        <source>手机号登录</source>
+        <target>Login by Phone</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="提示" xml:space="preserve">
+        <source>提示</source>
+        <target>Prompt</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="提醒您复习🙂" xml:space="preserve">
+        <source>提醒您复习🙂</source>
+        <target>remind you to review</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="数据加载中.." xml:space="preserve">
+        <source>数据加载中..</source>
+        <target>Data loading..</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="无单词" xml:space="preserve">
+        <source>无单词</source>
+        <target>No words to show</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="无历史购买" xml:space="preserve">
+        <source>无历史购买</source>
+        <target>No previous purchase</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="无法发送邮件，请检查网络或设置!" xml:space="preserve">
+        <source>无法发送邮件，请检查网络或设置!</source>
+        <target>Unable to send mail, please check network or settings!</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="无词典解释☹️" xml:space="preserve">
+        <source>无词典解释☹️</source>
+        <target>No Dictionary Explanation</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="时" xml:space="preserve">
+        <source>时</source>
+        <target>hours</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="明 亮" xml:space="preserve">
+        <source>明 亮</source>
+        <target>Light</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="是" xml:space="preserve">
+        <source>是</source>
+        <target>Yes</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="是否保存当前复习记录?" xml:space="preserve">
+        <source>是否保存当前复习记录?</source>
+        <target>Save review records?</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="服务条款" xml:space="preserve">
+        <source>服务条款</source>
+        <target>Terms of Service</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="未知错误，请反馈至客服" xml:space="preserve">
+        <source>未知错误，请反馈至客服</source>
+        <target>Unknown error, please feedback to customer service</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="根据遗忘规律，" xml:space="preserve">
+        <source>根据遗忘规律，</source>
+        <target> </target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="棕 色" xml:space="preserve">
+        <source>棕 色</source>
+        <target>Brown</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="橙 色" xml:space="preserve">
+        <source>橙 色</source>
+        <target>Orange</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="次" xml:space="preserve">
+        <source>次</source>
+        <target>Times</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="欢迎使用「刷词」，请您仔细阅读隐私协议和服务条款，并确定您是否同意我们的规则。我们深知个人信息的重要性，并且会全力保护您的个人信息安全可靠。" xml:space="preserve">
+        <source>欢迎使用「刷词」，请您仔细阅读隐私协议和服务条款，并确定您是否同意我们的规则。我们深知个人信息的重要性，并且会全力保护您的个人信息安全可靠。</source>
+        <target>Welcome to shuaci, please read the privacy agreement and terms of service carefully, and confirm whether you agree to our rules. We are fully aware of the importance of personal information, and will do our best to protect your personal information safe and reliable.</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="正在下载单词书..." xml:space="preserve">
+        <source>正在下载单词书...</source>
+        <target>Downloading book...</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="正在下载历史单词书..." xml:space="preserve">
+        <source>正在下载历史单词书...</source>
+        <target>Downloading previous books...</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="正在下载壁纸..." xml:space="preserve">
+        <source>正在下载壁纸...</source>
+        <target>Downloading wallpaper...</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="正在加载打卡数据😊.." xml:space="preserve">
+        <source>正在加载打卡数据😊..</source>
+        <target>Loading finish scene...</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="正在发送" xml:space="preserve">
+        <source>正在发送</source>
+        <target>Sending</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="正在同步数据..." xml:space="preserve">
+        <source>正在同步数据...</source>
+        <target>Data Syncing...</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="正在登录" xml:space="preserve">
+        <source>正在登录</source>
+        <target>Logging</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="每日提醒" xml:space="preserve">
+        <source>每日提醒</source>
+        <target>Daily Reminder</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="没有网络,请检查网络连接!" xml:space="preserve">
+        <source>没有网络,请检查网络连接!</source>
+        <target>There is no network, please check the network connection!</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="注册" xml:space="preserve">
+        <source>注册</source>
+        <target>Register</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="深 夜" xml:space="preserve">
+        <source>深 夜</source>
+        <target>Night</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="深 邃" xml:space="preserve">
+        <source>深 邃</source>
+        <target>Dark</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="用的不爽，反馈意见给开发者" xml:space="preserve">
+        <source>用的不爽，反馈意见给开发者</source>
+        <target>Bad, I want to tell developer</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="登录" xml:space="preserve">
+        <source>登录</source>
+        <target>Login</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="登录失败，请稍后重试" xml:space="preserve">
+        <source>登录失败，请稍后重试</source>
+        <target>Login failed, please try again later</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="登录请求太快，请等待30秒!" xml:space="preserve">
+        <source>登录请求太快，请等待30秒!</source>
+        <target>The login request is too fast, please wait 30 seconds!</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="登录错误,请稍后再试" xml:space="preserve">
+        <source>登录错误,请稍后再试</source>
+        <target>Login error, please try again later</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="短信验证码" xml:space="preserve">
+        <source>短信验证码</source>
+        <target>Code</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="确定" xml:space="preserve">
+        <source>确定</source>
+        <target>Yes</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="确定「放弃学习」?" xml:space="preserve">
+        <source>确定「放弃学习」?</source>
+        <target>Give up learning?</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="确定注销?" xml:space="preserve">
+        <source>确定注销?</source>
+        <target>Log off?</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="秒" xml:space="preserve">
+        <source>秒</source>
+        <target>secs</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="移出已掌握" xml:space="preserve">
+        <source>移出已掌握</source>
+        <target>Remove from mastered</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="移出成功😊" xml:space="preserve">
+        <source>移出成功😊</source>
+        <target>Removed successfully😊</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="第" xml:space="preserve">
+        <source>第</source>
+        <target> </target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="粉 色" xml:space="preserve">
+        <source>粉 色</source>
+        <target>Pink</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="系统购买功能被您禁止" xml:space="preserve">
+        <source>系统购买功能被您禁止</source>
+        <target>System purchase function is forbidden by you</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="紫 色" xml:space="preserve">
+        <source>紫 色</source>
+        <target>Purple</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="红 色" xml:space="preserve">
+        <source>红 色</source>
+        <target>Red</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="绿 色" xml:space="preserve">
+        <source>绿 色</source>
+        <target>Green</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="美" xml:space="preserve">
+        <source>美</source>
+        <target>US</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="自动发音" xml:space="preserve">
+        <source>自动发音</source>
+        <target>Auto Pronunce</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="英" xml:space="preserve">
+        <source>英</source>
+        <target>UK</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="英忆中" xml:space="preserve">
+        <source>英忆中</source>
+        <target>EN to CN</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="获取单词中.." xml:space="preserve">
+        <source>获取单词中..</source>
+        <target>Loading words...</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="蓝 色" xml:space="preserve">
+        <source>蓝 色</source>
+        <target>Blue</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="设置失败，请稍后重试!" xml:space="preserve">
+        <source>设置失败，请稍后重试!</source>
+        <target>Setting failed, please try again later!</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="设置学习计划" xml:space="preserve">
+        <source>设置学习计划</source>
+        <target>Set Study Plan</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="设置昵称" xml:space="preserve">
+        <source>设置昵称</source>
+        <target>Set Nickname</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="评价反馈" xml:space="preserve">
+        <source>评价反馈</source>
+        <target>Feedback</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="评价应用" xml:space="preserve">
+        <source>评价应用</source>
+        <target>Rate us</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="词" xml:space="preserve">
+        <source>词</source>
+        <target> </target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="该手机号尚未注册,是否注册?" xml:space="preserve">
+        <source>该手机号尚未注册,是否注册?</source>
+        <target>The phone number has not been registered, do you want to register?</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="该邮箱尚未注册!" xml:space="preserve">
+        <source>该邮箱尚未注册!</source>
+        <target>This mailbox has not been registered yet!</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="该邮箱尚未注册,是否注册?" xml:space="preserve">
+        <source>该邮箱尚未注册,是否注册?</source>
+        <target>The mailbox has not been registered, register now?</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="该邮箱已注册!" xml:space="preserve">
+        <source>该邮箱已注册!</source>
+        <target>The mailbox has been registered!</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="请前往邮箱，并完成验证" xml:space="preserve">
+        <source>请前往邮箱，并完成验证</source>
+        <target>Please go to your mailbox and complete verification</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="请您单击邮件中的链接，完成验证后登录!" xml:space="preserve">
+        <source>请您单击邮件中的链接，完成验证后登录!</source>
+        <target>Please click the link in the email and log in after verification!</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="请输入你喜欢的昵称" xml:space="preserve">
+        <source>请输入你喜欢的昵称</source>
+        <target>Please enter your favorite nickname</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="请输入手机号～" xml:space="preserve">
+        <source>请输入手机号～</source>
+        <target>Please enter phone number</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="请输入验证码!" xml:space="preserve">
+        <source>请输入验证码!</source>
+        <target>please enter verification code!</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="购买失败" xml:space="preserve">
+        <source>购买失败</source>
+        <target>Purchase Failed</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="购买被取消" xml:space="preserve">
+        <source>购买被取消</source>
+        <target>Purchase Canceled</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="距第" xml:space="preserve">
+        <source>距第</source>
+        <target>To </target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="轮复习" xml:space="preserve">
+        <source>轮复习</source>
+        <target> rounds review </target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="轮逾期" xml:space="preserve">
+        <source>轮逾期</source>
+        <target> rounds overdue </target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="连续记住" xml:space="preserve">
+        <source>连续记住</source>
+        <target> Remember continously </target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="选择词汇" xml:space="preserve">
+        <source>选择词汇</source>
+        <target>Select</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="邮 箱" xml:space="preserve">
+        <source>邮 箱</source>
+        <target>Email</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="邮件已发送，如需重新发送，请等待1分钟!" xml:space="preserve">
+        <source>邮件已发送，如需重新发送，请等待1分钟!</source>
+        <target>The email has been sent, if you need to resend it, please wait for 1 min!</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="邮箱不能为空!" xml:space="preserve">
+        <source>邮箱不能为空!</source>
+        <target>Empty email!</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="邮箱格式不正确!" xml:space="preserve">
+        <source>邮箱格式不正确!</source>
+        <target>Wrong email format!</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="邮箱登录" xml:space="preserve">
+        <source>邮箱登录</source>
+        <target>Login by Email</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="重新发送" xml:space="preserve">
+        <source>重新发送</source>
+        <target>Resend</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="错误" xml:space="preserve">
+        <source>错误</source>
+        <target>Error</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="隐私政策" xml:space="preserve">
+        <source>隐私政策</source>
+        <target>Privacy Policy</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="顺序" xml:space="preserve">
+        <source>顺序</source>
+        <target>Alphabetical</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="验证码已发送!" xml:space="preserve">
+        <source>验证码已发送!</source>
+        <target>Verification code sent!</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="验证码有误!" xml:space="preserve">
+        <source>验证码有误!</source>
+        <target>Wrong verification code</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

@@ -410,7 +410,7 @@ class LoginVC: UIViewController {
                             }
                             switch error.code {
                             case 211:
-                                let alertController = UIAlertController(title: registerPhoneText, message: "", preferredStyle: .alert)
+                                let alertController = UIAlertController(title: registerEmailText, message: "", preferredStyle: .alert)
                                 let okayAction = UIAlertAction(title: yesText, style: .default, handler: { action in
                                      do {
                                         // 创建实例

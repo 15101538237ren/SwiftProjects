@@ -1,0 +1,474 @@
+/* No comment provided by engineer. */
+"(nicknameOfApp)需要开启「通知」权限，来每日提醒您复习。" = "We need Notification Authorization to remind you for review。";
+
+/* No comment provided by engineer. */
+"「刷词」意见反馈" = "Feedback";
+
+/* No comment provided by engineer. */
+"「缩放」或「拖拽」来调整" = "Zoom or Drag to adjust";
+
+/* No comment provided by engineer. */
+"MM月dd日 HH:mm" = "dd/MM HH:mm";
+
+/* No comment provided by engineer. */
+"同意" = "Agree";
+
+/* No comment provided by engineer. */
+"不同意" = "Refuse";
+
+/* No comment provided by engineer. */
+"YYYY年MM月dd日" = "YYYY/MM/dd";
+
+/* No comment provided by engineer. */
+"万" = "k";
+
+/* No comment provided by engineer. */
+"个" = "";
+
+/* No comment provided by engineer. */
+"个/组" = "/Grp";
+
+/* No comment provided by engineer. */
+"中忆英" = "CN to En";
+
+/* No comment provided by engineer. */
+"乱序" = "Rand";
+
+/* No comment provided by engineer. */
+"乱序,20个/组" = "Rand, 20/Grp";
+
+/* No comment provided by engineer. */
+"从云端下载学习记录失败，请稍后再试!🙁" = "Failed to download learning records from the cloud, please try again later! 🙁";
+
+/* No comment provided by engineer. */
+"伟大的作品不是靠力量，而是靠坚持来完成的。——约翰逊" = "Great works are performed not by strengh,but by perseverance. By Samuel Johnson";
+
+/* No comment provided by engineer. */
+"你的努力，终将成就自己。开始今天的单词学习吧😊" = "Your efforts will eventually pay off. Let's start learning today😊";
+
+/* No comment provided by engineer. */
+"倒序" = "Reversed";
+
+/* No comment provided by engineer. */
+"关" = "Off";
+
+/* No comment provided by engineer. */
+"再记忆" = "Rememory";
+
+/* No comment provided by engineer. */
+"出现错误，请重试" = "An error occurred, please try again";
+
+/* No comment provided by engineer. */
+"分" = "mins";
+
+/* No comment provided by engineer. */
+"初回忆" = "Quick Review";
+
+/* No comment provided by engineer. */
+"初记忆" = "First Impression";
+
+/* No comment provided by engineer. */
+"加载中" = "Loading";
+
+/* No comment provided by engineer. */
+"发送失败" = "Send Failed";
+
+/* No comment provided by engineer. */
+"发音类型" = "Accent";
+
+/* No comment provided by engineer. */
+"取消" = "Cancel";
+
+/* No comment provided by engineer. */
+"后重新发送" = "s resend";
+
+/* No comment provided by engineer. */
+"否" = "No";
+
+/* No comment provided by engineer. */
+"复习刚学" = "Just Learned";
+
+/* No comment provided by engineer. */
+"复习历史" = "Earlier";
+
+/* No comment provided by engineer. */
+"复习选中" = "Review Selected";
+
+/* No comment provided by engineer. */
+"天" = " days";
+
+/* No comment provided by engineer. */
+"好的" = "Ok";
+
+/* No comment provided by engineer. */
+"如有疑问，请联系:(OfficialEmail)" = "If you have any questions, please email:(OfficialEmail)";
+
+/* No comment provided by engineer. */
+"密 码" = "Password";
+
+/* No comment provided by engineer. */
+"密码不正确!" = "Password incorrect";
+
+/* No comment provided by engineer. */
+"密码应为8-15位，且只包含字母、数字或下划线" = "The password should be 8-15 digits and only contain letters, numbers or underscores";
+
+/* No comment provided by engineer. */
+"密码重置邮件已发送至" = "Password resetting email is sent to";
+
+/* No comment provided by engineer. */
+"将在" = "will";
+
+/* No comment provided by engineer. */
+"小刷" = "shuaci";
+
+/* No comment provided by engineer. */
+"已全选" = "All Selected";
+
+/* No comment provided by engineer. */
+"已发送验证邮件到" = "Verification email is sent to";
+
+/* No comment provided by engineer. */
+"已学" = "Learned";
+
+/* No comment provided by engineer. */
+"已掌握" = "Mastered";
+
+/* No comment provided by engineer. */
+"已清除全选" = "Selection Cleared";
+
+/* No comment provided by engineer. */
+"已经是第一张啦!" = "Already 1st card!";
+
+/* No comment provided by engineer. */
+"已设置每日提醒:" = "Reminder set to";
+
+/* No comment provided by engineer. */
+"您当前没有待复习的单词，\n放松一下吧😊" = "You have no words to review. \nGo to play!😊";
+
+/* No comment provided by engineer. */
+"开" = "On";
+
+/* No comment provided by engineer. */
+"当前产品不支持在您所在的国家购买" = "The current product does not support purchase in your country";
+
+/* No comment provided by engineer. */
+"很赞!必须五星好评" = "Great! Five-star!";
+
+/* No comment provided by engineer. */
+"恢复购买失败" = "Failed to restore purchase";
+
+/* No comment provided by engineer. */
+"恢复购买成功" = "Successfully restore purchase";
+
+/* No comment provided by engineer. */
+"您什么也没做☹️" = "You did nothing☹️";
+
+/* No comment provided by engineer. */
+"您在本应用使用体验如何?" = "How is your experience using this app?";
+
+/* No comment provided by engineer. */
+"您拒绝了开启「通知」，(nicknameOfApp)将无法提醒您复习☹️。如需提醒，您可以前往「设置」，手动开启「通知」权限。" = "You have refused to turn on \"Notifications\", we are able to remind you to review. If you need reminder, go to \"Settings\" and manually turn on the \"Notifications\".";
+
+/* No comment provided by engineer. */
+"您的账号目前已被封禁" = "Your account is currently blocked.";
+
+/* No comment provided by engineer. */
+"您还没有选择单词书😅" = "You haven't choose a book😅.";
+
+/* No comment provided by engineer. */
+"意见反馈" = "Feedback";
+
+/* No comment provided by engineer. */
+"感谢您的反馈！我们会认真阅读您的意见,并在1-3天内给您回复" = "Thanks for your feedback! We will read your comments carefully and reply to you within 1-3 days";
+
+/* No comment provided by engineer. */
+"手机号" = "Phone";
+
+/* No comment provided by engineer. */
+"手机号有误!" = "Wrong phone number!";
+
+/* No comment provided by engineer. */
+"手机号登录" = "Login by Phone";
+
+/* No comment provided by engineer. */
+"提示" = "Prompt";
+
+/* No comment provided by engineer. */
+"提醒您复习🙂" = "remind you to review";
+
+/* No comment provided by engineer. */
+"数据加载中.." = "Data loading..";
+
+/* No comment provided by engineer. */
+"无单词" = "No words to show";
+
+/* No comment provided by engineer. */
+"无历史购买" = "No previous purchase";
+
+/* No comment provided by engineer. */
+"无法发送邮件，请检查网络或设置!" = "Unable to send mail, please check network or settings!";
+
+/* No comment provided by engineer. */
+"无词典解释☹️" = "No Dictionary Explanation";
+
+/* No comment provided by engineer. */
+"时" = "hours";
+
+/* No comment provided by engineer. */
+"明 亮" = "Light";
+
+/* No comment provided by engineer. */
+"是" = "Yes";
+
+/* No comment provided by engineer. */
+"是否保存当前复习记录?" = "Save review records?";
+
+/* No comment provided by engineer. */
+"服务条款" = "Terms of Service";
+
+/* No comment provided by engineer. */
+"未知错误，请反馈至客服" = "Unknown error, please feedback to customer service";
+
+/* No comment provided by engineer. */
+"根据遗忘规律，" = " ";
+
+/* No comment provided by engineer. */
+"棕 色" = "Brown";
+
+/* No comment provided by engineer. */
+"橙 色" = "Orange";
+
+/* No comment provided by engineer. */
+"次" = "Times";
+
+/* No comment provided by engineer. */
+"欢迎使用「刷词」，请您仔细阅读隐私协议和服务条款，并确定您是否同意我们的规则。我们深知个人信息的重要性，并且会全力保护您的个人信息安全可靠。" = "Welcome to shuaci, please read the privacy agreement and terms of service carefully, and confirm whether you agree to our rules. We are fully aware of the importance of personal information, and will do our best to protect your personal information safe and reliable.";
+
+/* No comment provided by engineer. */
+"正在下载单词书..." = "Downloading book...";
+
+/* No comment provided by engineer. */
+"正在下载历史单词书..." = "Downloading previous books...";
+
+/* No comment provided by engineer. */
+"正在下载壁纸..." = "Downloading wallpaper...";
+
+/* No comment provided by engineer. */
+"正在加载打卡数据😊.." = "Loading finish scene...";
+
+/* No comment provided by engineer. */
+"正在发送" = "Sending";
+
+/* No comment provided by engineer. */
+"正在同步数据..." = "Data Syncing...";
+
+/* No comment provided by engineer. */
+"正在登录" = "Logging";
+
+/* No comment provided by engineer. */
+"每日提醒" = "Daily Reminder";
+
+/* No comment provided by engineer. */
+"没有网络,请检查网络连接!" = "There is no network, please check the network connection!";
+
+/* No comment provided by engineer. */
+"注册" = "Register";
+
+/* No comment provided by engineer. */
+"深 夜" = "Night";
+
+/* No comment provided by engineer. */
+"深 邃" = "Dark";
+
+/* No comment provided by engineer. */
+"用的不爽，反馈意见给开发者" = "Bad, I want to tell developer";
+
+/* No comment provided by engineer. */
+"登录" = "Login";
+
+/* No comment provided by engineer. */
+"登录失败，请稍后重试" = "Login failed, please try again later";
+
+/* No comment provided by engineer. */
+"登录请求太快，请等待30秒!" = "The login request is too fast, please wait 30 seconds!";
+
+/* No comment provided by engineer. */
+"登录错误,请稍后再试" = "Login error, please try again later";
+
+/* No comment provided by engineer. */
+"短信验证码" = "Code";
+
+/* No comment provided by engineer. */
+"确定" = "Yes";
+
+/* No comment provided by engineer. */
+"确定「放弃学习」?" = "Give up learning?";
+
+/* No comment provided by engineer. */
+"确定注销?" = "Log off?";
+
+/* No comment provided by engineer. */
+"秒" = "secs";
+
+/* No comment provided by engineer. */
+"移出已掌握" = "Remove from mastered";
+
+/* No comment provided by engineer. */
+"移出成功😊" = "Removed successfully😊";
+
+/* No comment provided by engineer. */
+"第" = " ";
+
+/* No comment provided by engineer. */
+"掌握" = "Easy";
+
+/* No comment provided by engineer. */
+"会了" = "Yes";
+
+/* No comment provided by engineer. */
+"不熟" = "No";
+
+/* No comment provided by engineer. */
+"粉 色" = "Pink";
+
+/* No comment provided by engineer. */
+"我们需要开启「通知」权限，来每日提醒您复习。"= "We need Notification permission to remind you to review everday.";
+
+/* No comment provided by engineer. */
+"我们需要开启「通知」权限来根据「艾宾浩斯遗忘规律」，提醒您在最高效的时间复习。"= "We need Notification permission to remind you to review at the most efficient time according to the Ebbinghaus Forgetting Law.";
+
+/* No comment provided by engineer. */
+"需要打开「通知」权限"= "Need Notification Permission";
+
+/* No comment provided by engineer. */
+"隐私协议与服务条款"= "Privacy Agreement and Terms of Service";
+
+/* No comment provided by engineer. */
+"系统购买功能被您禁止" = "System purchase function is forbidden by you";
+
+/* No comment provided by engineer. */
+"紫 色" = "Purple";
+
+/* No comment provided by engineer. */
+"红 色" = "Red";
+
+/* No comment provided by engineer. */
+"绿 色" = "Green";
+
+/* No comment provided by engineer. */
+"美" = "US";
+
+/* No comment provided by engineer. */
+"自动发音" = "Auto Pronunce";
+
+/* No comment provided by engineer. */
+"英" = "UK";
+
+/* No comment provided by engineer. */
+"英忆中" = "EN to CN";
+
+/* No comment provided by engineer. */
+"获取单词中.." = "Loading words...";
+
+/* No comment provided by engineer. */
+"蓝 色" = "Blue";
+
+/* No comment provided by engineer. */
+"设置失败，请稍后重试!" = "Setting failed, please try again later!";
+
+/* No comment provided by engineer. */
+"设置学习计划" = "Set Study Plan";
+
+/* No comment provided by engineer. */
+"设置昵称" = "Set Nickname";
+
+/* No comment provided by engineer. */
+"评价反馈" = "Feedback";
+
+/* No comment provided by engineer. */
+"评价应用" = "Rate Us";
+
+/* No comment provided by engineer. */
+"词" = "words";
+
+/* No comment provided by engineer. */
+"该手机号尚未注册,是否注册?" = "The phone number has not been registered, do you want to register?";
+
+/* No comment provided by engineer. */
+"该邮箱尚未注册,是否注册?" = "The mailbox has not been registered, register now?";
+
+/* No comment provided by engineer. */
+"该邮箱尚未注册!" = "This mailbox has not been registered yet!";
+
+/* No comment provided by engineer. */
+"该邮箱已注册!" = "The mailbox has been registered!";
+
+/* No comment provided by engineer. */
+"请前往邮箱，并完成验证" = "Please go to your mailbox and complete verification";
+
+/* No comment provided by engineer. */
+"请您单击邮件中的链接，完成验证后登录!" = "Please click the link in the email and log in after verification!";
+
+/* No comment provided by engineer. */
+"请输入你喜欢的昵称" = "Please enter your favorite nickname";
+
+/* No comment provided by engineer. */
+"请输入手机号～" = "Please enter phone number";
+
+/* No comment provided by engineer. */
+"请输入验证码!" = "please enter verification code!";
+
+/* No comment provided by engineer. */
+"购买失败" = "Purchase Failed";
+
+/* No comment provided by engineer. */
+"购买被取消" = "Purchase Canceled";
+
+/* No comment provided by engineer. */
+"距第" = "To ";
+
+/* No comment provided by engineer. */
+"轮复习" = " rounds review ";
+
+/* No comment provided by engineer. */
+"轮逾期" = " rounds overdue ";
+
+/* No comment provided by engineer. */
+"连续记住" = " Remember continously ";
+
+/* No comment provided by engineer. */
+"选择词汇" = "Select";
+
+/* No comment provided by engineer. */
+"邮 箱" = "Email";
+
+/* No comment provided by engineer. */
+"邮件已发送，如需重新发送，请等待1分钟!" = "The email has been sent, if you need to resend it, please wait for 1 min!";
+
+/* No comment provided by engineer. */
+"邮箱不能为空!" = "Empty email!";
+
+/* No comment provided by engineer. */
+"邮箱格式不正确!" = "Wrong email format!";
+
+/* No comment provided by engineer. */
+"邮箱登录" = "Login by Email";
+
+/* No comment provided by engineer. */
+"重新发送" = "Resend";
+
+/* No comment provided by engineer. */
+"错误" = "Error";
+
+/* No comment provided by engineer. */
+"隐私政策" = "Privacy Policy";
+
+/* No comment provided by engineer. */
+"顺序" = "Alphabetical";
+
+/* No comment provided by engineer. */
+"验证码已发送!" = "Verification code sent!";
+
+/* No comment provided by engineer. */
+"验证码有误!" = "Wrong verification code";
+

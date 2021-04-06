@@ -983,10 +983,10 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" apportionsSegmentWidthsByContent="YES" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="WF0-7B-zOc">
-                                <rect key="frame" x="97" y="102" width="220" height="32"/>
+                                <rect key="frame" x="107" y="102" width="200" height="32"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="220" id="iNg-ai-jA2"/>
+                                    <constraint firstAttribute="width" constant="200" id="iNg-ai-jA2"/>
                                 </constraints>
                                 <segments>
                                     <segment title="正在学习"/>
@@ -1012,7 +1012,7 @@
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="AMQ-JB-XIg">
                                                     <rect key="frame" x="20" y="36.5" width="86" height="47.5"/>
                                                     <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="vocabulary" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gBR-9h-OCQ">
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="vocabulary" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gBR-9h-OCQ">
                                                             <rect key="frame" x="0.0" y="0.0" width="86" height="20.5"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" relation="lessThanOrEqual" constant="180" id="sTF-WC-ytT"/>
@@ -1021,7 +1021,7 @@
                                                             <color key="textColor" systemColor="darkTextColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ioo-s1-f83">
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ioo-s1-f83">
                                                             <rect key="frame" x="0.0" y="30.5" width="86" height="17"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" relation="lessThanOrEqual" constant="180" id="XZM-SJ-y6s"/>
@@ -3026,28 +3026,28 @@
                                                         <rect key="frame" x="0.0" y="33" width="300" height="45"/>
                                                         <subviews>
                                                             <stackView opaque="NO" contentMode="scaleToFill" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="BFs-hd-TKU">
-                                                                <rect key="frame" x="45" y="7.5" width="210" height="30"/>
+                                                                <rect key="frame" x="0.0" y="13.5" width="300" height="18"/>
                                                                 <subviews>
                                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Uf3-1L-BUC" customClass="CheckboxButton" customModule="MBRadioCheckboxButton">
-                                                                        <rect key="frame" x="0.0" y="0.0" width="30" height="30"/>
+                                                                        <rect key="frame" x="0.0" y="0.0" width="53" height="18"/>
                                                                         <state key="normal" title="0 次">
                                                                             <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                         </state>
                                                                     </button>
                                                                     <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ldk-Hh-BFG" customClass="CheckboxButton" customModule="MBRadioCheckboxButton">
-                                                                        <rect key="frame" x="60" y="0.0" width="30" height="30"/>
+                                                                        <rect key="frame" x="83" y="0.0" width="51" height="18"/>
                                                                         <state key="normal" title="1 次">
                                                                             <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                         </state>
                                                                     </button>
                                                                     <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="s7t-WN-d2I" customClass="CheckboxButton" customModule="MBRadioCheckboxButton">
-                                                                        <rect key="frame" x="120" y="0.0" width="30" height="30"/>
+                                                                        <rect key="frame" x="164" y="0.0" width="53" height="18"/>
                                                                         <state key="normal" title="2 次">
                                                                             <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                         </state>
                                                                     </button>
                                                                     <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Mnv-rr-To1" customClass="CheckboxButton" customModule="MBRadioCheckboxButton">
-                                                                        <rect key="frame" x="180" y="0.0" width="30" height="30"/>
+                                                                        <rect key="frame" x="247" y="0.0" width="53" height="18"/>
                                                                         <state key="normal" title="3 次">
                                                                             <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                         </state>
@@ -4010,7 +4010,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="parachute" translatesAutoresizingMaskIntoConstraints="NO" id="CoZ-5B-p9W">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Zootopia 2" translatesAutoresizingMaskIntoConstraints="NO" id="CoZ-5B-p9W">
                                 <rect key="frame" x="0.0" y="98" width="414" height="310.5"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="CoZ-5B-p9W" secondAttribute="height" multiplier="4:3" id="RaC-sF-s7I"/>
@@ -4127,7 +4127,7 @@
                                     <constraint firstAttribute="bottom" secondItem="lmk-km-hLa" secondAttribute="bottom" constant="80" id="zQe-Sg-48b"/>
                                 </constraints>
                             </view>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.0" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="dragon_ball_star_2" translatesAutoresizingMaskIntoConstraints="NO" id="0Xo-RC-oSw">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="dragon_ball_star_2" translatesAutoresizingMaskIntoConstraints="NO" id="0Xo-RC-oSw">
                                 <rect key="frame" x="359" y="353.5" width="45" height="45"/>
                                 <color key="tintColor" red="0.96848052740000001" green="0.83513884920000003" blue="0.30322194200000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <constraints>
@@ -4259,6 +4259,7 @@
         </designable>
     </designables>
     <resources>
+        <image name="Zootopia 2" width="925" height="454"/>
         <image name="auto_pronunciation" width="512" height="512"/>
         <image name="bar-chart" width="500" height="600"/>
         <image name="beach" width="1080" height="1920"/>
@@ -4282,7 +4283,6 @@
         <image name="mail" width="551" height="551"/>
         <image name="mobile_login" width="139" height="48"/>
         <image name="ok" width="326" height="326"/>
-        <image name="parachute" width="1000" height="733"/>
         <image name="pass" width="334" height="332"/>
         <image name="phone" width="28" height="28"/>
         <image name="rate" width="512" height="512"/>

@@ -418,6 +418,9 @@ class SetMemOptionViewController: UIViewController, UIPickerViewDelegate, UIPick
                                                 if self.mainPanelVC != nil{
                                                     self.mainPanelVC!.loadLearnController()
                                                 }})
+                                                if let profileVC = bookVC.userProfileVC{
+                                                    profileVC.updateBookName()
+                                                }
                                             }
                                     })
                                 }

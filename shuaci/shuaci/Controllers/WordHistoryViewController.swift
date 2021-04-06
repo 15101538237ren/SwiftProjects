@@ -480,7 +480,7 @@ extension WordHistoryViewController: UITableViewDataSource, UITableViewDelegate{
         
         let header_label = UILabel()
         
-        header_label.text = "\(sortedKeys[section].components(separatedBy: "-")[0]) (\(groupedVocabsCount)\(wordsText)"
+        header_label.text = "\(sortedKeys[section].components(separatedBy: "-")[0]) (\(groupedVocabsCount) \(wordsText))"
         header_label.font = UIFont.boldSystemFont(ofSize: 16)
         header_label.frame = CGRect(x: 20, y: -5, width: 200, height: 40)
         header_label.textAlignment = .left

@@ -18,6 +18,8 @@ let yesText:String = NSLocalizedString("是", comment: "")
 let noText:String = NSLocalizedString("否", comment: "")
 let okText:String = NSLocalizedString("好的", comment: "")
 let promptText:String = NSLocalizedString("提示", comment: "")
+let agreeText:String = NSLocalizedString("同意", comment: "")
+let refuseText:String = NSLocalizedString("不同意", comment: "")
 
 // Login VC
 let loginText:String = NSLocalizedString("登录", comment: "")
@@ -80,6 +82,9 @@ let zoomOrDragText:String = NSLocalizedString("「缩放」或「拖拽」来调
 let tenThousandText:String = NSLocalizedString("万", comment: "")
 
 // Learning VC
+let masterText:String = NSLocalizedString("掌握", comment: "")
+let rememberedText:String = NSLocalizedString("会了", comment: "")
+let forgetText:String = NSLocalizedString("不熟", comment: "")
 let firstLearningText:String = NSLocalizedString("初记忆", comment: "")
 let reLearningText:String = NSLocalizedString("再记忆", comment: "")
 let firstReviewText:String = NSLocalizedString("初回忆", comment: "")
@@ -198,12 +203,13 @@ let NoNetworkStr: String = NSLocalizedString("没有网络,请检查网络连接
 let UserDisabledTitle: String = NSLocalizedString("您的账号目前已被封禁", comment: "")
 let UserDisabledContent: String = NSLocalizedString("如有疑问，请联系:\(OfficialEmail)", comment: "")
 
-let everydayNotificationText: String = NSLocalizedString("\(nicknameOfApp)需要开启「通知」权限，来每日提醒您复习。", comment: "")
+let everydayNotificationText: String = NSLocalizedString("我们需要开启「通知」权限，来每日提醒您复习。", comment: "")
 
-let ebbinhausNotificationText: String = NSLocalizedString("\(nicknameOfApp)需要开启「通知」权限来根据「艾宾浩斯遗忘规律」，提醒您在最高效的时间复习。", comment: "")
+let ebbinhausNotificationText: String = NSLocalizedString("我们需要开启「通知」权限来根据「艾宾浩斯遗忘规律」，提醒您在最高效的时间复习。", comment: "")
 
 let welcomeText: String = NSLocalizedString("欢迎使用「刷词」，请您仔细阅读隐私协议和服务条款，并确定您是否同意我们的规则。我们深知个人信息的重要性，并且会全力保护您的个人信息安全可靠。", comment: "")
 
-
+let notificationRequiredTitleText: String = NSLocalizedString("需要打开「通知」权限", comment: "")
+let privacyAndTermsTitleText: String = NSLocalizedString("隐私协议与服务条款", comment: "")
 
 

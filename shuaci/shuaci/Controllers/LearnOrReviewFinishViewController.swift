@@ -238,10 +238,10 @@ class LearnOrReviewFinishViewController: UIViewController {
     }
     
     func loadScene(){
-        addBlurBackgroundView()
-        initActivityIndicator(text: loadingDakaText)
-        setElements(enable: false)
-        getQoute()
+//        addBlurBackgroundView()
+//        initActivityIndicator(text: loadingDakaText)
+//        setElements(enable: false)
+//        getQoute()
         setTodyWordNum()
         setInsistDay()
         setDateLabel()

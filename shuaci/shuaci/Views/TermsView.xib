@@ -110,8 +110,11 @@
                 </userDefinedRuntimeAttribute>
             </userDefinedRuntimeAttributes>
             <connections>
+                <outlet property="agreeBtn" destination="rVu-Ei-t6A" id="ma9-GT-kC4"/>
                 <outlet property="backgroundView" destination="dp3-Ae-zep" id="ZiK-GN-SXH"/>
+                <outlet property="refuseBtn" destination="yFi-Ik-klX" id="rfO-0T-tRf"/>
                 <outlet property="textView" destination="JOg-Sg-slc" id="daK-0U-W7t"/>
+                <outlet property="title" destination="gMT-Vh-S3z" id="FrY-E5-Thh"/>
                 <outlet property="titleLabel" destination="gMT-Vh-S3z" id="VBy-X1-MX8"/>
             </connections>
             <point key="canvasLocation" x="247.19999999999999" y="623.38830584707648"/>
