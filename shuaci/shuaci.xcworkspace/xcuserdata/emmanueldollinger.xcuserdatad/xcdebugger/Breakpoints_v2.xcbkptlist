@@ -7,38 +7,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "0563CF6D-AB1B-4236-8BBB-A06ECEC25A86"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "shuaci/Controllers/LearnWordViewController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "600"
-            endingLineNumber = "600"
-            landmarkName = "summary_records_into_vocab_records()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "9AE9D59F-81F3-42E1-8EF8-A15FFAB0C3E7"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "shuaci/Controllers/LearnWordViewController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "596"
-            endingLineNumber = "596"
-            landmarkName = "summary_records_into_vocab_records()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "7F66EFDA-9321-4E5E-B746-3459E1D53613"
             shouldBeEnabled = "No"
             ignoreCount = "0"
@@ -46,8 +14,8 @@
             filePath = "shuaci/Controllers/WordHistoryViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "440"
-            endingLineNumber = "440"
+            startingLineNumber = "445"
+            endingLineNumber = "445"
             landmarkName = "tableView(_:cellForRowAt:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -62,8 +30,8 @@
             filePath = "shuaci/Global/GlobalFunctions.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1031"
-            endingLineNumber = "1031"
+            startingLineNumber = "1028"
+            endingLineNumber = "1028"
             landmarkName = "getNumOfSeqMem(vocab:)"
             landmarkType = "9">
          </BreakpointContent>
@@ -78,8 +46,8 @@
             filePath = "shuaci/Global/GlobalFunctions.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "972"
-            endingLineNumber = "972"
+            startingLineNumber = "969"
+            endingLineNumber = "969"
             landmarkName = "filterBehaviorsInDiffDays(bhvs:dates:)"
             landmarkType = "9">
          </BreakpointContent>
@@ -190,8 +158,8 @@
             filePath = "shuaci/Controllers/LearnWordViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "845"
-            endingLineNumber = "845"
+            startingLineNumber = "919"
+            endingLineNumber = "919"
             landmarkName = "panCard(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -206,8 +174,8 @@
             filePath = "shuaci/Controllers/LearnWordViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "901"
-            endingLineNumber = "901"
+            startingLineNumber = "975"
+            endingLineNumber = "975"
             landmarkName = "panCard(_:)"
             landmarkType = "7">
          </BreakpointContent>

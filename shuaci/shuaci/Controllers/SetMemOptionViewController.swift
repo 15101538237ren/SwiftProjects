@@ -63,7 +63,7 @@ class SetMemOptionViewController: UIViewController, UIPickerViewDelegate, UIPick
     var preference:Preference!
     
     // MARK: - Constants
-    let number_of_words: [Int] = [10, 20, 30, 40, 50, 100]
+    let number_of_words: [Int] = [5, 10, 20, 30, 40, 50, 100]
     let effectView = UIVisualEffectView(effect: UIBlurEffect(style: .regular))
     
     // MARK: - Outlet Actions
@@ -75,6 +75,23 @@ class SetMemOptionViewController: UIViewController, UIPickerViewDelegate, UIPick
             memOrd = .byAlphabet
         }else{
             memOrd = .byReversedAlphabet
+        }
+    }
+    
+    func updateUserCurrentBook(currentBook:Book){
+        do {
+            try currentUser.set("currentBook", value: book.name)
+            currentUser.save { result in
+                switch result{
+                case .success:
+                    print("user's currentBook saved successfully ")
+                    break
+                case .failure(error: let error):
+                    print(error.reason ?? "failed to save VocabRecords")
+                }
+            }
+        } catch {
+            print(error.localizedDescription)
         }
     }
     
@@ -101,6 +118,7 @@ class SetMemOptionViewController: UIViewController, UIPickerViewDelegate, UIPick
             let info = ["Um_Key_ButtonName" : "\(book.name)", "Um_Key_SourcePage":"选了书", "Um_Key_UserID" : currentUser.objectId!.stringValue!]
             UMAnalyticsSwift.event(eventId: "Um_Event_ModularClick", attributes: info)
             
+            updateUserCurrentBook(currentBook: book)
             downloadBookJson(book: book)
         }
         else

@@ -397,16 +397,21 @@ extension WordHistoryViewController: UITableViewDataSource, UITableViewDelegate{
                 negative = "\(overduePreText)\(vocab.NumOfReview + 1)\(overdueNumText): "
             }
             if (dayDiff != 0){
-                timer_text = timer_text + "\(abs(dayDiff))\(daysText)"
+                timer_text = timer_text + "\(abs(dayDiff))\(dayShortText)"
             }
             if ((hourDiff != 0) || (dayDiff != 0)) {
-                timer_text = timer_text + String(format: "%02d", abs(hourDiff)) + hoursText
+                if timer_text == ""{
+                    timer_text = timer_text + String(format: "%02d", abs(hourDiff)) + hoursText
+                }
+                else{
+                    timer_text = timer_text + String(format: " %02d", abs(hourDiff)) + hoursText
+                }
             }
             if ((minuteDiff != 0) || (hourDiff != 0)) {
-                timer_text = timer_text + String(format: "%02d", abs(minuteDiff)) + minsText
+                timer_text = timer_text + String(format: " %02d", abs(minuteDiff)) + minsText
             }
             if dayDiff == 0{
-                timer_text = timer_text + String(format: "%02d", abs(secondDiff)) + secsText
+                timer_text = timer_text + String(format: " %02d", abs(secondDiff)) + secsText
             }
             if timer_text != ""{
                 return "\(negative)\(timer_text)"

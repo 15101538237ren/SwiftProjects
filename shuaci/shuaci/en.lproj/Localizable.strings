@@ -26,10 +26,16 @@
 "个" = "";
 
 /* No comment provided by engineer. */
-"个/组" = "/Grp";
+"个/组" = "/Group";
 
 /* No comment provided by engineer. */
-"中忆英" = "CN to En";
+"中忆英" = "CN to EN";
+
+/* No comment provided by engineer. */
+"人" = " people";
+
+/* No comment provided by engineer. */
+"正在学习" = "Studying";
 
 /* No comment provided by engineer. */
 "乱序" = "Rand";
@@ -59,7 +65,7 @@
 "出现错误，请重试" = "An error occurred, please try again";
 
 /* No comment provided by engineer. */
-"分" = "mins";
+"分" = "m";
 
 /* No comment provided by engineer. */
 "初回忆" = "Quick Review";
@@ -95,7 +101,10 @@
 "复习选中" = "Review Selected";
 
 /* No comment provided by engineer. */
-"天" = " days";
+" 天" = " days";
+
+/* No comment provided by engineer. */
+"天" = "d";
 
 /* No comment provided by engineer. */
 "好的" = "Ok";
@@ -173,7 +182,7 @@
 "您的账号目前已被封禁" = "Your account is currently blocked.";
 
 /* No comment provided by engineer. */
-"您还没有选择单词书😅" = "You haven't choose a book😅.";
+"您还没有选择词库😅" = "You haven't choose a vocabulary list😅.";
 
 /* No comment provided by engineer. */
 "意见反馈" = "Feedback";
@@ -212,7 +221,7 @@
 "无词典解释☹️" = "No Dictionary Explanation";
 
 /* No comment provided by engineer. */
-"时" = "hours";
+"时" = "h";
 
 /* No comment provided by engineer. */
 "明 亮" = "Light";
@@ -245,10 +254,10 @@
 "欢迎使用「刷词」，请您仔细阅读隐私协议和服务条款，并确定您是否同意我们的规则。我们深知个人信息的重要性，并且会全力保护您的个人信息安全可靠。" = "Welcome to shuaci, please read the privacy agreement and terms of service carefully, and confirm whether you agree to our rules. We are fully aware of the importance of personal information, and will do our best to protect your personal information safe and reliable.";
 
 /* No comment provided by engineer. */
-"正在下载单词书..." = "Downloading book...";
+"正在下载词库..." = "Downloading list..";
 
 /* No comment provided by engineer. */
-"正在下载历史单词书..." = "Downloading previous books...";
+"正在下载历史词库..." = "Downloading previous lists..";
 
 /* No comment provided by engineer. */
 "正在下载壁纸..." = "Downloading wallpaper...";
@@ -308,7 +317,7 @@
 "确定注销?" = "Log off?";
 
 /* No comment provided by engineer. */
-"秒" = "secs";
+"秒" = "s";
 
 /* No comment provided by engineer. */
 "移出已掌握" = "Remove from mastered";
@@ -434,7 +443,7 @@
 "轮逾期" = " rounds overdue ";
 
 /* No comment provided by engineer. */
-"连续记住" = " Remember continously ";
+"连续记住" = " Remember";
 
 /* No comment provided by engineer. */
 "选择词汇" = "Select";

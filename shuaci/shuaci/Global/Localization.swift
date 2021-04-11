@@ -62,11 +62,11 @@ let clickVerifyPlsText:String = NSLocalizedString("请您单击邮件中的链�
 
 // MainPanel VC
 let downloadingWallpaperText:String = NSLocalizedString("正在下载壁纸...", comment: "")
-let downloadingBookText:String = NSLocalizedString("正在下载单词书...", comment: "")
-let downloadingBooksInHistoryText:String = NSLocalizedString("正在下载历史单词书...", comment: "")
+let downloadingBookText:String = NSLocalizedString("正在下载词库...", comment: "")
+let downloadingBooksInHistoryText:String = NSLocalizedString("正在下载历史词库...", comment: "")
 let syncingDataText:String = NSLocalizedString("正在同步数据...", comment: "")
 let downloadRecordFailedText:String = NSLocalizedString("从云端下载学习记录失败，请稍后再试!🙁", comment: "")
-let noBookSelectedText:String = NSLocalizedString("您还没有选择单词书😅", comment: "")
+let noBookSelectedText:String = NSLocalizedString("您还没有选择词库😅", comment: "")
 let reviewJustLearnedText:String = NSLocalizedString("复习刚学", comment: "")
 let reviewLearnedInHistoryText:String = NSLocalizedString("复习历史", comment: "")
 
@@ -134,14 +134,17 @@ let rememberSeqText:String = NSLocalizedString("连续记住", comment: "")
 let timesText:String = NSLocalizedString("次", comment: "")
 let wordsText:String = NSLocalizedString("词", comment: "")
 let noWordText:String = NSLocalizedString("无单词", comment: "")
-let daysText:String = NSLocalizedString("天", comment: "")
+let daysText:String = NSLocalizedString(" 天", comment: "")
 let hoursText:String = NSLocalizedString("时", comment: "")
 let minsText:String = NSLocalizedString("分", comment: "")
 let secsText:String = NSLocalizedString("秒", comment: "")
+let dayShortText:String = NSLocalizedString("天", comment: "")
 let tillText:String = NSLocalizedString("距第", comment: "")
 let reviewTurnText:String = NSLocalizedString("轮复习", comment: "")
 let overduePreText:String = NSLocalizedString("第", comment: "")
 let overdueNumText:String = NSLocalizedString("轮逾期", comment: "")
+let userText:String = NSLocalizedString("人", comment: "")
+let learningText:String = NSLocalizedString("正在学习", comment: "")
 
 // Reminder VC
 let reminderFmtText:String = NSLocalizedString("MM月dd日 HH:mm", comment: "")

@@ -625,7 +625,8 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
                     }
                     else{
                         let vocab_rec_need_to_be_review:[VocabularyRecord] = get_recent_vocab_rec_need_to_be_review()
-                        if vocab_rec_need_to_be_review.count > 0{
+                        
+                        if vocab_rec_need_to_be_review.count > 1{
                             self.loadReviewController(vocab_rec_need_to_be_review: vocab_rec_need_to_be_review)
                         }else
                         {

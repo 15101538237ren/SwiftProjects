@@ -30,6 +30,7 @@ let sharedSecret = "3a2e76c0ad73427ea047d8835842c883" //secret key for In-App Pu
 let appleValidator = AppleReceiptValidator(service: .sandbox, sharedSecret: sharedSecret)
 let bundleId = "com.shuaci"
 let minimumReviewWorthyActionCount = 2
+let minNumToSaveReviewRecord = 5
 let LCAppId: String = "5uWh02cHlO4NIBMyM1rAaRRm-gzGzoHsz"
 let LCKey: String = "MbgqYXQna9aFYQq7GRqRWHkA"
 let OfficialEmail = "shuaci@outlook.com"
@@ -39,6 +40,8 @@ let QueryLimit: Int = 1000
 let numberOfContDaysForMasteredAWord:Int = 4 //多少次连续记住算是掌握
 
 let minToChangingWallpaper:CGFloat = 0.5
+
+let learningUserAvtarBorderWidth:CGFloat = 2
 
 let everyDayLearningReminderNotificationIdentifier = "dailyLearningReminder"
 

@@ -11,13 +11,15 @@ import AVFoundation
 import SwiftyJSON
 import LeanCloud
 import SwiftTheme
+import Disk
+import Nuke
 
 class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
     
     // MARK: - Constants
     let card_Y_constant:CGFloat = -30
     let animationDuration = 0.15
-    let firstReviewDelayInMin = 60
+    let firstReviewDelayInMin = 1
     let progressViewAnimationDuration = 2.5
     var currentMode:Int! // 1: Learn, 2: Review
     
@@ -64,11 +66,25 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
     @IBOutlet var backBtn: UIButton!
     @IBOutlet var gestureRecognizers:[UIPanGestureRecognizer]!
     @IBOutlet var timeLabel: UILabel!
-//    @IBOutlet var progressLabel: UILabel!
     
     @IBOutlet var firstMemLeft: UILabel!
     @IBOutlet var enToCNLeft: UILabel!
     @IBOutlet var cnToENLeft: UILabel!
+    
+    @IBOutlet var leftAvatar: UIImageView!
+    @IBOutlet var midAvatar: UIImageView!
+    @IBOutlet var rightAvatar: UIImageView!
+    @IBOutlet var userNumLabel: UILabel!
+    @IBOutlet var peopleLabel: UILabel!{
+        didSet{
+            peopleLabel.text = userText
+        }
+    }
+    @IBOutlet var learningLabel: UILabel!{
+        didSet{
+            learningLabel.text = learningText
+        }
+    }
     
     @IBOutlet var cards: [CardUIView]!{
         didSet {
@@ -116,6 +132,62 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
         let _ = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(tictoc), userInfo: nil, repeats: true)
         initLearningRecord()
         stopIndicator()
+        updateUserPhoto()
+    }
+    
+    func updateUserPhoto() {
+        let userId = currentUser.objectId!.stringValue!
+        let avatar_fp = "user_avatar_\(userId).jpg"
+        do {
+            let retrievedImage = try Disk.retrieve(avatar_fp, from: .documents, as: UIImage.self)
+            print("retrieved Avatar Successful!")
+            DispatchQueue.main.async {
+                self.rightAvatar.image = retrievedImage
+            }
+        } catch {
+            getUserPhoto()
+            print(error)
+        }
+    }
+    
+    func getUserPhoto(){
+        if Reachability.isConnectedToNetwork(){
+            DispatchQueue.global(qos: .background).async { [self] in
+                if let file = currentUser.get("avatar") as? LCFile {
+                    
+                    let imgUrl = URL(string: file.url!.stringValue!)!
+                    
+                    _ = ImagePipeline.shared.loadImage(
+                        with: imgUrl,
+                        completion: { [self] response in
+                            switch response {
+                              case .failure:
+                                break
+                              case let .success(imageResponse):
+                                let image = imageResponse.image
+                                
+                                DispatchQueue.main.async {
+                                    self.rightAvatar.image = image
+                                }
+                                let userID = currentUser.objectId!.stringValue!
+                                
+                                let avatar_fp = "user_avatar_\(userID).jpg"
+                                
+                                do {
+                                    try Disk.save(image, to: .documents, as: avatar_fp)
+                                    print("Save Downloaded Avatar Successful!")
+                                } catch {
+                                    print(error)
+                                }
+                              }
+                        }
+                    )
+                }
+            }
+        }else{
+            self.view.makeToast(NoNetworkStr, duration: 1.0, position: .center)
+        }
+
     }
     
     func initLearningRecord(){
@@ -262,7 +334,7 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
     
     @IBAction func unwind(segue: UIStoryboardSegue) {
         self.mp3Player?.stop()
-        if self.currentIndex > 0{
+        if self.currentIndex >= minNumToSaveReviewRecord - 1{
             if currentMode == 1{
                 let alertController = UIAlertController(title: giveupEnsureText, message: mottoText, preferredStyle: .alert)
                 let okayAction = UIAlertAction(title: ensureText, style: .default, handler: { _ in
@@ -606,6 +678,8 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
     
     func saveRecordsFromLearning() {
         global_records.append(currentRec!)
+        print(global_records.count)
+        print(global_records)
         if currentMode == 1{
             global_vocabs_records.append(contentsOf: vocabRecordsOfCurrent)
         }else{

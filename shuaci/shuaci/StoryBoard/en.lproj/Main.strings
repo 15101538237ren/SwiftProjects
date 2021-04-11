@@ -37,8 +37,8 @@
 /* Class = "UILabel"; text = "下次提醒"; ObjectID = "5jh-bG-cXE"; */
 "5jh-bG-cXE.text" = "Next Reminder";
 
-/* Class = "UILabel"; text = "单词书名称"; ObjectID = "5lc-ng-WfJ"; */
-"5lc-ng-WfJ.text" = "Book Name";
+/* Class = "UILabel"; text = "词库名称"; ObjectID = "5lc-ng-WfJ"; */
+"5lc-ng-WfJ.text" = "List Name";
 
 /* Class = "UILabel"; text = "待复习"; ObjectID = "5qP-jd-1xT"; */
 "5qP-jd-1xT.text" = "To be reviewed";
@@ -109,8 +109,8 @@
 /* Class = "UILabel"; text = "n. 大海, 海洋"; ObjectID = "bOc-QN-ZO8"; */
 "bOc-QN-ZO8.text" = "n. 大海, 海洋";
 
-/* Class = "UIButton"; normalTitle = "选择单词书"; ObjectID = "bOY-jO-NTP"; */
-"bOY-jO-NTP.normalTitle" = "Select Book";
+/* Class = "UIButton"; normalTitle = "选择词库"; ObjectID = "bOY-jO-NTP"; */
+"bOY-jO-NTP.normalTitle" = "Select List";
 
 /* Class = "UILabel"; text = "自动续费服务说明：\n1. 确认购买并付款后计入iTunes 账号。\n2. 如需取消自动扣费，请在当前订阅到期24小时前，手动在 iTunes/Apple ID 订阅管理中关闭自动续费功能。\n3. 苹果 iTunes 账号会在到期前24小时内扣款，扣款成功后订阅顺延一个周期。\n4. 可随时取消自动续费服务，取消后不再续费。"; ObjectID = "br2-mb-mYX"; */
 "br2-mb-mYX.text" = "自动续费服务说明：\n1. 确认购买并付款后计入iTunes 账号。\n2. 如需取消自动扣费，请在当前订阅到期24小时前，手动在 iTunes/Apple ID 订阅管理中关闭自动续费功能。\n3. 苹果 iTunes 账号会在到期前24小时内扣款，扣款成功后订阅顺延一个周期。\n4. 可随时取消自动续费服务，取消后不再续费。";
@@ -130,8 +130,8 @@
 /* Class = "UILabel"; text = "记: sea memory"; ObjectID = "DMg-Vq-vLt"; */
 "DMg-Vq-vLt.text" = "Mem: memory method";
 
-/* Class = "UILabel"; text = "GRE词汇精选是一本很棒的书"; ObjectID = "DNK-b4-HaI"; */
-"DNK-b4-HaI.text" = "Book Description";
+/* Class = "UILabel"; text = "GRE词汇精选是一本很棒的词库"; ObjectID = "DNK-b4-HaI"; */
+"DNK-b4-HaI.text" = "List Description";
 
 /* Class = "UIViewController"; title = "WordDetailVC"; ObjectID = "e9N-FN-ytu"; */
 "e9N-FN-ytu.title" = "WordDetailVC";
@@ -376,8 +376,8 @@
 /* Class = "UITabBarItem"; title = "主页"; ObjectID = "sqx-Hz-drS"; */
 "sqx-Hz-drS.title" = "Index";
 
-/* Class = "UINavigationItem"; title = "单词书"; ObjectID = "SXn-dT-aNu"; */
-"SXn-dT-aNu.title" = "Book";
+/* Class = "UINavigationItem"; title = "词库"; ObjectID = "SXn-dT-aNu"; */
+"SXn-dT-aNu.title" = "词库";
 
 /* Class = "UILabel"; text = "3567人在与你一起「刷词」"; ObjectID = "tAh-Ex-sOZ"; */
 "tAh-Ex-sOZ.text" = "3567 people are learning with you";
@@ -392,7 +392,7 @@
 "Tne-ae-DkL.normalTitle" = "Setting";
 
 /* Class = "UILabel"; text = "选择词库"; ObjectID = "TSQ-wf-wmG"; */
-"TSQ-wf-wmG.text" = "Select Book";
+"TSQ-wf-wmG.text" = "Select List";
 
 /* Class = "UILabel"; text = "全部"; ObjectID = "U8X-n6-Jz5"; */
 "U8X-n6-Jz5.text" = "All";
@@ -449,7 +449,7 @@
 "XnJ-x2-xdZ.text" = "不熟";
 
 /* Class = "UIButton"; normalTitle = "  更换词库  "; ObjectID = "xri-bM-taa"; */
-"xri-bM-taa.normalTitle" = "  Change Book  ";
+"xri-bM-taa.normalTitle" = "  Change List  ";
 
 /* Class = "UILabel"; text = "Label"; ObjectID = "xSv-kj-v8W"; */
 "xSv-kj-v8W.text" = "Label";

@@ -45,44 +45,39 @@ func getThemeColor(key: String) -> String{
 // MARK: - VIP Util
 
 func checkIfVIPSubsciptionValid(successCompletion: @escaping Completion, failedCompletion: @escaping Completion){
-    
-    let formatter = DateFormatter()
-    formatter.dateFormat = "yyyy/MM/dd HH:mm"
-    let DUETIME = formatter.date(from: "2021/06/01 00:00")!
-    if Date() < DUETIME{
-        //内测版放行VIP检测
-        successCompletion()
-    }else{
-        let vip = VIP(purchase: .MonthlySubscribed)
-        let product = vip.purchase
-        let productID = makeProductId(purchase: product)
-        SwiftyStoreKit.verifyReceipt(using: appleValidator) { result in
-            switch result {
-            case .success(let receipt):
-                // Verify the purchase of a Subscription
-                let purchaseResult = SwiftyStoreKit.verifySubscription(
-                    ofType: .autoRenewable,
-                    productId: productID,
-                    inReceipt: receipt)
-                    
-                switch purchaseResult {
-                case .purchased(let expiryDate, let items):
-                    print("\(productID) is valid until \(expiryDate)\n\(items)\n")
-                    successCompletion()
-                case .expired(let expiryDate, let items):
-                    print("\(productID) is expired since \(expiryDate)\n\(items)\n")
-                    failedCompletion()
-                case .notPurchased:
-                    print("The user has never purchased \(productID)")
-                    failedCompletion()
-                }
-
-            case .error(let error):
-                print("Receipt verification failed: \(error)")
-                failedCompletion()
-            }
-        }
-    }
+    successCompletion()
+//    let formatter = DateFormatter()
+//    formatter.dateFormat = "yyyy/MM/dd HH:mm"
+//    let DUETIME = formatter.date(from: "2021/06/01 00:00")!
+//    let vip = VIP(purchase: .MonthlySubscribed)
+//    let product = vip.purchase
+//    let productID = makeProductId(purchase: product)
+//    SwiftyStoreKit.verifyReceipt(using: appleValidator) { result in
+//        switch result {
+//        case .success(let receipt):
+//            // Verify the purchase of a Subscription
+//            let purchaseResult = SwiftyStoreKit.verifySubscription(
+//                ofType: .autoRenewable,
+//                productId: productID,
+//                inReceipt: receipt)
+//                
+//            switch purchaseResult {
+//            case .purchased(let expiryDate, let items):
+//                print("\(productID) is valid until \(expiryDate)\n\(items)\n")
+//                successCompletion()
+//            case .expired(let expiryDate, let items):
+//                print("\(productID) is expired since \(expiryDate)\n\(items)\n")
+//                failedCompletion()
+//            case .notPurchased:
+//                print("The user has never purchased \(productID)")
+//                failedCompletion()
+//            }
+//
+//        case .error(let error):
+//            print("Receipt verification failed: \(error)")
+//            failedCompletion()
+//        }
+//    }
     
 }
 
@@ -485,7 +480,9 @@ func updateRecords(userId:String, records: [Record]){
     let uuids:[String] = global_records.map { $0.uuid }
     for record in records{
         if !uuids.contains(record.uuid){
-            global_records.append(record)
+            var record_synced = record
+            record_synced.synced = true
+            global_records.append(record_synced)
             changed = true
         }
     }

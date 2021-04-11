@@ -67,10 +67,55 @@ class LearnUIView: UIView {
             cnToENLeft.theme_textColor = "LearningVC.TextLabelColor"
         }
     }
-    @IBOutlet var progressLabel: UILabel!
+    
     @IBOutlet var backBtn: UIButton!{
         didSet{
             backBtn.theme_tintColor = "Global.backBtnTintColor"
         }
     }
+    
+    @IBOutlet var leftAvatar: UIImageView!{
+        didSet{
+            leftAvatar.layer.cornerRadius = leftAvatar.layer.frame.width/2.0
+            leftAvatar.layer.masksToBounds = true
+            leftAvatar.layer.borderWidth = learningUserAvtarBorderWidth
+            leftAvatar.layer.borderColor = UIColor.white.cgColor
+        }
+    }
+    
+    @IBOutlet var midAvatar: UIImageView!{
+        didSet{
+            midAvatar.layer.cornerRadius = midAvatar.layer.frame.width/2.0
+            midAvatar.layer.masksToBounds = true
+            midAvatar.layer.borderWidth = learningUserAvtarBorderWidth
+            midAvatar.layer.borderColor = UIColor.white.cgColor
+        }
+    }
+    @IBOutlet var rightAvatar: UIImageView!{
+        didSet{
+            rightAvatar.layer.cornerRadius = rightAvatar.layer.frame.width/2.0
+            rightAvatar.layer.masksToBounds = true
+            rightAvatar.layer.borderWidth = learningUserAvtarBorderWidth
+            rightAvatar.layer.borderColor = UIColor.white.cgColor
+        }
+    }
+    
+    @IBOutlet var usersPanelView: UIView!{
+        didSet{
+            let conerRadius: CGFloat = 22
+            usersPanelView.clipsToBounds = true
+            if #available(iOS 11.0, *) {
+                usersPanelView.layer.cornerRadius = conerRadius
+                usersPanelView.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMinXMinYCorner]
+            } else {
+                let path = UIBezierPath(roundedRect: usersPanelView.bounds,
+                                        byRoundingCorners: [.bottomLeft, .bottomRight],
+                                            cornerRadii: CGSize(width: conerRadius, height: conerRadius))
+                let maskLayer = CAShapeLayer()
+                maskLayer.path = path.cgPath
+                usersPanelView.layer.mask = maskLayer
+            }
+        }
+    }
+    
 }
