@@ -22,7 +22,7 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
     let firstReviewDelayInMin = 1
     let progressViewAnimationDuration = 2.5
     var currentMode:Int! // 1: Learn, 2: Review
-    
+    var liveQuery: LiveQuery?
     // MARK: - Variables
     
     private var wordsQueue: Array<[Int]> = []
@@ -31,7 +31,7 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
     private var currentRec: Record?
     private var vocabRecordsOfCurrent:[VocabularyRecord] = []
     fileprivate var timeOnThisPage: Int = 0
-    
+    var userNumUpdateTimer: Timer?
     var vocab_rec_need_to_be_review:[VocabularyRecord]!
     
     var currentUser: LCUser!
@@ -67,6 +67,11 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
     @IBOutlet var gestureRecognizers:[UIPanGestureRecognizer]!
     @IBOutlet var timeLabel: UILabel!
     
+    @IBOutlet var userPanelView: UIView!{
+        didSet{
+            userPanelView.alpha = 0
+        }
+    }
     @IBOutlet var firstMemLeft: UILabel!
     @IBOutlet var enToCNLeft: UILabel!
     @IBOutlet var cnToENLeft: UILabel!
@@ -132,7 +137,42 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
         let _ = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(tictoc), userInfo: nil, repeats: true)
         initLearningRecord()
         stopIndicator()
+        updateNumOfUsersOnline()
+        userNumUpdateTimer = Timer.scheduledTimer(timeInterval: numOfUerUpdateInterval, target: self, selector: #selector(updateNumOfUsersOnline), userInfo: nil, repeats: true)
+    }
+    
+    
+    func updateNumber(){
+        if Reachability.isConnectedToNetwork(){
+            DispatchQueue.global(qos: .background).async { [self] in
+            do {
+                
+                let query = LCQuery(className: "_User")
+                query.whereKey("online", .greaterThanOrEqualTo(1))
+                let count = query.count().intValue
+                if count >= 3{
+                    DispatchQueue.main.async {
+                        self.userPanelView.alpha = 1.0
+                        self.userNumLabel.text = "\(count)"
+                    }
+                }else{
+                    DispatchQueue.main.async {
+                        self.userPanelView.alpha = 0.0
+                        self.userNumLabel.text = "\(count)"
+                    }
+                }
+            }
+        }
+        }
+    }
+    
+    @objc func updateNumOfUsersOnline(){
         updateUserPhoto()
+        updateNumber()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        userNumUpdateTimer?.invalidate()
     }
     
     func updateUserPhoto() {

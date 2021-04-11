@@ -4047,6 +4047,7 @@
                         <outlet property="rightAvatar" destination="hj7-k6-mit" id="XUf-1F-SNe"/>
                         <outlet property="timeLabel" destination="ux3-lS-9T7" id="h4b-5q-NtC"/>
                         <outlet property="userNumLabel" destination="ibj-LT-G11" id="CTh-ui-s1y"/>
+                        <outlet property="userPanelView" destination="pZQ-oH-sda" id="u6E-Sg-Q1z"/>
                         <outletCollection property="cards" destination="eg4-ud-xdI" collectionClass="NSMutableArray" id="66s-F6-aX6"/>
                         <outletCollection property="cards" destination="hMj-B9-ytd" collectionClass="NSMutableArray" id="GRj-dk-BwH"/>
                         <outletCollection property="gestureRecognizers" destination="Ne3-mi-PuL" collectionClass="NSMutableArray" id="FYa-n5-jvn"/>

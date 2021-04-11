@@ -42,6 +42,7 @@ let numberOfContDaysForMasteredAWord:Int = 4 //多少次连续记住算是掌握
 let minToChangingWallpaper:CGFloat = 0.5
 
 let learningUserAvtarBorderWidth:CGFloat = 2
+let numOfUerUpdateInterval:Double = 10
 
 let everyDayLearningReminderNotificationIdentifier = "dailyLearningReminder"
 
