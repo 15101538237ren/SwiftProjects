@@ -8,6 +8,7 @@
 
 import UIKit
 import SwiftTheme
+import LeanCloud
 
 private let reuseIdentifier = "Cell"
 
@@ -18,7 +19,7 @@ class ThemeCollectionViewController: UIViewController, UICollectionViewDelegate,
     
     var mainPanelViewController: MainPanelViewController!
     var preference:Preference!
-    var userId: String!
+    var currentUser: LCUser!
     @IBAction func unwind(_ sender: UIButton) {
         self.dismiss(animated: true, completion: nil)
     }
@@ -32,12 +33,13 @@ class ThemeCollectionViewController: UIViewController, UICollectionViewDelegate,
         collectionView.dataSource = self
         collectionView.delegate = self
         
+        
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         navigationController?.navigationBar.shadowImage = UIImage()
         navigationController?.hidesBarsOnSwipe = true
         navigationController?.navigationBar.tintColor = .white
     }
-      
+    
     
     // MARK: UICollectionViewDataSource
 
@@ -68,12 +70,12 @@ class ThemeCollectionViewController: UIViewController, UICollectionViewDelegate,
         
         preference.current_theme = theme_category
         
-        savePreference(userId: userId, preference: preference)
+        savePreference(userId: currentUser.objectId!.stringValue!, preference: preference)
         mainPanelViewController.update_preference()
         
         ThemeManager.setTheme(plistName: theme_category_to_name[theme.category]!.rawValue, path: .mainBundle)
         
-        let info = ["Um_Key_ButtonName" : "\(theme.name)", "Um_Key_SourcePage":"选主题", "Um_Key_UserID" : userId]
+        let info = ["Um_Key_ButtonName" : "\(theme.name)", "Um_Key_SourcePage":"选主题", "Um_Key_UserID" : currentUser.objectId!.stringValue!]
         UMAnalyticsSwift.event(eventId: "Um_Event_ModularClick", attributes: info)
         
         mainPanelViewController.setDefaultWallpaper(theme_category: theme_category)

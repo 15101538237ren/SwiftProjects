@@ -24,7 +24,7 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
     var currentMode:Int! // 1: Learn, 2: Review
     var liveQuery: LiveQuery?
     // MARK: - Variables
-    
+    var thumbnailURLs:[URL] = []
     private var wordsQueue: Array<[Int]> = []
     private var wordsQArray: Array<[Int]> = []
     private var DICT_URL: URL = Bundle.main.url(forResource: "DICT.json", withExtension: nil)!
@@ -32,6 +32,7 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
     private var vocabRecordsOfCurrent:[VocabularyRecord] = []
     fileprivate var timeOnThisPage: Int = 0
     var userNumUpdateTimer: Timer?
+    var userPhotoUpdateTimer: Timer?
     var vocab_rec_need_to_be_review:[VocabularyRecord]!
     
     var currentUser: LCUser!
@@ -134,13 +135,30 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
         view.theme_backgroundColor = "Global.viewBackgroundColor"
 //        view.backgroundColor = .white
         super.viewDidLoad()
-        let _ = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(tictoc), userInfo: nil, repeats: true)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(backToOnline), name: UIApplication.willEnterForegroundNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(goToOffline), name: UIApplication.willResignActiveNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(goToOffline), name: UIApplication.willTerminateNotification, object: nil)
         initLearningRecord()
         stopIndicator()
+        setOnlineStatus(user: currentUser, status: currentMode == 1 ? .learning : .reviewing)
         updateNumOfUsersOnline()
+        updateOnlineUsersPhoto()
+        updateUserPhoto()
         userNumUpdateTimer = Timer.scheduledTimer(timeInterval: numOfUerUpdateInterval, target: self, selector: #selector(updateNumOfUsersOnline), userInfo: nil, repeats: true)
+        userPhotoUpdateTimer = Timer.scheduledTimer(timeInterval: userPhotoUpdateInterval, target: self, selector: #selector(updateUserPhotosOnline), userInfo: nil, repeats: true)
+        let _ = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(tictoc), userInfo: nil, repeats: true)
+        
     }
     
+    @objc func backToOnline(){
+        let onlineStatus:OnlineStatus = currentMode == 1 ? .learning : .reviewing
+        setOnlineStatus(user: currentUser, status: onlineStatus)
+    }
+    
+    @objc func goToOffline(){
+        setOnlineStatus(user: currentUser, status: .offline)
+    }
     
     func updateNumber(){
         if Reachability.isConnectedToNetwork(){
@@ -167,12 +185,74 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     @objc func updateNumOfUsersOnline(){
-        updateUserPhoto()
         updateNumber()
     }
     
-    override func viewDidDisappear(_ animated: Bool) {
+    @objc func updateUserPhotosOnline(){
+        if thumbnailURLs.count > 0{
+            if thumbnailURLs.count == 1{
+                Nuke.loadImage(with: thumbnailURLs[0], options: userPhotoLoadingOptions, into: midAvatar)
+            }else{
+                var selectedIndexs:[Int] = []
+                for _ in 0..<2{
+                    var randomIndex = Int.random(in: 0...(thumbnailURLs.count - 1))
+                    while selectedIndexs.contains(randomIndex){
+                        randomIndex = Int.random(in: 0...(thumbnailURLs.count - 1))
+                    }
+                    selectedIndexs.append(randomIndex)
+                }
+                
+                for i in 0..<2{
+                    if i == 0{
+                        Nuke.loadImage(with: thumbnailURLs[selectedIndexs[i]], options: userPhotoLoadingOptions, into: leftAvatar)
+                    }else{
+                        Nuke.loadImage(with: thumbnailURLs[selectedIndexs[i]], options: userPhotoLoadingOptions, into: midAvatar)
+                    }
+                }
+            }
+        }
+    }
+    
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        setOnlineStatus(user: currentUser, status: .offline)
         userNumUpdateTimer?.invalidate()
+        userPhotoUpdateTimer?.invalidate()
+        let pageName:String = currentMode == 1 ? "背单词" : "复习"
+        let info = ["Um_Key_PageName": pageName, "Um_Key_Duration": timeOnThisPage, "Um_Key_UserID" : currentUser.objectId!.stringValue!] as [String : Any]
+        
+        UMAnalyticsSwift.event(eventId: "Um_Event_PageView", attributes: info)
+    }
+    
+    func updateOnlineUsersPhoto() {
+        if Reachability.isConnectedToNetwork(){
+            DispatchQueue.global(qos: .background).async { [self] in
+                let query = LCQuery(className: "_User")
+                query.whereKey("online", .greaterThanOrEqualTo(1))
+                query.whereKey("avatar", .existed)
+                query.whereKey("avatar", .included)
+                query.limit = 10
+                _ = query.find { result in
+                    switch result {
+                        case .success(objects: let users):
+                            for user in users{
+                                if user.objectId != currentUser.objectId{
+                                    if let file = user.get("avatar") as? LCFile {
+                                        if let sizedURL = file.thumbnailURL(.size(width: widthOfOnlineUserAvtarInLearningVC, height: widthOfOnlineUserAvtarInLearningVC)){
+                                            thumbnailURLs.append(sizedURL)
+                                        }
+                                    }
+                                }
+                            }
+                            updateUserPhotosOnline()
+                        case .failure(error: let error):
+                            print(error.localizedDescription)
+                    }
+                }
+            }
+        }else{
+            self.view.makeToast(NoNetworkStr, duration: 1.0, position: .center)
+        }
     }
     
     func updateUserPhoto() {
@@ -363,13 +443,6 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
                 }
             }
         }
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        let pageName:String = currentMode == 1 ? "背单词" : "复习"
-        let info = ["Um_Key_PageName": pageName, "Um_Key_Duration": timeOnThisPage, "Um_Key_UserID" : currentUser.objectId!.stringValue!] as [String : Any]
-        
-        UMAnalyticsSwift.event(eventId: "Um_Event_PageView", attributes: info)
     }
     
     @IBAction func unwind(segue: UIStoryboardSegue) {

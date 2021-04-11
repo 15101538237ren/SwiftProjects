@@ -14,6 +14,24 @@ import Accelerate
 import SwiftTheme
 import SwiftyStoreKit
 
+
+
+func setOnlineStatus(user: LCUser, status: OnlineStatus){
+    do {
+        try user.set("online", value: status.rawValue)
+        _ = user.save { result in
+            switch result {
+            case .success:
+                print("updated online status successful!")
+            case .failure(error: let error):
+                print(error.localizedDescription)
+            }
+        }
+    } catch {
+        print(error)
+    }
+}
+
 func loadURL(url: URL){
     if #available(iOS 10.0, *) {
         UIApplication.shared.open(url, options: [:], completionHandler: nil)

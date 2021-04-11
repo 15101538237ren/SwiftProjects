@@ -110,16 +110,27 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
     
     func initVC(){
         popPrivacyMessage()
-        if let _ = currentUser{
+        if let user = currentUser{
             preference = loadPreference(userId: currentUser.objectId!.stringValue!)
             loadTheme()
             
             loadBooksNRecords()
             
             loadUserPhoto()
+            setOnlineStatus(user: user, status: .online)
+            
+            NotificationCenter.default.addObserver(self, selector: #selector(backToOnline), name: UIApplication.willEnterForegroundNotification, object: nil)
+            NotificationCenter.default.addObserver(self, selector: #selector(goToOffline), name: UIApplication.willResignActiveNotification, object: nil)
+            NotificationCenter.default.addObserver(self, selector: #selector(goToOffline), name: UIApplication.willTerminateNotification, object: nil)
         }
         else{
             dismiss(animated: true, completion: nil)
+        }
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        if let user = currentUser{
+            setOnlineStatus(user: user, status: .offline)
         }
     }
     
@@ -264,6 +275,18 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
             object: nil
         )
         addBlurBtnView()
+    }
+    
+    @objc func backToOnline(){
+        if let user = currentUser{
+            setOnlineStatus(user: user, status: .online)
+        }
+    }
+    
+    @objc func goToOffline(){
+        if let user = currentUser{
+            setOnlineStatus(user: user, status: .offline)
+        }
     }
     
     @objc func loadWallpaper(){
@@ -472,7 +495,7 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
         let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
         let themeVC = mainStoryBoard.instantiateViewController(withIdentifier: "themeVC") as! ThemeCollectionViewController
         themeVC.modalPresentationStyle = .overCurrentContext
-        themeVC.userId = currentUser.objectId!.stringValue!
+        themeVC.currentUser = currentUser
         themeVC.preference = get_preference()
         themeVC.mainPanelViewController = self
         DispatchQueue.main.async {

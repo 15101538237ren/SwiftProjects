@@ -11,3 +11,10 @@ import Foundation
 enum RegisteredPurchase : String {
     case MonthlySubscribed = "monthlysubscribed"
 }
+
+enum OnlineStatus: Int{
+    case offline = 0
+    case online  = 1
+    case learning = 2
+    case reviewing = 3
+}

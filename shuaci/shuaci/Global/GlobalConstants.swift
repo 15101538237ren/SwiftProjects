@@ -10,6 +10,7 @@ import UIKit
 import JGProgressHUD
 import Toast_Swift
 import SwiftyStoreKit
+import Nuke
 
 // MARK: - typealias
 
@@ -43,6 +44,13 @@ let minToChangingWallpaper:CGFloat = 0.5
 
 let learningUserAvtarBorderWidth:CGFloat = 2
 let numOfUerUpdateInterval:Double = 10
+let userPhotoUpdateInterval:Double = 5
+let widthOfOnlineUserAvtarInLearningVC:Double = 40
+
+let userPhotoLoadingOptions = ImageLoadingOptions(
+    placeholder: UIImage(named: "default_user_avtar"),
+    transition: .fadeIn(duration: 0.8)
+)
 
 let everyDayLearningReminderNotificationIdentifier = "dailyLearningReminder"
 

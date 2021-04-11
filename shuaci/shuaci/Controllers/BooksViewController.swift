@@ -39,7 +39,6 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
         }
     }
     
-    
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
         if collectionView.tag == 1{
             let cell = collectionView.cellForItem(at: indexPath) as! Level1CollectionViewCell
