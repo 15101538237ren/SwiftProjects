@@ -607,7 +607,7 @@
                                                             <rect key="frame" x="0.0" y="0.0" width="82" height="50"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="英语教材" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aVz-nO-vhh">
-                                                                    <rect key="frame" x="17" y="18" width="48" height="14"/>
+                                                                    <rect key="frame" x="17" y="19" width="48" height="12"/>
                                                                     <fontDescription key="fontDescription" name="HYa4gj" family="HYDaSongJ" pointSize="12"/>
                                                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                     <nil key="highlightedColor"/>
@@ -624,7 +624,7 @@
                                                             <rect key="frame" x="0.0" y="50.5" width="82" height="61.5"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="全新英语教材" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3pQ-hr-npA">
-                                                                    <rect key="frame" x="17" y="16" width="48" height="9.5"/>
+                                                                    <rect key="frame" x="17" y="17" width="48" height="8"/>
                                                                     <fontDescription key="fontDescription" name="HYa4gj" family="HYDaSongJ" pointSize="8"/>
                                                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                     <nil key="highlightedColor"/>
@@ -2258,7 +2258,7 @@
                                         <color key="backgroundColor" systemColor="systemPinkColor"/>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="不熟" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XnJ-x2-xdZ">
-                                        <rect key="frame" x="60" y="153.5" width="160" height="93.5"/>
+                                        <rect key="frame" x="62" y="161.5" width="156.5" height="77.5"/>
                                         <fontDescription key="fontDescription" name="FangYuan" family="FangYuan" pointSize="80"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
@@ -2350,7 +2350,7 @@
                                         <color key="backgroundColor" systemColor="systemPinkColor"/>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="不熟" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Rl-fF-7YP">
-                                        <rect key="frame" x="60" y="153.5" width="160" height="93.5"/>
+                                        <rect key="frame" x="62" y="161.5" width="156.5" height="77.5"/>
                                         <fontDescription key="fontDescription" name="FangYuan" family="FangYuan" pointSize="80"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
@@ -3026,28 +3026,28 @@
                                                         <rect key="frame" x="0.0" y="33" width="300" height="45"/>
                                                         <subviews>
                                                             <stackView opaque="NO" contentMode="scaleToFill" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="BFs-hd-TKU">
-                                                                <rect key="frame" x="0.0" y="13.5" width="300" height="18"/>
+                                                                <rect key="frame" x="45" y="7.5" width="210" height="30"/>
                                                                 <subviews>
                                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Uf3-1L-BUC" customClass="CheckboxButton" customModule="MBRadioCheckboxButton">
-                                                                        <rect key="frame" x="0.0" y="0.0" width="53" height="18"/>
+                                                                        <rect key="frame" x="0.0" y="0.0" width="30" height="30"/>
                                                                         <state key="normal" title="0 次">
                                                                             <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                         </state>
                                                                     </button>
                                                                     <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ldk-Hh-BFG" customClass="CheckboxButton" customModule="MBRadioCheckboxButton">
-                                                                        <rect key="frame" x="83" y="0.0" width="51" height="18"/>
+                                                                        <rect key="frame" x="60" y="0.0" width="30" height="30"/>
                                                                         <state key="normal" title="1 次">
                                                                             <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                         </state>
                                                                     </button>
                                                                     <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="s7t-WN-d2I" customClass="CheckboxButton" customModule="MBRadioCheckboxButton">
-                                                                        <rect key="frame" x="164" y="0.0" width="53" height="18"/>
+                                                                        <rect key="frame" x="120" y="0.0" width="30" height="30"/>
                                                                         <state key="normal" title="2 次">
                                                                             <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                         </state>
                                                                     </button>
                                                                     <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Mnv-rr-To1" customClass="CheckboxButton" customModule="MBRadioCheckboxButton">
-                                                                        <rect key="frame" x="247" y="0.0" width="53" height="18"/>
+                                                                        <rect key="frame" x="180" y="0.0" width="30" height="30"/>
                                                                         <state key="normal" title="3 次">
                                                                             <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                         </state>
@@ -3835,13 +3835,10 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Spy-i0-UiS">
-                                <rect key="frame" x="364" y="54" width="30" height="30"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="30" id="W5s-dX-X3m"/>
-                                    <constraint firstAttribute="width" constant="30" id="sSF-YH-wAb"/>
-                                </constraints>
+                                <rect key="frame" x="357" y="52" width="37" height="34"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                 <color key="tintColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <state key="normal" image="xmark" catalog="system">
+                                <state key="normal" title="放弃">
                                     <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="large"/>
                                 </state>
                                 <connections>
@@ -4122,7 +4119,7 @@
                             <constraint firstItem="sxy-rs-hYW" firstAttribute="trailing" secondItem="pZQ-oH-sda" secondAttribute="trailing" id="nZv-Xa-0iH"/>
                             <constraint firstItem="sxy-rs-hYW" firstAttribute="bottom" secondItem="pZQ-oH-sda" secondAttribute="bottom" constant="7" id="oLH-Bn-pSn"/>
                             <constraint firstItem="8eb-ya-1jJ" firstAttribute="leading" secondItem="sxy-rs-hYW" secondAttribute="leading" id="owd-Vo-FG2"/>
-                            <constraint firstItem="Spy-i0-UiS" firstAttribute="top" secondItem="sxy-rs-hYW" secondAttribute="top" constant="10" id="psA-jm-W5y"/>
+                            <constraint firstItem="Spy-i0-UiS" firstAttribute="top" secondItem="sxy-rs-hYW" secondAttribute="top" constant="8" id="psA-jm-W5y"/>
                             <constraint firstItem="sxy-rs-hYW" firstAttribute="bottom" secondItem="6YR-HP-u7W" secondAttribute="bottom" constant="113" id="rn5-tE-NFK"/>
                             <constraint firstItem="6YR-HP-u7W" firstAttribute="leading" secondItem="iEb-4d-JPz" secondAttribute="trailing" constant="15" id="uGO-fg-mwh"/>
                             <constraint firstItem="Hbn-7K-lkD" firstAttribute="top" secondItem="pu4-eP-rhv" secondAttribute="top" id="xae-DX-9Tx"/>
@@ -4224,10 +4221,10 @@
                                 </constraints>
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LaN-ke-l1o">
-                                <rect key="frame" x="0.0" y="408.5" width="414" height="192"/>
+                                <rect key="frame" x="0.0" y="408.5" width="414" height="196.5"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" alignment="bottom" spacing="25" translatesAutoresizingMaskIntoConstraints="NO" id="fkV-2g-IZz">
-                                        <rect key="frame" x="15" y="133" width="207.5" height="52"/>
+                                        <rect key="frame" x="15" y="137.5" width="207.5" height="52"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="MkU-dq-e6N">
                                                 <rect key="frame" x="0.0" y="0.0" width="49.5" height="52"/>
@@ -4301,7 +4298,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lmk-km-hLa">
-                                        <rect key="frame" x="30" y="88" width="354" height="24"/>
+                                        <rect key="frame" x="30" y="88" width="354" height="28.5"/>
                                         <constraints>
                                             <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="24" id="wT7-QW-g0j"/>
                                         </constraints>
@@ -4352,7 +4349,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="3567人在与你一起「刷词」" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tAh-Ex-sOZ">
-                                <rect key="frame" x="242" y="620.5" width="152" height="14.5"/>
+                                <rect key="frame" x="242" y="625" width="152" height="14.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
@@ -4505,7 +4502,6 @@
         <image name="undo" width="288" height="286"/>
         <image name="user_profile" width="55" height="55"/>
         <image name="wrong" width="242" height="242"/>
-        <image name="xmark" catalog="system" width="128" height="113"/>
         <image name="xmark.circle" catalog="system" width="128" height="121"/>
         <systemColor name="darkTextColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

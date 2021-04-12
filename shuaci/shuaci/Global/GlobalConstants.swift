@@ -32,6 +32,8 @@ let appleValidator = AppleReceiptValidator(service: .sandbox, sharedSecret: shar
 let bundleId = "com.shuaci"
 let minimumReviewWorthyActionCount = 2
 let minNumToSaveReviewRecord = 5
+let nDayLofiGirls:Int = 11
+let nNightLofiGirls:Int = 6
 let LCAppId: String = "5uWh02cHlO4NIBMyM1rAaRRm-gzGzoHsz"
 let LCKey: String = "MbgqYXQna9aFYQq7GRqRWHkA"
 let OfficialEmail = "shuaci@outlook.com"
@@ -45,8 +47,8 @@ let minToChangingWallpaper:CGFloat = 0.5
 let learningUserAvtarBorderWidth:CGFloat = 2
 let numOfUerUpdateInterval:Double = 10
 let userPhotoUpdateInterval:Double = 5
-let widthOfOnlineUserAvtarInLearningVC:Double = 40
-let countDownOfLoading:Double = 3
+let widthOfOnlineUserAvtarInLearningVC:Double = 100
+let countDownOfLoading:Double = 5
 
 let userPhotoLoadingOptions = ImageLoadingOptions(
     placeholder: UIImage(named: "default_user_avtar"),

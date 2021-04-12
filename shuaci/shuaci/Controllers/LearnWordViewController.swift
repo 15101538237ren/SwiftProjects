@@ -108,7 +108,11 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
         didSet{
             let hour = Calendar.current.component(.hour, from: Date())
             let suffix:String  = (hour > 7 && hour < 18) ? "day" : "night"
-            backgroundImgView.image = UIImage(named: "lofi_girl_\(suffix)")
+            let lofiCount:Int = (hour > 7 && hour < 18) ? nDayLofiGirls : nNightLofiGirls
+            let randomIndex = Int.random(in: 1...lofiCount)
+            let imageName:String = "lofi_girls_\(suffix)_\(randomIndex)"
+            print("LOFI:\(imageName)")
+            backgroundImgView.image = UIImage(named: imageName)
         }
     }
     
@@ -183,7 +187,7 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
     
     override func viewDidLoad() {
         view.theme_backgroundColor = "Global.viewBackgroundColor"
-        backBtn.theme_tintColor = "Global.backBtnTintColor"
+        backBtn.theme_setTitleColor("Global.backBtnTintColor", forState: .normal)
         backBtnForLoading.theme_tintColor = "Global.backBtnTintColor"
         super.viewDidLoad()
         stopIndicator()
