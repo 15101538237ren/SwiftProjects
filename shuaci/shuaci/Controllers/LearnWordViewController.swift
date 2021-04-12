@@ -23,6 +23,8 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
     let progressViewAnimationDuration = 2.5
     var currentMode:Int! // 1: Learn, 2: Review
     var liveQuery: LiveQuery?
+    var dispatchWork: DispatchWorkItem? = nil
+    
     // MARK: - Variables
     var thumbnailURLs:[URL] = []
     private var wordsQueue: Array<[Int]> = []
@@ -208,17 +210,17 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
         userPhotoUpdateTimer = Timer.scheduledTimer(timeInterval: userPhotoUpdateInterval, target: self, selector: #selector(updateUserPhotosOnline), userInfo: nil, repeats: true)
         let _ = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(tictoc), userInfo: nil, repeats: true)
         load_DICT()
-        
     }
     
     @objc func startCountDown(){
-        DispatchQueue.main.asyncAfter(deadline: .now() + countDownOfLoading) {
-            UIView.animate(withDuration: 0.5, animations: {
-                self.loadingView.alpha = 0
-            }) { (finished) in
+        dispatchWork = DispatchWorkItem(block: {
+            UIView.animate(withDuration: 0.5, animations: { [weak self] in
+                self?.loadingView.alpha = 0
+            }, completion: { _ in
                 self.startLearning()
-            }
-        }
+            })
+        })
+        DispatchQueue.main.asyncAfter(deadline: .now() + countDownOfLoading, execute: dispatchWork!)
     }
     
     func getTimeSuffix(num: Int) -> String{
@@ -543,6 +545,7 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
     
     
     @IBAction func close(sender: UIButton){
+        dispatchWork?.cancel()
         dismiss(animated: true, completion: nil)
     }
     
@@ -1246,8 +1249,8 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
 //        card.cardImageView?.backgroundColor = UIColor.init(hex: getRandomColor())!
     }
         
-        func playMp3(url: URL)
-        {
+    func playMp3(url: URL)
+    {
             if Reachability.isConnectedToNetwork(){
                 DispatchQueue.global(qos: .background).async {
                 do {
