@@ -48,7 +48,7 @@ let learningUserAvtarBorderWidth:CGFloat = 2
 let numOfUerUpdateInterval:Double = 10
 let userPhotoUpdateInterval:Double = 5
 let widthOfOnlineUserAvtarInLearningVC:Double = 100
-let countDownOfLoading:Double = 5
+let countDownOfLoading:Double = 6
 
 let userPhotoLoadingOptions = ImageLoadingOptions(
     placeholder: UIImage(named: "default_user_avtar"),

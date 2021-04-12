@@ -204,6 +204,8 @@ let learningStr:String = NSLocalizedString("学习", comment: "")
 let reviewStr:String = NSLocalizedString("复习", comment: "")
 let numPeopleLearningText:String = NSLocalizedString("人正在与你一起刷词", comment: "")
 let timesLabelText:String = NSLocalizedString("次 ", comment: "")
+let quitLearningText:String = NSLocalizedString("退出学习", comment: "")
+let giveupText:String = NSLocalizedString("放弃", comment: "")
 
 // MARK: - Alert & Notifications
 

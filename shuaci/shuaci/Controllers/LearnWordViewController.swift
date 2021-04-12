@@ -63,11 +63,20 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
     var currentWordLabelQueue:Array<[Int]> = []
     var mastered:[Bool] = []
     var Word_indexs_In_Oalecd8:[String:[Int]] = [:]
+    var totalCounter:Int = Int(countDownOfLoading + 1)
     
     // MARK: - Outlet Variables
     @IBOutlet var learnUIView: LearnUIView!
-    @IBOutlet var backBtn: UIButton!
-    @IBOutlet var backBtnForLoading: UIButton!
+    @IBOutlet var backBtn: UIButton!{
+        didSet{
+            backBtn.setTitle(giveupText, for: .normal)
+        }
+    }
+    @IBOutlet var backBtnForLoading: UIButton!{
+        didSet{
+            backBtnForLoading.setTitle(quitLearningText, for: .normal)
+        }
+    }
     
     @IBOutlet var gestureRecognizers:[UIPanGestureRecognizer]!
     @IBOutlet var timeLabel: UILabel!
@@ -93,6 +102,11 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
     @IBOutlet var learningLabel: UILabel!{
         didSet{
             learningLabel.text = learningLabelText
+        }
+    }
+    @IBOutlet var countingDownLabel: UILabel!{
+        didSet{
+            countingDownLabel.alpha = 0
         }
     }
     
@@ -212,6 +226,25 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
         load_DICT()
     }
     
+    func countDownText(){
+        Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [self] timer in
+            totalCounter -= Int(1)
+            if totalCounter == 5{
+                DispatchQueue.main.async {
+                    self.readyStart.alpha = 0
+                    self.countingDownLabel.alpha = 1
+                    self.countingDownLabel.text = "\(totalCounter)"
+                }
+            }else if (totalCounter < 5) && (totalCounter > 0){
+                DispatchQueue.main.async {
+                    self.countingDownLabel.text = "\(totalCounter)"
+                }
+            }else if totalCounter < 0{
+                timer.invalidate()
+            }
+        }
+    }
+    
     @objc func startCountDown(){
         dispatchWork = DispatchWorkItem(block: {
             UIView.animate(withDuration: 0.5, animations: { [weak self] in
@@ -221,6 +254,7 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
             })
         })
         DispatchQueue.main.asyncAfter(deadline: .now() + countDownOfLoading, execute: dispatchWork!)
+        countDownText()
     }
     
     func getTimeSuffix(num: Int) -> String{
@@ -551,41 +585,40 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
     
     @IBAction func unwind(segue: UIStoryboardSegue) {
         self.mp3Player?.stop()
-        if self.currentIndex >= minNumToSaveReviewRecord - 1{
-            if currentMode == 1{
-                let alertController = UIAlertController(title: giveupEnsureText, message: mottoText, preferredStyle: .alert)
-                let okayAction = UIAlertAction(title: ensureText, style: .default, handler: { _ in
+        if currentMode == 1{
+            let alertController = UIAlertController(title: giveupEnsureText, message: mottoText, preferredStyle: .alert)
+            let okayAction = UIAlertAction(title: ensureText, style: .default, handler: { _ in
+                self.dismiss(animated: true, completion: nil)
+            })
+            let cancelAction = UIAlertAction(title: cancelText, style: .cancel, handler: { action in
+                alertController.dismiss(animated: true, completion: nil)
+            })
+            alertController.addAction(okayAction)
+            alertController.addAction(cancelAction)
+            self.present(alertController, animated: true, completion: nil)
+        }
+        else if self.currentIndex >= minNumToSaveReviewRecord - 1{
+            let alertController = UIAlertController(title: saveReviewRecordText, message: "", preferredStyle: .alert)
+            let okayAction = UIAlertAction(title: yesText, style: .default, handler: { [self] _ in
+                
+                summary_records_into_vocab_records()
+                saveRecordsFromLearning()
+                
+                if currentMode == 1{
+                    _ = update_words(preference: preference)
+                }
+                DispatchQueue.main.async {
                     self.dismiss(animated: true, completion: nil)
-                })
-                let cancelAction = UIAlertAction(title: cancelText, style: .cancel, handler: { action in
-                    alertController.dismiss(animated: true, completion: nil)
-                })
-                alertController.addAction(okayAction)
-                alertController.addAction(cancelAction)
-                self.present(alertController, animated: true, completion: nil)
-            }else{
-                let alertController = UIAlertController(title: saveReviewRecordText, message: "", preferredStyle: .alert)
-                let okayAction = UIAlertAction(title: yesText, style: .default, handler: { [self] _ in
-                    
-                    summary_records_into_vocab_records()
-                    saveRecordsFromLearning()
-                    
-                    if currentMode == 1{
-                        _ = update_words(preference: preference)
-                    }
-                    DispatchQueue.main.async {
-                        self.dismiss(animated: true, completion: nil)
-                    }
-                })
-                let cancelAction = UIAlertAction(title: noText, style: .cancel, handler: { action in
-                    DispatchQueue.main.async {
-                        self.dismiss(animated: true, completion: nil)
-                    }
-                })
-                alertController.addAction(okayAction)
-                alertController.addAction(cancelAction)
-                self.present(alertController, animated: true, completion: nil)
-            }
+                }
+            })
+            let cancelAction = UIAlertAction(title: noText, style: .cancel, handler: { action in
+                DispatchQueue.main.async {
+                    self.dismiss(animated: true, completion: nil)
+                }
+            })
+            alertController.addAction(okayAction)
+            alertController.addAction(cancelAction)
+            self.present(alertController, animated: true, completion: nil)
         }else{
             DispatchQueue.main.async {
                 self.dismiss(animated: true, completion: nil)
