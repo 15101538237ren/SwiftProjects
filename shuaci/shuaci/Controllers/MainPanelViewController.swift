@@ -532,7 +532,6 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
         }
     }
     
-    
     func loadReviewController(vocab_rec_need_to_be_review: [VocabularyRecord]){
         let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
         let learnVC = mainStoryBoard.instantiateViewController(withIdentifier: "learnWordController") as! LearnWordViewController
@@ -544,7 +543,6 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
         
         let review_words = get_words_need_to_be_review(vocab_rec_need_to_be_review: vocab_rec_need_to_be_review)
         learnVC.words = review_words
-        
         learnVC.currentMode = 2
         DispatchQueue.main.async {
             self.present(learnVC, animated: true, completion: nil)
@@ -639,7 +637,7 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
                 if let _ : String = preference.current_book_id{
                     if reviewMode == .ReviewHistory{
                         let vocab_rec_need_to_be_review:[VocabularyRecord] = get_vocab_rec_need_to_be_review()
-                        if vocab_rec_need_to_be_review.count > 0{
+                        if vocab_rec_need_to_be_review.count > 1{
                             loadSetNumToReviewVC(vocab_rec_need_to_be_review: vocab_rec_need_to_be_review)
                         }else
                         {
@@ -650,7 +648,7 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
                         let vocab_rec_need_to_be_review:[VocabularyRecord] = get_recent_vocab_rec_need_to_be_review()
                         
                         if vocab_rec_need_to_be_review.count > 1{
-                            self.loadReviewController(vocab_rec_need_to_be_review: vocab_rec_need_to_be_review)
+                            loadReviewController(vocab_rec_need_to_be_review: vocab_rec_need_to_be_review)
                         }else
                         {
                             self.view.makeToast(noVocabToReviewText, duration: 1.0, position: .center)

@@ -158,8 +158,8 @@
             filePath = "shuaci/Controllers/LearnWordViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1032"
-            endingLineNumber = "1032"
+            startingLineNumber = "1133"
+            endingLineNumber = "1133"
             landmarkName = "panCard(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -174,8 +174,8 @@
             filePath = "shuaci/Controllers/LearnWordViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1088"
-            endingLineNumber = "1088"
+            startingLineNumber = "1189"
+            endingLineNumber = "1189"
             landmarkName = "panCard(_:)"
             landmarkType = "7">
          </BreakpointContent>

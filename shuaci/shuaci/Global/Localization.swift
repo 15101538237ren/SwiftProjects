@@ -144,7 +144,7 @@ let reviewTurnText:String = NSLocalizedString("轮复习", comment: "")
 let overduePreText:String = NSLocalizedString("第", comment: "")
 let overdueNumText:String = NSLocalizedString("轮逾期", comment: "")
 let userText:String = NSLocalizedString("人", comment: "")
-let learningText:String = NSLocalizedString("正在学习", comment: "")
+let learningLabelText:String = NSLocalizedString("正在学习", comment: "")
 
 // Reminder VC
 let reminderFmtText:String = NSLocalizedString("MM月dd日 HH:mm", comment: "")
@@ -197,6 +197,13 @@ let notificationRejectedText:String = NSLocalizedString("您拒绝了开启「�
 // Learning VC
 let noDictMeaningText:String = NSLocalizedString("无词典解释☹️", comment: "")
 let firstCardText:String = NSLocalizedString("已经是第一张啦!", comment: "")
+
+// loadLearning VC
+let readyStartText:String = NSLocalizedString("准备开始", comment: "")
+let learningStr:String = NSLocalizedString("学习", comment: "")
+let reviewStr:String = NSLocalizedString("复习", comment: "")
+let numPeopleLearningText:String = NSLocalizedString("人正在与你一起刷词", comment: "")
+let timesLabelText:String = NSLocalizedString("次 ", comment: "")
 
 // MARK: - Alert & Notifications
 

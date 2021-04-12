@@ -65,6 +65,8 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
     // MARK: - Outlet Variables
     @IBOutlet var learnUIView: LearnUIView!
     @IBOutlet var backBtn: UIButton!
+    @IBOutlet var backBtnForLoading: UIButton!
+    
     @IBOutlet var gestureRecognizers:[UIPanGestureRecognizer]!
     @IBOutlet var timeLabel: UILabel!
     
@@ -88,7 +90,7 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
     }
     @IBOutlet var learningLabel: UILabel!{
         didSet{
-            learningLabel.text = learningText
+            learningLabel.text = learningLabelText
         }
     }
     
@@ -99,6 +101,54 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
                 card.layer.masksToBounds = true
             }
         }
+    }
+    
+    
+    @IBOutlet var backgroundImgView: UIImageView!{
+        didSet{
+            let hour = Calendar.current.component(.hour, from: Date())
+            let suffix:String  = (hour > 7 && hour < 18) ? "day" : "night"
+            backgroundImgView.image = UIImage(named: "lofi_girl_\(suffix)")
+        }
+    }
+    
+    @IBOutlet var loadingView: UIView!
+    
+    @IBOutlet var readyStart: UILabel!{
+        didSet{
+            readyStart.text = readyStartText
+        }
+    }
+    @IBOutlet var numText: UILabel!
+    @IBOutlet var numLearnText: UILabel!
+    @IBOutlet var numPeopleLearningLabel: UILabel!{
+        didSet{
+            numPeopleLearningLabel.text = numPeopleLearningText
+        }
+    }
+    @IBOutlet var theText: UILabel!{
+        didSet{
+            theText.text = overduePreText
+        }
+    }
+    @IBOutlet var timesLabel: UILabel!{
+        didSet{
+            timesLabel.text = timesLabelText
+        }
+    }
+    @IBOutlet var learningText: UILabel!{
+        didSet{
+            learningText.text = currentMode == 1 ? learningStr : reviewStr
+        }
+    }
+    
+    func addBlurBackgroundView(){
+        let blurEffect = UIBlurEffect(style: UIBlurEffect.Style.dark)
+        let blurEffectView = UIVisualEffectView(effect: blurEffect)
+        blurEffectView.frame = backgroundImgView.bounds
+        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        blurEffectView.alpha = 0.5
+        backgroundImgView.insertSubview(blurEffectView, at: 0)
     }
     
     func load_DICT(){
@@ -133,14 +183,19 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
     
     override func viewDidLoad() {
         view.theme_backgroundColor = "Global.viewBackgroundColor"
-//        view.backgroundColor = .white
+        backBtn.theme_tintColor = "Global.backBtnTintColor"
+        backBtnForLoading.theme_tintColor = "Global.backBtnTintColor"
         super.viewDidLoad()
+        stopIndicator()
         
         NotificationCenter.default.addObserver(self, selector: #selector(backToOnline), name: UIApplication.willEnterForegroundNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(goToOffline), name: UIApplication.willResignActiveNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(goToOffline), name: UIApplication.willTerminateNotification, object: nil)
+        
+        addBlurBackgroundView()
+        updateNumOfLearn()
+        startCountDown()
         initLearningRecord()
-        stopIndicator()
         setOnlineStatus(user: currentUser, status: currentMode == 1 ? .learning : .reviewing)
         updateNumOfUsersOnline()
         updateOnlineUsersPhoto()
@@ -148,7 +203,39 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
         userNumUpdateTimer = Timer.scheduledTimer(timeInterval: numOfUerUpdateInterval, target: self, selector: #selector(updateNumOfUsersOnline), userInfo: nil, repeats: true)
         userPhotoUpdateTimer = Timer.scheduledTimer(timeInterval: userPhotoUpdateInterval, target: self, selector: #selector(updateUserPhotosOnline), userInfo: nil, repeats: true)
         let _ = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(tictoc), userInfo: nil, repeats: true)
+        load_DICT()
         
+    }
+    
+    @objc func startCountDown(){
+        DispatchQueue.main.asyncAfter(deadline: .now() + countDownOfLoading) {
+            UIView.animate(withDuration: 0.5, animations: {
+                self.loadingView.alpha = 0
+            }) { (finished) in
+                self.startLearning()
+            }
+        }
+    }
+    
+    func getTimeSuffix(num: Int) -> String{
+        let remain:Int = num % 10
+        if remain == 1{
+            return "st"
+        }else if remain == 2{
+            return "nd"
+        }else if remain == 3{
+            return "rd"
+        }else{
+            return "th"
+        }
+    }
+    
+    func updateNumOfLearn() {
+        let numOfLearn: Int = global_records.filter { $0.recordType == currentMode }.count + 1
+        let numStr:String = NSLocale.preferredLanguages.first!.contains("en") ? "\(numOfLearn)\(getTimeSuffix(num: numOfLearn))": "\(numOfLearn)"
+        DispatchQueue.main.async {
+            self.numLearnText.text = numStr
+        }
     }
     
     @objc func backToOnline(){
@@ -164,7 +251,6 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
         if Reachability.isConnectedToNetwork(){
             DispatchQueue.global(qos: .background).async { [self] in
             do {
-                
                 let query = LCQuery(className: "_User")
                 query.whereKey("online", .greaterThanOrEqualTo(1))
                 let count = query.count().intValue
@@ -172,11 +258,13 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
                     DispatchQueue.main.async {
                         self.userPanelView.alpha = 1.0
                         self.userNumLabel.text = "\(count)"
+                        self.numText.text = "\(count)"
                     }
                 }else{
                     DispatchQueue.main.async {
                         self.userPanelView.alpha = 0.0
                         self.userNumLabel.text = "\(count)"
+                        self.numText.text = "\(count)"
                     }
                 }
             }
@@ -346,6 +434,10 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
         
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        prepareScene()
+    }
+    
     func updateWordLeftLabels(currentMemStage: Int){
         DispatchQueue.main.async {
 
@@ -406,9 +498,8 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
         updateWordLeftLabels(currentMemStage : currentStage)
     }
     
-    override func viewWillAppear(_ animated: Bool){
+    func prepareScene(){
         setCardBackground()
-        load_DICT()
         initCards()
         initVocabRecords()
         initWordLeftNumbers()
@@ -416,7 +507,6 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
         let xshift:CGFloat = card.frame.size.width/8.0
         card.transform = CGAffineTransform(translationX: -xshift, y:0.0).rotated(by: -xshift*0.61/card.center.x)
 
-        
         DispatchQueue.main.async {
             self.timeLabel.text = timeString(time: self.secondsPST)
         }
@@ -424,10 +514,11 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
                                        selector: #selector(relayout),
                                        name: UIApplication.willEnterForegroundNotification,
                                        object: nil)
-        startTimer()
     }
     
-    override func viewDidAppear(_ animated: Bool) {
+    func startLearning(){
+        let word: String = cards[currentIndex % 2].wordLabel?.text ?? ""
+        playMp3GivenWord(word: word)
         let card = cards[0]
         if currentMode == 2{
             DispatchQueue.main.async {
@@ -443,6 +534,12 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
                 }
             }
         }
+        startTimer()
+    }
+    
+    
+    @IBAction func close(sender: UIButton){
+        dismiss(animated: true, completion: nil)
     }
     
     @IBAction func unwind(segue: UIStoryboardSegue) {
@@ -561,9 +658,6 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
             {
                 card.dragable = false
                 card.transform = CGAffineTransform(scaleX: scaleOfSecondCard, y: scaleOfSecondCard)
-            }else{
-                let word: String = card.wordLabel?.text ?? ""
-                playMp3GivenWord(word: word)
             }
             let tapGesture = UITapGestureRecognizer(target: self, action: #selector(backToCardFront(_:)) )
             tapGesture.delegate = self
@@ -950,7 +1044,14 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
                 let cardWord = getFeildsOfWord(word: word, usphone: preference.us_pronunciation)
                 let collected = card_collect_behaviors[wordIndex] == .yes ? true : false
                 setFieldsOfCard(card: card, cardWord: cardWord, collected: collected, memStage: memStage)
-                
+            }else if (currentWordLabelQueue.count == 1 && wordsQueue.count == 0 && !(memStage == WordMemStage.cnToEn.rawValue && (bhv == CardBehavior.remember.rawValue || masteredAction))){
+                let wordQuequeItem = currentWordLabelQueue[0]
+                let wordIndex: Int = wordQuequeItem[0]
+                let memStage:Int = wordQuequeItem[1]
+                let word = words[wordIndex]
+                let cardWord = getFeildsOfWord(word: word, usphone: preference.us_pronunciation)
+                let collected = card_collect_behaviors[wordIndex] == .yes ? true : false
+                setFieldsOfCard(card: card, cardWord: cardWord, collected: collected, memStage: memStage)
             }
         }
     }

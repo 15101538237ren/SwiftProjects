@@ -38,6 +38,15 @@
 "正在学习" = "Studying";
 
 /* No comment provided by engineer. */
+"学习" = "Learning";
+
+/* No comment provided by engineer. */
+"复习" = "Review";
+
+/* No comment provided by engineer. */
+"次 " = " ";
+
+/* No comment provided by engineer. */
 "乱序" = "Rand";
 
 /* No comment provided by engineer. */
@@ -251,6 +260,12 @@
 "次" = "Times";
 
 /* No comment provided by engineer. */
+"准备开始" = "Ready";
+/* No comment provided by engineer. */
+"准备开始" = "Ready";
+
+
+/* No comment provided by engineer. */
 "欢迎使用「刷词」，请您仔细阅读隐私协议和服务条款，并确定您是否同意我们的规则。我们深知个人信息的重要性，并且会全力保护您的个人信息安全可靠。" = "Welcome to shuaci, please read the privacy agreement and terms of service carefully, and confirm whether you agree to our rules. We are fully aware of the importance of personal information, and will do our best to protect your personal information safe and reliable.";
 
 /* No comment provided by engineer. */
@@ -324,6 +339,9 @@
 
 /* No comment provided by engineer. */
 "移出成功😊" = "Removed successfully😊";
+
+/* No comment provided by engineer. */
+"人正在与你一起刷词" = " people are studying with you";
 
 /* No comment provided by engineer. */
 "第" = " ";
