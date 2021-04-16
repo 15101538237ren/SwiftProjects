@@ -161,6 +161,12 @@
 "已设置每日提醒:" = "Reminder set to";
 
 /* No comment provided by engineer. */
+"每日提醒" = "Daily Reminder";
+
+/* No comment provided by engineer. */
+"是否设置每日学习提醒?" = "Do you want to set daily reminder for learning?";
+
+/* No comment provided by engineer. */
 "您当前没有待复习的单词，\n放松一下吧😊" = "You have no words to review. \nGo to play!😊";
 
 /* No comment provided by engineer. */
@@ -344,7 +350,16 @@
 "人正在与你一起刷词" = " people are studying with you";
 
 /* No comment provided by engineer. */
-"第" = " ";
+"第" = "";
+
+/* No comment provided by engineer. */
+"邀请码" = "Invitation Code";
+
+/* No comment provided by engineer. */
+"放弃" = "Give Up";
+
+/* No comment provided by engineer. */
+"退出学习" = "Quit";
 
 /* No comment provided by engineer. */
 "掌握" = "Easy";

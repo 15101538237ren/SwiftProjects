@@ -70,6 +70,7 @@ let QQAppSecret:String = "60e06004933e39bc3c565f1f79a8ad58"
 let githubLink:String = "https://15101538237ren.github.io"
 
 let privacyViewedKey: String = "privacyViewed"
+let everydayNotificationViewedKey: String = "everydayReminderAsked"
 let notificationAskedKey: String = "notificationAsked"
 
 let durationOfNotificationText: Double = 4.0

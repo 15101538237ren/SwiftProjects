@@ -14,7 +14,66 @@ import Accelerate
 import SwiftTheme
 import SwiftyStoreKit
 
+func setInvitationCodeUsed(invitationCode: String, user: LCUser){
+    let query = LCQuery(className: "Invitation")
+    query.whereKey("Code", .equalTo(invitationCode))
+    _ = query.getFirst { result in
+        switch result {
+        case .success(object: let invitation):
+            
+            do {
+                try invitation.set("Used", value: true)
+                try invitation.set("Usedby", value: user)
+                _ = invitation.save { result in
+                    switch result {
+                    case .success:
+                        print("updated invitation code status successful!")
+                    case .failure(error: let error):
+                        print(error.localizedDescription)
+                    }
+                }
+            } catch {
+                print(error)
+            }
+        case .failure(error: let error):
+            print(error)
+        }
+    }
+}
 
+func loadSwitchesSetting(){
+    DispatchQueue.global(qos: .background).async {
+    do {
+        let query = LCQuery(className: "Switch")
+        query.limit = 100
+        _ = query.find { result in
+            switch result {
+            case .success(objects: let results):
+                for item in results{
+                    let name = item.get("name")!.stringValue!
+                    let switchOn = item.get("on")!.boolValue!
+                    if switchOn{
+                        switch name {
+                        case "invitation":
+                            invitationMode = true
+                        case "loadLearning":
+                            loadLearning = true
+                        case "loadLearnFinish":
+                            loadLearnFinish = true
+                        case "loadPurchaseVIP":
+                            loadPurchaseVIP = true
+                        default:
+                            break
+                        }
+                    }
+                }
+            case .failure(error: let error):
+                print(error.localizedDescription)
+            }
+        }
+    }
+    }
+}
 
 func setOnlineStatus(user: LCUser, status: OnlineStatus){
     do {
@@ -584,7 +643,7 @@ func fetchBooks(){
                         let avg_nwchpt = item.get("avg_nwchpt")?.intValue
                         let nwchpt = item.get("nwchpt")?.stringValue
                         
-                        let book:Book = Book(identifier: identifier ?? "", level1_category: level1_category ?? 0, level2_category: level2_category ?? 0, name: name ?? "", description: desc ?? "", word_num: word_num ?? 0, recite_user_num: recite_user_num ?? 0, file_sz: file_sz ?? 0.0, nchpt: nchpt ?? 0, avg_nwchpt: avg_nwchpt ?? 0, nwchpt: nwchpt ?? "")
+                        let book:Book = Book(objectId: item.objectId!.stringValue!, identifier: identifier ?? "", level1_category: level1_category ?? 0, level2_category: level2_category ?? 0, name: name ?? "", description: desc ?? "", word_num: word_num ?? 0, recite_user_num: recite_user_num ?? 0, file_sz: file_sz ?? 0.0, nchpt: nchpt ?? 0, avg_nwchpt: avg_nwchpt ?? 0, nwchpt: nwchpt ?? "")
                         books.append(book)
                         resultsItems.append(item)
                     }

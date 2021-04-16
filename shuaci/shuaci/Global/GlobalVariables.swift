@@ -10,3 +10,7 @@ import Foundation
 
 var global_records: [Record] = []
 var global_vocabs_records: [VocabularyRecord] = []
+var invitationMode: Bool = false
+var loadLearning: Bool = false // load scene before learning
+var loadLearnFinish: Bool = false
+var loadPurchaseVIP: Bool = false

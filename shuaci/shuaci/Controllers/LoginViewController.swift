@@ -9,6 +9,7 @@ import UIKit
 import LeanCloud
 import SwiftValidators
 import PhoneNumberKit
+import SwiftMessages
 
 class LoginVC: UIViewController {
     
@@ -25,7 +26,7 @@ class LoginVC: UIViewController {
     let phoneNumberKit:PhoneNumberKit = PhoneNumberKit()
     let effectView = UIVisualEffectView(effect: UIBlurEffect(style: .regular))
     let silverColor:UIColor = UIColor(red: 192, green: 192, blue: 192, alpha: 1)
-    
+    var invitationFieldShowed: Bool = false
     // MARK: - Outlet Variables
     @IBOutlet var emailTextField: UITextField!{
         didSet{
@@ -37,6 +38,30 @@ class LoginVC: UIViewController {
             passwordField.attributedPlaceholder = NSAttributedString(string: pwdText,attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
         }
     }
+    @IBOutlet var emailInvitationCodeField: UITextField!{
+        didSet{
+            emailInvitationCodeField.attributedPlaceholder = NSAttributedString(string: invitationCodePlaceholderText,attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
+        }
+    }
+    @IBOutlet var phoneInvitationCodeField: UITextField!{
+        didSet{
+            phoneInvitationCodeField.attributedPlaceholder = NSAttributedString(string: invitationCodePlaceholderText,attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
+        }
+    }
+    @IBOutlet var emailInvitationStackView: UIStackView!{
+        didSet{
+            emailInvitationStackView.alpha = 0
+        }
+    }
+    @IBOutlet var phoneInvitationStackView: UIStackView!{
+        didSet{
+            phoneInvitationStackView.alpha = 0
+        }
+    }
+    
+    @IBOutlet var emailLoginBtn_Top_Space_Constraint: NSLayoutConstraint!
+    @IBOutlet var phoneLoginBtn_Top_Space_Constraint: NSLayoutConstraint!
+    
     @IBOutlet var forgotPwdBtn: UIButton!{
         didSet{
             forgotPwdBtn.alpha = 0
@@ -121,7 +146,6 @@ class LoginVC: UIViewController {
     
     // MARK: - Custom Functions
     
-    
     func setElements(enable: Bool){
         self.backBtn.isUserInteractionEnabled = enable
         self.view.isUserInteractionEnabled = enable
@@ -133,6 +157,43 @@ class LoginVC: UIViewController {
         self.phoneLoginBtn.isUserInteractionEnabled = enable
         self.emailLoginBtn.isUserInteractionEnabled = enable
         self.resetPwdBtn.isUserInteractionEnabled = enable
+    }
+    
+    func showInvitationTextField(){
+        switch loginType {
+        case .Phone:
+            invitationFieldShowed = true
+            self.phoneInvitationStackView.alpha = 1
+            self.phoneLoginBtn_Top_Space_Constraint.constant = 35
+            popInvitationCodeMessage()
+        case .Email:
+            invitationFieldShowed = true
+            self.emailInvitationStackView.alpha = 1
+            self.emailLoginBtn_Top_Space_Constraint.constant = 35
+            popInvitationCodeMessage()
+        default:
+            break
+        }
+    }
+    
+    func resetInvitationTextField(){
+        invitationFieldShowed = false
+        DispatchQueue.main.async {
+            self.phoneInvitationStackView.alpha = 0
+            self.phoneLoginBtn_Top_Space_Constraint.constant = -20
+            self.emailInvitationStackView.alpha = 0
+            self.emailLoginBtn_Top_Space_Constraint.constant = -20
+        }
+    }
+    
+    func popInvitationCodeMessage(){
+        let alertCtl = presentAlert(title: invitationPromptTitle, message: invitationPromptText, okText: okText)
+        self.present(alertCtl, animated: true, completion: nil)
+    }
+    
+    func popInvitationIncorrectMessage(){
+        let alertCtl = presentAlert(title: invitationIncorrect, message: "", okText: okText)
+        self.present(alertCtl, animated: true, completion: nil)
     }
     
     func initActivityIndicator(text: String) {
@@ -174,6 +235,7 @@ class LoginVC: UIViewController {
     }
     
     func setupElements(){
+        resetInvitationTextField()
         DispatchQueue.main.async { [self] in
             switch loginType {
             case .Phone:
@@ -318,6 +380,73 @@ class LoginVC: UIViewController {
         setupElements()
     }
     
+    func registerEmail(email:String, pwd:String){
+        do {
+           // 创建实例
+           DispatchQueue.main.async {
+               self.initActivityIndicator(text: loggingText)
+               self.setElements(enable: false)
+           }
+           let user = LCUser()
+           user.username = LCString(email)
+           user.password = LCString(pwd)
+           user.email = LCString(email)
+
+           _ = user.signUp { (result) in
+               switch result {
+               case .success:
+                   
+                   self.presentAlertInView(title: promptText, message: "\(emailSentToText)\(email). \(clickVerifyPlsText)", okText: okText)
+                   UserDefaults.standard.set(Date(), forKey: "lastEmailLoginClickTime")
+                   DispatchQueue.main.async {
+                       self.emailLoginBtn.setTitle(loginText, for: .normal)
+                       self.stopIndicator()
+                       self.setElements(enable: true)
+                   }
+                   
+                   let regInfo = ["Um_Key_RegisterType" : "注册邮箱邮件发送成功"]
+                   
+                   UMAnalyticsSwift.event(eventId: "Um_Event_RegisterSuc", attributes: regInfo)
+                   
+               case .failure(error: let error):
+                   
+                   DispatchQueue.main.async {
+                       self.stopIndicator()
+                       self.setElements(enable: true)
+                   }
+                   
+                   let errorInfo = ["Um_Key_Reasons" : error.reason]
+                   
+                   UMAnalyticsSwift.event(eventId: "Um_Event_LoginFailed", attributes: errorInfo)
+                   switch error.code {
+                   case 202 :
+                       self.view.makeToast(emailExistText, duration: 1.0, position: .center)
+                   case 214:
+                       self.view.makeToast(emailExistText, duration: 1.0, position: .center)
+                   default:
+                       self.view.makeToast("\(errorText):\(error.reason?.stringValue ?? errorRetryText)", duration: 1.0, position: .center)
+                   }
+               }
+           }
+       }
+    }
+    
+    func registerPhone(phoneNumber:String){
+        _ = LCSMSClient.requestShortMessage(mobilePhoneNumber: phoneNumber, templateName: "shuaci_verification", signatureName: "北京雷行天下科技有限公司") { (result) in
+            switch result {
+            case .success:
+                self.verificationCodeSent = true
+                self.verificationBtnTimeChange()
+                self.view.makeToast(verficationSentText, duration: 1.0, position: .center)
+            case .failure(error: let error):
+                let info = ["Um_Key_Reasons" : "验证码发送失败, \(String(describing: error.reason))"]
+                
+                UMAnalyticsSwift.event(eventId: "Um_Event_LoginFailed", attributes: info)
+                self.view.makeToast("\(sendFailedText):\(error.reason?.stringValue ?? "")", duration: 1.0, position: .center)
+            }
+        }
+    }
+    
     @IBAction func loginByEmail(sender: UIButton){
             self.view.endEditing(true)
              let email:String? = emailTextField.text
@@ -364,10 +493,14 @@ class LoginVC: UIViewController {
                         self.setElements(enable: false)
                     }
                     
-                    _ = LCUser.logIn(email: email!, password: pwd!) { result in
+                    _ = LCUser.logIn(email: email!, password: pwd!) { [self] result in
                         switch result {
                         case .success(object: let user):
-                            
+                            if invitationMode && invitationFieldShowed{
+                                if let invitationCode:String = emailInvitationCodeField.text {
+                                    setInvitationCodeUsed(invitationCode: invitationCode, user: user)
+                                }
+                            }
                             if let disabled = user.get("disabled")?.boolValue{
                                 if disabled {
                                     DispatchQueue.main.async {
@@ -411,59 +544,35 @@ class LoginVC: UIViewController {
                             switch error.code {
                             case 211:
                                 let alertController = UIAlertController(title: registerEmailText, message: "", preferredStyle: .alert)
-                                let okayAction = UIAlertAction(title: yesText, style: .default, handler: { action in
-                                     do {
-                                        // 创建实例
-                                        DispatchQueue.main.async {
-                                            self.initActivityIndicator(text: loggingText)
-                                            self.setElements(enable: false)
-                                        }
-                                        let user = LCUser()
-                                        user.username = LCString(email!)
-                                        user.password = LCString(pwd!)
-                                        user.email = LCString(email!)
-
-                                        _ = user.signUp { (result) in
-                                            switch result {
-                                            case .success:
-                                                
-                                                self.presentAlertInView(title: promptText, message: "\(emailSentToText)\(email!). \(clickVerifyPlsText)", okText: okText)
-                                                UserDefaults.standard.set(Date(), forKey: "lastEmailLoginClickTime")
-                                                DispatchQueue.main.async {
-                                                    self.emailLoginBtn.setTitle(loginText, for: .normal)
-                                                    self.stopIndicator()
-                                                    self.setElements(enable: true)
+                                let okayAction = UIAlertAction(title: yesText, style: .default, handler: { [self] action in
+                                    
+                                    if invitationMode{
+                                        if !invitationFieldShowed{
+                                            showInvitationTextField()
+                                        }else{
+                                            if let invitationCode:String = emailInvitationCodeField.text{
+                                                if invitationCode == "" || (!Validator.exactLength(6).apply(invitationCode)) || (!Validator.regex("^[a-zA-Z0-9]{6}$").apply(invitationCode)){
+                                                    popInvitationIncorrectMessage()
+                                                }else{
+                                                    verifyInvitationCode(invitationCode: invitationCode, completionHandler: { [self] success in
+                                                        if success{
+                                                            registerEmail(email: email!, pwd: pwd!)
+                                                        }else{
+                                                            popInvitationIncorrectMessage()
+                                                        }
+                                                    })
                                                 }
-                                                
-                                                let regInfo = ["Um_Key_RegisterType" : "注册邮箱邮件发送成功"]
-                                                
-                                                UMAnalyticsSwift.event(eventId: "Um_Event_RegisterSuc", attributes: regInfo)
-                                                
-                                            case .failure(error: let error):
-                                                
-                                                DispatchQueue.main.async {
-                                                    self.stopIndicator()
-                                                    self.setElements(enable: true)
-                                                }
-                                                
-                                                let errorInfo = ["Um_Key_Reasons" : error.reason]
-                                                
-                                                UMAnalyticsSwift.event(eventId: "Um_Event_LoginFailed", attributes: errorInfo)
-                                                switch error.code {
-                                                case 202 :
-                                                    self.view.makeToast(emailExistText, duration: 1.0, position: .center)
-                                                case 214:
-                                                    self.view.makeToast(emailExistText, duration: 1.0, position: .center)
-                                                default:
-                                                    self.view.makeToast("\(errorText):\(error.reason?.stringValue ?? errorRetryText)", duration: 1.0, position: .center)
-                                                }
+                                            }else{
+                                                popInvitationIncorrectMessage()
                                             }
                                         }
+                                    }else{
+                                        registerEmail(email: email!, pwd: pwd!)
                                     }
-                                    
                                     DispatchQueue.main.async {
                                         self.emailLoginBtn.setTitle(registerText, for: .normal)
-                                    }})
+                                    }
+                                })
                                 let cancelAction = UIAlertAction(title: cancelText, style: .cancel, handler: nil)
                                 alertController.addAction(okayAction)
                                 alertController.addAction(cancelAction)
@@ -489,8 +598,18 @@ class LoginVC: UIViewController {
             }
             
         }
+    func verifyInvitationCode(invitationCode:String, completionHandler: @escaping CompletionHandler){
+        let query = LCQuery(className: "Invitation")
+        query.whereKey("Code", .equalTo(invitationCode))
+        query.whereKey("Used", .equalTo(false))
+        if query.count().intValue > 0{
+            completionHandler(true)
+        }else{
+            completionHandler(false)
+        }
+    }
     
-    @IBAction func sendVerificationCode(sender: UIButton){
+    func sendVerfication(){
         if let phoneStr = self.phoneNumTextField.text{
             self.view.endEditing(true)
             
@@ -520,24 +639,35 @@ class LoginVC: UIViewController {
                                 switch error.code {
                                 case 213:
                                     let alertController = UIAlertController(title: registerPhoneText, message: "", preferredStyle: .alert)
-                                    let okayAction = UIAlertAction(title: yesText, style: .default, handler: { action in
+                                    let okayAction = UIAlertAction(title: yesText, style: .default, handler: { [self] action in
+                                        
+                                        if invitationMode{
+                                            if !invitationFieldShowed{
+                                                showInvitationTextField()
+                                            }else{
+                                                if let invitationCode:String = phoneInvitationCodeField.text{
+                                                    if invitationCode == "" || (!Validator.exactLength(6).apply(invitationCode)) || (!Validator.regex("^[a-zA-Z0-9]{6}$").apply(invitationCode)){
+                                                        popInvitationIncorrectMessage()
+                                                    }else{
+                                                        verifyInvitationCode(invitationCode: invitationCode, completionHandler: { [self] success in
+                                                            if success{
+                                                                registerPhone(phoneNumber: phoneNumber)
+                                                            }else{
+                                                                popInvitationIncorrectMessage()
+                                                            }
+                                                        })
+                                                    }
+                                                }else{
+                                                    popInvitationIncorrectMessage()
+                                                }
+                                            }
+                                        }else{
+                                            registerPhone(phoneNumber: phoneNumber)
+                                        }
+                                        
                                         DispatchQueue.main.async {
                                             self.phoneLoginBtn.setTitle(registerText, for: .normal)
                                         }
-                                        _ = LCSMSClient.requestShortMessage(mobilePhoneNumber: phoneNumber, templateName: "shuaci_verification", signatureName: "北京雷行天下科技有限公司") { (result) in
-                                            switch result {
-                                            case .success:
-                                                self.verificationCodeSent = true
-                                                self.verificationBtnTimeChange()
-                                                self.view.makeToast(verficationSentText, duration: 1.0, position: .center)
-                                            case .failure(error: let error):
-                                                let info = ["Um_Key_Reasons" : "验证码发送失败, \(String(describing: error.reason))"]
-                                                
-                                                UMAnalyticsSwift.event(eventId: "Um_Event_LoginFailed", attributes: info)
-                                                self.view.makeToast("\(sendFailedText):\(error.reason?.stringValue ?? "")", duration: 1.0, position: .center)
-                                            }
-                                        }
-
                                     })
                                     
                                     let cancelAction = UIAlertAction(title: cancelText, style: .cancel, handler: nil)
@@ -562,7 +692,10 @@ class LoginVC: UIViewController {
         }else{
             self.view.makeToast(emptyPhoneText, duration: 1.0, position: .center)
         }
-        
+    }
+    
+    @IBAction func sendVerificationCode(sender: UIButton){
+        sendVerfication()
     }
     
     @IBAction func loginByPhone(sender: UIButton){
@@ -591,14 +724,18 @@ class LoginVC: UIViewController {
                            self.initActivityIndicator(text: loggingText)
                             self.setElements(enable: false)
                        }
-                        _ = LCUser.signUpOrLogIn(mobilePhoneNumber: phoneNumber, verificationCode: verificationCode, completion: { (result) in
+                        _ = LCUser.signUpOrLogIn(mobilePhoneNumber: phoneNumber, verificationCode: verificationCode, completion: { [self] (result) in
                            DispatchQueue.main.async {
                                 self.stopIndicator()
                                 self.setElements(enable: true)
                            }
                            switch result {
                            case .success(object: let user):
-                               
+                                if invitationMode && invitationFieldShowed{
+                                    if let invitationCode:String = phoneInvitationCodeField.text {
+                                        setInvitationCodeUsed(invitationCode: invitationCode, user: user)
+                                    }
+                                }
                                 if let disabled = user.get("disabled")?.boolValue{
                                     if disabled {
                                         DispatchQueue.main.async {

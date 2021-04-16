@@ -98,7 +98,7 @@
 "aVz-nO-vhh.text" = "Name";
 
 /* Class = "UILabel"; text = "设置提醒时间"; ObjectID = "b6U-EF-bfv"; */
-"b6U-EF-bfv.text" = "Set Reminder";
+"b6U-EF-bfv.text" = "Set Everyday Reminder";
 
 /* Class = "UIButton"; normalTitle = "邮箱登录"; ObjectID = "BCj-Fd-0fC"; */
 "BCj-Fd-0fC.normalTitle" = "Email Login";

@@ -26,6 +26,7 @@ let loginText:String = NSLocalizedString("登录", comment: "")
 let registerText:String = NSLocalizedString("注册", comment: "")
 let emailText:String = NSLocalizedString("邮 箱", comment: "")
 let pwdText:String = NSLocalizedString("密 码", comment: "")
+let invitationCodePlaceholderText:String = NSLocalizedString("邀请码", comment: "")
 let phoneNumText:String = NSLocalizedString("手机号", comment: "")
 let verificationCodeText:String = NSLocalizedString("短信验证码", comment: "")
 let emailLoginText:String = NSLocalizedString("邮箱登录", comment: "")
@@ -59,6 +60,9 @@ let resetEmailSentToText:String = NSLocalizedString("密码重置邮件已发送
 let emailSentWaitText:String = NSLocalizedString("邮件已发送，如需重新发送，请等待1分钟!", comment: "")
 let emailSentToText:String = NSLocalizedString("已发送验证邮件到", comment: "")
 let clickVerifyPlsText:String = NSLocalizedString("请您单击邮件中的链接，完成验证后登录!", comment: "")
+let invitationPromptTitle:String = NSLocalizedString("邀请码", comment: "")
+let invitationPromptText:String = NSLocalizedString("感谢您关注刷词，目前我们在内测阶段，需要邀请码方能注册。如您对内测感兴趣，可以微信联系创始人: hongleir_uci，备注来意:刷词", comment: "")
+let invitationIncorrect:String = NSLocalizedString("邀请码不正确", comment: "")
 
 // MainPanel VC
 let downloadingWallpaperText:String = NSLocalizedString("正在下载壁纸...", comment: "")
@@ -150,6 +154,7 @@ let learningLabelText:String = NSLocalizedString("正在学习", comment: "")
 let reminderFmtText:String = NSLocalizedString("MM月dd日 HH:mm", comment: "")
 let notificationBodyText:String = NSLocalizedString("你的努力，终将成就自己。开始今天的单词学习吧😊", comment: "")
 
+
 // SetMemOpt VC
 let dateFmtText:String = NSLocalizedString("YYYY年MM月dd日", comment: "")
 
@@ -158,6 +163,9 @@ let loadingDakaText:String = NSLocalizedString("正在加载打卡数据😊..",
 let basedOnMemLawsText:String = NSLocalizedString("根据遗忘规律，", comment: "")
 let willText:String = NSLocalizedString("将在", comment: "")
 let willRemindText:String = NSLocalizedString("提醒您复习🙂", comment: "")
+
+let reminderSettingText:String = NSLocalizedString("每日提醒", comment: "")
+let reminderAskingText:String = NSLocalizedString("是否设置每日学习提醒?", comment: "")
 
 // wordDetail VC
 let getWordText:String = NSLocalizedString("获取单词中..", comment: "")

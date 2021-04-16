@@ -102,7 +102,6 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
             config.presentationStyle = .center
             config.dimMode = .blur(style: .light, alpha: 0.6, interactive: false)
             SwiftMessages.show(config: config, view: messageView)
-            
         }
     }
     
@@ -569,7 +568,9 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
         let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
         let learnOrReviewFinishVC = mainStoryBoard.instantiateViewController(withIdentifier: "learnOrReviewFinishController") as! LearnOrReviewFinishViewController
         learnOrReviewFinishVC.mainPanelViewController = self
-        learnOrReviewFinishVC.modalPresentationStyle = .overCurrentContext
+        learnOrReviewFinishVC.currentUser = currentUser
+        learnOrReviewFinishVC.preference = preference
+        learnOrReviewFinishVC.modalPresentationStyle = .fullScreen
         learnOrReviewFinishVC.vocabsLearned = vocabsLearned
         DispatchQueue.main.async {
             self.present(learnOrReviewFinishVC, animated: true, completion: nil)

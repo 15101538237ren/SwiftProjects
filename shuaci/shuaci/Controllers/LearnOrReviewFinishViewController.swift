@@ -29,6 +29,8 @@ class LearnOrReviewFinishViewController: UIViewController {
     @IBOutlet var numbOfPeopleOnline: UILabel!
     @IBOutlet var dateLabel: UILabel!
     @IBOutlet weak var dimUIView: UIView!
+    var currentUser: LCUser!
+    var preference:Preference!
     var vocabsLearned:[VocabularyRecord]!
     var indicator = UIActivityIndicatorView()
     var strLabel = UILabel()
@@ -248,15 +250,46 @@ class LearnOrReviewFinishViewController: UIViewController {
         popNotificationMessage()
     }
     
+    func popAlert(){
+        if preference.reminder_time == nil && !isKeyPresentInUserDefaults(key: everydayNotificationViewedKey){
+            let alertController = UIAlertController(title: reminderSettingText, message: reminderAskingText, preferredStyle: .alert)
+            let okayAction = UIAlertAction(title: okText, style: .default, handler: { [self] _ in
+                loadSetReminderVC()
+            })
+            let cancelAction = UIAlertAction(title: cancelText, style: .cancel, handler: { action in
+                alertController.dismiss(animated: true, completion: nil)
+            })
+            alertController.addAction(okayAction)
+            alertController.addAction(cancelAction)
+            self.present(alertController, animated: true, completion: nil)
+            UserDefaults.standard.set(true, forKey: everydayNotificationViewedKey)
+        }
+        
+    }
+    
+    func loadSetReminderVC(){
+        let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+        let reminderTimePickerVC = mainStoryBoard.instantiateViewController(withIdentifier: "reminderTimePickerVC") as! ReminderTimePickerViewController
+        reminderTimePickerVC.settingVC = nil
+        reminderTimePickerVC.preference = preference
+        reminderTimePickerVC.currentUser = currentUser
+        reminderTimePickerVC.modalPresentationStyle = .overCurrentContext
+        DispatchQueue.main.async {
+            self.present(reminderTimePickerVC, animated: true, completion: nil)
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.theme_backgroundColor = "Global.viewBackgroundColor"
         backBtn.theme_tintColor = "Global.backBtnTintColor"
         titleLabel.theme_textColor = "Global.barTitleColor"
-        view.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(handleDismiss)))
+//        view.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(handleDismiss)))
         loadScene()
     }
-
+    override func viewDidAppear(_ animated: Bool) {
+        popAlert()
+    }
     func popNotificationMessage(){
         if !isKeyPresentInUserDefaults(key: notificationAskedKey){
             let messageView: NotificationAskView = try! SwiftMessages.viewFromNib()

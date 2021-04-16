@@ -19,7 +19,7 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
     // MARK: - Constants
     let card_Y_constant:CGFloat = -30
     let animationDuration = 0.15
-    let firstReviewDelayInMin = 1
+    let firstReviewDelayInMin = 30
     let progressViewAnimationDuration = 2.5
     var currentMode:Int! // 1: Learn, 2: Review
     var liveQuery: LiveQuery?

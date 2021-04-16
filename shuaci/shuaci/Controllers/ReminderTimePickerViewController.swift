@@ -16,7 +16,7 @@ class ReminderTimePickerViewController: UIViewController {
     
     var currentUser: LCUser!
     var preference:Preference!
-    var settingVC: SettingViewController!
+    var settingVC: SettingViewController?
     var viewTranslation = CGPoint(x: 0, y: 0)
     
     @IBOutlet weak var backBtn: UIButton!
@@ -83,7 +83,6 @@ class ReminderTimePickerViewController: UIViewController {
         setupTheme()
         view.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(handleDismiss)))
         view.isUserInteractionEnabled = true
-        // Do any additional setup after loading the view.
     }
     
     func getNextReminderDate() -> String {
@@ -148,8 +147,10 @@ class ReminderTimePickerViewController: UIViewController {
                 DispatchQueue.main.async {
                     preference.reminder_time = timePickerDate
                     savePreference(userId: currentUser.objectId!.stringValue!, preference: preference)
-                    settingVC.preference = preference
-                    settingVC.mainPanelViewController.preference = preference
+                    if let _ = settingVC{
+                        settingVC!.preference = preference
+                        settingVC!.mainPanelViewController.preference = preference
+                    }
                 }
                 
                 let content = UNMutableNotificationContent()
@@ -162,7 +163,9 @@ class ReminderTimePickerViewController: UIViewController {
 
                 DispatchQueue.main.async {
                     self.dismiss(animated: true, completion: nil)
-                    self.settingVC.updateReminderTime()
+                    if let _ = settingVC{
+                        settingVC!.updateReminderTime()
+                    }
                 }
             } else {
                 self.view.makeToast(notificationRejectedText, duration: durationOfNotificationText, position: .center)
@@ -175,10 +178,15 @@ class ReminderTimePickerViewController: UIViewController {
         center.removePendingNotificationRequests(withIdentifiers:[everyDayLearningReminderNotificationIdentifier])
         preference.reminder_time = nil
         savePreference(userId: currentUser.objectId!.stringValue!, preference: preference)
-        settingVC.preference = loadPreference(userId: currentUser.objectId!.stringValue!)
-        DispatchQueue.main.async {
+        if let _ = settingVC{
+            settingVC!.preference = loadPreference(userId: currentUser.objectId!.stringValue!)
+        }
+        
+        DispatchQueue.main.async { [self] in
             self.dismiss(animated: true, completion: nil)
-            self.settingVC.updateReminderTime()
+            if let _ = settingVC{
+                settingVC!.updateReminderTime()
+            }
         }
     }
     

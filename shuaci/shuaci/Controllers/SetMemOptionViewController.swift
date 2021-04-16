@@ -95,6 +95,24 @@ class SetMemOptionViewController: UIViewController, UIPickerViewDelegate, UIPick
         }
     }
     
+    func updateBookDownloadNum(bookObjId: String){
+        do {
+            let book = LCObject(className: "Book", objectId: bookObjId)
+            // 对 balance 原子减少 100
+            try book.increase("recite_user_num", by: 1)
+            book.save() { (result) in
+                switch result {
+                case .success:
+                    print("词库下载数已更新")
+                case .failure(error: let error):
+                    print(error.description)
+                }
+            }
+        } catch {
+            print(error)
+        }
+    }
+    
     @IBAction func setMemOption(_ sender: UIButton) {
         let nwpg = number_of_words[dailyNumWordPickerView.selectedRow(inComponent: 0)]
         preference.memory_order = self.memOrd.rawValue
@@ -117,7 +135,7 @@ class SetMemOptionViewController: UIViewController, UIPickerViewDelegate, UIPick
         if bookVC != nil{
             let info = ["Um_Key_ButtonName" : "\(book.name)", "Um_Key_SourcePage":"选了书", "Um_Key_UserID" : currentUser.objectId!.stringValue!]
             UMAnalyticsSwift.event(eventId: "Um_Event_ModularClick", attributes: info)
-            
+            updateBookDownloadNum(bookObjId: book.objectId)
             updateUserCurrentBook(currentBook: book)
             downloadBookJson(book: book)
         }
