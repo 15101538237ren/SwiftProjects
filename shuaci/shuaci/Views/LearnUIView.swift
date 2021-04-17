@@ -16,6 +16,17 @@ class LearnUIView: UIView {
             dimUIView.theme_backgroundColor = "Global.viewBackgroundColor"
         }
     }
+    
+    @IBOutlet var giveupUIView: UIView!{
+        didSet{
+            giveupUIView.backgroundColor = .clear
+            giveupUIView.alpha = 0
+        }
+    }
+    
+    @IBOutlet var userPanelView: UIView!
+    @IBOutlet var loadingView: UIView!
+    
     @IBOutlet var undoBtn: UIButton!{
         didSet {
             undoBtn.layer.cornerRadius = undoBtn.layer.frame.width/2.0

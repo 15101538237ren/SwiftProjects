@@ -4430,18 +4430,22 @@
                             <constraint firstItem="ux3-lS-9T7" firstAttribute="leading" secondItem="sxy-rs-hYW" secondAttribute="leading" constant="30" id="ygb-ea-75b"/>
                         </constraints>
                         <connections>
+                            <outlet property="backBtn" destination="Spy-i0-UiS" id="F5u-3y-ccN"/>
                             <outlet property="cnToENLeft" destination="ZPM-oT-me8" id="KKF-XK-k0b"/>
                             <outlet property="collectBtn" destination="6YR-HP-u7W" id="Ayp-PV-9rs"/>
                             <outlet property="dimUIView" destination="Hbn-7K-lkD" id="LUP-TU-Xo3"/>
                             <outlet property="enToCNLeft" destination="g5e-d4-loN" id="Voa-3P-IwS"/>
                             <outlet property="firstMemLeft" destination="0Ex-uA-MIm" id="Fqg-xO-PFy"/>
+                            <outlet property="giveupUIView" destination="CFh-L9-frE" id="SXe-fX-crB"/>
                             <outlet property="leftAvatar" destination="b3t-wR-Yuh" id="3eA-jo-3oa"/>
+                            <outlet property="loadingView" destination="8eb-ya-1jJ" id="Ots-bn-zKD"/>
                             <outlet property="midAvatar" destination="dtq-4Z-18X" id="x4H-TG-E5a"/>
                             <outlet property="noBtn" destination="kXF-hc-fkK" id="fXM-a6-ANE"/>
                             <outlet property="rightAvatar" destination="hj7-k6-mit" id="ESo-v3-xnn"/>
                             <outlet property="timeLabel" destination="ux3-lS-9T7" id="6Ab-FG-Hok"/>
                             <outlet property="trashBtn" destination="Nuy-G2-SW5" id="ppD-FF-g8f"/>
                             <outlet property="undoBtn" destination="XLO-Mh-SXZ" id="dSG-K7-oUr"/>
+                            <outlet property="userPanelView" destination="pZQ-oH-sda" id="OHp-gI-piZ"/>
                             <outlet property="usersPanelView" destination="pZQ-oH-sda" id="D96-Xm-AYG"/>
                             <outlet property="yesBtn" destination="iEb-4d-JPz" id="pSh-qb-rGb"/>
                         </connections>

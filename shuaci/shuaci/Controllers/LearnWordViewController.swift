@@ -90,12 +90,7 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
         }
     }
     
-    @IBOutlet var giveupUIView: UIView!{
-        didSet{
-            giveupUIView.backgroundColor = .clear
-            giveupUIView.alpha = 0
-        }
-    }
+    @IBOutlet var giveupUIView: UIView!
     
     @IBOutlet var firstMemLeft: UILabel!
     @IBOutlet var enToCNLeft: UILabel!
@@ -676,36 +671,15 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
     
     @IBAction func unwind(segue: UIStoryboardSegue) {
         self.mp3Player?.stop()
-        if currentMode == 2 && self.currentIndex >= minNumToSaveReviewRecord - 1{
-            let alertController = UIAlertController(title: saveReviewRecordText, message: "", preferredStyle: .alert)
-            let okayAction = UIAlertAction(title: yesText, style: .default, handler: { [self] _ in
-                
-                summary_records_into_vocab_records()
-                saveRecordsFromLearning()
-                
-                if currentMode == 1{
-                    _ = update_words(preference: preference)
-                }
-                DispatchQueue.main.async {
-                    self.dismiss(animated: true, completion: nil)
-                }
-            })
-            let cancelAction = UIAlertAction(title: noText, style: .cancel, handler: { action in
-                DispatchQueue.main.async {
-                    self.dismiss(animated: true, completion: nil)
-                }
-            })
-            alertController.addAction(okayAction)
-            alertController.addAction(cancelAction)
-            self.present(alertController, animated: true, completion: nil)
-        }else{
-            DispatchQueue.main.async { [self] in
-                UIView.animate(withDuration: 0.5, animations: { [weak self] in
-                    giveupUIView.alpha = 1.0
-                    userPanelView.backgroundColor = userPanelBgColorWhenQuit
-                }, completion: { _ in })
-                
-            }
+        
+        DispatchQueue.main.async { [self] in
+            learnUIView.bringSubviewToFront(giveupUIView)
+            learnUIView.bringSubviewToFront(userPanelView)
+            UIView.animate(withDuration: 0.5, animations: { [weak self] in
+                giveupUIView.alpha = 1.0
+                userPanelView.backgroundColor = userPanelBgColorWhenQuit
+            }, completion: { _ in })
+            
         }
     }
     

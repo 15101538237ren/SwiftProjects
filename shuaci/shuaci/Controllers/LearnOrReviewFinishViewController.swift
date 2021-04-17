@@ -239,11 +239,17 @@ class LearnOrReviewFinishViewController: UIViewController {
         }
     }
     
+    func loadQouteScene(){
+        if loadLearnFinish{
+            addBlurBackgroundView()
+            initActivityIndicator(text: loadingDakaText)
+            setElements(enable: false)
+            getQoute()
+        }
+    }
+    
     func loadScene(){
-//        addBlurBackgroundView()
-//        initActivityIndicator(text: loadingDakaText)
-//        setElements(enable: false)
-//        getQoute()
+        loadQouteScene()
         setTodyWordNum()
         setInsistDay()
         setDateLabel()
@@ -263,8 +269,9 @@ class LearnOrReviewFinishViewController: UIViewController {
             alertController.addAction(cancelAction)
             self.present(alertController, animated: true, completion: nil)
             UserDefaults.standard.set(true, forKey: everydayNotificationViewedKey)
+        }else{
+            view.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(handleDismiss)))
         }
-        
     }
     
     func loadSetReminderVC(){
@@ -284,7 +291,6 @@ class LearnOrReviewFinishViewController: UIViewController {
         view.theme_backgroundColor = "Global.viewBackgroundColor"
         backBtn.theme_tintColor = "Global.backBtnTintColor"
         titleLabel.theme_textColor = "Global.barTitleColor"
-//        view.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(handleDismiss)))
         loadScene()
     }
     override func viewDidAppear(_ animated: Bool) {
