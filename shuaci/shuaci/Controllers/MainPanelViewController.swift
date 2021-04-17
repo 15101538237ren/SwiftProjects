@@ -570,7 +570,8 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
         learnOrReviewFinishVC.mainPanelViewController = self
         learnOrReviewFinishVC.currentUser = currentUser
         learnOrReviewFinishVC.preference = preference
-        learnOrReviewFinishVC.modalPresentationStyle = .fullScreen
+        let hasSetReminder:Bool = !(preference?.reminder_time == nil && !isKeyPresentInUserDefaults(key: everydayNotificationViewedKey))
+        learnOrReviewFinishVC.modalPresentationStyle =  hasSetReminder ? .overCurrentContext: .fullScreen
         learnOrReviewFinishVC.vocabsLearned = vocabsLearned
         DispatchQueue.main.async {
             self.present(learnOrReviewFinishVC, animated: true, completion: nil)
