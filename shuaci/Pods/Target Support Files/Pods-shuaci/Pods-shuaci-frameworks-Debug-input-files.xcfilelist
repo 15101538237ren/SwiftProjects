@@ -1,5 +1,6 @@
 ${PODS_ROOT}/Target Support Files/Pods-shuaci/Pods-shuaci-frameworks.sh
 ${BUILT_PRODUCTS_DIR}/AAInfographics/AAInfographics.framework
+${BUILT_PRODUCTS_DIR}/ANLongTapButton/ANLongTapButton.framework
 ${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework
 ${BUILT_PRODUCTS_DIR}/CropViewController/CropViewController.framework
 ${BUILT_PRODUCTS_DIR}/Disk/Disk.framework

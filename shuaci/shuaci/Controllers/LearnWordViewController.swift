@@ -5,7 +5,7 @@
 //  Created by 任红雷 on 5/9/20.
 //  Copyright © 2020 Honglei Ren. All rights reserved.
 //
-
+import Foundation
 import UIKit
 import AVFoundation
 import SwiftyJSON
@@ -13,6 +13,7 @@ import LeanCloud
 import SwiftTheme
 import Disk
 import Nuke
+import ANLongTapButton
 
 class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
     
@@ -57,6 +58,8 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
     var audioPlayer: AVAudioPlayer?
     var mp3Player: AVAudioPlayer?
     
+    let userPanelDefaultBgColor:UIColor = UIColor(red: 225, green: 226, blue: 228, alpha: 1.0)
+    let userPanelBgColorWhenQuit:UIColor = UIColor(red: 80, green: 80, blue: 80, alpha: 1.0)
     var scaleOfSecondCard:CGFloat = 0.9
     var currentIndex:Int = 0
     var viewTranslation = CGPoint(x: 0, y: 0)
@@ -80,12 +83,20 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
     
     @IBOutlet var gestureRecognizers:[UIPanGestureRecognizer]!
     @IBOutlet var timeLabel: UILabel!
-    
     @IBOutlet var userPanelView: UIView!{
         didSet{
+            userPanelView.backgroundColor = userPanelDefaultBgColor
             userPanelView.alpha = 0
         }
     }
+    
+    @IBOutlet var giveupUIView: UIView!{
+        didSet{
+            giveupUIView.backgroundColor = .clear
+            giveupUIView.alpha = 0
+        }
+    }
+    
     @IBOutlet var firstMemLeft: UILabel!
     @IBOutlet var enToCNLeft: UILabel!
     @IBOutlet var cnToENLeft: UILabel!
@@ -104,6 +115,17 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
             learningLabel.text = learningLabelText
         }
     }
+    @IBOutlet var mottoLabel: UILabel!{
+        didSet{
+            mottoLabel.text = defaultMotto
+        }
+    }
+    
+    @IBOutlet var mottoAuthorLabel: UILabel!{
+        didSet{
+            mottoAuthorLabel.text = ""
+        }
+    }
     @IBOutlet var countingDownLabel: UILabel!{
         didSet{
             countingDownLabel.alpha = 0
@@ -118,7 +140,6 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
             }
         }
     }
-    
     
     @IBOutlet var backgroundImgView: UIImageView!{
         didSet{
@@ -151,6 +172,23 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
             theText.text = overduePreText
         }
     }
+    
+    
+    @IBOutlet weak var giveupBtn: UIButton!{
+        didSet {
+            giveupBtn.layer.cornerRadius = giveupBtn.layer.frame.width/2.0
+            giveupBtn.layer.masksToBounds = true
+        }
+    }
+    
+    @IBOutlet weak var continueBtn: UIButton!{
+        didSet {
+            continueBtn.layer.cornerRadius = continueBtn.layer.frame.width/2.0
+            continueBtn.layer.masksToBounds = true
+        }
+    }
+    
+    
     @IBOutlet var timesLabel: UILabel!{
         didSet{
             timesLabel.text = timesLabelText
@@ -169,6 +207,44 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
         blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         blurEffectView.alpha = 0.5
         backgroundImgView.insertSubview(blurEffectView, at: 0)
+        
+        let uiView = UIView(frame: giveupUIView.bounds)
+        uiView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        uiView.alpha = 0.95
+        uiView.backgroundColor = .darkGray
+        giveupUIView.insertSubview(uiView, at: 0)
+    }
+    
+    func getMotto(){
+        DispatchQueue.global(qos: .background).async {
+        do {
+            let query = LCQuery(className: "Motto")
+            let record_count = query.count().intValue
+            if record_count > 2{
+                let index = Int.random(in: 0...(record_count - 2))
+                query.skip = index
+                _ = query.getFirst() { result in
+                    switch result {
+                    case .success(object: let result):
+                        DispatchQueue.main.async {
+                            if let motto = result.get("EN")?.stringValue{
+                                let splits = motto.components(separatedBy: "——").map {String($0)}
+                                if splits.count == 2{
+                                    self.mottoLabel.text = splits[0].trimmingCharacters(in: .whitespacesAndNewlines)
+                                    self.mottoAuthorLabel.text = "——\(splits[1].trimmingCharacters(in: .whitespacesAndNewlines))"
+                                }else{
+                                    self.mottoLabel.text = motto
+                                }
+                                
+                            }
+                        }
+                    case .failure(error: let error):
+                        print(error.localizedDescription)
+                    }
+                }
+            }
+        }
+        }
     }
     
     func load_DICT(){
@@ -224,6 +300,7 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
         userPhotoUpdateTimer = Timer.scheduledTimer(timeInterval: userPhotoUpdateInterval, target: self, selector: #selector(updateUserPhotosOnline), userInfo: nil, repeats: true)
         let _ = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(tictoc), userInfo: nil, repeats: true)
         load_DICT()
+        getMotto()
     }
     
     func countDownText(){
@@ -583,21 +660,23 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
         dismiss(animated: true, completion: nil)
     }
     
+    @IBAction func continueLearning(sender: UIButton){
+        DispatchQueue.main.async { [self] in
+            giveupUIView.alpha = 0
+            userPanelView.backgroundColor = userPanelDefaultBgColor
+        }
+    }
+    
+    @IBAction func giveupLearning(longTapButton: ANLongTapButton){
+        
+       longTapButton.didTimePeriodElapseBlock = { () -> Void in
+            self.dismiss(animated: true, completion: nil)
+      }
+    }
+    
     @IBAction func unwind(segue: UIStoryboardSegue) {
         self.mp3Player?.stop()
-        if currentMode == 1{
-            let alertController = UIAlertController(title: giveupEnsureText, message: mottoText, preferredStyle: .alert)
-            let okayAction = UIAlertAction(title: ensureText, style: .default, handler: { _ in
-                self.dismiss(animated: true, completion: nil)
-            })
-            let cancelAction = UIAlertAction(title: cancelText, style: .cancel, handler: { action in
-                alertController.dismiss(animated: true, completion: nil)
-            })
-            alertController.addAction(okayAction)
-            alertController.addAction(cancelAction)
-            self.present(alertController, animated: true, completion: nil)
-        }
-        else if self.currentIndex >= minNumToSaveReviewRecord - 1{
+        if currentMode == 2 && self.currentIndex >= minNumToSaveReviewRecord - 1{
             let alertController = UIAlertController(title: saveReviewRecordText, message: "", preferredStyle: .alert)
             let okayAction = UIAlertAction(title: yesText, style: .default, handler: { [self] _ in
                 
@@ -620,8 +699,12 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
             alertController.addAction(cancelAction)
             self.present(alertController, animated: true, completion: nil)
         }else{
-            DispatchQueue.main.async {
-                self.dismiss(animated: true, completion: nil)
+            DispatchQueue.main.async { [self] in
+                UIView.animate(withDuration: 0.5, animations: { [weak self] in
+                    giveupUIView.alpha = 1.0
+                    userPanelView.backgroundColor = userPanelBgColorWhenQuit
+                }, completion: { _ in })
+                
             }
         }
     }

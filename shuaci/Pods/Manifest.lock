@@ -1,6 +1,7 @@
 PODS:
   - AAInfographics (6.0.0)
   - Alamofire (5.4.1)
+  - ANLongTapButton (1.2.0)
   - CropViewController (2.6.0)
   - Disk (0.6.4)
   - GRDB.swift (4.14.0):
@@ -49,6 +50,7 @@ PODS:
 
 DEPENDENCIES:
   - AAInfographics (from `https://github.com/AAChartModel/AAChartKit-Swift.git`)
+  - ANLongTapButton
   - CropViewController
   - "Disk (from `https://7mxaxlb@gitroyalty.com/saoudrizwan/Disk`, tag `0.6.4`)"
   - JGProgressHUD
@@ -76,6 +78,7 @@ DEPENDENCIES:
 SPEC REPOS:
   trunk:
     - Alamofire
+    - ANLongTapButton
     - CropViewController
     - GRDB.swift
     - JGProgressHUD
@@ -119,6 +122,7 @@ CHECKOUT OPTIONS:
 SPEC CHECKSUMS:
   AAInfographics: e57c6cc15ddc17df3555db6f586fb0e1b911a0b7
   Alamofire: 2291f7d21ca607c491dd17642e5d40fdcda0e65c
+  ANLongTapButton: 1b0edc339585913a04de2ca2d1d641b79eb68845
   CropViewController: 7093b39ec3cb508531b22d35773e06cecd7378d8
   Disk: 8ebb79575e81f13c3665e6ab2b9d31f29aec92bb
   GRDB.swift: 8cc3ab7c8b8b4ac1761deb8dca4b51c1c9d429f8
@@ -145,6 +149,6 @@ SPEC CHECKSUMS:
   UMCSecurityPlugins: 0831a08f3988f3cea9f1d3a7626cd9bee4fef150
   UMDevice: 28d21a568c8e8322e5a03bbd53b138d0c098d3b3
 
-PODFILE CHECKSUM: 644c3dce6ac9031f04d4ffa64bdc7d396d48f883
+PODFILE CHECKSUM: 6587d4d58effe36b731773209a4ae5d291dea75c
 
 COCOAPODS: 1.9.3

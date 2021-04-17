@@ -30,4 +30,5 @@ target 'shuaci' do
   pod 'SwiftyStoreKit'
   pod 'SwiftMessages'
   pod 'NewPopMenu', '~> 2.0'
+  pod 'ANLongTapButton'
 end
