@@ -24,6 +24,7 @@ public class ANLongTapButton: UIButton
     public var didFinishBlock : (() -> Void) = { () -> Void in }
     
     var circleLayer: CAShapeLayer?
+    var dispatchWork: DispatchWorkItem? = nil
     var isFinished = true
     
     public override func prepareForInterfaceBuilder()
@@ -72,11 +73,12 @@ public class ANLongTapButton: UIButton
         isFinished = false
         reset()
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + timePeriod) {
+        dispatchWork = DispatchWorkItem(block: {
             self.isFinished = true
             self.didFinishBlock()
             self.didTimePeriodElapseBlock()
-        }
+        })
+        DispatchQueue.main.asyncAfter(deadline: .now() + timePeriod, execute: dispatchWork!)
         
         let center = self.center()
         var radius = self.radius()
@@ -100,6 +102,7 @@ public class ANLongTapButton: UIButton
     
     @objc func cancel(sender: AnyObject, forEvent event: UIEvent)
     {
+        dispatchWork?.cancel()
         if !isFinished {
             isFinished = true
             didFinishBlock()
