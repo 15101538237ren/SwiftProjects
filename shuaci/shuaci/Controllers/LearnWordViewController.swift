@@ -210,8 +210,8 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
         
         let uiView = UIView(frame: giveupUIView.bounds)
         uiView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        uiView.alpha = 0.97
-        uiView.backgroundColor = .darkGray
+        uiView.alpha = 0.95
+        uiView.backgroundColor = UIColor(red: 40, green: 40, blue: 40, alpha: 1)
         giveupUIView.insertSubview(uiView, at: 0)
     }
     
