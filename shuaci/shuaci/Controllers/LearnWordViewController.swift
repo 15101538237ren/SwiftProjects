@@ -634,6 +634,8 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
         let card = cards[0]
         if currentMode == 2{
             DispatchQueue.main.async {
+                card.dragable = false
+                self.disableBtns()
                 UIView.animate(withDuration: self.progressViewAnimationDuration, animations: {
                     card.ringView?.progress = 1.0
                 }) { (finished) in
@@ -642,6 +644,9 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
                     UIView.animate(withDuration: 1.0, animations: {
                         card.meaningLabel?.alpha = 1.0
                         card.memMethodLabel?.alpha = 1.0
+                    }, completion: {_ in
+                        card.dragable = true
+                        self.enableBtns()
                     })
                 }
             }
@@ -675,7 +680,7 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
         DispatchQueue.main.async { [self] in
             learnUIView.bringSubviewToFront(giveupUIView)
             learnUIView.bringSubviewToFront(userPanelView)
-            UIView.animate(withDuration: 0.5, animations: { [weak self] in
+            UIView.animate(withDuration: 0.5, animations: { [self] in
                 giveupUIView.alpha = 1.0
                 userPanelView.backgroundColor = userPanelBgColorWhenQuit
             }, completion: { _ in })
@@ -1100,24 +1105,34 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
             let memStageCurrent: Int = wordQuequeItem[1]
             
             if memStageCurrent == WordMemStage.enToCn.rawValue {
-                next_card.ringView?.alpha = 1
-                
-                UIView.animate(withDuration: progressViewAnimationDuration, animations: {
-                    next_card.ringView?.progress = 1.0
-                }) { (finished) in
-                    // fade out
-                    next_card.ringView?.alpha = 0.0
-                    
-                    UIView.animate(withDuration: 1.0, animations: {
-                        next_card.meaningLabel!.alpha = 1.0
-                        next_card.memMethodLabel!.alpha = 1.0
-                    })
+                DispatchQueue.main.async {
+                    next_card.ringView?.alpha = 1
+                    next_card.dragable = false
+                    self.disableBtns()
+                    UIView.animate(withDuration: self.progressViewAnimationDuration, animations: {
+                        next_card.ringView?.progress = 1.0
+                    }) { (finished) in
+                        // fade out
+                        next_card.ringView?.alpha = 0.0
+                        
+                        UIView.animate(withDuration: 1.0, animations: {
+                            next_card.meaningLabel!.alpha = 1.0
+                            next_card.memMethodLabel!.alpha = 1.0
+                        }, completion: {_ in
+                            next_card.dragable = true
+                            self.enableBtns()
+                        })
+                    }
                 }
+                
             }
             if memStageCurrent == WordMemStage.cnToEn.rawValue {
-                next_card.ringView?.alpha = 1
+                DispatchQueue.main.async {
+                    self.disableBtns()
+                    next_card.dragable = false
+                    next_card.ringView?.alpha = 1
                 
-                UIView.animate(withDuration: progressViewAnimationDuration, animations: {
+                    UIView.animate(withDuration: self.progressViewAnimationDuration, animations: {
                     next_card.ringView?.progress = 1.0
                 }) { (finished) in
                     // fade out
@@ -1125,10 +1140,14 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
                     UIView.animate(withDuration: 1.0, animations: {
                         next_card.wordLabel!.alpha = 1.0
                         next_card.memMethodLabel!.alpha = 1.0
+                    }, completion: {_ in
+                        next_card.dragable = true
+                        self.enableBtns()
                     })
                     
                     let wordStr: String = next_card.wordLabel?.text ?? ""
                     self.playMp3GivenWord(word: wordStr)
+                }
                 }
             }
             
@@ -1497,35 +1516,48 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
                 lastCard.alpha = 1
             }, completion: { [self] _ in
                 if lastMemStage == WordMemStage.enToCn.rawValue {
-                    lastCard.ringView?.alpha = 1
-                    UIView.animate(withDuration: progressViewAnimationDuration, animations: {
-                        lastCard.ringView?.progress = 1.0
-                    }) { (finished) in
-                        // fade out
-                        lastCard.ringView?.alpha = 0.0
-                        
-                        UIView.animate(withDuration: 1.0, animations: {
-                            lastCard.meaningLabel!.alpha = 1.0
-                            lastCard.memMethodLabel!.alpha = 1.0
-                        })
+                    DispatchQueue.main.async {
+                        lastCard.dragable = false
+                        self.disableBtns()
+                        lastCard.ringView?.alpha = 1
+                        UIView.animate(withDuration: progressViewAnimationDuration, animations: {
+                            lastCard.ringView?.progress = 1.0
+                        }) { (finished) in
+                            // fade out
+                            lastCard.ringView?.alpha = 0.0
+                            
+                            UIView.animate(withDuration: 1.0, animations: {
+                                lastCard.meaningLabel!.alpha = 1.0
+                                lastCard.memMethodLabel!.alpha = 1.0
+                            }, completion: {_ in
+                                lastCard.dragable = true
+                                self.enableBtns()
+                            })
+                        }
                     }
                 }
                 if lastMemStage == WordMemStage.cnToEn.rawValue  {
-                    lastCard.ringView?.alpha = 1
+                    DispatchQueue.main.async {
+                        lastCard.dragable = false
+                        self.disableBtns()
+                        lastCard.ringView?.alpha = 1
                     
-                    UIView.animate(withDuration: progressViewAnimationDuration, animations: {
-                        lastCard.ringView?.progress = 1.0
-                    }) { (finished) in
-                        // fade out
-                        lastCard.ringView?.alpha = 0.0
-                        UIView.animate(withDuration: 1.0, animations: {
-                            lastCard.wordLabel!.alpha = 1.0
-                            lastCard.memMethodLabel!.alpha = 1.0
-                        })
-                        
-                        let wordStr: String = lastCard.wordLabel?.text ?? ""
-                        self.playMp3GivenWord(word: wordStr)
-                    }
+                        UIView.animate(withDuration: progressViewAnimationDuration, animations: {
+                            lastCard.ringView?.progress = 1.0
+                        }) { (finished) in
+                            // fade out
+                            lastCard.ringView?.alpha = 0.0
+                            UIView.animate(withDuration: 1.0, animations: {
+                                lastCard.wordLabel!.alpha = 1.0
+                                lastCard.memMethodLabel!.alpha = 1.0
+                            }, completion: {_ in
+                                lastCard.dragable = true
+                                self.enableBtns()
+                            })
+                            
+                            let wordStr: String = lastCard.wordLabel?.text ?? ""
+                            self.playMp3GivenWord(word: wordStr)
+                        }}
                 }
             })
             
