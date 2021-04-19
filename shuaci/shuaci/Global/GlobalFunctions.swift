@@ -16,12 +16,15 @@ import SwiftyStoreKit
 
 func load_DICT(){
     do {
-       let data = try Data(contentsOf: DICT_URL, options: [])//.mappedIfSafe
+        let data = try Data(contentsOf: DICT_URL, options: [])//.mappedIfSafe
+        let AllData:[String:JSON] = try JSON(data: data)["data"].dictionary!
         let key_arr = try JSON(data: data)["keys"].arrayValue
         let oalecd8_arr = try JSON(data: data)["oalecd8"].arrayValue
         for kid in 0..<key_arr.count{
             let key = key_arr[kid].stringValue
             Word_indexs_In_Oalecd8[key] = [kid, oalecd8_arr[kid].intValue]
+            AllData_keys.append(key)
+            AllInterp_keys.append(AllData[key]!.stringValue)
         }
        print("Load \(DICT_URL) successful!")
     } catch {

@@ -50,10 +50,6 @@ class WordHistoryViewController: UIViewController, UIGestureRecognizerDelegate, 
     
     var cellIsSelected:[String:[Bool]] = [:]
     
-    var AllData:[String:JSON] = [:]
-    var AllData_keys:[String] = []
-    var AllInterp_keys:[String] = []
-    
     var groupedVocabs:[String : [VocabularyRecord]] = [:]
     var sortedKeys:[String] = []
     var sectionsExpanded:[Bool] = []
@@ -104,24 +100,6 @@ class WordHistoryViewController: UIViewController, UIGestureRecognizerDelegate, 
     }
     
     @IBOutlet weak var filterBtn: UIButton!
-    
-    func load_Data(){
-        do {
-           let data = try Data(contentsOf: DICT_URL, options: [])//.mappedIfSafe
-            AllData = try JSON(data: data)["data"].dictionary!
-            let key_arr = try JSON(data: data)["keys"].arrayValue
-            let oalecd8_arr = try JSON(data: data)["oalecd8"].arrayValue
-            for kid in 0..<key_arr.count{
-                let key = key_arr[kid].stringValue
-                AllData_keys.append(key)
-                
-                AllInterp_keys.append(AllData[key]!.stringValue)
-            }
-           print("Load \(DICT_URL) successful!")
-        } catch {
-            print(error.localizedDescription)
-        }
-    }
     
     @IBAction func selectAllCells(_ sender: UIButton) {
         allSelected.toggle()
@@ -304,7 +282,6 @@ class WordHistoryViewController: UIViewController, UIGestureRecognizerDelegate, 
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        load_Data()
         
         view.theme_backgroundColor = "Global.viewBackgroundColor"
         backBtn.theme_tintColor = "Global.backBtnTintColor"

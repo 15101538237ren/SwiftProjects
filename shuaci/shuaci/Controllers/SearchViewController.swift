@@ -12,9 +12,6 @@ import AVFoundation
 class SearchViewController: UIViewController {
     var searchResults:[String] = []
     var searchResultsInter:[String] = []
-    var AllData:[String:JSON] = [:]
-    var AllData_keys:[String] = []
-    var AllInterp_keys:[String] = []
     var searching = false
     var mp3Player: AVAudioPlayer?
     var preference:Preference!
