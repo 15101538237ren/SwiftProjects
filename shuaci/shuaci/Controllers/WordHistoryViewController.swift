@@ -20,7 +20,6 @@ class WordHistoryViewController: UIViewController, UIGestureRecognizerDelegate, 
     var currentUser = LCApplication.default.currentUser!
     
     var mp3Player: AVAudioPlayer?
-    var Word_indexs_In_Oalecd8:[String:[Int]] = [:]
     
     let redColor:UIColor = UIColor(red: 168, green: 0, blue: 0, alpha: 1)
     let darkGreen:UIColor = UIColor(red: 2, green: 108, blue: 69, alpha: 1)
@@ -91,8 +90,6 @@ class WordHistoryViewController: UIViewController, UIGestureRecognizerDelegate, 
         }
     }
     
-    private var DICT_URL: URL = Bundle.main.url(forResource: "DICT.json", withExtension: nil)!
-    
     @IBOutlet weak var segmentedControl: UISegmentedControl!
     @IBOutlet weak var wordsTableView: UITableView!
     
@@ -108,10 +105,10 @@ class WordHistoryViewController: UIViewController, UIGestureRecognizerDelegate, 
     
     @IBOutlet weak var filterBtn: UIButton!
     
-    func load_DICT(){
+    func load_Data(){
         do {
            let data = try Data(contentsOf: DICT_URL, options: [])//.mappedIfSafe
-           AllData = try JSON(data: data)["data"].dictionary!
+            AllData = try JSON(data: data)["data"].dictionary!
             let key_arr = try JSON(data: data)["keys"].arrayValue
             let oalecd8_arr = try JSON(data: data)["oalecd8"].arrayValue
             for kid in 0..<key_arr.count{
@@ -119,8 +116,6 @@ class WordHistoryViewController: UIViewController, UIGestureRecognizerDelegate, 
                 AllData_keys.append(key)
                 
                 AllInterp_keys.append(AllData[key]!.stringValue)
-                
-                Word_indexs_In_Oalecd8[key] = [kid, oalecd8_arr[kid].intValue]
             }
            print("Load \(DICT_URL) successful!")
         } catch {
@@ -309,7 +304,7 @@ class WordHistoryViewController: UIViewController, UIGestureRecognizerDelegate, 
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        load_DICT()
+        load_Data()
         
         view.theme_backgroundColor = "Global.viewBackgroundColor"
         backBtn.theme_tintColor = "Global.backBtnTintColor"

@@ -10,7 +10,7 @@ import UIKit
 import LeanCloud
 import AVFoundation
 
-class MainScreenViewController: UIViewController {
+class MainScreenViewController: UIViewController, UIGestureRecognizerDelegate {
     var isGetUserInfo = false
     @IBOutlet var mainScreenUIView: MainScreenUIView!
     @IBOutlet var launchUIView: UIView!
@@ -62,7 +62,6 @@ class MainScreenViewController: UIViewController {
             showMainPanel(currentUser: user)
         }
         else {
-            
             initCards()
             let card = cards[0]
             let xshift:CGFloat = card.frame.size.width/8.0
@@ -71,6 +70,7 @@ class MainScreenViewController: UIViewController {
                 self.launchUIView.alpha = 0.0
             })
         }
+        load_DICT()
     }
     
     func setFieldsOfCard(card: CardUIView, cardWord: CardWord){
@@ -118,6 +118,8 @@ class MainScreenViewController: UIViewController {
         {
             let card = cards[index % cards.count]
             card.center = CGPoint(x: view.center.x, y: view.center.y)
+            card.cardBackView?.alpha = 0
+            card.cardBackView?.isUserInteractionEnabled = false
             let cardWord = cardWords[index % cardWords.count]
             setFieldsOfCard(card: card, cardWord: cardWord)
             if index == 1
@@ -131,6 +133,72 @@ class MainScreenViewController: UIViewController {
                     playMp3(url: mp3_url)
                 }
             }
+            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(backToCardFront(_:)) )
+            tapGesture.delegate = self
+            card.cardBackView?.webView.addGestureRecognizer(tapGesture)
+        }
+    }
+    
+    @IBAction func backToCardFront(_ sender: UITapGestureRecognizer) {
+        let card = cards[currentIndex % 2]
+        card.cardBackView!.isUserInteractionEnabled = false
+        card.cardBackView!.alpha = 0
+        card.dragable = true
+        UIView.transition(with: card, duration: 0.3, options: .transitionFlipFromLeft, animations: nil, completion: nil)
+    }
+    
+    @IBAction func cardTapped(_ sender: UITapGestureRecognizer)
+    {
+        let card = cards[currentIndex % 2]
+        let current_word: String = card.wordLabel?.text ?? ""
+        if current_word != ""{
+            let indexItem:[Int] = Word_indexs_In_Oalecd8[current_word]!
+            let wordIndex: Int = indexItem[0]
+            let hasValueInOalecd8: Int = indexItem[1]
+            if hasValueInOalecd8 == 1{
+                UIView.transition(with: card, duration: 0.3, options: .transitionFlipFromRight, animations: nil, completion: nil)
+                load_html(wordHead: current_word, wordIndex: wordIndex)
+            }else{
+                card.makeToast(noDictMeaningText, duration: 1.0, position: .center)
+            }
+        }
+    }
+    
+    func load_html(wordHead: String, wordIndex: Int){
+        if Reachability.isConnectedToNetwork(){
+            let card = cards[currentIndex % 2]
+            if let _ = card.cardBackView {
+                card.dragable = false
+                card.cardBackView!.isUserInteractionEnabled = true
+                card.cardBackView!.alpha = 1
+                card.cardBackView!.initActivityIndicator(text: gettingVocabsText)
+                
+                DispatchQueue.global(qos: .background).async {
+                do {
+                    let query = LCQuery(className: "OALECD8")
+                    query.whereKey("word_id" , .equalTo(wordIndex))
+                    _ = query.getFirst { result in
+                        switch result {
+                        case .success(object: let word):
+                            
+                            print("DICT SUCCESS!")
+                            if let html_content = word.get("html_content")?.stringValue
+                            {
+                                let html_final = build_html_with_given_content(html_content: html_content, remove_newline: true)
+                                card.cardBackView!.webView.loadHTMLString(html_final, baseURL: nil)
+                                card.cardBackView!.stopIndicator()
+                            }else{
+                                card.cardBackView!.stopIndicator()
+                            }
+                            break
+                        case .failure(error: let error):
+                            print(error)
+                        }
+                    }
+                    }}
+            }
+        }else{
+            self.view.makeToast(NoNetworkStr, duration: 1.0, position: .center)
         }
     }
     

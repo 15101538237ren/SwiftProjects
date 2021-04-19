@@ -98,6 +98,7 @@ let giveupEnsureText:String = NSLocalizedString("确定「放弃学习」?", com
 let mottoText:String = NSLocalizedString("伟大的作品不是靠力量，而是靠坚持来完成的。——约翰逊", comment: "")
 let saveReviewRecordText:String = NSLocalizedString("是否保存当前复习记录?", comment: "")
 var notification_content = NSLocalizedString("\(nicknameOfApp)提醒您，根据记忆规律，现在复习单词记忆效果翻倍哦！", comment: "")
+let interpLabelText:String = NSLocalizedString("双解释义", comment: "")
 
 // Setting VC
 let autoPronounceText:String = NSLocalizedString("自动发音", comment: "")

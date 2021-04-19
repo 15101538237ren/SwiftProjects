@@ -55,7 +55,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             try LCApplication.default.set(
                 id: LCAppId,
                 key: LCKey,
-                serverURL: "https://5uwh02ch.lc-cn-n1-shared.com")
+                serverURL: LCServerURL)
         } catch {
             print(error)
         }

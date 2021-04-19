@@ -14,7 +14,6 @@ class SearchViewController: UIViewController {
     var searchResultsInter:[String] = []
     var AllData:[String:JSON] = [:]
     var AllData_keys:[String] = []
-    var Word_indexs_In_Oalecd8:[String:[Int]] = [:]
     var AllInterp_keys:[String] = []
     var searching = false
     var mp3Player: AVAudioPlayer?
@@ -32,26 +31,6 @@ class SearchViewController: UIViewController {
     }
    
     @IBOutlet weak var tblView: UITableView!
-    private var DICT_URL: URL = Bundle.main.url(forResource: "DICT.json", withExtension: nil)!
-    
-    
-    func load_DICT(){
-        do {
-           let data = try Data(contentsOf: DICT_URL, options: [])//.mappedIfSafe
-            AllData = try JSON(data: data)["data"].dictionary!
-            let key_arr = try JSON(data: data)["keys"].arrayValue
-            let oalecd8_arr = try JSON(data: data)["oalecd8"].arrayValue
-            for kid in 0..<key_arr.count{
-                let key = key_arr[kid].stringValue
-                AllData_keys.append(key)
-                Word_indexs_In_Oalecd8[key] = [kid, oalecd8_arr[kid].intValue]
-                AllInterp_keys.append(AllData[key]!.stringValue)
-            }
-           print("Load \(DICT_URL) successful!")
-        } catch {
-            print(error.localizedDescription)
-        }
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -64,7 +43,6 @@ class SearchViewController: UIViewController {
         tblView.theme_backgroundColor = "Global.viewBackgroundColor"
         
         searchBar.delegate = self
-        load_DICT()
         
         tblView.separatorColor = .clear
         

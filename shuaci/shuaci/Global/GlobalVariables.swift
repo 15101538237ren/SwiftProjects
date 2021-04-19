@@ -14,4 +14,5 @@ var invitationMode: Bool = false
 var loadLearning: Bool = false // load scene before learning
 var loadLearnFinish: Bool = false
 var loadPurchaseVIP: Bool = false
-var defaultMotto: String = "如果你正在经历地狱，继续前行吧。——丘吉尔"
+var Word_indexs_In_Oalecd8:[String:[Int]] = [:]
+var defaultMotto: String = "If you are going through hell, keep going. —— Winston S. Churchill"

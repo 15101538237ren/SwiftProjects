@@ -33,7 +33,6 @@
 		557B66F324CCF44A0068AB05 /* Light_White.plist in Resources */ = {isa = PBXBuildFile; fileRef = 557B66F224CCF44A0068AB05 /* Light_White.plist */; };
 		557B66F524CCF47B0068AB05 /* Light_Gray.plist in Resources */ = {isa = PBXBuildFile; fileRef = 557B66F424CCF47B0068AB05 /* Light_Gray.plist */; };
 		557B66F724CCF7660068AB05 /* Dark.plist in Resources */ = {isa = PBXBuildFile; fileRef = 557B66F624CCF7660068AB05 /* Dark.plist */; };
-		557E3C22262A0F6400DA7D47 /* QuitLearningVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 557E3C21262A0F6400DA7D47 /* QuitLearningVC.swift */; };
 		559B96C124F82DE800516475 /* DICT.json in Resources */ = {isa = PBXBuildFile; fileRef = 559B96C024F82DE800516475 /* DICT.json */; };
 		559B96C324F82FDA00516475 /* WordDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559B96C224F82FDA00516475 /* WordDetailViewController.swift */; };
 		55AD480926167B78002B0BD6 /* NotificationAskView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 55AD480826167B78002B0BD6 /* NotificationAskView.xib */; };
@@ -136,7 +135,6 @@
 		557B66F224CCF44A0068AB05 /* Light_White.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Light_White.plist; sourceTree = "<group>"; };
 		557B66F424CCF47B0068AB05 /* Light_Gray.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Light_Gray.plist; sourceTree = "<group>"; };
 		557B66F624CCF7660068AB05 /* Dark.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Dark.plist; sourceTree = "<group>"; };
-		557E3C21262A0F6400DA7D47 /* QuitLearningVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuitLearningVC.swift; sourceTree = "<group>"; };
 		559308D3261BB829007B5A12 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Main.strings; sourceTree = "<group>"; };
 		559308D4261BB829007B5A12 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		559B96C024F82DE800516475 /* DICT.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = DICT.json; sourceTree = "<group>"; };
@@ -448,7 +446,6 @@
 				C340D9DC2603127700EBE548 /* FilterVocabHistoryVC.swift */,
 				55538E11260D2EF500480A30 /* SetNumOfReviewVC.swift */,
 				55F4E03526194FCA00730DB7 /* MembershipVC.swift */,
-				557E3C21262A0F6400DA7D47 /* QuitLearningVC.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -644,7 +641,6 @@
 				A5D8B2DF245FD1BC00786F7C /* UIViewExtensions.swift in Sources */,
 				55538E12260D2EF500480A30 /* SetNumOfReviewVC.swift in Sources */,
 				556D8A03261A90D9003D043C /* Localization.swift in Sources */,
-				557E3C22262A0F6400DA7D47 /* QuitLearningVC.swift in Sources */,
 				5547AE8A24BA45540096B41E /* WordHistoryTableViewCell.swift in Sources */,
 				A5AE220124E4E9D500473EA2 /* SetMemOptionViewController.swift in Sources */,
 				55F4E03626194FCA00730DB7 /* MembershipVC.swift in Sources */,

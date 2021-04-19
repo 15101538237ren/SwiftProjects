@@ -14,6 +14,21 @@ import Accelerate
 import SwiftTheme
 import SwiftyStoreKit
 
+func load_DICT(){
+    do {
+       let data = try Data(contentsOf: DICT_URL, options: [])//.mappedIfSafe
+        let key_arr = try JSON(data: data)["keys"].arrayValue
+        let oalecd8_arr = try JSON(data: data)["oalecd8"].arrayValue
+        for kid in 0..<key_arr.count{
+            let key = key_arr[kid].stringValue
+            Word_indexs_In_Oalecd8[key] = [kid, oalecd8_arr[kid].intValue]
+        }
+       print("Load \(DICT_URL) successful!")
+    } catch {
+        print(error.localizedDescription)
+    }
+}
+
 func setInvitationCodeUsed(invitationCode: String, user: LCUser){
     let query = LCQuery(className: "Invitation")
     query.whereKey("Code", .equalTo(invitationCode))

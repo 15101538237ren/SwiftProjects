@@ -36,7 +36,9 @@ let nDayLofiGirls:Int = 11
 let nNightLofiGirls:Int = 6
 let LCAppId: String = "5uWh02cHlO4NIBMyM1rAaRRm-gzGzoHsz"
 let LCKey: String = "MbgqYXQna9aFYQq7GRqRWHkA"
+let LCServerURL: String = "https://api.shuaci.cc"
 let OfficialEmail = "shuaci@outlook.com"
+let DICT_URL: URL = Bundle.main.url(forResource: "DICT.json", withExtension: nil)!
 
 let QueryLimit: Int = 1000
 

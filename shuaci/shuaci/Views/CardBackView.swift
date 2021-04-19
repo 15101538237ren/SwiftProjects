@@ -19,6 +19,7 @@ class CardBackView: UIView {
     @IBOutlet var interpLabel: UILabel!{
         didSet {
             interpLabel.textColor = .darkGray
+            interpLabel.text = interpLabelText
         }
     }
     @IBOutlet var interpIndicator: UIButton!{

@@ -30,7 +30,6 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
     var thumbnailURLs:[URL] = []
     private var wordsQueue: Array<[Int]> = []
     private var wordsQArray: Array<[Int]> = []
-    private var DICT_URL: URL = Bundle.main.url(forResource: "DICT.json", withExtension: nil)!
     private var currentRec: Record?
     private var vocabRecordsOfCurrent:[VocabularyRecord] = []
     fileprivate var timeOnThisPage: Int = 0
@@ -42,6 +41,7 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
     var preference:Preference!
     var mainPanelViewController: MainPanelViewController!
     var words:[JSON]!
+    var mastered:[Bool] = []
     
     var secondsPST:Int = 0 // number of seconds past after load
     var card_behaviors:[Int: [Int]] = [:] //word index: Int , card Behavoirs[forget: 0, remember: 1, trash: 2\]
@@ -64,8 +64,6 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
     var currentIndex:Int = 0
     var viewTranslation = CGPoint(x: 0, y: 0)
     var currentWordLabelQueue:Array<[Int]> = []
-    var mastered:[Bool] = []
-    var Word_indexs_In_Oalecd8:[String:[Int]] = [:]
     var totalCounter:Int = Int(countDownOfLoading + 1)
     
     // MARK: - Outlet Variables
@@ -242,20 +240,7 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
         }
     }
     
-    func load_DICT(){
-        do {
-           let data = try Data(contentsOf: DICT_URL, options: [])//.mappedIfSafe
-            let key_arr = try JSON(data: data)["keys"].arrayValue
-            let oalecd8_arr = try JSON(data: data)["oalecd8"].arrayValue
-            for kid in 0..<key_arr.count{
-                let key = key_arr[kid].stringValue
-                Word_indexs_In_Oalecd8[key] = [kid, oalecd8_arr[kid].intValue]
-            }
-           print("Load \(DICT_URL) successful!")
-        } catch {
-            print(error.localizedDescription)
-        }
-    }
+    
     
     func getCardActionColor(cardBehavior: CardBehavior) -> UIColor{
         var themeKeyPath:String = ""
@@ -294,7 +279,6 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
         userNumUpdateTimer = Timer.scheduledTimer(timeInterval: numOfUerUpdateInterval, target: self, selector: #selector(updateNumOfUsersOnline), userInfo: nil, repeats: true)
         userPhotoUpdateTimer = Timer.scheduledTimer(timeInterval: userPhotoUpdateInterval, target: self, selector: #selector(updateUserPhotosOnline), userInfo: nil, repeats: true)
         let _ = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(tictoc), userInfo: nil, repeats: true)
-        load_DICT()
         getMotto()
     }
     
