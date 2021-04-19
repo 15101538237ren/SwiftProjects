@@ -51,6 +51,7 @@ class MainScreenViewController: UIViewController, UIGestureRecognizerDelegate {
                                 CardWord.init(headWord: "cowboy", meaning: "n. 牛仔", memMethod: "cow(母牛) + boy(男孩) → 农场管理母牛的男孩 → 牛仔")]
     override func viewDidLoad() {
         super.viewDidLoad()
+        load_DICT()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -70,7 +71,6 @@ class MainScreenViewController: UIViewController, UIGestureRecognizerDelegate {
                 self.launchUIView.alpha = 0.0
             })
         }
-        load_DICT()
     }
     
     func setFieldsOfCard(card: CardUIView, cardWord: CardWord){

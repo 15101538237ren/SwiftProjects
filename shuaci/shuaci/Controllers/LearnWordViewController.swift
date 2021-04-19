@@ -664,6 +664,7 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
         DispatchQueue.main.async { [self] in
             learnUIView.bringSubviewToFront(giveupUIView)
             learnUIView.bringSubviewToFront(userPanelView)
+            learnUIView.bringSubviewToFront(learnUIView.dimUIView)
             UIView.animate(withDuration: 0.5, animations: { [self] in
                 giveupUIView.alpha = 1.0
                 userPanelView.backgroundColor = userPanelBgColorWhenQuit

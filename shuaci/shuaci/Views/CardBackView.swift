@@ -14,7 +14,11 @@ class CardBackView: UIView {
     var strLabel = UILabel()
     let effectView = UIVisualEffectView(effect: UIBlurEffect(style: .regular))
     
-    @IBOutlet var webView: WKWebView!
+    @IBOutlet var webView: WKWebView!{
+        didSet{
+            webView.backgroundColor = .white
+        }
+    }
     
     @IBOutlet var interpLabel: UILabel!{
         didSet {
