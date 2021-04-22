@@ -610,6 +610,7 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
                                        selector: #selector(relayout),
                                        name: UIApplication.willEnterForegroundNotification,
                                        object: nil)
+        load_DICT()
     }
     
     func startLearning(){

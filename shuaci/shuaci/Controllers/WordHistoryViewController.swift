@@ -282,7 +282,6 @@ class WordHistoryViewController: UIViewController, UIGestureRecognizerDelegate, 
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         view.theme_backgroundColor = "Global.viewBackgroundColor"
         backBtn.theme_tintColor = "Global.backBtnTintColor"
         barTitleLabel.theme_textColor = "Global.barTitleColor"
@@ -294,6 +293,7 @@ class WordHistoryViewController: UIViewController, UIGestureRecognizerDelegate, 
         emptyStateDataSource = self
         emptyStateDelegate = self
         
+        load_DICT()
         getGroupVocabs()
         
         segmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.white], for: .selected)

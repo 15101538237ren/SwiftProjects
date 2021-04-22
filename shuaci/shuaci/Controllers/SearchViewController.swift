@@ -31,6 +31,7 @@ class SearchViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         if let textFieldInSearchBar = searchBar.value(forKey: "searchField") as? UITextField {
             textFieldInSearchBar.theme_textColor = "SearchVC.searchBarTextColor" 
         }
@@ -50,8 +51,7 @@ class SearchViewController: UIViewController {
         let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(swipedCells(sender:)))
         swipeRight.direction = .right
         tblView.addGestureRecognizer(swipeRight)
-        
-        // Do any additional setup after loading the view, typically from a nib.
+        load_DICT()
     }
     
     @objc func swipedCells(sender: UITapGestureRecognizer) {

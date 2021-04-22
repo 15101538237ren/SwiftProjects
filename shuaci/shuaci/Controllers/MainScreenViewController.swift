@@ -51,7 +51,6 @@ class MainScreenViewController: UIViewController, UIGestureRecognizerDelegate {
                                 CardWord.init(headWord: "cowboy", meaning: "n. 牛仔", memMethod: "cow(母牛) + boy(男孩) → 农场管理母牛的男孩 → 牛仔")]
     override func viewDidLoad() {
         super.viewDidLoad()
-        load_DICT()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -63,6 +62,7 @@ class MainScreenViewController: UIViewController, UIGestureRecognizerDelegate {
             showMainPanel(currentUser: user)
         }
         else {
+            load_DICT()
             initCards()
             let card = cards[0]
             let xshift:CGFloat = card.frame.size.width/8.0
@@ -180,8 +180,6 @@ class MainScreenViewController: UIViewController, UIGestureRecognizerDelegate {
                     _ = query.getFirst { result in
                         switch result {
                         case .success(object: let word):
-                            
-                            print("DICT SUCCESS!")
                             if let html_content = word.get("html_content")?.stringValue
                             {
                                 let html_final = build_html_with_given_content(html_content: html_content, remove_newline: true)
