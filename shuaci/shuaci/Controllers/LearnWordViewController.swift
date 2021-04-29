@@ -302,15 +302,19 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     @objc func startCountDown(){
-        dispatchWork = DispatchWorkItem(block: {
-            UIView.animate(withDuration: 0.5, animations: { [weak self] in
-                self?.loadingView.alpha = 0
-            }, completion: { _ in
-                self.startLearning()
+        if loadLearning{
+            dispatchWork = DispatchWorkItem(block: {
+                UIView.animate(withDuration: 0.5, animations: { [weak self] in
+                    self?.loadingView.alpha = 0
+                }, completion: { _ in
+                    self.startLearning()
+                })
             })
-        })
-        DispatchQueue.main.asyncAfter(deadline: .now() + countDownOfLoading, execute: dispatchWork!)
-        countDownText()
+            DispatchQueue.main.asyncAfter(deadline: .now() + countDownOfLoading, execute: dispatchWork!)
+            countDownText()
+        }else{
+            self.loadingView.alpha = 0
+        }
     }
     
     func getTimeSuffix(num: Int) -> String{
@@ -532,6 +536,9 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
         prepareScene()
+        if !loadLearning{
+            startLearning()
+        }
     }
     
     func updateWordLeftLabels(currentMemStage: Int){

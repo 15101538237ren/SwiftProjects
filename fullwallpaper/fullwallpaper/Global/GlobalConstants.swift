@@ -56,6 +56,11 @@ let numberOfItemsPerRow:CGFloat = CGFloat(3)
 let cellSpacing:CGFloat = CGFloat(2)
 let cellHeightWidthRatio:CGFloat = CGFloat(1.5)
 
+
+let numberOfItemsPerRowForCustomization:CGFloat = CGFloat(2)
+let cellSpacingForCustomization:CGFloat = CGFloat(17.5)
+let cellHeightWidthRatioForCustomization:CGFloat = CGFloat(2.1653)
+
 let categoryJsonFileName = "Category.json"
 
 let OkTxt = "好的"

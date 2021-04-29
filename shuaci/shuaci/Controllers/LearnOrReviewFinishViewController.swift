@@ -249,7 +249,6 @@ class LearnOrReviewFinishViewController: UIViewController {
     }
     
     func loadScene(){
-        loadQouteScene()
         setTodyWordNum()
         setInsistDay()
         setDateLabel()

@@ -18,10 +18,12 @@
 		55537E3A254BBEE4005081CF /* WallpaperDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55537E39254BBEE4005081CF /* WallpaperDetailVC.swift */; };
 		5577BE0B254A8767008A1F14 /* WallpaperCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5577BE0A254A8767008A1F14 /* WallpaperCollectionViewCell.swift */; };
 		5577BE10254A88F0008A1F14 /* GlobalConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5577BE0F254A88F0008A1F14 /* GlobalConstants.swift */; };
+		55A94D67263A36730027D923 /* CustomizationCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A94D66263A36730027D923 /* CustomizationCollectionViewCell.swift */; };
 		55F39927254A624D0094A477 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55F39926254A624D0094A477 /* AppDelegate.swift */; };
 		55F39929254A624D0094A477 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55F39928254A624D0094A477 /* SceneDelegate.swift */; };
 		55F3992B254A624D0094A477 /* WallpaperVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55F3992A254A624D0094A477 /* WallpaperVC.swift */; };
 		55F39933254A624D0094A477 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 55F39931254A624D0094A477 /* LaunchScreen.storyboard */; };
+		55F3F5B1263A382C00701A66 /* CustomizationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55F3F5B0263A382C00701A66 /* CustomizationVC.swift */; };
 		C300E4AD25E1B6630009BEFA /* VIP.swift in Sources */ = {isa = PBXBuildFile; fileRef = C300E4AC25E1B6630009BEFA /* VIP.swift */; };
 		C30B71F7258D2F76002A673D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C30B71F6258D2F76002A673D /* Main.storyboard */; };
 		C30B71FB258DB868002A673D /* PolicyVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C30B71FA258DB868002A673D /* PolicyVC.swift */; };
@@ -80,6 +82,7 @@
 		5577BE0A254A8767008A1F14 /* WallpaperCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WallpaperCollectionViewCell.swift; sourceTree = "<group>"; };
 		5577BE0F254A88F0008A1F14 /* GlobalConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalConstants.swift; sourceTree = "<group>"; };
 		559CC01D2612A65200CA7746 /* fullwallpaper-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "fullwallpaper-Bridging-Header.h"; path = "fullwallpaper/fullwallpaper-Bridging-Header.h"; sourceTree = "<group>"; };
+		55A94D66263A36730027D923 /* CustomizationCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomizationCollectionViewCell.swift; sourceTree = "<group>"; };
 		55F39923254A624D0094A477 /* fullwallpaper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = fullwallpaper.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		55F39926254A624D0094A477 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		55F39928254A624D0094A477 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -87,6 +90,7 @@
 		55F3992F254A624D0094A477 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		55F39932254A624D0094A477 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		55F39934254A624D0094A477 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		55F3F5B0263A382C00701A66 /* CustomizationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomizationVC.swift; sourceTree = "<group>"; };
 		C300E4AC25E1B6630009BEFA /* VIP.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VIP.swift; sourceTree = "<group>"; };
 		C30B71F6258D2F76002A673D /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		C30B71FA258DB868002A673D /* PolicyVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolicyVC.swift; sourceTree = "<group>"; };
@@ -247,6 +251,7 @@
 				C3D5D820257D74BA006DA951 /* UserProfileVC.swift */,
 				C3F737DA25833620008D0095 /* VIPBenefitsVC.swift */,
 				C30B71FA258DB868002A673D /* PolicyVC.swift */,
+				55F3F5B0263A382C00701A66 /* CustomizationVC.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -263,6 +268,7 @@
 				C3F737D72582B856008D0095 /* SettingTableViewCellWithImg.swift */,
 				C3CA897A258FF0D8001E2EA2 /* TermsView.swift */,
 				C3E3E49025E09A39002E142E /* MembershipCollectionViewCell.swift */,
+				55A94D66263A36730027D923 /* CustomizationCollectionViewCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -485,6 +491,7 @@
 				55537E3A254BBEE4005081CF /* WallpaperDetailVC.swift in Sources */,
 				C3E3E49125E09A39002E142E /* MembershipCollectionViewCell.swift in Sources */,
 				5577BE10254A88F0008A1F14 /* GlobalConstants.swift in Sources */,
+				55A94D67263A36730027D923 /* CustomizationCollectionViewCell.swift in Sources */,
 				5577BE0B254A8767008A1F14 /* WallpaperCollectionViewCell.swift in Sources */,
 				C30B71FB258DB868002A673D /* PolicyVC.swift in Sources */,
 				C3C48F25256A2E0A00507582 /* CollectionItemsVC.swift in Sources */,
@@ -498,6 +505,7 @@
 				C3C3566325573B03006F137B /* SettingItem.swift in Sources */,
 				C3B10821258E81BD0074F741 /* UMCommonSwift.swift in Sources */,
 				55F39929254A624D0094A477 /* SceneDelegate.swift in Sources */,
+				55F3F5B1263A382C00701A66 /* CustomizationVC.swift in Sources */,
 				55537E37254B3F1D005081CF /* CategoryTableViewCell.swift in Sources */,
 				C3CA897B258FF0D8001E2EA2 /* TermsView.swift in Sources */,
 				55370FAC2553B5700003CAD5 /* GlobalFunctions.swift in Sources */,
