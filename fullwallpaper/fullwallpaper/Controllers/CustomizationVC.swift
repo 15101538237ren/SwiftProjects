@@ -9,8 +9,8 @@ import UIKit
 import SwiftTheme
 
 class CustomizationVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate {
-    private let customizations:[String] = ["经典", "朦胧"]
-    private let customizationImages:[String] = ["center_square", "blurry"]
+    private let customizations:[String] = ["经典", "模糊", "小半", "相框"]
+    private let customizationImages:[String] = ["center_square", "blurry", "half_screen", "border"]
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var titleLabel: UILabel!
 
