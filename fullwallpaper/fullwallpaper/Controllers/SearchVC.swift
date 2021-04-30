@@ -112,6 +112,12 @@ class SearchVC: UIViewController, UICollectionViewDelegate, UICollectionViewData
     
     @objc func loadWallpapers()
     {
+        if !switchesLoaded{
+            loadSwitchesSetting { [self] in
+                loadWallpapers()
+            }
+            return
+        }
         collectionView.setLoadMoreEnable(false)
         
         DispatchQueue.main.async { [self] in
@@ -135,6 +141,7 @@ class SearchVC: UIViewController, UICollectionViewDelegate, UICollectionViewData
             DispatchQueue.global(qos: .utility).async { [self] in
             do {
                 let query = LCQuery(className: "Wallpaper")
+                query.whereKey("test", .equalTo(testMode))
                 query.whereKey("caption", .matchedSubstring(searchKeyword))
                 query.whereKey("createdAt", .descending)
 

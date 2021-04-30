@@ -46,7 +46,6 @@ class CustomizationVC: UIViewController, UICollectionViewDelegate, UICollectionV
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
 
         let width = (collectionView.frame.size.width - (numberOfItemsPerRowForCustomization + 1) * cellSpacingForCustomization) / numberOfItemsPerRowForCustomization
-        print("WIDTH:\(width)")
         let height = width * cellHeightWidthRatioForCustomization
         return CGSize(width: width, height: height)
     }

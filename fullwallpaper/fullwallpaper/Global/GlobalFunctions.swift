@@ -15,6 +15,38 @@ import SwiftTheme
 import SwiftyStoreKit
 
 
+func loadSwitchesSetting(completion: @escaping () -> Void){
+    DispatchQueue.global(qos: .background).async {
+    do {
+        let query = LCQuery(className: "Switch")
+        query.limit = 100
+        _ = query.find { result in
+            switch result {
+            case .success(objects: let results):
+                for item in results{
+                    let name = item.get("name")!.stringValue!
+                    let switchOn = item.get("on")!.boolValue!
+                    if switchOn{
+                        switch name {
+                        case "testMode":
+                            testMode = true
+                        default:
+                            break
+                        }
+                    }
+                }
+                switchesLoaded = true
+                completion()
+            case .failure(error: let error):
+                print(error.localizedDescription)
+                switchesLoaded = true
+                completion()
+            }
+        }
+    }
+    }
+}
+
 func getSegmentedCtrlUnselectedTextColor() -> String{
     let viewBackgroundColor = ThemeManager.currentTheme?.value(forKeyPath: "SegmentedCtrlTextColor") as! String
     return viewBackgroundColor
@@ -171,6 +203,12 @@ func encodeSaveJson(){
 
 func loadCategories(completion: @escaping () -> Void)
 {
+    if !switchesLoaded{
+        loadSwitchesSetting {
+            loadCategories(completion: completion)
+        }
+        return
+    }
     
     loadCategoryFromLocal(completion: completion)
     
@@ -182,6 +220,7 @@ func loadCategories(completion: @escaping () -> Void)
     DispatchQueue.global(qos: .utility).async {
     do {
         let query = LCQuery(className: "Category")
+        query.whereKey("test", .equalTo(testMode))
         let updated_count = query.count()
         print("Fetched \(updated_count.intValue) categories")
         if categories.count != updated_count.intValue{

@@ -213,6 +213,13 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
     
     @objc func loadWallpapers()
     {
+        if !switchesLoaded{
+            loadSwitchesSetting { [self] in
+                loadWallpapers()
+            }
+            return
+        }
+        
         collectionView.setLoadMoreEnable(false)
         
         DispatchQueue.main.async { [self] in
@@ -234,7 +241,9 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
         if !NoMoreData[idx] {
             DispatchQueue.global(qos: .utility).async { [self] in
             do {
+                
                 let query = LCQuery(className: "Wallpaper")
+                query.whereKey("test", .equalTo(testMode))
                 query.whereKey("status", .equalTo(1))
                 if sortType == .byLike{
                     query.whereKey("likes", .descending)

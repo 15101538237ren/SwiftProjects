@@ -30,6 +30,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         } catch {
             print(error)
         }
+        
+        loadSwitchesSetting(completion: {loadCategories(completion: {})})
+        setTheme()
+        
+        self.setupUmeng(launchOptions: launchOptions)
+        self.setupStoreKit()
+        
+        return true
+    }
+    
+    func setupStoreKit(){
         // see notes below for the meaning of Atomic / Non-Atomic
         SwiftyStoreKit.completeTransactions(atomically: true) { purchases in
             for purchase in purchases {
@@ -47,13 +58,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                 }
             }
         }
-        self.setupUmeng(launchOptions: launchOptions)
-        
-        setTheme()
-        
-        loadCategories(completion:{})
-        
-        return true
     }
     
     func setupUmeng(launchOptions: [UIApplication.LaunchOptionsKey: Any]?) {

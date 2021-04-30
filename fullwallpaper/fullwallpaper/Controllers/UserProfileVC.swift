@@ -134,6 +134,12 @@ class UserProfileVC: UIViewController, UICollectionViewDelegate, UICollectionVie
     
     func loadWallpapers(selectedIdx: Int)
     {
+        if !switchesLoaded{
+            loadSwitchesSetting { [self] in
+                loadWallpapers(selectedIdx: selectedIdx)
+            }
+            return
+        }
         collectionView.setLoadMoreEnable(false)
         
         DispatchQueue.main.async { [self] in
@@ -198,6 +204,7 @@ class UserProfileVC: UIViewController, UICollectionViewDelegate, UICollectionVie
                     DispatchQueue.global(qos: .utility).async { [self] in
                     do {
                         let query = LCQuery(className: "Wallpaper")
+                        query.whereKey("test", .equalTo(testMode))
                         query.whereKey("uploader", .equalTo(currentUser))
                         query.whereKey("createdAt", .descending)
                         

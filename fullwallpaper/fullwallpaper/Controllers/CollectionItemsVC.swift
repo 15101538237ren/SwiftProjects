@@ -145,6 +145,13 @@ class CollectionItemsVC: UIViewController, UICollectionViewDelegate, UICollectio
     
     func loadWallpapers()
     {
+        if !switchesLoaded{
+            loadSwitchesSetting { [self] in
+                loadWallpapers()
+            }
+            return
+        }
+        
         collectionView.setLoadMoreEnable(false)
         
         DispatchQueue.main.async { [self] in
@@ -166,6 +173,7 @@ class CollectionItemsVC: UIViewController, UICollectionViewDelegate, UICollectio
             DispatchQueue.global(qos: .utility).async { [self] in
             do {
                 let query = LCQuery(className: "Wallpaper")
+                query.whereKey("test", .equalTo(testMode))
                 query.whereKey("status", .equalTo(1))
                 
                 let collectionObj = LCObject(className: "Collection", objectId: collection.objectId!.stringValue!)

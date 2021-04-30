@@ -288,6 +288,12 @@ class CategoryCollectionVC: UIViewController, UICollectionViewDelegate, UICollec
     
     func loadWallpapers()
     {
+        if !switchesLoaded{
+            loadSwitchesSetting { [self] in
+                loadWallpapers()
+            }
+            return
+        }
         collectionView.setLoadMoreEnable(false)
         
         DispatchQueue.main.async { [self] in
@@ -311,6 +317,7 @@ class CategoryCollectionVC: UIViewController, UICollectionViewDelegate, UICollec
             DispatchQueue.global(qos: .utility).async { [self] in
             do {
                 let query = LCQuery(className: "Wallpaper")
+                query.whereKey("test", .equalTo(testMode))
                 query.whereKey("status", .equalTo(1))
                 query.whereKey("category", .equalTo(category))
                 

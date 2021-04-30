@@ -18,6 +18,7 @@
 		55537E3A254BBEE4005081CF /* WallpaperDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55537E39254BBEE4005081CF /* WallpaperDetailVC.swift */; };
 		5577BE0B254A8767008A1F14 /* WallpaperCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5577BE0A254A8767008A1F14 /* WallpaperCollectionViewCell.swift */; };
 		5577BE10254A88F0008A1F14 /* GlobalConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5577BE0F254A88F0008A1F14 /* GlobalConstants.swift */; };
+		55893D5B263B77340091551B /* Localization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55893D5A263B77340091551B /* Localization.swift */; };
 		55A94D67263A36730027D923 /* CustomizationCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A94D66263A36730027D923 /* CustomizationCollectionViewCell.swift */; };
 		55F39927254A624D0094A477 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55F39926254A624D0094A477 /* AppDelegate.swift */; };
 		55F39929254A624D0094A477 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55F39928254A624D0094A477 /* SceneDelegate.swift */; };
@@ -81,6 +82,7 @@
 		55537E39254BBEE4005081CF /* WallpaperDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WallpaperDetailVC.swift; sourceTree = "<group>"; };
 		5577BE0A254A8767008A1F14 /* WallpaperCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WallpaperCollectionViewCell.swift; sourceTree = "<group>"; };
 		5577BE0F254A88F0008A1F14 /* GlobalConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalConstants.swift; sourceTree = "<group>"; };
+		55893D5A263B77340091551B /* Localization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Localization.swift; sourceTree = "<group>"; };
 		559CC01D2612A65200CA7746 /* fullwallpaper-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "fullwallpaper-Bridging-Header.h"; path = "fullwallpaper/fullwallpaper-Bridging-Header.h"; sourceTree = "<group>"; };
 		55A94D66263A36730027D923 /* CustomizationCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomizationCollectionViewCell.swift; sourceTree = "<group>"; };
 		55F39923254A624D0094A477 /* fullwallpaper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = fullwallpaper.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -186,6 +188,7 @@
 				55370FAB2553B5700003CAD5 /* GlobalFunctions.swift */,
 				55370FAE2553B5800003CAD5 /* GlobalVariables.swift */,
 				C311F9C5255E14B5000FCED2 /* GlobalEnums.swift */,
+				55893D5A263B77340091551B /* Localization.swift */,
 			);
 			path = Global;
 			sourceTree = "<group>";
@@ -505,6 +508,7 @@
 				C3C3566325573B03006F137B /* SettingItem.swift in Sources */,
 				C3B10821258E81BD0074F741 /* UMCommonSwift.swift in Sources */,
 				55F39929254A624D0094A477 /* SceneDelegate.swift in Sources */,
+				55893D5B263B77340091551B /* Localization.swift in Sources */,
 				55F3F5B1263A382C00701A66 /* CustomizationVC.swift in Sources */,
 				55537E37254B3F1D005081CF /* CategoryTableViewCell.swift in Sources */,
 				C3CA897B258FF0D8001E2EA2 /* TermsView.swift in Sources */,
