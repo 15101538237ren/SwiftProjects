@@ -143,7 +143,7 @@ class WordHistoryViewController: UIViewController, UIGestureRecognizerDelegate, 
                 saveRecordsToDisk(userId: currentUser.objectId!.stringValue!, withRecords: false)
                 getGroupVocabs()
                 view.makeToast(removedSuccessfullyText, duration: 1.0, position: .center)
-                saveVocabRecordsToCloud(currentUser: currentUser)
+                saveVocabRecordsToCloud()
             }
         }
         else{

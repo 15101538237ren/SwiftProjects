@@ -21,7 +21,7 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
     let card_Y_constant:CGFloat = -30
     let animationDuration = 0.15
     let firstReviewDelayInMin = 30
-    let progressViewAnimationDuration = 2.5
+    let progressViewAnimationDuration = 2.0
     var currentMode:Int! // 1: Learn, 2: Review
     var liveQuery: LiveQuery?
     var dispatchWork: DispatchWorkItem? = nil
@@ -212,10 +212,13 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
         DispatchQueue.global(qos: .background).async {
         do {
             let query = LCQuery(className: "Motto")
-            let record_count = query.count().intValue
-            if record_count > 2{
-                let index = Int.random(in: 0...(record_count - 2))
-                query.skip = index
+            let record_count = query.count()
+            if record_count.isSuccess{
+                if (record_count.intValue > 2)
+                {
+                    let index = Int.random(in: 0...(record_count.intValue - 2))
+                    query.skip = index
+                }
                 _ = query.getFirst() { result in
                     switch result {
                     case .success(object: let result):
@@ -235,6 +238,8 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
                         print(error.localizedDescription)
                     }
                 }
+            }else{
+                print(record_count.error)
             }
         }
         }
@@ -272,7 +277,7 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
         updateNumOfLearn()
         startCountDown()
         initLearningRecord()
-        setOnlineStatus(user: currentUser, status: currentMode == 1 ? .learning : .reviewing)
+        setOnlineStatus(status: currentMode == 1 ? .learning : .reviewing)
         updateNumOfUsersOnline()
         updateOnlineUsersPhoto()
         updateUserPhoto()
@@ -340,11 +345,11 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
     
     @objc func backToOnline(){
         let onlineStatus:OnlineStatus = currentMode == 1 ? .learning : .reviewing
-        setOnlineStatus(user: currentUser, status: onlineStatus)
+        setOnlineStatus(status: onlineStatus)
     }
     
     @objc func goToOffline(){
-        setOnlineStatus(user: currentUser, status: .offline)
+        setOnlineStatus(status: .offline)
     }
     
     func updateNumber(){
@@ -403,7 +408,7 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
     
     
     override func viewWillDisappear(_ animated: Bool) {
-        setOnlineStatus(user: currentUser, status: .offline)
+        setOnlineStatus(status: .offline)
         userNumUpdateTimer?.invalidate()
         userPhotoUpdateTimer?.invalidate()
         let pageName:String = currentMode == 1 ? "背单词" : "复习"
@@ -989,8 +994,8 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
         }
         
         saveRecordsToDisk(userId: currentUser.objectId!.stringValue!)
-        saveRecordsToCloud(currentUser: currentUser)
-        saveVocabRecordsToCloud(currentUser: currentUser)
+        saveRecordsToCloud()
+        saveVocabRecordsToCloud()
     }
     
     @objc func moveCard(behavior: NSNumber) {

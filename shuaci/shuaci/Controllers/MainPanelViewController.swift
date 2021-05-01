@@ -116,7 +116,7 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
             loadBooksNRecords()
             
             loadUserPhoto()
-            setOnlineStatus(user: user, status: .online)
+            setOnlineStatus(status: .online)
             NotificationCenter.default.addObserver(self, selector: #selector(backToOnline), name: UIApplication.willEnterForegroundNotification, object: nil)
             NotificationCenter.default.addObserver(self, selector: #selector(goToOffline), name: UIApplication.willResignActiveNotification, object: nil)
             NotificationCenter.default.addObserver(self, selector: #selector(goToOffline), name: UIApplication.willTerminateNotification, object: nil)
@@ -127,9 +127,7 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        if let user = currentUser{
-            setOnlineStatus(user: user, status: .offline)
-        }
+        setOnlineStatus(status: .offline)
     }
     
     // MARK: - Outlet Actions
@@ -276,15 +274,11 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
     }
     
     @objc func backToOnline(){
-        if let user = currentUser{
-            setOnlineStatus(user: user, status: .online)
-        }
+        setOnlineStatus(status: .online)
     }
     
     @objc func goToOffline(){
-        if let user = currentUser{
-            setOnlineStatus(user: user, status: .offline)
-        }
+        setOnlineStatus(status: .offline)
     }
     
     @objc func loadWallpaper(){
@@ -335,11 +329,9 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
                     count_query.whereKey("theme_category", .equalTo(category))
                     
                     count_query.count{ count in
-                    
-                        let count = count.intValue
                         
-                        if count > 0 {
-                            let rand_index = Int.random(in: 0 ... count - 1)
+                        if count.isSuccess {
+                            let rand_index = Int.random(in: 0 ... count.intValue - 1)
                             
                             let query = LCQuery(className: "Wallpaper")
                             query.whereKey("theme_category", .equalTo(category))
@@ -387,6 +379,8 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
                                     self.stopRotating()
                                 }
                             }
+                        }else{
+                            print(count.error?.description)
                         }
                     }
                     
@@ -458,7 +452,7 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
     }
     
     func loadBooksNRecords(){
-        loadRecords(currentUser: currentUser, completionHandler: { [self]
+        loadRecords(completionHandler: { [self]
             success in
             
             if success{
@@ -521,7 +515,7 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
         learnVC.currentUser = currentUser
         let pref = get_preference()
         learnVC.preference = pref
-        learnVC.words = get_words(currentUser: currentUser, preference: pref)
+        learnVC.words = get_words(preference: pref)
         learnVC.currentMode = 1
         learnVC.vocab_rec_need_to_be_review = []
         learnVC.mainPanelViewController = self

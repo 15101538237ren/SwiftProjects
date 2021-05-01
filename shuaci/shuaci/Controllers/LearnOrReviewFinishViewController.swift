@@ -172,12 +172,13 @@ class LearnOrReviewFinishViewController: UIViewController {
             do {
                 let count_query = LCQuery(className: "Qoute")
                 count_query.count{ count in
-                    let count = count.intValue
-                    if count > 0 {
-                        let rand_index = Int.random(in: 0 ... count - 1)
+                    if count.isSuccess {
                         let query = LCQuery(className: "Qoute")
-                        query.limit = 1
-                        query.skip = rand_index
+                        if count.intValue > 0{
+                            let rand_index = Int.random(in: 0 ... count.intValue - 1)
+                            query.limit = 1
+                            query.skip = rand_index
+                        }
                         _ = query.getFirst { result in
                             switch result {
                             case .success(object: let quote):
@@ -228,6 +229,7 @@ class LearnOrReviewFinishViewController: UIViewController {
                             }
                         }
                     }else{
+                        print(count.error)
                         self.setElements(enable: true)
                     }
                 }
@@ -249,6 +251,7 @@ class LearnOrReviewFinishViewController: UIViewController {
     }
     
     func loadScene(){
+        loadQouteScene()
         setTodyWordNum()
         setInsistDay()
         setDateLabel()

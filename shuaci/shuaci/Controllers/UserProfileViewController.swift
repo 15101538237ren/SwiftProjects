@@ -325,7 +325,7 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
            
             let okayAction = UIAlertAction(title: ensureText, style: .default, handler: { action in
                LCUser.logOut()
-                setOnlineStatus(user: self.currentUser, status: .offline)
+                setOnlineStatus(status: .offline)
                self.dismiss(animated: false, completion: {
                 self.mainPanelViewController.dismiss(animated: true, completion: nil)
                })

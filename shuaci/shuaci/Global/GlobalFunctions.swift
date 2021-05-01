@@ -96,19 +96,22 @@ func loadSwitchesSetting(){
     }
 }
 
-func setOnlineStatus(user: LCUser, status: OnlineStatus){
-    do {
-        try user.set("online", value: status.rawValue)
-        _ = user.save { result in
-            switch result {
-            case .success:
-                print("updated online status successful!")
-            case .failure(error: let error):
-                print(error.localizedDescription)
+func setOnlineStatus(status: OnlineStatus){
+    if let currentUser = LCApplication.default.currentUser
+    {
+        do {
+            try currentUser.set("online", value: status.rawValue)
+            _ = currentUser.save { result in
+                switch result {
+                case .success:
+                    print("updated online status successful!")
+                case .failure(error: let error):
+                    print(error.localizedDescription)
+                }
             }
+        } catch {
+            print(error)
         }
-    } catch {
-        print(error)
     }
 }
 
@@ -149,13 +152,14 @@ func checkIfVIPSubsciptionValid(successCompletion: @escaping Completion, failedC
         if let productKey:String = UserDefaults.standard.string(forKey: productKey){
             let productID:String = "\(bundleId).\(productKey)"
             let appleValidator = AppleReceiptValidator(service: testMode ? .sandbox : .production, sharedSecret: sharedSecret)
-            SwiftyStoreKit.verifyReceipt(using: appleValidator) { result in
+            SwiftyStoreKit.verifyReceipt(using: appleValidator, forceRefresh: true) { result in
                 switch result {
                 case .success(let receipt):
                     var availableForFreeTrial:Bool = true
                     let latest_receipt_infos:[JSON] = JSON(receipt)["latest_receipt_info"].arrayValue
+                    
                     for receipt_info in latest_receipt_infos{
-                        if JSON(receipt_info)["is_in_intro_offer_period"].boolValue{
+                        if JSON(receipt_info)["is_trial_period"].boolValue{
                             availableForFreeTrial = false
                         }
                     }
@@ -313,166 +317,98 @@ func saveRecordsToDisk(userId: String, withRecords:Bool = true){
  
  */
 
-func loadRecords(currentUser: LCUser, completionHandler: @escaping CompletionHandler){
-    
-    let userId:String = currentUser.objectId!.stringValue!
-    
-    let vocab_records_fp:String = "\(userId)_vocab_records.json"
-    
-    if !Disk.exists(vocab_records_fp, in: .documents)
-    {
-        loadVocabRecordsFromCloud(currentUser: currentUser)
-    }
-    else
-    {
-        do {
-            let vocab_records: [VocabularyRecord] = try Disk.retrieve(vocab_records_fp, from: .documents, as: [VocabularyRecord].self)
-            global_vocabs_records = vocab_records
-            print("Loaded VocabRecords from Disk Successful!")
-        } catch {
-            print(error)
+func loadRecords(completionHandler: @escaping CompletionHandler){
+    if let currentUser = LCApplication.default.currentUser{
+        let userId:String = currentUser.objectId!.stringValue!
+        
+        let vocab_records_fp:String = "\(userId)_vocab_records.json"
+        
+        if !Disk.exists(vocab_records_fp, in: .documents)
+        {
+            loadVocabRecordsFromCloud()
         }
-    }
-    
-    let records_fp:String = "\(userId)_records.json"
-    
-    if !Disk.exists(records_fp, in: .documents)
-    {
-        loadRecordsFromCloud(currentUser: currentUser, completionHandler: completionHandler)
-    }
-    else
-    {
-        do {
-            let records: [Record] = try Disk.retrieve(records_fp, from: .documents, as: [Record].self)
-            global_records = records
-            loadRecordsFromCloud(currentUser: currentUser, completionHandler: { _ in})
-            print("Loaded Records from Disk Successful!")
-            completionHandler(true)
-        } catch {
-            print(error)
-            completionHandler(false)
-        }
-    }
-}
-
-
-func saveRecordsToCloud(currentUser: LCUser){
-    var lcRecords:[LCObject] = []
-    let unsynced_records = global_records.filter {!$0.synced}
-    
-    for record in unsynced_records{
-        do {
-            
-            let recordLC = LCObject(className: "Record")
-            try recordLC.set("user", value: currentUser)
-            try recordLC.set("uuid", value: record.uuid)
-            try recordLC.set("recordType", value: record.recordType)
-            try recordLC.set("startDate", value: record.startDate)
-            try recordLC.set("endDate", value: record.endDate)
-            let vocabHeadString = record.vocabHeads.joined(separator: ",")
-            try recordLC.set("vocabHeads", value: vocabHeadString)
-            lcRecords.append(recordLC)
-        } catch {
-            print(error)
-        }
-    }
-    
-    // 批量构建和更新
-    _ = LCObject.save(lcRecords, completion: { (result) in
-        switch result {
-        case .success:
-            print("Save \(unsynced_records.count) Unsynchronized Records to Cloud Successful!")
-            for rid in 0..<global_records.count{
-                if !global_records[rid].synced{
-                    global_records[rid].synced = true
-                }
+        else
+        {
+            do {
+                let vocab_records: [VocabularyRecord] = try Disk.retrieve(vocab_records_fp, from: .documents, as: [VocabularyRecord].self)
+                global_vocabs_records = vocab_records
+                print("Loaded VocabRecords from Disk Successful!")
+            } catch {
+                print(error)
             }
-            saveRecordsToDisk(userId: currentUser.objectId!.stringValue!)
-        case .failure(error: let error):
-            print(error)
         }
-    })
+        
+        let records_fp:String = "\(userId)_records.json"
+        
+        if !Disk.exists(records_fp, in: .documents)
+        {
+            loadRecordsFromCloud(completionHandler: completionHandler)
+        }
+        else
+        {
+            do {
+                let records: [Record] = try Disk.retrieve(records_fp, from: .documents, as: [Record].self)
+                global_records = records
+                loadRecordsFromCloud(completionHandler: { _ in})
+                print("Loaded Records from Disk Successful!")
+                completionHandler(true)
+            } catch {
+                print(error)
+                completionHandler(false)
+            }
+        }
+    }
 }
 
-func saveVocabRecordsToCloud(currentUser: LCUser){
-    if Reachability.isConnectedToNetwork(){
-       let jsonData = try! JSONEncoder().encode(global_vocabs_records)
-       let jsonString = String(data: jsonData, encoding: .utf8)!
-       DispatchQueue.global(qos: .background).async {
-        do {
-            _ = currentUser.fetch { result in
-                switch result {
-                case .success:
-                    if let recordId = currentUser.get("VocabRecordId")?.stringValue{
-                        let recordQuery = LCQuery(className: "VocabRecord")
-                        recordQuery.get(recordId) { (result) in
-                            switch result {
-                            case .success(object: let rec):
-                                do {
-                                    try rec.set("jsonStr", value: jsonString)
-                                    rec.save { (result) in
-                                        switch result {
-                                        case .success:
-                                            print("VocabRecord saved successfully ")
-                                            break
-                                        case .failure(error: let error):
-                                            print(error.localizedDescription)
-                                        }
-                                    }
-                                } catch {
-                                    print(error.localizedDescription)
-                                }
-                            case .failure(error: let error):
-                                print(error.localizedDescription)
-                            }
-                        }
-                    }else{
-                        do{
-                            let recordObj = LCObject(className: "VocabRecord")
-                            try recordObj.set("jsonStr", value: jsonString)
-                            
-                            _ = recordObj.save { result in
-                                switch result {
-                                case .success:
-                                    let recordId: String = recordObj.objectId!.stringValue!
-                                    do {
-                                        try currentUser.set("VocabRecordId", value: recordId)
-                                        currentUser.save { result in
-                                            switch result{
-                                            case .success:
-                                                print("VocabRecord saved successfully ")
-                                                break
-                                            case .failure(error: let error):
-                                                print(error.reason ?? "failed to save VocabRecords")
-                                            }
-                                        }
-                                    } catch {
-                                        print(error.localizedDescription)
-                                    }
-                                case .failure(error: let error):
-                                    print(error.reason ?? "failed to save VocabRecords")
-                                }
-                            }
-                        }
-                        catch{
-                            print(error.localizedDescription)
-                        }
+
+func saveRecordsToCloud(){
+    if let currentUser = LCApplication.default.currentUser{
+        var lcRecords:[LCObject] = []
+        let unsynced_records = global_records.filter {!$0.synced}
+        
+        for record in unsynced_records{
+            do {
+                
+                let recordLC = LCObject(className: "Record")
+                try recordLC.set("user", value: currentUser)
+                try recordLC.set("uuid", value: record.uuid)
+                try recordLC.set("recordType", value: record.recordType)
+                try recordLC.set("startDate", value: record.startDate)
+                try recordLC.set("endDate", value: record.endDate)
+                let vocabHeadString = record.vocabHeads.joined(separator: ",")
+                try recordLC.set("vocabHeads", value: vocabHeadString)
+                lcRecords.append(recordLC)
+            } catch {
+                print(error)
+            }
+        }
+        
+        // 批量构建和更新
+        _ = LCObject.save(lcRecords, completion: { (result) in
+            switch result {
+            case .success:
+                print("Save \(unsynced_records.count) Unsynchronized Records to Cloud Successful!")
+                for rid in 0..<global_records.count{
+                    if !global_records[rid].synced{
+                        global_records[rid].synced = true
                     }
-                case .failure(error: let error):
-                    print(error.localizedDescription)
                 }
+                saveRecordsToDisk(userId: currentUser.objectId!.stringValue!)
+            case .failure(error: let error):
+                print(error)
             }
-        }
-       }
+        })
     }
 }
 
-func loadVocabRecordsFromCloud(currentUser: LCUser){
-    if Reachability.isConnectedToNetwork(){
-        DispatchQueue.global(qos: .background).async {
-        do {
-            _ = currentUser.fetch{
-                result in
+func saveVocabRecordsToCloud(){
+    if let currentUser = LCApplication.default.currentUser{
+        if Reachability.isConnectedToNetwork(){
+           let jsonData = try! JSONEncoder().encode(global_vocabs_records)
+           let jsonString = String(data: jsonData, encoding: .utf8)!
+           DispatchQueue.global(qos: .background).async {
+            do {
+                _ = currentUser.fetch { result in
                     switch result {
                     case .success:
                         if let recordId = currentUser.get("VocabRecordId")?.stringValue{
@@ -480,87 +416,169 @@ func loadVocabRecordsFromCloud(currentUser: LCUser){
                             recordQuery.get(recordId) { (result) in
                                 switch result {
                                 case .success(object: let rec):
-                                    let jsonStr = rec.get("jsonStr")!.stringValue!
-                                    let data = jsonStr.data(using: .utf8)!
-                                    if let vocab_records = try? JSONDecoder().decode([VocabularyRecord].self, from: data)
-                                    {
-                                        global_vocabs_records = vocab_records
-                                        saveRecordsToDisk(userId: currentUser.objectId!.stringValue!)
-                                    } else {
-                                        print("bad json in VocabRecord from LeanCloud")
+                                    do {
+                                        try rec.set("jsonStr", value: jsonString)
+                                        rec.save { (result) in
+                                            switch result {
+                                            case .success:
+                                                print("VocabRecord saved successfully ")
+                                                break
+                                            case .failure(error: let error):
+                                                print(error.localizedDescription)
+                                            }
+                                        }
+                                    } catch {
+                                        print(error.localizedDescription)
                                     }
                                 case .failure(error: let error):
                                     print(error.localizedDescription)
                                 }
                             }
+                        }else{
+                            do{
+                                let recordObj = LCObject(className: "VocabRecord")
+                                try recordObj.set("jsonStr", value: jsonString)
+                                
+                                _ = recordObj.save { result in
+                                    switch result {
+                                    case .success:
+                                        let recordId: String = recordObj.objectId!.stringValue!
+                                        do {
+                                            try currentUser.set("VocabRecordId", value: recordId)
+                                            currentUser.save { result in
+                                                switch result{
+                                                case .success:
+                                                    print("VocabRecord saved successfully ")
+                                                    break
+                                                case .failure(error: let error):
+                                                    print(error.reason ?? "failed to save VocabRecords")
+                                                }
+                                            }
+                                        } catch {
+                                            print(error.localizedDescription)
+                                        }
+                                    case .failure(error: let error):
+                                        print(error.reason ?? "failed to save VocabRecords")
+                                    }
+                                }
+                            }
+                            catch{
+                                print(error.localizedDescription)
+                            }
                         }
                     case .failure(error: let error):
                         print(error.localizedDescription)
                     }
+                }
             }
-        }
+           }
         }
     }
+    
+}
+
+func loadVocabRecordsFromCloud(){
+    if let currentUser = LCApplication.default.currentUser{
+        if Reachability.isConnectedToNetwork(){
+            DispatchQueue.global(qos: .background).async {
+            do {
+                _ = currentUser.fetch{
+                    result in
+                        switch result {
+                        case .success:
+                            if let recordId = currentUser.get("VocabRecordId")?.stringValue{
+                                let recordQuery = LCQuery(className: "VocabRecord")
+                                recordQuery.get(recordId) { (result) in
+                                    switch result {
+                                    case .success(object: let rec):
+                                        let jsonStr = rec.get("jsonStr")!.stringValue!
+                                        let data = jsonStr.data(using: .utf8)!
+                                        if let vocab_records = try? JSONDecoder().decode([VocabularyRecord].self, from: data)
+                                        {
+                                            global_vocabs_records = vocab_records
+                                            saveRecordsToDisk(userId: currentUser.objectId!.stringValue!)
+                                        } else {
+                                            print("bad json in VocabRecord from LeanCloud")
+                                        }
+                                    case .failure(error: let error):
+                                        print(error.localizedDescription)
+                                    }
+                                }
+                            }
+                        case .failure(error: let error):
+                            print(error.localizedDescription)
+                        }
+                }
+            }
+            }
+        }
+    }
+    
 }
 
 
-func loadRecordsFromCloud(currentUser: LCUser, completionHandler: @escaping CompletionHandler)
+func loadRecordsFromCloud(completionHandler: @escaping CompletionHandler)
 {
-    if Reachability.isConnectedToNetwork(){
-        DispatchQueue.global(qos: .background).async {
-        do {
-            let query = LCQuery(className: "Record")
-            query.whereKey("user", .equalTo(currentUser))
-            query.whereKey("createdAt", .ascending)
-            query.limit = QueryLimit
-            
-            let record_count = query.count().intValue
-            
-            if record_count > QueryLimit{
-                let query_times:Int = Int(ceil(Double(record_count) / Double(QueryLimit)))
+    if let currentUser = LCApplication.default.currentUser{
+        if Reachability.isConnectedToNetwork(){
+            DispatchQueue.global(qos: .background).async {
+            do {
+                let query = LCQuery(className: "Record")
+                query.whereKey("user", .equalTo(currentUser))
+                query.whereKey("createdAt", .ascending)
+                query.limit = QueryLimit
                 
-                for ti in 0..<query_times{
-                    let skip = Int(ti * QueryLimit)
-                    fetchBatchRecordsFromCloud(currentUser: currentUser, skip: skip, completionHandler: completionHandler)
+                let record_count = query.count().intValue
+                
+                if record_count > QueryLimit{
+                    let query_times:Int = Int(ceil(Double(record_count) / Double(QueryLimit)))
+                    
+                    for ti in 0..<query_times{
+                        let skip = Int(ti * QueryLimit)
+                        fetchBatchRecordsFromCloud(skip: skip, completionHandler: completionHandler)
+                    }
+                }else{
+                    fetchBatchRecordsFromCloud(completionHandler: completionHandler)
                 }
-            }else{
-                fetchBatchRecordsFromCloud(currentUser: currentUser, completionHandler: completionHandler)
             }
+            }
+        }else{
+            print(NoNetworkStr)
+            completionHandler(false)
         }
-        }
-    }else{
-        print(NoNetworkStr)
-        completionHandler(false)
     }
 }
 
 
-func fetchBatchRecordsFromCloud(currentUser: LCUser, skip: Int = 0, completionHandler: @escaping CompletionHandler){
-    if Reachability.isConnectedToNetwork(){
-        DispatchQueue.global(qos: .background).async {
-        do {
-            let query = LCQuery(className: "Record")
-            query.whereKey("user", .equalTo(currentUser))
-            query.whereKey("createdAt", .ascending)
-            query.limit = QueryLimit
-            query.skip = skip
-            _ = query.find { result in
-                switch result {
-                case .success(objects: let items):
-                    let records = parseLCRecords(items: items)
-                    updateRecords(userId: currentUser.objectId!.stringValue!, records: records)
-                    completionHandler(true)
-                case .failure(error: let error):
-                    print(error.localizedDescription)
-                    completionHandler(true)
+func fetchBatchRecordsFromCloud(skip: Int = 0, completionHandler: @escaping CompletionHandler){
+    if let currentUser = LCApplication.default.currentUser{
+        if Reachability.isConnectedToNetwork(){
+            DispatchQueue.global(qos: .background).async {
+            do {
+                let query = LCQuery(className: "Record")
+                query.whereKey("user", .equalTo(currentUser))
+                query.whereKey("createdAt", .ascending)
+                query.limit = QueryLimit
+                query.skip = skip
+                _ = query.find { result in
+                    switch result {
+                    case .success(objects: let items):
+                        let records = parseLCRecords(items: items)
+                        updateRecords(userId: currentUser.objectId!.stringValue!, records: records)
+                        completionHandler(true)
+                    case .failure(error: let error):
+                        print(error.localizedDescription)
+                        completionHandler(true)
+                    }
                 }
             }
+            }
+        }else{
+            completionHandler(false)
+            print(NoNetworkStr)
         }
-        }
-    }else{
-        completionHandler(false)
-        print(NoNetworkStr)
     }
+    
 }
 
 func parseLCRecords(items: [LCObject]) -> [Record] {
@@ -1593,7 +1611,7 @@ func update_words(preference: Preference) -> [JSON]
 }
 
 
-func get_words(currentUser: LCUser, preference: Preference) -> [JSON] {
+func get_words(preference: Preference) -> [JSON] {
     let wordsJsonFp = "words.json"
     var words:[JSON] = []
     if Disk.exists(wordsJsonFp, in: .documents) {
