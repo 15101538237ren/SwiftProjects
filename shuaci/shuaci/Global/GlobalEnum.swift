@@ -9,7 +9,9 @@
 import Foundation
 
 enum RegisteredPurchase : String {
-    case MonthlySubscribed = "monthlysubscribed"
+    case YearVIP = "yearlysubscribed"
+    case ThreeMonthVIP = "threemonthsubscribed"
+    case MonthlySubscribed = "onemonthsubscribed"
 }
 
 enum OnlineStatus: Int{

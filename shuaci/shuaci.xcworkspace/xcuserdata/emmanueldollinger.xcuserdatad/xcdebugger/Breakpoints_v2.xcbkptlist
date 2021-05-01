@@ -30,8 +30,8 @@
             filePath = "shuaci/Global/GlobalFunctions.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1125"
-            endingLineNumber = "1125"
+            startingLineNumber = "1152"
+            endingLineNumber = "1152"
             landmarkName = "getNumOfSeqMem(vocab:)"
             landmarkType = "9">
          </BreakpointContent>
@@ -46,8 +46,8 @@
             filePath = "shuaci/Global/GlobalFunctions.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1066"
-            endingLineNumber = "1066"
+            startingLineNumber = "1093"
+            endingLineNumber = "1093"
             landmarkName = "filterBehaviorsInDiffDays(bhvs:dates:)"
             landmarkType = "9">
          </BreakpointContent>

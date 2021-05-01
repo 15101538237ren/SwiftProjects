@@ -117,7 +117,6 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
             
             loadUserPhoto()
             setOnlineStatus(user: user, status: .online)
-            
             NotificationCenter.default.addObserver(self, selector: #selector(backToOnline), name: UIApplication.willEnterForegroundNotification, object: nil)
             NotificationCenter.default.addObserver(self, selector: #selector(goToOffline), name: UIApplication.willResignActiveNotification, object: nil)
             NotificationCenter.default.addObserver(self, selector: #selector(goToOffline), name: UIApplication.willTerminateNotification, object: nil)
@@ -602,11 +601,12 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
         loadWordHistoryVC()
     }
     
-    func loadMembershipVC(){
+    func loadMembershipVC(hasTrialed: Bool){
         let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
         let membershipVC = mainStoryBoard.instantiateViewController(withIdentifier: "membershipVC") as! MembershipVC
         membershipVC.modalPresentationStyle = .overCurrentContext
         membershipVC.currentUser = currentUser
+        membershipVC.hasFreeTrialed = hasTrialed
         DispatchQueue.main.async {
             self.present(membershipVC, animated: true, completion: nil)
         }
@@ -626,7 +626,11 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
             else{
                 loadBooksVC(NoBookSelected: true)
             }}, failedCompletion: { [self] in
-                loadMembershipVC()
+                
+                fetchFreeTrailed(currentUser: currentUser, completionHandler: { [self] success in
+                    loadMembershipVC(hasTrialed: success)
+                })
+                
             })
     }
     
@@ -665,7 +669,9 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
                 loadBooksVC(NoBookSelected: true)
             }
         }, failedCompletion: { [self] in
-            loadMembershipVC()
+            fetchFreeTrailed(currentUser: currentUser, completionHandler: { [self] success in
+                loadMembershipVC(hasTrialed: success)
+            })
         })
     }
     

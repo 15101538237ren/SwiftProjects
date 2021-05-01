@@ -18,3 +18,4 @@ var Word_indexs_In_Oalecd8:[String:[Int]] = [:]
 var AllData_keys:[String] = []
 var AllInterp_keys:[String] = []
 var defaultMotto: String = "If you are going through hell, keep going. —— Winston S. Churchill"
+

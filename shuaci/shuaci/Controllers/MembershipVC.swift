@@ -8,17 +8,39 @@
 
 import UIKit
 import SwiftyStoreKit
+import StoreKit
 import LeanCloud
 
-class MembershipVC: UIViewController {
+class MembershipVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    var hasFreeTrialed:Bool!
+    let cellSpacing:CGFloat = CGFloat(2)
+    let numberOfItemsPerRow:CGFloat = CGFloat(3)
+    var products:[SKProduct?] = []
+    let cellBorderColor = UIColor(red: 240, green: 240, blue: 240, alpha: 1)
+    let selectedCellBorderColor = UIColor(red: 211, green: 200, blue: 174, alpha: 1.0)
+    
+    let cellBgColor = UIColor.white
+    let selectedCellBgColor = UIColor(red: 253, green: 249, blue: 242, alpha: 1.0)
+    
+    let borderWidth:CGFloat = 1.5
+    
+    // Variables
+    var showHint: Bool = false
+    var selectedIndex: Int = 0
+    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var subscribeDescriptionLabel: UILabel!
+    @IBOutlet weak var subscribeBtn: UIButton!
+    @IBOutlet weak var  btnGroups: UIStackView!
+    
+    @IBOutlet weak var collectionView: UICollectionView!
     
     var currentUser: LCUser!
+    var vips:[VIP] = []
     fileprivate var timeOnThisPage: Int = 0
-    @IBOutlet weak var demoImgView: UIImageView!
     var viewTranslation = CGPoint(x: 0, y: 0)
     override func viewDidLoad() {
         super.viewDidLoad()
-        loadGIF()
+        setupCollectionView()
         stopIndicator()
         view.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(handleDismiss(sender:))))
         let _ = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(tictoc), userInfo: nil, repeats: true)
@@ -50,19 +72,101 @@ class MembershipVC: UIViewController {
         }
     }
     
-    func loadGIF(){
-        var imageData: Data? = nil
-        do {
-            imageData = try Data(contentsOf: Bundle.main.url(forResource: "card_animation", withExtension: "gif")!)
-            let advTimeGif = UIImage.gifImageWithData(imageData!)
-            demoImgView.image = advTimeGif
-        } catch {
-            print("error when loading gif")
+    // Functions Related too CollectionView
+    func setupCollectionView() {
+        if hasFreeTrialed{
+            vips = [
+                   VIP(duration: "连续包年", purchase: .YearVIP, price: 28, pastPrice: 72, numOfMonth: 12),
+                   VIP(duration: "连续包季", purchase: .ThreeMonthVIP, price: 12, pastPrice: 36, numOfMonth: 3),
+                   VIP(duration: "连续包月", purchase: .MonthlySubscribed, price: 6, pastPrice: 12, numOfMonth: 1)]
+        }else{
+            vips = [VIP(duration: "免费试用", purchase: .MonthlySubscribed, price: 0, pastPrice: 6, numOfMonth: 1),
+                    VIP(duration: "连续包年", purchase: .YearVIP, price: 28, pastPrice: 72, numOfMonth: 12),
+                    VIP(duration: "连续包季", purchase: .ThreeMonthVIP, price: 12, pastPrice: 36, numOfMonth: 3)]
+        }
+        let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
+        layout.sectionInset = UIEdgeInsets(top: 5, left: 0, bottom: 5, right: 0)
+        
+        layout.minimumInteritemSpacing = cellSpacing
+        layout.minimumLineSpacing = cellSpacing
+        
+        collectionView.collectionViewLayout = layout
+        collectionView.dataSource = self
+        collectionView.delegate = self
+        changeBtnTextOrTextBoxAlpha()
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return vips.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "membershipCollectionViewCell", for: indexPath) as! MembershipCollectionViewCell
+        let row:Int = indexPath.row
+        
+        if row != selectedIndex {
+            cell.layer.borderColor = cellBorderColor.cgColor
+            cell.layer.backgroundColor = cellBgColor.cgColor
+        }else{
+            cell.layer.borderColor = selectedCellBorderColor.cgColor
+            cell.layer.backgroundColor = selectedCellBgColor.cgColor
+        }
+        
+        cell.layer.borderWidth = borderWidth
+        
+        cell.durationLabel.text = "\(vips[row].duration)"
+        
+        let price = vips[row].price
+        cell.priceLabel.text = "¥\(price)"
+        
+        let pastPrice = vips[row].pastPrice
+        let attributeString: NSMutableAttributedString =  NSMutableAttributedString(string: "¥\(pastPrice)")
+        attributeString.addAttribute(NSAttributedString.Key.strikethroughStyle, value: 2, range: NSMakeRange(0, attributeString.length))
+        cell.pastPriceLabel.attributedText = attributeString
+        if price == 0{
+            cell.amountSavedLabel.text = "新用户首月免费"
+            cell.avgPriceLabel.text = "之后自动6元/月"
+        }
+        else{
+            cell.amountSavedLabel.text = "立省\(pastPrice - price)元"
+            let numOfMonth:Int = vips[row].numOfMonth
+            let avgMonthPrice = Int(Double(price)/Double(numOfMonth))
+            cell.avgPriceLabel.text = "平均\(avgMonthPrice)元/月"
+        }
+        
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+
+        let width = (collectionView.frame.size.width - (numberOfItemsPerRow - 1) * cellSpacing) / numberOfItemsPerRow
+        let height:CGFloat = 120.0
+        return CGSize(width: width, height: height)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        selectedIndex = indexPath.row
+        collectionView.reloadData()
+        changeBtnTextOrTextBoxAlpha()
+    }
+    
+    func changeBtnTextOrTextBoxAlpha(){
+        if vips.count > selectedIndex{
+            if vips[selectedIndex].price == 0{
+                subscribeBtn.setTitle("立即试用!", for: .normal)
+            }else{
+                subscribeBtn.setTitle("成为会员!", for: .normal)
+            }
         }
     }
     
+    @IBAction func unwind(_ sender: UIButton) {
+        self.dismiss(animated: true, completion: nil)
+    }
+    
     @IBAction func subscribeVIP(_ sender: UIButton) {
-        purchase(purchase: .MonthlySubscribed)
+        let registeredPurchase:RegisteredPurchase = vips[selectedIndex].purchase
+        purchase(purchase: registeredPurchase)
     }
     
     @IBAction func loadSubscriptionURL(_ sender: UIButton) {
@@ -83,7 +187,7 @@ class MembershipVC: UIViewController {
             switch result{
             case .success:
                 UMAnalyticsSwift.event(eventId: "Um_Event_VipSuc", attributes: userInfo)
-                
+                UserDefaults.standard.set(purchase.rawValue, forKey: productKey)
                 DispatchQueue.main.async {
                     self.dismiss(animated: true, completion: nil)
                 }
@@ -128,8 +232,8 @@ class MembershipVC: UIViewController {
                 if product.needsFinishTransaction {
                     SwiftyStoreKit.finishTransaction(product.transaction)
                 }
+                print("RESTOREED: \(product.productId)")
             }
-            
             self.showAlert(alert: self.alertForRestorePurchases(result: result))
 
         })

@@ -28,6 +28,7 @@
 		55538E12260D2EF500480A30 /* SetNumOfReviewVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55538E11260D2EF500480A30 /* SetNumOfReviewVC.swift */; };
 		5566520226250236006EC368 /* RussoOne-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5566520126250236006EC368 /* RussoOne-Regular.ttf */; };
 		5569E93F24AD187D006FBE62 /* UIApplication+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5569E93E24AD187D006FBE62 /* UIApplication+Ext.swift */; };
+		556C3B1B263CD1B600A77865 /* MembershipCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 556C3B1A263CD1B600A77865 /* MembershipCollectionViewCell.swift */; };
 		556D8A03261A90D9003D043C /* Localization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 556D8A02261A90D9003D043C /* Localization.swift */; };
 		557B66F124CCF2700068AB05 /* Night.plist in Resources */ = {isa = PBXBuildFile; fileRef = 557B66F024CCF2700068AB05 /* Night.plist */; };
 		557B66F324CCF44A0068AB05 /* Light_White.plist in Resources */ = {isa = PBXBuildFile; fileRef = 557B66F224CCF44A0068AB05 /* Light_White.plist */; };
@@ -38,7 +39,6 @@
 		55AD480926167B78002B0BD6 /* NotificationAskView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 55AD480826167B78002B0BD6 /* NotificationAskView.xib */; };
 		55AD480C26167BA3002B0BD6 /* NotificationAskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55AD480B26167BA3002B0BD6 /* NotificationAskView.swift */; };
 		55B005BC2619712F00376ABF /* iOSDevCenters+GIF.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55B005BB2619712F00376ABF /* iOSDevCenters+GIF.swift */; };
-		55B005C32619730200376ABF /* card_animation.gif in Resources */ = {isa = PBXBuildFile; fileRef = 55B005C22619730200376ABF /* card_animation.gif */; };
 		55B0673224E87A8F009DA575 /* LearnOrReviewFinishViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55B0673124E87A8F009DA575 /* LearnOrReviewFinishViewController.swift */; };
 		55B422FB2614FB830092CA48 /* UMessageSwiftInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55B422FA2614FB830092CA48 /* UMessageSwiftInterface.swift */; };
 		55B63A2324D530D300B6B8B5 /* SearchWordTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55B63A2224D530D300B6B8B5 /* SearchWordTableViewCell.swift */; };
@@ -130,6 +130,7 @@
 		55538E11260D2EF500480A30 /* SetNumOfReviewVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetNumOfReviewVC.swift; sourceTree = "<group>"; };
 		5566520126250236006EC368 /* RussoOne-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "RussoOne-Regular.ttf"; sourceTree = "<group>"; };
 		5569E93E24AD187D006FBE62 /* UIApplication+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+Ext.swift"; sourceTree = "<group>"; };
+		556C3B1A263CD1B600A77865 /* MembershipCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembershipCollectionViewCell.swift; sourceTree = "<group>"; };
 		556D8A02261A90D9003D043C /* Localization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Localization.swift; sourceTree = "<group>"; };
 		557B66F024CCF2700068AB05 /* Night.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Night.plist; sourceTree = "<group>"; };
 		557B66F224CCF44A0068AB05 /* Light_White.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Light_White.plist; sourceTree = "<group>"; };
@@ -142,7 +143,6 @@
 		55AD480826167B78002B0BD6 /* NotificationAskView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NotificationAskView.xib; sourceTree = "<group>"; };
 		55AD480B26167BA3002B0BD6 /* NotificationAskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationAskView.swift; sourceTree = "<group>"; };
 		55B005BB2619712F00376ABF /* iOSDevCenters+GIF.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "iOSDevCenters+GIF.swift"; sourceTree = "<group>"; };
-		55B005C22619730200376ABF /* card_animation.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = card_animation.gif; sourceTree = "<group>"; };
 		55B0673124E87A8F009DA575 /* LearnOrReviewFinishViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearnOrReviewFinishViewController.swift; sourceTree = "<group>"; };
 		55B422FA2614FB830092CA48 /* UMessageSwiftInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UMessageSwiftInterface.swift; sourceTree = "<group>"; };
 		55B63A1B24D523AB00B6B8B5 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
@@ -241,7 +241,6 @@
 		55414C4F24D62957004E4E7D /* DATA */ = {
 			isa = PBXGroup;
 			children = (
-				55B005C22619730200376ABF /* card_animation.gif */,
 				559B96C024F82DE800516475 /* DICT.json */,
 			);
 			path = DATA;
@@ -421,6 +420,7 @@
 				550534F524FD8F1200246BCA /* CardBackView.swift */,
 				55E4DB6A261567D2008D2A34 /* TermsView.swift */,
 				55AD480B26167BA3002B0BD6 /* NotificationAskView.swift */,
+				556C3B1A263CD1B600A77865 /* MembershipCollectionViewCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -552,7 +552,6 @@
 				C34229E425A6A06600FFF918 /* DancingScript-Medium.ttf in Resources */,
 				557B66F324CCF44A0068AB05 /* Light_White.plist in Resources */,
 				A5B82171245360F700963FEC /* PingFang SC Regular.ttf in Resources */,
-				55B005C32619730200376ABF /* card_animation.gif in Resources */,
 				A5B82177245370CD00963FEC /* Songti SC Regular.ttf in Resources */,
 				55414C5524D66217004E4E7D /* Light_Black.plist in Resources */,
 				55AD480926167B78002B0BD6 /* NotificationAskView.xib in Resources */,
@@ -666,6 +665,7 @@
 				A59EB1D32452A12900F300E1 /* AppDelegate.swift in Sources */,
 				55F4E03326194B7500730DB7 /* VIP.swift in Sources */,
 				559B96C324F82FDA00516475 /* WordDetailViewController.swift in Sources */,
+				556C3B1B263CD1B600A77865 /* MembershipCollectionViewCell.swift in Sources */,
 				A59A0B1A2454C04E000845F2 /* UIColor+Ext.swift in Sources */,
 				A5DD06E0246267A60051B3E5 /* BookItemTableViewCell.swift in Sources */,
 				55E4DB6B261567D2008D2A34 /* TermsView.swift in Sources */,

@@ -14,6 +14,32 @@ import Accelerate
 import SwiftTheme
 import SwiftyStoreKit
 
+func fetchFreeTrailed(currentUser: LCUser, completionHandler: @escaping CompletionHandler){
+    if Reachability.isConnectedToNetwork(){
+        DispatchQueue.global(qos: .background).async {
+        do {
+            _ = currentUser.fetch{
+                result in
+                    switch result {
+                    case .success:
+                        if let freeTried = currentUser.get("freeTried")?.boolValue{
+                            if !freeTried{
+                                completionHandler(false)
+                            }else{
+                                completionHandler(true)
+                            }
+                            
+                        }
+                    case .failure(error: let error):
+                        print(error.localizedDescription)
+                        completionHandler(true)
+                    }
+            }
+        }
+        }
+    }
+}
+
 func load_DICT(){
     if Word_indexs_In_Oalecd8.count == 0{
         do {
@@ -142,40 +168,37 @@ func getThemeColor(key: String) -> String{
 // MARK: - VIP Util
 
 func checkIfVIPSubsciptionValid(successCompletion: @escaping Completion, failedCompletion: @escaping Completion){
-    successCompletion()
-//    let formatter = DateFormatter()
-//    formatter.dateFormat = "yyyy/MM/dd HH:mm"
-//    let DUETIME = formatter.date(from: "2021/06/01 00:00")!
-//    let vip = VIP(purchase: .MonthlySubscribed)
-//    let product = vip.purchase
-//    let productID = makeProductId(purchase: product)
-//    SwiftyStoreKit.verifyReceipt(using: appleValidator) { result in
-//        switch result {
-//        case .success(let receipt):
-//            // Verify the purchase of a Subscription
-//            let purchaseResult = SwiftyStoreKit.verifySubscription(
-//                ofType: .autoRenewable,
-//                productId: productID,
-//                inReceipt: receipt)
-//                
-//            switch purchaseResult {
-//            case .purchased(let expiryDate, let items):
-//                print("\(productID) is valid until \(expiryDate)\n\(items)\n")
-//                successCompletion()
-//            case .expired(let expiryDate, let items):
-//                print("\(productID) is expired since \(expiryDate)\n\(items)\n")
-//                failedCompletion()
-//            case .notPurchased:
-//                print("The user has never purchased \(productID)")
-//                failedCompletion()
-//            }
-//
-//        case .error(let error):
-//            print("Receipt verification failed: \(error)")
-//            failedCompletion()
-//        }
-//    }
-    
+    if let productKey:String = UserDefaults.standard.string(forKey: productKey){
+        let productID:String = "\(bundleId).\(productKey)"
+        SwiftyStoreKit.verifyReceipt(using: appleValidator) { result in
+            switch result {
+            case .success(let receipt):
+                // Verify the purchase of a Subscription
+                let purchaseResult = SwiftyStoreKit.verifySubscription(
+                    ofType: .autoRenewable,
+                    productId: productID,
+                    inReceipt: receipt)
+                    
+                switch purchaseResult {
+                case .purchased(let expiryDate, let items):
+                    print("\(productID) is valid until \(expiryDate)\n\(items)\n")
+                    successCompletion()
+                case .expired(let expiryDate, let items):
+                    print("\(productID) is expired since \(expiryDate)\n\(items)\n")
+                    failedCompletion()
+                case .notPurchased:
+                    print("The user has never purchased \(productID)")
+                    failedCompletion()
+                }
+
+            case .error(let error):
+                print("Receipt verification failed: \(error)")
+                failedCompletion()
+            }
+        }
+    }else{
+        failedCompletion()
+    }
 }
 
 func makeProductId(purchase: RegisteredPurchase)-> String{
@@ -186,6 +209,10 @@ func getTimeInterval(product: RegisteredPurchase) -> TimeInterval{
     switch product {
     case .MonthlySubscribed:
         return 3600 * 24 * 30
+    case .YearVIP:
+        return 3600 * 24 * 365
+    case .ThreeMonthVIP:
+        return 3600 * 24 * 90
     }
 }
 

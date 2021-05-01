@@ -74,5 +74,6 @@ let githubLink:String = "https://15101538237ren.github.io"
 let privacyViewedKey: String = "privacyViewed"
 let everydayNotificationViewedKey: String = "everydayReminderAsked"
 let notificationAskedKey: String = "notificationAsked"
+let productKey: String = "productID"
 
 let durationOfNotificationText: Double = 4.0
