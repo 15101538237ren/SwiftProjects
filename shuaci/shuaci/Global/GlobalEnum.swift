@@ -20,3 +20,10 @@ enum OnlineStatus: Int{
     case learning = 2
     case reviewing = 3
 }
+
+enum FailedVerifyReason{
+    case expired
+    case notPurchasedNewUser
+    case notPurchasedOldUser
+    case unknownError
+}

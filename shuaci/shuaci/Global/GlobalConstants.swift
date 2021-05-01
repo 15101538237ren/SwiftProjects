@@ -15,6 +15,7 @@ import Nuke
 // MARK: - typealias
 
 typealias CompletionHandler = (_ success:Bool) -> Void
+typealias FailedVerifySubscriptionHandler = (_ reason:FailedVerifyReason) -> Void
 typealias Completion = () -> Void
 typealias CompletionHandlerWithData = (_ data: Data?, _ fromCloud: Bool) -> Void
 
@@ -28,7 +29,6 @@ let minNumOfVocabsForRetentionCalc:Double = 2
 
 let productURL = URL(string: "https://itunes.apple.com/app/id1560571805")
 let sharedSecret = "3a2e76c0ad73427ea047d8835842c883" //secret key for In-App Purchase
-let appleValidator = AppleReceiptValidator(service: .sandbox, sharedSecret: sharedSecret)
 let bundleId = "com.shuaci"
 let minimumReviewWorthyActionCount = 2
 let minNumToSaveReviewRecord = 5

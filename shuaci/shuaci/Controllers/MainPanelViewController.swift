@@ -625,12 +625,12 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
             }
             else{
                 loadBooksVC(NoBookSelected: true)
-            }}, failedCompletion: { [self] in
-                
-                fetchFreeTrailed(currentUser: currentUser, completionHandler: { [self] success in
-                    loadMembershipVC(hasTrialed: success)
-                })
-                
+            }}, failedCompletion: { [self] reason in
+                if reason == .notPurchasedNewUser{
+                    loadMembershipVC(hasTrialed: false)
+                }else{
+                    loadMembershipVC(hasTrialed: true)
+                }
             })
     }
     
@@ -668,10 +668,12 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
             else{
                 loadBooksVC(NoBookSelected: true)
             }
-        }, failedCompletion: { [self] in
-            fetchFreeTrailed(currentUser: currentUser, completionHandler: { [self] success in
-                loadMembershipVC(hasTrialed: success)
-            })
+        }, failedCompletion: { [self] reason in
+            if reason == .notPurchasedNewUser{
+                loadMembershipVC(hasTrialed: false)
+            }else{
+                loadMembershipVC(hasTrialed: true)
+            }
         })
     }
     

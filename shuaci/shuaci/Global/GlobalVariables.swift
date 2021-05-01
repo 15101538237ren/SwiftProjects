@@ -14,6 +14,7 @@ var invitationMode: Bool = false
 var loadLearning: Bool = false // load scene before learning
 var loadLearnFinish: Bool = false
 var loadPurchaseVIP: Bool = false
+var testMode: Bool = false
 var Word_indexs_In_Oalecd8:[String:[Int]] = [:]
 var AllData_keys:[String] = []
 var AllInterp_keys:[String] = []
