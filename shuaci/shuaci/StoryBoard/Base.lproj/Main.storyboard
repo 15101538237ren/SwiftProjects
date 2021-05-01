@@ -3264,28 +3264,28 @@
                                                         <rect key="frame" x="0.0" y="33" width="300" height="45"/>
                                                         <subviews>
                                                             <stackView opaque="NO" contentMode="scaleToFill" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="BFs-hd-TKU">
-                                                                <rect key="frame" x="0.0" y="13.5" width="300" height="18"/>
+                                                                <rect key="frame" x="45" y="7.5" width="210" height="30"/>
                                                                 <subviews>
                                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Uf3-1L-BUC" customClass="CheckboxButton" customModule="MBRadioCheckboxButton">
-                                                                        <rect key="frame" x="0.0" y="0.0" width="53" height="18"/>
+                                                                        <rect key="frame" x="0.0" y="0.0" width="30" height="30"/>
                                                                         <state key="normal" title="0 次">
                                                                             <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                         </state>
                                                                     </button>
                                                                     <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ldk-Hh-BFG" customClass="CheckboxButton" customModule="MBRadioCheckboxButton">
-                                                                        <rect key="frame" x="83" y="0.0" width="51" height="18"/>
+                                                                        <rect key="frame" x="60" y="0.0" width="30" height="30"/>
                                                                         <state key="normal" title="1 次">
                                                                             <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                         </state>
                                                                     </button>
                                                                     <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="s7t-WN-d2I" customClass="CheckboxButton" customModule="MBRadioCheckboxButton">
-                                                                        <rect key="frame" x="164" y="0.0" width="53" height="18"/>
+                                                                        <rect key="frame" x="120" y="0.0" width="30" height="30"/>
                                                                         <state key="normal" title="2 次">
                                                                             <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                         </state>
                                                                     </button>
                                                                     <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Mnv-rr-To1" customClass="CheckboxButton" customModule="MBRadioCheckboxButton">
-                                                                        <rect key="frame" x="247" y="0.0" width="53" height="18"/>
+                                                                        <rect key="frame" x="180" y="0.0" width="30" height="30"/>
                                                                         <state key="normal" title="3 次">
                                                                             <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                         </state>
@@ -4742,9 +4742,6 @@
                                         <state key="normal" title="兑换码">
                                             <color key="titleColor" red="0.69701474910000005" green="0.60949951410000003" blue="0.4823313951" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         </state>
-                                        <connections>
-                                            <action selector="restoreVIP:" destination="bd7-zo-Gs4" eventType="touchUpInside" id="WVv-xx-JXX"/>
-                                        </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -4926,8 +4923,7 @@
                                             <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
                                         <connections>
-                                            <action selector="restorePurchases:" destination="bd7-zo-Gs4" eventType="touchUpInside" id="p8l-Ox-q4g"/>
-                                            <action selector="restoreVIP:" destination="bd7-zo-Gs4" eventType="touchUpInside" id="xMD-Uq-Tw9"/>
+                                            <action selector="restorePurchases:" destination="bd7-zo-Gs4" eventType="touchUpInside" id="puy-16-HOy"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pP9-od-W7B">
@@ -5007,20 +5003,8 @@
         </scene>
     </scenes>
     <designables>
-        <designable name="Ldk-Hh-BFG">
-            <size key="intrinsicContentSize" width="51" height="18"/>
-        </designable>
-        <designable name="Mnv-rr-To1">
-            <size key="intrinsicContentSize" width="53" height="18"/>
-        </designable>
-        <designable name="Uf3-1L-BUC">
-            <size key="intrinsicContentSize" width="53" height="18"/>
-        </designable>
         <designable name="Wt0-D0-Xag">
             <size key="intrinsicContentSize" width="420" height="420"/>
-        </designable>
-        <designable name="s7t-WN-d2I">
-            <size key="intrinsicContentSize" width="53" height="18"/>
         </designable>
     </designables>
     <resources>

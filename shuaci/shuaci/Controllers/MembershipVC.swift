@@ -224,20 +224,34 @@ class MembershipVC: UIViewController, UICollectionViewDelegate, UICollectionView
     @IBAction func restorePurchases(_ sender: UIButton) {
         initIndicator(view: self.view)
         view.isUserInteractionEnabled = false
+        let existingProductIds:[String] = getProductIds()
         SwiftyStoreKit.restorePurchases(atomically: true, completion: {
             result in
             stopIndicator()
             self.view.isUserInteractionEnabled = true
+            var lastPurchaseDate:Date? = nil
+            var lastPurchaseId:String? = nil
             for product in result.restoredPurchases {
                 if product.needsFinishTransaction {
                     SwiftyStoreKit.finishTransaction(product.transaction)
                 }
-                print("RESTOREED: \(product.productId)")
+                if let transaction = product.originalTransaction{
+                    if let transactionDate: Date = transaction.transactionDate{
+                        if (lastPurchaseDate == nil || transactionDate > lastPurchaseDate!) && (existingProductIds.contains(product.productId)) && (transaction.transactionState == .purchased){
+                            lastPurchaseDate = transactionDate
+                            lastPurchaseId = product.productId
+                        }
+                    }
+                }
+            }
+            if let purchaseId = lastPurchaseId{
+                UserDefaults.standard.set(purchaseId, forKey: productKey)
             }
             self.showAlert(alert: self.alertForRestorePurchases(result: result))
 
         })
     }
+    
 }
 
 extension MembershipVC {

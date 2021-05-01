@@ -201,6 +201,10 @@ func checkIfVIPSubsciptionValid(successCompletion: @escaping Completion, failedC
     }
 }
 
+func getProductIds() -> [String]{
+    return [RegisteredPurchase.MonthlySubscribed.rawValue, RegisteredPurchase.YearVIP.rawValue, RegisteredPurchase.ThreeMonthVIP.rawValue]
+}
+
 func makeProductId(purchase: RegisteredPurchase)-> String{
     return "\(bundleId).\(purchase.rawValue)"
 }
