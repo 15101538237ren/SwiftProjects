@@ -83,6 +83,8 @@ func loadSwitchesSetting(){
                             loadPurchaseVIP = true
                         case "testMode":
                             testMode = true
+                        case "feedbackByWechat":
+                            feedbackByWechat = true
                         default:
                             break
                         }
@@ -146,53 +148,65 @@ func getThemeColor(key: String) -> String{
 // MARK: - VIP Util
 
 func checkIfVIPSubsciptionValid(successCompletion: @escaping Completion, failedCompletion: @escaping FailedVerifySubscriptionHandler){
-    if !loadPurchaseVIP{
-        successCompletion()
-    }else{
-        if let productKey:String = UserDefaults.standard.string(forKey: productKey){
-            let productID:String = "\(bundleId).\(productKey)"
-            let appleValidator = AppleReceiptValidator(service: testMode ? .sandbox : .production, sharedSecret: sharedSecret)
-            SwiftyStoreKit.verifyReceipt(using: appleValidator, forceRefresh: true) { result in
-                switch result {
-                case .success(let receipt):
-                    var availableForFreeTrial:Bool = true
-                    let latest_receipt_infos:[JSON] = JSON(receipt)["latest_receipt_info"].arrayValue
-                    
-                    for receipt_info in latest_receipt_infos{
-                        if JSON(receipt_info)["is_trial_period"].boolValue{
-                            availableForFreeTrial = false
-                        }
-                    }
-                    if availableForFreeTrial{
-                        failedCompletion(.notPurchasedNewUser)
-                        return
-                    }
-                    // Verify the purchase of a Subscription
-                    let purchaseResult = SwiftyStoreKit.verifySubscription(
-                        ofType: .autoRenewable,
-                        productId: productID,
-                        inReceipt: receipt)
-                        
-                    switch purchaseResult {
-                    case .purchased(let expiryDate, let items):
-                        print("\(productID) is valid until \(expiryDate)\n\(items)\n")
-                        successCompletion()
-                    case .expired(let expiryDate, let items):
-                        print("\(productID) is expired since \(expiryDate)\n\(items)\n")
-                        failedCompletion(.expired)
-                    case .notPurchased:
-                        print("The user has never purchased \(productID)")
-                        failedCompletion(.notPurchasedOldUser)
-                    }
-
-                case .error(let error):
-                    print("Receipt verification failed: \(error)")
-                    failedCompletion(.unknownError)
-                }
-            }
-        }else{
-            failedCompletion(.unknownError)
+    if let reason = failedReason{
+        switch reason {
+        case .success:
+            successCompletion()
+        default:
+            failedCompletion(reason)
         }
+        return
+    }
+    
+    if let productKey:String = UserDefaults.standard.string(forKey: productKey){
+        let productID:String = "\(bundleId).\(productKey)"
+        let appleValidator = AppleReceiptValidator(service: testMode ? .sandbox : .production, sharedSecret: sharedSecret)
+        SwiftyStoreKit.verifyReceipt(using: appleValidator) { result in
+            switch result {
+            case .success(let receipt):
+                var availableForFreeTrial:Bool = true
+                let latest_receipt_infos:[JSON] = JSON(receipt)["latest_receipt_info"].arrayValue
+                
+                for receipt_info in latest_receipt_infos{
+                    if JSON(receipt_info)["is_trial_period"].boolValue{
+                        availableForFreeTrial = false
+                    }
+                }
+                if availableForFreeTrial{
+                    failedReason = .notPurchasedNewUser
+                    failedCompletion(.notPurchasedNewUser)
+                    return
+                }
+                // Verify the purchase of a Subscription
+                let purchaseResult = SwiftyStoreKit.verifySubscription(
+                    ofType: .autoRenewable,
+                    productId: productID,
+                    inReceipt: receipt)
+                    
+                switch purchaseResult {
+                case .purchased(let expiryDate, let items):
+                    print("\(productID) is valid until \(expiryDate)\n\(items)\n")
+                    failedReason = .success
+                    successCompletion()
+                case .expired(let expiryDate, let items):
+                    print("\(productID) is expired since \(expiryDate)\n\(items)\n")
+                    failedReason = .expired
+                    failedCompletion(.expired)
+                case .notPurchased:
+                    failedReason = .notPurchasedOldUser
+                    print("The user has never purchased \(productID)")
+                    failedCompletion(.notPurchasedOldUser)
+                }
+
+            case .error(let error):
+                print("Receipt verification failed: \(error)")
+                failedReason = .unknownError
+                failedCompletion(.unknownError)
+            }
+        }
+    }else{
+        failedReason = .unknownError
+        failedCompletion(.unknownError)
     }
 }
 

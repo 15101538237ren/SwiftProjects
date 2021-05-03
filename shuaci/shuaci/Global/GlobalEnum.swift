@@ -22,6 +22,7 @@ enum OnlineStatus: Int{
 }
 
 enum FailedVerifyReason{
+    case success
     case expired
     case notPurchasedNewUser
     case notPurchasedOldUser

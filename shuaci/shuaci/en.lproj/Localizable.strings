@@ -137,6 +137,41 @@
 "将在" = "will";
 
 /* No comment provided by engineer. */
+"会员功能" = "刷词PRO";
+
+/* No comment provided by engineer. */
+"兑换码" = "Redeem";
+
+/* No comment provided by engineer. */
+"立即试用!" = "Try Now!";
+
+/* No comment provided by engineer. */
+"成为会员!" = "Upgrade PRO!";
+
+/* No comment provided by engineer. */
+"恢复购买" = "Restore Purchase";
+
+/* No comment provided by engineer. */
+"订阅服务协议" = "Terms of Subscription";
+
+/* No comment provided by engineer. */
+"自动续费服务说明：\n1. 确认购买并付款后计入iTunes 账号。\n2. 可随时取消自动续费。如需取消，请在订阅到期24小时前，手动在 iTunes/Apple ID 订阅管理中关闭自动续费。\n3. 苹果 iTunes 账号会在到期前24小时内扣款，扣款成功后订阅顺延一个周期。" = "Subscription Description: \n1.You can cancel subscription anytime by turning off settings in iTunes/Apple ID Subscriptions\n2.iTunes will charge before 24 hours of the end of a subscription.";
+
+
+/* No comment provided by engineer. */
+"免费试用" = "Free Trial!";
+
+/* No comment provided by engineer. */
+"连续包月" = "1 Month";
+
+/* No comment provided by engineer. */
+"连续包季" = "3 Months";
+
+/* No comment provided by engineer. */
+"连续包年" = "1 Year";
+
+
+/* No comment provided by engineer. */
 "小刷" = "shuaci";
 
 /* No comment provided by engineer. */
@@ -353,7 +388,13 @@
 "第" = "";
 
 /* No comment provided by engineer. */
-"感谢您关注刷词，目前我们在内测阶段，需要邀请码方能注册。如您对内测感兴趣，可以微信联系创始人: hongleir_uci，备注来意:刷词" = "Thanks for using shuaci, we are currently in beta testing stage. Invitation code for registration is required. If you are interested, please contact wechat of the founder: hongleir_uci";
+"感谢您关注刷词，目前我们在内测阶段，需要邀请码方能注册。如您对内测感兴趣，可以关注微信公众号: 刷词+，来联系创始人获取" = "Thanks for using shuaci, we are currently in testing stage. Invitation code for registration is required. If you want to a invitation code, please follow Wechat Official Accounts: 刷词+";
+
+/* No comment provided by engineer. */
+"反馈方法" = "Feedback Method";
+
+/* No comment provided by engineer. */
+"想要反馈给开发者吗？关注公众号：刷词+，单击「我要反馈」并填写反馈内容，我们就可以看见啦😊" = "Wanna feedback to developer? Follow Wechat Official Accounts: 刷词+, and click「我要反馈」 and fill the feedback, we will know your voice then😊";
 
 /* No comment provided by engineer. */
 "邀请码不正确" = "Invitation code incorrect";

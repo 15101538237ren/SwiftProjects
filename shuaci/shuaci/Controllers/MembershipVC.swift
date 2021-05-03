@@ -27,10 +27,60 @@ class MembershipVC: UIViewController, UICollectionViewDelegate, UICollectionView
     // Variables
     var showHint: Bool = false
     var selectedIndex: Int = 0
-    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var titleLabel: UILabel!{
+        didSet{
+            titleLabel.text = VIPTitleText
+        }
+    }
     @IBOutlet weak var subscribeDescriptionLabel: UILabel!
     @IBOutlet weak var subscribeBtn: UIButton!
+    @IBOutlet weak var redeemBtn: UIButton!{
+        didSet{
+            redeemBtn.setTitle(redeemBtnText, for: .normal)
+        }
+    }
+    
+    @IBOutlet weak var restoreBtn: UIButton!{
+        didSet{
+            restoreBtn.setTitle(restoreText, for: .normal)
+        }
+    }
+    
+    @IBOutlet weak var subscriptionTermBtn: UIButton!{
+        didSet{
+            subscriptionTermBtn.setTitle(subscriptionTermText, for: .normal)
+        }
+    }
+    
+    @IBOutlet weak var subscriptionDescriptionLabel: UILabel!{
+        didSet{
+            subscriptionDescriptionLabel.text = subscriptionDescription
+        }
+    }
+    
+    
     @IBOutlet weak var  btnGroups: UIStackView!
+    @IBOutlet weak var vipCardImgView: UIImageView!{
+        didSet{
+            if let langStr = Locale.current.languageCode
+            {
+                if !langStr.contains("zh"){
+                    vipCardImgView.image = UIImage(named: "vip_card_en")
+                }
+            }
+        }
+    }
+    
+    @IBOutlet weak var midIconsImgView: UIImageView!{
+        didSet{
+            if let langStr = Locale.current.languageCode
+            {
+                if !langStr.contains("zh"){
+                    midIconsImgView.image = UIImage(named: "mid_icons_en")
+                }
+            }
+        }
+    }
     
     @IBOutlet weak var collectionView: UICollectionView!
     
@@ -76,13 +126,14 @@ class MembershipVC: UIViewController, UICollectionViewDelegate, UICollectionView
     func setupCollectionView() {
         if hasFreeTrialed{
             vips = [
-                   VIP(duration: "连续包年", purchase: .YearVIP, price: 28, pastPrice: 72, numOfMonth: 12),
-                   VIP(duration: "连续包季", purchase: .ThreeMonthVIP, price: 12, pastPrice: 36, numOfMonth: 3),
-                   VIP(duration: "连续包月", purchase: .MonthlySubscribed, price: 6, pastPrice: 12, numOfMonth: 1)]
+                VIP(duration: monthSubscriptionText, purchase: .MonthlySubscribed, price: 6, pastPrice: 12, numOfMonth: 1),
+                   VIP(duration: quarterSubscriptionText, purchase: .ThreeMonthVIP, price: 12, pastPrice: 36, numOfMonth: 3),
+                VIP(duration: yearSubscriptionText, purchase: .YearVIP, price: 28, pastPrice: 72, numOfMonth: 12)]
         }else{
-            vips = [VIP(duration: "免费试用", purchase: .MonthlySubscribed, price: 0, pastPrice: 6, numOfMonth: 1),
-                    VIP(duration: "连续包年", purchase: .YearVIP, price: 28, pastPrice: 72, numOfMonth: 12),
-                    VIP(duration: "连续包季", purchase: .ThreeMonthVIP, price: 12, pastPrice: 36, numOfMonth: 3)]
+            vips = [
+                VIP(duration: freetrialText, purchase: .YearVIP, price: 28, pastPrice: 72, numOfMonth: 12),
+                    VIP(duration: quarterSubscriptionText, purchase: .ThreeMonthVIP, price: 12, pastPrice: 36, numOfMonth: 3),
+                VIP(duration: monthSubscriptionText, purchase: .MonthlySubscribed, price: 0, pastPrice: 6, numOfMonth: 1)]
         }
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 5, left: 0, bottom: 5, right: 0)
@@ -123,15 +174,35 @@ class MembershipVC: UIViewController, UICollectionViewDelegate, UICollectionView
         let attributeString: NSMutableAttributedString =  NSMutableAttributedString(string: "¥\(pastPrice)")
         attributeString.addAttribute(NSAttributedString.Key.strikethroughStyle, value: 2, range: NSMakeRange(0, attributeString.length))
         cell.pastPriceLabel.attributedText = attributeString
+        var enversion:Bool = false
+        if let langStr = Locale.current.languageCode
+        {
+            if !langStr.contains("zh"){
+                enversion = true
+            }
+        }
         if price == 0{
-            cell.amountSavedLabel.text = "新用户首月免费"
-            cell.avgPriceLabel.text = "之后自动6元/月"
+            if enversion{
+                cell.amountSavedLabel.text = "1 Month Free"
+                cell.avgPriceLabel.text = "then ¥6.00/Mon"
+            }else{
+                cell.amountSavedLabel.text = "新用户首月免费"
+                cell.avgPriceLabel.text = "之后自动6元/月"
+            }
         }
         else{
-            cell.amountSavedLabel.text = "立省\(pastPrice - price)元"
-            let numOfMonth:Int = vips[row].numOfMonth
-            let avgMonthPrice = Int(Double(price)/Double(numOfMonth))
-            cell.avgPriceLabel.text = "平均\(avgMonthPrice)元/月"
+            if enversion{
+                cell.amountSavedLabel.text = "Save ¥\(pastPrice - price)"
+                let numOfMonth:Int = vips[row].numOfMonth
+                let avgMonthPrice = Int(Double(price)/Double(numOfMonth))
+                cell.avgPriceLabel.text = "¥ \(avgMonthPrice).00/Mon in Average"
+            }else{
+                cell.amountSavedLabel.text = "立省\(pastPrice - price)元"
+                let numOfMonth:Int = vips[row].numOfMonth
+                let avgMonthPrice = Int(Double(price)/Double(numOfMonth))
+                cell.avgPriceLabel.text = "平均\(avgMonthPrice)元/月"
+            }
+            
         }
         
         return cell
@@ -153,9 +224,9 @@ class MembershipVC: UIViewController, UICollectionViewDelegate, UICollectionView
     func changeBtnTextOrTextBoxAlpha(){
         if vips.count > selectedIndex{
             if vips[selectedIndex].price == 0{
-                subscribeBtn.setTitle("立即试用!", for: .normal)
+                subscribeBtn.setTitle(tryNowText, for: .normal)
             }else{
-                subscribeBtn.setTitle("成为会员!", for: .normal)
+                subscribeBtn.setTitle(beVIPText, for: .normal)
             }
         }
     }
@@ -188,6 +259,7 @@ class MembershipVC: UIViewController, UICollectionViewDelegate, UICollectionView
             case .success:
                 UMAnalyticsSwift.event(eventId: "Um_Event_VipSuc", attributes: userInfo)
                 UserDefaults.standard.set(purchase.rawValue, forKey: productKey)
+                failedReason = .success
                 DispatchQueue.main.async {
                     self.dismiss(animated: true, completion: nil)
                 }

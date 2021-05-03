@@ -61,7 +61,12 @@ let emailSentWaitText:String = NSLocalizedString("邮件已发送，如需重新
 let emailSentToText:String = NSLocalizedString("已发送验证邮件到", comment: "")
 let clickVerifyPlsText:String = NSLocalizedString("请您单击邮件中的链接，完成验证后登录!", comment: "")
 let invitationPromptTitle:String = NSLocalizedString("邀请码", comment: "")
-let invitationPromptText:String = NSLocalizedString("感谢您关注刷词，目前我们在内测阶段，需要邀请码方能注册。如您对内测感兴趣，可以微信联系创始人: hongleir_uci，备注来意:刷词", comment: "")
+let invitationPromptText:String = NSLocalizedString("感谢您关注刷词，目前我们在内测阶段，需要邀请码方能注册。如您对内测感兴趣，可以关注微信公众号: 刷词+，来联系创始人获取", comment: "")
+
+
+let feedbackWayTitle:String = NSLocalizedString("反馈方法", comment: "")
+let feedbackWayDetail:String = NSLocalizedString("想要反馈给开发者吗？关注公众号：刷词+，单击「我要反馈」并填写反馈内容，我们就可以看见啦😊", comment: "")
+
 let invitationIncorrect:String = NSLocalizedString("邀请码不正确", comment: "")
 
 // MainPanel VC
@@ -185,6 +190,22 @@ let unknownErrText:String = NSLocalizedString("未知错误，请反馈至客服
 let purchaseCanceledText:String = NSLocalizedString("购买被取消", comment: "")
 let paymentNotAllowedText:String = NSLocalizedString("系统购买功能被您禁止", comment: "")
 let storeProductNotAvailableText:String = NSLocalizedString("当前产品不支持在您所在的国家购买", comment: "")
+let VIPTitleText:String = NSLocalizedString("会员功能", comment: "")
+let redeemBtnText:String = NSLocalizedString("兑换码", comment: "")
+let tryNowText:String = NSLocalizedString("立即试用!", comment: "")
+let beVIPText:String = NSLocalizedString("成为会员!", comment: "")
+let restoreText:String = NSLocalizedString("恢复购买", comment: "")
+let subscriptionTermText:String = NSLocalizedString("订阅服务协议", comment: "")
+
+let freetrialText:String = NSLocalizedString("免费试用", comment: "")
+
+let monthSubscriptionText:String = NSLocalizedString("连续包月", comment: "")
+
+let quarterSubscriptionText:String = NSLocalizedString("连续包季", comment: "")
+
+let yearSubscriptionText:String = NSLocalizedString("连续包年", comment: "")
+
+let subscriptionDescription:String = NSLocalizedString("自动续费服务说明：\n1. 确认购买并付款后计入iTunes 账号。\n2. 可随时取消自动续费。如需取消，请在订阅到期24小时前，手动在 iTunes/Apple ID 订阅管理中关闭自动续费。\n3. 苹果 iTunes 账号会在到期前24小时内扣款，扣款成功后订阅顺延一个周期。", comment: "")
 
 // MARK: - Themes
 let lightText:String = NSLocalizedString("明 亮", comment: "")

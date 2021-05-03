@@ -429,19 +429,29 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
         }
     }
     
+    
+    func popWechatFeedbackMessage(){
+        let alertCtl = presentAlert(title: feedbackWayTitle, message: feedbackWayDetail, okText: okText)
+        self.present(alertCtl, animated: true, completion: nil)
+    }
+    
     func showFeedBackMailComposer(){
-        guard MFMailComposeViewController.canSendMail() else{
-            let ac = UIAlertController(title: canNotSendEmailText, message: "", preferredStyle: .alert)
-            ac.addAction(UIAlertAction(title: okText, style: .default, handler: nil))
-            present(ac, animated: true, completion: nil)
-            return 
+        if feedbackByWechat{
+            popWechatFeedbackMessage()
+        }else{
+            guard MFMailComposeViewController.canSendMail() else{
+                let ac = UIAlertController(title: canNotSendEmailText, message: "", preferredStyle: .alert)
+                ac.addAction(UIAlertAction(title: okText, style: .default, handler: nil))
+                present(ac, animated: true, completion: nil)
+                return
+            }
+            let composer = MFMailComposeViewController()
+            composer.mailComposeDelegate = self
+            composer.setToRecipients([OfficialEmail])
+            composer.setSubject(emailTitleText)
+            composer.setMessageBody("", isHTML: false)
+            present(composer, animated: true)
         }
-        let composer = MFMailComposeViewController()
-        composer.mailComposeDelegate = self
-        composer.setToRecipients([OfficialEmail])
-        composer.setSubject(emailTitleText)
-        composer.setMessageBody("", isHTML: false)
-        present(composer, animated: true)
     }
 
 }
