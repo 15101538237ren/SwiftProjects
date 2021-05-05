@@ -275,7 +275,7 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
                                     let level1_category = item.get("level1_category")?.intValue
                                     let level2_category = item.get("level2_category")?.intValue
                                     let name = item.get("name")?.stringValue
-                                    let desc = item.get("description")?.stringValue
+                                    let contributor = item.get("contributor")?.stringValue
                                     let word_num = item.get("word_num")?.intValue
                                     let recite_user_num = item.get("recite_user_num")?.intValue
                                     let file_sz = item.get("file_sz")?.floatValue
@@ -283,7 +283,7 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
                                     let avg_nwchpt = item.get("avg_nwchpt")?.intValue
                                     let nwchpt = item.get("nwchpt")?.stringValue
                                     
-                                    let book:Book = Book(objectId: item.objectId!.stringValue!, identifier: identifier ?? "", level1_category: level1_category ?? 0, level2_category: level2_category ?? 0, name: name ?? "", description: desc ?? "", word_num: word_num ?? 0, recite_user_num: recite_user_num ?? 0, file_sz: file_sz ?? 0.0, nchpt: nchpt ?? 0, avg_nwchpt: avg_nwchpt ?? 0, nwchpt: nwchpt ?? "")
+                                    let book:Book = Book(objectId: item.objectId!.stringValue!, identifier: identifier ?? "", level1_category: level1_category ?? 0, level2_category: level2_category ?? 0, name: name ?? "", contributor: contributor ?? "", word_num: word_num ?? 0, recite_user_num: recite_user_num ?? 0, file_sz: file_sz ?? 0.0, nchpt: nchpt ?? 0, avg_nwchpt: avg_nwchpt ?? 0, nwchpt: nwchpt ?? "")
                                     self.tempBooks.append(book)
                                     self.tempItems.append(item)
                                 }
@@ -327,7 +327,7 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
                                 let level1_category = item.get("level1_category")?.intValue
                                 let level2_category = item.get("level2_category")?.intValue
                                 let name = item.get("name")?.stringValue
-                                let desc = item.get("description")?.stringValue
+                                let contributor = item.get("contributor")?.stringValue
                                 let word_num = item.get("word_num")?.intValue
                                 let recite_user_num = item.get("recite_user_num")?.intValue
                                 let file_sz = item.get("file_sz")?.floatValue
@@ -336,7 +336,7 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
                                 let avg_nwchpt = item.get("avg_nwchpt")?.intValue
                                 let nwchpt = item.get("nwchpt")?.stringValue
                                 
-                                let book:Book = Book(objectId: item.objectId!.stringValue!, identifier: identifier ?? "", level1_category: level1_category ?? 0, level2_category: level2_category ?? 0, name: name ?? "", description: desc ?? "", word_num: word_num ?? 0, recite_user_num: recite_user_num ?? 0, file_sz: file_sz ?? 0.0, nchpt: nchpt ?? 0, avg_nwchpt: avg_nwchpt ?? 0, nwchpt: nwchpt ?? "")
+                                let book:Book = Book(objectId: item.objectId!.stringValue!, identifier: identifier ?? "", level1_category: level1_category ?? 0, level2_category: level2_category ?? 0, name: name ?? "", contributor: contributor ?? "", word_num: word_num ?? 0, recite_user_num: recite_user_num ?? 0, file_sz: file_sz ?? 0.0, nchpt: nchpt ?? 0, avg_nwchpt: avg_nwchpt ?? 0, nwchpt: nwchpt ?? "")
                                 self.tempBooks.append(book)
                                 self.tempItems.append(item)
                             }
@@ -386,7 +386,7 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
                 cell.bookSubtitle.text = book.name
                 cell.upperView.backgroundColor = UIColor.init(hex: "#\(dark_color_palatte[color_categories[level1_category]![level2_category]!]!)") ?? .systemGreen
                 cell.bottomView.backgroundColor = UIColor.init(hex: "#\(light_color_palatte[color_categories[level1_category]![level2_category]!]!)") ?? .systemGreen
-                cell.introduce.text = book.name
+                cell.introduce.text = "上传者:\(book.contributor)"
                 cell.num_word.text = "\(book.word_num)"
                 cell.num_recite.text = (book.recite_user_num > 10000) ? "\(Int(Float(book.recite_user_num) / 10000.0))\(tenThousandText)" : "\(book.recite_user_num)"
             }

@@ -52,6 +52,7 @@
 		55E4DB8C26156983008D2A34 /* TermsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 55E4DB8B26156982008D2A34 /* TermsView.xib */; };
 		55E7C6C5261170AD0006D8E7 /* AppStoreReviewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E7C6C4261170AD0006D8E7 /* AppStoreReviewManager.swift */; };
 		55E7C6C8261170EB0006D8E7 /* UserDefaults+Key.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E7C6C7261170EB0006D8E7 /* UserDefaults+Key.swift */; };
+		55EF595926421942002531BF /* wendaonailao.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 55EF595826421942002531BF /* wendaonailao.ttf */; };
 		55F2B5A0247B053500758113 /* Date+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55F2B59F247B053500758113 /* Date+Ext.swift */; };
 		55F2B5A2247B4A0F00758113 /* LearnOrReviewFinishUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55F2B5A1247B4A0F00758113 /* LearnOrReviewFinishUIView.swift */; };
 		55F2B5A4247B4B3700758113 /* String+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55F2B5A3247B4B3700758113 /* String+Ext.swift */; };
@@ -157,6 +158,7 @@
 		55E4DB8B26156982008D2A34 /* TermsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TermsView.xib; sourceTree = "<group>"; };
 		55E7C6C4261170AD0006D8E7 /* AppStoreReviewManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppStoreReviewManager.swift; sourceTree = "<group>"; };
 		55E7C6C7261170EB0006D8E7 /* UserDefaults+Key.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UserDefaults+Key.swift"; sourceTree = "<group>"; };
+		55EF595826421942002531BF /* wendaonailao.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = wendaonailao.ttf; sourceTree = "<group>"; };
 		55F2B59F247B053500758113 /* Date+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Ext.swift"; sourceTree = "<group>"; };
 		55F2B5A1247B4A0F00758113 /* LearnOrReviewFinishUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearnOrReviewFinishUIView.swift; sourceTree = "<group>"; };
 		55F2B5A3247B4B3700758113 /* String+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Ext.swift"; sourceTree = "<group>"; };
@@ -466,6 +468,7 @@
 		C34229DD25A69E2000FFF918 /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
+				55EF595826421942002531BF /* wendaonailao.ttf */,
 				5566520126250236006EC368 /* RussoOne-Regular.ttf */,
 				5526A9F626112BF800D03669 /* hydsj.ttf */,
 				C34229E325A6A06600FFF918 /* DancingScript-Medium.ttf */,
@@ -537,6 +540,7 @@
 			files = (
 				557B66F724CCF7660068AB05 /* Dark.plist in Resources */,
 				A59EB1DF2452A12A00F300E1 /* LaunchScreen.storyboard in Resources */,
+				55EF595926421942002531BF /* wendaonailao.ttf in Resources */,
 				55E4DB8C26156983008D2A34 /* TermsView.xib in Resources */,
 				A56375BC2457745500BA5293 /* HuaKangFangYuan.ttf in Resources */,
 				559B96C124F82DE800516475 /* DICT.json in Resources */,
@@ -873,6 +877,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.honglei.shuaci;
 				PRODUCT_NAME = "刷词";
 				SWIFT_OBJC_BRIDGING_HEADER = "/Users/emmanueldollinger/SwiftProject/shuaci/shuaci-Bridging-Header.h";
@@ -897,6 +902,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.honglei.shuaci;
 				PRODUCT_NAME = "刷词";
 				SWIFT_OBJC_BRIDGING_HEADER = "/Users/emmanueldollinger/SwiftProject/shuaci/shuaci-Bridging-Header.h";

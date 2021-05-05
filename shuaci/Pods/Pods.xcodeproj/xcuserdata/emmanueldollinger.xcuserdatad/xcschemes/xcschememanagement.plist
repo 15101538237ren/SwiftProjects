@@ -17,7 +17,7 @@
 		<key>ANLongTapButton.xcscheme</key>
 		<dict>
 			<key>isShown</key>
-			<true/>
+			<false/>
 		</dict>
 		<key>Alamofire.xcscheme</key>
 		<dict>
@@ -45,6 +45,11 @@
 			<false/>
 		</dict>
 		<key>JGProgressHUD.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>KSGuideController.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -82,7 +87,7 @@
 		<key>Pods-shuaci.xcscheme</key>
 		<dict>
 			<key>isShown</key>
-			<false/>
+			<true/>
 		</dict>
 		<key>SwiftMessages-SwiftMessages.xcscheme</key>
 		<dict>

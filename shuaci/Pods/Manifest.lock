@@ -8,6 +8,7 @@ PODS:
     - GRDB.swift/standard (= 4.14.0)
   - GRDB.swift/standard (4.14.0)
   - JGProgressHUD (2.2)
+  - KSGuideController (0.1.2)
   - LeanCloud (17.8.0):
     - LeanCloud/RTM (= 17.8.0)
   - LeanCloud/Foundation (17.8.0):
@@ -54,6 +55,7 @@ DEPENDENCIES:
   - CropViewController
   - "Disk (from `https://7mxaxlb@gitroyalty.com/saoudrizwan/Disk`, tag `0.6.4`)"
   - JGProgressHUD
+  - KSGuideController
   - LeanCloud
   - MBRadioCheckboxButton
   - MKRingProgressView
@@ -82,6 +84,7 @@ SPEC REPOS:
     - CropViewController
     - GRDB.swift
     - JGProgressHUD
+    - KSGuideController
     - LeanCloud
     - MBRadioCheckboxButton
     - MKRingProgressView
@@ -127,6 +130,7 @@ SPEC CHECKSUMS:
   Disk: 8ebb79575e81f13c3665e6ab2b9d31f29aec92bb
   GRDB.swift: 8cc3ab7c8b8b4ac1761deb8dca4b51c1c9d429f8
   JGProgressHUD: d83d7a981b85d11205e19ff8ad5bb9c40571c847
+  KSGuideController: a3829b33b65ca56eacd530c7b4917e973f756ee5
   LeanCloud: ff95ea8076a30e10358542ecaa53e87c4308c8bd
   MBRadioCheckboxButton: 6e2a2cdc441e292e45b64c4e65eb8fc1fc05eef2
   MKRingProgressView: 404b3157e7a533ab8668d29ec20042c35d12ca1d
@@ -149,6 +153,6 @@ SPEC CHECKSUMS:
   UMCSecurityPlugins: 0831a08f3988f3cea9f1d3a7626cd9bee4fef150
   UMDevice: 28d21a568c8e8322e5a03bbd53b138d0c098d3b3
 
-PODFILE CHECKSUM: 6587d4d58effe36b731773209a4ae5d291dea75c
+PODFILE CHECKSUM: 1ff9d03392c81460b27a953af0cb5bd3243910b4
 
 COCOAPODS: 1.9.3

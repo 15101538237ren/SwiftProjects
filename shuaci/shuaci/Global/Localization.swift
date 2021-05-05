@@ -79,6 +79,13 @@ let noBookSelectedText:String = NSLocalizedString("您还没有选择词库😅"
 let reviewJustLearnedText:String = NSLocalizedString("复习刚学", comment: "")
 let reviewLearnedInHistoryText:String = NSLocalizedString("复习历史", comment: "")
 
+let userprofileBtnGuideText:String = NSLocalizedString("在这里「设置头像👦」、「昵称」、「退出登录」", comment: "")
+let themeBtnGuideText:String = NSLocalizedString("修改「主题」来这🎨", comment: "")
+let wordHistoryBtnGuideText:String = NSLocalizedString("「选词复习」、「收藏本」、「已掌握」在这📒", comment: "")
+let statisticsBtnGuideText:String = NSLocalizedString("「遗忘曲线」、「学习统计」在这📈", comment: "")
+let settingBtnGuideText:String = NSLocalizedString("设置「每组单词量」、「英/美音」在这⚙️", comment: "")
+let dictionaryBtnGuideText:String = NSLocalizedString("「查单词」在这里🔍", comment: "")
+
 // UserProfile VC
 let learnedProgressText:String = NSLocalizedString("已学", comment: "")
 let setFailedTryLaterText:String = NSLocalizedString("设置失败，请稍后重试!", comment: "")

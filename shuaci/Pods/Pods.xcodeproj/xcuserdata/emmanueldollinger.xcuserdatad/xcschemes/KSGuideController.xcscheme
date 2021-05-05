@@ -14,9 +14,9 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "38DEF39A3C33F8B92B7216A5FFE5C4C9"
-               BuildableName = "ANLongTapButton.framework"
-               BlueprintName = "ANLongTapButton"
+               BlueprintIdentifier = "502AC2821D929550AB9B6E5C2D8D784B"
+               BuildableName = "KSGuideController.framework"
+               BlueprintName = "KSGuideController"
                ReferencedContainer = "container:Pods.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>

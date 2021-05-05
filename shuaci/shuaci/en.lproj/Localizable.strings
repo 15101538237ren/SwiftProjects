@@ -1,6 +1,30 @@
 /* No comment provided by engineer. */
 "(nicknameOfApp)需要开启「通知」权限，来每日提醒您复习。" = "We need Notification Authorization to remind you for review。";
 
+
+/* No comment provided by engineer. */
+"在这里「设置头像👦」、「昵称」、「退出登录」" = "「Set Avatar」、「Display Name」、「Log off」is here👦";
+
+
+/* No comment provided by engineer. */
+"修改「主题」来这🎨" = "Change「Theme」Here🎨";
+
+
+/* No comment provided by engineer. */
+"「选词复习」、「收藏本」、「已掌握」在这📒" = "「Review by Selection」、「Vocabulary Collected」、「Mastered」is here📒";
+
+
+/* No comment provided by engineer. */
+"「遗忘曲线」、「学习统计」在这📈" = "Find 「Forgetting Curve」、「Learning Statistics」 here📈";
+
+
+/* No comment provided by engineer. */
+"设置「每组单词量」、「英/美音」在这⚙️" = "「Settings」 is here⚙️";
+
+
+/* No comment provided by engineer. */
+"「查单词」在这里🔍" = "Here to「Look up」";
+
 /* No comment provided by engineer. */
 "「刷词」意见反馈" = "Feedback";
 

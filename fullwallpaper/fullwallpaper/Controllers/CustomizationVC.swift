@@ -51,6 +51,16 @@ class CustomizationVC: UIViewController, UICollectionViewDelegate, UICollectionV
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        showStyleIntroVC()
+    }
+    
+    func showStyleIntroVC() {
+        let MainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+        let styleIntroVC = MainStoryBoard.instantiateViewController(withIdentifier: "styleIntroVC") as! StyleIntroVC
+        styleIntroVC.modalPresentationStyle = .fullScreen
+        DispatchQueue.main.async {
+            self.present(styleIntroVC, animated: true, completion: nil)
+        }
     }
 
 }

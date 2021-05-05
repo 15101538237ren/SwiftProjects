@@ -20,6 +20,7 @@
 		5577BE10254A88F0008A1F14 /* GlobalConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5577BE0F254A88F0008A1F14 /* GlobalConstants.swift */; };
 		55893D5B263B77340091551B /* Localization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55893D5A263B77340091551B /* Localization.swift */; };
 		55A94D67263A36730027D923 /* CustomizationCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A94D66263A36730027D923 /* CustomizationCollectionViewCell.swift */; };
+		55AA003D2640BF690051A662 /* StyleIntroVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55AA003C2640BF690051A662 /* StyleIntroVC.swift */; };
 		55F39927254A624D0094A477 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55F39926254A624D0094A477 /* AppDelegate.swift */; };
 		55F39929254A624D0094A477 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55F39928254A624D0094A477 /* SceneDelegate.swift */; };
 		55F3992B254A624D0094A477 /* WallpaperVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55F3992A254A624D0094A477 /* WallpaperVC.swift */; };
@@ -85,6 +86,7 @@
 		55893D5A263B77340091551B /* Localization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Localization.swift; sourceTree = "<group>"; };
 		559CC01D2612A65200CA7746 /* fullwallpaper-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "fullwallpaper-Bridging-Header.h"; path = "fullwallpaper/fullwallpaper-Bridging-Header.h"; sourceTree = "<group>"; };
 		55A94D66263A36730027D923 /* CustomizationCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomizationCollectionViewCell.swift; sourceTree = "<group>"; };
+		55AA003C2640BF690051A662 /* StyleIntroVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StyleIntroVC.swift; sourceTree = "<group>"; };
 		55F39923254A624D0094A477 /* fullwallpaper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = fullwallpaper.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		55F39926254A624D0094A477 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		55F39928254A624D0094A477 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -255,6 +257,7 @@
 				C3F737DA25833620008D0095 /* VIPBenefitsVC.swift */,
 				C30B71FA258DB868002A673D /* PolicyVC.swift */,
 				55F3F5B0263A382C00701A66 /* CustomizationVC.swift */,
+				55AA003C2640BF690051A662 /* StyleIntroVC.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -478,6 +481,7 @@
 				C3FEE1DB2589D785009D1DCE /* AppStoreReviewManager.swift in Sources */,
 				C3871DF0255A6CA7001DF6C4 /* LoginVC.swift in Sources */,
 				C3C3565925572154006F137B /* SettingVC.swift in Sources */,
+				55AA003D2640BF690051A662 /* StyleIntroVC.swift in Sources */,
 				C3D5D81B257C5F87006DA951 /* AuditCollectionViewCell.swift in Sources */,
 				55370FAF2553B5800003CAD5 /* GlobalVariables.swift in Sources */,
 				C3F737DB25833620008D0095 /* VIPBenefitsVC.swift in Sources */,

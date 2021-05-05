@@ -85,13 +85,13 @@ func getCurrentBook(preference: Preference) -> Book?{
         let level1_category = currentbook_json_obj["level1_category"].intValue
         let level2_category = currentbook_json_obj["level2_category"].intValue
         let book_name = currentbook_json_obj["name"].stringValue
-        let description = currentbook_json_obj["description"].stringValue
+        let contributor = currentbook_json_obj["contributor"].stringValue
         let recite_user_num = currentbook_json_obj["recite_user_num"].intValue
         let file_sz = currentbook_json_obj["file_sz"].floatValue
         let nchpt = chapters.count
         let avg_nwchpt = currentbook_json_obj["avg_nwchpt"].intValue
         let nwchpt = currentbook_json_obj["nwchpt"].stringValue
-        let book:Book = Book(objectId: bookId, identifier: bookId, level1_category: level1_category, level2_category: level2_category, name: book_name, description: description, word_num: word_num, recite_user_num: recite_user_num, file_sz: file_sz, nchpt: nchpt, avg_nwchpt: avg_nwchpt, nwchpt: nwchpt)
+        let book:Book = Book(objectId: bookId, identifier: bookId, level1_category: level1_category, level2_category: level2_category, name: book_name, contributor: contributor, word_num: word_num, recite_user_num: recite_user_num, file_sz: file_sz, nchpt: nchpt, avg_nwchpt: avg_nwchpt, nwchpt: nwchpt)
 
         return book
     }

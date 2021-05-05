@@ -31,4 +31,5 @@ target 'shuaci' do
   pod 'SwiftMessages'
   pod 'NewPopMenu', '~> 2.0'
   pod 'ANLongTapButton'
+  pod 'KSGuideController'
 end

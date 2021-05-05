@@ -160,7 +160,7 @@ func checkIfVIPSubsciptionValid(successCompletion: @escaping Completion, failedC
     
     if let productKey:String = UserDefaults.standard.string(forKey: productKey){
         let productID:String = "\(bundleId).\(productKey)"
-        let appleValidator = AppleReceiptValidator(service: testMode ? .sandbox : .production, sharedSecret: sharedSecret)
+        let appleValidator = AppleReceiptValidator(service: .production, sharedSecret: sharedSecret)
         SwiftyStoreKit.verifyReceipt(using: appleValidator) { result in
             switch result {
             case .success(let receipt):
@@ -709,7 +709,7 @@ func fetchBooks(){
                         let level1_category = item.get("level1_category")?.intValue
                         let level2_category = item.get("level2_category")?.intValue
                         let name = item.get("name")?.stringValue
-                        let desc = item.get("description")?.stringValue
+                        let contributor = item.get("contributor")?.stringValue
                         let word_num = item.get("word_num")?.intValue
                         let recite_user_num = item.get("recite_user_num")?.intValue
                         let file_sz = item.get("file_sz")?.floatValue
@@ -717,7 +717,7 @@ func fetchBooks(){
                         let avg_nwchpt = item.get("avg_nwchpt")?.intValue
                         let nwchpt = item.get("nwchpt")?.stringValue
                         
-                        let book:Book = Book(objectId: item.objectId!.stringValue!, identifier: identifier ?? "", level1_category: level1_category ?? 0, level2_category: level2_category ?? 0, name: name ?? "", description: desc ?? "", word_num: word_num ?? 0, recite_user_num: recite_user_num ?? 0, file_sz: file_sz ?? 0.0, nchpt: nchpt ?? 0, avg_nwchpt: avg_nwchpt ?? 0, nwchpt: nwchpt ?? "")
+                        let book:Book = Book(objectId: item.objectId!.stringValue!, identifier: identifier ?? "", level1_category: level1_category ?? 0, level2_category: level2_category ?? 0, name: name ?? "", contributor: contributor ?? "", word_num: word_num ?? 0, recite_user_num: recite_user_num ?? 0, file_sz: file_sz ?? 0.0, nchpt: nchpt ?? 0, avg_nwchpt: avg_nwchpt ?? 0, nwchpt: nwchpt ?? "")
                         books.append(book)
                         resultsItems.append(item)
                     }

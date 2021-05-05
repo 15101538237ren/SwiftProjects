@@ -15,6 +15,7 @@ import Disk
 import Nuke
 import SwiftMessages
 import PopMenu
+import KSGuideController
 
 class MainPanelViewController: UIViewController, CAAnimationDelegate {
     
@@ -23,6 +24,8 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
     let activityEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .regular))
     
     
+    @IBOutlet var buttonsToGuide: [UIButton]!
+    let buttonTexts:[String] = [userprofileBtnGuideText, themeBtnGuideText, wordHistoryBtnGuideText, statisticsBtnGuideText, settingBtnGuideText, dictionaryBtnGuideText]
     // MARK: - Outlet Variables
     @IBOutlet var mainPanelUIView: MainPanelUIView!
     @IBOutlet var todayImageView: UIImageView!
@@ -92,8 +95,8 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
             messageView.backgroundView.backgroundColor = UIColor.init(white: 0.97, alpha: 1)
             messageView.backgroundView.layer.cornerRadius = 10
             messageView.agreeAction = {
-                UserDefaults.standard.set(true, forKey: privacyViewedKey)
                 SwiftMessages.hide()
+                UserDefaults.standard.set(true, forKey: privacyViewedKey)
             }
             messageView.cancelAction = { UIControl().sendAction(#selector(URLSessionTask.suspend), to: UIApplication.shared, for: nil)}
             var config = SwiftMessages.defaultConfig
@@ -105,11 +108,28 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
         }
     }
     
+    func popUserGuide(){
+        if !isKeyPresentInUserDefaults(key: userGuideAskedKey){
+            // Reset to show everytime.
+            var items = [KSGuideItem]()
+            for bid in 0..<buttonsToGuide.count {
+                // Use default arrow image
+                let item = KSGuideItem(sourceView: buttonsToGuide[bid], text: buttonTexts[bid])
+                items.append(item)
+            }
+            let guideVC = KSGuideController(items: items, key: "MainGuide")
+            
+            guideVC.show(from: self, completion: {
+                            UserDefaults.standard.set(true, forKey: userGuideAskedKey)
+            })
+        }
+    }
+    
     // MARK: - Intiallization Functions
     
     func initVC(){
-        popPrivacyMessage()
         if let user = currentUser{
+            popPrivacyMessage()
             preference = loadPreference(userId: currentUser.objectId!.stringValue!)
             loadTheme()
             
@@ -473,6 +493,11 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
         else{
             self.reset()
         }
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        popUserGuide()
     }
     
     func reset() {
