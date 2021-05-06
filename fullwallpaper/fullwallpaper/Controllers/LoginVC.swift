@@ -519,7 +519,7 @@ class LoginVC: UIViewController {
                                         DispatchQueue.main.async {
                                             self.phoneLoginBtn.setTitle("注册", for: .normal)
                                         }
-                                        _ = LCSMSClient.requestShortMessage(mobilePhoneNumber: phoneNumber, templateName: "sms_verification", signatureName: "北京雷行天下科技有限公司") { (result) in
+                                        _ = LCSMSClient.requestShortMessage(mobilePhoneNumber: phoneNumber, templateName: "verification", signatureName: "北京雷行天下科技有限公司") { (result) in
                                             switch result {
                                             case .success:
                                                 self.verificationCodeSent = true

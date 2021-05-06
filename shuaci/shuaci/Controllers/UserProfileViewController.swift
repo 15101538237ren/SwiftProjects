@@ -20,12 +20,17 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
     var mainPanelViewController: MainPanelViewController!
     var preference:Preference!
     
+    private var selectedImage: UIImage? = nil
+    var imageUrl: URL?
+    var previousName: String = ""
+    
     var activityIndicator = UIActivityIndicatorView()
     var activityLabel = UILabel()
     var imagePicker = UIImagePickerController()
     
     let activityEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .regular))
     
+    @IBOutlet var setProfileView: UIView!
     @IBOutlet weak var nameLabel: UILabel!
     
     @IBOutlet var bookNameLabel: UILabel!
@@ -75,9 +80,65 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
         }
     }
     
+    @IBOutlet var userProfileImgView: UIImageView!{
+        didSet {
+            if let image = selectedImage{
+                userProfileImgView.image = image
+            }else{
+                userProfileImgView.image = UIImage(named: "user_profile") ?? UIImage()
+            }
+            userProfileImgView.layer.cornerRadius = userProfileImgView.layer.frame.width/2.0
+            userProfileImgView.layer.masksToBounds = true
+        }
+    }
+    
+    @IBOutlet var displayNameTextField: UITextField!{
+        didSet{
+            displayNameTextField.attributedPlaceholder = NSAttributedString(string: "输入你喜欢的昵称",attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
+        }
+    }
+    @IBOutlet var submitBtn: UIButton!{
+        didSet {
+            submitBtn.backgroundColor = .lightGray
+            submitBtn.isEnabled = false
+            submitBtn.layer.cornerRadius = 9.0
+            submitBtn.layer.masksToBounds = true
+        }
+    }
+    
+    func addRcgToUserProfileImgView(){
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(selectImage(tapGestureRecognizer:)))
+        userProfileImgView.isUserInteractionEnabled = true
+        userProfileImgView.addGestureRecognizer(tapGestureRecognizer)
+    }
+    
+    @objc func selectImage(tapGestureRecognizer: UITapGestureRecognizer)
+    {
+        view.endEditing(true)
+        if UIImagePickerController.isSourceTypeAvailable(.photoLibrary){
+            imagePicker.sourceType = .photoLibrary
+            imagePicker.delegate = self
+            imagePicker.mediaTypes = ["public.image"]
+            self.present(imagePicker, animated: true, completion: nil)
+        }
+    }
+    
     var viewTranslation = CGPoint(x: 0, y: 0)
     
     @IBOutlet weak var backBtn: UIButton!
+    
+    func detectBtnEnable()
+    {
+        DispatchQueue.main.async { [self] in
+            if (selectedImage != nil || imageUrl != nil) && !previousName.isEmpty{
+                submitBtn.backgroundColor = .systemGreen
+                submitBtn.isEnabled = true
+            }else{
+                submitBtn.backgroundColor = .lightGray
+                submitBtn.isEnabled = false
+            }
+        }
+    }
     
     @IBAction func unwind(segue: UIStoryboardSegue) {
         self.dismiss(animated: true, completion: nil)
@@ -97,10 +158,6 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
     
     override func viewDidLoad() {
         initVC()
-        setupTheme()
-        addGestureRecognizers()
-        updateUserPhoto()
-        updateDisplayName()
         super.viewDidLoad()
     }
     
@@ -110,17 +167,21 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
         nameLabel.addGestureRecognizer(labelTapGestureRecognizer)
     }
     
+    
     func updateDisplayName(){
         let key:String = "\(currentUser.objectId!.stringValue!)_display_name"
         if !isKeyPresentInUserDefaults(key: key){
-            _ = currentUser.fetch(keys: ["name"]) { result in
+            _ = currentUser.fetch(keys: ["name"]) { [self] result in
                 switch result {
                 case .success:
                     if let name:String = self.currentUser.get("name")?.stringValue{
+                        previousName = name
                         DispatchQueue.main.async {
                             self.nameLabel.text = name
                         }
                         UserDefaults.standard.setValue(name, forKey: key)
+                    }else{
+                        loadSetProfileView()
                     }
                 case .failure(error: let error):
                     print(error.localizedDescription)
@@ -128,6 +189,7 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
             }
         }else{
             if let name:String = UserDefaults.standard.string(forKey: key){
+                previousName = name
                 DispatchQueue.main.async {
                     self.nameLabel.text = name
                 }
@@ -145,6 +207,12 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
         else{
             currentLearningView.alpha = 0.0
         }
+        setupTheme()
+        view.addGestureRecognizer(UITapGestureRecognizer(target: view, action: #selector(UIView.endEditing)))
+        addRcgToUserProfileImgView()
+        addGestureRecognizers()
+        updateUserPhoto()
+        updateDisplayName()
     }
     
     func updateBookName(){
@@ -198,6 +266,21 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
         self.logoutBtn.isUserInteractionEnabled = enable
         self.nameLabel.isUserInteractionEnabled = enable
         self.userPhotoBtn.isUserInteractionEnabled = enable
+        self.displayNameTextField.isUserInteractionEnabled = enable
+        self.submitBtn.isUserInteractionEnabled = enable
+    }
+    
+    
+    @IBAction func setProfile(sender: UIButton){
+        setDisplayName(name: previousName)
+        DispatchQueue.main.async { [self] in
+            setProfileView.alpha = 0
+        }
+    }
+    
+    @IBAction func inputTextChanged(_ sender: UITextField) {
+        self.previousName = sender.text ?? ""
+        detectBtnEnable()
     }
     
     func setDisplayName(name: String){
@@ -307,11 +390,27 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
                         }
                     )
                 }
+                else{
+                    loadSetProfileView()
+                }
             }
         }else{
             self.view.makeToast(NoNetworkStr, duration: 1.0, position: .center)
         }
-
+    }
+    
+    func loadSetProfileView(){
+        DispatchQueue.main.async { [self] in
+            setProfileView.alpha = 1
+            if !previousName.isEmpty{
+                displayNameTextField.text = previousName
+            }
+            if let imgUrl = imageUrl{
+                Nuke.loadImage(with: imgUrl, options: userPhotoLoadingOptions, into: userProfileImgView)
+            }else if (selectedImage != nil){
+                userProfileImgView.image = selectedImage
+            }
+        }
     }
     
     func presentAlertInView(title: String, message: String, okText: String){
@@ -393,6 +492,10 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
         // Write the image to local file for temporary use
         
         let userId = currentUser.objectId!.stringValue!
+        
+        selectedImage = image
+        userProfileImgView.image = selectedImage
+        detectBtnEnable()
         
         let imageData:Data = resizeImage(image: image, newWidth: 300.0).jpegData(compressionQuality: 1.0)!
         
