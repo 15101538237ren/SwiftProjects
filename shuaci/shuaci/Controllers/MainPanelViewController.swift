@@ -626,6 +626,7 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
         membershipVC.modalPresentationStyle = .overCurrentContext
         membershipVC.currentUser = currentUser
         membershipVC.hasFreeTrialed = hasTrialed
+        membershipVC.showHint = true
         DispatchQueue.main.async {
             self.present(membershipVC, animated: true, completion: nil)
         }
@@ -633,7 +634,7 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
     
     @IBAction func ReciteNewWords(_ sender: UIButton) {
         initIndicator(view: self.view)
-        checkIfVIPSubsciptionValid(successCompletion: { [self] in
+        checkIfVIPSubsciptionValid(learn: true, successCompletion: { [self] in
             stopIndicator()
             if let preference = preference{
                 if let _ : String = preference.current_book_id{
@@ -656,7 +657,7 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
     
     func ReviewWords(reviewMode: ReviewMode) {
         initIndicator(view: self.view)
-        checkIfVIPSubsciptionValid(successCompletion: { [self] in
+        checkIfVIPSubsciptionValid(learn: false, successCompletion: { [self] in
             stopIndicator()
             if let preference = preference{
                 if let _ : String = preference.current_book_id{

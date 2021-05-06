@@ -90,7 +90,12 @@ class MembershipVC: UIViewController, UICollectionViewDelegate, UICollectionView
     var viewTranslation = CGPoint(x: 0, y: 0)
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         setupCollectionView()
+        if showHint
+        {
+            self.view.makeToast(hintText, duration: 3.5, position: .center)
+        }
         stopIndicator()
         view.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(handleDismiss(sender:))))
         let _ = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(tictoc), userInfo: nil, repeats: true)

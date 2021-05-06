@@ -203,7 +203,7 @@ let tryNowText:String = NSLocalizedString("立即试用!", comment: "")
 let beVIPText:String = NSLocalizedString("成为会员!", comment: "")
 let restoreText:String = NSLocalizedString("恢复购买", comment: "")
 let subscriptionTermText:String = NSLocalizedString("订阅服务协议", comment: "")
-
+let hintText:String = NSLocalizedString("非会员每天只能背和复习一次哦😢", comment: "")
 let freetrialText:String = NSLocalizedString("免费试用", comment: "")
 
 let monthSubscriptionText:String = NSLocalizedString("连续包月", comment: "")

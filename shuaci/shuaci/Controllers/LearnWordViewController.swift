@@ -984,9 +984,9 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     func saveRecordsFromLearning() {
+        let today_default:String = getTodayLearnOrReviewDefaultKey(learn: currentMode == 1 ? true : false)
+        UserDefaults.standard.set(true, forKey: today_default)
         global_records.append(currentRec!)
-        print(global_records.count)
-        print(global_records)
         if currentMode == 1{
             global_vocabs_records.append(contentsOf: vocabRecordsOfCurrent)
         }else{
