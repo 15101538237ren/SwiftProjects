@@ -40,7 +40,7 @@
 /* Class = "UILabel"; text = "词库名称"; ObjectID = "5lc-ng-WfJ"; */
 "5lc-ng-WfJ.text" = "List Name";
 
-/* Class = "UILabel"; text = "待复习"; ObjectID = "5qP-jd-1xT"; */
+/* Class = "UILab研究生el"; text = "待复习"; ObjectID = "5qP-jd-1xT"; */
 "5qP-jd-1xT.text" = "To be reviewed";
 
 /* Class = "UILabel"; text = "高效背单词的法宝"; ObjectID = "6fP-N5-hDA"; */

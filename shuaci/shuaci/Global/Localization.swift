@@ -96,6 +96,8 @@ let zoomOrDragText:String = NSLocalizedString("「缩放」或「拖拽」来调
 
 // Book VC
 let tenThousandText:String = NSLocalizedString("万", comment: "")
+let youareText:String = NSLocalizedString("1. 您是", comment: "")
+let youwantText:String = NSLocalizedString("2. 您希望", comment: "")
 
 // Learning VC
 let masterText:String = NSLocalizedString("掌握", comment: "")

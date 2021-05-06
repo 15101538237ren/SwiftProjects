@@ -604,11 +604,7 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
         booksVC.currentUser = currentUser
         booksVC.preference = get_preference()
         DispatchQueue.main.async {
-            self.present(booksVC, animated: true, completion: {
-                if NoBookSelected{
-                    booksVC.view.makeToast(noBookSelectedText, duration: 1.0, position: .center)
-                }
-            })
+            self.present(booksVC, animated: true, completion: {})
         }
     }
     

@@ -96,6 +96,8 @@ func loadSwitchesSetting(){
                             testMode = true
                         case "feedbackByWechat":
                             feedbackByWechat = true
+                        case "loadIdentityCheck":
+                            loadIdentityCheck = true
                         default:
                             break
                         }

@@ -14,6 +14,7 @@ var invitationMode: Bool = false
 var loadLearning: Bool = false // load scene before learning
 var loadLearnFinish: Bool = false
 var loadPurchaseVIP: Bool = false
+var loadIdentityCheck: Bool = false
 var feedbackByWechat: Bool = false
 var testMode: Bool = false
 var failedReason: FailedVerifyReason? = nil
