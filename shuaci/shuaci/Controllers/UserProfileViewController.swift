@@ -34,6 +34,8 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
     @IBOutlet weak var nameLabel: UILabel!
     
     @IBOutlet var bookNameLabel: UILabel!
+    @IBOutlet var titleBtn: UIButton!
+    
     @IBOutlet var currentLearningLabel: UILabel!
     
     @IBOutlet var progressLabel: UILabel!
@@ -147,7 +149,8 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
     func setupTheme(){
         view.theme_backgroundColor = "Global.viewBackgroundColor"
         view.isOpaque = false
-        
+        setProfileView.theme_backgroundColor = "Global.viewBackgroundColor"
+        titleBtn.theme_setTitleColor("Global.barTitleColor", forState: .normal)
         backBtn.theme_tintColor = "Global.backBtnTintColor"
         nameLabel.theme_textColor = "Global.barTitleColor"
         currentLearningLabel.theme_textColor = "Global.barTitleColor"

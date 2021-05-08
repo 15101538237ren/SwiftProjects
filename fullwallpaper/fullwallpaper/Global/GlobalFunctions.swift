@@ -15,6 +15,24 @@ import SwiftTheme
 import SwiftyStoreKit
 
 
+func blurImage(usingImage image:UIImage, blurAmount: CGFloat) -> UIImage? {
+    guard let ciImage = CIImage(image: image) else {
+        return nil
+    }
+    
+    let blurFilter = CIFilter(name: "CIGaussianBlur")
+    blurFilter?.setValue(ciImage, forKey: kCIInputImageKey)
+    blurFilter?.setValue(blurAmount, forKey: kCIInputRadiusKey)
+    
+    guard let outputImage = blurFilter?.outputImage else {
+        return nil
+    }
+    
+    let croppedImage = outputImage.cropped(to: ciImage.extent)
+    
+    return UIImage(ciImage: croppedImage)
+}
+
 func loadSwitchesSetting(completion: @escaping () -> Void){
     DispatchQueue.global(qos: .background).async {
     do {
@@ -138,16 +156,16 @@ func fromLCDateToDateStr(date: LCDate) -> String{
     return dateStr
 }
 
-func createCropViewController(image: UIImage) -> CropViewController{
+func createCropViewController(image: UIImage, widthHeightRatio:CGFloat = whRatio) -> CropViewController{
     let cropController = CropViewController(image: image)
     var width: CGFloat = image.size.width * image.scale
     var height: CGFloat = image.size.height * image.scale
     let ratio: CGFloat = width/height
     
-    if (ratio > whRatio){
-        width = height * whRatio
+    if (ratio > widthHeightRatio){
+        width = height * widthHeightRatio
     }else{
-        height = width / whRatio
+        height = width / widthHeightRatio
     }
     
     let leftPosition = (image.size.width * image.scale - width)/2.0

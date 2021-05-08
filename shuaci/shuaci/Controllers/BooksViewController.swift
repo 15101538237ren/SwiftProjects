@@ -42,6 +42,10 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
         }
     }
     
+    @IBOutlet var titleLabel: UILabel!
+    @IBOutlet var ensureBtn: UIButton!
+    @IBOutlet var cancelBtn: UIButton!
+    
     @IBOutlet weak var firstPickerView: UIPickerView!
     let firstViewItems: [String] = ["大学生","研究生" ,"博士生", "高中生", "职场人", "初中生", "小学生", "其他"]
     
@@ -66,15 +70,15 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
         }
         UserDefaults.standard.set(true, forKey: userIdentityKey)
         
-        let firstIndexPath:IndexPath = IndexPath(row: selectedRows[0], section: 0)
-        let secondIndexPath:IndexPath = IndexPath(row: selectedRows[1], section: 0)
+//        let firstIndexPath:IndexPath = IndexPath(row: selectedRows[0], section: 0)
+//        let secondIndexPath:IndexPath = IndexPath(row: selectedRows[1], section: 0)
         DispatchQueue.main.async { [self] in
             self.identityAskView.alpha = 0
-            collectionViews[0].selectItem(at: firstIndexPath, animated: true, scrollPosition: .centeredHorizontally)
-            collectionViews[0].setNeedsDisplay()
-            collectionViews[1].reloadData()
-            collectionViews[1].selectItem(at: secondIndexPath, animated: true, scrollPosition: .centeredHorizontally)
-            collectionViews[1].setNeedsDisplay()
+//            collectionViews[0].selectItem(at: firstIndexPath, animated: true, scrollPosition: .centeredHorizontally)
+//            collectionViews[0].setNeedsDisplay()
+//            collectionViews[1].reloadData()
+//            collectionViews[1].selectItem(at: secondIndexPath, animated: true, scrollPosition: .centeredHorizontally)
+//            collectionViews[1].setNeedsDisplay()
         }
     }
     
@@ -318,11 +322,18 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
         }
         
         view.theme_backgroundColor = "Global.viewBackgroundColor"
+        identityAskView.theme_backgroundColor = "Global.viewBackgroundColor"
         backBtn.theme_tintColor = "Global.backBtnTintColor"
         barTitleLabel.theme_textColor = "Global.barTitleColor"
         
         tableView.theme_backgroundColor = "StatView.panelBgColor"
         tableView.theme_separatorColor = "TableView.separatorColor"
+        
+        titleLabel.theme_textColor = "TableView.labelTextColor"
+        firstQuestionLabel.theme_textColor = "TableView.labelTextColor"
+        secondQuestionLabel.theme_textColor = "TableView.labelTextColor"
+        ensureBtn.theme_setTitleColor("TableView.labelTextColor", forState: .normal)
+        cancelBtn.theme_setTitleColor("TableView.labelTextColor", forState: .normal)
         tableView.separatorStyle = .singleLine
         tableView.delegate = self
         tableView.dataSource = self
@@ -339,6 +350,7 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
         initActivityIndicator(text: dataLoadingText)
         setCollectionViewDataSourceDelegate()
         loadBooks()
+        checkIdentity()
     }
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -360,6 +372,7 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
             pickerLabel = UILabel()
             pickerLabel?.font = .systemFont(ofSize: 16)
             pickerLabel?.textAlignment = .center
+            pickerLabel?.theme_textColor = "TableView.labelTextColor"
         }
 
      let itemName: String = pickerView.tag == 1 ? firstViewItems[row] : secondViewItems[row]

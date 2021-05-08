@@ -746,7 +746,7 @@
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CmW-KB-n6h">
+                            <view alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CmW-KB-n6h">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="Imv-IT-fGw">
@@ -811,7 +811,6 @@
                                                             <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         </state>
                                                         <connections>
-                                                            <action selector="filter:" destination="777-2P-xTF" eventType="touchUpInside" id="mzo-ob-gg0"/>
                                                             <action selector="saveIdentityWithSender:" destination="Sci-Ak-MJ2" eventType="touchUpInside" id="IcS-1S-e1a"/>
                                                         </connections>
                                                     </button>
@@ -871,12 +870,15 @@
                     <connections>
                         <outlet property="backBtn" destination="3w0-Xh-g4i" id="SB9-t0-Xhi"/>
                         <outlet property="barTitleLabel" destination="TSQ-wf-wmG" id="o9E-bZ-Afq"/>
+                        <outlet property="cancelBtn" destination="gzC-uB-Uac" id="aAa-kK-zct"/>
+                        <outlet property="ensureBtn" destination="0ac-hS-xgi" id="wFT-OA-Nmb"/>
                         <outlet property="firstPickerView" destination="qnM-dN-Dda" id="6ls-Q0-3IJ"/>
                         <outlet property="firstQuestionLabel" destination="evH-Pa-Llz" id="vK3-1z-ZVH"/>
                         <outlet property="identityAskView" destination="CmW-KB-n6h" id="DCm-8T-RYt"/>
                         <outlet property="secondPickerView" destination="EXZ-Qs-Zy4" id="yWd-2H-sMn"/>
                         <outlet property="secondQuestionLabel" destination="9Z1-jk-1K8" id="rtZ-5G-Di9"/>
                         <outlet property="tableView" destination="jZ3-tb-2gT" id="Twx-ad-uxs"/>
+                        <outlet property="titleLabel" destination="7kp-do-XXb" id="zk8-6d-8wP"/>
                         <outletCollection property="collectionViews" destination="7e0-oO-BCz" collectionClass="NSMutableArray" id="WTm-7v-BxH"/>
                         <outletCollection property="collectionViews" destination="E4C-0q-HyU" collectionClass="NSMutableArray" id="vWm-i1-wxi"/>
                     </connections>
@@ -1149,6 +1151,7 @@
                         <outlet property="selectBookBtn" destination="bOY-jO-NTP" id="sfa-AS-TXm"/>
                         <outlet property="setProfileView" destination="PuB-NB-CgG" id="jkP-pw-PcL"/>
                         <outlet property="submitBtn" destination="zgh-kj-SAx" id="qhi-LN-cUY"/>
+                        <outlet property="titleBtn" destination="J8X-cw-2Cq" id="Myb-E0-aZx"/>
                         <outlet property="userPhotoBtn" destination="PMR-c1-71Z" id="RTe-b0-o3E"/>
                         <outlet property="userProfileImgView" destination="nM5-ss-CZG" id="jDZ-Tf-iDN"/>
                     </connections>
@@ -1222,7 +1225,7 @@
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="AMQ-JB-XIg">
                                                     <rect key="frame" x="20" y="36.5" width="86" height="47.5"/>
                                                     <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="vocabulary" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gBR-9h-OCQ">
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="vocabulary" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gBR-9h-OCQ">
                                                             <rect key="frame" x="0.0" y="0.0" width="86" height="20.5"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" relation="lessThanOrEqual" constant="180" id="sTF-WC-ytT"/>
@@ -1231,7 +1234,7 @@
                                                             <color key="textColor" systemColor="darkTextColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ioo-s1-f83">
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ioo-s1-f83">
                                                             <rect key="frame" x="0.0" y="30.5" width="86" height="17"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" relation="lessThanOrEqual" constant="180" id="XZM-SJ-y6s"/>

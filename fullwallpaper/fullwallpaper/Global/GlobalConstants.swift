@@ -34,7 +34,9 @@ let fadeDuration:Double = 1.0
 let thumbnailScale = 0.25
 let wallpaperLimitEachFetch:Int = 30
 
-let whRatio:CGFloat = CGFloat(828.0/1792.0)
+let widthsz:CGFloat = CGFloat(828.0)
+let heightsz:CGFloat = CGFloat(1792.0)
+let whRatio:CGFloat = CGFloat(widthsz/heightsz)
 
 let wallpaperLoadingOptions = ImageLoadingOptions(
     placeholder: UIImage(named: "image_placeholder"),

@@ -7,16 +7,58 @@
 
 import UIKit
 import SwiftTheme
+import CropViewController
 
-class CustomizationVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate {
+class CustomizationVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout , UIImagePickerControllerDelegate, UINavigationControllerDelegate, CropViewControllerDelegate {
     private let customizations:[String] = ["经典", "模糊", "小半", "相框"]
     private let customizationImages:[String] = ["center_square", "blurry", "half_screen", "border"]
+    private let whRatios:[CGFloat] = [1.0, whRatio, widthsz/(heightsz * 0.618), 0.85]
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var titleLabel: UILabel!
+    var imagePicker = UIImagePickerController()
+    var currentWHRatio: CGFloat = 1.0
+    var currentRawImage: UIImage? = nil
+    var currentCroppedImage: UIImage? = nil
 
     override func viewDidLoad() {
         super.viewDidLoad()
         setupCollectionView()
+    }
+    
+    func selectImage() {
+        if UIImagePickerController.isSourceTypeAvailable(.photoLibrary){
+            imagePicker.sourceType = .photoLibrary
+            imagePicker.delegate = self
+            imagePicker.mediaTypes = ["public.image"]
+            self.present(imagePicker, animated: true, completion: nil)
+        }
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        if let pickedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage{
+            currentRawImage = pickedImage
+            DispatchQueue.main.async {
+                picker.dismiss(animated: true, completion: nil)
+                let  cropController = createCropViewController(image: pickedImage, widthHeightRatio: self.currentWHRatio)
+                cropController.delegate = self
+                self.present(cropController, animated: true, completion: nil)
+            }
+        }
+    }
+    
+    func cropViewController(_ cropViewController: CropViewController, didCropToImage image: UIImage, withRect cropRect: CGRect, angle: Int) {
+        currentCroppedImage = image
+        // 'image' is the newly cropped version of the original image
+        let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+        let classicalStyleVC = mainStoryBoard.instantiateViewController(withIdentifier: "classicalStyleVC") as! ClassicalStyleVC
+        classicalStyleVC.bgImg = currentRawImage
+        classicalStyleVC.centerImg = currentCroppedImage
+        classicalStyleVC.modalPresentationStyle = .fullScreen
+        
+        DispatchQueue.main.async {
+            cropViewController.dismiss(animated: true, completion: nil)
+            self.present(classicalStyleVC, animated: true, completion: nil)
+        }
     }
     
     func setupCollectionView() {
@@ -51,16 +93,8 @@ class CustomizationVC: UIViewController, UICollectionViewDelegate, UICollectionV
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        showStyleIntroVC()
-    }
-    
-    func showStyleIntroVC() {
-        let MainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
-        let styleIntroVC = MainStoryBoard.instantiateViewController(withIdentifier: "styleIntroVC") as! StyleIntroVC
-        styleIntroVC.modalPresentationStyle = .fullScreen
-        DispatchQueue.main.async {
-            self.present(styleIntroVC, animated: true, completion: nil)
-        }
+        currentWHRatio = whRatios[indexPath.row]
+        selectImage()
     }
 
 }
