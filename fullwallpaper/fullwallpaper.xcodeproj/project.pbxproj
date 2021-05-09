@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		347F50FE7725D399E70DD317 /* Pods_fullwallpaper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 10DD94CFAF8E4BE4C42864FA /* Pods_fullwallpaper.framework */; };
+		550DC7732647A35D008D188F /* UIView+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 550DC7722647A35D008D188F /* UIView+Ext.swift */; };
 		55370FAC2553B5700003CAD5 /* GlobalFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55370FAB2553B5700003CAD5 /* GlobalFunctions.swift */; };
 		55370FAF2553B5800003CAD5 /* GlobalVariables.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55370FAE2553B5800003CAD5 /* GlobalVariables.swift */; };
 		55370FB22553B5A10003CAD5 /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55370FB12553B5A10003CAD5 /* Category.swift */; };
@@ -73,6 +74,7 @@
 		0C7D111B56BE41451438404E /* Pods-fullwallpaper.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-fullwallpaper.debug.xcconfig"; path = "Target Support Files/Pods-fullwallpaper/Pods-fullwallpaper.debug.xcconfig"; sourceTree = "<group>"; };
 		10DD94CFAF8E4BE4C42864FA /* Pods_fullwallpaper.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_fullwallpaper.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		393206362709D374CF5A3AF9 /* Pods-fullwallpaper.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-fullwallpaper.release.xcconfig"; path = "Target Support Files/Pods-fullwallpaper/Pods-fullwallpaper.release.xcconfig"; sourceTree = "<group>"; };
+		550DC7722647A35D008D188F /* UIView+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Ext.swift"; sourceTree = "<group>"; };
 		55370FAB2553B5700003CAD5 /* GlobalFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalFunctions.swift; sourceTree = "<group>"; };
 		55370FAE2553B5800003CAD5 /* GlobalVariables.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalVariables.swift; sourceTree = "<group>"; };
 		55370FB12553B5A10003CAD5 /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
@@ -304,6 +306,7 @@
 				C3FC6230257DCC2F00E1A547 /* UIImage+Ext.swift */,
 				C3FEE1DD2589D80A009D1DCE /* UserDefaults+Key.swift */,
 				C3543294258C761600D66A8A /* UIColor+Ext.swift */,
+				550DC7722647A35D008D188F /* UIView+Ext.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -485,6 +488,7 @@
 				55370FAF2553B5800003CAD5 /* GlobalVariables.swift in Sources */,
 				C3F737DB25833620008D0095 /* VIPBenefitsVC.swift in Sources */,
 				C33D6FFA25998DD500C934F5 /* Device.swift in Sources */,
+				550DC7732647A35D008D188F /* UIView+Ext.swift in Sources */,
 				C39C47C2259532D700444A7F /* Config.swift in Sources */,
 				C300E4AD25E1B6630009BEFA /* VIP.swift in Sources */,
 				C3543295258C761600D66A8A /* UIColor+Ext.swift in Sources */,
