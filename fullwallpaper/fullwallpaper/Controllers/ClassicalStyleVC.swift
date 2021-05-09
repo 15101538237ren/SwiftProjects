@@ -6,23 +6,38 @@
 //
 
 import UIKit
+import IGColorPicker
 
 class ClassicalStyleVC: UIViewController {
+    // MARK: - Constants
     let animationDuration = 1.3
     let cornerRadius:CGFloat = 6
+    let minimumLineSpacing:CGFloat = 4
+    let minimumInteritemSpacing:CGFloat = 4
+    let widthForColorCell:CGFloat = 25
+    
+    // MARK: - Variables
     var bgImg:UIImage!
     var centerImg:UIImage!
     var previewStatus: DisplayMode = .Plain
     var panStartPoint: CGFloat = 0
     var blurIsActive: Bool = false
+    var bgColorIsActive: Bool = false
     var maxBlurAmount: CGFloat = 100.0
     var previousBlurAmount:CGFloat = 30.0
+    var previousBgColor: UIColor? = nil
+    
+    // MARK: - Outlet Variables
+    
     @IBOutlet var tapGestureRecognizer1: UITapGestureRecognizer!
     @IBOutlet var tapGestureRecognizer2: UITapGestureRecognizer!
     @IBOutlet var tapGestureRecognizer3: UITapGestureRecognizer!
     @IBOutlet var panGestureRecognizer: UIPanGestureRecognizer!
     
     @IBOutlet var viewToSave: UIView!
+    @IBOutlet var btnGroupView: UIView!
+    
+    @IBOutlet var homeLockImgView: UIImageView!
     @IBOutlet var bgImgView: UIImageView!{
         didSet{
             if let blurredImg = blurImage(usingImage: bgImg, blurAmount: previousBlurAmount){
@@ -32,7 +47,6 @@ class ClassicalStyleVC: UIViewController {
             }
         }
     }
-    
     @IBOutlet var centerImgView: UIImageView!{
         didSet {
             centerImgView.image = centerImg
@@ -40,8 +54,7 @@ class ClassicalStyleVC: UIViewController {
             centerImgView.layer.masksToBounds = true
         }
     }
-    @IBOutlet var homeLockImgView: UIImageView!
-    @IBOutlet var btnGroupView: UIView!
+    
     @IBOutlet var blurLabel: UILabel!
     @IBOutlet var backBtn: UIButton!
     @IBOutlet var blurBtn: UIButton!
@@ -63,33 +76,18 @@ class ClassicalStyleVC: UIViewController {
         }
     }
     
+    @IBOutlet var bgColorLabel: UILabel!
+    @IBOutlet var closeBgColorBtn: UIButton!
+    @IBOutlet var checkBgColorBtn: UIButton!
+    @IBOutlet var colorPickerView: ColorPickerView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        colorPickerView.delegate = self
+        colorPickerView.layoutDelegate = self
     }
     
-    func addBlurBgToProgressView(){
-        let blurEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .light))
-        blurEffectView.frame = progressView.bounds
-        blurEffectView.layer.cornerRadius = cornerRadius
-        blurEffectView.clipsToBounds = true
-        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        blurEffectView.alpha = 0.8
-        progressView.insertSubview(blurEffectView, at: 0)
-    }
-    
-    
-    @IBAction func onBlurProgressDrag(gestureRecognizer: UIPanGestureRecognizer) {
-        let progress: Float = Float(gestureRecognizer.location(in: progressView).x/progressView.width)
-        let blurAmount = CGFloat(CGFloat(progress) * maxBlurAmount)
-        DispatchQueue.main.async { [self] in
-            progressView.setProgress(progress, animated: true)
-            if let blurredImg = blurImage(usingImage: bgImg, blurAmount: blurAmount){
-                bgImgView.image = blurredImg
-            }
-        }
-        
-    }
-    
+    // MARK: - View Tap for Preview
     @IBAction func viewTapped(tapGestureRecognizer: UITapGestureRecognizer)
     {
         previewStatus = (previewStatus == .Plain) ? .LockScreen : .Plain
@@ -109,10 +107,33 @@ class ClassicalStyleVC: UIViewController {
             self.homeLockImgView.alpha = show ? 0 : 1
         }
     }
+    // MARK: - ProgressView For Changing Blurriness
+    @IBAction func onBlurProgressDrag(gestureRecognizer: UIPanGestureRecognizer) {
+        let progress: Float = Float(gestureRecognizer.location(in: progressView).x/progressView.width)
+        let blurAmount = CGFloat(CGFloat(progress) * maxBlurAmount)
+        DispatchQueue.main.async { [self] in
+            progressView.setProgress(progress, animated: true)
+            if let blurredImg = blurImage(usingImage: bgImg, blurAmount: blurAmount){
+                bgImgView.image = blurredImg
+            }
+        }
+        
+    }
+    
+    func addBlurBgToProgressView(){
+        let blurEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .light))
+        blurEffectView.frame = progressView.bounds
+        blurEffectView.layer.cornerRadius = cornerRadius
+        blurEffectView.clipsToBounds = true
+        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        blurEffectView.alpha = 0.8
+        progressView.insertSubview(blurEffectView, at: 0)
+    }
+    
     
     @IBAction func showBlurProgress(_ sender: UIButton) {
         blurIsActive = true
-        updateBtnGroupVisibility()
+        updateBtnGroupVisibilityForBlur()
     }
     
     @IBAction func cancelBlurProgress(_ sender: UIButton) {
@@ -124,16 +145,16 @@ class ClassicalStyleVC: UIViewController {
             }
         }
         blurIsActive = false
-        updateBtnGroupVisibility()
+        updateBtnGroupVisibilityForBlur()
     }
     
     @IBAction func dismissBlurProgress(_ sender: UIButton) {
         previousBlurAmount = CGFloat(CGFloat(progressView.progress) * maxBlurAmount)
         blurIsActive = false
-        updateBtnGroupVisibility()
+        updateBtnGroupVisibilityForBlur()
     }
     
-    func updateBtnGroupVisibility(){
+    func updateBtnGroupVisibilityForBlur(){
         backBtn.alpha = blurIsActive ? 0 : 1
         blurBtn.alpha = blurIsActive ? 0 : 1
         changeBgBtn.alpha = blurIsActive ? 0 : 1
@@ -145,6 +166,47 @@ class ClassicalStyleVC: UIViewController {
         bgImgView.isUserInteractionEnabled = !blurIsActive
         centerImgView.isUserInteractionEnabled = !blurIsActive
         homeLockImgView.isUserInteractionEnabled = !blurIsActive
+    }
+    
+    // MARK: - ColorPickerView For Changing Background Color
+    @IBAction func showBgColorPickerView(_ sender: UIButton) {
+        bgColorIsActive = true
+        updateBtnGroupVisibilityForBgColor()
+    }
+    
+    func updateBtnGroupVisibilityForBgColor(){
+        backBtn.alpha = bgColorIsActive ? 0 : 1
+        blurBtn.alpha = bgColorIsActive ? 0 : 1
+        changeBgBtn.alpha = bgColorIsActive ? 0 : 1
+        downloadImgBtn.alpha = bgColorIsActive ? 0 : 1
+        
+        colorPickerView.alpha = bgColorIsActive ? 1 : 0
+        closeBgColorBtn.alpha = bgColorIsActive ? 1 : 0
+        checkBgColorBtn.alpha = bgColorIsActive ? 1 : 0
+        bgColorLabel.alpha = bgColorIsActive ? 1 : 0
+        
+        bgImgView.isUserInteractionEnabled = !bgColorIsActive
+        centerImgView.isUserInteractionEnabled = !bgColorIsActive
+        homeLockImgView.isUserInteractionEnabled = !bgColorIsActive
+    }
+    
+    @IBAction func cancelBgColor(_ sender: UIButton) {
+        DispatchQueue.main.async { [self] in
+            if let bgColor = previousBgColor{
+                bgImgView.image = bgImgView.image?.imageWithColor(tintColor: bgColor)
+            }else{
+                if let blurredImg = blurImage(usingImage: bgImg, blurAmount: previousBlurAmount){
+                    bgImgView.image = blurredImg
+                }
+            }
+        }
+        bgColorIsActive = false
+        updateBtnGroupVisibilityForBgColor()
+    }
+    
+    @IBAction func acceptBgColor(_ sender: UIButton) {
+        bgColorIsActive = false
+        updateBtnGroupVisibilityForBgColor()
     }
     
     @IBAction func saveImage(_ sender: UIButton) {
@@ -181,4 +243,46 @@ class ClassicalStyleVC: UIViewController {
     @IBAction func unwind(_ sender: UIButton) {
         self.dismiss(animated: true, completion: nil)
     }
+}
+
+// MARK: - ColorPickerViewDelegate
+extension ClassicalStyleVC: ColorPickerViewDelegate {
+
+  func colorPickerView(_ colorPickerView: ColorPickerView, didSelectItemAt indexPath: IndexPath) {
+    // A color has been selected
+    let colorSelected:UIColor = colorPickerView.colors[indexPath.row]
+    
+    DispatchQueue.main.async { [self] in
+        bgImgView.image = bgImgView.image?.imageWithColor(tintColor: colorSelected)
+    }
+  }
+
+}
+
+// MARK: - ColorPickerViewDelegateFlowLayout
+extension ClassicalStyleVC: ColorPickerViewDelegateFlowLayout {
+
+  func colorPickerView(_ colorPickerView: ColorPickerView, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    // The size for each cell
+    // 👉🏻 WIDTH AND HEIGHT MUST BE EQUALS!
+    let cellSize:CGSize = CGSize.init(width: widthForColorCell, height: widthForColorCell)
+    return cellSize
+  }
+
+  func colorPickerView(_ colorPickerView: ColorPickerView, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        // Space between cells
+        return minimumLineSpacing
+  }
+
+  func colorPickerView(_ colorPickerView: ColorPickerView, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+    // Space between rows
+    return minimumInteritemSpacing
+  }
+
+  func colorPickerView(_ colorPickerView: ColorPickerView, insetForSectionAt section: Int) -> UIEdgeInsets {
+    // Inset used aroud the view
+    let insets = UIEdgeInsets.init(top: 5.0, left: 10.0, bottom: 5.0, right: 10.0)
+    return insets
+  }
+
 }
