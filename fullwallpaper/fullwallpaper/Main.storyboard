@@ -82,7 +82,7 @@
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="50"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Category" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8U2-gf-WSf">
-                                                <rect key="frame" x="156" y="10.5" width="102.5" height="29.5"/>
+                                                <rect key="frame" x="171" y="8.5" width="72" height="33.5"/>
                                                 <fontDescription key="fontDescription" name="ClickerScript-Regular" family="Clicker Script" pointSize="25"/>
                                                 <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <nil key="highlightedColor"/>
@@ -244,7 +244,7 @@
                                 <rect key="frame" x="0.0" y="44" width="414" height="50"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Customize" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DTe-bI-HuN">
-                                        <rect key="frame" x="147.5" y="8.5" width="119" height="33.5"/>
+                                        <rect key="frame" x="167" y="8.5" width="80.5" height="33.5"/>
                                         <fontDescription key="fontDescription" name="ClickerScript-Regular" family="Clicker Script" pointSize="25"/>
                                         <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
@@ -292,7 +292,7 @@
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="50"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Popular" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xs0-xa-AkM">
-                                                <rect key="frame" x="163.5" y="10.5" width="87" height="29.5"/>
+                                                <rect key="frame" x="174.5" y="8.5" width="65.5" height="33.5"/>
                                                 <fontDescription key="fontDescription" name="ClickerScript-Regular" family="Clicker Script" pointSize="25"/>
                                                 <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <nil key="highlightedColor"/>
@@ -492,7 +492,7 @@
                                 <rect key="frame" x="0.0" y="44" width="414" height="50"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Setting" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="olD-6J-6IY">
-                                        <rect key="frame" x="167.5" y="10.5" width="79.5" height="29.5"/>
+                                        <rect key="frame" x="179" y="8.5" width="56.5" height="33.5"/>
                                         <fontDescription key="fontDescription" name="ClickerScript-Regular" family="Clicker Script" pointSize="25"/>
                                         <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
@@ -864,7 +864,7 @@
                                                 </connections>
                                             </button>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Category" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Adc-X0-8pE">
-                                                <rect key="frame" x="156" y="10.5" width="102.5" height="29.5"/>
+                                                <rect key="frame" x="171" y="8.5" width="72" height="33.5"/>
                                                 <fontDescription key="fontDescription" name="ClickerScript-Regular" family="Clicker Script" pointSize="25"/>
                                                 <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <nil key="highlightedColor"/>
@@ -1563,7 +1563,7 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="全面屏壁纸" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uc2-oW-uRi">
-                                <rect key="frame" x="107" y="314.5" width="200" height="47"/>
+                                <rect key="frame" x="115" y="318" width="184.5" height="40"/>
                                 <fontDescription key="fontDescription" name="AiNiChuanYueRenHai-" family="AiNiChuanYueRenHai" pointSize="40"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
@@ -2128,15 +2128,39 @@
                                             <outletCollection property="gestureRecognizers" destination="Qth-gF-Bnk" appends="YES" id="MAs-0n-Vkm"/>
                                         </connections>
                                     </imageView>
+                                    <imageView clipsSubviews="YES" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="QAp-AX-NNt">
+                                        <rect key="frame" x="82" y="348" width="250" height="300"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="300" id="3u7-4m-94j"/>
+                                            <constraint firstAttribute="width" secondItem="QAp-AX-NNt" secondAttribute="height" multiplier="5:6" id="XEK-V1-7Jh"/>
+                                        </constraints>
+                                        <connections>
+                                            <outletCollection property="gestureRecognizers" destination="2Pq-nz-fW0" appends="YES" id="ThA-9i-eyK"/>
+                                        </connections>
+                                    </imageView>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="bn2-bh-T9T">
+                                        <rect key="frame" x="0.0" y="336" width="414" height="560"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="560" id="bbU-Jf-J8t"/>
+                                        </constraints>
+                                        <connections>
+                                            <outletCollection property="gestureRecognizers" destination="vsd-CN-JGv" appends="YES" id="c00-0e-GGe"/>
+                                        </connections>
+                                    </imageView>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
                                     <constraint firstItem="tKJ-ww-Wev" firstAttribute="leading" secondItem="d5K-Xl-Zfu" secondAttribute="leading" constant="30" id="2xh-5z-pD7"/>
+                                    <constraint firstItem="QAp-AX-NNt" firstAttribute="centerY" secondItem="d5K-Xl-Zfu" secondAttribute="centerY" constant="50" id="4LS-Fh-bLe"/>
                                     <constraint firstItem="tKJ-ww-Wev" firstAttribute="centerY" secondItem="d5K-Xl-Zfu" secondAttribute="centerY" id="7OA-Sq-xOL"/>
+                                    <constraint firstAttribute="trailing" secondItem="bn2-bh-T9T" secondAttribute="trailing" id="BP0-oc-bnY"/>
+                                    <constraint firstItem="QAp-AX-NNt" firstAttribute="centerX" secondItem="d5K-Xl-Zfu" secondAttribute="centerX" id="Jb3-mW-PpV"/>
                                     <constraint firstAttribute="trailing" secondItem="oQu-Lb-kaG" secondAttribute="trailing" id="LNb-g2-Ldb"/>
                                     <constraint firstAttribute="trailing" secondItem="tKJ-ww-Wev" secondAttribute="trailing" constant="30" id="PQw-Oe-a4V"/>
+                                    <constraint firstItem="bn2-bh-T9T" firstAttribute="leading" secondItem="d5K-Xl-Zfu" secondAttribute="leading" id="QbM-sb-ASJ"/>
                                     <constraint firstItem="oQu-Lb-kaG" firstAttribute="leading" secondItem="d5K-Xl-Zfu" secondAttribute="leading" id="T2Y-II-Jpt"/>
                                     <constraint firstAttribute="bottom" secondItem="oQu-Lb-kaG" secondAttribute="bottom" id="t4g-EE-6D4"/>
+                                    <constraint firstAttribute="bottom" secondItem="bn2-bh-T9T" secondAttribute="bottom" id="yp7-zc-NkC"/>
                                     <constraint firstItem="oQu-Lb-kaG" firstAttribute="top" secondItem="d5K-Xl-Zfu" secondAttribute="top" id="ze5-Xa-9cn"/>
                                 </constraints>
                             </view>
@@ -2164,7 +2188,7 @@
                                         </connections>
                                     </button>
                                     <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="dN3-Y6-dO8">
-                                        <rect key="frame" x="119.5" y="25.5" width="175" height="19.5"/>
+                                        <rect key="frame" x="72" y="25.5" width="270" height="19.5"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ysw-g5-8bh">
                                                 <rect key="frame" x="0.0" y="0.0" width="80" height="19"/>
@@ -2196,6 +2220,22 @@
                                                 </state>
                                                 <connections>
                                                     <action selector="showBgColorPickerView:" destination="3EQ-9V-0oe" eventType="touchUpInside" id="g7A-dZ-h8q"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="akM-5N-44J">
+                                                <rect key="frame" x="190" y="0.5" width="80" height="18.5"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="80" id="uSs-W9-xTi"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                <color key="tintColor" systemColor="systemGray3Color"/>
+                                                <inset key="titleEdgeInsets" minX="8" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                                <state key="normal" title="边框">
+                                                    <color key="titleColor" systemColor="systemGray2Color"/>
+                                                    <imageReference key="image" image="squareshape" catalog="system" symbolScale="medium"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="showBorderColorPickerView:" destination="3EQ-9V-0oe" eventType="touchUpInside" id="PYo-NF-nAf"/>
                                                 </connections>
                                             </button>
                                         </subviews>
@@ -2365,21 +2405,27 @@
                         <outlet property="bgImgView" destination="oQu-Lb-kaG" id="iTy-B3-Pm9"/>
                         <outlet property="blurBtn" destination="Ysw-g5-8bh" id="dru-Fr-TZb"/>
                         <outlet property="blurLabel" destination="e3A-W7-jRY" id="gOp-BC-K6Z"/>
+                        <outlet property="borderImgView" destination="QAp-AX-NNt" id="Pup-YL-EOV"/>
                         <outlet property="btnGroupView" destination="sQP-7G-YBj" id="wB0-0M-zcf"/>
                         <outlet property="centerImgView" destination="tKJ-ww-Wev" id="qNo-RE-AfG"/>
                         <outlet property="changeBgBtn" destination="Cw0-D4-GwF" id="3lz-Ba-ZAS"/>
+                        <outlet property="changeBorderBtn" destination="akM-5N-44J" id="anj-R3-J5A"/>
                         <outlet property="checkBgColorBtn" destination="YOk-42-lif" id="YcG-oH-9Or"/>
                         <outlet property="checkBlurBtn" destination="aep-EQ-w3L" id="aVX-I9-RlD"/>
                         <outlet property="closeBgColorBtn" destination="86v-rf-01o" id="aFj-co-vbs"/>
                         <outlet property="closeBlurBtn" destination="WH7-Uo-b9I" id="usY-Pc-x6M"/>
                         <outlet property="colorPickerView" destination="e2w-r8-R65" id="bXX-0V-az8"/>
                         <outlet property="downloadImgBtn" destination="tDV-LM-9oO" id="9Zg-RY-Rin"/>
+                        <outlet property="halfScreenImgView" destination="bn2-bh-T9T" id="yhA-ax-ajJ"/>
                         <outlet property="homeLockImgView" destination="KxV-WG-v8L" id="rZG-My-05I"/>
                         <outlet property="panGestureRecognizer" destination="dCS-Yi-TOy" id="ykX-fn-FXG"/>
                         <outlet property="progressView" destination="jzg-jd-EF0" id="DhC-9p-8n6"/>
+                        <outlet property="stackView" destination="dN3-Y6-dO8" id="O66-RI-nqb"/>
                         <outlet property="tapGestureRecognizer1" destination="nlN-8X-OOF" id="zgZ-Fc-Uhu"/>
                         <outlet property="tapGestureRecognizer2" destination="Qth-gF-Bnk" id="l2m-yJ-WbD"/>
                         <outlet property="tapGestureRecognizer3" destination="3Bf-5P-iKe" id="6te-km-Iwa"/>
+                        <outlet property="tapGestureRecognizer4" destination="vsd-CN-JGv" id="OpR-jj-78U"/>
+                        <outlet property="tapGestureRecognizer5" destination="2Pq-nz-fW0" id="eTW-Pi-Ns4"/>
                         <outlet property="viewToSave" destination="d5K-Xl-Zfu" id="Zkt-RK-2hF"/>
                     </connections>
                 </viewController>
@@ -2402,6 +2448,16 @@
                 <tapGestureRecognizer id="3Bf-5P-iKe">
                     <connections>
                         <action selector="viewTappedWithTapGestureRecognizer:" destination="3EQ-9V-0oe" id="N0a-yK-t5C"/>
+                    </connections>
+                </tapGestureRecognizer>
+                <tapGestureRecognizer id="vsd-CN-JGv">
+                    <connections>
+                        <action selector="viewTappedWithTapGestureRecognizer:" destination="3EQ-9V-0oe" id="2f2-NJ-tn1"/>
+                    </connections>
+                </tapGestureRecognizer>
+                <tapGestureRecognizer id="2Pq-nz-fW0">
+                    <connections>
+                        <action selector="viewTappedWithTapGestureRecognizer:" destination="3EQ-9V-0oe" id="Bjo-LL-xuI"/>
                     </connections>
                 </tapGestureRecognizer>
             </objects>
@@ -2433,7 +2489,7 @@
                                                 </connections>
                                             </button>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" restorationIdentifier="auditVC" text="Audit" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gyo-gX-qcl">
-                                                <rect key="frame" x="178" y="10.5" width="58.5" height="29.5"/>
+                                                <rect key="frame" x="185" y="8.5" width="44.5" height="33.5"/>
                                                 <fontDescription key="fontDescription" name="ClickerScript-Regular" family="Clicker Script" pointSize="25"/>
                                                 <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <nil key="highlightedColor"/>
@@ -3234,6 +3290,7 @@
         <image name="square.and.arrow.down" catalog="system" width="121" height="128"/>
         <image name="square.grid.2x2" catalog="system" width="128" height="114"/>
         <image name="square.stack.3d.up.fill" catalog="system" width="128" height="124"/>
+        <image name="squareshape" catalog="system" width="128" height="114"/>
         <image name="upload" width="512" height="512"/>
         <image name="user" width="512" height="512"/>
         <image name="user_profile" width="55" height="55"/>

@@ -26,18 +26,46 @@ class ClassicalStyleVC: UIViewController {
     var maxBlurAmount: CGFloat = 100.0
     var previousBlurAmount:CGFloat = 30.0
     var previousBgColor: UIColor? = nil
+    var previousBorderColor: UIColor = .white
+    var customizationStyle:CustomizationStyle!
+    var isChangingBg:Bool = true{
+        didSet{
+            if isChangingBg{
+                bgColorLabel.text = "背景颜色"
+            }else{
+                bgColorLabel.text = "边框颜色"
+            }
+        }
+    }
     
     // MARK: - Outlet Variables
     
     @IBOutlet var tapGestureRecognizer1: UITapGestureRecognizer!
     @IBOutlet var tapGestureRecognizer2: UITapGestureRecognizer!
     @IBOutlet var tapGestureRecognizer3: UITapGestureRecognizer!
+    @IBOutlet var tapGestureRecognizer4: UITapGestureRecognizer!
+    @IBOutlet var tapGestureRecognizer5: UITapGestureRecognizer!
     @IBOutlet var panGestureRecognizer: UIPanGestureRecognizer!
     
     @IBOutlet var viewToSave: UIView!
     @IBOutlet var btnGroupView: UIView!
     
-    @IBOutlet var homeLockImgView: UIImageView!
+    @IBOutlet var homeLockImgView: UIImageView!{
+        didSet{
+            if customizationStyle == .Blur{
+                if Device.IS_5_5_INCHES(){
+                    homeLockImgView.image = UIImage(named: "HomeScreen_small")
+                }else{
+                    homeLockImgView.image = UIImage(named: "HomeScreen")
+                }
+            }else{
+                if Device.IS_5_5_INCHES(){
+                    homeLockImgView.image = UIImage(named: "LockScreen_small")
+                }
+            }
+        }
+    }
+    
     @IBOutlet var bgImgView: UIImageView!{
         didSet{
             if let blurredImg = blurImage(usingImage: bgImg, blurAmount: previousBlurAmount){
@@ -47,11 +75,38 @@ class ClassicalStyleVC: UIViewController {
             }
         }
     }
+    
     @IBOutlet var centerImgView: UIImageView!{
         didSet {
-            centerImgView.image = centerImg
-            centerImgView.layer.cornerRadius = 12.0
-            centerImgView.layer.masksToBounds = true
+            if customizationStyle != .CenterSquare{
+                centerImgView.alpha = 0
+            }else{
+                centerImgView.image = centerImg
+                centerImgView.layer.cornerRadius = 12.0
+                centerImgView.layer.masksToBounds = true
+            }
+        }
+    }
+    
+    @IBOutlet var halfScreenImgView: UIImageView!{
+        didSet {
+            if customizationStyle != .HalfScreen{
+                halfScreenImgView.alpha = 0
+            }else{
+                halfScreenImgView.image = centerImg
+            }
+        }
+    }
+    
+    @IBOutlet var borderImgView: UIImageView!{
+        didSet {
+            if customizationStyle != .Border{
+                borderImgView.alpha = 0
+            }else{
+                borderImgView.image = centerImg
+                borderImgView.borderWidth = 2.5
+                borderImgView.borderColor = .white
+            }
         }
     }
     
@@ -59,9 +114,11 @@ class ClassicalStyleVC: UIViewController {
     @IBOutlet var backBtn: UIButton!
     @IBOutlet var blurBtn: UIButton!
     @IBOutlet var changeBgBtn: UIButton!
+    @IBOutlet var changeBorderBtn: UIButton!
     @IBOutlet var downloadImgBtn: UIButton!
     @IBOutlet var closeBlurBtn: UIButton!
     @IBOutlet var checkBlurBtn: UIButton!
+    @IBOutlet var stackView: UIStackView!
     
     @IBOutlet var progressView: UIProgressView!{
         didSet{
@@ -75,7 +132,6 @@ class ClassicalStyleVC: UIViewController {
             addBlurBgToProgressView()
         }
     }
-    
     @IBOutlet var bgColorLabel: UILabel!
     @IBOutlet var closeBgColorBtn: UIButton!
     @IBOutlet var checkBgColorBtn: UIButton!
@@ -85,6 +141,14 @@ class ClassicalStyleVC: UIViewController {
         super.viewDidLoad()
         colorPickerView.delegate = self
         colorPickerView.layoutDelegate = self
+        adjustLayout()
+    }
+    
+    func adjustLayout(){
+        if customizationStyle != .Border{
+            changeBorderBtn.removeFromSuperview()
+        }
+        stackView.layoutIfNeeded()
     }
     
     // MARK: - View Tap for Preview
@@ -156,8 +220,11 @@ class ClassicalStyleVC: UIViewController {
     
     func updateBtnGroupVisibilityForBlur(){
         backBtn.alpha = blurIsActive ? 0 : 1
-        blurBtn.alpha = blurIsActive ? 0 : 1
         changeBgBtn.alpha = blurIsActive ? 0 : 1
+        if customizationStyle == .Border{
+             changeBorderBtn.alpha = blurIsActive ? 0 : 1
+        }
+        blurBtn.alpha = blurIsActive ? 0 : 1
         downloadImgBtn.alpha = blurIsActive ? 0 : 1
         progressView.alpha = blurIsActive ? 1 : 0
         closeBlurBtn.alpha = blurIsActive ? 1 : 0
@@ -166,16 +233,28 @@ class ClassicalStyleVC: UIViewController {
         bgImgView.isUserInteractionEnabled = !blurIsActive
         centerImgView.isUserInteractionEnabled = !blurIsActive
         homeLockImgView.isUserInteractionEnabled = !blurIsActive
+        borderImgView.isUserInteractionEnabled = !blurIsActive
+        halfScreenImgView.isUserInteractionEnabled = !blurIsActive
     }
     
     // MARK: - ColorPickerView For Changing Background Color
     @IBAction func showBgColorPickerView(_ sender: UIButton) {
         bgColorIsActive = true
+        isChangingBg = true
+        updateBtnGroupVisibilityForBgColor()
+    }
+    
+    @IBAction func showBorderColorPickerView(_ sender: UIButton) {
+        bgColorIsActive = true
+        isChangingBg = false
         updateBtnGroupVisibilityForBgColor()
     }
     
     func updateBtnGroupVisibilityForBgColor(){
         backBtn.alpha = bgColorIsActive ? 0 : 1
+        if customizationStyle == .Border{
+             changeBorderBtn.alpha = bgColorIsActive ? 0 : 1
+        }
         blurBtn.alpha = bgColorIsActive ? 0 : 1
         changeBgBtn.alpha = bgColorIsActive ? 0 : 1
         downloadImgBtn.alpha = bgColorIsActive ? 0 : 1
@@ -188,17 +267,24 @@ class ClassicalStyleVC: UIViewController {
         bgImgView.isUserInteractionEnabled = !bgColorIsActive
         centerImgView.isUserInteractionEnabled = !bgColorIsActive
         homeLockImgView.isUserInteractionEnabled = !bgColorIsActive
+        halfScreenImgView.isUserInteractionEnabled = !bgColorIsActive
+        borderImgView.isUserInteractionEnabled = !bgColorIsActive
     }
     
     @IBAction func cancelBgColor(_ sender: UIButton) {
         DispatchQueue.main.async { [self] in
-            if let bgColor = previousBgColor{
-                bgImgView.image = bgImgView.image?.imageWithColor(tintColor: bgColor)
-            }else{
-                if let blurredImg = blurImage(usingImage: bgImg, blurAmount: previousBlurAmount){
-                    bgImgView.image = blurredImg
+            if isChangingBg{
+                if let bgColor = previousBgColor{
+                    bgImgView.image = bgImgView.image?.imageWithColor(tintColor: bgColor)
+                }else{
+                    if let blurredImg = blurImage(usingImage: bgImg, blurAmount: previousBlurAmount){
+                        bgImgView.image = blurredImg
+                    }
                 }
+            }else{
+                borderImgView.borderColor = previousBorderColor
             }
+            
         }
         bgColorIsActive = false
         updateBtnGroupVisibilityForBgColor()
@@ -252,8 +338,13 @@ extension ClassicalStyleVC: ColorPickerViewDelegate {
     // A color has been selected
     let colorSelected:UIColor = colorPickerView.colors[indexPath.row]
     
+    
     DispatchQueue.main.async { [self] in
-        bgImgView.image = bgImgView.image?.imageWithColor(tintColor: colorSelected)
+        if isChangingBg{
+            bgImgView.image = bgImgView.image?.imageWithColor(tintColor: colorSelected)
+        }else{
+            borderImgView.borderColor = colorSelected
+        }
     }
   }
 

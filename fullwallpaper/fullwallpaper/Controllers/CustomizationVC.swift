@@ -12,14 +12,18 @@ import CropViewController
 class CustomizationVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout , UIImagePickerControllerDelegate, UINavigationControllerDelegate, CropViewControllerDelegate {
     private let customizations:[String] = ["经典", "模糊", "小半", "相框"]
     private let customizationImages:[String] = ["center_square", "blurry", "half_screen", "border"]
-    private let whRatios:[CGFloat] = [1.0, whRatio, widthsz/(heightsz * 0.618), 0.85]
-    @IBOutlet weak var collectionView: UICollectionView!
-    @IBOutlet weak var titleLabel: UILabel!
+    private let customizationStyles:[CustomizationStyle] = [.CenterSquare, .Blur, .HalfScreen, .Border]
+    private let whRatios:[CGFloat] = [1.0, whRatio, widthsz/(heightsz * 0.618), CGFloat(5.0/6.0)]
+    
+    var customizationStyleSelected:CustomizationStyle? = nil
     var imagePicker = UIImagePickerController()
     var currentWHRatio: CGFloat = 1.0
     var currentRawImage: UIImage? = nil
     var currentCroppedImage: UIImage? = nil
-
+    
+    @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var titleLabel: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupCollectionView()
@@ -53,6 +57,7 @@ class CustomizationVC: UIViewController, UICollectionViewDelegate, UICollectionV
         let classicalStyleVC = mainStoryBoard.instantiateViewController(withIdentifier: "classicalStyleVC") as! ClassicalStyleVC
         classicalStyleVC.bgImg = currentRawImage
         classicalStyleVC.centerImg = currentCroppedImage
+        classicalStyleVC.customizationStyle = customizationStyleSelected!
         classicalStyleVC.modalPresentationStyle = .fullScreen
         
         DispatchQueue.main.async {
@@ -94,6 +99,7 @@ class CustomizationVC: UIViewController, UICollectionViewDelegate, UICollectionV
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         currentWHRatio = whRatios[indexPath.row]
+        customizationStyleSelected = customizationStyles[indexPath.row]
         selectImage()
     }
 

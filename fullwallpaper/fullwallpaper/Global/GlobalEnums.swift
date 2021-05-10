@@ -7,6 +7,13 @@
 
 import Foundation
 
+enum CustomizationStyle{
+    case CenterSquare
+    case Blur
+    case HalfScreen
+    case Border
+}
+
 enum RegisteredPurchase : String {
     case ThreeMonthVIP = "threemonthvip"
     case YearVIP = "yearvip"
