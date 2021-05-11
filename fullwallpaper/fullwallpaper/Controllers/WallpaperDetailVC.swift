@@ -83,6 +83,7 @@ class WallpaperDetailVC: UIViewController {
     }
     
     func checkIfDisabled(){
+        stopIndicator()
         if isDisabled {
             DispatchQueue.main.async {
                 let alertController:UIAlertController = getBannedAlert()

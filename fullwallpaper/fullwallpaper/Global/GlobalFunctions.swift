@@ -15,6 +15,14 @@ import SwiftTheme
 import SwiftyStoreKit
 
 
+func loadURL(url: URL){
+    if #available(iOS 10.0, *) {
+        UIApplication.shared.open(url, options: [:], completionHandler: nil)
+    } else {
+        UIApplication.shared.openURL(url)
+    }
+}
+
 func blurImage(usingImage image:UIImage, blurAmount: CGFloat) -> UIImage? {
     guard let ciImage = CIImage(image: image) else {
         return nil
@@ -307,7 +315,6 @@ func verifyPurcahse() {
 
             switch result{
             case .success(let receipt):
-
                 let productID = makeProductId(purchase: product)
 
                 let purchaseResult = SwiftyStoreKit.verifySubscription(ofType: .nonRenewing(validDuration: getTimeInterval(product: product)), productId: productID, inReceipt: receipt, validUntil: Date())

@@ -304,9 +304,9 @@
                                                     <constraint firstAttribute="width" constant="20" id="gvz-lp-Y40"/>
                                                 </constraints>
                                                 <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                <state key="normal" image="menu"/>
+                                                <state key="normal" image="tray.and.arrow.up" catalog="system"/>
                                                 <connections>
-                                                    <action selector="presentPopMenu:" destination="aNq-ZR-jQA" eventType="touchUpInside" id="vLw-2V-nkb"/>
+                                                    <action selector="uploadImage:" destination="aNq-ZR-jQA" eventType="touchUpInside" id="cRZ-m7-DYu"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="23m-nM-mB7">
@@ -531,7 +531,7 @@
                                                     <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="pro" translatesAutoresizingMaskIntoConstraints="NO" id="KaX-8k-baJ">
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.0" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="pro" translatesAutoresizingMaskIntoConstraints="NO" id="KaX-8k-baJ">
                                                     <rect key="frame" x="147.5" y="21.5" width="40" height="17"/>
                                                     <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <constraints>
@@ -3278,7 +3278,6 @@
         <image name="loginBackground" width="1892" height="2854"/>
         <image name="logout" width="512" height="512"/>
         <image name="mail" width="551" height="551"/>
-        <image name="menu" width="384" height="384"/>
         <image name="message.fill" catalog="system" width="128" height="113"/>
         <image name="mid-icons" width="314" height="139"/>
         <image name="more" width="512" height="512"/>
@@ -3291,6 +3290,7 @@
         <image name="square.grid.2x2" catalog="system" width="128" height="114"/>
         <image name="square.stack.3d.up.fill" catalog="system" width="128" height="124"/>
         <image name="squareshape" catalog="system" width="128" height="114"/>
+        <image name="tray.and.arrow.up" catalog="system" width="128" height="114"/>
         <image name="upload" width="512" height="512"/>
         <image name="user" width="512" height="512"/>
         <image name="user_profile" width="55" height="55"/>

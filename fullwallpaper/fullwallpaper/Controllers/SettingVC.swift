@@ -48,7 +48,7 @@ class SettingVC: UIViewController , UITableViewDataSource, UITableViewDelegate {
     
     func updateDisplayName(){
         if let user = LCApplication.default.currentUser {
-            _ = user.fetch(keys: ["name", "proDue"]) { result in
+            _ = user.fetch(keys: ["name"]) { result in
                 switch result {
                 case .success:
                     var changed = false
@@ -280,12 +280,20 @@ class SettingVC: UIViewController , UITableViewDataSource, UITableViewDelegate {
                     let info = [ "Um_Key_SourcePage": "设置页", "Um_Key_ButtonName" : "服务条款"]
                     UMAnalyticsSwift.event(eventId: "Um_Event_ModularClick", attributes: info)
                     let url = URL(string: "\(githubLink)/terms.html")!
-                    loadPolicyVC(url: url)
+                    if testMode{
+                        loadURL(url: url)
+                    }else{
+                        loadPolicyVC(url: url)
+                    }
                 case 2:
                     let info = [ "Um_Key_SourcePage": "设置页", "Um_Key_ButtonName" : "隐私政策"]
                     UMAnalyticsSwift.event(eventId: "Um_Event_ModularClick", attributes: info)
                     let url = URL(string: "\(githubLink)/privacy.html")!
-                    loadPolicyVC(url: url)
+                    if testMode{
+                        loadURL(url: url)
+                    }else{
+                        loadPolicyVC(url: url)
+                    }
                 default:
                     break
             }

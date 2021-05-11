@@ -393,7 +393,17 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
             self.present(menuVC, animated: true, completion: nil)
     }
     
-    @IBAction func presentPopMenu(_ sender: UIButton) {
+    @IBAction func uploadImage(_ sender: UIButton){
+        if let _ = LCApplication.default.currentUser {
+            self.selectImage()
+        } else {
+            // 显示注册或登录页面
+            self.showLoginOrRegisterVC()
+        }
+    }
+    
+    
+    func presentPopMenu(_ sender: UIButton) {
             let iconWidthHeight:CGFloat = 20
             let searchAction = PopMenuDefaultAction(title: "搜索壁纸", image: UIImage(named: "search"), color: UIColor.lightGray)
             let uploadAction = PopMenuDefaultAction(title: "上传壁纸", image: UIImage(named: "upload"), color: UIColor.lightGray)

@@ -19,7 +19,7 @@ let LCAppId: String = "Y3wzJERyrbjHzR7exzMChF7I-gzGzoHsz"
 let LCKey: String = "cVvbrIE2rMLLziICGIvM52c8"
 
 let productURL = URL(string: "https://itunes.apple.com/app/id1544907523")
-let githubLink:String = "https://15101538237ren.github.io"
+let githubLink:String = "https://15101538237ren.github.io/fullwallpaper"
 let privacyViewedKey: String = "privacyViewed"
 
 let minimumReviewWorthyActionCount = 3
