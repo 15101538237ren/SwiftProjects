@@ -374,8 +374,8 @@
 			};
 			buildConfigurationList = 55F3991E254A624D0094A477 /* Build configuration list for PBXProject "fullwallpaper" */;
 			compatibilityVersion = "Xcode 9.3";
-			developmentRegion = en;
-			hasScannedForEncodings = 0;
+			developmentRegion = "zh-Hans";
+                        hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 				Base,
