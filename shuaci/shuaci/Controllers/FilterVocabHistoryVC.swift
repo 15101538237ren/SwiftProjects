@@ -8,6 +8,7 @@
 
 import UIKit
 import MBRadioCheckboxButton
+import SwiftTheme
 
 class FilterVocabHistoryVC: UIViewController {
     var wordHistoryVC: WordHistoryViewController!
@@ -154,6 +155,14 @@ extension FilterVocabHistoryVC: CheckboxButtonDelegate {
                 numOfContinuousMemTimes.remove(at: ni)
                 break
             }
+        }
+    }
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?){
+        if traitCollection.userInterfaceStyle == .light {
+            ThemeManager.setTheme(plistName: "Light_White", path: .mainBundle)
+        } else {
+            ThemeManager.setTheme(plistName: "Night", path: .mainBundle)
         }
     }
 }

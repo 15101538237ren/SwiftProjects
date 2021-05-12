@@ -9,6 +9,7 @@
 import UIKit
 import LeanCloud
 import AVFoundation
+import SwiftTheme
 
 class MainScreenViewController: UIViewController, UIGestureRecognizerDelegate {
     var isGetUserInfo = false
@@ -376,6 +377,14 @@ class MainScreenViewController: UIViewController, UIGestureRecognizerDelegate {
     
     @IBAction func wexinLogin(_ sender: UIButton) {
         
+    }
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?){
+        if traitCollection.userInterfaceStyle == .light {
+            ThemeManager.setTheme(plistName: "Light_White", path: .mainBundle)
+        } else {
+            ThemeManager.setTheme(plistName: "Night", path: .mainBundle)
+        }
     }
     
 }

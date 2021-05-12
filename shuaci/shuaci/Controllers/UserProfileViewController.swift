@@ -585,4 +585,12 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
             self.present(booksVC, animated: true, completion: nil)
         }
     }
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?){
+        if traitCollection.userInterfaceStyle == .light {
+            ThemeManager.setTheme(plistName: "Light_White", path: .mainBundle)
+        } else {
+            ThemeManager.setTheme(plistName: "Night", path: .mainBundle)
+        }
+    }
 }

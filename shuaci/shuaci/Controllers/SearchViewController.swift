@@ -8,6 +8,7 @@
 import UIKit
 import SwiftyJSON
 import AVFoundation
+import SwiftTheme
 
 class SearchViewController: UIViewController {
     var searchResults:[String] = []
@@ -240,6 +241,14 @@ extension SearchViewController: UISearchBarDelegate, UISearchControllerDelegate 
         }
         
         searchBar.endEditing(true)
+    }
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?){
+        if traitCollection.userInterfaceStyle == .light {
+            ThemeManager.setTheme(plistName: "Light_White", path: .mainBundle)
+        } else {
+            ThemeManager.setTheme(plistName: "Night", path: .mainBundle)
+        }
     }
 }
 

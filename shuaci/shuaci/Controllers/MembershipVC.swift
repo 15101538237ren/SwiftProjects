@@ -10,6 +10,7 @@ import UIKit
 import SwiftyStoreKit
 import StoreKit
 import LeanCloud
+import SwiftTheme
 
 class MembershipVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     var hasFreeTrialed:Bool!
@@ -355,6 +356,14 @@ extension MembershipVC {
         }
         else {
             return alertWithTitle(title: noHistoryPurchaseText, message: "")
+        }
+    }
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?){
+        if traitCollection.userInterfaceStyle == .light {
+            ThemeManager.setTheme(plistName: "Light_White", path: .mainBundle)
+        } else {
+            ThemeManager.setTheme(plistName: "Night", path: .mainBundle)
         }
     }
 }

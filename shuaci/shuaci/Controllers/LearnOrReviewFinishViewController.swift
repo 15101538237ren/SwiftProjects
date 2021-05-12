@@ -10,6 +10,7 @@ import UIKit
 import LeanCloud
 import Nuke
 import SwiftMessages
+import SwiftTheme
 
 class LearnOrReviewFinishViewController: UIViewController {
     var mainPanelViewController: MainPanelViewController!
@@ -348,4 +349,11 @@ class LearnOrReviewFinishViewController: UIViewController {
             }
         }
     
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?){
+        if traitCollection.userInterfaceStyle == .light {
+            ThemeManager.setTheme(plistName: "Light_White", path: .mainBundle)
+        } else {
+            ThemeManager.setTheme(plistName: "Night", path: .mainBundle)
+        }
+    }
 }

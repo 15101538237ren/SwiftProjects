@@ -261,7 +261,11 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
     func loadTheme(){
         if let preference = preference{
             let theme_category = preference.current_theme
-            ThemeManager.setTheme(plistName: theme_category_to_name[theme_category]!.rawValue, path: .mainBundle)
+            if traitCollection.userInterfaceStyle == .light {
+                ThemeManager.setTheme(plistName: theme_category_to_name[theme_category]!.rawValue, path: .mainBundle)
+            } else {
+                ThemeManager.setTheme(plistName: "Night", path: .mainBundle)
+            }
             
             loadWallpaper()
             NotificationCenter.default.addObserver(self, selector: #selector(loadWallpaper), name: UIApplication.willEnterForegroundNotification, object: nil)
@@ -896,6 +900,14 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
             destinationController.preference = get_preference()
             destinationController.mainPanelViewController = self
             destinationController.modalPresentationStyle = .overCurrentContext
+        }
+    }
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?){
+        if traitCollection.userInterfaceStyle == .light {
+            ThemeManager.setTheme(plistName: "Light_White", path: .mainBundle)
+        } else {
+            ThemeManager.setTheme(plistName: "Night", path: .mainBundle)
         }
     }
 
