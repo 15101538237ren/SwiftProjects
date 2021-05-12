@@ -31,7 +31,6 @@
 	<string>我们需要照片库权限来存储您喜欢的壁纸</string>
 	<key>UIAppFonts</key>
 	<array>
-		<string>ClickerScript-Regular.ttf</string>
 		<string>AiNiChuanYueRenHai.ttf</string>
 	</array>
 	<key>UIApplicationSceneManifest</key>

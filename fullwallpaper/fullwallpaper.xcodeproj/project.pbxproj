@@ -35,7 +35,6 @@
 		C32CB0CC2579F47C000DDCF1 /* SetUserProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C32CB0CB2579F47C000DDCF1 /* SetUserProfileVC.swift */; };
 		C33D6FFA25998DD500C934F5 /* Device.swift in Sources */ = {isa = PBXBuildFile; fileRef = C33D6FF925998DD500C934F5 /* Device.swift */; };
 		C3543295258C761600D66A8A /* UIColor+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3543294258C761600D66A8A /* UIColor+Ext.swift */; };
-		C36DC66325D3A4F30016464A /* ClickerScript-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C36DC66225D3A4F30016464A /* ClickerScript-Regular.ttf */; };
 		C36F6FE82569A9B60072AEDE /* SearchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C36F6FE72569A9B60072AEDE /* SearchVC.swift */; };
 		C3770DA9255CF99700D240CB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 55F3992F254A624D0094A477 /* Assets.xcassets */; };
 		C3770DCE255D143F00D240CB /* SettingTableViewCellWithValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3770DCD255D143F00D240CB /* SettingTableViewCellWithValue.swift */; };
@@ -105,7 +104,6 @@
 		C32CB0CB2579F47C000DDCF1 /* SetUserProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetUserProfileVC.swift; sourceTree = "<group>"; };
 		C33D6FF925998DD500C934F5 /* Device.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Device.swift; sourceTree = "<group>"; };
 		C3543294258C761600D66A8A /* UIColor+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Ext.swift"; sourceTree = "<group>"; };
-		C36DC66225D3A4F30016464A /* ClickerScript-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ClickerScript-Regular.ttf"; sourceTree = "<group>"; };
 		C36F6FE72569A9B60072AEDE /* SearchVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchVC.swift; sourceTree = "<group>"; };
 		C3770DCD255D143F00D240CB /* SettingTableViewCellWithValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingTableViewCellWithValue.swift; sourceTree = "<group>"; };
 		C3871DEF255A6CA7001DF6C4 /* LoginVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
@@ -284,7 +282,6 @@
 		55F39942254A7CE00094A477 /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
-				C36DC66225D3A4F30016464A /* ClickerScript-Regular.ttf */,
 				C3E09BDA255CBE1600C4F238 /* AiNiChuanYueRenHai.ttf */,
 			);
 			path = Fonts;
@@ -401,7 +398,6 @@
 				C30B71F7258D2F76002A673D /* Main.storyboard in Resources */,
 				C3C3566025572489006F137B /* night.plist in Resources */,
 				C3E09BDB255CBE1600C4F238 /* AiNiChuanYueRenHai.ttf in Resources */,
-				C36DC66325D3A4F30016464A /* ClickerScript-Regular.ttf in Resources */,
 				C3B33256259BBFC6001D5C5C /* IAP_ProductIDs.plist in Resources */,
 				55F39933254A624D0094A477 /* LaunchScreen.storyboard in Resources */,
 				C3C3565D2557247F006F137B /* day.plist in Resources */,
