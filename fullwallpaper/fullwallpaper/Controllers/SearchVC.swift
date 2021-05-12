@@ -268,7 +268,7 @@ class SearchVC: UIViewController, UICollectionViewDelegate, UICollectionViewData
     var emptyStateTitle: NSAttributedString {
             let attrs = [NSAttributedString.Key.foregroundColor: UIColor.lightGray,
                          NSAttributedString.Key.font: UIFont.systemFont(ofSize: 18)]
-            let title: String = NoNetwork ? "无网络，请检查设置！" : "没有找到相关壁纸"
+            let title: String = NoNetwork ? NoNetworkStr :  noWallpaperFindText
             return NSAttributedString(string: title, attributes: attrs)
         }
     

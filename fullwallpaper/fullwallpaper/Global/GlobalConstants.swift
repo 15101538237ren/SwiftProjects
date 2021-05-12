@@ -28,7 +28,7 @@ let hud = JGProgressHUD(style: .light)
 let hudWithProgress = JGProgressHUD(style: .light)
 let appleValidator = AppleReceiptValidator(service: .sandbox, sharedSecret: sharedSecret)
 
-let vips:[VIP] = [VIP(duration: "3个月", purchase: .ThreeMonthVIP, price: 18, pastPrice: 36), VIP(duration: "1年", purchase: .YearVIP, price: 45, pastPrice: 99), VIP(duration: "1个月", purchase: .OneMonthVIP, price: 12, pastPrice: 20) ]
+let vips:[VIP] = [VIP(duration: threeMonthText, purchase: .ThreeMonthVIP, price: 18, pastPrice: 36), VIP(duration: oneYearText, purchase: .YearVIP, price: 45, pastPrice: 99), VIP(duration: oneMonthText, purchase: .OneMonthVIP, price: 12, pastPrice: 20) ]
 
 let fadeDuration:Double = 1.0
 let thumbnailScale = 0.25

@@ -31,9 +31,9 @@ class ClassicalStyleVC: UIViewController {
     var isChangingBg:Bool = true{
         didSet{
             if isChangingBg{
-                bgColorLabel.text = "背景颜色"
+                bgColorLabel.text = bgColorText
             }else{
-                bgColorLabel.text = "边框颜色"
+                bgColorLabel.text = borderColorText
             }
         }
     }
@@ -302,7 +302,7 @@ class ClassicalStyleVC: UIViewController {
     
     @objc func image(_ image:UIImage, didFinishSavingWithError error: Error?, contextInfo: UnsafeRawPointer){
         if let error = error {
-                self.view.makeToast("出现错误: \(error.localizedDescription)", duration: 1.0, position: .center)
+                self.view.makeToast("\(errorText): \(error.localizedDescription)", duration: 1.0, position: .center)
         }
         else{
             presentAlertForSaveSuccess()
@@ -310,13 +310,13 @@ class ClassicalStyleVC: UIViewController {
     }
     
     func presentAlertForSaveSuccess(){
-        let alertController = UIAlertController(title: "保存成功", message: "是否前往相册查看?", preferredStyle: .alert)
+        let alertController = UIAlertController(title: saveSuccessText, message: askGoToAlbumText, preferredStyle: .alert)
         
-        let goAlbumAction = UIAlertAction(title: "前往相册", style: .default){ _ in
+        let goAlbumAction = UIAlertAction(title:goToAlbumText , style: .default){ _ in
             UIApplication.shared.open(URL(string:"photos-redirect://")!)
          }
         
-        let cancelAction = UIAlertAction(title: "取消", style: .cancel){ _ in
+        let cancelAction = UIAlertAction(title: cancelText, style: .cancel){ _ in
             alertController.dismiss(animated: true, completion: nil)
         }
 

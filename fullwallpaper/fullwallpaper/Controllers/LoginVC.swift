@@ -24,12 +24,12 @@ class LoginVC: UIViewController {
     
     @IBOutlet var emailTextField: UITextField!{
         didSet{
-            emailTextField.attributedPlaceholder = NSAttributedString(string: "邮 箱",attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
+            emailTextField.attributedPlaceholder = NSAttributedString(string: emailText,attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
         }
     }
     @IBOutlet var passwordField: UITextField!{
         didSet{
-            passwordField.attributedPlaceholder = NSAttributedString(string: "密 码",attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
+            passwordField.attributedPlaceholder = NSAttributedString(string: pwdText,attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
         }
     }
     @IBOutlet var forgotPwdBtn: UIButton!{
@@ -61,12 +61,12 @@ class LoginVC: UIViewController {
     
     @IBOutlet var phoneNumTextField: UITextField!{
         didSet{
-            phoneNumTextField.attributedPlaceholder = NSAttributedString(string: "手机号",attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
+            phoneNumTextField.attributedPlaceholder = NSAttributedString(string: phoneNumText,attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
         }
     }
     @IBOutlet var verificationCodeTextField: UITextField!{
         didSet{
-            verificationCodeTextField.attributedPlaceholder = NSAttributedString(string: "短信验证码",attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
+            verificationCodeTextField.attributedPlaceholder = NSAttributedString(string: verificationCodeText,attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
         }
     }
     @IBOutlet var getVerificationCodeBtn: UIButton!{
@@ -109,7 +109,7 @@ class LoginVC: UIViewController {
     
     @IBOutlet var resetEmailTextField: UITextField!{
         didSet{
-            resetEmailTextField.attributedPlaceholder = NSAttributedString(string: "邮 箱",attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
+            resetEmailTextField.attributedPlaceholder = NSAttributedString(string: emailText,attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
         }
     }
     @IBOutlet var resetPwdBtn: UIButton!{
@@ -176,7 +176,7 @@ class LoginVC: UIViewController {
                 emailLoginBtn.alpha = 0
                 resetPwdBtn.alpha = 0
                 forgotPwdBtn.alpha = 0
-                emailLoginIndicationBtn.setTitle("邮箱登录", for: .normal)
+                emailLoginIndicationBtn.setTitle(emailLoginText, for: .normal)
                 phoneStackView.alpha = 1
                 emailLoginIndicationBtn.alpha = 1
                 phoneLoginBtn.alpha = 1
@@ -189,7 +189,7 @@ class LoginVC: UIViewController {
                 phoneStackView.alpha = 0
                 phoneLoginBtn.alpha = 0
                 resetPwdBtn.alpha = 0
-                emailLoginIndicationBtn.setTitle("手机号登录", for: .normal)
+                emailLoginIndicationBtn.setTitle(phoneLoginText, for: .normal)
             case .ResetEmail:
                 emailStackView.alpha = 0
                 phoneStackView.alpha = 0
@@ -197,7 +197,7 @@ class LoginVC: UIViewController {
                 phoneLoginBtn.alpha = 0
                 emailLoginIndicationBtn.alpha = 1
                 forgotPwdBtn.alpha = 0
-                emailLoginIndicationBtn.setTitle("邮箱登录", for: .normal)
+                emailLoginIndicationBtn.setTitle(resetPwdLoginText, for: .normal)
                 resetStackView.alpha = 1
                 resetPwdBtn.alpha = 1
             }
@@ -266,13 +266,13 @@ class LoginVC: UIViewController {
                     codeTimer.cancel()
                     DispatchQueue.main.async {
                         self.enableVerificationBtn()
-                        self.getVerificationCodeBtn.setTitle("重新发送", for: .normal)
+                        self.getVerificationCodeBtn.setTitle(resendText, for: .normal)
                     }
                     return
                 }
                 
                 DispatchQueue.main.async {
-                    self.getVerificationCodeBtn.setTitle("\(time)s后重新发送", for: .normal)
+                    self.getVerificationCodeBtn.setTitle("\(time)s \(resendLaterText)", for: .normal)
                 }
                 
             }
@@ -305,12 +305,12 @@ class LoginVC: UIViewController {
             
             if let email = email {
                 if !Validator.isEmail().apply(email){
-                    self.view.makeToast("邮箱格式不正确!", duration: 1.0, position: .center)
+                    self.view.makeToast(wrongEmailFormatText, duration: 1.0, position: .center)
                     return
                 }
             }
             else{
-                self.view.makeToast("邮箱不能为空!", duration: 1.0, position: .center)
+                self.view.makeToast(emptyEmailText, duration: 1.0, position: .center)
                 return
             }
             
@@ -324,7 +324,7 @@ class LoginVC: UIViewController {
                 pwdWrong = true
             }
             if pwdWrong{
-                self.view.makeToast("密码应为8-15位，且只包含字母、数字或下划线", duration: 1.5, position: .center)
+                self.view.makeToast(pwdFormatText, duration: 1.5, position: .center)
                 return
             }
         
@@ -341,7 +341,7 @@ class LoginVC: UIViewController {
                 if !emailClickKeySet || (minutesBetweenDates(lastEmailLoginClickTime, Date()) > 0.5) {
                     
                     DispatchQueue.main.async {
-                        self.initActivityIndicator(text: "正在登录")
+                        self.initActivityIndicator(text: loggingText)
                         self.setElements(enable: false)
                     }
                     
@@ -352,8 +352,8 @@ class LoginVC: UIViewController {
                             if let disabled = user.get("disabled")?.boolValue{
                                 if disabled {
                                     DispatchQueue.main.async {
-                                        let alertController = UIAlertController(title: "您的账号目前已被封禁", message: "如有疑问，请联系fullwallpaper@outlook.com", preferredStyle: .alert)
-                                        let okayAction = UIAlertAction(title: "好", style: .default, handler: { action in
+                                        let alertController = UIAlertController(title: accountBannedText, message: accountBannedDetailText, preferredStyle: .alert)
+                                        let okayAction = UIAlertAction(title: OkTxt, style: .default, handler: { action in
                                             UIControl().sendAction(#selector(URLSessionTask.suspend), to: UIApplication.shared, for: nil)
                                             
                                             })
@@ -406,12 +406,12 @@ class LoginVC: UIViewController {
                             }
                             switch error.code {
                             case 211:
-                                let alertController = UIAlertController(title: "该邮箱尚未注册,是否注册?", message: "", preferredStyle: .alert)
-                                let okayAction = UIAlertAction(title: "是", style: .default, handler: { action in
+                                let alertController = UIAlertController(title: registerEmailText, message: "", preferredStyle: .alert)
+                                let okayAction = UIAlertAction(title: yesText, style: .default, handler: { action in
                                      do {
                                         // 创建实例
                                         DispatchQueue.main.async {
-                                            self.initActivityIndicator(text: "正在登录")
+                                            self.initActivityIndicator(text: loggingText)
                                             self.setElements(enable: false)
                                         }
                                         let user = LCUser()
@@ -427,10 +427,10 @@ class LoginVC: UIViewController {
                                                 
                                                 UMAnalyticsSwift.event(eventId: "Um_Event_RegisterSuc", attributes: regInfo)
                                                 
-                                                self.presentAlertInView(title: "提示", message: "已发送验证邮件到\(email!)。请您单击邮件中的链接，完成验证后登录!", okText: "好")
+                                                self.presentAlertInView(title: promptText, message: "\(emailSentToText)\(email!) \(clickVerifyPlsText)", okText: OkTxt)
                                                 UserDefaults.standard.set(Date(), forKey: "lastEmailLoginClickTime")
                                                 DispatchQueue.main.async {
-                                                    self.emailLoginBtn.setTitle("登录", for: .normal)
+                                                    self.emailLoginBtn.setTitle(loginText, for: .normal)
                                                     self.stopIndicator()
                                                     self.setElements(enable: true)
                                                 }
@@ -445,37 +445,37 @@ class LoginVC: UIViewController {
                                                 UMAnalyticsSwift.event(eventId: "Um_Event_LoginFailed", attributes: errorInfo)
                                                 switch error.code {
                                                 case 202 :
-                                                    self.view.makeToast("该邮箱已注册!", duration: 1.0, position: .center)
+                                                    self.view.makeToast(emailExistText, duration: 1.0, position: .center)
                                                 case 214:
-                                                    self.view.makeToast("该邮箱已注册!", duration: 1.0, position: .center)
+                                                    self.view.makeToast(emailExistText, duration: 1.0, position: .center)
                                                 default:
-                                                    self.view.makeToast("错误:\(error.reason?.stringValue ?? "出现错误，请重试")", duration: 1.0, position: .center)
+                                                    self.view.makeToast("\(errorText):\(error.reason?.stringValue ?? errorRetryText)", duration: 1.0, position: .center)
                                                 }
                                             }
                                         }
                                     }
                                     
                                     DispatchQueue.main.async {
-                                        self.emailLoginBtn.setTitle("注册", for: .normal)
+                                        self.emailLoginBtn.setTitle(registerText, for: .normal)
                                     }})
-                                let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
+                                let cancelAction = UIAlertAction(title: cancelText, style: .cancel, handler: nil)
                                 alertController.addAction(okayAction)
                                 alertController.addAction(cancelAction)
                                 self.present(alertController, animated: true, completion: nil)
                             case 210:
-                                self.view.makeToast("密码不正确!", duration: 1.0, position: .center)
+                                self.view.makeToast(wrongPwdText, duration: 1.0, position: .center)
                             case 216:
-                                self.view.makeToast("请前往邮箱，并完成验证", duration: 1.2, position: .center)
+                                self.view.makeToast(verifyEmailPlsText, duration: 1.2, position: .center)
                             case 400:
-                                self.view.makeToast("密码不正确!", duration: 1.0, position: .center)
+                                self.view.makeToast(wrongPwdText, duration: 1.0, position: .center)
                             default:
-                                self.view.makeToast("\(error.reason?.stringValue ?? "登录错误,请稍后再试")", duration: 1.0, position: .center)
+                                self.view.makeToast("\(error.reason?.stringValue ?? logginErrorText)", duration: 1.0, position: .center)
                             }
                         }
                     }
                 }
                 else{
-                    self.view.makeToast("登录请求太快，请等待30秒!", duration: 1.0, position: .center)
+                    self.view.makeToast(loginTooFastText, duration: 1.0, position: .center)
                     return
                 }
             }else{
@@ -497,7 +497,7 @@ class LoginVC: UIViewController {
                 let connected = Reachability.isConnectedToNetwork()
                 if connected{
                     DispatchQueue.main.async {
-                        self.initActivityIndicator(text: "正在发送")
+                        self.initActivityIndicator(text: sendingText)
                         self.setElements(enable: false)
                     }
                     _ = LCUser.requestLoginVerificationCode(mobilePhoneNumber: phoneNumber) { result in
@@ -510,33 +510,33 @@ class LoginVC: UIViewController {
                             case .success:
                                 self.verificationCodeSent = true
                                 self.verificationBtnTimeChange()
-                                self.view.makeToast("验证码已发送!", duration: 1.0, position: .center)
+                                self.view.makeToast(verficationSentText, duration: 1.0, position: .center)
                             case .failure(error: let error):
                                 switch error.code {
                                 case 213:
-                                    let alertController = UIAlertController(title: "该手机号尚未注册,是否注册?", message: "", preferredStyle: .alert)
-                                    let okayAction = UIAlertAction(title: "是", style: .default, handler: { action in
+                                    let alertController = UIAlertController(title: registerPhoneText, message: "", preferredStyle: .alert)
+                                    let okayAction = UIAlertAction(title: yesText, style: .default, handler: { action in
                                         DispatchQueue.main.async {
-                                            self.phoneLoginBtn.setTitle("注册", for: .normal)
+                                            self.phoneLoginBtn.setTitle(registerText, for: .normal)
                                         }
                                         _ = LCSMSClient.requestShortMessage(mobilePhoneNumber: phoneNumber, templateName: "verification", signatureName: "北京雷行天下科技有限公司") { (result) in
                                             switch result {
                                             case .success:
                                                 self.verificationCodeSent = true
                                                 self.verificationBtnTimeChange()
-                                                self.view.makeToast("验证码已发送!", duration: 1.0, position: .center)
+                                                self.view.makeToast(verficationSentText, duration: 1.0, position: .center)
                                             case .failure(error: let error):
                                                 let info = ["Um_Key_Reasons" : "验证码发送失败, \(String(describing: error.reason))"]
                                                 
                                                 UMAnalyticsSwift.event(eventId: "Um_Event_LoginFailed", attributes: info)
                                                 
-                                                self.view.makeToast("发送失败:\(error.reason?.stringValue ?? "")", duration: 1.0, position: .center)
+                                                self.view.makeToast("\(sendFailedText):\(error.reason?.stringValue ?? "")", duration: 1.0, position: .center)
                                             }
                                         }
 
                                     })
                                     
-                                    let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
+                                    let cancelAction = UIAlertAction(title: cancelText, style: .cancel, handler: nil)
                                     alertController.addAction(okayAction)
                                     alertController.addAction(cancelAction)
                                     self.present(alertController, animated: true, completion: nil)
@@ -544,7 +544,7 @@ class LoginVC: UIViewController {
                                     let info = ["Um_Key_Reasons" : "验证码发送失败, \(String(describing: error.reason))"]
                                     
                                     UMAnalyticsSwift.event(eventId: "Um_Event_LoginFailed", attributes: info)
-                                    self.view.makeToast("发送失败:\(error.reason?.stringValue ?? "")!", duration: 1.0, position: .center)
+                                    self.view.makeToast("\(sendFailedText):\(error.reason?.stringValue ?? "")!", duration: 1.0, position: .center)
                                 }
                         }
                     }
@@ -553,10 +553,10 @@ class LoginVC: UIViewController {
                 }
             }
             catch {
-                self.view.makeToast("手机号有误!", duration: 1.0, position: .center)
+                self.view.makeToast(wrongPhoneFormatText, duration: 1.0, position: .center)
             }
         }else{
-            self.view.makeToast("请输入手机号～", duration: 1.0, position: .center)
+            self.view.makeToast(emptyPhoneText, duration: 1.0, position: .center)
         }
         
     }
@@ -578,14 +578,14 @@ class LoginVC: UIViewController {
                     
                     if verificationCode.count != 6
                     {
-                        self.view.makeToast("验证码有误!", duration: 1.0, position: .center)
+                        self.view.makeToast(wrongVerficationText, duration: 1.0, position: .center)
                         return
                     }
                     
                     let connected = Reachability.isConnectedToNetwork()
                     if connected {
                        DispatchQueue.main.async {
-                           self.initActivityIndicator(text: "正在登录")
+                           self.initActivityIndicator(text: loggingText)
                             self.setElements(enable: false)
                        }
                         _ = LCUser.signUpOrLogIn(mobilePhoneNumber: phoneNumber, verificationCode: verificationCode, completion: { (result) in
@@ -599,8 +599,8 @@ class LoginVC: UIViewController {
                                 if let disabled = user.get("disabled")?.boolValue{
                                     if disabled {
                                         DispatchQueue.main.async {
-                                            let alertController = UIAlertController(title: "您的账号目前已被封禁", message: "如有疑问，请联系fullwallpaper@outlook.com", preferredStyle: .alert)
-                                            let okayAction = UIAlertAction(title: "好", style: .default, handler: { action in
+                                            let alertController = UIAlertController(title: accountBannedText, message: accountBannedDetailText, preferredStyle: .alert)
+                                            let okayAction = UIAlertAction(title: OkTxt, style: .default, handler: { action in
                                                 UIControl().sendAction(#selector(URLSessionTask.suspend), to: UIApplication.shared, for: nil)
                                                 
                                                 })
@@ -641,7 +641,7 @@ class LoginVC: UIViewController {
                             UMAnalyticsSwift.event(eventId: "Um_Event_LoginFailed", attributes: info)
                             
                             getUserLikedWPs()
-                            self.view.makeToast("\(error.reason ?? "登录失败，请稍后重试")", duration: 1.0, position: .center)
+                            self.view.makeToast("\(error.reason ?? loginFailedText)", duration: 1.0, position: .center)
                            }
                         })
                     }else{
@@ -649,12 +649,12 @@ class LoginVC: UIViewController {
                     }
                 }
                 catch {
-                    self.view.makeToast("手机号有误!", duration: 1.0, position: .center)
+                    self.view.makeToast(wrongPhoneFormatText, duration: 1.0, position: .center)
                 }}else{
-                    self.view.makeToast("请输入验证码!", duration: 1.0, position: .center)
+                    self.view.makeToast(emptyVerificationText, duration: 1.0, position: .center)
                 }
         }else{
-            self.view.makeToast("请输入手机号!", duration: 1.0, position: .center)
+            self.view.makeToast(emptyPhoneText, duration: 1.0, position: .center)
         }
     }
     
@@ -678,7 +678,7 @@ class LoginVC: UIViewController {
                 let connected = Reachability.isConnectedToNetwork()
                 if connected {
                     DispatchQueue.main.async {
-                        self.initActivityIndicator(text: "发送中")
+                        self.initActivityIndicator(text: sendingText)
                         self.setElements(enable: false)
                     }
                     _ = LCUser.requestPasswordReset(email: email) { (result) in
@@ -689,15 +689,15 @@ class LoginVC: UIViewController {
                         
                         switch result {
                         case .success:
-                            self.view.makeToast("密码重置邮件已发送至\(email)!", duration: 1.0, position: .center)
+                            self.view.makeToast("\(resetEmailSentToText)\(email)!", duration: 1.0, position: .center)
                             UserDefaults.standard.set(Date(), forKey: lastResetEmailSentTimeKey)
                             
                         case .failure(error: let error):
                             switch error.code {
                             case 205:
-                                self.view.makeToast("该邮箱尚未注册!", duration: 1.0, position: .center)
+                                self.view.makeToast(emailUnregisteredText, duration: 1.0, position: .center)
                             default:
-                                self.view.makeToast("\(error.reason?.stringValue ?? "出现错误，请检查并重试")", duration: 1.0, position: .center)
+                                self.view.makeToast("\(error.reason?.stringValue ?? errorRetryText)", duration: 1.0, position: .center)
                             }
                         }
                     }
@@ -707,11 +707,11 @@ class LoginVC: UIViewController {
                 
             }
             else{
-                self.view.makeToast("邮箱格式不正确!", duration: 1.0, position: .center)
+                self.view.makeToast(wrongEmailFormatText, duration: 1.0, position: .center)
                 return
             }
         } else{
-            self.view.makeToast("邮件已发送，如需重新发送，请等待1分钟!", duration: 1.0, position: .center)
+            self.view.makeToast(emailSentWaitText, duration: 1.0, position: .center)
             return
         }
         

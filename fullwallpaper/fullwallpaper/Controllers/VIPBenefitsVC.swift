@@ -100,7 +100,7 @@ class VIPBenefitsVC: UIViewController, UICollectionViewDelegate, UICollectionVie
         
         if showHint
         {
-            self.view.makeToast("PRO会员才能下载这张壁纸哦", duration: 1.0, position: .center)
+            self.view.makeToast(onlyProCanDownloadText, duration: 1.0, position: .center)
         }
         enableEdgeSwipeGesture()
     }
@@ -176,16 +176,16 @@ class VIPBenefitsVC: UIViewController, UICollectionViewDelegate, UICollectionVie
                 var err_msg = (error as NSError).localizedDescription
                 
                 switch error.code {
-                case .unknown: err_msg = "未知错误，请稍后再试"
-                case .clientInvalid: err_msg = "系统购买功能被您禁止"
-                case .paymentCancelled: err_msg = "购买被取消"
-                case .paymentNotAllowed: err_msg = "系统购买功能被您禁止"
-                case .storeProductNotAvailable: err_msg = "当前产品不支持在您所在的国家购买"
+                case .unknown: err_msg = unknownErrText
+                case .clientInvalid: err_msg = paymentNotAllowedText
+                case .paymentCancelled: err_msg = purchaseCanceledText
+                case .paymentNotAllowed: err_msg = paymentNotAllowedText
+                case .storeProductNotAvailable: err_msg = storeProductNotAvailableText
                 default:
                     break
                 }
                 
-                let alertVC = self.alertWithTitle(title: "购买失败", message: err_msg)
+                let alertVC = self.alertWithTitle(title: purchaseFailedText, message: err_msg)
                 self.showAlert(alert: alertVC)
             }
         })
@@ -272,7 +272,7 @@ class VIPBenefitsVC: UIViewController, UICollectionViewDelegate, UICollectionVie
 extension VIPBenefitsVC {
     func alertWithTitle(title : String, message : String) -> UIAlertController {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "好", style: .cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: OkTxt, style: .cancel, handler: nil))
         return alert
 
     }
@@ -286,14 +286,14 @@ extension VIPBenefitsVC {
     
     func alertForRestorePurchases(result : RestoreResults) -> UIAlertController {
         if result.restoreFailedPurchases.count > 0 {
-            print("恢复购买失败: \(result.restoreFailedPurchases)")
-            return alertWithTitle(title: "恢复购买失败", message: "未知错误，请反馈至客服")
+            print("\(restorePurchaseFailedText): \(result.restoreFailedPurchases)")
+            return alertWithTitle(title: restorePurchaseFailedText, message: unknownErrText)
         }
         else if result.restoredPurchases.count > 0 {
-            return alertWithTitle(title: "恢复购买成功", message: "")
+            return alertWithTitle(title: restorePurchaseSuccessText, message: "")
         }
         else {
-            return alertWithTitle(title: "无历史购买", message: "")
+            return alertWithTitle(title: noHistoryPurchaseText, message: "")
         }
     }
 }

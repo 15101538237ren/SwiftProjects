@@ -30,7 +30,7 @@ class SetUserProfileVC: UIViewController, UIImagePickerControllerDelegate, UINav
     }
     @IBOutlet var displayNameTextField: UITextField!{
         didSet{
-            displayNameTextField.attributedPlaceholder = NSAttributedString(string: "输入显示名称",attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
+            displayNameTextField.attributedPlaceholder = NSAttributedString(string: inputNickNameText,attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
         }
     }
     
@@ -101,9 +101,9 @@ class SetUserProfileVC: UIViewController, UIImagePickerControllerDelegate, UINav
                 let leftPosition = (pickedImage.size.width * pickedImage.scale - targetLength)/2.0
                 let topPosition = (pickedImage.size.height * pickedImage.scale - targetLength)/2.0
                 let cropController = CropViewController(image: pickedImage)
-                cropController.title = "「缩放」或「拖拽」来调整"
-                cropController.doneButtonTitle = "确定"
-                cropController.cancelButtonTitle = "取消"
+                cropController.title = zoomOrDragText
+                cropController.doneButtonTitle = ensureText
+                cropController.cancelButtonTitle = cancelText
                 cropController.imageCropFrame = CGRect(x: leftPosition, y: topPosition, width: targetLength, height: targetLength)
                 cropController.aspectRatioPreset = .presetSquare
                 cropController.rotateButtonsHidden = true
@@ -171,21 +171,21 @@ class SetUserProfileVC: UIViewController, UIImagePickerControllerDelegate, UINav
                                                         self.settingVC.setDisplayNameAndUpdate(name: name)
                                                     })
                                                 case .failure(error: let error):
-                                                    self.view.makeToast("设置失败，请稍后重试!\(error.reason?.stringValue ?? "")", duration: 1.2, position: .center)
+                                                    self.view.makeToast("\(setFailedTryLaterText) \(error.reason?.stringValue ?? "")", duration: 1.2, position: .center)
                                                     self.setElements(enable: true)
                                                 }
                                             }
                                         }catch {
                                             stopIndicator()
                                             self.setElements(enable: true)
-                                            self.view.makeToast("设置失败，请稍后重试!", duration: 1.2, position: .center)
+                                            self.view.makeToast(setFailedTryLaterText, duration: 1.2, position: .center)
                                         }
                                         
                                     case .failure(error: let error):
                                         DispatchQueue.main.async {
                                             stopIndicator()
                                             self.setElements(enable: true)
-                                            self.view.makeToast("设置失败，请稍后重试!\(error.reason?.stringValue ?? "")", duration: 1.2, position: .center)
+                                            self.view.makeToast("\(setFailedTryLaterText) \(error.reason?.stringValue ?? "")", duration: 1.2, position: .center)
                                         }
                                     }
                                 }
@@ -212,14 +212,14 @@ class SetUserProfileVC: UIViewController, UIImagePickerControllerDelegate, UINav
                                         self.settingVC.setDisplayNameAndUpdate(name: name)
                                     })
                                 case .failure(error: let error):
-                                    self.view.makeToast("设置失败，请稍后重试!\(error.reason?.stringValue ?? "")", duration: 1.2, position: .center)
+                                    self.view.makeToast("\(setFailedTryLaterText)\(error.reason?.stringValue ?? "")", duration: 1.2, position: .center)
                                     self.setElements(enable: true)
                                 }
                             }
                         }catch {
                             stopIndicator()
                             self.setElements(enable: true)
-                            self.view.makeToast("设置失败，请稍后重试!", duration: 1.2, position: .center)
+                            self.view.makeToast(setFailedTryLaterText, duration: 1.2, position: .center)
                         }
                     }
                 }

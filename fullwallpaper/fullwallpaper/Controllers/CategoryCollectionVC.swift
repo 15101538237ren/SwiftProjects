@@ -239,12 +239,25 @@ class CategoryCollectionVC: UIViewController, UICollectionViewDelegate, UICollec
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "categoryTableViewCell", for: indexPath) as! CategoryTableViewCell
         let row: Int = indexPath.row
-        if let title = collections[row].get("name")?.stringValue{
-            
-            if let volume = collections[row].get("vol")?.intValue{
-                cell.titleLabel.text = "第 \(volume) 期 - \(title)"
+        
+        var attrName:String = "name"
+        var english:Bool = false
+        if let langStr = Locale.current.languageCode
+        {
+            if !langStr.contains("zh"){
+                attrName = "enName"
+                english = true
             }
-            
+        }
+        
+        if let title = collections[row].get(attrName)?.stringValue{
+            if let volume = collections[row].get("vol")?.intValue{
+                if english{
+                    cell.titleLabel.text = "Vol.\(volume) - \(title)"
+                }else{
+                    cell.titleLabel.text = "第 \(volume) 期 - \(title)"
+                }
+            }
         }
         
         if let file = collections[row].get("cover") as? LCFile{
@@ -499,7 +512,7 @@ class CategoryCollectionVC: UIViewController, UICollectionViewDelegate, UICollec
     var emptyStateTitle: NSAttributedString {
             let attrs = [NSAttributedString.Key.foregroundColor: UIColor.lightGray,
                          NSAttributedString.Key.font: UIFont.systemFont(ofSize: 18)]
-            let title: String = NoNetWork ? "没有数据，请检查网络！" : "没有数据"
+            let title: String = NoNetWork ? NoDataCheckNetStr : NoDataStr
             return NSAttributedString(string: title, attributes: attrs)
         }
     
@@ -544,7 +557,7 @@ class CategoryCollectionVC: UIViewController, UICollectionViewDelegate, UICollec
         emailVC.modalPresentationStyle = .overCurrentContext
         DispatchQueue.main.async {
             self.present(emailVC, animated: true, completion: {
-                emailVC.view.makeToast("请先「登录」或「注册」来上传壁纸", duration: 1.5, position: .center)
+                emailVC.view.makeToast(loginFirstForUploadText, duration: 1.5, position: .center)
             })
         }
     }

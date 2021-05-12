@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -112,6 +112,7 @@
             <connections>
                 <outlet property="backgroundView" destination="dp3-Ae-zep" id="ZiK-GN-SXH"/>
                 <outlet property="textView" destination="JOg-Sg-slc" id="daK-0U-W7t"/>
+                <outlet property="title" destination="gMT-Vh-S3z" id="PX9-27-deh"/>
                 <outlet property="titleLabel" destination="gMT-Vh-S3z" id="VBy-X1-MX8"/>
             </connections>
             <point key="canvasLocation" x="247.19999999999999" y="623.38830584707648"/>

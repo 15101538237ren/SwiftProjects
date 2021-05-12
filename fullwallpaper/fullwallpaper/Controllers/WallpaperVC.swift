@@ -30,11 +30,11 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
             switch sortType {
             case .byLike:
                 DispatchQueue.main.async {
-                    self.titleLabel.text = "Popular"
+                    self.titleLabel.text = popularText
                 }
             case .byCreateDate:
                 DispatchQueue.main.async {
-                    self.titleLabel.text = "Latest"
+                    self.titleLabel.text = latestText
                 }
             }
         }
@@ -364,7 +364,7 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
     var emptyStateTitle: NSAttributedString {
             let attrs = [NSAttributedString.Key.foregroundColor: UIColor.lightGray,
                          NSAttributedString.Key.font: UIFont.systemFont(ofSize: 18)]
-            let title: String = NoNetWork ? "没有数据，请检查网络！" : "没有数据"
+            let title: String = NoNetWork ?  NoDataCheckNetStr: NoDataStr
             return NSAttributedString(string: title, attributes: attrs)
         }
     
@@ -376,8 +376,8 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
     
     @IBAction func presentSortMenu(_ sender: UIButton){
             let iconWidthHeight:CGFloat = 20
-            let popAction = PopMenuDefaultAction(title: "最热壁纸", image: UIImage(named: "heart-fill-icon"), color: UIColor.lightGray)
-            let latestAction = PopMenuDefaultAction(title: "最新壁纸", image: UIImage(named: "calendar-icon"), color: UIColor.lightGray)
+            let popAction = PopMenuDefaultAction(title: popularText, image: UIImage(named: "heart-fill-icon"), color: UIColor.lightGray)
+            let latestAction = PopMenuDefaultAction(title: latestText, image: UIImage(named: "calendar-icon"), color: UIColor.lightGray)
         
             popAction.iconWidthHeight = iconWidthHeight
             latestAction.iconWidthHeight = iconWidthHeight
@@ -435,7 +435,7 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
         emailVC.modalPresentationStyle = .overCurrentContext
         DispatchQueue.main.async {
             self.present(emailVC, animated: true, completion: {
-                emailVC.view.makeToast("请先「登录」或「注册」以上传壁纸", duration: 1.5, position: .center)
+                emailVC.view.makeToast(loginFirstForUploadText, duration: 1.5, position: .center)
             })
         }
     }

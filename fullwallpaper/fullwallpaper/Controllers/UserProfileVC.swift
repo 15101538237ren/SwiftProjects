@@ -357,9 +357,9 @@ class UserProfileVC: UIViewController, UICollectionViewDelegate, UICollectionVie
                 let leftPosition = (pickedImage.size.width * pickedImage.scale - targetLength)/2.0
                 let topPosition = (pickedImage.size.height * pickedImage.scale - targetLength)/2.0
                 let cropController = CropViewController(image: pickedImage)
-                cropController.title = "「缩放」或「拖拽」来调整"
-                cropController.doneButtonTitle = "确定"
-                cropController.cancelButtonTitle = "取消"
+                cropController.title = zoomOrDragText
+                cropController.doneButtonTitle = ensureText
+                cropController.cancelButtonTitle = cancelText
                 cropController.imageCropFrame = CGRect(x: leftPosition, y: topPosition, width: targetLength, height: targetLength)
                 cropController.aspectRatioPreset = .presetSquare
                 cropController.rotateButtonsHidden = true
@@ -421,14 +421,14 @@ class UserProfileVC: UIViewController, UICollectionViewDelegate, UICollectionVie
                                                 avatar.image = selectedImage
                                             }
                                         case .failure(error: let error):
-                                            self.view.makeToast("设置失败，请稍后重试!\(error.reason?.stringValue ?? "")", duration: 1.2, position: .center)
+                                            self.view.makeToast("\(setFailedTryLaterText) \(error.reason?.stringValue ?? "")", duration: 1.2, position: .center)
                                         }
                                         self.setElements(enable: true)
                                     }
                                 }catch {
                                     stopIndicator()
                                     self.setElements(enable: true)
-                                    self.view.makeToast("设置失败，请稍后重试!", duration: 1.2, position: .center)
+                                    self.view.makeToast(setFailedTryLaterText, duration: 1.2, position: .center)
                                     stopIndicator()
                                     self.setElements(enable: true)
                                 }
@@ -437,7 +437,7 @@ class UserProfileVC: UIViewController, UICollectionViewDelegate, UICollectionVie
                                 DispatchQueue.main.async {
                                     stopIndicator()
                                     self.setElements(enable: true)
-                                    self.view.makeToast("设置失败，请稍后重试!\(error.reason?.stringValue ?? "")", duration: 1.2, position: .center)
+                                    self.view.makeToast("\(setFailedTryLaterText) \(error.reason?.stringValue ?? "")", duration: 1.2, position: .center)
                                 }
                             }
                         }
@@ -465,35 +465,35 @@ class UserProfileVC: UIViewController, UICollectionViewDelegate, UICollectionVie
                             nameLabel.text = name
                         }
                     case .failure(error: let error):
-                        self.view.makeToast("设置失败，请稍后重试!\(error.reason?.stringValue ?? "")", duration: 1.2, position: .center)
+                        self.view.makeToast("\(setFailedTryLaterText) \(error.reason?.stringValue ?? "")", duration: 1.2, position: .center)
                     }
                     self.setElements(enable: true)
                 }
             }catch {
                 stopIndicator()
                 self.setElements(enable: true)
-                self.view.makeToast("设置失败，请稍后重试!", duration: 1.0, position: .center)
+                self.view.makeToast(setFailedTryLaterText, duration: 1.0, position: .center)
             }
         }
     }
     
     @objc func popNameTextInputAlert(tapGestureRecognizer: UITapGestureRecognizer){
-        let alertController = UIAlertController(title: "设置显示名称", message: "", preferredStyle: .alert)
+        let alertController = UIAlertController(title: setNickNameText, message: "", preferredStyle: .alert)
         
-        alertController.addTextField(text: "", placeholder: "输入显示名称", editingChangedTarget: nil, editingChangedSelector: nil)
+        alertController.addTextField(text: "", placeholder: inputNickNameText, editingChangedTarget: nil, editingChangedSelector: nil)
         
-        let setAction = UIAlertAction(title: "确定", style: .default){ _ in
+        let setAction = UIAlertAction(title: ensureText, style: .default){ _ in
             let name: String = alertController.textFields!.first!.text ?? ""
             if !name.isEmpty{
                 self.setDisplayName(name: name)
                 alertController.dismiss(animated: true, completion: nil)
             }else{
-                self.view.makeToast("请输入显示名称", duration: 1.2, position: .center)
+                self.view.makeToast(inputNickNameText, duration: 1.2, position: .center)
             }
             
          }
         
-        let cancelAction = UIAlertAction(title: "取消", style: .cancel){ _ in
+        let cancelAction = UIAlertAction(title: cancelText, style: .cancel){ _ in
             alertController.dismiss(animated: true, completion: nil)
         }
 
@@ -508,7 +508,7 @@ class UserProfileVC: UIViewController, UICollectionViewDelegate, UICollectionVie
     var emptyStateTitle: NSAttributedString {
             let attrs = [NSAttributedString.Key.foregroundColor: UIColor.lightGray,
                          NSAttributedString.Key.font: UIFont.systemFont(ofSize: 18)]
-            let title: String = NoNetWork ? "没有数据，请检查网络！" : "没有数据"
+            let title: String = NoNetWork ? NoDataCheckNetStr : NoDataStr
             return NSAttributedString(string: title, attributes: attrs)
         }
     
@@ -524,7 +524,7 @@ class UserProfileVC: UIViewController, UICollectionViewDelegate, UICollectionVie
         userLikedWPs = []
         self.dismiss(animated: true, completion: {
             self.settingVC.setDisplayNameAndUpdate(name: "")
-            self.settingVC.view.makeToast("登出成功!", duration: 1.0, position: .center)
+            self.settingVC.view.makeToast(logOffSucessText, duration: 1.0, position: .center)
         })
     }
     

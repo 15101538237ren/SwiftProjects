@@ -79,8 +79,8 @@ func getSegmentedCtrlUnselectedTextColor() -> String{
 }
 
 func getBannedAlert() -> UIAlertController{
-    let alertController = UIAlertController(title: "您的账号目前已被封禁", message: "如有疑问，请联系fullwallpaper@outlook.com", preferredStyle: .alert)
-    let okayAction = UIAlertAction(title: "好", style: .default, handler: { action in
+    let alertController = UIAlertController(title: accountBannedText, message: accountBannedDetailText, preferredStyle: .alert)
+    let okayAction = UIAlertAction(title: OkTxt, style: .default, handler: { action in
         UIControl().sendAction(#selector(URLSessionTask.suspend), to: UIApplication.shared, for: nil)
         
         })
@@ -179,9 +179,9 @@ func createCropViewController(image: UIImage, widthHeightRatio:CGFloat = whRatio
     let leftPosition = (image.size.width * image.scale - width)/2.0
     let topPosition = (image.size.height * image.scale - height)/2.0
     
-    cropController.title = "「缩放」或「拖拽」来调整"
-    cropController.doneButtonTitle = "确定"
-    cropController.cancelButtonTitle = "取消"
+    cropController.title = zoomOrDragText
+    cropController.doneButtonTitle = ensureText
+    cropController.cancelButtonTitle = cancelText
     cropController.imageCropFrame = CGRect(x: leftPosition, y: topPosition, width: width, height: height)
     cropController.rotateButtonsHidden = true
     cropController.rotateClockwiseButtonHidden = true
@@ -366,7 +366,7 @@ func showProgressBar(progress: Double,text: String, in view: UIView) {
 }
 
 func initIndicator(view: UIView){
-    hud.textLabel.text = "加载中"
+    hud.textLabel.text = loadingText
     hud.textLabel.theme_textColor = "IndicatorColor"
     hud.backgroundColor = .clear
     hud.show(in: view)

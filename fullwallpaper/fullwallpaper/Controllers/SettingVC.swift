@@ -14,17 +14,17 @@ import PopMenu
 class SettingVC: UIViewController , UITableViewDataSource, UITableViewDelegate {
     
     let settingItems:[[SettingItem]] = [
-        [SettingItem(symbol_name : "user", name: "登录 / 注册")],
+        [SettingItem(symbol_name : "user", name: loginRegText)],
         
-        [SettingItem(symbol_name : "membership", name: "会员权益")],
+        [SettingItem(symbol_name : "membership", name: proBenefitsText)],
         
-        [SettingItem(symbol_name : "rate", name: "评价我们"),
-         SettingItem(symbol_name : "share", name: "分享给朋友"),
-         SettingItem(symbol_name : "feedback", name: "意见反馈")],
+        [SettingItem(symbol_name : "rate", name: rateAppText),
+         SettingItem(symbol_name : "share", name: shareAppText),
+         SettingItem(symbol_name : "feedback", name: feedBackText)],
         
-        [SettingItem(symbol_name : "clean", name: "清空壁纸缓存"),
-        SettingItem(symbol_name : "document", name: "服务条款"),
-        SettingItem(symbol_name : "privacy", name: "隐私政策")]
+        [SettingItem(symbol_name : "clean", name: cleanCacheText),
+        SettingItem(symbol_name : "document", name: serviceTermText),
+        SettingItem(symbol_name : "privacy", name: privacyText)]
     ]
     
     var displayName: String = ""
@@ -102,14 +102,14 @@ class SettingVC: UIViewController , UITableViewDataSource, UITableViewDelegate {
     }
     
     func askUserExperienceBeforeReview(){
-        let alertController = UIAlertController(title: "评价反馈", message: "您在本应用使用体验如何?", preferredStyle: .alert)
-        let okayAction = UIAlertAction(title: "很赞!必须五星好评", style: .default, handler: { action in
+        let alertController = UIAlertController(title: feedBackTitleText, message: askExperienceText, preferredStyle: .alert)
+        let okayAction = UIAlertAction(title: greatResponseText, style: .default, handler: { action in
             let info = [ "Um_Key_SourcePage": "设置页", "Um_Key_ButtonName" : "评价我们-很赞"]
             UMAnalyticsSwift.event(eventId: "Um_Event_ModularClick", attributes: info)
                 self.requestWriteReview()
             
             })
-        let cancelAction = UIAlertAction(title: "用的不爽，反馈意见给开发者", style: .default, handler: {
+        let cancelAction = UIAlertAction(title: awefulResponseText, style: .default, handler: {
             action in
             
             let info = [ "Um_Key_SourcePage": "设置页", "Um_Key_ButtonName" : "评价我们-不爽"]
@@ -194,28 +194,6 @@ class SettingVC: UIViewController , UITableViewDataSource, UITableViewDelegate {
             
             return cell
         }
-    }
-    
-    func popThemeMenu(){
-        let iconWidthHeight:CGFloat = 20
-        let dayAction = PopMenuDefaultAction(title: "白天", image: UIImage(named: "sunlight"), color: UIColor.darkGray)
-        let nightAction = PopMenuDefaultAction(title: "夜晚", image: UIImage(named: "moon"), color: UIColor.darkGray)
-        let systemAction = PopMenuDefaultAction(title: "跟随系统", image: UIImage(named: "setting"), color: UIColor.darkGray)
-        
-        dayAction.iconWidthHeight = iconWidthHeight
-        nightAction.iconWidthHeight = iconWidthHeight
-        systemAction.iconWidthHeight = iconWidthHeight
-        
-        
-        let indexPath = IndexPath(row: 1, section: 0)
-        let cell = tableView.cellForRow(at: indexPath)
-        
-        let menuVC = PopMenuViewController(sourceView: cell, actions: [dayAction, nightAction, systemAction])
-        menuVC.delegate = self
-        menuVC.appearance.popMenuFont = .systemFont(ofSize: 15, weight: .regular)
-        
-        menuVC.appearance.popMenuColor.backgroundColor = .solid(fill: UIColor(red: 240, green: 240, blue: 240, alpha: 1))
-        self.present(menuVC, animated: true, completion: nil)
     }
     
     
@@ -369,7 +347,7 @@ class SettingVC: UIViewController , UITableViewDataSource, UITableViewDelegate {
     
     func showShareVC(){
         if let url = productURL, !url.absoluteString.isEmpty {
-            let textToShare = "我发现了一款宝藏「全面屏壁纸」APP，快来试试吧"
+            let textToShare = shareContentText
             let activityVC = UIActivityViewController(activityItems: [textToShare, url], applicationActivities: nil)
             activityVC.excludedActivityTypes = [.airDrop, .addToReadingList, .addToiCloudDrive, .assignToContact, .markupAsPDF, .openInIBooks, .saveToCameraRoll, .print, .postToFlickr, .postToLinkedIn, .postToTencentWeibo, .postToVimeo, .postToXing]
             self.present(activityVC, animated: true, completion: nil)
@@ -425,13 +403,13 @@ class SettingVC: UIViewController , UITableViewDataSource, UITableViewDelegate {
     
     func showFeedBackMailComposer(){
         guard MFMailComposeViewController.canSendMail() else{
-            self.view.makeToast("无法使用邮箱, 请检查您的网络或者邮箱设置!", duration: 2.0, position: .center)
+            self.view.makeToast(canNotSendEmailText, duration: 2.0, position: .center)
             return
         }
         let composer = MFMailComposeViewController()
         composer.mailComposeDelegate = self
         composer.setToRecipients(["fullwallpaper@outlook.com"])
-        composer.setSubject("「全面屏壁纸」反馈")
+        composer.setSubject(emailTitleText)
         composer.setMessageBody("", isHTML: false)
         present(composer, animated: true)
     }
@@ -444,7 +422,7 @@ class SettingVC: UIViewController , UITableViewDataSource, UITableViewDelegate {
             self.tableView.reloadRows(at: [indexPath], with: .automatic)
         }
         
-        self.view.makeToast("缓存清除成功!", duration: 1.0, position: .center)
+        self.view.makeToast(cacheClearedText, duration: 1.0, position: .center)
     }
     
 }
@@ -481,7 +459,7 @@ extension SettingVC : MFMailComposeViewControllerDelegate{
         }
         controller.dismiss(animated: true, completion: {
             if feedback_sent == true{
-                self.view.makeToast("感谢您的反馈！我们会认真考虑您的建议，并在需要时给您回复。", duration: 2.0, position: .center)
+                self.view.makeToast(thanksForFeedbackText, duration: 2.0, position: .center)
             }
         })
     }

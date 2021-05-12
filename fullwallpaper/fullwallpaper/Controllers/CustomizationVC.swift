@@ -10,7 +10,7 @@ import SwiftTheme
 import CropViewController
 
 class CustomizationVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout , UIImagePickerControllerDelegate, UINavigationControllerDelegate, CropViewControllerDelegate {
-    private let customizations:[String] = ["经典", "模糊", "小半", "相框"]
+    private let customizations:[String] = [classicalText, blurryText, halfScreenText, albumFrameText]
     private let customizationImages:[String] = ["center_square", "blurry", "half_screen", "border"]
     private let customizationStyles:[CustomizationStyle] = [.CenterSquare, .Blur, .HalfScreen, .Border]
     private let whRatios:[CGFloat] = [1.0, whRatio, widthsz/(heightsz * 0.618), CGFloat(5.0/6.0)]

@@ -71,7 +71,7 @@ class WallpaperDetailVC: UIViewController {
     var isPro: Bool = false
     var viewTranslation = CGPoint(x: 0, y: 0)
     var reviewFuncCalled: Bool = false
-    var reportClassification:[Int : String] = [2:"不良内容", 3: "清晰度不佳", 4: "壁纸侵权", 5: "分类有误"]
+    var reportClassification:[Int : String] = [2:badContentText, 3: lowResolutionText, 4: copyrightIssueText, 5: classificationText]
     
     // MARK: - Constants
     let scaleForAnimation: CGFloat = 2
@@ -259,26 +259,26 @@ class WallpaperDetailVC: UIViewController {
                                                     stopIndicator()
                                                 case .failure:
                                                     stopIndicator()
-                                                    self.view.makeToast("下载失败，请重试!", duration: 1.0, position: .center)
+                                                    self.view.makeToast(downloadFailedPlsRetryText, duration: 1.0, position: .center)
                                                 }
                                             }
                                         } catch {
                                             stopIndicator()
-                                            self.view.makeToast("下载失败，请重试!", duration: 1.0, position: .center)
+                                            self.view.makeToast(downloadFailedPlsRetryText, duration: 1.0, position: .center)
                                         }
                                     }
                                 case .failure:
                                     stopIndicator()
-                                    self.view.makeToast("下载失败，请重试!", duration: 1.0, position: .center)
+                                    self.view.makeToast(downloadFailedPlsRetryText, duration: 1.0, position: .center)
                                 }
                             }
                     } catch {
                         stopIndicator()
-                        self.view.makeToast("下载失败，请重试!", duration: 1.0, position: .center)
+                        self.view.makeToast(downloadFailedPlsRetryText, duration: 1.0, position: .center)
                     }
                 }else{
                     stopIndicator()
-                    self.view.makeToast("下载失败，请重试!", duration: 1.0, position: .center)
+                    self.view.makeToast(downloadFailedPlsRetryText, duration: 1.0, position: .center)
                 }
             } else {
                 if let image = imageView.image{
@@ -294,7 +294,18 @@ class WallpaperDetailVC: UIViewController {
         emailVC.modalPresentationStyle = .overCurrentContext
         DispatchQueue.main.async {
             self.present(emailVC, animated: true, completion: {
-                emailVC.view.makeToast("请先「登录」或「注册」以\(action)壁纸", duration: 1.5, position: .center)
+                var english:Bool = false
+                if let langStr = Locale.current.languageCode
+                {
+                    if !langStr.contains("zh"){
+                        english = true
+                    }
+                }
+                if english{
+                    emailVC.view.makeToast("Please  login or register for \(action) wallpaper", duration: 1.5, position: .center)
+                }else{
+                    emailVC.view.makeToast("请先「登录」或「注册」以\(action)壁纸", duration: 1.5, position: .center)
+                }
             })
         }
     }
@@ -357,10 +368,10 @@ class WallpaperDetailVC: UIViewController {
     
     @objc func options(tapGestureRecognizer: UITapGestureRecognizer){
         let iconWidthHeight:CGFloat = 20
-        let contentAction = PopMenuDefaultAction(title: "不良内容", image: UIImage(named: "alarm"), color: UIColor.darkGray)
-        let resolutionAction = PopMenuDefaultAction(title: "清晰度不佳", image: UIImage(named: "frown"), color: UIColor.darkGray)
-        let copyrightAction = PopMenuDefaultAction(title: "壁纸侵权", image: UIImage(named: "copyright"), color: UIColor.darkGray)
-        let classificationAction = PopMenuDefaultAction(title: "分类有误", image: UIImage(named: "warning"), color: UIColor.darkGray)
+        let contentAction = PopMenuDefaultAction(title: badContentText, image: UIImage(named: "alarm"), color: UIColor.darkGray)
+        let resolutionAction = PopMenuDefaultAction(title: lowResolutionText, image: UIImage(named: "frown"), color: UIColor.darkGray)
+        let copyrightAction = PopMenuDefaultAction(title: copyrightIssueText, image: UIImage(named: "copyright"), color: UIColor.darkGray)
+        let classificationAction = PopMenuDefaultAction(title: classificationText, image: UIImage(named: "warning"), color: UIColor.darkGray)
         
         contentAction.iconWidthHeight = iconWidthHeight
         resolutionAction.iconWidthHeight = iconWidthHeight
@@ -377,10 +388,10 @@ class WallpaperDetailVC: UIViewController {
     
     @objc func image(_ image:UIImage, didFinishSavingWithError error: Error?, contextInfo: UnsafeRawPointer){
         if let error = error {
-                self.view.makeToast("出现错误: \(error.localizedDescription)", duration: 1.0, position: .center)
+                self.view.makeToast("\(errorText): \(error.localizedDescription)", duration: 1.0, position: .center)
         }
         else{
-            self.view.makeToast("下载成功!", duration: 1.0, position: .center)
+            self.view.makeToast(downloadSuccessText, duration: 1.0, position: .center)
         }
     }
     
@@ -395,9 +406,9 @@ extension WallpaperDetailVC: PopMenuViewControllerDelegate {
 
     func reportWallpaperProblem(code: Int, popMenuViewController: PopMenuViewController){
         
-        let alertController = UIAlertController(title: "确定举报壁纸？", message: "", preferredStyle: .alert)
+        let alertController = UIAlertController(title: reportAskText, message: "", preferredStyle: .alert)
         
-        let reportAction = UIAlertAction(title: "举报", style: .destructive){ _ in
+        let reportAction = UIAlertAction(title: reportText, style: .destructive){ _ in
             do{
                 let wallpaper = LCObject(className: "Wallpaper", objectId: self.wallpaperObjectId!)
                 try wallpaper.set("status", value: code)
@@ -422,18 +433,18 @@ extension WallpaperDetailVC: PopMenuViewControllerDelegate {
                             UMAnalyticsSwift.event(eventId: "Um_Event_ContentReport", attributes: info)
                             
                             DispatchQueue.main.async {
-                                self.view.makeToast("举报成功!", duration: 1.0, position: .center)
+                                self.view.makeToast(reportSuccessText, duration: 1.0, position: .center)
                             }
                         case .failure(error: let error):
                             self.view.makeToast(error.reason, duration: 1.0, position: .center)
                         }
                     }
             } catch {
-                self.view.makeToast("出现错误，请重试！", duration: 1.0, position: .center)
+                self.view.makeToast(errorRetryText, duration: 1.0, position: .center)
             }
          }
         
-        let cancelAction = UIAlertAction(title: "取消", style: .cancel){ _ in
+        let cancelAction = UIAlertAction(title: cancelText, style: .cancel){ _ in
             alertController.dismiss(animated: true, completion: nil)
         }
 

@@ -43,8 +43,17 @@ class CollectionItemsVC: UIViewController, UICollectionViewDelegate, UICollectio
     
     
     func setupCollectionView() {
+        var attrName:String = "name"
+        var english:Bool = false
+        if let langStr = Locale.current.languageCode
+        {
+            if !langStr.contains("zh"){
+                attrName = "enName"
+                english = true
+            }
+        }
         DispatchQueue.main.async {
-            self.titleLabel.text = self.collection.get("name")?.stringValue ?? "专题"
+            self.titleLabel.text = self.collection.get(attrName)?.stringValue ?? CollectionText
         }
         titleLabel.theme_textColor = "BarTitleColor"
         collectionView.theme_backgroundColor = "View.BackgroundColor"
@@ -331,7 +340,7 @@ class CollectionItemsVC: UIViewController, UICollectionViewDelegate, UICollectio
     var emptyStateTitle: NSAttributedString {
             let attrs = [NSAttributedString.Key.foregroundColor: UIColor.lightGray,
                          NSAttributedString.Key.font: UIFont.systemFont(ofSize: 18)]
-            let title: String = NoNetwork ? "没有数据，请检查网络！" : "没有数据"
+            let title: String = NoNetwork ? NoDataCheckNetStr : NoDataStr
             return NSAttributedString(string: title, attributes: attrs)
         }
     
@@ -365,7 +374,7 @@ class CollectionItemsVC: UIViewController, UICollectionViewDelegate, UICollectio
         emailVC.modalPresentationStyle = .overCurrentContext
         DispatchQueue.main.async {
             self.present(emailVC, animated: true, completion: {
-                emailVC.view.makeToast("请先「登录」或「注册」来上传壁纸", duration: 1.5, position: .center)
+                emailVC.view.makeToast(loginFirstForUploadText, duration: 1.5, position: .center)
             })
         }
     }

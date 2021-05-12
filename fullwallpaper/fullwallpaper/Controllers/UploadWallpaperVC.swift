@@ -161,7 +161,7 @@ class UploadWallpaperVC: UIViewController, UITextFieldDelegate {
             hintNum = UserDefaults.standard.integer(forKey: uploadHintKey)
         }
         if hintNum < 3 {
-            self.view.makeToast("点击图片可以切换预览效果哦~😊", duration: 1.0, position: .center)
+            self.view.makeToast(clickForPreviewText, duration: 1.0, position: .center)
         }
         
         UserDefaults.standard.set(hintNum + 1, forKey: uploadHintKey)
@@ -243,13 +243,13 @@ class UploadWallpaperVC: UIViewController, UITextFieldDelegate {
         
         let titleEmptyValidator = Validator.isEmpty(nilResponse: true).apply(captionTextField.text)
         if titleEmptyValidator{
-            self.view.makeToast("请您添加壁纸描述以方便他人检索!", duration: 1.0, position: .center)
+            self.view.makeToast(addedCaptionText, duration: 1.0, position: .center)
             return
         }
         
         let categoryRequiredValidator = Validator.isEmpty(nilResponse: true).apply(self.currentCategory)
         if categoryRequiredValidator{
-            self.view.makeToast("请您选择壁纸类别!", duration: 1.0, position: .center)
+            self.view.makeToast(addedCategoryText, duration: 1.0, position: .center)
             return
         }
         
@@ -257,7 +257,7 @@ class UploadWallpaperVC: UIViewController, UITextFieldDelegate {
         if connected{
             DispatchQueue.main.async {
                 self.setElements(enable: false)
-                self.initActivityIndicator(text: "上传中...")
+                self.initActivityIndicator(text: uploadingText)
             }
             let caption: String = self.captionTextField.text!
             let imageData: Data = self.wallpaper!.jpegData(compressionQuality: 1.0)!
@@ -301,8 +301,8 @@ class UploadWallpaperVC: UIViewController, UITextFieldDelegate {
                                         case .success:
                                             DispatchQueue.main.async {
                                                 self.stopIndicator()
-                                                let alertController = UIAlertController(title: "上传成功!", message: "感谢您的贡献，我们将审核壁纸质量，通过审核后您上传的壁纸将在【设置】-【个人资料】-【我上传的】中显示", preferredStyle: .alert)
-                                                let okayAction = UIAlertAction(title: "好", style: .cancel, handler: {_ in
+                                                let alertController = UIAlertController(title: uploadSucessText, message: uploadSucessDetailText, preferredStyle: .alert)
+                                                let okayAction = UIAlertAction(title: OkTxt, style: .cancel, handler: {_ in
                                                     DispatchQueue.main.async {
                                                         self.dismiss(animated: true, completion: nil)
                                                     }
@@ -314,7 +314,7 @@ class UploadWallpaperVC: UIViewController, UITextFieldDelegate {
                                             self.stopIndicator()
                                             // 保存失败，可能是文件无法被读取，或者上传过程中出现问题
                                             
-                                            self.view.makeToast("上传失败，请稍后重试!\(error.reason?.stringValue ?? "")", duration: 1.2, position: .center)
+                                            self.view.makeToast("\(uploadFailedText)\(error.reason?.stringValue ?? "")", duration: 1.2, position: .center)
                                             self.setElements(enable: true)
                                         }
                                     }
@@ -326,7 +326,7 @@ class UploadWallpaperVC: UIViewController, UITextFieldDelegate {
                                 // 保存失败，可能是文件无法被读取，或者上传过程中出现问题
                                 DispatchQueue.main.async {
                                     self.stopIndicator()
-                                    self.presentAlertInView(title: "上传失败，请稍后重试!", message: "\(error.reason?.stringValue ?? "出现错误")", okText: "好")
+                                    self.presentAlertInView(title: uploadFailedText, message: "\(error.reason?.stringValue ?? errorText)", okText: OkTxt)
                                     self.setElements(enable: true)
                                 }
                             }

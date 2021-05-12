@@ -175,10 +175,24 @@ class CategoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate, 
             let imgUrl = URL(string: categories[row].coverUrl)!
             Nuke.loadImage(with: imgUrl, options: categoryLoadingOptions, into: cell.imageV)
         }else{
-            if let title = collections[row].get("name")?.stringValue{
+            var attrName:String = "name"
+            var english:Bool = false
+            if let langStr = Locale.current.languageCode
+            {
+                if !langStr.contains("zh"){
+                    attrName = "enName"
+                    english = true
+                }
+            }
+            
+            if let title = collections[row].get(attrName)?.stringValue{
                 
                 if let volume = collections[row].get("vol")?.intValue{
-                    cell.titleLabel.text = "第 \(volume) 期 - \(title)"
+                    if english{
+                        cell.titleLabel.text = "Vol.\(volume) - \(title)"
+                    }else{
+                        cell.titleLabel.text = "第 \(volume) 期 - \(title)"
+                    }
                 }
                 
             }
@@ -232,7 +246,7 @@ class CategoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate, 
     var emptyStateTitle: NSAttributedString {
             let attrs = [NSAttributedString.Key.foregroundColor: UIColor.lightGray,
                          NSAttributedString.Key.font: UIFont.systemFont(ofSize: 18)]
-            let title: String = "没有数据，请检查网络！"
+            let title: String = NoDataCheckNetStr
             return NSAttributedString(string: title, attributes: attrs)
         }
     
