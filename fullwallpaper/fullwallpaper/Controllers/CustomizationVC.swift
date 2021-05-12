@@ -67,6 +67,7 @@ class CustomizationVC: UIViewController, UICollectionViewDelegate, UICollectionV
     }
     
     func setupCollectionView() {
+        titleLabel.theme_textColor = "BarTitleColor"
         collectionView.theme_backgroundColor = "View.BackgroundColor"
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: cellSpacingForCustomization, left: cellSpacingForCustomization, bottom: cellSpacingForCustomization, right: cellSpacingForCustomization)
@@ -101,6 +102,14 @@ class CustomizationVC: UIViewController, UICollectionViewDelegate, UICollectionV
         currentWHRatio = whRatios[indexPath.row]
         customizationStyleSelected = customizationStyles[indexPath.row]
         selectImage()
+    }
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?){
+        if traitCollection.userInterfaceStyle == .light {
+            setTheme(theme: .day)
+        } else {
+            setTheme(theme: .night)
+        }
     }
 
 }

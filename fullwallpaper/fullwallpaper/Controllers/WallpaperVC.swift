@@ -475,6 +475,14 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
         }
     }
     
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?){
+        if traitCollection.userInterfaceStyle == .light {
+            setTheme(theme: .day)
+        } else {
+            setTheme(theme: .night)
+        }
+    }
+    
 }
 
 extension WallpaperVC: PopMenuViewControllerDelegate {

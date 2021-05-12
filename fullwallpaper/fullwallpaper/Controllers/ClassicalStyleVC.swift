@@ -376,4 +376,11 @@ extension ClassicalStyleVC: ColorPickerViewDelegateFlowLayout {
     return insets
   }
 
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?){
+        if traitCollection.userInterfaceStyle == .light {
+            setTheme(theme: .day)
+        } else {
+            setTheme(theme: .night)
+        }
+    }
 }

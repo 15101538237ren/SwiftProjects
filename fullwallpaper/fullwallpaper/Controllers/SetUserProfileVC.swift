@@ -235,4 +235,12 @@ class SetUserProfileVC: UIViewController, UIImagePickerControllerDelegate, UINav
     @IBAction func unwind(_ sender: UIButton) {
         self.dismiss(animated: true, completion: nil)
     }
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?){
+        if traitCollection.userInterfaceStyle == .light {
+            setTheme(theme: .day)
+        } else {
+            setTheme(theme: .night)
+        }
+    }
 }

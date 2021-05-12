@@ -408,4 +408,12 @@ class CollectionItemsVC: UIViewController, UICollectionViewDelegate, UICollectio
         }
     }
     
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?){
+        if traitCollection.userInterfaceStyle == .light {
+            setTheme(theme: .day)
+        } else {
+            setTheme(theme: .night)
+        }
+    }
+    
 }

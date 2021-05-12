@@ -260,4 +260,12 @@ class CategoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate, 
         emptyView.contentView.layer.borderColor = UIColor.clear.cgColor
         emptyView.contentView.layer.backgroundColor = UIColor.clear.cgColor
     }
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?){
+        if traitCollection.userInterfaceStyle == .light {
+            setTheme(theme: .day)
+        } else {
+            setTheme(theme: .night)
+        }
+    }
 }

@@ -26,4 +26,12 @@ class PolicyVC: UIViewController {
         let request = URLRequest(url: url)
         webView.load(request)
     }
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?){
+        if traitCollection.userInterfaceStyle == .light {
+            setTheme(theme: .day)
+        } else {
+            setTheme(theme: .night)
+        }
+    }
 }

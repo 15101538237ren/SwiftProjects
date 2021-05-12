@@ -463,6 +463,14 @@ extension SettingVC : MFMailComposeViewControllerDelegate{
             }
         })
     }
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?){
+        if traitCollection.userInterfaceStyle == .light {
+            setTheme(theme: .day)
+        } else {
+            setTheme(theme: .night)
+        }
+    }
 }
 
 // MARK: - Pop Menu Protocal Implementation

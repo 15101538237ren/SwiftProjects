@@ -296,4 +296,12 @@ extension VIPBenefitsVC {
             return alertWithTitle(title: noHistoryPurchaseText, message: "")
         }
     }
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?){
+        if traitCollection.userInterfaceStyle == .light {
+            setTheme(theme: .day)
+        } else {
+            setTheme(theme: .night)
+        }
+    }
 }

@@ -479,4 +479,12 @@ extension AuditVC: PopMenuViewControllerDelegate {
             self.view.makeToast("请先选择壁纸!", duration: 1.0, position: .center)
         }
     }
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?){
+        if traitCollection.userInterfaceStyle == .light {
+            setTheme(theme: .day)
+        } else {
+            setTheme(theme: .night)
+        }
+    }
 }
