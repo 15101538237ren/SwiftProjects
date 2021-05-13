@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 struct VIP {
     var duration: String
     var purchase: RegisteredPurchase

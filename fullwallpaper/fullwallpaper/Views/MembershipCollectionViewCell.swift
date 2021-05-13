@@ -11,6 +11,8 @@ class MembershipCollectionViewCell: UICollectionViewCell {
     @IBOutlet var durationLabel: UILabel!
     @IBOutlet var priceLabel: UILabel!
     @IBOutlet var pastPriceLabel: UILabel!
+    @IBOutlet var amountSavedLabel: UILabel!
+    @IBOutlet var avgPriceLabel: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()

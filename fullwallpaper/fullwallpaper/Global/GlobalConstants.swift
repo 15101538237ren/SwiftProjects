@@ -11,7 +11,8 @@ import Nuke
 import JGProgressHUD
 import SwiftyStoreKit
 
-
+typealias Completion = () -> Void
+typealias FailedVerifySubscriptionHandler = (_ reason:FailedVerifyReason) -> Void
 //Constants
 let sharedSecret = "02096ef5b63b455fa533027056c5ee73" //secret key for In-App Purchase
 let bundleId = "com.hongleir.fullscreenwallpaper.cn"
@@ -21,14 +22,13 @@ let LCKey: String = "cVvbrIE2rMLLziICGIvM52c8"
 let productURL = URL(string: "https://itunes.apple.com/app/id1544907523")
 let githubLink:String = "https://15101538237ren.github.io/fullwallpaper"
 let privacyViewedKey: String = "privacyViewed"
+let productKey: String = "productID"
 
 let minimumReviewWorthyActionCount = 3
 
 let hud = JGProgressHUD(style: .light)
 let hudWithProgress = JGProgressHUD(style: .light)
 let appleValidator = AppleReceiptValidator(service: .sandbox, sharedSecret: sharedSecret)
-
-let vips:[VIP] = [VIP(duration: threeMonthText, purchase: .ThreeMonthVIP, price: 18, pastPrice: 36), VIP(duration: oneYearText, purchase: .YearVIP, price: 45, pastPrice: 99), VIP(duration: oneMonthText, purchase: .OneMonthVIP, price: 12, pastPrice: 20) ]
 
 let fadeDuration:Double = 1.0
 let thumbnailScale = 0.25

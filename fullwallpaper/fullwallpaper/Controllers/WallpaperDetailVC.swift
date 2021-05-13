@@ -209,83 +209,90 @@ class WallpaperDetailVC: UIViewController {
         }
     }
     
-    func downloadImage() {
-        if isPro && !isProValid{
-            showVIPBenefitsVC(showHint: true)
-        }else{
-            if let user = LCApplication.default.currentUser {
-                initIndicator(view: view)
-                if let image = imageView.image{
-                    do{
-                        let wallpaper = LCObject(className: "Wallpaper", objectId: wallpaperObjectId!)
-                        try wallpaper.increase("likes", by: 1)
-                        wallpaper.save { (result) in
-                                switch result {
-                                case .success:
-                                    DispatchQueue.main.async {
-                                        do {
-                                            try user.append("likedWPs", element: self.wallpaperObjectId!, unique: true)
-                                            
-                                            user.save{ [self] (result) in
-                                                switch result {
-                                                case .success:
-                                                    
-                                                    var info = ["Um_Key_ContentID": wallpaper.objectId!.stringValue!] as [String : Any]
-                                                    
-                                                    if let caption = wallpaper.get("caption"){
-                                                        info["Um_Key_ContentName"] = caption.stringValue
-                                                    }
-                                                    
-                                                    if let category = wallpaper.get("category"){
-                                                        info["Um_Key_ContentCategory"] = category.stringValue
-                                                    }
-                                                    
-                                                    if let uploader = wallpaper.get("uploader") as? LCObject {
-                                                        info["Um_Key_PublisherID"] = uploader.objectId!.stringValue!
-                                                    }
-                                                    
-                                                    if let user = LCApplication.default.currentUser{
-                                                        let userId = user.objectId!.stringValue!
-                                                        info["Um_Key_UserID"] = userId
-                                                    }
-                                                    UMAnalyticsSwift.event(eventId: "Um_Event_ContentFavorite", attributes: info)
-                                                    
-                                                    UIImageWriteToSavedPhotosAlbum(image, self, #selector(image(_:didFinishSavingWithError:contextInfo:)), nil)
-                                                    if !reviewFuncCalled {
-                                                        AppStoreReviewManager.requestReviewIfAppropriate()
-                                                        reviewFuncCalled = true
-                                                    }
-                                                    userLikedWPs.append(self.wallpaperObjectId!)
-                                                    stopIndicator()
-                                                case .failure:
-                                                    stopIndicator()
-                                                    self.view.makeToast(downloadFailedPlsRetryText, duration: 1.0, position: .center)
+    func imageSucess(){
+        if let user = LCApplication.default.currentUser {
+            initIndicator(view: view)
+            if let image = imageView.image{
+                do{
+                    let wallpaper = LCObject(className: "Wallpaper", objectId: wallpaperObjectId!)
+                    try wallpaper.increase("likes", by: 1)
+                    wallpaper.save { (result) in
+                            switch result {
+                            case .success:
+                                DispatchQueue.main.async {
+                                    do {
+                                        try user.append("likedWPs", element: self.wallpaperObjectId!, unique: true)
+                                        
+                                        user.save{ [self] (result) in
+                                            switch result {
+                                            case .success:
+                                                
+                                                var info = ["Um_Key_ContentID": wallpaper.objectId!.stringValue!] as [String : Any]
+                                                
+                                                if let caption = wallpaper.get("caption"){
+                                                    info["Um_Key_ContentName"] = caption.stringValue
                                                 }
+                                                
+                                                if let category = wallpaper.get("category"){
+                                                    info["Um_Key_ContentCategory"] = category.stringValue
+                                                }
+                                                
+                                                if let uploader = wallpaper.get("uploader") as? LCObject {
+                                                    info["Um_Key_PublisherID"] = uploader.objectId!.stringValue!
+                                                }
+                                                
+                                                if let user = LCApplication.default.currentUser{
+                                                    let userId = user.objectId!.stringValue!
+                                                    info["Um_Key_UserID"] = userId
+                                                }
+                                                UMAnalyticsSwift.event(eventId: "Um_Event_ContentFavorite", attributes: info)
+                                                
+                                                UIImageWriteToSavedPhotosAlbum(image, self, #selector(image(_:didFinishSavingWithError:contextInfo:)), nil)
+                                                
+                                                let today_default:String = getTodayDefaultKey()
+                                                UserDefaults.standard.set(true, forKey: today_default)
+                                                if !reviewFuncCalled {
+                                                    AppStoreReviewManager.requestReviewIfAppropriate()
+                                                    reviewFuncCalled = true
+                                                }
+                                                userLikedWPs.append(self.wallpaperObjectId!)
+                                                stopIndicator()
+                                            case .failure:
+                                                stopIndicator()
+                                                self.view.makeToast(downloadFailedPlsRetryText, duration: 1.0, position: .center)
                                             }
-                                        } catch {
-                                            stopIndicator()
-                                            self.view.makeToast(downloadFailedPlsRetryText, duration: 1.0, position: .center)
                                         }
+                                    } catch {
+                                        stopIndicator()
+                                        self.view.makeToast(downloadFailedPlsRetryText, duration: 1.0, position: .center)
                                     }
-                                case .failure:
-                                    stopIndicator()
-                                    self.view.makeToast(downloadFailedPlsRetryText, duration: 1.0, position: .center)
                                 }
+                            case .failure:
+                                stopIndicator()
+                                self.view.makeToast(downloadFailedPlsRetryText, duration: 1.0, position: .center)
                             }
-                    } catch {
-                        stopIndicator()
-                        self.view.makeToast(downloadFailedPlsRetryText, duration: 1.0, position: .center)
-                    }
-                }else{
+                        }
+                } catch {
                     stopIndicator()
                     self.view.makeToast(downloadFailedPlsRetryText, duration: 1.0, position: .center)
                 }
-            } else {
-                if let image = imageView.image{
-                    UIImageWriteToSavedPhotosAlbum(image, self, #selector(image(_:didFinishSavingWithError:contextInfo:)), nil)
-                }
+            }else{
+                stopIndicator()
+                self.view.makeToast(downloadFailedPlsRetryText, duration: 1.0, position: .center)
+            }
+        } else {
+            if let image = imageView.image{
+                UIImageWriteToSavedPhotosAlbum(image, self, #selector(image(_:didFinishSavingWithError:contextInfo:)), nil)
             }
         }
+    }
+    func downloadImage() {
+        checkIfVIPSubsciptionValid(successCompletion: { [self] in
+            imageSucess()
+        }
+        , failedCompletion: { [self] reason in
+            showVIPBenefitsVC(showHint: true)
+        })
     }
     
     func showLoginOrRegisterVC(action: String) {

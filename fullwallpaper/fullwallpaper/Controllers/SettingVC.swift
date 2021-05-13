@@ -145,11 +145,12 @@ class SettingVC: UIViewController , UITableViewDataSource, UITableViewDelegate {
             cell.backgroundColor = .clear
             cell.imgView.image = settingItems[section][row].icon
             
-            if isProValid {
+            checkIfVIPSubsciptionValid(successCompletion: { [self] in
                 cell.proImgView.alpha = 1
-            }else{
-                cell.proImgView.alpha = 0
             }
+            , failedCompletion: { [self] reason in
+                cell.proImgView.alpha = 0
+            })
             
             if !displayName.isEmpty {
                 cell.titleLbl.text = displayName

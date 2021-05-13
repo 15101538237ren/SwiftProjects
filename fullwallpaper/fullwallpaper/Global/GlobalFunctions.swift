@@ -14,6 +14,92 @@ import CropViewController
 import SwiftTheme
 import SwiftyStoreKit
 
+// MARK: - VIP Util
+
+func getTodayDefaultKey() -> String{
+    let date = Date()
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "YYYY_MM_dd"
+    let today_str:String = dateFormatter.string(from: date)
+    return today_str
+}
+
+func getProductIds() -> [String]{
+    return [RegisteredPurchase.OneMonthVIP.rawValue, RegisteredPurchase.YearVIP.rawValue, RegisteredPurchase.ThreeMonthVIP.rawValue]
+}
+
+func checkIfVIPSubsciptionValid(successCompletion: @escaping Completion, failedCompletion: @escaping FailedVerifySubscriptionHandler){
+    
+    let today_default:String = getTodayDefaultKey()
+    
+    if !isKeyPresentInUserDefaults(key: today_default){
+        successCompletion()
+        return
+    }else{
+        if let reason = failedReason{
+            switch reason {
+            case .success:
+                successCompletion()
+            default:
+                failedCompletion(reason)
+            }
+            return
+        }
+        
+        if let productKey:String = UserDefaults.standard.string(forKey: productKey){
+            let productID:String = "com.fullwallpaper.\(productKey)"
+            let appleValidator = AppleReceiptValidator(service: .production, sharedSecret: sharedSecret)
+            SwiftyStoreKit.verifyReceipt(using: appleValidator) { result in
+                switch result {
+                case .success(let receipt):
+                    var availableForFreeTrial:Bool = true
+                    let latest_receipt_infos:[JSON] = JSON(receipt)["latest_receipt_info"].arrayValue
+                    
+                    for receipt_info in latest_receipt_infos{
+                        if JSON(receipt_info)["is_trial_period"].boolValue{
+                            availableForFreeTrial = false
+                        }
+                    }
+                    if availableForFreeTrial{
+                        failedReason = .notPurchasedNewUser
+                        failedCompletion(.notPurchasedNewUser)
+                        return
+                    }
+                    // Verify the purchase of a Subscription
+                    let purchaseResult = SwiftyStoreKit.verifySubscription(
+                        ofType: .autoRenewable,
+                        productId: productID,
+                        inReceipt: receipt)
+                        
+                    switch purchaseResult {
+                    case .purchased(let expiryDate, let items):
+                        print("\(productID) is valid until \(expiryDate)\n\(items)\n")
+                        failedReason = .success
+                        successCompletion()
+                    case .expired(let expiryDate, let items):
+                        print("\(productID) is expired since \(expiryDate)\n\(items)\n")
+                        failedReason = .expired
+                        failedCompletion(.expired)
+                    case .notPurchased:
+                        failedReason = .notPurchasedOldUser
+                        print("The user has never purchased \(productID)")
+                        failedCompletion(.notPurchasedOldUser)
+                    }
+
+                case .error(let error):
+                    print("Receipt verification failed: \(error)")
+                    failedReason = .unknownError
+                    failedCompletion(.unknownError)
+                }
+            }
+        }else{
+            failedReason = .unknownError
+            failedCompletion(.unknownError)
+        }
+    }
+}
+
+
 func checkIfEnglishEnv(){
     if let langStr = Locale.current.languageCode
     {
@@ -300,7 +386,7 @@ func loadCategories(completion: @escaping () -> Void)
 
 
 func makeProductId(purchase: RegisteredPurchase)-> String{
-    return "\(bundleId).\(purchase.rawValue)"
+    return "com.fullwallpaper.\(purchase.rawValue)"
 }
 
 func getTimeInterval(product: RegisteredPurchase) -> TimeInterval{
@@ -311,32 +397,6 @@ func getTimeInterval(product: RegisteredPurchase) -> TimeInterval{
         return 3600 * 24 * 365
     case .ThreeMonthVIP:
         return 3600 * 24 * 90
-    }
-}
-
-
-func verifyPurcahse() {
-    for vip in vips{
-        let product = vip.purchase
-        SwiftyStoreKit.verifyReceipt(using: appleValidator, forceRefresh: false, completion: {
-            result in
-
-            switch result{
-            case .success(let receipt):
-                let productID = makeProductId(purchase: product)
-
-                let purchaseResult = SwiftyStoreKit.verifySubscription(ofType: .nonRenewing(validDuration: getTimeInterval(product: product)), productId: productID, inReceipt: receipt, validUntil: Date())
-
-                switch purchaseResult {
-                    case .purchased:
-                        isProValid = true
-                    default:
-                        break
-                }
-            case .error:
-                break
-            }
-        })
     }
 }
 

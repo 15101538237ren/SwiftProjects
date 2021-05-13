@@ -124,7 +124,6 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        verifyPurcahse()
         let _ = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(tictoc), userInfo: nil, repeats: true)
         popPrivacyMessage()
         titleLabel.theme_textColor = "BarTitleColor"
@@ -498,11 +497,13 @@ extension WallpaperVC: PopMenuViewControllerDelegate {
     func popMenuDidSelectItem(_ popMenuViewController: PopMenuViewController, at index: Int) {
         if popMenuViewController.view.tag == 1{
             if index == 0{
-                if isProValid {
-                    loadSearchVC()
-                }else{
-                    showVIPBenefitsVC(showHint: false)
-                }
+                
+                checkIfVIPSubsciptionValid(successCompletion: { [self] in
+                            loadSearchVC()
+                    }
+                    , failedCompletion: { [self] reason in
+                        showVIPBenefitsVC(showHint: false)
+                    })
             }
             else if index == 1{
                 self.dismiss(animated: false, completion: {

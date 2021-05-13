@@ -15,9 +15,9 @@ enum CustomizationStyle{
 }
 
 enum RegisteredPurchase : String {
-    case ThreeMonthVIP = "threemonthvip"
-    case YearVIP = "yearvip"
-    case OneMonthVIP = "onemonthvip"
+    case ThreeMonthVIP = "3monsvip"
+    case YearVIP = "1yearvip"
+    case OneMonthVIP = "1monvip"
 }
 
 enum SortType {
@@ -44,4 +44,13 @@ enum THEME: String {
     case day = "day"
     case night = "night"
     case system = "system"
+}
+
+
+enum FailedVerifyReason{
+    case success
+    case expired
+    case notPurchasedNewUser
+    case notPurchasedOldUser
+    case unknownError
 }

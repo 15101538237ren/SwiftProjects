@@ -37,6 +37,9 @@ let CollectionText: String = NSLocalizedString("专题", comment: "")
 let logOffSucessText: String = NSLocalizedString("登出成功!", comment: "")
 
 // Membership VC
+let membershipText:String = NSLocalizedString("会员权益", comment: "")
+let restorePurchaseText:String = NSLocalizedString("恢复购买", comment: "")
+let proPreviligesText:String = NSLocalizedString("专属功能", comment: "")
 let onlyProCanDownloadText: String = NSLocalizedString("PRO会员才能下载这张壁纸哦", comment: "")
 let noHistoryPurchaseText:String = NSLocalizedString("无历史购买", comment: "")
 let purchaseFailedText:String = NSLocalizedString("购买失败", comment: "")
@@ -45,7 +48,13 @@ let restorePurchaseFailedText:String = NSLocalizedString("恢复购买失败", c
 let unknownErrText:String = NSLocalizedString("未知错误，请反馈至客服", comment: "")
 let purchaseCanceledText:String = NSLocalizedString("购买被取消", comment: "")
 let paymentNotAllowedText:String = NSLocalizedString("系统购买功能被您禁止", comment: "")
+let freetrialText:String = NSLocalizedString("免费试用", comment: "")
+let tryNowText:String = NSLocalizedString("立即试用!", comment: "")
+let beVIPText:String = NSLocalizedString("成为会员!", comment: "")
+let subscriptionTermText:String = NSLocalizedString("订阅服务协议", comment: "")
 let storeProductNotAvailableText:String = NSLocalizedString("当前产品不支持在您所在的国家购买", comment: "")
+let subscriptionDescription:String = NSLocalizedString("自动续费服务说明：\n1. 确认购买并付款后计入iTunes 账号。\n2. 可随时取消自动续费。如需取消，请在订阅到期24小时前，手动在 iTunes/Apple ID 订阅管理中关闭自动续费。\n3. 苹果 iTunes 账号会在到期前24小时内扣款，扣款成功后订阅顺延一个周期。", comment: "")
+
 
 //Customization VC
 let classicalText:String = NSLocalizedString("经典", comment: "")
