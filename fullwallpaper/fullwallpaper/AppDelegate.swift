@@ -36,7 +36,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         self.setupUmeng(launchOptions: launchOptions)
         self.setupStoreKit()
-        
+        checkIfEnglishEnv()
         return true
     }
     

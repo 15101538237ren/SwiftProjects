@@ -9,8 +9,15 @@ import Foundation
 
 
 // MARK: - UI
+let classificationText:String = NSLocalizedString("壁纸分类", comment: "")
+let customizationText:String = NSLocalizedString("壁纸制作", comment: "")
+let settingText:String = NSLocalizedString("设置", comment: "")
 let popularText:String = NSLocalizedString("最热壁纸", comment: "")
+let popularStr:String = NSLocalizedString("热 门", comment: "")
 let latestText:String = NSLocalizedString("最新壁纸", comment: "")
+let latestStr:String = NSLocalizedString("最 新", comment: "")
+let collectionStr:String = NSLocalizedString("专 题", comment: "")
+let classificationStr:String = NSLocalizedString("分 类", comment: "")
 let loadingText:String = NSLocalizedString("加载中..", comment: "")
 let dataLoadingText:String = NSLocalizedString("数据加载中..", comment: "")
 
@@ -63,6 +70,9 @@ let pwdText:String = NSLocalizedString("密 码", comment: "")
 let invitationCodePlaceholderText:String = NSLocalizedString("邀请码", comment: "")
 let phoneNumText:String = NSLocalizedString("手机号", comment: "")
 let verificationCodeText:String = NSLocalizedString("短信验证码", comment: "")
+let getVerificationCodeText:String = NSLocalizedString("获取验证码", comment: "")
+let forgetPwdText:String = NSLocalizedString("忘记密码?", comment: "")
+let resetPwdText:String = NSLocalizedString("重置密码", comment: "")
 let emailLoginText:String = NSLocalizedString("邮箱登录", comment: "")
 let phoneLoginText:String = NSLocalizedString("手机号登录", comment: "")
 let resetPwdLoginText:String = NSLocalizedString("邮箱登录", comment: "")
@@ -109,6 +119,11 @@ let addedCaptionText: String = NSLocalizedString("请您添加壁纸描述以方
 let addedCategoryText: String = NSLocalizedString("请您选择壁纸类别!", comment: "")
 let uploadingText: String = NSLocalizedString("上传中...", comment: "")
 
+let ensureSubmitText: String = NSLocalizedString("确认发布", comment: "")
+let selectCategoryText: String = NSLocalizedString("选择类别", comment: "")
+let uploadWallpaperText: String = NSLocalizedString("上传壁纸", comment: "")
+let wallpaperCaptionPlaceHolderText: String = NSLocalizedString("添加壁纸描述或署名原作者", comment: "")
+
 let uploadSucessText: String = NSLocalizedString("上传成功!", comment: "")
 
 let uploadSucessDetailText: String = NSLocalizedString("感谢您的贡献，我们将审核壁纸质量，通过审核后您上传的壁纸将在【设置】-【个人资料】-【我上传的】中显示", comment: "")
@@ -122,7 +137,7 @@ let noWallpaperFindText: String = NSLocalizedString("没有找到相关壁纸", 
 
 let lowResolutionText: String = NSLocalizedString("清晰度不佳", comment: "")
 let copyrightIssueText: String = NSLocalizedString("壁纸侵权", comment: "")
-let classificationText: String = NSLocalizedString("分类有误", comment: "")
+let classificationErrorText: String = NSLocalizedString("分类有误", comment: "")
 let badContentText: String = NSLocalizedString("不良内容", comment: "")
 let downloadFailedPlsRetryText: String = NSLocalizedString("下载失败，请重试!", comment: "")
 let downloadSuccessText: String = NSLocalizedString("下载成功!", comment: "")
@@ -137,7 +152,7 @@ let proBenefitsText:String = NSLocalizedString("会员权益", comment: "")
 let rateAppText:String = NSLocalizedString("评价我们", comment: "")
 let shareAppText:String = NSLocalizedString("分享给朋友", comment: "")
 let feedBackText:String = NSLocalizedString("意见反馈", comment: "")
-let cleanCacheText:String = NSLocalizedString("清空壁纸缓存", comment: "")
+let cleanCacheText:String = NSLocalizedString("清空缓存", comment: "")
 let serviceTermText:String = NSLocalizedString("服务条款", comment: "")
 let privacyText:String = NSLocalizedString("隐私政策", comment: "")
 let feedBackTitleText:String = NSLocalizedString("评价反馈", comment: "")
@@ -157,3 +172,6 @@ let setNickNameText:String = NSLocalizedString("设置显示名称", comment: ""
 let inputNickNameText:String = NSLocalizedString("请输入显示名称", comment: "")
 let zoomOrDragText:String = NSLocalizedString("「缩放」或「拖拽」来调整", comment: "")
 let setFailedTryLaterText:String = NSLocalizedString("设置失败，请稍后重试!", comment: "")
+
+let likedText: String = NSLocalizedString("我喜欢的", comment: "")
+let uploadedText: String = NSLocalizedString("我上传的", comment: "")

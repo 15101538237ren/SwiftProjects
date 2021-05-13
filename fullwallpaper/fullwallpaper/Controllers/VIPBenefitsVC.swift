@@ -76,6 +76,9 @@ class VIPBenefitsVC: UIViewController, UICollectionViewDelegate, UICollectionVie
     @IBOutlet weak var titleLabel: UILabel!{
         didSet{
             titleLabel.theme_textColor = "VIP.TextColor"
+            if english{
+                titleLabel.font = UIFont(name: "Clicker Script", size: 25.0)
+            }
         }
     }
     

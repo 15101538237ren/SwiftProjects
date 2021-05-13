@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		347F50FE7725D399E70DD317 /* Pods_fullwallpaper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 10DD94CFAF8E4BE4C42864FA /* Pods_fullwallpaper.framework */; };
+		55005065264CA92200EBD9FD /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 55005063264CA92200EBD9FD /* InfoPlist.strings */; };
+		55005068264CA92200EBD9FD /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 55005066264CA92200EBD9FD /* Localizable.strings */; };
+		5500506B264CB6AF00EBD9FD /* ClickerScript-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5500506A264CB6AF00EBD9FD /* ClickerScript-Regular.ttf */; };
 		550DC7732647A35D008D188F /* UIView+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 550DC7722647A35D008D188F /* UIView+Ext.swift */; };
 		55370FAC2553B5700003CAD5 /* GlobalFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55370FAB2553B5700003CAD5 /* GlobalFunctions.swift */; };
 		55370FAF2553B5800003CAD5 /* GlobalVariables.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55370FAE2553B5800003CAD5 /* GlobalVariables.swift */; };
@@ -73,6 +76,10 @@
 		0C7D111B56BE41451438404E /* Pods-fullwallpaper.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-fullwallpaper.debug.xcconfig"; path = "Target Support Files/Pods-fullwallpaper/Pods-fullwallpaper.debug.xcconfig"; sourceTree = "<group>"; };
 		10DD94CFAF8E4BE4C42864FA /* Pods_fullwallpaper.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_fullwallpaper.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		393206362709D374CF5A3AF9 /* Pods-fullwallpaper.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-fullwallpaper.release.xcconfig"; path = "Target Support Files/Pods-fullwallpaper/Pods-fullwallpaper.release.xcconfig"; sourceTree = "<group>"; };
+		55005064264CA92200EBD9FD /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		55005067264CA92200EBD9FD /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		55005069264CA93000EBD9FD /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		5500506A264CB6AF00EBD9FD /* ClickerScript-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ClickerScript-Regular.ttf"; sourceTree = "<group>"; };
 		550DC7722647A35D008D188F /* UIView+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Ext.swift"; sourceTree = "<group>"; };
 		55370FAB2553B5700003CAD5 /* GlobalFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalFunctions.swift; sourceTree = "<group>"; };
 		55370FAE2553B5800003CAD5 /* GlobalVariables.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalVariables.swift; sourceTree = "<group>"; };
@@ -234,6 +241,8 @@
 				55F3992F254A624D0094A477 /* Assets.xcassets */,
 				55F39931254A624D0094A477 /* LaunchScreen.storyboard */,
 				55F39934254A624D0094A477 /* Info.plist */,
+				55005066264CA92200EBD9FD /* Localizable.strings */,
+				55005063264CA92200EBD9FD /* InfoPlist.strings */,
 			);
 			path = fullwallpaper;
 			sourceTree = "<group>";
@@ -282,6 +291,7 @@
 		55F39942254A7CE00094A477 /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
+				5500506A264CB6AF00EBD9FD /* ClickerScript-Regular.ttf */,
 				C3E09BDA255CBE1600C4F238 /* AiNiChuanYueRenHai.ttf */,
 			);
 			path = Fonts;
@@ -375,8 +385,9 @@
 			buildConfigurationList = 55F3991E254A624D0094A477 /* Build configuration list for PBXProject "fullwallpaper" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = "zh-Hans";
-                        hasScannedForEncodings = 0;
+			hasScannedForEncodings = 0;
 			knownRegions = (
+				"zh-Hans",
 				en,
 				Base,
 			);
@@ -400,8 +411,11 @@
 				C3E09BDB255CBE1600C4F238 /* AiNiChuanYueRenHai.ttf in Resources */,
 				C3B33256259BBFC6001D5C5C /* IAP_ProductIDs.plist in Resources */,
 				55F39933254A624D0094A477 /* LaunchScreen.storyboard in Resources */,
+				55005068264CA92200EBD9FD /* Localizable.strings in Resources */,
 				C3C3565D2557247F006F137B /* day.plist in Resources */,
 				C3CA897F258FF1FF001E2EA2 /* TermsView.xib in Resources */,
+				5500506B264CB6AF00EBD9FD /* ClickerScript-Regular.ttf in Resources */,
+				55005065264CA92200EBD9FD /* InfoPlist.strings in Resources */,
 				C3770DA9255CF99700D240CB /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -528,6 +542,23 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
+		55005063264CA92200EBD9FD /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				55005064264CA92200EBD9FD /* en */,
+				55005069264CA93000EBD9FD /* zh-Hans */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		55005066264CA92200EBD9FD /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				55005067264CA92200EBD9FD /* en */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
 		55F39931254A624D0094A477 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (

@@ -25,12 +25,25 @@ class CategoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate, 
     
     @IBOutlet var tableView: UITableView!
     @IBOutlet weak var headerView: UIView!
-    @IBOutlet weak var segmentedControl: UISegmentedControl!
+    @IBOutlet weak var segmentedControl: UISegmentedControl!{
+        didSet{
+            segmentedControl.setTitle(classificationStr, forSegmentAt: 0)
+            segmentedControl.setTitle(collectionStr, forSegmentAt: 1)
+        }
+    }
     
-    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var titleLabel: UILabel!{
+        didSet{
+            titleLabel.text = classificationText
+            if english{
+                titleLabel.font = UIFont(name: "Clicker Script", size: 25.0)
+            }
+        }
+    }
     fileprivate var timeOnThisPage: Int = 0
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         let _ = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(tictoc), userInfo: nil, repeats: true)
         initTableView()
         setSegmentedControl()
@@ -170,21 +183,12 @@ class CategoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate, 
         let cell = tableView.dequeueReusableCell(withIdentifier: "categoryTableViewCell", for: indexPath) as! CategoryTableViewCell
         let row: Int = indexPath.row
         if isCategory{
-            cell.titleLabel.text = categories[row].name
+            cell.titleLabel.text = english ? categories[row].eng.capitalized: categories[row].name.capitalized
             
             let imgUrl = URL(string: categories[row].coverUrl)!
             Nuke.loadImage(with: imgUrl, options: categoryLoadingOptions, into: cell.imageV)
         }else{
-            var attrName:String = "name"
-            var english:Bool = false
-            if let langStr = Locale.current.languageCode
-            {
-                if !langStr.contains("zh"){
-                    attrName = "enName"
-                    english = true
-                }
-            }
-            
+            let attrName:String = english ? "enName": "name"
             if let title = collections[row].get(attrName)?.stringValue{
                 
                 if let volume = collections[row].get("vol")?.intValue{
@@ -212,7 +216,7 @@ class CategoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate, 
         
         categoryCollectionVC.category = category
         categoryCollectionVC.categoryCN = categoryCN
-        categoryCollectionVC.modalPresentationStyle = .overCurrentContext
+        categoryCollectionVC.modalPresentationStyle = .fullScreen
         
         DispatchQueue.main.async {
             self.present(categoryCollectionVC, animated: true, completion: nil)
@@ -226,7 +230,7 @@ class CategoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate, 
         
         collectionItemsVC.collection = collection
         
-        collectionItemsVC.modalPresentationStyle = .overCurrentContext
+        collectionItemsVC.modalPresentationStyle = .fullScreen
         
         DispatchQueue.main.async {
             self.present(collectionItemsVC, animated: true, completion: nil)
@@ -269,3 +273,4 @@ class CategoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate, 
         }
     }
 }
+

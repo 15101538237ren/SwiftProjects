@@ -22,6 +22,9 @@ class AuditVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
     @IBOutlet weak var titleLabel: UILabel!{
         didSet{
             titleLabel.theme_textColor = "BarTitleColor"
+            if english{
+                titleLabel.font = UIFont(name: "Clicker Script", size: 25.0)
+            }
         }
     }
     

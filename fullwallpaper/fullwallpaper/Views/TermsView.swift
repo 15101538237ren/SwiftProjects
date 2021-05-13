@@ -17,13 +17,13 @@ class TermsView: MessageView, UITextViewDelegate {
             var privacy_range:NSRange = NSRange(location: 16, length: 4)
             var terms_range:NSRange = NSRange(location: 21, length: 4)
             
-//            if let langStr = Locale.current.languageCode
-//            {
-//                if !langStr.contains("zh"){
-//                    privacy_range = NSRange(location: 34, length: 18)
-//                    terms_range = NSRange(location: 56, length: 17)
-//                }
-//            }
+            if let langStr = Locale.current.languageCode
+            {
+                if !langStr.contains("zh"){
+                    privacy_range = NSRange(location: 46, length: 17)
+                    terms_range = NSRange(location: 68, length: 16)
+                }
+            }
             
             attributedString.addAttribute(.link, value: "\(githubLink)/privacy.html", range: privacy_range)
             
@@ -49,6 +49,16 @@ class TermsView: MessageView, UITextViewDelegate {
     @IBOutlet var title:UILabel!{
         didSet{
             title.text = privacyAndTermsTitleText
+        }
+    }
+    @IBOutlet var agreeBtn:UIButton!{
+        didSet{
+            agreeBtn.setTitle(agreeText, for: .normal)
+        }
+    }
+    @IBOutlet var disagreeBtn:UIButton!{
+        didSet{
+            disagreeBtn.setTitle(refuseText, for: .normal)
         }
     }
     

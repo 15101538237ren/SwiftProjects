@@ -37,25 +37,26 @@ class CollectionItemsVC: UIViewController, UICollectionViewDelegate, UICollectio
     @IBOutlet weak var uploadBtn: UIButton!
     
     @IBOutlet weak var collectionView: UICollectionView!
-    @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var segmentedControl: UISegmentedControl!
+    @IBOutlet weak var titleLabel: UILabel!{
+        didSet{
+            let attrName:String = english ? "enName": "name"
+            titleLabel.text = collection.get(attrName)?.stringValue ?? CollectionText
+            titleLabel.theme_textColor = "BarTitleColor"
+            if english{
+                titleLabel.font = UIFont(name: "Clicker Script", size: 25.0)
+            }
+        }
+    }
+    @IBOutlet weak var segmentedControl: UISegmentedControl!{
+        didSet{
+            segmentedControl.setTitle(popularStr, forSegmentAt: 0)
+            segmentedControl.setTitle(latestStr, forSegmentAt: 1)
+        }
+    }
     fileprivate var timeOnThisPage: Int = 0
     
     
     func setupCollectionView() {
-        var attrName:String = "name"
-        var english:Bool = false
-        if let langStr = Locale.current.languageCode
-        {
-            if !langStr.contains("zh"){
-                attrName = "enName"
-                english = true
-            }
-        }
-        DispatchQueue.main.async {
-            self.titleLabel.text = self.collection.get(attrName)?.stringValue ?? CollectionText
-        }
-        titleLabel.theme_textColor = "BarTitleColor"
         collectionView.theme_backgroundColor = "View.BackgroundColor"
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 5, left: 0, bottom: 10, right: 0)
@@ -82,7 +83,7 @@ class CollectionItemsVC: UIViewController, UICollectionViewDelegate, UICollectio
     override func viewDidLoad() {
         super.viewDidLoad()
         let _ = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(tictoc), userInfo: nil, repeats: true)
-        enableEdgeSwipeGesture()
+//        enableEdgeSwipeGesture()
         setupCollectionView()
         setSegmentedControl()
         initIndicator(view: self.view)

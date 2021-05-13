@@ -1,0 +1,6 @@
+/* Bundle display name */
+"CFBundleDisplayName" = "Full HD Wallpaper";
+
+/* Privacy - Photo Library Additions Usage Description */
+"NSPhotoLibraryAddUsageDescription" = "We need photo library permission to store your favorite wallpapers";
+

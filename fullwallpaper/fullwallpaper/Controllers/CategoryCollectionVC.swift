@@ -33,8 +33,6 @@ class CategoryCollectionVC: UIViewController, UICollectionViewDelegate, UICollec
     var skipOfHotWallpapers:Int = 0
     var minDateOfLastLatestWallpaperFetch: String? = nil
 
-    
-    
     var category: String!
     var categoryCN: String!
     var NoNetWork: Bool = false
@@ -43,13 +41,25 @@ class CategoryCollectionVC: UIViewController, UICollectionViewDelegate, UICollec
     
     @IBOutlet var tableView: UITableView!
     
-    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var titleLabel: UILabel!{
+        didSet{
+            if english{
+                titleLabel.font = UIFont(name: "Clicker Script", size: 25.0)
+            }
+        }
+    }
     
     @IBOutlet weak var headerView: UIView!
     @IBOutlet weak var backBtn: UIButton!
     @IBOutlet weak var uploadBtn: UIButton!
     
-    @IBOutlet weak var segmentedControl: UISegmentedControl!
+    @IBOutlet weak var segmentedControl: UISegmentedControl!{
+        didSet{
+            segmentedControl.setTitle(popularStr, forSegmentAt: 0)
+            segmentedControl.setTitle(latestStr, forSegmentAt: 1)
+            segmentedControl.setTitle(CollectionText, forSegmentAt: 2)
+        }
+    }
     fileprivate var timeOnThisPage: Int = 0
     
     
@@ -95,7 +105,7 @@ class CategoryCollectionVC: UIViewController, UICollectionViewDelegate, UICollec
     override func viewDidLoad() {
         super.viewDidLoad()
         let _ = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(tictoc), userInfo: nil, repeats: true)
-        enableEdgeSwipeGesture()
+//        enableEdgeSwipeGesture()
         setSegmentedControl()
         setupCollectionView()
         setupTableView()
@@ -239,16 +249,7 @@ class CategoryCollectionVC: UIViewController, UICollectionViewDelegate, UICollec
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "categoryTableViewCell", for: indexPath) as! CategoryTableViewCell
         let row: Int = indexPath.row
-        
-        var attrName:String = "name"
-        var english:Bool = false
-        if let langStr = Locale.current.languageCode
-        {
-            if !langStr.contains("zh"){
-                attrName = "enName"
-                english = true
-            }
-        }
+        let attrName:String = english ? "enName": "name"
         
         if let title = collections[row].get(attrName)?.stringValue{
             if let volume = collections[row].get("vol")?.intValue{

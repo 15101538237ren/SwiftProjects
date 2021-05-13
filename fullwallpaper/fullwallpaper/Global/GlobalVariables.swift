@@ -13,6 +13,7 @@ var isProValid: Bool = false
 var isDisabled: Bool = false
 var categories:[Category] = []
 var categoryENtoCN:[String : String] = [:]
+var english:Bool = false
 
 var progressBarVisible: Bool = false
 var userLikedWPs:[String] = []

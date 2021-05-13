@@ -1,0 +1,6 @@
+/* Bundle display name */
+"CFBundleDisplayName" = "全面屏壁纸";
+
+/* Privacy - Photo Library Additions Usage Description */
+"NSPhotoLibraryAddUsageDescription" = "我们需要照片库权限来存储您喜欢的壁纸";
+

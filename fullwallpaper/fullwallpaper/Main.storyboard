@@ -1233,6 +1233,7 @@
                         <outlet property="previewImgView" destination="Wad-uF-0hq" id="G7I-d0-14f"/>
                         <outlet property="selectCategoryBtn" destination="udS-o9-AhX" id="cvl-2C-QxK"/>
                         <outlet property="submitBtn" destination="JSq-LP-jzd" id="VZG-VM-8LC"/>
+                        <outlet property="titleLabel" destination="Nfu-Fn-8jC" id="7Wt-hd-0gH"/>
                         <outlet property="wallpaperImgView" destination="Kqs-Lw-UB6" id="0PO-zV-SiH"/>
                     </connections>
                 </viewController>
@@ -3285,7 +3286,7 @@
         <image name="pro" width="132" height="55"/>
         <image name="rectangle.fill.on.rectangle.fill" catalog="system" width="128" height="96"/>
         <image name="square.and.arrow.down" catalog="system" width="121" height="128"/>
-        <image name="square.grid.2x2" catalog="system" width="32" height="32"/>
+        <image name="square.grid.2x2" catalog="system" width="128" height="114"/>
         <image name="square.stack.3d.up.fill" catalog="system" width="128" height="124"/>
         <image name="squareshape" catalog="system" width="128" height="114"/>
         <image name="tray.and.arrow.up" catalog="system" width="128" height="114"/>

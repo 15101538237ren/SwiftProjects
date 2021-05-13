@@ -71,7 +71,7 @@ class WallpaperDetailVC: UIViewController {
     var isPro: Bool = false
     var viewTranslation = CGPoint(x: 0, y: 0)
     var reviewFuncCalled: Bool = false
-    var reportClassification:[Int : String] = [2:badContentText, 3: lowResolutionText, 4: copyrightIssueText, 5: classificationText]
+    var reportClassification:[Int : String] = [2:badContentText, 3: lowResolutionText, 4: copyrightIssueText, 5: classificationErrorText]
     
     // MARK: - Constants
     let scaleForAnimation: CGFloat = 2
@@ -294,13 +294,6 @@ class WallpaperDetailVC: UIViewController {
         emailVC.modalPresentationStyle = .overCurrentContext
         DispatchQueue.main.async {
             self.present(emailVC, animated: true, completion: {
-                var english:Bool = false
-                if let langStr = Locale.current.languageCode
-                {
-                    if !langStr.contains("zh"){
-                        english = true
-                    }
-                }
                 if english{
                     emailVC.view.makeToast("Please  login or register for \(action) wallpaper", duration: 1.5, position: .center)
                 }else{
@@ -371,7 +364,7 @@ class WallpaperDetailVC: UIViewController {
         let contentAction = PopMenuDefaultAction(title: badContentText, image: UIImage(named: "alarm"), color: UIColor.darkGray)
         let resolutionAction = PopMenuDefaultAction(title: lowResolutionText, image: UIImage(named: "frown"), color: UIColor.darkGray)
         let copyrightAction = PopMenuDefaultAction(title: copyrightIssueText, image: UIImage(named: "copyright"), color: UIColor.darkGray)
-        let classificationAction = PopMenuDefaultAction(title: classificationText, image: UIImage(named: "warning"), color: UIColor.darkGray)
+        let classificationAction = PopMenuDefaultAction(title: classificationErrorText, image: UIImage(named: "warning"), color: UIColor.darkGray)
         
         contentAction.iconWidthHeight = iconWidthHeight
         resolutionAction.iconWidthHeight = iconWidthHeight

@@ -12,6 +12,9 @@ class CategoryTableViewCell: UITableViewCell {
     @IBOutlet var titleLabel: UILabel!{
         didSet{
             titleLabel.theme_textColor = "CollectionCellTextColor"
+            if english{
+                titleLabel.font = UIFont(name: "Clicker Script", size: 40.0)
+            }
         }
     }
     @IBOutlet var imageV: UIImageView!

@@ -14,6 +14,14 @@ import CropViewController
 import SwiftTheme
 import SwiftyStoreKit
 
+func checkIfEnglishEnv(){
+    if let langStr = Locale.current.languageCode
+    {
+        if !langStr.contains("zh"){
+            english = true
+        }
+    }
+}
 
 func loadURL(url: URL){
     if #available(iOS 10.0, *) {

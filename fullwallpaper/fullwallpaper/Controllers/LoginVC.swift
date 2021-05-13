@@ -35,6 +35,7 @@ class LoginVC: UIViewController {
     @IBOutlet var forgotPwdBtn: UIButton!{
         didSet{
             forgotPwdBtn.alpha = 0
+            forgotPwdBtn.setTitle(forgetPwdText, for: .normal)
         }
     }
     
@@ -43,6 +44,7 @@ class LoginVC: UIViewController {
             emailLoginBtn.layer.cornerRadius = 9.0
             emailLoginBtn.layer.masksToBounds = true
             emailLoginBtn.alpha = 0
+            emailLoginBtn.setTitle(loginText, for: .normal)
         }
     }
     
@@ -56,6 +58,7 @@ class LoginVC: UIViewController {
         didSet {
             phoneLoginBtn.layer.cornerRadius = 9.0
             phoneLoginBtn.layer.masksToBounds = true
+            phoneLoginBtn.setTitle(loginText, for: .normal)
         }
     }
     
@@ -73,6 +76,7 @@ class LoginVC: UIViewController {
         didSet {
             getVerificationCodeBtn.layer.cornerRadius = 15.0
             getVerificationCodeBtn.layer.masksToBounds = true
+            getVerificationCodeBtn.setTitle(getVerificationCodeText, for: .normal)
         }
     }
     
@@ -116,6 +120,7 @@ class LoginVC: UIViewController {
         didSet {
             resetPwdBtn.layer.cornerRadius = 9.0
             resetPwdBtn.layer.masksToBounds = true
+            resetPwdBtn.setTitle(resetPwdText, for: .normal)
         }
     }
     var loginType: LoginType = .Phone

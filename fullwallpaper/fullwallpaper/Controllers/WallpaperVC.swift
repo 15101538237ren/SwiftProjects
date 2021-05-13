@@ -46,7 +46,14 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
     private var isAdmin: Bool = false
     
     @IBOutlet weak var headerView: UIView!
-    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var titleLabel: UILabel!{
+        didSet{
+            titleLabel.text = popularText
+            if english{
+                titleLabel.font = UIFont(name: "Clicker Script", size: 25.0)
+            }
+        }
+    }
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var menuBtn: UIButton!
     @IBOutlet weak var sortBtn: UIButton!

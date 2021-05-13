@@ -22,7 +22,14 @@ class CustomizationVC: UIViewController, UICollectionViewDelegate, UICollectionV
     var currentCroppedImage: UIImage? = nil
     
     @IBOutlet weak var collectionView: UICollectionView!
-    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var titleLabel: UILabel!{
+        didSet{
+            titleLabel.text = customizationText
+            if english{
+                titleLabel.font = UIFont(name: "Clicker Script", size: 25.0)
+            }
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()

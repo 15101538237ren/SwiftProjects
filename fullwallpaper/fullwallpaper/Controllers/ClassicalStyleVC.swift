@@ -112,9 +112,21 @@ class ClassicalStyleVC: UIViewController {
     
     @IBOutlet var blurLabel: UILabel!
     @IBOutlet var backBtn: UIButton!
-    @IBOutlet var blurBtn: UIButton!
-    @IBOutlet var changeBgBtn: UIButton!
-    @IBOutlet var changeBorderBtn: UIButton!
+    @IBOutlet var blurBtn: UIButton!{
+        didSet{
+            blurBtn.setTitle(blurryText, for: .normal)
+        }
+    }
+    @IBOutlet var changeBgBtn: UIButton!{
+        didSet{
+            changeBgBtn.setTitle(bgColorText, for: .normal)
+        }
+    }
+    @IBOutlet var changeBorderBtn: UIButton!{
+        didSet{
+            changeBorderBtn.setTitle(borderColorText, for: .normal)
+        }
+    }
     @IBOutlet var downloadImgBtn: UIButton!
     @IBOutlet var closeBlurBtn: UIButton!
     @IBOutlet var checkBlurBtn: UIButton!

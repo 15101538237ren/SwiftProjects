@@ -1,0 +1,622 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.2" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 http://docs.oasis-open.org/xliff/v1.2/os/xliff-core-1.2-strict.xsd">
+  <file original="fullwallpaper/zh-Hans.lproj/InfoPlist.strings" source-language="zh-Hans" target-language="zh-Hans" datatype="plaintext">
+    <header>
+      <tool tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="12.5" build-num="12E262"/>
+    </header>
+    <body>
+      <trans-unit id="CFBundleDisplayName" xml:space="preserve">
+        <source>全面屏壁纸</source>
+        <target>Full HD Wallpaper</target>
+        <note>Bundle display name</note>
+      </trans-unit>
+      <trans-unit id="CFBundleName" xml:space="preserve">
+        <source>fullwallpaper</source>
+        <target>fullwallpaper</target>
+        <note>Bundle name</note>
+      </trans-unit>
+      <trans-unit id="NSPhotoLibraryAddUsageDescription" xml:space="preserve">
+        <source>我们需要照片库权限来存储您喜欢的壁纸</source>
+        <target>We need photo library permission to store your favorite wallpapers</target>
+        <note>Privacy - Photo Library Additions Usage Description</note>
+      </trans-unit>
+    </body>
+  </file>
+  <file original="fullwallpaper/zh-Hans.lproj/Localizable.strings" source-language="zh-Hans" target-language="zh-Hans" datatype="plaintext">
+    <header>
+      <tool tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="12.5" build-num="12E262"/>
+    </header>
+    <body>
+      <trans-unit id="1个月" xml:space="preserve">
+        <source>1个月</source>
+        <target>1个月</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="1年" xml:space="preserve">
+        <source>1年</source>
+        <target>1年</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="3个月" xml:space="preserve">
+        <source>3个月</source>
+        <target>3个月</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="PRO会员才能下载这张壁纸哦" xml:space="preserve">
+        <source>PRO会员才能下载这张壁纸哦</source>
+        <target>PRO会员才能下载这张壁纸哦</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="「全面屏壁纸」反馈" xml:space="preserve">
+        <source>「全面屏壁纸」反馈</source>
+        <target>「全面屏壁纸」反馈</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="「缩放」或「拖拽」来调整" xml:space="preserve">
+        <source>「缩放」或「拖拽」来调整</source>
+        <target>「缩放」或「拖拽」来调整</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="上传中..." xml:space="preserve">
+        <source>上传中...</source>
+        <target>上传中...</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="上传失败，请稍后重试!" xml:space="preserve">
+        <source>上传失败，请稍后重试!</source>
+        <target>上传失败，请稍后重试!</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="上传成功!" xml:space="preserve">
+        <source>上传成功!</source>
+        <target>上传成功!</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="下载失败，请重试!" xml:space="preserve">
+        <source>下载失败，请重试!</source>
+        <target>下载失败，请重试!</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="下载成功!" xml:space="preserve">
+        <source>下载成功!</source>
+        <target>下载成功!</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="不同意" xml:space="preserve">
+        <source>不同意</source>
+        <target>不同意</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="不良内容" xml:space="preserve">
+        <source>不良内容</source>
+        <target>不良内容</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="专题" xml:space="preserve">
+        <source>专题</source>
+        <target>专题</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="举报" xml:space="preserve">
+        <source>举报</source>
+        <target>举报</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="举报成功!" xml:space="preserve">
+        <source>举报成功!</source>
+        <target>举报成功!</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="会员权益" xml:space="preserve">
+        <source>会员权益</source>
+        <target>会员权益</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="保存成功" xml:space="preserve">
+        <source>保存成功</source>
+        <target>保存成功</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="出现错误，请重试" xml:space="preserve">
+        <source>出现错误，请重试</source>
+        <target>出现错误，请重试</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="分享给朋友" xml:space="preserve">
+        <source>分享给朋友</source>
+        <target>分享给朋友</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="分类有误" xml:space="preserve">
+        <source>分类有误</source>
+        <target>分类有误</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="前往相册" xml:space="preserve">
+        <source>前往相册</source>
+        <target>前往相册</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="加载中.." xml:space="preserve">
+        <source>加载中..</source>
+        <target>加载中..</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="发送失败" xml:space="preserve">
+        <source>发送失败</source>
+        <target>发送失败</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="取消" xml:space="preserve">
+        <source>取消</source>
+        <target>取消</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="同意" xml:space="preserve">
+        <source>同意</source>
+        <target>同意</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="后重新发送" xml:space="preserve">
+        <source>后重新发送</source>
+        <target>后重新发送</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="否" xml:space="preserve">
+        <source>否</source>
+        <target>否</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="壁纸侵权" xml:space="preserve">
+        <source>壁纸侵权</source>
+        <target>壁纸侵权</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="好的" xml:space="preserve">
+        <source>好的</source>
+        <target>好的</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="如有疑问，请联系fullwallpaper@outlook.com" xml:space="preserve">
+        <source>如有疑问，请联系fullwallpaper@outlook.com</source>
+        <target>如有疑问，请联系fullwallpaper@outlook.com</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="密 码" xml:space="preserve">
+        <source>密 码</source>
+        <target>密 码</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="密码不正确!" xml:space="preserve">
+        <source>密码不正确!</source>
+        <target>密码不正确!</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="密码应为8-15位，且只包含字母、数字或下划线" xml:space="preserve">
+        <source>密码应为8-15位，且只包含字母、数字或下划线</source>
+        <target>密码应为8-15位，且只包含字母、数字或下划线</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="密码重置邮件已发送至" xml:space="preserve">
+        <source>密码重置邮件已发送至</source>
+        <target>密码重置邮件已发送至</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="小半" xml:space="preserve">
+        <source>小半</source>
+        <target>小半</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="已发送验证邮件到" xml:space="preserve">
+        <source>已发送验证邮件到</source>
+        <target>已发送验证邮件到</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="当前产品不支持在您所在的国家购买" xml:space="preserve">
+        <source>当前产品不支持在您所在的国家购买</source>
+        <target>当前产品不支持在您所在的国家购买</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="很赞!必须五星好评" xml:space="preserve">
+        <source>很赞!必须五星好评</source>
+        <target>很赞!必须五星好评</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="恢复购买失败" xml:space="preserve">
+        <source>恢复购买失败</source>
+        <target>恢复购买失败</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="恢复购买成功" xml:space="preserve">
+        <source>恢复购买成功</source>
+        <target>恢复购买成功</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="您在本应用使用体验如何?" xml:space="preserve">
+        <source>您在本应用使用体验如何?</source>
+        <target>您在本应用使用体验如何?</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="您的账号目前已被封禁" xml:space="preserve">
+        <source>您的账号目前已被封禁</source>
+        <target>您的账号目前已被封禁</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="意见反馈" xml:space="preserve">
+        <source>意见反馈</source>
+        <target>意见反馈</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="感谢您的反馈！我们会认真阅读您的意见,并在1-3天内给您回复" xml:space="preserve">
+        <source>感谢您的反馈！我们会认真阅读您的意见,并在1-3天内给您回复</source>
+        <target>感谢您的反馈！我们会认真阅读您的意见,并在1-3天内给您回复</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="感谢您的贡献，我们将审核壁纸质量，通过审核后您上传的壁纸将在【设置】-【个人资料】-【我上传的】中显示" xml:space="preserve">
+        <source>感谢您的贡献，我们将审核壁纸质量，通过审核后您上传的壁纸将在【设置】-【个人资料】-【我上传的】中显示</source>
+        <target>感谢您的贡献，我们将审核壁纸质量，通过审核后您上传的壁纸将在【设置】-【个人资料】-【我上传的】中显示</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="我发现了一款宝藏「全面屏壁纸」APP，快来试试吧" xml:space="preserve">
+        <source>我发现了一款宝藏「全面屏壁纸」APP，快来试试吧</source>
+        <target>我发现了一款宝藏「全面屏壁纸」APP，快来试试吧</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="手机号" xml:space="preserve">
+        <source>手机号</source>
+        <target>手机号</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="手机号有误!" xml:space="preserve">
+        <source>手机号有误!</source>
+        <target>手机号有误!</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="手机号登录" xml:space="preserve">
+        <source>手机号登录</source>
+        <target>手机号登录</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="提示" xml:space="preserve">
+        <source>提示</source>
+        <target>提示</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="数据加载中.." xml:space="preserve">
+        <source>数据加载中..</source>
+        <target>数据加载中..</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="无历史购买" xml:space="preserve">
+        <source>无历史购买</source>
+        <target>无历史购买</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="无法发送邮件，请检查网络或设置!" xml:space="preserve">
+        <source>无法发送邮件，请检查网络或设置!</source>
+        <target>无法发送邮件，请检查网络或设置!</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="是" xml:space="preserve">
+        <source>是</source>
+        <target>是</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="是否前往相册查看?" xml:space="preserve">
+        <source>是否前往相册查看?</source>
+        <target>是否前往相册查看?</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="最新壁纸" xml:space="preserve">
+        <source>最新壁纸</source>
+        <target>最新壁纸</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="最热壁纸" xml:space="preserve">
+        <source>最热壁纸</source>
+        <target>最热壁纸</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="服务条款" xml:space="preserve">
+        <source>服务条款</source>
+        <target>服务条款</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="未知错误，请反馈至客服" xml:space="preserve">
+        <source>未知错误，请反馈至客服</source>
+        <target>未知错误，请反馈至客服</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="模糊" xml:space="preserve">
+        <source>模糊</source>
+        <target>模糊</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="欢迎使用全面屏壁纸，请您仔细阅读隐私协议和服务条款，并确定您是否同意我们的规则。我们深知个人信息的重要性，并且会全力保护您的个人信息安全可靠。" xml:space="preserve">
+        <source>欢迎使用全面屏壁纸，请您仔细阅读隐私协议和服务条款，并确定您是否同意我们的规则。我们深知个人信息的重要性，并且会全力保护您的个人信息安全可靠。</source>
+        <target>欢迎使用全面屏壁纸，请您仔细阅读隐私协议和服务条款，并确定您是否同意我们的规则。我们深知个人信息的重要性，并且会全力保护您的个人信息安全可靠。</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="正在发送" xml:space="preserve">
+        <source>正在发送</source>
+        <target>正在发送</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="正在登录" xml:space="preserve">
+        <source>正在登录</source>
+        <target>正在登录</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="没有找到相关壁纸" xml:space="preserve">
+        <source>没有找到相关壁纸</source>
+        <target>没有找到相关壁纸</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="没有数据" xml:space="preserve">
+        <source>没有数据</source>
+        <target>没有数据</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="没有数据，请检查网络！" xml:space="preserve">
+        <source>没有数据，请检查网络！</source>
+        <target>没有数据，请检查网络！</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="没有网络,请检查网络连接!" xml:space="preserve">
+        <source>没有网络,请检查网络连接!</source>
+        <target>没有网络,请检查网络连接!</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="注册" xml:space="preserve">
+        <source>注册</source>
+        <target>注册</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="清晰度不佳" xml:space="preserve">
+        <source>清晰度不佳</source>
+        <target>清晰度不佳</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="清空壁纸缓存" xml:space="preserve">
+        <source>清空壁纸缓存</source>
+        <target>清空壁纸缓存</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="点击图片可以切换预览效果哦~😊" xml:space="preserve">
+        <source>点击图片可以切换预览效果哦~😊</source>
+        <target>点击图片可以切换预览效果哦~😊</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="用的不爽，反馈意见给开发者" xml:space="preserve">
+        <source>用的不爽，反馈意见给开发者</source>
+        <target>用的不爽，反馈意见给开发者</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="登出成功!" xml:space="preserve">
+        <source>登出成功!</source>
+        <target>登出成功!</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="登录" xml:space="preserve">
+        <source>登录</source>
+        <target>登录</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="登录 / 注册" xml:space="preserve">
+        <source>登录 / 注册</source>
+        <target>登录 / 注册</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="登录失败，请稍后重试" xml:space="preserve">
+        <source>登录失败，请稍后重试</source>
+        <target>登录失败，请稍后重试</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="登录请求太快，请等待30秒!" xml:space="preserve">
+        <source>登录请求太快，请等待30秒!</source>
+        <target>登录请求太快，请等待30秒!</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="登录错误,请稍后再试" xml:space="preserve">
+        <source>登录错误,请稍后再试</source>
+        <target>登录错误,请稍后再试</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="相框" xml:space="preserve">
+        <source>相框</source>
+        <target>相框</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="短信验证码" xml:space="preserve">
+        <source>短信验证码</source>
+        <target>短信验证码</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="确定" xml:space="preserve">
+        <source>确定</source>
+        <target>确定</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="确定举报壁纸？" xml:space="preserve">
+        <source>确定举报壁纸？</source>
+        <target>确定举报壁纸？</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="系统购买功能被您禁止" xml:space="preserve">
+        <source>系统购买功能被您禁止</source>
+        <target>系统购买功能被您禁止</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="经典" xml:space="preserve">
+        <source>经典</source>
+        <target>经典</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="缓存清除成功!" xml:space="preserve">
+        <source>缓存清除成功!</source>
+        <target>缓存清除成功!</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="背景颜色" xml:space="preserve">
+        <source>背景颜色</source>
+        <target>背景颜色</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="设置失败，请稍后重试!" xml:space="preserve">
+        <source>设置失败，请稍后重试!</source>
+        <target>设置失败，请稍后重试!</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="设置显示名称" xml:space="preserve">
+        <source>设置显示名称</source>
+        <target>设置显示名称</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="评价反馈" xml:space="preserve">
+        <source>评价反馈</source>
+        <target>评价反馈</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="评价我们" xml:space="preserve">
+        <source>评价我们</source>
+        <target>评价我们</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="该手机号尚未注册,是否注册?" xml:space="preserve">
+        <source>该手机号尚未注册,是否注册?</source>
+        <target>该手机号尚未注册,是否注册?</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="该邮箱尚未注册!" xml:space="preserve">
+        <source>该邮箱尚未注册!</source>
+        <target>该邮箱尚未注册!</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="该邮箱尚未注册,是否注册?" xml:space="preserve">
+        <source>该邮箱尚未注册,是否注册?</source>
+        <target>该邮箱尚未注册,是否注册?</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="该邮箱已注册!" xml:space="preserve">
+        <source>该邮箱已注册!</source>
+        <target>该邮箱已注册!</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="请先「登录」或「注册」以上传壁纸" xml:space="preserve">
+        <source>请先「登录」或「注册」以上传壁纸</source>
+        <target>请先「登录」或「注册」以上传壁纸</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="请前往邮箱，并完成验证" xml:space="preserve">
+        <source>请前往邮箱，并完成验证</source>
+        <target>请前往邮箱，并完成验证</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="请您单击邮件中的链接，完成验证后登录!" xml:space="preserve">
+        <source>请您单击邮件中的链接，完成验证后登录!</source>
+        <target>请您单击邮件中的链接，完成验证后登录!</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="请您添加壁纸描述以方便他人检索😊" xml:space="preserve">
+        <source>请您添加壁纸描述以方便他人检索😊</source>
+        <target>请您添加壁纸描述以方便他人检索😊</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="请您选择壁纸类别!" xml:space="preserve">
+        <source>请您选择壁纸类别!</source>
+        <target>请您选择壁纸类别!</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="请输入手机号～" xml:space="preserve">
+        <source>请输入手机号～</source>
+        <target>请输入手机号～</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="请输入显示名称" xml:space="preserve">
+        <source>请输入显示名称</source>
+        <target>请输入显示名称</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="请输入验证码!" xml:space="preserve">
+        <source>请输入验证码!</source>
+        <target>请输入验证码!</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="购买失败" xml:space="preserve">
+        <source>购买失败</source>
+        <target>购买失败</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="购买被取消" xml:space="preserve">
+        <source>购买被取消</source>
+        <target>购买被取消</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="边框颜色" xml:space="preserve">
+        <source>边框颜色</source>
+        <target>边框颜色</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="邀请码" xml:space="preserve">
+        <source>邀请码</source>
+        <target>邀请码</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="邮 箱" xml:space="preserve">
+        <source>邮 箱</source>
+        <target>邮 箱</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="邮件已发送，如需重新发送，请等待1分钟!" xml:space="preserve">
+        <source>邮件已发送，如需重新发送，请等待1分钟!</source>
+        <target>邮件已发送，如需重新发送，请等待1分钟!</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="邮箱不能为空!" xml:space="preserve">
+        <source>邮箱不能为空!</source>
+        <target>邮箱不能为空!</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="邮箱格式不正确!" xml:space="preserve">
+        <source>邮箱格式不正确!</source>
+        <target>邮箱格式不正确!</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="邮箱登录" xml:space="preserve">
+        <source>邮箱登录</source>
+        <target>邮箱登录</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="重新发送" xml:space="preserve">
+        <source>重新发送</source>
+        <target>重新发送</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="错误" xml:space="preserve">
+        <source>错误</source>
+        <target>错误</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="隐私协议与服务条款" xml:space="preserve">
+        <source>隐私协议与服务条款</source>
+        <target>隐私协议与服务条款</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="隐私政策" xml:space="preserve">
+        <source>隐私政策</source>
+        <target>隐私政策</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="验证码已发送!" xml:space="preserve">
+        <source>验证码已发送!</source>
+        <target>验证码已发送!</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="验证码有误!" xml:space="preserve">
+        <source>验证码有误!</source>
+        <target>验证码有误!</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

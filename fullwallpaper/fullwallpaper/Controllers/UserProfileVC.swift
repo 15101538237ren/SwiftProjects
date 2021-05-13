@@ -17,7 +17,12 @@ class UserProfileVC: UIViewController, UICollectionViewDelegate, UICollectionVie
     
     @IBOutlet weak var backBtn:UIButton!
     @IBOutlet weak var logoutBtn:UIButton!
-    @IBOutlet weak var segmentedControl: UISegmentedControl!
+    @IBOutlet weak var segmentedControl: UISegmentedControl!{
+        didSet{
+            segmentedControl.setTitle(likedText, forSegmentAt: 0)
+            segmentedControl.setTitle(uploadedText, forSegmentAt: 1)
+        }
+    }
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var avatar: UIImageView!{
         didSet{

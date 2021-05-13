@@ -15,7 +15,8 @@ class UploadWallpaperVC: UIViewController, UITextFieldDelegate {
     var wallpaper: UIImage!
     var currentDisplayMode:DisplayMode = .Plain
     let popupPickerView = AYPopupPickerView()
-    let rowNamesInPickerView = categories.map { $0.name }
+    
+    var rowNamesInPickerView:[String] = []
     var hideSelectCategory: Bool!
     var currentCategory:String? = nil
     var categoryCN: String? = nil
@@ -26,6 +27,14 @@ class UploadWallpaperVC: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var dimUIView: UIView!{
         didSet{
             dimUIView.theme_alpha = "DimView.Alpha"
+        }
+    }
+    @IBOutlet weak var titleLabel: UILabel!{
+        didSet{
+            titleLabel.text = uploadWallpaperText
+            if english{
+                titleLabel.font = UIFont(name: "Clicker Script", size: 25.0)
+            }
         }
     }
     
@@ -53,6 +62,7 @@ class UploadWallpaperVC: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var captionTextField: UITextField!{
         didSet{
             captionTextField.textColor = .darkGray
+            captionTextField.placeholder = wallpaperCaptionPlaceHolderText
         }
     }
     
@@ -62,6 +72,7 @@ class UploadWallpaperVC: UIViewController, UITextFieldDelegate {
             selectCategoryBtn.theme_setTitleColor("TableCell.TextColor", forState: .normal)
             selectCategoryBtn.layer.cornerRadius = 6.0
             selectCategoryBtn.layer.masksToBounds = true
+            selectCategoryBtn.setTitle(selectCategoryText, for: .normal)
         }
     }
     
@@ -73,6 +84,7 @@ class UploadWallpaperVC: UIViewController, UITextFieldDelegate {
             submitBtn.theme_setTitleColor("TableCell.TextColor", forState: .normal)
             submitBtn.layer.cornerRadius = 6.0
             submitBtn.layer.masksToBounds = true
+            submitBtn.setTitle(ensureSubmitText, for: .normal)
         }
     }
     
@@ -151,7 +163,7 @@ class UploadWallpaperVC: UIViewController, UITextFieldDelegate {
         captionTextField.delegate = self
         addGestureRecognizers()
         checkHint()
-        
+        rowNamesInPickerView = english ? categories.map { $0.eng } : categories.map { $0.name }
     }
     
     func checkHint(){
