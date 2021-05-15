@@ -12,6 +12,8 @@ import CropViewController
 class CustomizationVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout , UIImagePickerControllerDelegate, UINavigationControllerDelegate, CropViewControllerDelegate {
     private let customizations:[String] = [classicalText, blurryText, halfScreenText, albumFrameText]
     private let customizationImages:[String] = ["center_square", "blurry", "half_screen", "border"]
+    
+    private let isPros:[Bool] = [false, false, true, true]
     private let customizationStyles:[CustomizationStyle] = [.CenterSquare, .Blur, .HalfScreen, .Border]
     private let whRatios:[CGFloat] = [1.0, whRatio, widthsz/(heightsz * 0.618), CGFloat(5.0/6.0)]
     
@@ -95,6 +97,11 @@ class CustomizationVC: UIViewController, UICollectionViewDelegate, UICollectionV
         cell.contentView.layer.masksToBounds = true
         cell.themeNameLabel.text = customizations[indexPath.row]
         cell.themeImageView.image = UIImage(named: customizationImages[indexPath.row])
+        if isPros[indexPath.row]{
+            cell.btnImageView.image = UIImage(named: "PRO-btn")
+        }else{
+            cell.btnImageView.image = UIImage(named: "non-PRO-btn")
+        }
         return cell
     }
     
@@ -108,7 +115,26 @@ class CustomizationVC: UIViewController, UICollectionViewDelegate, UICollectionV
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         currentWHRatio = whRatios[indexPath.row]
         customizationStyleSelected = customizationStyles[indexPath.row]
-        selectImage()
+        if !isPros[indexPath.row]{
+            selectImage()
+        }else{
+            checkIfVIPSubsciptionValid(successCompletion: { [self] in
+                selectImage()
+            }
+            , failedCompletion: { [self] reason in
+                showVIPBenefitsVC(showHint: false)
+            })
+        }
+    }
+    
+    func showVIPBenefitsVC(showHint: Bool) {
+        let MainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+        let vipBenefitsVC = MainStoryBoard.instantiateViewController(withIdentifier: "vipBenefitsVC") as! VIPBenefitsVC
+        vipBenefitsVC.showHint = showHint
+        vipBenefitsVC.modalPresentationStyle = .overCurrentContext
+        DispatchQueue.main.async {
+            self.present(vipBenefitsVC, animated: true, completion: nil)
+        }
     }
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?){

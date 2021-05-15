@@ -30,72 +30,65 @@ func getProductIds() -> [String]{
 
 func checkIfVIPSubsciptionValid(successCompletion: @escaping Completion, failedCompletion: @escaping FailedVerifySubscriptionHandler){
     
-    let today_default:String = getTodayDefaultKey()
-    
-    if !isKeyPresentInUserDefaults(key: today_default){
-        successCompletion()
+    if let reason = failedReason{
+        switch reason {
+        case .success:
+            successCompletion()
+        default:
+            failedCompletion(reason)
+        }
         return
-    }else{
-        if let reason = failedReason{
-            switch reason {
-            case .success:
-                successCompletion()
-            default:
-                failedCompletion(reason)
-            }
-            return
-        }
-        
-        if let productKey:String = UserDefaults.standard.string(forKey: productKey){
-            let productID:String = "com.fullwallpaper.\(productKey)"
-            let appleValidator = AppleReceiptValidator(service: .production, sharedSecret: sharedSecret)
-            SwiftyStoreKit.verifyReceipt(using: appleValidator) { result in
-                switch result {
-                case .success(let receipt):
-                    var availableForFreeTrial:Bool = true
-                    let latest_receipt_infos:[JSON] = JSON(receipt)["latest_receipt_info"].arrayValue
-                    
-                    for receipt_info in latest_receipt_infos{
-                        if JSON(receipt_info)["is_trial_period"].boolValue{
-                            availableForFreeTrial = false
-                        }
+    }
+    
+    if let productKey:String = UserDefaults.standard.string(forKey: productKey){
+        let productID:String = "com.fullwallpaper.\(productKey)"
+        let appleValidator = AppleReceiptValidator(service: .production, sharedSecret: sharedSecret)
+        SwiftyStoreKit.verifyReceipt(using: appleValidator) { result in
+            switch result {
+            case .success(let receipt):
+                var availableForFreeTrial:Bool = true
+                let latest_receipt_infos:[JSON] = JSON(receipt)["latest_receipt_info"].arrayValue
+                
+                for receipt_info in latest_receipt_infos{
+                    if JSON(receipt_info)["is_trial_period"].boolValue{
+                        availableForFreeTrial = false
                     }
-                    if availableForFreeTrial{
-                        failedReason = .notPurchasedNewUser
-                        failedCompletion(.notPurchasedNewUser)
-                        return
-                    }
-                    // Verify the purchase of a Subscription
-                    let purchaseResult = SwiftyStoreKit.verifySubscription(
-                        ofType: .autoRenewable,
-                        productId: productID,
-                        inReceipt: receipt)
-                        
-                    switch purchaseResult {
-                    case .purchased(let expiryDate, let items):
-                        print("\(productID) is valid until \(expiryDate)\n\(items)\n")
-                        failedReason = .success
-                        successCompletion()
-                    case .expired(let expiryDate, let items):
-                        print("\(productID) is expired since \(expiryDate)\n\(items)\n")
-                        failedReason = .expired
-                        failedCompletion(.expired)
-                    case .notPurchased:
-                        failedReason = .notPurchasedOldUser
-                        print("The user has never purchased \(productID)")
-                        failedCompletion(.notPurchasedOldUser)
-                    }
-
-                case .error(let error):
-                    print("Receipt verification failed: \(error)")
-                    failedReason = .unknownError
-                    failedCompletion(.unknownError)
                 }
+                if availableForFreeTrial{
+                    failedReason = .notPurchasedNewUser
+                    failedCompletion(.notPurchasedNewUser)
+                    return
+                }
+                // Verify the purchase of a Subscription
+                let purchaseResult = SwiftyStoreKit.verifySubscription(
+                    ofType: .autoRenewable,
+                    productId: productID,
+                    inReceipt: receipt)
+                    
+                switch purchaseResult {
+                case .purchased(let expiryDate, let items):
+                    print("\(productID) is valid until \(expiryDate)\n\(items)\n")
+                    failedReason = .success
+                    successCompletion()
+                case .expired(let expiryDate, let items):
+                    print("\(productID) is expired since \(expiryDate)\n\(items)\n")
+                    failedReason = .expired
+                    failedCompletion(.expired)
+                case .notPurchased:
+                    failedReason = .notPurchasedOldUser
+                    print("The user has never purchased \(productID)")
+                    failedCompletion(.notPurchasedOldUser)
+                }
+
+            case .error(let error):
+                print("Receipt verification failed: \(error)")
+                failedReason = .unknownError
+                failedCompletion(.unknownError)
             }
-        }else{
-            failedReason = .unknownError
-            failedCompletion(.unknownError)
         }
+    }else{
+        failedReason = .unknownError
+        failedCompletion(.unknownError)
     }
 }
 
@@ -133,38 +126,6 @@ func blurImage(usingImage image:UIImage, blurAmount: CGFloat) -> UIImage? {
     let croppedImage = outputImage.cropped(to: ciImage.extent)
     
     return UIImage(ciImage: croppedImage)
-}
-
-func loadSwitchesSetting(completion: @escaping () -> Void){
-    DispatchQueue.global(qos: .background).async {
-    do {
-        let query = LCQuery(className: "Switch")
-        query.limit = 100
-        _ = query.find { result in
-            switch result {
-            case .success(objects: let results):
-                for item in results{
-                    let name = item.get("name")!.stringValue!
-                    let switchOn = item.get("on")!.boolValue!
-                    if switchOn{
-                        switch name {
-                        case "testMode":
-                            testMode = true
-                        default:
-                            break
-                        }
-                    }
-                }
-                switchesLoaded = true
-                completion()
-            case .failure(error: let error):
-                print(error.localizedDescription)
-                switchesLoaded = true
-                completion()
-            }
-        }
-    }
-    }
 }
 
 func getSegmentedCtrlUnselectedTextColor() -> String{
@@ -323,13 +284,6 @@ func encodeSaveJson(){
 
 func loadCategories(completion: @escaping () -> Void)
 {
-    if !switchesLoaded{
-        loadSwitchesSetting {
-            loadCategories(completion: completion)
-        }
-        return
-    }
-    
     loadCategoryFromLocal(completion: completion)
     
     if !Reachability.isConnectedToNetwork(){
@@ -340,7 +294,6 @@ func loadCategories(completion: @escaping () -> Void)
     DispatchQueue.global(qos: .utility).async {
     do {
         let query = LCQuery(className: "Category")
-        query.whereKey("test", .equalTo(testMode))
         let updated_count = query.count()
         print("Fetched \(updated_count.intValue) categories")
         if categories.count != updated_count.intValue{

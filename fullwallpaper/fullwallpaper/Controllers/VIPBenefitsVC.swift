@@ -66,10 +66,10 @@ class VIPBenefitsVC: UIViewController, UICollectionViewDelegate, UICollectionVie
     
     @IBOutlet weak var midIconsImgView: UIImageView!{
         didSet{
-//            if english
-//            {
-//                midIconsImgView.image = UIImage(named: "mid_icons_en")
-//            }
+            if english
+            {
+                midIconsImgView.image = UIImage(named: "mid_icons_en")
+            }
         }
     }
     
@@ -101,7 +101,6 @@ class VIPBenefitsVC: UIViewController, UICollectionViewDelegate, UICollectionVie
     }
     
     override func viewDidLoad() {
-        view.theme_backgroundColor = "View.BackgroundColor"
         super.viewDidLoad()
         
         setupCollectionView()

@@ -17,6 +17,4 @@ var failedReason: FailedVerifyReason? = nil
 
 var progressBarVisible: Bool = false
 var userLikedWPs:[String] = []
-var testMode: Bool = false // load scene before learning
-var switchesLoaded: Bool = false // load scene before learning
 

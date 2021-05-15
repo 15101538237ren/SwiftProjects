@@ -266,20 +266,12 @@ class SettingVC: UIViewController , UITableViewDataSource, UITableViewDelegate {
                     let info = [ "Um_Key_SourcePage": "设置页", "Um_Key_ButtonName" : "服务条款"]
                     UMAnalyticsSwift.event(eventId: "Um_Event_ModularClick", attributes: info)
                     let url = URL(string: "\(githubLink)/terms.html")!
-                    if testMode{
-                        loadURL(url: url)
-                    }else{
-                        loadPolicyVC(url: url)
-                    }
+                    loadURL(url: url)
                 case 2:
                     let info = [ "Um_Key_SourcePage": "设置页", "Um_Key_ButtonName" : "隐私政策"]
                     UMAnalyticsSwift.event(eventId: "Um_Event_ModularClick", attributes: info)
                     let url = URL(string: "\(githubLink)/privacy.html")!
-                    if testMode{
-                        loadURL(url: url)
-                    }else{
-                        loadPolicyVC(url: url)
-                    }
+                    loadURL(url: url)
                 default:
                     break
             }

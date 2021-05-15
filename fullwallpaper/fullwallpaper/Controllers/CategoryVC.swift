@@ -98,12 +98,6 @@ class CategoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate, 
     }
     
     func loadCollections(){
-        if !switchesLoaded{
-            loadSwitchesSetting { [self] in
-                loadCollections()
-            }
-            return
-        }
         if !Reachability.isConnectedToNetwork(){
             self.tableView.reloadData()
             NoNetwork = true
@@ -115,7 +109,6 @@ class CategoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate, 
         DispatchQueue.global(qos: .utility).async { [self] in
         do {
             let query = LCQuery(className: "Collection")
-            query.whereKey("test", .equalTo(testMode))
             query.whereKey("vol", .descending)
             
             if (minVolOfLastCollectionFetch != nil){

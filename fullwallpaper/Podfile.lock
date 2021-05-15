@@ -8,6 +8,8 @@ PODS:
   - GRDB.swift (4.14.0):
     - GRDB.swift/standard (= 4.14.0)
   - GRDB.swift/standard (4.14.0)
+  - IGColorPicker (0.4.3):
+    - M13Checkbox
   - JGProgressHUD (2.2)
   - LeanCloud (17.6.6):
     - LeanCloud/RTM (= 17.6.6)
@@ -17,6 +19,7 @@ PODS:
     - GRDB.swift (~> 4.14)
     - LeanCloud/Foundation (= 17.6.6)
     - SwiftProtobuf (~> 1.13)
+  - M13Checkbox (3.4.0)
   - NewPopMenu (2.1.2)
   - Nuke (9.2.2)
   - PhoneNumberKit (3.3.1):
@@ -51,6 +54,7 @@ DEPENDENCIES:
   - AYPopupPickerView
   - CropViewController
   - GBDeviceInfo
+  - IGColorPicker
   - JGProgressHUD
   - LeanCloud
   - NewPopMenu (~> 2.0)
@@ -79,8 +83,10 @@ SPEC REPOS:
     - CropViewController
     - GBDeviceInfo
     - GRDB.swift
+    - IGColorPicker
     - JGProgressHUD
     - LeanCloud
+    - M13Checkbox
     - NewPopMenu
     - Nuke
     - PhoneNumberKit
@@ -107,8 +113,10 @@ SPEC CHECKSUMS:
   CropViewController: bd3ff11eeeaadc1e267bb9c3f3e9ee67a52d3285
   GBDeviceInfo: ed0db16230d2fa280e1cbb39a5a7f60f6946aaec
   GRDB.swift: 8cc3ab7c8b8b4ac1761deb8dca4b51c1c9d429f8
+  IGColorPicker: f6034f8629aa90cce308a76ecc0fdf2afed0bf34
   JGProgressHUD: d83d7a981b85d11205e19ff8ad5bb9c40571c847
   LeanCloud: 90c5a98c6f3ceb66b707bd668f10ef328034b614
+  M13Checkbox: 6f59404540ac98ba83a3d1afac335895a40c6a5d
   NewPopMenu: c6129e08e8192f6257ceb5f9a4357e1b59c6e2e7
   Nuke: 977324335953a448b3d83e0ef3b4ce4775b155f7
   PhoneNumberKit: ff153d5e299f6da566cb73c6aa71e354933b2932
@@ -129,6 +137,6 @@ SPEC CHECKSUMS:
   UMDevice: 28d21a568c8e8322e5a03bbd53b138d0c098d3b3
   UMPush: 7ef2ff2fcca16e4d5c7897183a78a0d26f920bfe
 
-PODFILE CHECKSUM: 9fd079f9411ae0fcf867a36d873214fe2584f30a
+PODFILE CHECKSUM: 2f1ff08eb16f377e93dc401c609f7a055e28ce9f
 
 COCOAPODS: 1.9.3

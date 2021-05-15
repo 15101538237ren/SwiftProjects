@@ -187,7 +187,7 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
         let MainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
         let vipBenefitsVC = MainStoryBoard.instantiateViewController(withIdentifier: "vipBenefitsVC") as! VIPBenefitsVC
         vipBenefitsVC.showHint = showHint
-        vipBenefitsVC.modalPresentationStyle = .fullScreen
+        vipBenefitsVC.modalPresentationStyle = .overCurrentContext
         DispatchQueue.main.async {
             self.present(vipBenefitsVC, animated: true, completion: nil)
         }
@@ -219,13 +219,6 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
     
     @objc func loadWallpapers()
     {
-        if !switchesLoaded{
-            loadSwitchesSetting { [self] in
-                loadWallpapers()
-            }
-            return
-        }
-        
         collectionView.setLoadMoreEnable(false)
         
         DispatchQueue.main.async { [self] in
@@ -249,7 +242,6 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
             do {
                 
                 let query = LCQuery(className: "Wallpaper")
-                query.whereKey("test", .equalTo(testMode))
                 query.whereKey("status", .equalTo(1))
                 if sortType == .byLike{
                     query.whereKey("likes", .descending)
@@ -356,9 +348,28 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let wallpaper:Wallpaper = sortType == .byLike ? hotWallpapers[indexPath.row] : latestWallpapers[indexPath.row]
-        if let imgUrl = URL(string: wallpaper.imgUrl){
-            loadDetailVC(imageUrl: imgUrl, wallpaperObjectId: wallpaper.objectId, pro:wallpaper.isPro)
+        
+        if !wallpaper.isPro{
+            // 非PRO 壁纸检查是否已下载
+            let today_default:String = getTodayDefaultKey()
+            if !isKeyPresentInUserDefaults(key: today_default){
+                //今天没下载过
+                if let imgUrl = URL(string: wallpaper.imgUrl){
+                    loadDetailVC(imageUrl: imgUrl, wallpaperObjectId: wallpaper.objectId, pro:wallpaper.isPro)
+                    return
+                }
+            }
+            
         }
+        // PRO 壁纸 OR 今天已下载，检查是否是会员
+        checkIfVIPSubsciptionValid(successCompletion: { [self] in
+            if let imgUrl = URL(string: wallpaper.imgUrl){
+                loadDetailVC(imageUrl: imgUrl, wallpaperObjectId: wallpaper.objectId, pro:wallpaper.isPro)
+            }
+        }
+        , failedCompletion: { [self] reason in
+            showVIPBenefitsVC(showHint: false)
+        })
     }
     
     private func handleLoadMore() {

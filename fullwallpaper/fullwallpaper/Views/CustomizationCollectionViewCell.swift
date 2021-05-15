@@ -14,6 +14,8 @@ class CustomizationCollectionViewCell: UICollectionViewCell {
             themeImageView.layer.masksToBounds = true
         }
     }
+    
+    @IBOutlet var btnImageView: UIImageView!
     @IBOutlet var themeNameLabel: UILabel!
     @IBOutlet var dimUIView: UIView!{
         didSet {
