@@ -136,13 +136,21 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
     
     @IBOutlet var backgroundImgView: UIImageView!{
         didSet{
-            let hour = Calendar.current.component(.hour, from: Date())
-            let suffix:String  = (hour > 7 && hour < 18) ? "day" : "night"
-            let lofiCount:Int = (hour > 7 && hour < 18) ? nDayLofiGirls : nNightLofiGirls
-            let randomIndex = Int.random(in: 1...lofiCount)
-            let imageName:String = "lofi_girls_\(suffix)_\(randomIndex)"
-            print("LOFI:\(imageName)")
-            backgroundImgView.image = UIImage(named: imageName)
+            let study_image_fp = "current_study_image.jpg"
+            if Disk.exists(study_image_fp, in: .documents)
+            {
+                do{
+                    let current_study_image = try Disk.retrieve(study_image_fp, from: .documents, as: UIImage.self)
+                    backgroundImgView.image = current_study_image
+                }catch{
+                    print(error)
+                }
+            }else{
+                let hour = Calendar.current.component(.hour, from: Date())
+                let day:Bool  = (hour > 7 && hour < 18) ? true : false
+                let imageName = day ? "day_study" : "night_study"
+                backgroundImgView.image = UIImage(named: imageName)
+            }
         }
     }
     
@@ -307,19 +315,15 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     @objc func startCountDown(){
-        if loadLearning{
-            dispatchWork = DispatchWorkItem(block: {
-                UIView.animate(withDuration: 0.5, animations: { [weak self] in
-                    self?.loadingView.alpha = 0
-                }, completion: { _ in
-                    self.startLearning()
-                })
+        dispatchWork = DispatchWorkItem(block: {
+            UIView.animate(withDuration: 0.5, animations: { [weak self] in
+                self?.loadingView.alpha = 0
+            }, completion: { _ in
+                self.startLearning()
             })
-            DispatchQueue.main.asyncAfter(deadline: .now() + countDownOfLoading, execute: dispatchWork!)
-            countDownText()
-        }else{
-            self.loadingView.alpha = 0
-        }
+        })
+        DispatchQueue.main.asyncAfter(deadline: .now() + countDownOfLoading, execute: dispatchWork!)
+        countDownText()
     }
     
     func getTimeSuffix(num: Int) -> String{
@@ -541,9 +545,6 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
         prepareScene()
-        if !loadLearning{
-            startLearning()
-        }
     }
     
     func updateWordLeftLabels(currentMemStage: Int){

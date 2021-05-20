@@ -30,8 +30,8 @@
             filePath = "shuaci/Global/GlobalFunctions.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1200"
-            endingLineNumber = "1200"
+            startingLineNumber = "1169"
+            endingLineNumber = "1169"
             landmarkName = "getNumOfSeqMem(vocab:)"
             landmarkType = "9">
          </BreakpointContent>
@@ -46,8 +46,8 @@
             filePath = "shuaci/Global/GlobalFunctions.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1141"
-            endingLineNumber = "1141"
+            startingLineNumber = "1110"
+            endingLineNumber = "1110"
             landmarkName = "filterBehaviorsInDiffDays(bhvs:dates:)"
             landmarkType = "9">
          </BreakpointContent>
@@ -158,8 +158,8 @@
             filePath = "shuaci/Controllers/LearnWordViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1247"
-            endingLineNumber = "1247"
+            startingLineNumber = "1248"
+            endingLineNumber = "1248"
             landmarkName = "panCard(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -174,8 +174,8 @@
             filePath = "shuaci/Controllers/LearnWordViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1303"
-            endingLineNumber = "1303"
+            startingLineNumber = "1304"
+            endingLineNumber = "1304"
             landmarkName = "panCard(_:)"
             landmarkType = "7">
          </BreakpointContent>

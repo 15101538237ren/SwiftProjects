@@ -14,6 +14,15 @@ import Accelerate
 import SwiftTheme
 import SwiftyStoreKit
 
+func checkIfEnglishEnv(){
+    if let langStr = Locale.current.languageCode
+    {
+        if !langStr.contains("zh"){
+            english = true
+        }
+    }
+}
+
 func getTodayLearnOrReviewDefaultKey(learn: Bool) -> String{
     let date = Date()
     let dateFormatter = DateFormatter()
@@ -68,46 +77,6 @@ func setInvitationCodeUsed(invitationCode: String, user: LCUser){
         case .failure(error: let error):
             print(error)
         }
-    }
-}
-
-func loadSwitchesSetting(){
-    DispatchQueue.global(qos: .background).async {
-    do {
-        let query = LCQuery(className: "Switch")
-        query.limit = 100
-        _ = query.find { result in
-            switch result {
-            case .success(objects: let results):
-                for item in results{
-                    let name = item.get("name")!.stringValue!
-                    let switchOn = item.get("on")!.boolValue!
-                    if switchOn{
-                        switch name {
-                        case "invitation":
-                            invitationMode = true
-                        case "loadLearning":
-                            loadLearning = true
-                        case "loadLearnFinish":
-                            loadLearnFinish = true
-                        case "loadPurchaseVIP":
-                            loadPurchaseVIP = true
-                        case "testMode":
-                            testMode = true
-                        case "feedbackByWechat":
-                            feedbackByWechat = true
-                        case "loadIdentityCheck":
-                            loadIdentityCheck = true
-                        default:
-                            break
-                        }
-                    }
-                }
-            case .failure(error: let error):
-                print(error.localizedDescription)
-            }
-        }
-    }
     }
 }
 

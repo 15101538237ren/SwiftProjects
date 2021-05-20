@@ -1,7 +1,7 @@
 {
   "images" : [
     {
-      "filename" : "lofi_girls_day_7.jpeg",
+      "filename" : "night_study.jpg",
       "idiom" : "universal",
       "scale" : "1x"
     },
@@ -19,7 +19,6 @@
     "version" : 1
   },
   "properties" : {
-    "compression-type" : "lossless",
     "template-rendering-intent" : "original"
   }
 }

@@ -11,12 +11,8 @@ import Foundation
 var global_records: [Record] = []
 var global_vocabs_records: [VocabularyRecord] = []
 var invitationMode: Bool = false
-var loadLearning: Bool = false // load scene before learning
-var loadLearnFinish: Bool = false
-var loadPurchaseVIP: Bool = false
-var loadIdentityCheck: Bool = false
-var feedbackByWechat: Bool = false
-var testMode: Bool = false
+var feedbackByWechat: Bool = true
+var english:Bool = false
 var failedReason: FailedVerifyReason? = nil
 var Word_indexs_In_Oalecd8:[String:[Int]] = [:]
 var AllData_keys:[String] = []

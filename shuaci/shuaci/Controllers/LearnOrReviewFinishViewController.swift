@@ -243,12 +243,10 @@ class LearnOrReviewFinishViewController: UIViewController {
     }
     
     func loadQouteScene(){
-        if loadLearnFinish{
-            addBlurBackgroundView()
-            initActivityIndicator(text: loadingDakaText)
-            setElements(enable: false)
-            getQoute()
-        }
+        addBlurBackgroundView()
+        initActivityIndicator(text: loadingDakaText)
+        setElements(enable: false)
+        getQoute()
     }
     
     func loadScene(){

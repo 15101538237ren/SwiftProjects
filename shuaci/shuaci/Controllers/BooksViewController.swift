@@ -43,32 +43,48 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
         }
     }
     
-    @IBOutlet var titleLabel: UILabel!
-    @IBOutlet var ensureBtn: UIButton!
-    @IBOutlet var cancelBtn: UIButton!
+    @IBOutlet var titleLabel: UILabel!{
+        didSet{
+            titleLabel.text = betterServiceText
+        }
+    }
+    @IBOutlet var ensureBtn: UIButton!{
+        didSet{
+            ensureBtn.setTitle(ensureText, for: .normal)
+        }
+    }
+    @IBOutlet var cancelBtn: UIButton!{
+        didSet{
+            cancelBtn.setTitle(cancelText, for: .normal)
+        }
+    }
     
     @IBOutlet weak var firstPickerView: UIPickerView!
-    let firstViewItems: [String] = ["大学生","研究生" ,"博士生", "高中生", "职场人", "初中生", "小学生", "其他"]
+    let engFirstItems:[String] = ["College","Graduate School","High School", "Ph.D", "Graduated", "Middle School", "Primary School", "Others"]
+    let cnFirstItems:[String] = ["大学生","研究生" , "高中生","博士生", "职场人", "初中生", "小学生", "其他"]
+    var firstViewItems: [String] = []
     
     @IBOutlet weak var secondPickerView: UIPickerView!
-    let secondViewItems: [String] = ["出国", "考研", "高考", "四六级", "英专", "中考", "提高英语水平", "其他"]
+    let engSecondItems:[String] = ["Go Aboard", "GRE/GCT", "NEMT", "CET4/6", "TEM4/8", "For high school", "Improve English", "Others"]
+    let cnSecondItems:[String] = ["出国", "考研", "高考", "四六级", "英专", "中考", "提高英语水平", "其他"]
+    var secondViewItems: [String] = []
     
     func performBookFiltering(){
-        var selectedRows:[Int] = [0, 0]
-        let secondRow:Int = secondPickerView.selectedRow(inComponent: 0)
-        if secondRow == 0{
-            selectedRows = [1, 0]
-        }else if secondRow == 1{
-            selectedRows = [3, 3]
-        }else if secondRow == 2{
-            selectedRows = [2, 0]
-        }else if secondRow == 3{
-            selectedRows = [3, 0]
-        }else if secondRow == 4{
-            selectedRows = [4, 0]
-        }else if secondRow == 5{
-            selectedRows = [5, 0]
-        }
+//        var selectedRows:[Int] = [0, 0]
+//        let secondRow:Int = secondPickerView.selectedRow(inComponent: 0)
+//        if secondRow == 0{
+//            selectedRows = [1, 0]
+//        }else if secondRow == 1{
+//            selectedRows = [3, 3]
+//        }else if secondRow == 2{
+//            selectedRows = [2, 0]
+//        }else if secondRow == 3{
+//            selectedRows = [3, 0]
+//        }else if secondRow == 4{
+//            selectedRows = [4, 0]
+//        }else if secondRow == 5{
+//            selectedRows = [5, 0]
+//        }
         UserDefaults.standard.set(true, forKey: userIdentityKey)
         
 //        let firstIndexPath:IndexPath = IndexPath(row: selectedRows[0], section: 0)
@@ -92,7 +108,7 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
     }
     
     func checkIdentity(){
-        if loadIdentityCheck && !isKeyPresentInUserDefaults(key: userIdentityKey){
+        if !isKeyPresentInUserDefaults(key: userIdentityKey){
             DispatchQueue.main.async { [self] in
                 identityAskView.alpha = 1
             }
@@ -339,6 +355,15 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
         tableView.delegate = self
         tableView.dataSource = self
         tableView.tableFooterView = UIView()
+        
+        if english{
+            firstViewItems = engFirstItems
+            secondViewItems = engSecondItems
+        }else{
+            firstViewItems = cnFirstItems
+            secondViewItems = cnSecondItems
+        }
+        
         firstPickerView.delegate = self
         firstPickerView.dataSource = self
         secondPickerView.delegate = self
@@ -387,9 +412,9 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         if pickerView.tag == 1{
-            firstQuestionAnswer = firstViewItems[row]
+            firstQuestionAnswer = cnFirstItems[row]
         }else{
-            secondQuestionAnswer = secondViewItems[row]
+            secondQuestionAnswer = cnSecondItems[row]
         }
     }
     

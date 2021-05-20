@@ -268,7 +268,9 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
             }
             
             loadWallpaper()
+            loadStudyImage()
             NotificationCenter.default.addObserver(self, selector: #selector(loadWallpaper), name: UIApplication.willEnterForegroundNotification, object: nil)
+            NotificationCenter.default.addObserver(self, selector: #selector(loadStudyImage), name: UIApplication.willEnterForegroundNotification, object: nil)
             
             DispatchQueue.main.async {
                 self.syncLabel.theme_textColor = "Global.textColor"
@@ -323,6 +325,92 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
                 setDefaultWallpaper(theme_category: theme_category)
             }
             getNextWallpaper(category: theme_category)
+        }
+    }
+    
+    func getNextStudyImage(day: Bool){
+        if Reachability.isConnectedToNetwork(){
+            startRotating(text: downloadingWallpaperText)
+            DispatchQueue.global(qos: .background).async{
+            do{
+                do {
+                    let count_query = LCQuery(className: "StudyImages")
+                    count_query.whereKey("day", .equalTo(day))
+                    count_query.count{ count in
+                        if count.isSuccess && count.intValue > 0{
+                            let rand_index = Int.random(in: 0 ... count.intValue - 1)
+                            
+                            let query = LCQuery(className: "StudyImages")
+                            query.whereKey("day", .equalTo(day))
+                            query.limit = 1
+                            query.skip = rand_index
+                            
+                            _ = query.getFirst { result in
+                                switch result {
+                                case .success(object: let studyImage):
+                                    if let file = studyImage.get("image") as? LCFile {
+                                        
+                                        let imgUrl = URL(string: file.url!.stringValue!)!
+                                        
+                                        _ = ImagePipeline.shared.loadImage(
+                                            with: imgUrl,
+                                            completion: { [self] response in
+                                                stopRotating()
+                                                switch response {
+                                                  case .failure:
+                                                    break
+                                                  case let .success(imageResponse):
+                                                    let image = imageResponse.image
+                                                    let study_image_fp = "current_study_image.jpg"
+                                                    do {
+                                                        try Disk.save(image, to: .documents, as: study_image_fp)
+                                                        
+                                                        print("Save study image  Successful!")
+                                                    } catch {
+                                                        print(error)
+                                                    }
+                                                  }
+                                            }
+                                        )
+                                    }
+                                case .failure(error: let error):
+                                    print(error.localizedDescription)
+                                    self.stopRotating()
+                                }
+                            }
+                        }else{
+                            print(count.error?.description)
+                        }
+                    }
+                    
+                }
+                }}
+        }else{
+            self.view.makeToast(NoNetworkStr, duration: 1.0, position: .center)
+            self.stopRotating()
+        }
+    }
+    
+    @objc func loadStudyImage(){
+        let study_image_fp = "current_study_image.jpg"
+        let hour = Calendar.current.component(.hour, from: Date())
+        let day:Bool  = (hour > 7 && hour < 18) ? true : false
+        if !Disk.exists(study_image_fp, in: .documents)
+        {
+            setDefaultStudyImage(day: day)
+        }
+        getNextStudyImage(day: day)
+    }
+    
+    func setDefaultStudyImage(day:Bool){
+        let imageName = day ? "day_study" : "night_study"
+        if let image = UIImage(named: imageName) {
+            let study_image_fp = "current_study_image.jpg"
+            do {
+                try Disk.save(image, to: .documents, as: study_image_fp)
+            } catch {
+                print(error)
+            }
         }
     }
     

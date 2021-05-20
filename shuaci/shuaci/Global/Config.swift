@@ -15,7 +15,7 @@ public final class Config {
     let keyUmeng: String = "6063714818b72d2d243df1c6"
     
     /// 上架記得改成 false
-    let isEnableUmengLog: Bool = !loadPurchaseVIP
+    let isEnableUmengLog: Bool = false
     
     let channelID: String = "App Store"
 }
