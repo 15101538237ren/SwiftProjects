@@ -14,7 +14,37 @@
 "3个月" = "3 Months";
 
 /* No comment provided by engineer. */
-"PRO会员才能下载这张壁纸哦" = "Only Pro can download this wallpaper";
+"非会员每天最多只能下载一张免费壁纸哦😝" = "Free users can only download 1 Non-Pro wallpaper/day😝";
+
+/* No comment provided by engineer. */
+"PRO壁纸只有会员才能下载哦😝" = "Only PRO users can download PRO wallpaper😝";
+
+
+/* No comment provided by engineer. */
+"PRO专题只有会员才能查看哦😝" = "Only PRO users can access PRO collection😝";
+
+
+/* No comment provided by engineer. */
+"PRO分类只有会员才能查看哦😝" = "Only PRO users can access PRO category😝";
+
+
+/* No comment provided by engineer. */
+"PRO壁纸制作模板只有会员才能使用哦😝" = "Only PRO users can use PRO customization templates😝";
+
+/* No comment provided by engineer. */
+"搜索功能只有会员才能使用哦😝" = "Only PRO users can use search function😝";
+
+
+/* No comment provided by engineer. */
+"只有会员才能使用此功能哦😝" = "Only PRO users can use this function😝";
+
+
+/* No comment provided by engineer. */
+"您的PRO会员已过期" = "Your PRO is expired";
+
+/* No comment provided by engineer. */
+"您还不是PRO会员" = "You are not PRO yet";
+
 
 /* No comment provided by engineer. */
 "上传中..." = "Uploading..";

@@ -24,9 +24,10 @@ class VIPBenefitsVC: UIViewController, UICollectionViewDelegate, UICollectionVie
     
     // Variables
     var vips:[VIP] = []
-    var showHint: Bool = false
     var selectedIndex: Int = 0
     var viewTranslation = CGPoint(x: 0, y: 0)
+    var FailedReason: FailedVerifyReason!
+    var ReasonForShowThisPage: ShowVIPPageReason!
     
     @IBOutlet weak var collectionView: UICollectionView!
 
@@ -100,14 +101,54 @@ class VIPBenefitsVC: UIViewController, UICollectionViewDelegate, UICollectionVie
         }
     }
     
+    func makeToastText() -> String{
+        var failedReasonText:String = ""
+        
+        switch FailedReason {
+        case .expired:
+            failedReasonText = failedExpairedText
+        case .notPurchasedOldUser:
+            failedReasonText = failedExpairedText
+        case .notPurchasedNewUser:
+            failedReasonText = failedNewUserText
+        case .unknownError:
+            failedReasonText = failedNewUserText
+        case .success:
+            return ""
+        default:
+            return ""
+        }
+        
+        var reasonToShowText:String = ""
+        
+        switch ReasonForShowThisPage {
+        case .DOWNLOAD_FREE_WALLPAPER_OVER_LIMIT:
+            reasonToShowText = freedownloadOverLimitText
+        case .PRO_WALLPAPER:
+            reasonToShowText = proWallpaperAccessText
+        case .PRO_CATEGORY:
+            reasonToShowText = proCategoryAccessText
+        case .PRO_COLLECTION:
+            reasonToShowText = proCollectionAccessText
+        case .PRO_CUSTOMIZATION:
+            reasonToShowText = proCustomizationAccessText
+        case .PRO_SEARCH:
+            reasonToShowText = proSearchAccessText
+        case .UNKNOWN:
+            reasonToShowText = proUnknownAccessText
+        default:
+            reasonToShowText = proUnknownAccessText
+        }
+        return "\(failedReasonText). \(reasonToShowText)"
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setupCollectionView()
-        
-        if showHint
-        {
-            self.view.makeToast(onlyProCanDownloadText, duration: 1.0, position: .center)
+        let toastText = makeToastText()
+        if !toastText.isEmpty{
+            self.view.makeToast(toastText, duration: 3.0, position: .center)
         }
         enableEdgeSwipeGesture()
     }
@@ -166,7 +207,6 @@ class VIPBenefitsVC: UIViewController, UICollectionViewDelegate, UICollectionVie
             self.view.isUserInteractionEnabled = true
             switch result{
             case .success:
-                UserDefaults.standard.set(purchase.rawValue, forKey: productKey)
                 failedReason = .success
                 DispatchQueue.main.async {
                     self.dismiss(animated: true, completion: nil)
@@ -194,28 +234,14 @@ class VIPBenefitsVC: UIViewController, UICollectionViewDelegate, UICollectionVie
     func restorePurchases() {
         initIndicator(view: self.view)
         view.isUserInteractionEnabled = false
-        let existingProductIds:[String] = getProductIds()
         SwiftyStoreKit.restorePurchases(atomically: true, completion: {
             result in
             stopIndicator()
             self.view.isUserInteractionEnabled = true
-            var lastPurchaseDate:Date? = nil
-            var lastPurchaseId:String? = nil
             for product in result.restoredPurchases {
                 if product.needsFinishTransaction {
                     SwiftyStoreKit.finishTransaction(product.transaction)
                 }
-                if let transaction = product.originalTransaction{
-                    if let transactionDate: Date = transaction.transactionDate{
-                        if (lastPurchaseDate == nil || transactionDate > lastPurchaseDate!) && (existingProductIds.contains(product.productId)) && (transaction.transactionState == .purchased){
-                            lastPurchaseDate = transactionDate
-                            lastPurchaseId = product.productId
-                        }
-                    }
-                }
-            }
-            if let purchaseId = lastPurchaseId{
-                UserDefaults.standard.set(purchaseId, forKey: productKey)
             }
             self.showAlert(alert: self.alertForRestorePurchases(result: result))
 

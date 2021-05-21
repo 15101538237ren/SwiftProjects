@@ -199,17 +199,18 @@ class WallpaperDetailVC: UIViewController {
         }
     }
     
-    func showVIPBenefitsVC(showHint: Bool) {
+    func showVIPBenefitsVC(failedReason: FailedVerifyReason, showReason: ShowVIPPageReason) {
         let MainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
         let vipBenefitsVC = MainStoryBoard.instantiateViewController(withIdentifier: "vipBenefitsVC") as! VIPBenefitsVC
-        vipBenefitsVC.showHint = showHint
-        vipBenefitsVC.modalPresentationStyle = .fullScreen
+        vipBenefitsVC.FailedReason = failedReason
+        vipBenefitsVC.ReasonForShowThisPage = showReason
+        vipBenefitsVC.modalPresentationStyle = .overCurrentContext
         DispatchQueue.main.async {
             self.present(vipBenefitsVC, animated: true, completion: nil)
         }
     }
     
-    func imageSucess(){
+    func downloadImage(){
         if let user = LCApplication.default.currentUser {
             initIndicator(view: view)
             if let image = imageView.image{
@@ -285,14 +286,6 @@ class WallpaperDetailVC: UIViewController {
                 UIImageWriteToSavedPhotosAlbum(image, self, #selector(image(_:didFinishSavingWithError:contextInfo:)), nil)
             }
         }
-    }
-    func downloadImage() {
-        checkIfVIPSubsciptionValid(successCompletion: { [self] in
-            imageSucess()
-        }
-        , failedCompletion: { [self] reason in
-            showVIPBenefitsVC(showHint: true)
-        })
     }
     
     func showLoginOrRegisterVC(action: String) {

@@ -18,6 +18,12 @@ class CategoryTableViewCell: UITableViewCell {
         }
     }
     @IBOutlet var imageV: UIImageView!
+    @IBOutlet var proBtn: UIButton!{
+        didSet{
+            proBtn.layer.cornerRadius = 4
+            proBtn.layer.masksToBounds = true
+        }
+    }
     @IBOutlet var dimUIView: UIView!{
         didSet{
             dimUIView.theme_alpha = "DimView.Alpha"

@@ -54,3 +54,13 @@ enum FailedVerifyReason{
     case notPurchasedOldUser
     case unknownError
 }
+
+enum ShowVIPPageReason{
+    case DOWNLOAD_FREE_WALLPAPER_OVER_LIMIT
+    case PRO_WALLPAPER
+    case PRO_COLLECTION
+    case PRO_CATEGORY
+    case PRO_CUSTOMIZATION
+    case PRO_SEARCH
+    case UNKNOWN
+}

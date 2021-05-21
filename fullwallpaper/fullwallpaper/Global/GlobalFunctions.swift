@@ -40,25 +40,29 @@ func checkIfVIPSubsciptionValid(successCompletion: @escaping Completion, failedC
         return
     }
     
-    if let productKey:String = UserDefaults.standard.string(forKey: productKey){
-        let productID:String = "com.fullwallpaper.\(productKey)"
-        let appleValidator = AppleReceiptValidator(service: .production, sharedSecret: sharedSecret)
-        SwiftyStoreKit.verifyReceipt(using: appleValidator) { result in
-            switch result {
-            case .success(let receipt):
-                var availableForFreeTrial:Bool = true
-                let latest_receipt_infos:[JSON] = JSON(receipt)["latest_receipt_info"].arrayValue
+    let appleValidator = AppleReceiptValidator(service: .production, sharedSecret: sharedSecret)
+    
+    SwiftyStoreKit.verifyReceipt(using: appleValidator) { result in
+        switch result {
+        case .success(let receipt):
+            var availableForFreeTrial:Bool = true
+            let latest_receipt_infos:[JSON] = JSON(receipt)["latest_receipt_info"].arrayValue
+            
+            for receipt_info in latest_receipt_infos{
+                if JSON(receipt_info)["is_trial_period"].boolValue{
+                    availableForFreeTrial = false
+                }
+            }
+            if availableForFreeTrial{
+                failedReason = .notPurchasedNewUser
+                failedCompletion(.notPurchasedNewUser)
+                return
+            }
+            
+            let productKeys:[String] = [RegisteredPurchase.OneMonthVIP.rawValue, RegisteredPurchase.ThreeMonthVIP.rawValue, RegisteredPurchase.YearVIP.rawValue]
+            for productKey in productKeys{
+                let productID:String = "com.fullwallpaper.\(productKey)"
                 
-                for receipt_info in latest_receipt_infos{
-                    if JSON(receipt_info)["is_trial_period"].boolValue{
-                        availableForFreeTrial = false
-                    }
-                }
-                if availableForFreeTrial{
-                    failedReason = .notPurchasedNewUser
-                    failedCompletion(.notPurchasedNewUser)
-                    return
-                }
                 // Verify the purchase of a Subscription
                 let purchaseResult = SwiftyStoreKit.verifySubscription(
                     ofType: .autoRenewable,
@@ -67,29 +71,28 @@ func checkIfVIPSubsciptionValid(successCompletion: @escaping Completion, failedC
                     
                 switch purchaseResult {
                 case .purchased(let expiryDate, let items):
-                    print("\(productID) is valid until \(expiryDate)\n\(items)\n")
                     failedReason = .success
                     successCompletion()
+                    return
                 case .expired(let expiryDate, let items):
-                    print("\(productID) is expired since \(expiryDate)\n\(items)\n")
-                    failedReason = .expired
-                    failedCompletion(.expired)
+                    break
                 case .notPurchased:
                     failedReason = .notPurchasedOldUser
-                    print("The user has never purchased \(productID)")
                     failedCompletion(.notPurchasedOldUser)
+                    return
                 }
-
-            case .error(let error):
-                print("Receipt verification failed: \(error)")
-                failedReason = .unknownError
-                failedCompletion(.unknownError)
             }
+            
+            failedReason = .expired
+            failedCompletion(.expired)
+
+        case .error(let error):
+            print("Receipt verification failed: \(error)")
+            failedReason = .unknownError
+            failedCompletion(.unknownError)
         }
-    }else{
-        failedReason = .unknownError
-        failedCompletion(.unknownError)
     }
+    
 }
 
 
@@ -255,7 +258,8 @@ func loadCategoryFromLocal(completion: @escaping () -> Void){
             let coverUrl = json_obj["coverUrl"].stringValue
             let name = json_obj["name"].stringValue
             let eng = json_obj["eng"].stringValue
-            let category = Category(name: name, eng: eng, coverUrl: coverUrl)
+            let pro = json_obj["pro"].boolValue
+            let category = Category(name: name, eng: eng, coverUrl: coverUrl, pro: pro)
             categories.append(category)
         }
         
@@ -305,9 +309,10 @@ func loadCategories(completion: @escaping () -> Void)
                         let res = results[rid]
                         let name = res.get("name")?.stringValue ?? ""
                         let eng = res.get("eng")?.stringValue ?? ""
+                        let pro = res.get("pro")?.boolValue ?? false
                         
                         if let file = res.get("cover") as? LCFile {
-                            let category = Category(name: name, eng: eng, coverUrl: file.url!.stringValue!)
+                            let category = Category(name: name, eng: eng, coverUrl: file.url!.stringValue!, pro: pro)
                             categories.append(category)
                         }
                     }

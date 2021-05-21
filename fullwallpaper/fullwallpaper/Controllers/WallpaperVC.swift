@@ -183,10 +183,11 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
         }
     }
     
-    func showVIPBenefitsVC(showHint: Bool) {
+    func showVIPBenefitsVC(failedReason: FailedVerifyReason, showReason: ShowVIPPageReason) {
         let MainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
         let vipBenefitsVC = MainStoryBoard.instantiateViewController(withIdentifier: "vipBenefitsVC") as! VIPBenefitsVC
-        vipBenefitsVC.showHint = showHint
+        vipBenefitsVC.FailedReason = failedReason
+        vipBenefitsVC.ReasonForShowThisPage = showReason
         vipBenefitsVC.modalPresentationStyle = .overCurrentContext
         DispatchQueue.main.async {
             self.present(vipBenefitsVC, animated: true, completion: nil)
@@ -245,10 +246,10 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
                 query.whereKey("status", .equalTo(1))
                 if sortType == .byLike{
                     query.whereKey("likes", .descending)
+                    query.whereKey("createdAt", .descending)
                     query.skip = skipOfHotWallpapers
                 }else{
                     query.whereKey("createdAt", .descending)
-                    
                     if (minDateOfLastLatestWallpaperFetch != nil){
                         query.whereKey("createdAt", .lessThan(dateFromString(dateStr: minDateOfLastLatestWallpaperFetch!)))
                     }
@@ -368,7 +369,7 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
             }
         }
         , failedCompletion: { [self] reason in
-            showVIPBenefitsVC(showHint: false)
+            showVIPBenefitsVC(failedReason: reason, showReason: wallpaper.isPro ? .PRO_WALLPAPER : .DOWNLOAD_FREE_WALLPAPER_OVER_LIMIT)
         })
     }
     
@@ -420,7 +421,7 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
     }
     
     
-    func presentPopMenu(_ sender: UIButton) {
+    @IBAction func presentPopMenu(_ sender: UIButton) {
             let iconWidthHeight:CGFloat = 20
             let searchAction = PopMenuDefaultAction(title: "搜索壁纸", image: UIImage(named: "search"), color: UIColor.lightGray)
             let uploadAction = PopMenuDefaultAction(title: "上传壁纸", image: UIImage(named: "upload"), color: UIColor.lightGray)
@@ -508,12 +509,11 @@ extension WallpaperVC: PopMenuViewControllerDelegate {
     func popMenuDidSelectItem(_ popMenuViewController: PopMenuViewController, at index: Int) {
         if popMenuViewController.view.tag == 1{
             if index == 0{
-                
                 checkIfVIPSubsciptionValid(successCompletion: { [self] in
                             loadSearchVC()
                     }
                     , failedCompletion: { [self] reason in
-                        showVIPBenefitsVC(showHint: false)
+                        showVIPBenefitsVC(failedReason: reason, showReason: .PRO_SEARCH)
                     })
             }
             else if index == 1{

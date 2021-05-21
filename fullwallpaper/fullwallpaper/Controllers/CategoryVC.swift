@@ -177,7 +177,11 @@ class CategoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate, 
         let row: Int = indexPath.row
         if isCategory{
             cell.titleLabel.text = english ? categories[row].eng.capitalized: categories[row].name.capitalized
-            
+            if categories[row].pro{
+                cell.proBtn.alpha = 1.0
+            }else{
+                cell.proBtn.alpha = 0.0
+            }
             let imgUrl = URL(string: categories[row].coverUrl)!
             Nuke.loadImage(with: imgUrl, options: categoryLoadingOptions, into: cell.imageV)
         }else{
@@ -192,6 +196,12 @@ class CategoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate, 
                     }
                 }
                 
+            }
+            
+            if collections[row].get("pro")?.boolValue ?? false{
+                cell.proBtn.alpha = 1.0
+            }else{
+                cell.proBtn.alpha = 0.0
             }
             
             if let file = collections[row].get("cover") as? LCFile{
@@ -232,12 +242,46 @@ class CategoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate, 
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if isCategory{
-            loadCategoryCollectionVC(category: categories[indexPath.row].eng, categoryCN: categories[indexPath.row].name)
+            
+            if categories[indexPath.row].pro{
+                checkIfVIPSubsciptionValid(successCompletion: { [self] in
+                    loadCategoryCollectionVC(category: categories[indexPath.row].eng, categoryCN: categories[indexPath.row].name)
+                }
+                , failedCompletion: { [self] reason in
+                    showVIPBenefitsVC(failedReason: reason, showReason: .PRO_CATEGORY)
+                })
+            }else{
+                loadCategoryCollectionVC(category: categories[indexPath.row].eng, categoryCN: categories[indexPath.row].name)
+            }
+            
         }else{
-            loadCollectionItemsVC(collection: collections[indexPath.row])
+            
+            if collections[indexPath.row].get("pro")?.boolValue ?? false{
+                checkIfVIPSubsciptionValid(successCompletion: { [self] in
+                    loadCollectionItemsVC(collection: collections[indexPath.row])
+                }
+                , failedCompletion: { [self] reason in
+                    showVIPBenefitsVC(failedReason: reason, showReason: .PRO_COLLECTION)
+                })
+            }else{
+                loadCollectionItemsVC(collection: collections[indexPath.row])
+            }
+            
         }
         
     }
+    
+    func showVIPBenefitsVC(failedReason: FailedVerifyReason, showReason: ShowVIPPageReason) {
+        let MainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+        let vipBenefitsVC = MainStoryBoard.instantiateViewController(withIdentifier: "vipBenefitsVC") as! VIPBenefitsVC
+        vipBenefitsVC.FailedReason = failedReason
+        vipBenefitsVC.ReasonForShowThisPage = showReason
+        vipBenefitsVC.modalPresentationStyle = .overCurrentContext
+        DispatchQueue.main.async {
+            self.present(vipBenefitsVC, animated: true, completion: nil)
+        }
+    }
+    
     // MARK: - Empty State Data Source
     
     var emptyStateTitle: NSAttributedString {

@@ -341,15 +341,16 @@ class CollectionItemsVC: UIViewController, UICollectionViewDelegate, UICollectio
             }
         }
         , failedCompletion: { [self] reason in
-            showVIPBenefitsVC(showHint: false)
+            showVIPBenefitsVC(failedReason: reason, showReason: wallpaper.isPro ? .PRO_WALLPAPER : .DOWNLOAD_FREE_WALLPAPER_OVER_LIMIT)
         })
         
     }
     
-    func showVIPBenefitsVC(showHint: Bool) {
+    func showVIPBenefitsVC(failedReason: FailedVerifyReason, showReason: ShowVIPPageReason) {
         let MainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
         let vipBenefitsVC = MainStoryBoard.instantiateViewController(withIdentifier: "vipBenefitsVC") as! VIPBenefitsVC
-        vipBenefitsVC.showHint = showHint
+        vipBenefitsVC.FailedReason = failedReason
+        vipBenefitsVC.ReasonForShowThisPage = showReason
         vipBenefitsVC.modalPresentationStyle = .overCurrentContext
         DispatchQueue.main.async {
             self.present(vipBenefitsVC, animated: true, completion: nil)

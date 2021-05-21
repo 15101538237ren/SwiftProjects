@@ -242,7 +242,7 @@ class SettingVC: UIViewController , UITableViewDataSource, UITableViewDelegate {
         case 1:
             let info = [ "Um_Key_SourcePage": "设置页", "Um_Key_ButtonName" : "查看会员权益"]
             UMAnalyticsSwift.event(eventId: "Um_Event_ModularClick", attributes: info)
-            showVIPBenefitsVC()
+            showVIPBenefitsVC(failedReason: .success, showReason: .UNKNOWN)
         case 2:
             switch indexPath.row {
                 case 0:
@@ -382,9 +382,11 @@ class SettingVC: UIViewController , UITableViewDataSource, UITableViewDelegate {
         }
     }
     
-    func showVIPBenefitsVC() {
+    func showVIPBenefitsVC(failedReason: FailedVerifyReason, showReason: ShowVIPPageReason) {
         let MainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
         let vipBenefitsVC = MainStoryBoard.instantiateViewController(withIdentifier: "vipBenefitsVC") as! VIPBenefitsVC
+        vipBenefitsVC.FailedReason = failedReason
+        vipBenefitsVC.ReasonForShowThisPage = showReason
         vipBenefitsVC.modalPresentationStyle = .overCurrentContext
         DispatchQueue.main.async {
             self.present(vipBenefitsVC, animated: true, completion: nil)
