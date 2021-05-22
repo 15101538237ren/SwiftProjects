@@ -121,6 +121,7 @@ let pronounceTypeText:String = NSLocalizedString("发音类型", comment: "")
 let setLearningPlanText:String = NSLocalizedString("设置学习计划", comment: "")
 let everyDayNotificationText:String = NSLocalizedString("每日提醒", comment: "")
 let rateAppText:String = NSLocalizedString("评价应用", comment: "")
+let shareAppText:String = NSLocalizedString("分享给朋友", comment: "")
 let feedBackText:String = NSLocalizedString("意见反馈", comment: "")
 let serviceTermText:String = NSLocalizedString("服务条款", comment: "")
 let privacyText:String = NSLocalizedString("隐私政策", comment: "")
@@ -141,6 +142,7 @@ let awefulResponseText:String = NSLocalizedString("用的不爽，反馈意见�
 let canNotSendEmailText:String = NSLocalizedString("无法发送邮件，请检查网络或设置!", comment: "")
 let emailTitleText:String = NSLocalizedString("「刷词」意见反馈", comment: "")
 let thanksForFeedbackText:String = NSLocalizedString("感谢您的反馈！我们会认真阅读您的意见,并在1-3天内给您回复", comment: "")
+let shareContentText:String = NSLocalizedString("我发现了一款宝藏背单词APP，快来试试吧", comment: "")
 
 // WordHistory VC
 let removeFromMasteredText:String = NSLocalizedString("移出已掌握", comment: "")

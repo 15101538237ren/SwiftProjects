@@ -22,6 +22,7 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
         SettingItem(symbol_name : "scope", name: setLearningPlanText, value: defaultPlanText),
         SettingItem(symbol_name : "alarm", name: everyDayNotificationText, value: ""),
         SettingItem(symbol_name : "rate_app", name: rateAppText, value: "v1.0.0"),
+        SettingItem(symbol_name : "share", name: shareAppText, value: ""),
         SettingItem(symbol_name : "bubble.left.and.bubble.right", name: feedBackText, value: ""),
         SettingItem(symbol_name : "document", name: serviceTermText, value: ""),
         SettingItem(symbol_name : "privacy", name: privacyText, value: "")
@@ -334,17 +335,28 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
         case 4:
             askUserExperienceBeforeReview()
         case 5:
-            showFeedBackMailComposer()
+            showShareVC()
         case 6:
+            showFeedBackMailComposer()
+        case 7:
             let url = URL(string: "\(githubLink)/shuaci/terms.html")!
             loadURL(url: url)
-        case 7:
+        case 8:
             let url = URL(string: "\(githubLink)/shuaci/privacy.html")!
             loadURL(url: url)
         default:
             break
         }
         tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
+    func showShareVC(){
+        if let url = productURL, !url.absoluteString.isEmpty {
+            let textToShare = shareContentText
+            let activityVC = UIActivityViewController(activityItems: [textToShare, url], applicationActivities: nil)
+            activityVC.excludedActivityTypes = [.airDrop, .addToReadingList, .addToiCloudDrive, .assignToContact, .markupAsPDF, .openInIBooks, .saveToCameraRoll, .print, .postToFlickr, .postToLinkedIn, .postToTencentWeibo, .postToVimeo, .postToXing]
+            self.present(activityVC, animated: true, completion: nil)
+        }
     }
     
     func askUserExperienceBeforeReview(){
