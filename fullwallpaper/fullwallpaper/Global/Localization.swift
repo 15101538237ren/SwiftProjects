@@ -79,6 +79,7 @@ let goToAlbumText:String = NSLocalizedString("前往相册", comment: "")
 let threeMonthText:String = NSLocalizedString("3个月", comment: "")
 let oneMonthText:String = NSLocalizedString("1个月", comment: "")
 let oneYearText:String = NSLocalizedString("1年", comment: "")
+let blurStrengthText:String = NSLocalizedString("模糊强度", comment: "")
 
 
 // Login VC

@@ -110,7 +110,11 @@ class ClassicalStyleVC: UIViewController {
         }
     }
     
-    @IBOutlet var blurLabel: UILabel!
+    @IBOutlet var blurLabel: UILabel!{
+        didSet{
+            blurLabel.text = blurStrengthText
+        }
+    }
     @IBOutlet var backBtn: UIButton!
     @IBOutlet var blurBtn: UIButton!{
         didSet{

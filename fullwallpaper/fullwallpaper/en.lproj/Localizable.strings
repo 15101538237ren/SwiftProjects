@@ -210,6 +210,9 @@
 "搜索" = "Search";
 
 /* No comment provided by engineer. */
+"模糊强度" = "Blur";
+
+/* No comment provided by engineer. */
 "上传" = "Upload";
 
 /* No comment provided by engineer. */
@@ -382,7 +385,7 @@
 "缓存清除成功!" = "Cache cleared!";
 
 /* No comment provided by engineer. */
-"背景颜色" = "Background";
+"背景颜色" = "Bg";
 
 /* No comment provided by engineer. */
 "设置失败，请稍后重试!" = "Setting failed, please try again later!";
