@@ -89,8 +89,6 @@ class CategoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate, 
         self.tableView.addLoadMore(action: { [weak self] in
             self?.handleLoadMore()
         })
-        
-        loadCollections()
     }
     
     private func handleLoadMore() {
@@ -293,6 +291,10 @@ class CategoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate, 
     
     @IBAction func segControlChanged(_ sender: UISegmentedControl) {
         isCategory.toggle()
+        if !isCategory && collections.count == 0{
+            initIndicator(view: self.view)
+            loadCollections()
+        }
         tableView.reloadData()
     }
     

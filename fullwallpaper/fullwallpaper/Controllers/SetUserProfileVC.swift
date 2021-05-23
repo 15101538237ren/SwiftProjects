@@ -9,12 +9,13 @@ import UIKit
 import CropViewController
 import LeanCloud
 import Nuke
+import Disk
 
 class SetUserProfileVC: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, CropViewControllerDelegate {
     
     var settingVC: SettingVC!
     var imagePicker = UIImagePickerController()
-    private var selectedImage: UIImage? = nil
+    var selectedImage: UIImage? = nil
     var imageUrl: URL?
     var previousName: String = ""
     @IBOutlet var userProfileImgView: UIImageView!{
@@ -136,6 +137,20 @@ class SetUserProfileVC: UIViewController, UIImagePickerControllerDelegate, UINav
     @IBAction func setProfile(sender: UIButton){
         if !previousName.isEmpty{
             if let image = self.selectedImage{
+                
+                if let currentUser = LCApplication.default.currentUser {
+                    let userID = currentUser.objectId!.stringValue!
+                    
+                    let avatar_fp = "user_avatar_\(userID).jpg"
+                    
+                    do {
+                        try Disk.save(image, to: .documents, as: avatar_fp)
+                        print("Save Downloaded Avatar Successful!")
+                    } catch {
+                        print(error)
+                    }
+                }
+                
                 if let resizedImage = image.resizeWithWidth(width: 200){
                     let imageData: Data = resizedImage.jpegData(compressionQuality: 1.0)!
                     if let user = LCApplication.default.currentUser {

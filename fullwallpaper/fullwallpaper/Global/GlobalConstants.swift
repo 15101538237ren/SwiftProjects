@@ -12,6 +12,7 @@ import JGProgressHUD
 import SwiftyStoreKit
 
 typealias Completion = () -> Void
+typealias SuccessVerifySubscriptionHandler = (_ expire_date: Date) -> Void
 typealias FailedVerifySubscriptionHandler = (_ reason:FailedVerifyReason) -> Void
 //Constants
 let sharedSecret = "02096ef5b63b455fa533027056c5ee73" //secret key for In-App Purchase
@@ -22,7 +23,8 @@ let LCKey: String = "cVvbrIE2rMLLziICGIvM52c8"
 let productURL = URL(string: "https://itunes.apple.com/app/id1544907523")
 let githubLink:String = "https://15101538237ren.github.io/fullwallpaper"
 let privacyViewedKey: String = "privacyViewed"
-
+let NumReviewAskedKey: String = "NumReviewAsked"
+let maxNumReviewAsk = 5
 let minimumReviewWorthyActionCount = 3
 
 let hud = JGProgressHUD(style: .light)

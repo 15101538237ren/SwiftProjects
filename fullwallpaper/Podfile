@@ -28,6 +28,7 @@ target 'fullwallpaper' do
   pod 'GBDeviceInfo'
   pod 'SwiftyStoreKit'
   pod 'IGColorPicker'
+  pod 'Disk', :git => 'https://7mxaxlb@gitroyalty.com/saoudrizwan/Disk', :tag => '0.6.4'
   # Pods for fullwallpaper
 
 end

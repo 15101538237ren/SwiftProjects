@@ -54,27 +54,38 @@ class SettingVC: UIViewController , UITableViewDataSource, UITableViewDelegate {
     }
     
     func updateDisplayName(){
-        if let user = LCApplication.default.currentUser {
-            _ = user.fetch(keys: ["name"]) { result in
-                switch result {
-                case .success:
-                    var changed = false
-                    
-                    let name:String = user.get("name")?.stringValue ?? ""
-                    if !name.isEmpty{
-                        self.displayName = name
-                        changed = true
+        if let currentUser = LCApplication.default.currentUser {
+            let key:String = "\(currentUser.objectId!.stringValue!)_display_name"
+            if !isKeyPresentInUserDefaults(key: key){
+                _ = currentUser.fetch(keys: ["name"]) { [self] result in
+                    switch result {
+                    case .success:
+                        var changed = false
+                        let name:String = currentUser.get("name")?.stringValue ?? ""
+                        if !name.isEmpty{
+                            self.displayName = name
+                            changed = true
+                        }
+                        if changed {
+                            let indexPath = IndexPath(row: 0, section: 0)
+                            DispatchQueue.main.async {
+                                self.tableView.reloadRows(at: [indexPath], with: .none)
+                            }
+                        }
+                        UserDefaults.standard.setValue(name, forKey: key)
+                    case .failure(error: let error):
+                        print(error.localizedDescription)
                     }
-                    
-                    if changed {
-                        let indexPath = IndexPath(row: 0, section: 0)
+                }
+            }else{
+                if let name:String = UserDefaults.standard.string(forKey: key){
+                    self.displayName = name
+                    let indexPath = IndexPath(row: 0, section: 0)
+                    DispatchQueue.main.async {
                         DispatchQueue.main.async {
                             self.tableView.reloadRows(at: [indexPath], with: .none)
                         }
                     }
-                    
-                case .failure(error: let error):
-                    print(error.localizedDescription)
                 }
             }
         }
@@ -242,7 +253,14 @@ class SettingVC: UIViewController , UITableViewDataSource, UITableViewDelegate {
         case 1:
             let info = [ "Um_Key_SourcePage": "设置页", "Um_Key_ButtonName" : "查看会员权益"]
             UMAnalyticsSwift.event(eventId: "Um_Event_ModularClick", attributes: info)
-            showVIPBenefitsVC(failedReason: .success, showReason: .UNKNOWN)
+            
+            checkIfVIPSubsciptionValid(successCompletion: { [self] in
+                showVIPBenefitsVC(failedReason: .success, showReason: .UNKNOWN)
+            }
+            , failedCompletion: { [self] reason in
+                showVIPBenefitsVC(failedReason: reason, showReason: .UNKNOWN)
+            })
+            
         case 2:
             switch indexPath.row {
                 case 0:

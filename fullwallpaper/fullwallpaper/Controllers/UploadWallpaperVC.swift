@@ -21,7 +21,7 @@ class UploadWallpaperVC: UIViewController, UITextFieldDelegate {
     var currentCategory:String? = nil
     var categoryCN: String? = nil
     var collection: LCObject? = nil
-    
+    var uploadType: UploadType!
     @IBOutlet weak var backBtn: UIButton!
     
     @IBOutlet weak var dimUIView: UIView!{
@@ -167,16 +167,24 @@ class UploadWallpaperVC: UIViewController, UITextFieldDelegate {
     }
     
     func checkHint(){
-        var hintNum:Int = 0
-        let uploadHintKey:String = "UploadVCHint"
-        if isKeyPresentInUserDefaults(key: uploadHintKey){
-            hintNum = UserDefaults.standard.integer(forKey: uploadHintKey)
+        if uploadType == .FROM_CATEGORY{
+            let categoryName:String = english ? currentCategory! : categoryCN!
+            self.view.makeToast("\(makeSureWPRightCategoryText) : \(categoryName)", duration: 3.0, position: .center)
+        }else if uploadType == .FROM_COLLECTION{
+            let attrName:String = english ? "enName": "name"
+            let collectionName:String = collection!.get(attrName)!.stringValue!
+            self.view.makeToast("\(makeSureWPRightCollectionText) :  \(collectionName)", duration: 3.0, position: .center)
+        }else{
+            var hintNum:Int = 0
+            let uploadHintKey:String = "UploadVCHint"
+            if isKeyPresentInUserDefaults(key: uploadHintKey){
+                hintNum = UserDefaults.standard.integer(forKey: uploadHintKey)
+            }
+            if hintNum < 3 {
+                self.view.makeToast(clickForPreviewText, duration: 1.0, position: .center)
+            }
+            UserDefaults.standard.set(hintNum + 1, forKey: uploadHintKey)
         }
-        if hintNum < 3 {
-            self.view.makeToast(clickForPreviewText, duration: 1.0, position: .center)
-        }
-        
-        UserDefaults.standard.set(hintNum + 1, forKey: uploadHintKey)
     }
     
     

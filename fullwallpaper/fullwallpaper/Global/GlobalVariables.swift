@@ -14,6 +14,7 @@ var categories:[Category] = []
 var categoryENtoCN:[String : String] = [:]
 var english:Bool = false
 var failedReason: FailedVerifyReason? = nil
+var expireDate: Date? = nil
 
 var progressBarVisible: Bool = false
 var userLikedWPs:[String] = []

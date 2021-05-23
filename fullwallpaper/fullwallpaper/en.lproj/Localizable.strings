@@ -190,6 +190,28 @@
 /* No comment provided by engineer. */
 "手机号" = "Phone";
 
+
+/* No comment provided by engineer. */
+"请您确保壁纸符合以下类别" = "Please make sure your wallpaper is suitable for category";
+
+/* No comment provided by engineer. */
+"请您确保壁纸符合以下专题" = "Please make sure your wallpaper is suitable for collection";
+
+/* No comment provided by engineer. */
+"PRO会员" = "VIP";
+
+/* No comment provided by engineer. */
+"有效期至:" = "PRO Until:";
+
+/* No comment provided by engineer. */
+"审核壁纸" = "Audit";
+
+/* No comment provided by engineer. */
+"搜索" = "Search";
+
+/* No comment provided by engineer. */
+"上传" = "Upload";
+
 /* No comment provided by engineer. */
 "手机号有误!" = "Incorrect phone number!";
 

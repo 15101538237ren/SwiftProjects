@@ -2,6 +2,7 @@ PODS:
   - Alamofire (5.4.1)
   - AYPopupPickerView (1.2)
   - CropViewController (2.5.5)
+  - Disk (0.6.4)
   - GBDeviceInfo (6.6.0):
     - GBDeviceInfo/Core (= 6.6.0)
   - GBDeviceInfo/Core (6.6.0)
@@ -53,6 +54,7 @@ PODS:
 DEPENDENCIES:
   - AYPopupPickerView
   - CropViewController
+  - "Disk (from `https://7mxaxlb@gitroyalty.com/saoudrizwan/Disk`, tag `0.6.4`)"
   - GBDeviceInfo
   - IGColorPicker
   - JGProgressHUD
@@ -107,10 +109,21 @@ SPEC REPOS:
     - UMDevice
     - UMPush
 
+EXTERNAL SOURCES:
+  Disk:
+    :git: "https://7mxaxlb@gitroyalty.com/saoudrizwan/Disk"
+    :tag: 0.6.4
+
+CHECKOUT OPTIONS:
+  Disk:
+    :git: "https://7mxaxlb@gitroyalty.com/saoudrizwan/Disk"
+    :tag: 0.6.4
+
 SPEC CHECKSUMS:
   Alamofire: 2291f7d21ca607c491dd17642e5d40fdcda0e65c
   AYPopupPickerView: 639e88c630c79f68e1dc34cf2c90f43ea2dbff46
   CropViewController: bd3ff11eeeaadc1e267bb9c3f3e9ee67a52d3285
+  Disk: 8ebb79575e81f13c3665e6ab2b9d31f29aec92bb
   GBDeviceInfo: ed0db16230d2fa280e1cbb39a5a7f60f6946aaec
   GRDB.swift: 8cc3ab7c8b8b4ac1761deb8dca4b51c1c9d429f8
   IGColorPicker: f6034f8629aa90cce308a76ecc0fdf2afed0bf34
@@ -137,6 +150,6 @@ SPEC CHECKSUMS:
   UMDevice: 28d21a568c8e8322e5a03bbd53b138d0c098d3b3
   UMPush: 7ef2ff2fcca16e4d5c7897183a78a0d26f920bfe
 
-PODFILE CHECKSUM: 2f1ff08eb16f377e93dc401c609f7a055e28ce9f
+PODFILE CHECKSUM: be37a36fe9720a46e62016ea19f01196fe7a6bb3
 
 COCOAPODS: 1.9.3

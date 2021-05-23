@@ -248,16 +248,11 @@ class WallpaperDetailVC: UIViewController {
                                                 }
                                                 UMAnalyticsSwift.event(eventId: "Um_Event_ContentFavorite", attributes: info)
                                                 
-                                                UIImageWriteToSavedPhotosAlbum(image, self, #selector(image(_:didFinishSavingWithError:contextInfo:)), nil)
-                                                
-                                                let today_default:String = getTodayDefaultKey()
-                                                UserDefaults.standard.set(true, forKey: today_default)
-                                                if !reviewFuncCalled {
-                                                    AppStoreReviewManager.requestReviewIfAppropriate()
-                                                    reviewFuncCalled = true
-                                                }
                                                 userLikedWPs.append(self.wallpaperObjectId!)
                                                 stopIndicator()
+                                                
+                                                UIImageWriteToSavedPhotosAlbum(image, self, #selector(image(_:didFinishSavingWithError:contextInfo:)), nil)
+                                                
                                             case .failure:
                                                 stopIndicator()
                                                 self.view.makeToast(downloadFailedPlsRetryText, duration: 1.0, position: .center)
@@ -312,6 +307,44 @@ class WallpaperDetailVC: UIViewController {
     @objc func downloadImgViewTapped(tapGestureRecognizer: UITapGestureRecognizer)
     {
         downloadImage()
+    }
+    
+    func presentAlertForSaveSuccess(){
+        
+        let today_default:String = getTodayDefaultKey()
+        UserDefaults.standard.set(true, forKey: today_default)
+        
+        if !reviewFuncCalled {
+            
+            let defaults = UserDefaults.standard
+            let numReviewAsked = defaults.integer(forKey: NumReviewAskedKey)
+            var actionCount = defaults.integer(forKey: .reviewWorthyActionCount)
+            actionCount += 1
+            defaults.set(actionCount, forKey: .reviewWorthyActionCount)
+            
+            if numReviewAsked <= maxNumReviewAsk && actionCount % minimumReviewWorthyActionCount == 0{
+                self.view.makeToast(downloadSuccessText, duration: 1.0, position: .center)
+                AppStoreReviewManager.requestReviewIfAppropriate()
+                
+            }else{
+                let alertController = UIAlertController(title: saveSuccessText, message: askGoToAlbumText, preferredStyle: .alert)
+                
+                let goAlbumAction = UIAlertAction(title:goToAlbumText , style: .default){ _ in
+                    UIApplication.shared.open(URL(string:"photos-redirect://")!)
+                 }
+                
+                let cancelAction = UIAlertAction(title: cancelText, style: .cancel){ _ in
+                    alertController.dismiss(animated: true, completion: nil)
+                }
+                
+                alertController.addAction(goAlbumAction)
+                alertController.addAction(cancelAction)
+
+                present(alertController, animated: true)
+            }
+            reviewFuncCalled = true
+        }
+        
     }
     
     func addGestureRcgToPreview(){
@@ -384,7 +417,7 @@ class WallpaperDetailVC: UIViewController {
                 self.view.makeToast("\(errorText): \(error.localizedDescription)", duration: 1.0, position: .center)
         }
         else{
-            self.view.makeToast(downloadSuccessText, duration: 1.0, position: .center)
+            presentAlertForSaveSuccess()
         }
     }
     

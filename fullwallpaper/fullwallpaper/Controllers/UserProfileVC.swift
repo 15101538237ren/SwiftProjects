@@ -12,6 +12,7 @@ import UIEmptyState
 import Refreshable
 import CropViewController
 import SwifterSwift
+import Disk
 
 class UserProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate, UIEmptyStateDataSource, UIEmptyStateDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, CropViewControllerDelegate {
     
@@ -30,6 +31,7 @@ class UserProfileVC: UIViewController, UICollectionViewDelegate, UICollectionVie
             avatar.layer.masksToBounds = true
         }
     }
+    var currentAvatarImage:UIImage?
     @IBOutlet weak var nameLabel: UILabel!
     
     var settingVC: SettingVC!
@@ -69,26 +71,129 @@ class UserProfileVC: UIViewController, UICollectionViewDelegate, UICollectionVie
         })
     }
     
-    func updateAvatarAndName(){
-        if let user = LCApplication.default.currentUser {
-            _ = user.fetch(keys: ["avatar", "name"]) { result in
-                switch result {
-                case .success:
-                    let name:String = user.get("name")?.stringValue ?? ""
+    func updateUserPhoto() {
+        if let currentUser = LCApplication.default.currentUser {
+            
+            let userId = currentUser.objectId!.stringValue!
+            let avatar_fp = "user_avatar_\(userId).jpg"
+            do {
+                let retrievedImage = try Disk.retrieve(avatar_fp, from: .documents, as: UIImage.self)
+                print("retrieved Avatar Successful!")
+                DispatchQueue.main.async {
+                    self.avatar.image = retrievedImage
+                }
+                self.currentAvatarImage = retrievedImage
+            } catch {
+                getUserPhoto()
+                print(error)
+            }
+        }
+    }
+    
+    func getUserPhoto(){
+        if Reachability.isConnectedToNetwork(){
+            DispatchQueue.global(qos: .background).async { [self] in
+                if let currentUser = LCApplication.default.currentUser {
+                    if let file = currentUser.get("avatar") as? LCFile {
+                        
+                        let imgUrl = URL(string: file.url!.stringValue!)!
+                        
+                        _ = ImagePipeline.shared.loadImage(
+                            with: imgUrl,
+                            completion: { [self] response in
+                                switch response {
+                                  case .failure:
+                                    break
+                                  case let .success(imageResponse):
+                                    let image = imageResponse.image
+                                    DispatchQueue.main.async {
+                                        self.avatar.image = image
+                                    }
+                                    self.currentAvatarImage = image
+                                    let userID = currentUser.objectId!.stringValue!
+                                    
+                                    let avatar_fp = "user_avatar_\(userID).jpg"
+                                    
+                                    do {
+                                        try Disk.save(image, to: .documents, as: avatar_fp)
+                                        print("Save Downloaded Avatar Successful!")
+                                    } catch {
+                                        print(error)
+                                    }
+                                  }
+                            }
+                        )
+                    }
+                    else{
+                        showSetProfileVC(previousName: nameLabel.text, selectedImage: nil)
+                    }
+                }
+            }
+        }else{
+            self.view.makeToast(NoNetworkStr, duration: 1.0, position: .center)
+        }
+    }
+    
+    func updateDisplayName(){
+        if let currentUser = LCApplication.default.currentUser {
+            let key:String = "\(currentUser.objectId!.stringValue!)_display_name"
+            if !isKeyPresentInUserDefaults(key: key){
+                _ = currentUser.fetch(keys: ["name"]) { [self] result in
+                    switch result {
+                    case .success:
+                        if let name:String = currentUser.get("name")?.stringValue{
+                            DispatchQueue.main.async {
+                                self.nameLabel.text = name
+                            }
+                            UserDefaults.standard.setValue(name, forKey: key)
+                        }else{
+                            showSetProfileVC(previousName: nil, selectedImage: currentAvatarImage)
+                        }
+                    case .failure(error: let error):
+                        print(error.localizedDescription)
+                    }
+                }
+            }else{
+                if let name:String = UserDefaults.standard.string(forKey: key){
                     DispatchQueue.main.async {
                         self.nameLabel.text = name
                     }
-                    if let file = user.get("avatar") as? LCFile {
-                        let imgUrl = file.url!.stringValue!
-                        DispatchQueue.main.async {
-                            Nuke.loadImage(with: URL(string: imgUrl)!, into: self.avatar)
-                        }
-                    }
-                    
-                case .failure(error: let error):
-                    print(error.localizedDescription)
                 }
             }
+        }
+    }
+    
+    func showSetProfileVC(previousName: String?, selectedImage: UIImage? = nil) {
+        let MainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+        let setUserProfileVC = MainStoryBoard.instantiateViewController(withIdentifier: "setUserProfileVC") as! SetUserProfileVC
+        if let image = selectedImage{
+            setUserProfileVC.selectedImage = image
+        }
+        
+        if let name = previousName{
+            setUserProfileVC.previousName = name
+        }
+        
+        setUserProfileVC.modalPresentationStyle = .fullScreen
+        DispatchQueue.main.async {
+            self.present(setUserProfileVC, animated: true, completion: nil)
+        }
+    }
+    
+    func showSetProfileVC(previousName: String?, imageUrl: String? = nil) {
+        let MainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+        let setUserProfileVC = MainStoryBoard.instantiateViewController(withIdentifier: "setUserProfileVC") as! SetUserProfileVC
+        if let imgUrl = imageUrl{
+            setUserProfileVC.imageUrl = URL(string: imgUrl)!
+        }
+        
+        if let name = previousName{
+            setUserProfileVC.previousName = name
+        }
+        
+        setUserProfileVC.modalPresentationStyle = .fullScreen
+        DispatchQueue.main.async {
+            self.present(setUserProfileVC, animated: true, completion: nil)
         }
     }
     
@@ -98,7 +203,8 @@ class UserProfileVC: UIViewController, UICollectionViewDelegate, UICollectionVie
         setupCollectionView()
         initIndicator(view: self.view)
         initVC()
-        updateAvatarAndName()
+        updateUserPhoto()
+        updateDisplayName()
         loadWallpapers(selectedIdx: 0)
     }
     
@@ -411,13 +517,14 @@ class UserProfileVC: UIViewController, UICollectionViewDelegate, UICollectionVie
                                 // 将对象保存到云端
                                 do {
                                     try user.set("avatar", value: file)
-                                    _ = user.save { result in
+                                    _ = user.save { [self] result in
                                         stopIndicator()
                                         switch result {
                                         case .success:
                                             DispatchQueue.main.async { [self] in
                                                 avatar.image = selectedImage
                                             }
+                                            currentAvatarImage = selectedImage
                                         case .failure(error: let error):
                                             self.view.makeToast("\(setFailedTryLaterText) \(error.reason?.stringValue ?? "")", duration: 1.2, position: .center)
                                         }

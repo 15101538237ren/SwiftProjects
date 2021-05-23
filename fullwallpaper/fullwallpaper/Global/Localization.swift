@@ -63,6 +63,7 @@ let proUnknownAccessText:String = NSLocalizedString("只有会员才能使用此
 
 let failedExpairedText:String = NSLocalizedString("您的PRO会员已过期", comment: "")
 let failedNewUserText:String = NSLocalizedString("您还不是PRO会员", comment: "")
+let searchWPText:String = NSLocalizedString("搜索", comment: "")
 
 
 //Customization VC
@@ -130,6 +131,8 @@ let welcomeText: String = NSLocalizedString("欢迎使用全面屏壁纸，请�
 let privacyAndTermsTitleText: String = NSLocalizedString("隐私协议与服务条款", comment: "")
 
 // Upload VC
+let makeSureWPRightCategoryText: String = NSLocalizedString("请您确保壁纸符合以下类别", comment: "")
+let makeSureWPRightCollectionText: String = NSLocalizedString("请您确保壁纸符合以下专题", comment: "")
 let clickForPreviewText: String = NSLocalizedString("点击图片可以切换预览效果哦~😊", comment: "")
 
 let addedCaptionText: String = NSLocalizedString("请您添加壁纸描述以方便他人检索😊", comment: "")
@@ -143,6 +146,8 @@ let uploadWallpaperText: String = NSLocalizedString("上传壁纸", comment: "")
 let wallpaperCaptionPlaceHolderText: String = NSLocalizedString("添加壁纸描述或署名原作者", comment: "")
 
 let uploadSucessText: String = NSLocalizedString("上传成功!", comment: "")
+let uploadShortText: String = NSLocalizedString("上传", comment: "")
+let auditWPText: String = NSLocalizedString("审核", comment: "")
 
 let uploadSucessDetailText: String = NSLocalizedString("感谢您的贡献，我们将审核壁纸质量，通过审核后您上传的壁纸将在【设置】-【个人资料】-【我上传的】中显示", comment: "")
 
@@ -193,3 +198,6 @@ let setFailedTryLaterText:String = NSLocalizedString("设置失败，请稍后�
 
 let likedText: String = NSLocalizedString("我喜欢的", comment: "")
 let uploadedText: String = NSLocalizedString("我上传的", comment: "")
+
+let ProDurationText: String = NSLocalizedString("PRO会员", comment: "")
+let ValidUntilText: String = NSLocalizedString("有效期至:", comment: "")

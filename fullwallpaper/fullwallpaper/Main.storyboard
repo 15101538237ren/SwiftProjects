@@ -546,11 +546,11 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.0" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="pro" translatesAutoresizingMaskIntoConstraints="NO" id="KaX-8k-baJ">
-                                                    <rect key="frame" x="147.5" y="21.5" width="40" height="17"/>
+                                                    <rect key="frame" x="147.5" y="17.5" width="40" height="25"/>
                                                     <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="40" id="QDN-kc-CrI"/>
-                                                        <constraint firstAttribute="width" secondItem="KaX-8k-baJ" secondAttribute="height" multiplier="12:5" id="s37-OS-d1Q"/>
+                                                        <constraint firstAttribute="width" secondItem="KaX-8k-baJ" secondAttribute="height" multiplier="8:5" id="s37-OS-d1Q"/>
                                                     </constraints>
                                                 </imageView>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MQu-Ep-Ogt">
@@ -3026,10 +3026,18 @@
                                             <constraint firstAttribute="width" secondItem="nPL-Md-7h0" secondAttribute="height" multiplier="336:174" id="cyK-jj-cfI"/>
                                         </constraints>
                                     </view>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="PRO会员" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="t9l-tK-F64">
+                                        <rect key="frame" x="55" y="156" width="70" height="24"/>
+                                        <fontDescription key="fontDescription" name="PingFangSC-Medium" family="PingFang SC" pointSize="17"/>
+                                        <color key="textColor" red="0.86149722340000001" green="0.75892317300000001" blue="0.59997320180000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
+                                    <constraint firstItem="t9l-tK-F64" firstAttribute="leading" secondItem="aQb-9P-dIP" secondAttribute="leading" constant="55" id="1Eg-iM-qhb"/>
                                     <constraint firstAttribute="height" constant="230" id="7M4-Ie-aRK"/>
+                                    <constraint firstAttribute="bottom" secondItem="t9l-tK-F64" secondAttribute="bottom" constant="50" id="9Uy-S6-7Lb"/>
                                     <constraint firstItem="nPL-Md-7h0" firstAttribute="leading" secondItem="aQb-9P-dIP" secondAttribute="leading" constant="20" id="Eza-Gj-FZl"/>
                                     <constraint firstAttribute="trailing" secondItem="R1F-Fm-GwC" secondAttribute="trailing" constant="20" id="G4J-lL-uVg"/>
                                     <constraint firstItem="R1F-Fm-GwC" firstAttribute="centerY" secondItem="aQb-9P-dIP" secondAttribute="centerY" id="Ina-ty-Vno"/>
@@ -3042,7 +3050,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6rc-xc-2uu">
                                 <rect key="frame" x="0.0" y="345" width="414" height="190"/>
                                 <subviews>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="mid-icons" translatesAutoresizingMaskIntoConstraints="NO" id="fjX-pP-ESi">
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="mid_icons" translatesAutoresizingMaskIntoConstraints="NO" id="fjX-pP-ESi">
                                         <rect key="frame" x="30" y="7.5" width="354" height="175"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="fjX-pP-ESi" secondAttribute="height" multiplier="326:161" id="lcE-aN-As2"/>
@@ -3155,7 +3163,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <stackView opaque="NO" contentMode="scaleToFill" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="zM8-Gi-xT7">
-                                <rect key="frame" x="135" y="745" width="144" height="27"/>
+                                <rect key="frame" x="135" y="742" width="144" height="27"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NM7-vl-ZTu">
                                         <rect key="frame" x="0.0" y="0.0" width="50" height="27"/>
@@ -3203,7 +3211,7 @@
                             <constraint firstItem="CBM-3t-LBp" firstAttribute="centerX" secondItem="2my-SS-aR9" secondAttribute="centerX" id="2Q8-xL-2FS"/>
                             <constraint firstItem="edF-Wf-F2C" firstAttribute="trailing" secondItem="f6h-o6-LLi" secondAttribute="trailing" id="2f8-pL-M66"/>
                             <constraint firstItem="CBM-3t-LBp" firstAttribute="top" secondItem="edF-Wf-F2C" secondAttribute="bottom" constant="10" id="4QA-5W-hgw"/>
-                            <constraint firstItem="zM8-Gi-xT7" firstAttribute="top" secondItem="CBM-3t-LBp" secondAttribute="bottom" constant="5" id="5pd-Y3-vCI"/>
+                            <constraint firstItem="zM8-Gi-xT7" firstAttribute="top" secondItem="CBM-3t-LBp" secondAttribute="bottom" constant="2" id="5pd-Y3-vCI"/>
                             <constraint firstItem="edF-Wf-F2C" firstAttribute="top" secondItem="6rc-xc-2uu" secondAttribute="bottom" constant="10" id="9Ko-2c-BbR"/>
                             <constraint firstItem="6rc-xc-2uu" firstAttribute="top" secondItem="aQb-9P-dIP" secondAttribute="bottom" constant="10" id="AAf-Wa-FiH"/>
                             <constraint firstAttribute="bottom" secondItem="r6x-2q-RfW" secondAttribute="bottom" id="L2f-62-8do"/>
@@ -3225,6 +3233,7 @@
                     </view>
                     <tabBarItem key="tabBarItem" title="" image="photo" catalog="system" id="PYK-CT-Ay3"/>
                     <connections>
+                        <outlet property="ProDurationLabel" destination="t9l-tK-F64" id="GEv-Jp-SQn"/>
                         <outlet property="btnGroups" destination="zM8-Gi-xT7" id="oAh-e8-MyR"/>
                         <outlet property="collectionView" destination="edF-Wf-F2C" id="eAM-7Y-Qrj"/>
                         <outlet property="midIconsImgView" destination="fjX-pP-ESi" id="wHi-Bz-607"/>
@@ -3271,7 +3280,7 @@
         <image name="mail" width="551" height="551"/>
         <image name="menu" width="384" height="384"/>
         <image name="message.fill" catalog="system" width="128" height="113"/>
-        <image name="mid-icons" width="314" height="139"/>
+        <image name="mid_icons" width="311" height="144"/>
         <image name="more" width="512" height="512"/>
         <image name="non-PRO-btn" width="119" height="60"/>
         <image name="phone" width="28" height="28"/>

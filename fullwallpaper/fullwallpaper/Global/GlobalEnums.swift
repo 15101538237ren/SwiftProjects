@@ -64,3 +64,9 @@ enum ShowVIPPageReason{
     case PRO_SEARCH
     case UNKNOWN
 }
+
+enum UploadType{
+    case FROM_MAIN
+    case FROM_CATEGORY
+    case FROM_COLLECTION
+}

@@ -31,7 +31,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             print(error)
         }
         
-        loadCategories(completion: {})
+//        loadCategories(completion: {})
         setTheme()
         
         self.setupUmeng(launchOptions: launchOptions)

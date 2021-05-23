@@ -36,7 +36,39 @@ class VIPBenefitsVC: UIViewController, UICollectionViewDelegate, UICollectionVie
             subscriptionDescriptionLabel.text = subscriptionDescription
         }
     }
-    @IBOutlet weak var subscribeBtn: UIButton!
+    
+    @IBOutlet weak var ProDurationLabel: UILabel!{
+        didSet{
+            if failedReason != .success{
+                ProDurationLabel.text = ProDurationText
+            }else{
+                
+                if let expiryDate = expireDate
+                {
+                    if english{
+                        ProDurationLabel.font = UIFont(name: "Copperplate", size: 18.0)
+                    }
+                    let dateFormatter = DateFormatter()
+                    dateFormatter.dateFormat = "YYYY-MM-dd"
+                    let today_str:String = dateFormatter.string(from: expiryDate)
+                    ProDurationLabel.text = "\(ValidUntilText) \(today_str)"
+                }
+                else{
+                    ProDurationLabel.text = ProDurationText
+                }
+            }
+        }
+    }
+    
+    @IBOutlet weak var subscribeBtn: UIButton!{
+        didSet{
+            if failedReason == .success{
+                subscribeBtn.alpha = 0
+            }else{
+                subscribeBtn.alpha = 1
+            }
+        }
+    }
     
     @IBOutlet weak var subscriptionTermBtn: UIButton!{
         didSet{
@@ -51,16 +83,13 @@ class VIPBenefitsVC: UIViewController, UICollectionViewDelegate, UICollectionVie
         }
     }
     
-    
-    @IBOutlet weak var pastPriceLabel: UILabel!
-    
-    @IBOutlet weak var priceLabel: UILabel!
-    
     @IBOutlet weak var vipCardImgView: UIImageView!{
         didSet{
             if english
             {
                 vipCardImgView.image = UIImage(named: "vip_card_en")
+            }else{
+                vipCardImgView.image = UIImage(named: "vip_card")
             }
         }
     }
@@ -70,6 +99,8 @@ class VIPBenefitsVC: UIViewController, UICollectionViewDelegate, UICollectionVie
             if english
             {
                 midIconsImgView.image = UIImage(named: "mid_icons_en")
+            }else{
+                midIconsImgView.image = UIImage(named: "mid_icons")
             }
         }
     }
@@ -80,23 +111,6 @@ class VIPBenefitsVC: UIViewController, UICollectionViewDelegate, UICollectionVie
             titleLabel.theme_textColor = "VIP.TextColor"
             if english{
                 titleLabel.font = UIFont(name: "Clicker Script", size: 25.0)
-            }
-        }
-    }
-    
-    @IBOutlet weak var vipLabel: UILabel!{
-        didSet{
-            vipLabel.text = proPreviligesText
-            vipLabel.theme_textColor = "VIP.TextColor"
-        }
-    }
-    
-    @IBOutlet weak var cardImgView: UIImageView!{
-        didSet{
-            cardImgView.layer.cornerRadius = 12.0
-            cardImgView.layer.masksToBounds = true
-            if english{
-                cardImgView.image = UIImage(named: "vip_card_en")
             }
         }
     }
@@ -207,6 +221,8 @@ class VIPBenefitsVC: UIViewController, UICollectionViewDelegate, UICollectionVie
             self.view.isUserInteractionEnabled = true
             switch result{
             case .success:
+                print("RESULT")
+                print(result)
                 failedReason = .success
                 DispatchQueue.main.async {
                     self.dismiss(animated: true, completion: nil)
@@ -250,9 +266,8 @@ class VIPBenefitsVC: UIViewController, UICollectionViewDelegate, UICollectionVie
     
     // Functions Related too CollectionView
     func setupCollectionView() {
-        let oneYearTextHere:String = failedReason == .notPurchasedNewUser ? freetrialText: oneYearText
         vips = [
-            VIP(duration: oneYearTextHere, purchase: .YearVIP, price: 28, pastPrice: 56, numOfMonth: 12),
+            VIP(duration: failedReason == .notPurchasedNewUser ? freetrialText: oneYearText, purchase: .YearVIP, price: failedReason == .notPurchasedNewUser ? 0: 28, pastPrice: failedReason == .notPurchasedNewUser ? 28: 56, numOfMonth: 12),
             VIP(duration: threeMonthText, purchase: .ThreeMonthVIP, price: 12, pastPrice: 24, numOfMonth: 3),
             VIP(duration: oneMonthText, purchase: .OneMonthVIP, price: 6, pastPrice: 12, numOfMonth: 1)]
         

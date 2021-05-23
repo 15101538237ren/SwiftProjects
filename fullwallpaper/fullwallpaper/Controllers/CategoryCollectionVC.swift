@@ -595,6 +595,7 @@ class CategoryCollectionVC: UIViewController, UICollectionViewDelegate, UICollec
         uploadVC.hideSelectCategory = true
         uploadVC.currentCategory = category
         uploadVC.categoryCN = categoryCN
+        uploadVC.uploadType = .FROM_CATEGORY
         
         DispatchQueue.main.async {
             cropViewController.dismiss(animated: true, completion: nil)

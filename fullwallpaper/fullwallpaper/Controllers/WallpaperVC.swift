@@ -423,8 +423,8 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
     
     @IBAction func presentPopMenu(_ sender: UIButton) {
             let iconWidthHeight:CGFloat = 20
-            let searchAction = PopMenuDefaultAction(title: "搜索壁纸", image: UIImage(named: "search"), color: UIColor.lightGray)
-            let uploadAction = PopMenuDefaultAction(title: "上传壁纸", image: UIImage(named: "upload"), color: UIColor.lightGray)
+            let searchAction = PopMenuDefaultAction(title: searchWPText, image: UIImage(named: "search"), color: UIColor.lightGray)
+            let uploadAction = PopMenuDefaultAction(title: uploadShortText, image: UIImage(named: "upload"), color: UIColor.lightGray)
         
             searchAction.iconWidthHeight = iconWidthHeight
             uploadAction.iconWidthHeight = iconWidthHeight
@@ -432,7 +432,7 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
             var popActions: [PopMenuAction] = [searchAction, uploadAction]
             
             if isAdmin{
-                let auditAction = PopMenuDefaultAction(title: "壁纸审核", image: UIImage(named: "audit"), color: UIColor.lightGray)
+                let auditAction = PopMenuDefaultAction(title: auditWPText, image: UIImage(named: "audit"), color: UIColor.lightGray)
                 
                 auditAction.iconWidthHeight = iconWidthHeight
                 popActions.append(auditAction)
@@ -473,7 +473,7 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
         // 'image' is the newly cropped version of the original image
         let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
         let uploadVC = mainStoryBoard.instantiateViewController(withIdentifier: "uploadVC") as! UploadWallpaperVC
-        
+        uploadVC.uploadType = .FROM_MAIN
         uploadVC.wallpaper = image
         uploadVC.hideSelectCategory = false
         uploadVC.modalPresentationStyle = .overCurrentContext

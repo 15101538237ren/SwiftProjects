@@ -60,6 +60,7 @@ func checkIfVIPSubsciptionValid(successCompletion: @escaping Completion, failedC
             }
             
             let productKeys:[String] = [RegisteredPurchase.OneMonthVIP.rawValue, RegisteredPurchase.ThreeMonthVIP.rawValue, RegisteredPurchase.YearVIP.rawValue]
+            var expired:Bool = false
             for productKey in productKeys{
                 let productID:String = "com.fullwallpaper.\(productKey)"
                 
@@ -73,19 +74,24 @@ func checkIfVIPSubsciptionValid(successCompletion: @escaping Completion, failedC
                 case .purchased(let expiryDate, let items):
                     failedReason = .success
                     successCompletion()
+                    print(expiryDate)
+                    expireDate = expiryDate
                     return
                 case .expired(let expiryDate, let items):
+                    expired = true
                     break
                 case .notPurchased:
-                    failedReason = .notPurchasedOldUser
-                    failedCompletion(.notPurchasedOldUser)
-                    return
+                    break
                 }
             }
+            if expired{
+                failedReason = .expired
+                failedCompletion(.expired)
+            }else{
+                failedReason = .notPurchasedOldUser
+                failedCompletion(.notPurchasedOldUser)
+            }
             
-            failedReason = .expired
-            failedCompletion(.expired)
-
         case .error(let error):
             print("Receipt verification failed: \(error)")
             failedReason = .unknownError
@@ -322,11 +328,10 @@ func loadCategories(completion: @escaping () -> Void)
                         categoryENtoCN[category.eng] = category.name
                     }
                     
+                    encodeSaveJson()
                     DispatchQueue.main.async {
                         completion()
                     }
-    
-                    encodeSaveJson()
                     
                     break
                 case .failure(error: let error):
