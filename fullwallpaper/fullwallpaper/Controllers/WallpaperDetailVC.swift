@@ -314,35 +314,35 @@ class WallpaperDetailVC: UIViewController {
         let today_default:String = getTodayDefaultKey()
         UserDefaults.standard.set(true, forKey: today_default)
         
+        let defaults = UserDefaults.standard
+        let numReviewAsked = defaults.integer(forKey: NumReviewAskedKey)
+        var actionCount = defaults.integer(forKey: .reviewWorthyActionCount)
+    
         if !reviewFuncCalled {
-            
-            let defaults = UserDefaults.standard
-            let numReviewAsked = defaults.integer(forKey: NumReviewAskedKey)
-            var actionCount = defaults.integer(forKey: .reviewWorthyActionCount)
             actionCount += 1
             defaults.set(actionCount, forKey: .reviewWorthyActionCount)
-            
-            if numReviewAsked <= maxNumReviewAsk && actionCount % minimumReviewWorthyActionCount == 0{
-                self.view.makeToast(downloadSuccessText, duration: 1.0, position: .center)
-                AppStoreReviewManager.requestReviewIfAppropriate()
-                
-            }else{
-                let alertController = UIAlertController(title: saveSuccessText, message: askGoToAlbumText, preferredStyle: .alert)
-                
-                let goAlbumAction = UIAlertAction(title:goToAlbumText , style: .default){ _ in
-                    UIApplication.shared.open(URL(string:"photos-redirect://")!)
-                 }
-                
-                let cancelAction = UIAlertAction(title: cancelText, style: .cancel){ _ in
-                    alertController.dismiss(animated: true, completion: nil)
-                }
-                
-                alertController.addAction(goAlbumAction)
-                alertController.addAction(cancelAction)
-
-                present(alertController, animated: true)
-            }
             reviewFuncCalled = true
+        }
+        
+        if numReviewAsked <= maxNumReviewAsk && actionCount % minimumReviewWorthyActionCount == 0{
+            self.view.makeToast(downloadSuccessText, duration: 1.0, position: .center)
+            AppStoreReviewManager.requestReviewIfAppropriate()
+            
+        }else{
+            let alertController = UIAlertController(title: saveSuccessText, message: askGoToAlbumText, preferredStyle: .alert)
+            
+            let goAlbumAction = UIAlertAction(title:goToAlbumText , style: .default){ _ in
+                UIApplication.shared.open(URL(string:"photos-redirect://")!)
+             }
+            
+            let cancelAction = UIAlertAction(title: cancelText, style: .cancel){ _ in
+                alertController.dismiss(animated: true, completion: nil)
+            }
+            
+            alertController.addAction(goAlbumAction)
+            alertController.addAction(cancelAction)
+
+            present(alertController, animated: true)
         }
         
     }
