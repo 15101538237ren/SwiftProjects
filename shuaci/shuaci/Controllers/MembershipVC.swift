@@ -53,6 +53,18 @@ class MembershipVC: UIViewController, UICollectionViewDelegate, UICollectionView
         }
     }
     
+    @IBOutlet weak var termOfUseBtn: UIButton!{
+        didSet{
+            termOfUseBtn.setTitle(serviceTermText, for: .normal)
+        }
+    }
+    
+    @IBOutlet weak var privacyPolicyBtn: UIButton!{
+        didSet{
+            privacyPolicyBtn.setTitle(privacyText, for: .normal)
+        }
+    }
+    
     @IBOutlet weak var subscriptionDescriptionLabel: UILabel!{
         didSet{
             subscriptionDescriptionLabel.text = subscriptionDescription
@@ -198,10 +210,8 @@ class MembershipVC: UIViewController, UICollectionViewDelegate, UICollectionView
         }
         else{
             if enversion{
-                cell.amountSavedLabel.text = "Save ¥\(pastPrice - price)"
-                let numOfMonth:Int = vips[row].numOfMonth
-                let avgMonthPrice = Int(Double(price)/Double(numOfMonth))
-                cell.avgPriceLabel.text = "¥ \(avgMonthPrice).00/Mon in Average"
+                cell.amountSavedLabel.text = "PRO Subscription"
+                cell.avgPriceLabel.text = "Auto-Renewable"
             }else{
                 cell.amountSavedLabel.text = "立省\(pastPrice - price)元"
                 let numOfMonth:Int = vips[row].numOfMonth
@@ -248,6 +258,16 @@ class MembershipVC: UIViewController, UICollectionViewDelegate, UICollectionView
     
     @IBAction func loadSubscriptionURL(_ sender: UIButton) {
         let url = URL(string: "\(githubLink)/shuaci/subscription_policy.html")!
+        loadURL(url: url)
+    }
+    
+    @IBAction func loadPrivacyURL(_ sender: UIButton) {
+        let url = URL(string: "\(githubLink)/shuaci/privacy.html")!
+        loadURL(url: url)
+    }
+    
+    @IBAction func loadTermOfUseURL(_ sender: UIButton) {
+        let url = URL(string: "\(githubLink)/shuaci/terms.html")!
         loadURL(url: url)
     }
     
