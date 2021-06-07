@@ -333,6 +333,7 @@ class CollectionItemsVC: UIViewController, UICollectionViewDelegate, UICollectio
             }
             
         }
+        initIndicator(view: self.view)
         // PRO 壁纸 OR 今天已下载，检查是否是会员
         checkIfVIPSubsciptionValid(successCompletion: { [self] in
             if let imgUrl = URL(string: wallpaper.imgUrl){

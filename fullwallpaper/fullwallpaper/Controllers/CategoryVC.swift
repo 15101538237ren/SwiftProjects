@@ -242,6 +242,7 @@ class CategoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate, 
         if isCategory{
             
             if categories[indexPath.row].pro{
+                initIndicator(view: self.view)
                 checkIfVIPSubsciptionValid(successCompletion: { [self] in
                     loadCategoryCollectionVC(category: categories[indexPath.row].eng, categoryCN: categories[indexPath.row].name)
                 }
@@ -255,6 +256,7 @@ class CategoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate, 
         }else{
             
             if collections[indexPath.row].get("pro")?.boolValue ?? false{
+                initIndicator(view: self.view)
                 checkIfVIPSubsciptionValid(successCompletion: { [self] in
                     loadCollectionItemsVC(collection: collections[indexPath.row])
                 }

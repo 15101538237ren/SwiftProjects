@@ -362,13 +362,17 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
             }
             
         }
+        
+        initIndicator(view: self.view)
         // PRO 壁纸 OR 今天已下载，检查是否是会员
         checkIfVIPSubsciptionValid(successCompletion: { [self] in
+            stopIndicator()
             if let imgUrl = URL(string: wallpaper.imgUrl){
                 loadDetailVC(imageUrl: imgUrl, wallpaperObjectId: wallpaper.objectId, pro:wallpaper.isPro)
             }
         }
         , failedCompletion: { [self] reason in
+            stopIndicator()
             showVIPBenefitsVC(failedReason: reason, showReason: wallpaper.isPro ? .PRO_WALLPAPER : .DOWNLOAD_FREE_WALLPAPER_OVER_LIMIT)
         })
     }
@@ -509,8 +513,9 @@ extension WallpaperVC: PopMenuViewControllerDelegate {
     func popMenuDidSelectItem(_ popMenuViewController: PopMenuViewController, at index: Int) {
         if popMenuViewController.view.tag == 1{
             if index == 0{
+                initIndicator(view: self.view)
                 checkIfVIPSubsciptionValid(successCompletion: { [self] in
-                            loadSearchVC()
+                        loadSearchVC()
                     }
                     , failedCompletion: { [self] reason in
                         showVIPBenefitsVC(failedReason: reason, showReason: .PRO_SEARCH)

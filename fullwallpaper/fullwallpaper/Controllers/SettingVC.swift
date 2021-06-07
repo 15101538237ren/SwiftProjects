@@ -155,7 +155,7 @@ class SettingVC: UIViewController , UITableViewDataSource, UITableViewDelegate {
             
             cell.backgroundColor = .clear
             cell.imgView.image = settingItems[section][row].icon
-            
+            initIndicator(view: self.view)
             checkIfVIPSubsciptionValid(successCompletion: { [self] in
                 cell.proImgView.alpha = 1
             }
@@ -253,7 +253,7 @@ class SettingVC: UIViewController , UITableViewDataSource, UITableViewDelegate {
         case 1:
             let info = [ "Um_Key_SourcePage": "设置页", "Um_Key_ButtonName" : "查看会员权益"]
             UMAnalyticsSwift.event(eventId: "Um_Event_ModularClick", attributes: info)
-            
+            initIndicator(view: self.view)
             checkIfVIPSubsciptionValid(successCompletion: { [self] in
                 showVIPBenefitsVC(failedReason: .success, showReason: .UNKNOWN)
             }

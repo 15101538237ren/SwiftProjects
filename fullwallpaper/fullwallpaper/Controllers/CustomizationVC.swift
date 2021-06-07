@@ -118,6 +118,7 @@ class CustomizationVC: UIViewController, UICollectionViewDelegate, UICollectionV
         if !isPros[indexPath.row]{
             selectImage()
         }else{
+            initIndicator(view: self.view)
             checkIfVIPSubsciptionValid(successCompletion: { [self] in
                 selectImage()
             }

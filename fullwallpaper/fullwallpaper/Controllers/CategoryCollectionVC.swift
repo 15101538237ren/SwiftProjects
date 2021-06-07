@@ -488,6 +488,7 @@ class CategoryCollectionVC: UIViewController, UICollectionViewDelegate, UICollec
             
         }
         // PRO 壁纸 OR 今天已下载，检查是否是会员
+        initIndicator(view: self.view)
         checkIfVIPSubsciptionValid(successCompletion: { [self] in
             if let imgUrl = URL(string: wallpaper.imgUrl){
                 loadDetailVC(imageUrl: imgUrl, wallpaperObjectId: wallpaper.objectId, pro: wallpaper.isPro)

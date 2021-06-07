@@ -31,6 +31,7 @@ func getProductIds() -> [String]{
 func checkIfVIPSubsciptionValid(successCompletion: @escaping Completion, failedCompletion: @escaping FailedVerifySubscriptionHandler){
     
     if let reason = failedReason{
+        stopIndicator()
         switch reason {
         case .success:
             successCompletion()
@@ -55,6 +56,7 @@ func checkIfVIPSubsciptionValid(successCompletion: @escaping Completion, failedC
             }
             if availableForFreeTrial{
                 failedReason = .notPurchasedNewUser
+                stopIndicator()
                 failedCompletion(.notPurchasedNewUser)
                 return
             }
@@ -69,10 +71,11 @@ func checkIfVIPSubsciptionValid(successCompletion: @escaping Completion, failedC
                     ofType: .autoRenewable,
                     productId: productID,
                     inReceipt: receipt)
-                    
+                
                 switch purchaseResult {
                 case .purchased(let expiryDate, let items):
                     failedReason = .success
+                    stopIndicator()
                     successCompletion()
                     print(expiryDate)
                     expireDate = expiryDate
@@ -84,6 +87,7 @@ func checkIfVIPSubsciptionValid(successCompletion: @escaping Completion, failedC
                     break
                 }
             }
+            stopIndicator()
             if expired{
                 failedReason = .expired
                 failedCompletion(.expired)
@@ -93,6 +97,7 @@ func checkIfVIPSubsciptionValid(successCompletion: @escaping Completion, failedC
             }
             
         case .error(let error):
+            stopIndicator()
             print("Receipt verification failed: \(error)")
             failedReason = .unknownError
             failedCompletion(.unknownError)

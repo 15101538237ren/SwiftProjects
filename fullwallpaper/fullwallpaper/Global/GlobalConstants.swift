@@ -19,6 +19,7 @@ let sharedSecret = "02096ef5b63b455fa533027056c5ee73" //secret key for In-App Pu
 let bundleId = "com.hongleir.fullscreenwallpaper.cn"
 let LCAppId: String = "Y3wzJERyrbjHzR7exzMChF7I-gzGzoHsz"
 let LCKey: String = "cVvbrIE2rMLLziICGIvM52c8"
+let LCServerURL: String = "https://fwp.shuaci.cc"
 
 let productURL = URL(string: "https://itunes.apple.com/app/id1544907523")
 let githubLink:String = "https://15101538237ren.github.io/fullwallpaper"

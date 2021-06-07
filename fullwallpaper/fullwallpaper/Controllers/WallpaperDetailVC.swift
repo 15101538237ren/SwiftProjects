@@ -108,15 +108,18 @@ class WallpaperDetailVC: UIViewController {
     func loadImage(url: URL){
         if Reachability.isConnectedToNetwork(){
             initIndicator(view: self.view)
+            print("Loading Image \(url)")
             _ = ImagePipeline.shared.loadImage(
                 with: url,
                 completion: { response in
                     stopIndicator()
                     switch response {
-                      case .failure:
+                      case .failure (let error):
+                        print("Fail with \(error)")
                         self.imageView.image = ImageLoadingOptions.shared.failureImage
                         self.imageView.contentMode = .scaleAspectFit
                       case let .success(imageResponse):
+                        print("Load Image Succesful!")
                         self.imageView.image = imageResponse.image
                       }
                 }
