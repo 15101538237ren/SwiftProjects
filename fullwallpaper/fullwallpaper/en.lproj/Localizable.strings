@@ -325,7 +325,7 @@
 "会员权益" = "Membership";
 
 /* No comment provided by engineer. */
-"恢复购买" = "Restore";
+"恢复购买" = "Restore Purchase";
 
 /* No comment provided by engineer. */
 "专属功能" = "Privileges";
@@ -340,7 +340,7 @@
 "成为会员!" = "Upgrade PRO!";
 
 /* No comment provided by engineer. */
-"自动续费服务说明：\n1. 确认购买并付款后计入iTunes 账号。\n2. 可随时取消自动续费。如需取消，请在订阅到期24小时前，手动在 iTunes/Apple ID 订阅管理中关闭自动续费。\n3. 苹果 iTunes 账号会在到期前24小时内扣款，扣款成功后订阅顺延一个周期。" = "Subscription Description: \n1.You can cancel subscription anytime by turning off settings in iTunes/Apple ID Subscriptions\n2.iTunes will charge before 24 hours of the end of a subscription.";
+"自动续费服务说明：\n1. 确认购买并付款后计入iTunes 账号。\n2. 可随时取消自动续费。如需取消，请在订阅到期24小时前，手动在 iTunes/Apple ID 订阅管理中关闭自动续费。\n3. 苹果 iTunes 账号会在到期前24小时内扣款，扣款成功后订阅顺延一个周期。" = "Subscription Description: \n1. Auto-renewable subscriptions can be canceled anytime by turning off settings in iTunes/Apple ID Subscriptions\n2.iTunes will charge before 24 hours of the end of a subscription.";
 
 /* No comment provided by engineer. */
 "免费试用" = "Free Trial!";

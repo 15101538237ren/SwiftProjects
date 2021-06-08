@@ -3101,13 +3101,13 @@
                                                                 <stackView opaque="NO" contentMode="scaleToFill" alignment="firstBaseline" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="iwO-07-3En">
                                                                     <rect key="frame" x="0.0" y="0.0" width="66" height="30.5"/>
                                                                     <subviews>
-                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="¥18" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nWe-2M-B6B">
+                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="¥18" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nWe-2M-B6B">
                                                                             <rect key="frame" x="0.0" y="0.0" width="37.5" height="30.5"/>
                                                                             <fontDescription key="fontDescription" name="DINAlternate-Bold" family="DIN Alternate" pointSize="26"/>
                                                                             <color key="textColor" red="0.78334349390000002" green="0.66833186150000001" blue="0.51856482029999995" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                                             <nil key="highlightedColor"/>
                                                                         </label>
-                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="¥36" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9eU-5O-tPx">
+                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="¥36" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9eU-5O-tPx">
                                                                             <rect key="frame" x="39.5" y="11" width="26.5" height="17"/>
                                                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                                             <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -3153,7 +3153,7 @@
                                 </cells>
                             </collectionView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CBM-3t-LBp">
-                                <rect key="frame" x="20" y="680" width="374" height="60"/>
+                                <rect key="frame" x="20" y="678" width="374" height="60"/>
                                 <string key="text">自动续费服务说明：
 1. 确认购买并付款后计入iTunes 账号。
 2. 可随时取消自动续费。如需取消，请在订阅到期24小时前，手动在 iTunes/Apple ID 订阅管理中关闭自动续费。
@@ -3162,31 +3162,75 @@
                                 <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <stackView opaque="NO" contentMode="scaleToFill" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="zM8-Gi-xT7">
-                                <rect key="frame" x="135" y="742" width="144" height="27"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="9uF-4T-soq">
+                                <rect key="frame" x="135" y="743" width="144" height="44"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NM7-vl-ZTu">
-                                        <rect key="frame" x="0.0" y="0.0" width="50" height="27"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <state key="normal" title="恢复购买">
-                                            <color key="titleColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="restoreVIP:" destination="2qE-tP-Dad" eventType="touchUpInside" id="Mz9-QL-yCU"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UyA-Be-SYh">
-                                        <rect key="frame" x="70" y="0.0" width="74" height="27"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <state key="normal" title="订阅服务协议">
-                                            <color key="titleColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="loadSubscriptionURL:" destination="2qE-tP-Dad" eventType="touchUpInside" id="j9j-u7-tkI"/>
-                                        </connections>
-                                    </button>
+                                    <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="zM8-Gi-xT7">
+                                        <rect key="frame" x="0.0" y="0.0" width="144" height="22"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NM7-vl-ZTu">
+                                                <rect key="frame" x="0.0" y="0.0" width="50" height="22"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="22" id="NdS-Yl-iwN"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <state key="normal" title="恢复购买">
+                                                    <color key="titleColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="restoreVIP:" destination="2qE-tP-Dad" eventType="touchUpInside" id="Mz9-QL-yCU"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UyA-Be-SYh">
+                                                <rect key="frame" x="70" y="0.0" width="74" height="22"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="22" id="GYi-FV-FAP"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <state key="normal" title="订阅服务协议">
+                                                    <color key="titleColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="loadSubscriptionURL:" destination="2qE-tP-Dad" eventType="touchUpInside" id="j9j-u7-tkI"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="qaG-Mp-nYp">
+                                        <rect key="frame" x="12" y="22" width="120" height="22"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QMR-d2-tGB">
+                                                <rect key="frame" x="0.0" y="0.0" width="50" height="22"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="22" id="I8A-e1-15Z"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <state key="normal" title="服务条款">
+                                                    <color key="titleColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="loadTermOfUseURL:" destination="2qE-tP-Dad" eventType="touchUpInside" id="PFa-N5-ysR"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6ml-uy-2ps">
+                                                <rect key="frame" x="70" y="0.0" width="50" height="22"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="22" id="Obu-LH-i5L"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <state key="normal" title="隐私政策">
+                                                    <color key="titleColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="loadPrivacyURL:" destination="2qE-tP-Dad" eventType="touchUpInside" id="gi3-kM-9at"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
                                 </subviews>
                             </stackView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="r6x-2q-RfW">
@@ -3210,12 +3254,12 @@
                         <constraints>
                             <constraint firstItem="CBM-3t-LBp" firstAttribute="centerX" secondItem="2my-SS-aR9" secondAttribute="centerX" id="2Q8-xL-2FS"/>
                             <constraint firstItem="edF-Wf-F2C" firstAttribute="trailing" secondItem="f6h-o6-LLi" secondAttribute="trailing" id="2f8-pL-M66"/>
-                            <constraint firstItem="CBM-3t-LBp" firstAttribute="top" secondItem="edF-Wf-F2C" secondAttribute="bottom" constant="10" id="4QA-5W-hgw"/>
-                            <constraint firstItem="zM8-Gi-xT7" firstAttribute="top" secondItem="CBM-3t-LBp" secondAttribute="bottom" constant="2" id="5pd-Y3-vCI"/>
+                            <constraint firstItem="CBM-3t-LBp" firstAttribute="top" secondItem="edF-Wf-F2C" secondAttribute="bottom" constant="8" id="4QA-5W-hgw"/>
                             <constraint firstItem="edF-Wf-F2C" firstAttribute="top" secondItem="6rc-xc-2uu" secondAttribute="bottom" constant="10" id="9Ko-2c-BbR"/>
                             <constraint firstItem="6rc-xc-2uu" firstAttribute="top" secondItem="aQb-9P-dIP" secondAttribute="bottom" constant="10" id="AAf-Wa-FiH"/>
                             <constraint firstAttribute="bottom" secondItem="r6x-2q-RfW" secondAttribute="bottom" id="L2f-62-8do"/>
-                            <constraint firstItem="zM8-Gi-xT7" firstAttribute="centerX" secondItem="2my-SS-aR9" secondAttribute="centerX" id="SsB-oT-kd2"/>
+                            <constraint firstItem="9uF-4T-soq" firstAttribute="centerX" secondItem="2my-SS-aR9" secondAttribute="centerX" id="Lbd-xJ-HRO"/>
+                            <constraint firstItem="9uF-4T-soq" firstAttribute="top" secondItem="CBM-3t-LBp" secondAttribute="bottom" constant="5" id="UGh-ra-HMt"/>
                             <constraint firstItem="r6x-2q-RfW" firstAttribute="leading" secondItem="f6h-o6-LLi" secondAttribute="leading" id="XdB-ng-1k8"/>
                             <constraint firstItem="6rc-xc-2uu" firstAttribute="leading" secondItem="f6h-o6-LLi" secondAttribute="leading" id="Yx6-Hi-efL"/>
                             <constraint firstItem="f6h-o6-LLi" firstAttribute="trailing" secondItem="r6x-2q-RfW" secondAttribute="trailing" id="cst-BY-LIY"/>
@@ -3237,10 +3281,12 @@
                         <outlet property="btnGroups" destination="zM8-Gi-xT7" id="oAh-e8-MyR"/>
                         <outlet property="collectionView" destination="edF-Wf-F2C" id="eAM-7Y-Qrj"/>
                         <outlet property="midIconsImgView" destination="fjX-pP-ESi" id="wHi-Bz-607"/>
+                        <outlet property="privacyPolicyBtn" destination="6ml-uy-2ps" id="AEd-KB-cw2"/>
                         <outlet property="restoreBtn" destination="NM7-vl-ZTu" id="aFN-sm-RC0"/>
                         <outlet property="subscribeBtn" destination="r6x-2q-RfW" id="ZQj-nM-w9P"/>
                         <outlet property="subscriptionDescriptionLabel" destination="CBM-3t-LBp" id="9ZE-f1-IqB"/>
                         <outlet property="subscriptionTermBtn" destination="UyA-Be-SYh" id="vHE-m5-rOt"/>
+                        <outlet property="termOfUseBtn" destination="QMR-d2-tGB" id="FIW-hU-w4R"/>
                         <outlet property="titleLabel" destination="5U1-gC-rxN" id="PJD-wQ-p66"/>
                         <outlet property="vipCardImgView" destination="R1F-Fm-GwC" id="Cfe-tF-r2R"/>
                     </connections>

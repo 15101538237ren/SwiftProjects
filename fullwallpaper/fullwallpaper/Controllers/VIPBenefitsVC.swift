@@ -75,6 +75,20 @@ class VIPBenefitsVC: UIViewController, UICollectionViewDelegate, UICollectionVie
             subscriptionTermBtn.setTitle(subscriptionTermText, for: .normal)
         }
     }
+    
+    @IBOutlet weak var termOfUseBtn: UIButton!{
+        didSet{
+            termOfUseBtn.setTitle(serviceTermText, for: .normal)
+        }
+    }
+    
+    @IBOutlet weak var privacyPolicyBtn: UIButton!{
+        didSet{
+            privacyPolicyBtn.setTitle(privacyText, for: .normal)
+        }
+    }
+    
+    
     @IBOutlet weak var  btnGroups: UIStackView!
     
     @IBOutlet weak var restoreBtn: UIButton!{
@@ -287,6 +301,16 @@ class VIPBenefitsVC: UIViewController, UICollectionViewDelegate, UICollectionVie
         return vips.count
     }
     
+    @IBAction func loadPrivacyURL(_ sender: UIButton) {
+        let url = URL(string: "\(githubLink)/shuaci/privacy.html")!
+        loadURL(url: url)
+    }
+    
+    @IBAction func loadTermOfUseURL(_ sender: UIButton) {
+        let url = URL(string: "\(githubLink)/shuaci/terms.html")!
+        loadURL(url: url)
+    }
+    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "membershipCollectionViewCell", for: indexPath) as! MembershipCollectionViewCell
         let row:Int = indexPath.row
@@ -322,10 +346,8 @@ class VIPBenefitsVC: UIViewController, UICollectionViewDelegate, UICollectionVie
         }
         else{
             if english{
-                cell.amountSavedLabel.text = "Save ¥\(pastPrice - price)"
-                let numOfMonth:Int = vips[row].numOfMonth
-                let avgMonthPrice = Int(Double(price)/Double(numOfMonth))
-                cell.avgPriceLabel.text = "¥ \(avgMonthPrice).00/Mon in Average"
+                cell.amountSavedLabel.text = "PRO Subscription"
+                cell.avgPriceLabel.text = "Auto-Renewable"
             }else{
                 cell.amountSavedLabel.text = "立省\(pastPrice - price)元"
                 let numOfMonth:Int = vips[row].numOfMonth
