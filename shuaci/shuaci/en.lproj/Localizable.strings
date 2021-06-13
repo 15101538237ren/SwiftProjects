@@ -144,7 +144,7 @@
 "复习历史" = "Earlier";
 
 /* No comment provided by engineer. */
-"复习选中" = "Review Selected";
+"复习选中" = "Review";
 
 /* No comment provided by engineer. */
 " 天" = " days";
@@ -214,6 +214,33 @@
 /* No comment provided by engineer. */
 "连续包年" = "1 Year";
 
+/* No comment provided by engineer. */
+"您的PRO会员已过期" = "Your PRO is expired";
+
+/* No comment provided by engineer. */
+"您还不是PRO会员" = "You are not PRO yet";
+
+/* No comment provided by engineer. */
+"查词功能只有会员才能使用哦😝" = "Only PRO users can use look up function😝";
+
+/* No comment provided by engineer. */
+"只有会员才能使用此功能哦😝" = "Only PRO users can use this function😝";
+
+/* No comment provided by engineer. */
+"只有会员才能使用此主题哦😝" = "Only PRO users can use this theme😝";
+
+/* No comment provided by engineer. */
+"只有会员才能使用此词库哦😝" = "Only PRO users can use this word-list😝";
+
+/* No comment provided by engineer. */
+"只有会员才能使用单词本收藏功能哦😝" = "Only PRO users can collect vocabularies😝";
+
+/* No comment provided by engineer. */
+"只有会员才能[选词复习]或[筛选复习]哦😝" = "Only PRO users can use select/filter to review function😝";
+
+
+/* No comment provided by engineer. */
+"黑夜模式" = "Dark Mode";
 
 /* No comment provided by engineer. */
 "小刷" = "shuaci";
@@ -427,7 +454,7 @@
 "秒" = "s";
 
 /* No comment provided by engineer. */
-"移出已掌握" = "Remove from mastered";
+"移出已掌握" = "Unmaster";
 
 /* No comment provided by engineer. */
 "移出成功😊" = "Removed successfully😊";

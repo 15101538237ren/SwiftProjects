@@ -28,3 +28,13 @@ enum FailedVerifyReason{
     case notPurchasedOldUser
     case unknownError
 }
+
+enum ShowMembershipReason{
+    case OVER_LIMIT
+    case PRO_WORDLIST
+    case PRO_SELECT_TO_REVIEW
+    case PRO_DICTIONARY
+    case PRO_THEME
+    case PRO_COLLECTION
+    case UNKNOWN
+}

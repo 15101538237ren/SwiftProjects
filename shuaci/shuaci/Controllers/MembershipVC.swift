@@ -14,6 +14,7 @@ import SwiftTheme
 
 class MembershipVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     var hasFreeTrialed:Bool!
+    var mainPanelViewController: MainPanelViewController!
     let cellSpacing:CGFloat = CGFloat(2)
     let numberOfItemsPerRow:CGFloat = CGFloat(3)
     var products:[SKProduct?] = []
@@ -26,7 +27,8 @@ class MembershipVC: UIViewController, UICollectionViewDelegate, UICollectionView
     let borderWidth:CGFloat = 1.5
     
     // Variables
-    var showHint: Bool = false
+    var FailedReason: FailedVerifyReason!
+    var ReasonForShow: ShowMembershipReason!
     var selectedIndex: Int = 0
     @IBOutlet weak var titleLabel: UILabel!{
         didSet{
@@ -105,11 +107,11 @@ class MembershipVC: UIViewController, UICollectionViewDelegate, UICollectionView
         super.viewDidLoad()
         
         setupCollectionView()
-        if showHint
-        {
-            self.view.makeToast(hintText, duration: 3.5, position: .center)
-        }
         stopIndicator()
+        let toastText = makeToastText()
+        if !toastText.isEmpty{
+            self.view.makeToast(toastText, duration: 3.0, position: .center)
+        }
         view.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(handleDismiss(sender:))))
         let _ = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(tictoc), userInfo: nil, repeats: true)
     }
@@ -117,6 +119,7 @@ class MembershipVC: UIViewController, UICollectionViewDelegate, UICollectionView
     @objc func tictoc(){
         timeOnThisPage += 1
     }
+    
     
     @objc func handleDismiss(sender: UIPanGestureRecognizer) {
         switch sender.state {
@@ -140,18 +143,59 @@ class MembershipVC: UIViewController, UICollectionViewDelegate, UICollectionView
         }
     }
     
+    func makeToastText() -> String{
+        var failedReasonText:String = ""
+        
+        switch FailedReason {
+        case .expired:
+            failedReasonText = failedExpairedText
+        case .notPurchasedOldUser:
+            failedReasonText = failedExpairedText
+        case .notPurchasedNewUser:
+            failedReasonText = failedNewUserText
+        case .unknownError:
+            failedReasonText = failedNewUserText
+        case .success:
+            return ""
+        default:
+            return ""
+        }
+        
+        var reasonToShowText:String = ""
+        
+        switch ReasonForShow {
+        case .OVER_LIMIT:
+            reasonToShowText = freeUseOverLimitText
+        case .PRO_WORDLIST:
+            reasonToShowText = proWordListText
+        case .PRO_THEME:
+            reasonToShowText = proThemeText
+        case .PRO_COLLECTION:
+            reasonToShowText = proCollectionText
+        case .PRO_DICTIONARY:
+            reasonToShowText = proDictText
+        case .PRO_SELECT_TO_REVIEW:
+            reasonToShowText = proSelectToReviewText
+        case .UNKNOWN:
+            reasonToShowText = proUnknownAccessText
+        default:
+            reasonToShowText = proUnknownAccessText
+        }
+        return "\(failedReasonText). \(reasonToShowText)"
+    }
+    
     // Functions Related too CollectionView
     func setupCollectionView() {
         if hasFreeTrialed{
             vips = [
-                VIP(duration: monthSubscriptionText, purchase: .MonthlySubscribed, price: 6, pastPrice: 12, numOfMonth: 1),
-                   VIP(duration: quarterSubscriptionText, purchase: .ThreeMonthVIP, price: 12, pastPrice: 36, numOfMonth: 3),
-                VIP(duration: yearSubscriptionText, purchase: .YearVIP, price: 28, pastPrice: 72, numOfMonth: 12)]
+                VIP(duration: yearSubscriptionText, purchase: .YearVIP, price: 28, pastPrice: 56, numOfMonth: 12),
+                VIP(duration: quarterSubscriptionText, purchase: .ThreeMonthVIP, price: 12, pastPrice: 24, numOfMonth: 3),
+                VIP(duration: monthSubscriptionText, purchase: .MonthlySubscribed, price: 6, pastPrice: 12, numOfMonth: 1)]
         }else{
             vips = [
-                VIP(duration: freetrialText, purchase: .YearVIP, price: 28, pastPrice: 72, numOfMonth: 12),
-                    VIP(duration: quarterSubscriptionText, purchase: .ThreeMonthVIP, price: 12, pastPrice: 36, numOfMonth: 3),
-                VIP(duration: monthSubscriptionText, purchase: .MonthlySubscribed, price: 0, pastPrice: 6, numOfMonth: 1)]
+                VIP(duration: freetrialText, purchase: .YearVIP, price: 0, pastPrice: 56, numOfMonth: 12),
+                VIP(duration: quarterSubscriptionText, purchase: .ThreeMonthVIP, price: 12, pastPrice: 36, numOfMonth: 3),
+                VIP(duration: monthSubscriptionText, purchase: .MonthlySubscribed, price: 6, pastPrice: 12, numOfMonth: 1)]
         }
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 5, left: 0, bottom: 5, right: 0)
@@ -201,11 +245,11 @@ class MembershipVC: UIViewController, UICollectionViewDelegate, UICollectionView
         }
         if price == 0{
             if enversion{
-                cell.amountSavedLabel.text = "1 Month Free"
-                cell.avgPriceLabel.text = "then ¥6.00/Mon"
+                cell.amountSavedLabel.text = "1 Week Free"
+                cell.avgPriceLabel.text = "then ¥28.00/Year"
             }else{
-                cell.amountSavedLabel.text = "新用户首月免费"
-                cell.avgPriceLabel.text = "之后自动6元/月"
+                cell.amountSavedLabel.text = "新用户首周免费"
+                cell.avgPriceLabel.text = "之后自动28元/年"
             }
         }
         else{
@@ -380,10 +424,21 @@ extension MembershipVC {
     }
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?){
-        if traitCollection.userInterfaceStyle == .light {
-            ThemeManager.setTheme(plistName: "Light_White", path: .mainBundle)
-        } else {
-            ThemeManager.setTheme(plistName: "Night", path: .mainBundle)
+        if let currentUser = LCApplication.default.currentUser {
+            var pref = loadPreference(userId: currentUser.objectId!.stringValue!)
+            if traitCollection.userInterfaceStyle == .dark{
+                pref.dark_mode = true
+            }else{
+                pref.dark_mode = false
+            }
+            savePreference(userId: currentUser.objectId!.stringValue!, preference: pref)
+            mainPanelViewController.update_preference()
+            mainPanelViewController.loadWallpaper(force: true)
+            if pref.dark_mode{
+                ThemeManager.setTheme(plistName: "Night", path: .mainBundle)
+            } else {
+                ThemeManager.setTheme(plistName: theme_category_to_name[pref.current_theme]!.rawValue, path: .mainBundle)
+            }
         }
     }
 }

@@ -23,8 +23,9 @@ class Book
     var nchpt: Int
     var avg_nwchpt: Int
     var nwchpt: String
+    var isPro: Bool
     
-    init(objectId:String, identifier: String, level1_category: Int, level2_category:Int, name:String, contributor:String, word_num:Int, recite_user_num:Int, file_sz: Float, nchpt: Int, avg_nwchpt: Int, nwchpt: String){
+    init(objectId:String, identifier: String, level1_category: Int, level2_category:Int, name:String, contributor:String, word_num:Int, recite_user_num:Int, file_sz: Float, nchpt: Int, avg_nwchpt: Int, nwchpt: String, isPro:Bool){
       
       self.objectId = objectId
       self.identifier = identifier
@@ -38,5 +39,6 @@ class Book
       self.nchpt =  nchpt
       self.avg_nwchpt =  avg_nwchpt
       self.nwchpt =  nwchpt
+      self.isPro = isPro
     }
 }

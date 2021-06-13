@@ -57,17 +57,29 @@ class ThemeCollectionViewController: UIViewController, UICollectionViewDelegate,
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! ThemeCollectionViewCell
         let theme = themes[indexPath.row]
+        cell.proBtn.alpha = theme.isPro ? 1 : 0
         cell.themeImageView.image = UIImage(named: theme.background)
         cell.themeNameLabel.text = theme.name
         cell.backgroundColor = .clear
         return cell
     }
     
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let theme = themes[indexPath.row]
-        
+    func loadMembershipVC(hasTrialed: Bool, reason: FailedVerifyReason, reasonToShow: ShowMembershipReason){
+        let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+        let membershipVC = mainStoryBoard.instantiateViewController(withIdentifier: "membershipVC") as! MembershipVC
+        membershipVC.modalPresentationStyle = .overCurrentContext
+        membershipVC.currentUser = currentUser
+        membershipVC.hasFreeTrialed = hasTrialed
+        membershipVC.mainPanelViewController = mainPanelViewController
+        membershipVC.FailedReason = reason
+        membershipVC.ReasonForShow = reasonToShow
+        DispatchQueue.main.async {
+            self.present(membershipVC, animated: true, completion: nil)
+        }
+    }
+    
+    func changeIntoTheme(theme: Theme){
         let theme_category = theme.category
-        
         preference.current_theme = theme_category
         
         savePreference(userId: currentUser.objectId!.stringValue!, preference: preference)
@@ -82,12 +94,44 @@ class ThemeCollectionViewController: UIViewController, UICollectionViewDelegate,
         mainPanelViewController.getNextWallpaper(category: theme_category)
         self.dismiss(animated: true, completion: nil)
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let theme = themes[indexPath.row]
+        
+        if theme.isPro{
+            initIndicator(view: self.view)
+            checkIfVIPSubsciptionValid(successCompletion: { [self] in
+                stopIndicator()
+                changeIntoTheme(theme: theme)
+            }, failedCompletion: { [self] reason in
+                if reason == .notPurchasedNewUser{
+                    loadMembershipVC(hasTrialed: false, reason: reason, reasonToShow: .PRO_THEME)
+                }else{
+                    loadMembershipVC(hasTrialed: true, reason: reason, reasonToShow: .PRO_THEME)
+                }
+            })
+        }else{
+            changeIntoTheme(theme: theme)
+        }
+        
+    }
 
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?){
-        if traitCollection.userInterfaceStyle == .light {
-            ThemeManager.setTheme(plistName: "Light_White", path: .mainBundle)
-        } else {
-            ThemeManager.setTheme(plistName: "Night", path: .mainBundle)
+        if let currentUser = LCApplication.default.currentUser {
+            var pref = loadPreference(userId: currentUser.objectId!.stringValue!)
+            if traitCollection.userInterfaceStyle == .dark{
+                pref.dark_mode = true
+            }else{
+                pref.dark_mode = false
+            }
+            savePreference(userId: currentUser.objectId!.stringValue!, preference: pref)
+            mainPanelViewController.update_preference()
+            mainPanelViewController.loadWallpaper(force: true)
+            if pref.dark_mode{
+                ThemeManager.setTheme(plistName: "Night", path: .mainBundle)
+            } else {
+                ThemeManager.setTheme(plistName: theme_category_to_name[pref.current_theme]!.rawValue, path: .mainBundle)
+            }
         }
     }
 }

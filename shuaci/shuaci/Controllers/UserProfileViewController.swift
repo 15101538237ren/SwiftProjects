@@ -69,6 +69,20 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
         }
     }
     
+    @IBOutlet weak var termOfUseBtn: UIButton!{
+        didSet{
+            termOfUseBtn.setTitle(serviceTermText, for: .normal)
+            termOfUseBtn.theme_setTitleColor("Global.barTitleColor", forState: .normal)
+        }
+    }
+    
+    @IBOutlet weak var privacyPolicyBtn: UIButton!{
+        didSet{
+            privacyPolicyBtn.setTitle(privacyText, for: .normal)
+            privacyPolicyBtn.theme_setTitleColor("Global.barTitleColor", forState: .normal)
+        }
+    }
+    
     @IBOutlet var logoutBtn: UIButton!{
         didSet{
             logoutBtn.theme_tintColor = "Global.backBtnTintColor"
@@ -279,6 +293,16 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
         DispatchQueue.main.async { [self] in
             setProfileView.alpha = 0
         }
+    }
+    
+    @IBAction func loadPrivacyURL(_ sender: UIButton) {
+        let url = URL(string: "\(githubLink)/shuaci/privacy.html")!
+        loadURL(url: url)
+    }
+    
+    @IBAction func loadTermOfUseURL(_ sender: UIButton) {
+        let url = URL(string: "\(githubLink)/shuaci/terms.html")!
+        loadURL(url: url)
     }
     
     @IBAction func inputTextChanged(_ sender: UITextField) {
@@ -578,7 +602,7 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
         booksVC.currentUser = currentUser
         booksVC.preference = preference
         booksVC.modalPresentationStyle = .fullScreen
-        booksVC.mainPanelViewController = nil
+        booksVC.mainPanelViewController = mainPanelViewController
         booksVC.userProfileVC = self
         fetchBooks()
         DispatchQueue.main.async {
@@ -587,10 +611,21 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
     }
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?){
-        if traitCollection.userInterfaceStyle == .light {
-            ThemeManager.setTheme(plistName: "Light_White", path: .mainBundle)
-        } else {
-            ThemeManager.setTheme(plistName: "Night", path: .mainBundle)
+        if let currentUser = LCApplication.default.currentUser {
+            var pref = loadPreference(userId: currentUser.objectId!.stringValue!)
+            if traitCollection.userInterfaceStyle == .dark{
+                pref.dark_mode = true
+            }else{
+                pref.dark_mode = false
+            }
+            savePreference(userId: currentUser.objectId!.stringValue!, preference: pref)
+            mainPanelViewController.update_preference()
+            mainPanelViewController.loadWallpaper(force: true)
+            if pref.dark_mode{
+                ThemeManager.setTheme(plistName: "Night", path: .mainBundle)
+            } else {
+                ThemeManager.setTheme(plistName: theme_category_to_name[pref.current_theme]!.rawValue, path: .mainBundle)
+            }
         }
     }
 }

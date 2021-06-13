@@ -153,15 +153,26 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
     // MARK: - Outlet Actions
     
     @IBAction func searchBtnTouched(_ sender: UIButton) {
-        let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
         
-        let searchVC = mainStoryBoard.instantiateViewController(withIdentifier: "searchVC") as! SearchViewController
-        searchVC.preference = get_preference()
-        searchVC.modalPresentationStyle = .overCurrentContext
-        
-        DispatchQueue.main.async {
-            self.present(searchVC, animated: true, completion: nil)
-        }
+        initIndicator(view: self.view)
+        checkIfVIPSubsciptionValid(successCompletion: { [self] in
+            stopIndicator()
+            let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+            
+            let searchVC = mainStoryBoard.instantiateViewController(withIdentifier: "searchVC") as! SearchViewController
+            searchVC.preference = get_preference()
+            searchVC.modalPresentationStyle = .overCurrentContext
+            searchVC.mainPanelViewController = self
+            DispatchQueue.main.async {
+                self.present(searchVC, animated: true, completion: nil)
+            }
+        }, failedCompletion: { [self] reason in
+            if reason == .notPurchasedNewUser{
+                loadMembershipVC(hasTrialed: false, reason: reason, reasonToShow: .PRO_DICTIONARY)
+            }else{
+                loadMembershipVC(hasTrialed: true, reason: reason, reasonToShow: .PRO_DICTIONARY)
+            }
+        })
     }
     
     
@@ -307,22 +318,27 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
         setOnlineStatus(status: .offline)
     }
     
-    @objc func loadWallpaper(){
+    @objc func loadWallpaper(force: Bool = false){
         if let preference = preference{
-            let theme_category = preference.current_theme
-            let wallpaper_fp = "current_wallpaper.jpg"
-            if Disk.exists(wallpaper_fp, in: .documents)
-            {
-                do{
-                    let current_wallpaper = try Disk.retrieve(wallpaper_fp, from: .documents, as: UIImage.self)
-                    let trans = UserDefaults.standard.string(forKey: "trans")!
-                    let word = UserDefaults.standard.string(forKey: "word")!
-                    wallpaperNeedDisplay(image: current_wallpaper, word: word, meaning: trans)
-                }catch{
+            let dark_mode = preference.dark_mode
+            let theme_category = dark_mode ? 3: preference.current_theme
+            if force{
+                setDefaultWallpaper(theme_category: theme_category)
+            }else{
+                let wallpaper_fp = "current_wallpaper.jpg"
+                if Disk.exists(wallpaper_fp, in: .documents)
+                {
+                    do{
+                        let current_wallpaper = try Disk.retrieve(wallpaper_fp, from: .documents, as: UIImage.self)
+                        let trans = UserDefaults.standard.string(forKey: "trans")!
+                        let word = UserDefaults.standard.string(forKey: "word")!
+                        wallpaperNeedDisplay(image: current_wallpaper, word: word, meaning: trans)
+                    }catch{
+                        setDefaultWallpaper(theme_category: theme_category)
+                    }
+                }else{
                     setDefaultWallpaper(theme_category: theme_category)
                 }
-            }else{
-                setDefaultWallpaper(theme_category: theme_category)
             }
             getNextWallpaper(category: theme_category)
         }
@@ -696,7 +712,11 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
         booksVC.currentUser = currentUser
         booksVC.preference = get_preference()
         DispatchQueue.main.async {
-            self.present(booksVC, animated: true, completion: {})
+            self.present(booksVC, animated: true, completion: {
+                if NoBookSelected{
+                    booksVC.view.makeToast(noBookSelectedText, duration: 1.0, position: .center)
+                }
+            })
         }
     }
     
@@ -708,81 +728,107 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
         loadWordHistoryVC()
     }
     
-    func loadMembershipVC(hasTrialed: Bool){
+    func loadMembershipVC(hasTrialed: Bool, reason: FailedVerifyReason, reasonToShow: ShowMembershipReason){
         let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
         let membershipVC = mainStoryBoard.instantiateViewController(withIdentifier: "membershipVC") as! MembershipVC
         membershipVC.modalPresentationStyle = .overCurrentContext
         membershipVC.currentUser = currentUser
         membershipVC.hasFreeTrialed = hasTrialed
-        membershipVC.showHint = true
+        membershipVC.mainPanelViewController = self
+        membershipVC.FailedReason = reason
+        membershipVC.ReasonForShow = reasonToShow
         DispatchQueue.main.async {
             self.present(membershipVC, animated: true, completion: nil)
         }
     }
     
-    @IBAction func ReciteNewWords(_ sender: UIButton) {
-        initIndicator(view: self.view)
-        checkIfVIPSubsciptionValid(learn: true, successCompletion: { [self] in
-            stopIndicator()
-            if let preference = preference{
-                if let _ : String = preference.current_book_id{
-                    loadLearnController()
-                }else{
-                    loadBooksVC(NoBookSelected: true)
-                }
-            }
-            else{
+    func completionForLearnNewWords(){
+        if let preference = preference{
+            if let _ : String = preference.current_book_id{
+                loadLearnController()
+            }else{
                 loadBooksVC(NoBookSelected: true)
-            }}, failedCompletion: { [self] reason in
-                if reason == .notPurchasedNewUser{
-                    loadMembershipVC(hasTrialed: false)
-                }else{
-                    loadMembershipVC(hasTrialed: true)
+            }
+        }
+        else{
+            loadBooksVC(NoBookSelected: true)
+        }
+    }
+    
+    @IBAction func ReciteNewWords(_ sender: UIButton) {
+        let today_default:String = getTodayLearnOrReviewDefaultKey(learn: true)
+        
+        if !isKeyPresentInUserDefaults(key: today_default){
+            completionForLearnNewWords()
+        }
+        else{
+            initIndicator(view: self.view)
+            
+            checkIfVIPSubsciptionValid(successCompletion: { [self] in
+                stopIndicator()
+                completionForLearnNewWords()
+                }, failedCompletion: { [self] reason in
+                    if reason == .notPurchasedNewUser{
+                        loadMembershipVC(hasTrialed: false, reason: reason, reasonToShow: .OVER_LIMIT)
+                    }else{
+                        loadMembershipVC(hasTrialed: true, reason: reason, reasonToShow: .OVER_LIMIT)
+                    }
+                })
+        }
+    }
+    
+    func completionForReviewWords(reviewMode: ReviewMode){
+        if let preference = preference{
+            if let _ : String = preference.current_book_id{
+                if reviewMode == .ReviewHistory{
+                    let vocab_rec_need_to_be_review:[VocabularyRecord] = get_vocab_rec_need_to_be_review()
+                    if vocab_rec_need_to_be_review.count > 1{
+                        loadSetNumToReviewVC(vocab_rec_need_to_be_review: vocab_rec_need_to_be_review)
+                    }else
+                    {
+                        self.view.makeToast(noVocabToReviewText, duration: 1.0, position: .center)
+                    }
                 }
-            })
+                else{
+                    let vocab_rec_need_to_be_review:[VocabularyRecord] = get_recent_vocab_rec_need_to_be_review()
+                    
+                    if vocab_rec_need_to_be_review.count > 1{
+                        loadReviewController(vocab_rec_need_to_be_review: vocab_rec_need_to_be_review)
+                    }else
+                    {
+                        self.view.makeToast(noVocabToReviewText, duration: 1.0, position: .center)
+                    }
+                }
+                
+            }else{
+                loadBooksVC(NoBookSelected: true)
+            }
+        }
+        else{
+            loadBooksVC(NoBookSelected: true)
+        }
     }
     
     
     func ReviewWords(reviewMode: ReviewMode) {
-        initIndicator(view: self.view)
-        checkIfVIPSubsciptionValid(learn: false, successCompletion: { [self] in
-            stopIndicator()
-            if let preference = preference{
-                if let _ : String = preference.current_book_id{
-                    if reviewMode == .ReviewHistory{
-                        let vocab_rec_need_to_be_review:[VocabularyRecord] = get_vocab_rec_need_to_be_review()
-                        if vocab_rec_need_to_be_review.count > 1{
-                            loadSetNumToReviewVC(vocab_rec_need_to_be_review: vocab_rec_need_to_be_review)
-                        }else
-                        {
-                            self.view.makeToast(noVocabToReviewText, duration: 1.0, position: .center)
-                        }
-                    }
-                    else{
-                        let vocab_rec_need_to_be_review:[VocabularyRecord] = get_recent_vocab_rec_need_to_be_review()
-                        
-                        if vocab_rec_need_to_be_review.count > 1{
-                            loadReviewController(vocab_rec_need_to_be_review: vocab_rec_need_to_be_review)
-                        }else
-                        {
-                            self.view.makeToast(noVocabToReviewText, duration: 1.0, position: .center)
-                        }
-                    }
-                    
+        let today_default:String = getTodayLearnOrReviewDefaultKey(learn: false)
+        
+        if !isKeyPresentInUserDefaults(key: today_default){
+            completionForReviewWords(reviewMode: reviewMode)
+        }
+        else{
+            initIndicator(view: self.view)
+            checkIfVIPSubsciptionValid( successCompletion: { [self] in
+                stopIndicator()
+                completionForReviewWords(reviewMode: reviewMode)
+            }, failedCompletion: { [self] reason in
+                if reason == .notPurchasedNewUser{
+                    loadMembershipVC(hasTrialed: false, reason: reason, reasonToShow: .OVER_LIMIT)
                 }else{
-                    loadBooksVC(NoBookSelected: true)
+                    loadMembershipVC(hasTrialed: true, reason: reason, reasonToShow: .OVER_LIMIT)
                 }
-            }
-            else{
-                loadBooksVC(NoBookSelected: true)
-            }
-        }, failedCompletion: { [self] reason in
-            if reason == .notPurchasedNewUser{
-                loadMembershipVC(hasTrialed: false)
-            }else{
-                loadMembershipVC(hasTrialed: true)
-            }
-        })
+            })
+        }
     }
     
     func downloadHistoryBooksJson(bookId:String, text: String){
@@ -992,10 +1038,21 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
     }
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?){
-        if traitCollection.userInterfaceStyle == .light {
-            ThemeManager.setTheme(plistName: "Light_White", path: .mainBundle)
-        } else {
-            ThemeManager.setTheme(plistName: "Night", path: .mainBundle)
+        if let currentUser = LCApplication.default.currentUser {
+            var pref = loadPreference(userId: currentUser.objectId!.stringValue!)
+            if traitCollection.userInterfaceStyle == .dark{
+                pref.dark_mode = true
+            }else{
+                pref.dark_mode = false
+            }
+            savePreference(userId: currentUser.objectId!.stringValue!, preference: pref)
+            update_preference()
+            loadWallpaper(force: true)
+            if pref.dark_mode{
+                ThemeManager.setTheme(plistName: "Night", path: .mainBundle)
+            } else {
+                ThemeManager.setTheme(plistName: theme_category_to_name[pref.current_theme]!.rawValue, path: .mainBundle)
+            }
         }
     }
 

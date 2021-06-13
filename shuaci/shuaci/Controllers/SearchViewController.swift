@@ -9,6 +9,7 @@ import UIKit
 import SwiftyJSON
 import AVFoundation
 import SwiftTheme
+import LeanCloud
 
 class SearchViewController: UIViewController {
     var searchResults:[String] = []
@@ -16,6 +17,7 @@ class SearchViewController: UIViewController {
     var searching = false
     var mp3Player: AVAudioPlayer?
     var preference:Preference!
+    var mainPanelViewController: MainPanelViewController!
     let maxNumOfResult = 50
     var isSearchTextAscii = true
     @IBOutlet weak var backBtn: UIButton!
@@ -129,6 +131,7 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
             let WordDetailVC = mainStoryBoard.instantiateViewController(withIdentifier: "WordDetailVC") as! WordDetailViewController
             WordDetailVC.wordIndex = wordIndex
             WordDetailVC.modalPresentationStyle = .overCurrentContext
+            WordDetailVC.mainPanelViewController = mainPanelViewController
             DispatchQueue.main.async {
                 self.present(WordDetailVC, animated: true, completion: nil)
             }
@@ -244,10 +247,21 @@ extension SearchViewController: UISearchBarDelegate, UISearchControllerDelegate 
     }
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?){
-        if traitCollection.userInterfaceStyle == .light {
-            ThemeManager.setTheme(plistName: "Light_White", path: .mainBundle)
-        } else {
-            ThemeManager.setTheme(plistName: "Night", path: .mainBundle)
+        if let currentUser = LCApplication.default.currentUser {
+            var pref = loadPreference(userId: currentUser.objectId!.stringValue!)
+            if traitCollection.userInterfaceStyle == .dark{
+                pref.dark_mode = true
+            }else{
+                pref.dark_mode = false
+            }
+            savePreference(userId: currentUser.objectId!.stringValue!, preference: pref)
+            mainPanelViewController.update_preference()
+            mainPanelViewController.loadWallpaper(force: true)
+            if pref.dark_mode{
+                ThemeManager.setTheme(plistName: "Night", path: .mainBundle)
+            } else {
+                ThemeManager.setTheme(plistName: theme_category_to_name[pref.current_theme]!.rawValue, path: .mainBundle)
+            }
         }
     }
 }

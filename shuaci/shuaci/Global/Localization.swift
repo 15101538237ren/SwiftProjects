@@ -125,6 +125,7 @@ let shareAppText:String = NSLocalizedString("分享给朋友", comment: "")
 let feedBackText:String = NSLocalizedString("意见反馈", comment: "")
 let serviceTermText:String = NSLocalizedString("服务条款", comment: "")
 let privacyText:String = NSLocalizedString("隐私政策", comment: "")
+let darkModeText:String = NSLocalizedString("黑夜模式", comment: "")
 let onText:String = NSLocalizedString("开", comment: "")
 let offText:String = NSLocalizedString("关", comment: "")
 let usText:String = NSLocalizedString("美", comment: "")
@@ -208,7 +209,6 @@ let tryNowText:String = NSLocalizedString("立即试用!", comment: "")
 let beVIPText:String = NSLocalizedString("成为会员!", comment: "")
 let restoreText:String = NSLocalizedString("恢复购买", comment: "")
 let subscriptionTermText:String = NSLocalizedString("订阅服务协议", comment: "")
-let hintText:String = NSLocalizedString("非会员每天只能背和复习一次哦😢", comment: "")
 let freetrialText:String = NSLocalizedString("免费试用", comment: "")
 
 let monthSubscriptionText:String = NSLocalizedString("连续包月", comment: "")
@@ -218,6 +218,18 @@ let quarterSubscriptionText:String = NSLocalizedString("连续包季", comment: 
 let yearSubscriptionText:String = NSLocalizedString("连续包年", comment: "")
 
 let subscriptionDescription:String = NSLocalizedString("自动续费服务说明：\n1. 确认购买并付款后计入iTunes 账号。\n2. 可随时取消自动续费。如需取消，请在订阅到期24小时前，手动在 iTunes/Apple ID 订阅管理中关闭自动续费。\n3. 苹果 iTunes 账号会在到期前24小时内扣款，扣款成功后订阅顺延一个周期。", comment: "")
+
+
+let failedExpairedText:String = NSLocalizedString("您的PRO会员已过期", comment: "")
+let failedNewUserText:String = NSLocalizedString("您还不是PRO会员", comment: "")
+let proSelectToReviewText:String = NSLocalizedString("只有会员才能[选词复习]或[筛选复习]哦😝", comment: "")
+let proCollectionText:String = NSLocalizedString("只有会员才能使用单词本收藏功能哦😝", comment: "")
+let proWordListText:String = NSLocalizedString("只有会员才能使用此词库哦😝", comment: "")
+let proThemeText:String = NSLocalizedString("只有会员才能使用此主题哦😝", comment: "")
+let proDictText:String = NSLocalizedString("查词功能只有会员才能使用哦😝", comment: "")
+let proUnknownAccessText:String = NSLocalizedString("只有会员才能使用此功能哦😝", comment: "")
+
+let freeUseOverLimitText:String = NSLocalizedString("非会员每天只能背和复习一次哦😢", comment: "")
 
 // MARK: - Themes
 let lightText:String = NSLocalizedString("明 亮", comment: "")
@@ -265,5 +277,7 @@ let welcomeText: String = NSLocalizedString("欢迎使用「刷词」，请您�
 
 let notificationRequiredTitleText: String = NSLocalizedString("需要打开「通知」权限", comment: "")
 let privacyAndTermsTitleText: String = NSLocalizedString("隐私协议与服务条款", comment: "")
+
+
 
 

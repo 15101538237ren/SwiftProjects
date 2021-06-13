@@ -13,10 +13,12 @@ struct Theme {
     var name: String = ""
     var background: String = ""
     var category: Int = 0
+    var isPro: Bool = false
 
-    init(name: String, background: String, category: Int) {
+    init(name: String, background: String, category: Int, isPro: Bool) {
         self.name = name
         self.background = background
         self.category = category
+        self.isPro = isPro
     }
 }

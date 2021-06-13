@@ -9,8 +9,11 @@
 import UIKit
 import MBRadioCheckboxButton
 import SwiftTheme
+import LeanCloud
 
 class FilterVocabHistoryVC: UIViewController {
+    var mainPanelViewController: MainPanelViewController!
+    var currentUser: LCUser!
     var wordHistoryVC: WordHistoryViewController!
     var viewTranslation = CGPoint(x: 0, y: 0)
     @IBOutlet var periodSegCtrl: UISegmentedControl!
@@ -97,43 +100,72 @@ class FilterVocabHistoryVC: UIViewController {
         }
     }
     
+    func loadMembershipVC(hasTrialed: Bool, reason: FailedVerifyReason, reasonToShow: ShowMembershipReason){
+        let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+        let membershipVC = mainStoryBoard.instantiateViewController(withIdentifier: "membershipVC") as! MembershipVC
+        membershipVC.modalPresentationStyle = .overCurrentContext
+        membershipVC.currentUser = currentUser
+        membershipVC.hasFreeTrialed = hasTrialed
+        membershipVC.mainPanelViewController = mainPanelViewController
+        membershipVC.FailedReason = reason
+        membershipVC.ReasonForShow = reasonToShow
+        DispatchQueue.main.async {
+            self.present(membershipVC, animated: true, completion: nil)
+        }
+    }
+    
+    func performFilter(){
+        var period: VocabDatePeriod = .Unlimited
+        switch periodSegCtrl.selectedSegmentIndex {
+        case 0:
+            period = .Unlimited
+        case 1:
+            period = .OneDay
+        case 2:
+            period = .ThreeDays
+        case 3:
+            period = .OneWeek
+        default:
+            break
+        }
+        
+        var status: MemConstraint = .Unlimited
+        switch statusSegCtrl.selectedSegmentIndex {
+        case 0:
+            status = .Unlimited
+        case 1:
+            status = .Overdue
+        case 2:
+            status = .Withindue
+        default:
+            break
+        }
+        DispatchQueue.main.async {
+            self.dismiss(animated: false, completion: {
+                self.wordHistoryVC.vocabDatePeriod = period
+                self.wordHistoryVC.memConstraint = status
+                self.wordHistoryVC.numOfContinuousMemTimes = self.numOfContinuousMemTimes
+                self.wordHistoryVC.getGroupVocabs()
+            })
+         }
+    }
+    
     @IBAction func filter(_ sender: UIButton) {
         if periodSegCtrl.selectedSegmentIndex == 0 && statusSegCtrl.selectedSegmentIndex == 0 && numOfContinuousMemTimes.count == 0{
             view.makeToast(youDidNothingText, duration: 1.0, position: .center)
         }else{
-            var period: VocabDatePeriod = .Unlimited
-            switch periodSegCtrl.selectedSegmentIndex {
-            case 0:
-                period = .Unlimited
-            case 1:
-                period = .OneDay
-            case 2:
-                period = .ThreeDays
-            case 3:
-                period = .OneWeek
-            default:
-                break
-            }
             
-            var status: MemConstraint = .Unlimited
-            switch statusSegCtrl.selectedSegmentIndex {
-            case 0:
-                status = .Unlimited
-            case 1:
-                status = .Overdue
-            case 2:
-                status = .Withindue
-            default:
-                break
-            }
-            DispatchQueue.main.async {
-                self.dismiss(animated: false, completion: {
-                    self.wordHistoryVC.vocabDatePeriod = period
-                    self.wordHistoryVC.memConstraint = status
-                    self.wordHistoryVC.numOfContinuousMemTimes = self.numOfContinuousMemTimes
-                    self.wordHistoryVC.getGroupVocabs()
-                })
-             }
+            initIndicator(view: self.view)
+            checkIfVIPSubsciptionValid(successCompletion: { [self] in
+                stopIndicator()
+                performFilter()
+            }, failedCompletion: { [self] reason in
+                if reason == .notPurchasedNewUser{
+                    loadMembershipVC(hasTrialed: false, reason: reason, reasonToShow: .PRO_SELECT_TO_REVIEW)
+                }else{
+                    loadMembershipVC(hasTrialed: true, reason: reason, reasonToShow: .PRO_SELECT_TO_REVIEW)
+                }
+            })
         }
     }
     
@@ -159,10 +191,21 @@ extension FilterVocabHistoryVC: CheckboxButtonDelegate {
     }
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?){
-        if traitCollection.userInterfaceStyle == .light {
-            ThemeManager.setTheme(plistName: "Light_White", path: .mainBundle)
-        } else {
-            ThemeManager.setTheme(plistName: "Night", path: .mainBundle)
+        if let currentUser = LCApplication.default.currentUser {
+            var pref = loadPreference(userId: currentUser.objectId!.stringValue!)
+            if traitCollection.userInterfaceStyle == .dark{
+                pref.dark_mode = true
+            }else{
+                pref.dark_mode = false
+            }
+            savePreference(userId: currentUser.objectId!.stringValue!, preference: pref)
+            mainPanelViewController.update_preference()
+            mainPanelViewController.loadWallpaper(force: true)
+            if pref.dark_mode{
+                ThemeManager.setTheme(plistName: "Night", path: .mainBundle)
+            } else {
+                ThemeManager.setTheme(plistName: theme_category_to_name[pref.current_theme]!.rawValue, path: .mainBundle)
+            }
         }
     }
 }

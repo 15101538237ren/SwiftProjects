@@ -105,6 +105,38 @@ class WordHistoryViewController: UIViewController, UIGestureRecognizerDelegate, 
         allSelected.toggle()
     }
     
+    func reviewSelected(){
+        var vocab_rec_need_to_be_review: [VocabularyRecord] = []
+        for key in sortedKeys{
+            for idx in 0..<groupedVocabs[key]!.count{
+                if cellIsSelected[key]![idx]{
+                    vocab_rec_need_to_be_review.append(groupedVocabs[key]![idx])
+                }
+            }
+        }
+        if vocab_rec_need_to_be_review.count > 0{
+            DispatchQueue.main.async {
+                self.dismiss(animated: false, completion: {
+                    self.mainPanelViewController.loadReviewController(vocab_rec_need_to_be_review: vocab_rec_need_to_be_review)
+                })
+             }
+        }
+        
+    }
+    
+    func loadMembershipVC(hasTrialed: Bool, reason: FailedVerifyReason, reasonToShow: ShowMembershipReason){
+        let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+        let membershipVC = mainStoryBoard.instantiateViewController(withIdentifier: "membershipVC") as! MembershipVC
+        membershipVC.modalPresentationStyle = .overCurrentContext
+        membershipVC.currentUser = currentUser
+        membershipVC.hasFreeTrialed = hasTrialed
+        membershipVC.mainPanelViewController = mainPanelViewController
+        membershipVC.FailedReason = reason
+        membershipVC.ReasonForShow = reasonToShow
+        DispatchQueue.main.async {
+            self.present(membershipVC, animated: true, completion: nil)
+        }
+    }
     
     @IBAction func operateOnSelectedWords(_ sender: UIButton) {
         
@@ -112,19 +144,19 @@ class WordHistoryViewController: UIViewController, UIGestureRecognizerDelegate, 
             tableISEditing = false
             wordsTableView.setEditing(false, animated: true)
             if segmentedControl.selectedSegmentIndex != 2{
-                var vocab_rec_need_to_be_review: [VocabularyRecord] = []
-                for key in sortedKeys{
-                    for idx in 0..<groupedVocabs[key]!.count{
-                        if cellIsSelected[key]![idx]{
-                            vocab_rec_need_to_be_review.append(groupedVocabs[key]![idx])
-                        }
+                
+                initIndicator(view: self.view)
+                checkIfVIPSubsciptionValid(successCompletion: { [self] in
+                    stopIndicator()
+                    reviewSelected()
+                }, failedCompletion: { [self] reason in
+                    if reason == .notPurchasedNewUser{
+                        loadMembershipVC(hasTrialed: false, reason: reason, reasonToShow: .PRO_SELECT_TO_REVIEW)
+                    }else{
+                        loadMembershipVC(hasTrialed: true, reason: reason, reasonToShow: .PRO_SELECT_TO_REVIEW)
                     }
-                }
-                DispatchQueue.main.async {
-                    self.dismiss(animated: false, completion: {
-                        self.mainPanelViewController.loadReviewController(vocab_rec_need_to_be_review: vocab_rec_need_to_be_review)
-                    })
-                 }
+                })
+                
             }else{
                 
                 var vocab_rec_rmv_mastered: [VocabularyRecord] = []
@@ -261,7 +293,32 @@ class WordHistoryViewController: UIViewController, UIGestureRecognizerDelegate, 
     
     
     @IBAction func segControlChanged(_ sender: UISegmentedControl) {
-        getGroupVocabs()
+        
+        if segmentedControl.selectedSegmentIndex == 1 {
+            initIndicator(view: self.view)
+            checkIfVIPSubsciptionValid(successCompletion: { [self] in
+                stopIndicator()
+                getGroupVocabs()
+            }, failedCompletion: { [self] reason in
+                groupedVocabs = [:]
+                sortedKeys = []
+                tableISEditing = false
+                wordsTableView.setEditing(false, animated: true)
+                initCellIsSelected()
+                wordsTableView.reloadData()
+                self.reloadEmptyStateForTableView(self.wordsTableView)
+                
+                
+                if reason == .notPurchasedNewUser{
+                    loadMembershipVC(hasTrialed: false, reason: reason, reasonToShow: .PRO_COLLECTION)
+                }else{
+                    loadMembershipVC(hasTrialed: true, reason: reason, reasonToShow: .PRO_COLLECTION)
+                }
+            })
+        }else{
+            getGroupVocabs()
+        }
+        
     }
     
     func getSegmentedCtrlUnselectedTextColor() -> String{
@@ -308,6 +365,8 @@ class WordHistoryViewController: UIViewController, UIGestureRecognizerDelegate, 
         let filterVC = mainStoryBoard.instantiateViewController(withIdentifier: "filterVocabHistoryVC") as! FilterVocabHistoryVC
         filterVC.modalPresentationStyle = .overCurrentContext
         filterVC.wordHistoryVC = self
+        filterVC.mainPanelViewController = self.mainPanelViewController
+        filterVC.currentUser = currentUser
         DispatchQueue.main.async {
             self.present(filterVC, animated: true, completion: nil)
         }
@@ -567,6 +626,7 @@ extension WordHistoryViewController: UITableViewDataSource, UITableViewDelegate{
                 let WordDetailVC = mainStoryBoard.instantiateViewController(withIdentifier: "WordDetailVC") as! WordDetailViewController
                 WordDetailVC.wordIndex = wordIndex
                 WordDetailVC.modalPresentationStyle = .overCurrentContext
+                WordDetailVC.mainPanelViewController = mainPanelViewController
                 DispatchQueue.main.async {
                     self.present(WordDetailVC, animated: true, completion: nil)
                 }
@@ -639,10 +699,21 @@ extension WordHistoryViewController: UITableViewDataSource, UITableViewDelegate{
     }
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?){
-        if traitCollection.userInterfaceStyle == .light {
-            ThemeManager.setTheme(plistName: "Light_White", path: .mainBundle)
-        } else {
-            ThemeManager.setTheme(plistName: "Night", path: .mainBundle)
+        if let currentUser = LCApplication.default.currentUser {
+            var pref = loadPreference(userId: currentUser.objectId!.stringValue!)
+            if traitCollection.userInterfaceStyle == .dark{
+                pref.dark_mode = true
+            }else{
+                pref.dark_mode = false
+            }
+            savePreference(userId: currentUser.objectId!.stringValue!, preference: pref)
+            mainPanelViewController.update_preference()
+            mainPanelViewController.loadWallpaper(force: true)
+            if pref.dark_mode{
+                ThemeManager.setTheme(plistName: "Night", path: .mainBundle)
+            } else {
+                ThemeManager.setTheme(plistName: theme_category_to_name[pref.current_theme]!.rawValue, path: .mainBundle)
+            }
         }
     }
 }

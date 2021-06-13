@@ -11,6 +11,7 @@ import Foundation
 
 struct Preference: Codable {
     var auto_pronunciation: Bool
+    var dark_mode: Bool
     var us_pronunciation: Bool
     var number_of_words_per_group: Int
     var current_theme: Int
@@ -19,8 +20,9 @@ struct Preference: Codable {
     var current_book_name: String?
     var reminder_time: DateComponents?
     
-    init(auto_pronunciation: Bool = true, us_pronunciation:Bool = true, number_of_words_per_group: Int = 10, current_theme: Int = 1, memory_order:Int = 1, current_book_id: String? = nil, current_book_name: String? = nil, reminder_time:DateComponents? = nil, display_name:String = "") {
+    init(auto_pronunciation: Bool = true, dark_mode: Bool=false, us_pronunciation:Bool = true, number_of_words_per_group: Int = 10, current_theme: Int = 1, memory_order:Int = 1, current_book_id: String? = nil, current_book_name: String? = nil, reminder_time:DateComponents? = nil, display_name:String = "") {
         self.auto_pronunciation = auto_pronunciation
+        self.dark_mode = dark_mode
         self.us_pronunciation = us_pronunciation
         self.number_of_words_per_group = number_of_words_per_group
         self.current_theme = current_theme

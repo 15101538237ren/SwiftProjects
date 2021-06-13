@@ -23,16 +23,16 @@ enum theme: String {
 var theme_category_to_name:[Int : theme] = [ 1: .lightWhite, 2: .dark, 3: .night, 4: .lightWhite, 5: .lightWhite, 6: .lightWhite, 7: .lightWhite, 8: .lightWhite, 9: .lightWhite, 10: .lightWhite]
 
 var themes:[Theme] = [
-    Theme(name: lightText, background: "1_Light", category: 1),
-    Theme(name: darkText, background: "2_Dark", category: 2),
-    Theme(name: pinkText, background: "8_Pink", category: 8),
-    Theme(name: redText, background: "5_Red", category: 5),
-    Theme(name: orangeText, background: "6_Orange", category: 6),
-    Theme(name: greenText, background: "4_Green", category: 4),
-    Theme(name: blueText, background: "7_Blue", category: 7),
-    Theme(name: purpleText, background: "10_Purple", category: 10),
-    Theme(name: brownText, background: "9_Brown", category: 9),
-    Theme(name: nightText, background: "3_Night", category: 3)
+    Theme(name: lightText, background: "1_Light", category: 1, isPro: false),
+    Theme(name: darkText, background: "2_Dark", category: 2, isPro: false),
+    Theme(name: nightText, background: "3_Night", category: 3, isPro: false),
+    Theme(name: pinkText, background: "8_Pink", category: 8, isPro: true),
+    Theme(name: redText, background: "5_Red", category: 5, isPro: true),
+    Theme(name: orangeText, background: "6_Orange", category: 6, isPro: true),
+    Theme(name: greenText, background: "4_Green", category: 4, isPro: true),
+    Theme(name: blueText, background: "7_Blue", category: 7, isPro: true),
+    Theme(name: purpleText, background: "10_Purple", category: 10, isPro: true),
+    Theme(name: brownText, background: "9_Brown", category: 9, isPro: true)
 ]
 
 var theme_card_colors:[Int:[String]] = [

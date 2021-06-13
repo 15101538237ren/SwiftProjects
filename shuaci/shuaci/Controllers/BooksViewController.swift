@@ -18,7 +18,7 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
     @IBOutlet weak var barTitleLabel: UILabel!
     
     @IBOutlet private var collectionViews: [UICollectionView]!
-    @IBOutlet var mainPanelViewController: MainPanelViewController?
+    var mainPanelViewController: MainPanelViewController!
     var indicator = UIActivityIndicatorView()
     var strLabel = UILabel()
     let effectView = UIVisualEffectView(effect: UIBlurEffect(style: .regular))
@@ -112,6 +112,10 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
             DispatchQueue.main.async { [self] in
                 identityAskView.alpha = 1
             }
+        }else{
+            DispatchQueue.main.async { [self] in
+                identityAskView.alpha = 0
+            }
         }
     }
     
@@ -124,6 +128,7 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
             pickerViewEmptyAlert(tag: 2)
             return
         }
+        
         performBookFiltering()
         if let currentUser = LCApplication.default.currentUser
         {
@@ -451,8 +456,9 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
                                     let nchpt = item.get("nchpt")?.intValue
                                     let avg_nwchpt = item.get("avg_nwchpt")?.intValue
                                     let nwchpt = item.get("nwchpt")?.stringValue
+                                    let isPro = item["isPro"]?.boolValue
                                     
-                                    let book:Book = Book(objectId: item.objectId!.stringValue!, identifier: identifier ?? "", level1_category: level1_category ?? 0, level2_category: level2_category ?? 0, name: name ?? "", contributor: contributor ?? "", word_num: word_num ?? 0, recite_user_num: recite_user_num ?? 0, file_sz: file_sz ?? 0.0, nchpt: nchpt ?? 0, avg_nwchpt: avg_nwchpt ?? 0, nwchpt: nwchpt ?? "")
+                                    let book:Book = Book(objectId: item.objectId!.stringValue!, identifier: identifier ?? "", level1_category: level1_category ?? 0, level2_category: level2_category ?? 0, name: name ?? "", contributor: contributor ?? "", word_num: word_num ?? 0, recite_user_num: recite_user_num ?? 0, file_sz: file_sz ?? 0.0, nchpt: nchpt ?? 0, avg_nwchpt: avg_nwchpt ?? 0, nwchpt: nwchpt ?? "", isPro: isPro ?? false)
                                     self.tempBooks.append(book)
                                     self.tempItems.append(item)
                                 }
@@ -504,8 +510,9 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
                                 let nchpt = item.get("nchpt")?.intValue
                                 let avg_nwchpt = item.get("avg_nwchpt")?.intValue
                                 let nwchpt = item.get("nwchpt")?.stringValue
+                                let isPro = item.get("isPro")?.boolValue
                                 
-                                let book:Book = Book(objectId: item.objectId!.stringValue!, identifier: identifier ?? "", level1_category: level1_category ?? 0, level2_category: level2_category ?? 0, name: name ?? "", contributor: contributor ?? "", word_num: word_num ?? 0, recite_user_num: recite_user_num ?? 0, file_sz: file_sz ?? 0.0, nchpt: nchpt ?? 0, avg_nwchpt: avg_nwchpt ?? 0, nwchpt: nwchpt ?? "")
+                                let book:Book = Book(objectId: item.objectId!.stringValue!, identifier: identifier ?? "", level1_category: level1_category ?? 0, level2_category: level2_category ?? 0, name: name ?? "", contributor: contributor ?? "", word_num: word_num ?? 0, recite_user_num: recite_user_num ?? 0, file_sz: file_sz ?? 0.0, nchpt: nchpt ?? 0, avg_nwchpt: avg_nwchpt ?? 0, nwchpt: nwchpt ?? "", isPro: isPro ?? false)
                                 self.tempBooks.append(book)
                                 self.tempItems.append(item)
                             }
@@ -558,6 +565,7 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
                 cell.introduce.text = "上传者:\(book.contributor)"
                 cell.num_word.text = "\(book.word_num)"
                 cell.num_recite.text = (book.recite_user_num > 10000) ? "\(Int(Float(book.recite_user_num) / 10000.0))\(tenThousandText)" : "\(book.recite_user_num)"
+                cell.proBtn.alpha = book.isPro ? 1 : 0
             }
         
         cell.backgroundColor = .clear
@@ -572,21 +580,54 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
         return books.count
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let book = books[indexPath.row]
+    func loadSetMemOptionVC(book: Book, bookIndex: Int){
         let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
         let SetMemOptionVC = mainStoryBoard.instantiateViewController(withIdentifier: "SetMemOptionVC") as! SetMemOptionViewController
         SetMemOptionVC.modalPresentationStyle = .overCurrentContext
         SetMemOptionVC.currentUser = currentUser
         SetMemOptionVC.preference = preference
         SetMemOptionVC.book = book
-        SetMemOptionVC.bookIndex = indexPath.row
+        SetMemOptionVC.bookIndex = bookIndex
         SetMemOptionVC.bookVC = self
         SetMemOptionVC.mainPanelVC = mainPanelViewController
         
         DispatchQueue.main.async {
             self.present(SetMemOptionVC, animated: true, completion: nil)
         }
+    }
+    
+    func loadMembershipVC(hasTrialed: Bool, reason: FailedVerifyReason, reasonToShow: ShowMembershipReason){
+        let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+        let membershipVC = mainStoryBoard.instantiateViewController(withIdentifier: "membershipVC") as! MembershipVC
+        membershipVC.modalPresentationStyle = .overCurrentContext
+        membershipVC.currentUser = currentUser
+        membershipVC.hasFreeTrialed = hasTrialed
+        membershipVC.mainPanelViewController = mainPanelViewController
+        membershipVC.FailedReason = reason
+        membershipVC.ReasonForShow = reasonToShow
+        DispatchQueue.main.async {
+            self.present(membershipVC, animated: true, completion: nil)
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let book = books[indexPath.row]
+        if book.isPro{
+            initIndicator(view: self.view)
+            checkIfVIPSubsciptionValid(successCompletion: { [self] in
+                stopIndicator()
+                loadSetMemOptionVC(book: book, bookIndex: indexPath.row)
+            }, failedCompletion: { [self] reason in
+                if reason == .notPurchasedNewUser{
+                    loadMembershipVC(hasTrialed: false, reason: reason, reasonToShow: .PRO_WORDLIST)
+                }else{
+                    loadMembershipVC(hasTrialed: true, reason: reason, reasonToShow: .PRO_WORDLIST)
+                }
+            })
+        }else{
+            loadSetMemOptionVC(book: book, bookIndex: indexPath.row)
+        }
+        
     }
     
 }
@@ -616,10 +657,24 @@ extension BooksViewController: UICollectionViewDelegateFlowLayout {
     }
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?){
-        if traitCollection.userInterfaceStyle == .light {
-            ThemeManager.setTheme(plistName: "Light_White", path: .mainBundle)
-        } else {
-            ThemeManager.setTheme(plistName: "Night", path: .mainBundle)
+        if let currentUser = LCApplication.default.currentUser {
+            var pref = loadPreference(userId: currentUser.objectId!.stringValue!)
+            if traitCollection.userInterfaceStyle == .dark{
+                pref.dark_mode = true
+            }else{
+                pref.dark_mode = false
+            }
+            savePreference(userId: currentUser.objectId!.stringValue!, preference: pref)
+            if let mainPVC = mainPanelViewController{
+                mainPVC.update_preference()
+                mainPVC.loadWallpaper(force: true)
+            }
+            
+            if pref.dark_mode{
+                ThemeManager.setTheme(plistName: "Night", path: .mainBundle)
+            } else {
+                ThemeManager.setTheme(plistName: theme_category_to_name[pref.current_theme]!.rawValue, path: .mainBundle)
+            }
         }
     }
 }

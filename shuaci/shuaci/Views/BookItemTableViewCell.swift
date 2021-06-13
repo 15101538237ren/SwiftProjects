@@ -58,6 +58,14 @@ class BookItemTableViewCell: UITableViewCell {
         }
     }
     
+    @IBOutlet var proBtn: UIButton!{
+        didSet{
+            proBtn.alpha = 0
+            proBtn.layer.cornerRadius = 4
+            proBtn.layer.masksToBounds = true
+        }
+    }
+    
     @IBOutlet weak var dimUIView: UIView!{
         didSet{
             dimUIView.theme_backgroundColor = "Global.viewBackgroundColor"

@@ -28,4 +28,11 @@ class ThemeCollectionViewCell: UICollectionViewCell {
             dimUIView.theme_alpha = "MainPanel.dimAlpha"
         }
     }
+    @IBOutlet var proBtn: UIButton!{
+        didSet{
+            proBtn.alpha = 0
+            proBtn.layer.cornerRadius = 4
+            proBtn.layer.masksToBounds = true
+        }
+    }
 }
