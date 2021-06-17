@@ -101,6 +101,7 @@
 		C34229E425A6A06600FFF918 /* DancingScript-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C34229E325A6A06600FFF918 /* DancingScript-Medium.ttf */; };
 		C34BB85B25A14C9E0073F815 /* GlobalVariables.swift in Sources */ = {isa = PBXBuildFile; fileRef = C34BB85A25A14C9E0073F815 /* GlobalVariables.swift */; };
 		C34BB85E25A157F00073F815 /* GlobalEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = C34BB85D25A157F00073F815 /* GlobalEnum.swift */; };
+		C37C745E26770B9B00D29AAF /* WechatFeedbackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C37C745D26770B9B00D29AAF /* WechatFeedbackViewController.swift */; };
 		C394916E259FF78D00CD0319 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C394916D259FF78D00CD0319 /* LoginViewController.swift */; };
 		C3A1AB2F25A1490C00921510 /* GlobalFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3A1AB2E25A1490C00921510 /* GlobalFunctions.swift */; };
 		C3A1AB3225A1497B00921510 /* Preference.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3A1AB3125A1497B00921510 /* Preference.swift */; };
@@ -211,6 +212,7 @@
 		C34229E325A6A06600FFF918 /* DancingScript-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "DancingScript-Medium.ttf"; sourceTree = "<group>"; };
 		C34BB85A25A14C9E0073F815 /* GlobalVariables.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalVariables.swift; sourceTree = "<group>"; };
 		C34BB85D25A157F00073F815 /* GlobalEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalEnum.swift; sourceTree = "<group>"; };
+		C37C745D26770B9B00D29AAF /* WechatFeedbackViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WechatFeedbackViewController.swift; sourceTree = "<group>"; };
 		C394916D259FF78D00CD0319 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		C3A1AB2E25A1490C00921510 /* GlobalFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalFunctions.swift; sourceTree = "<group>"; };
 		C3A1AB3125A1497B00921510 /* Preference.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Preference.swift; sourceTree = "<group>"; };
@@ -448,6 +450,7 @@
 				C340D9DC2603127700EBE548 /* FilterVocabHistoryVC.swift */,
 				55538E11260D2EF500480A30 /* SetNumOfReviewVC.swift */,
 				55F4E03526194FCA00730DB7 /* MembershipVC.swift */,
+				C37C745D26770B9B00D29AAF /* WechatFeedbackViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -670,6 +673,7 @@
 				55F4E03326194B7500730DB7 /* VIP.swift in Sources */,
 				559B96C324F82FDA00516475 /* WordDetailViewController.swift in Sources */,
 				556C3B1B263CD1B600A77865 /* MembershipCollectionViewCell.swift in Sources */,
+				C37C745E26770B9B00D29AAF /* WechatFeedbackViewController.swift in Sources */,
 				A59A0B1A2454C04E000845F2 /* UIColor+Ext.swift in Sources */,
 				A5DD06E0246267A60051B3E5 /* BookItemTableViewCell.swift in Sources */,
 				55E4DB6B261567D2008D2A34 /* TermsView.swift in Sources */,
@@ -868,7 +872,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "shuaci/刷词.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = WDA59C4558;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = shuaci/Info.plist;
@@ -877,7 +881,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 1.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.honglei.shuaci;
 				PRODUCT_NAME = "刷词";
 				SWIFT_OBJC_BRIDGING_HEADER = "/Users/hongleir/Projects/SwiftProject/shuaci/shuaci-Bridging-Header.h";
@@ -893,7 +897,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "shuaci/刷词.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = WDA59C4558;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = shuaci/Info.plist;
@@ -902,7 +906,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 1.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.honglei.shuaci;
 				PRODUCT_NAME = "刷词";
 				SWIFT_OBJC_BRIDGING_HEADER = "/Users/hongleir/Projects/SwiftProject/shuaci/shuaci-Bridging-Header.h";

@@ -36,7 +36,39 @@ class MembershipVC: UIViewController, UICollectionViewDelegate, UICollectionView
         }
     }
     @IBOutlet weak var subscribeDescriptionLabel: UILabel!
-    @IBOutlet weak var subscribeBtn: UIButton!
+    @IBOutlet weak var subscribeBtn: UIButton!{
+        didSet{
+            if FailedReason == .success{
+                subscribeBtn.alpha = 0
+            }else{
+                subscribeBtn.alpha = 1
+            }
+        }
+    }
+    
+    @IBOutlet weak var ProDurationLabel: UILabel!{
+        didSet{
+            if failedReason != .success{
+                ProDurationLabel.text = ProDurationText
+            }else{
+                
+                if let expiryDate = expireDate
+                {
+                    if english{
+                        ProDurationLabel.font = UIFont(name: "Copperplate", size: 18.0)
+                    }
+                    let dateFormatter = DateFormatter()
+                    dateFormatter.dateFormat = "YYYY-MM-dd"
+                    let today_str:String = dateFormatter.string(from: expiryDate)
+                    ProDurationLabel.text = "\(ValidUntilText) \(today_str)"
+                }
+                else{
+                    ProDurationLabel.text = ProDurationText
+                }
+            }
+        }
+    }
+    
     @IBOutlet weak var redeemBtn: UIButton!{
         didSet{
             redeemBtn.setTitle(redeemBtnText, for: .normal)
@@ -178,10 +210,13 @@ class MembershipVC: UIViewController, UICollectionViewDelegate, UICollectionView
             reasonToShowText = proSelectToReviewText
         case .UNKNOWN:
             reasonToShowText = proUnknownAccessText
+        case .NONE:
+            reasonToShowText = ""
         default:
-            reasonToShowText = proUnknownAccessText
+            reasonToShowText = ""
         }
-        return "\(failedReasonText). \(reasonToShowText)"
+        let returnStr = (!reasonToShowText.isEmpty) || (!failedReasonText.isEmpty) ? "\(failedReasonText). \(reasonToShowText)" : ""
+        return returnStr
     }
     
     // Functions Related too CollectionView
@@ -328,7 +363,6 @@ class MembershipVC: UIViewController, UICollectionViewDelegate, UICollectionView
             switch result{
             case .success:
                 UMAnalyticsSwift.event(eventId: "Um_Event_VipSuc", attributes: userInfo)
-                UserDefaults.standard.set(purchase.rawValue, forKey: productKey)
                 failedReason = .success
                 DispatchQueue.main.async {
                     self.dismiss(animated: true, completion: nil)
@@ -366,28 +400,14 @@ class MembershipVC: UIViewController, UICollectionViewDelegate, UICollectionView
     @IBAction func restorePurchases(_ sender: UIButton) {
         initIndicator(view: self.view)
         view.isUserInteractionEnabled = false
-        let existingProductIds:[String] = getProductIds()
         SwiftyStoreKit.restorePurchases(atomically: true, completion: {
             result in
             stopIndicator()
             self.view.isUserInteractionEnabled = true
-            var lastPurchaseDate:Date? = nil
-            var lastPurchaseId:String? = nil
             for product in result.restoredPurchases {
                 if product.needsFinishTransaction {
                     SwiftyStoreKit.finishTransaction(product.transaction)
                 }
-                if let transaction = product.originalTransaction{
-                    if let transactionDate: Date = transaction.transactionDate{
-                        if (lastPurchaseDate == nil || transactionDate > lastPurchaseDate!) && (existingProductIds.contains(product.productId)) && (transaction.transactionState == .purchased){
-                            lastPurchaseDate = transactionDate
-                            lastPurchaseId = product.productId
-                        }
-                    }
-                }
-            }
-            if let purchaseId = lastPurchaseId{
-                UserDefaults.standard.set(purchaseId, forKey: productKey)
             }
             self.showAlert(alert: self.alertForRestorePurchases(result: result))
 
@@ -395,6 +415,8 @@ class MembershipVC: UIViewController, UICollectionViewDelegate, UICollectionView
     }
     
 }
+
+
 
 extension MembershipVC {
     func alertWithTitle(title : String, message : String) -> UIAlertController {

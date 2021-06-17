@@ -63,10 +63,6 @@ let clickVerifyPlsText:String = NSLocalizedString("请您单击邮件中的链�
 let invitationPromptTitle:String = NSLocalizedString("邀请码", comment: "")
 let invitationPromptText:String = NSLocalizedString("感谢您关注刷词，目前我们在内测阶段，需要邀请码方能注册。如您对内测感兴趣，可以关注微信公众号: 刷词+，来联系创始人获取", comment: "")
 
-
-let feedbackWayTitle:String = NSLocalizedString("反馈方法", comment: "")
-let feedbackWayDetail:String = NSLocalizedString("想要反馈给开发者吗？关注公众号：刷词+，单击「我要反馈」并填写反馈内容，我们就可以看见啦😊", comment: "")
-
 let invitationIncorrect:String = NSLocalizedString("邀请码不正确", comment: "")
 
 // MainPanel VC
@@ -122,10 +118,12 @@ let setLearningPlanText:String = NSLocalizedString("设置学习计划", comment
 let everyDayNotificationText:String = NSLocalizedString("每日提醒", comment: "")
 let rateAppText:String = NSLocalizedString("评价应用", comment: "")
 let shareAppText:String = NSLocalizedString("分享给朋友", comment: "")
-let feedBackText:String = NSLocalizedString("意见反馈", comment: "")
+let wechatText:String = NSLocalizedString("反馈公众号与交流群", comment: "")
 let serviceTermText:String = NSLocalizedString("服务条款", comment: "")
 let privacyText:String = NSLocalizedString("隐私政策", comment: "")
 let darkModeText:String = NSLocalizedString("黑夜模式", comment: "")
+
+let membershipText:String = NSLocalizedString("会员权益", comment: "")
 let onText:String = NSLocalizedString("开", comment: "")
 let offText:String = NSLocalizedString("关", comment: "")
 let usText:String = NSLocalizedString("美", comment: "")
@@ -231,6 +229,9 @@ let proUnknownAccessText:String = NSLocalizedString("只有会员才能使用此
 
 let freeUseOverLimitText:String = NSLocalizedString("非会员每天只能背和复习一次哦😢", comment: "")
 
+let ProDurationText: String = NSLocalizedString("PRO会员", comment: "")
+let ValidUntilText: String = NSLocalizedString("有效期至:", comment: "")
+
 // MARK: - Themes
 let lightText:String = NSLocalizedString("明 亮", comment: "")
 let darkText:String = NSLocalizedString("深 邃", comment: "")
@@ -279,5 +280,4 @@ let notificationRequiredTitleText: String = NSLocalizedString("需要打开「�
 let privacyAndTermsTitleText: String = NSLocalizedString("隐私协议与服务条款", comment: "")
 
 
-
-
+let copiedText:String = NSLocalizedString("已复制到剪切板", comment: "")

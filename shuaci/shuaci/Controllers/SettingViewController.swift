@@ -20,11 +20,12 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
         SettingItem(symbol_name : "auto_pronunciation", name: autoPronounceText, value: onText),
         SettingItem(symbol_name : "english_american_pronunce", name: pronounceTypeText, value: usText),
         SettingItem(symbol_name : "dark_mode", name: darkModeText, value: offText),
+        SettingItem(symbol_name : "membership", name: membershipText, value: ""),
         SettingItem(symbol_name : "scope", name: setLearningPlanText, value: defaultPlanText),
         SettingItem(symbol_name : "alarm", name: everyDayNotificationText, value: ""),
         SettingItem(symbol_name : "rate_app", name: rateAppText, value: "v1.0.0"),
         SettingItem(symbol_name : "share", name: shareAppText, value: ""),
-        SettingItem(symbol_name : "bubble.left.and.bubble.right", name: feedBackText, value: "")
+        SettingItem(symbol_name : "wechat", name: wechatText, value: "")
     ]
     
     
@@ -212,7 +213,7 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
             return cell
         }
         
-        else if row == 3{
+        else if row == 4{
             let cell = tableView.dequeueReusableCell(withIdentifier: "SettingCell", for: indexPath) as! SettingTableViewCell
             
             cell.backgroundColor = .clear
@@ -264,14 +265,14 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     
     func updateMemOptionDisplay(){
-        let indexPath = IndexPath(row: 3, section: 0)
+        let indexPath = IndexPath(row: 4, section: 0)
         DispatchQueue.main.async {
             self.tableView.reloadRows(at: [indexPath], with: .automatic)
         }
     }
     
     func updateReminderTime(){
-        let indexPath = IndexPath(row: 4, section: 0)
+        let indexPath = IndexPath(row: 5, section: 0)
         DispatchQueue.main.async {
             self.tableView.reloadRows(at: [indexPath], with: .fade)
         }
@@ -279,6 +280,15 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
         let timeStr = getStringOfReminderTime(reminderTime: preference.reminder_time)
         if timeStr != ""{
             self.view.makeToast("\(planSetText) \(timeStr)", duration: 1.0, position: .center)
+        }
+    }
+    
+    func loadWechatVC(){
+        let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+        let wechatVC = mainStoryBoard.instantiateViewController(withIdentifier: "wechatFeedbackViewController") as! WechatFeedbackViewController
+        wechatVC.modalPresentationStyle = .overCurrentContext
+        DispatchQueue.main.async {
+            self.present(wechatVC, animated: true, completion: {})
         }
     }
     
@@ -335,6 +345,19 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
                 cell.rightValueLabel.theme_textColor = "TableView.switchOffTextColor"
             }
         case 3:
+            initIndicator(view: self.view)
+            
+            checkIfVIPSubsciptionValid(successCompletion: { [self] in
+                stopIndicator()
+                loadMembershipVC(hasTrialed: false, reason: .success, reasonToShow: .NONE)
+            }, failedCompletion: { [self] reason in
+                if reason == .notPurchasedNewUser{
+                    loadMembershipVC(hasTrialed: false, reason: reason, reasonToShow: .NONE)
+                }else{
+                    loadMembershipVC(hasTrialed: true, reason: reason, reasonToShow: .NONE)
+                }
+            })
+        case 4:
             if let book = getCurrentBook(preference: preference) {
                 let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
                 let SetMemOptionVC = mainStoryBoard.instantiateViewController(withIdentifier: "SetMemOptionVC") as! SetMemOptionViewController
@@ -353,7 +376,8 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
             }else{
                 loadBooksVC()
             }
-        case 4:
+            
+        case 5:
             let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
             let reminderTimePickerVC = mainStoryBoard.instantiateViewController(withIdentifier: "reminderTimePickerVC") as! ReminderTimePickerViewController
             reminderTimePickerVC.settingVC = self
@@ -364,16 +388,30 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
             DispatchQueue.main.async {
                 self.present(reminderTimePickerVC, animated: true, completion: nil)
             }
-        case 5:
-            askUserExperienceBeforeReview()
         case 6:
-            showShareVC()
+            askUserExperienceBeforeReview()
         case 7:
-            showFeedBackMailComposer()
+            showShareVC()
+        case 8:
+            loadWechatVC()
         default:
             break
         }
         tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
+    func loadMembershipVC(hasTrialed: Bool, reason: FailedVerifyReason, reasonToShow: ShowMembershipReason){
+        let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+        let membershipVC = mainStoryBoard.instantiateViewController(withIdentifier: "membershipVC") as! MembershipVC
+        membershipVC.modalPresentationStyle = .overCurrentContext
+        membershipVC.currentUser = currentUser
+        membershipVC.hasFreeTrialed = hasTrialed
+        membershipVC.mainPanelViewController = mainPanelViewController
+        membershipVC.FailedReason = reason
+        membershipVC.ReasonForShow = reasonToShow
+        DispatchQueue.main.async {
+            self.present(membershipVC, animated: true, completion: nil)
+        }
     }
     
     func showShareVC(){
@@ -500,28 +538,20 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     
     
-    func popWechatFeedbackMessage(){
-        let alertCtl = presentAlert(title: feedbackWayTitle, message: feedbackWayDetail, okText: okText)
-        self.present(alertCtl, animated: true, completion: nil)
-    }
     
     func showFeedBackMailComposer(){
-        if feedbackByWechat{
-            popWechatFeedbackMessage()
-        }else{
-            guard MFMailComposeViewController.canSendMail() else{
-                let ac = UIAlertController(title: canNotSendEmailText, message: "", preferredStyle: .alert)
-                ac.addAction(UIAlertAction(title: okText, style: .default, handler: nil))
-                present(ac, animated: true, completion: nil)
-                return
-            }
-            let composer = MFMailComposeViewController()
-            composer.mailComposeDelegate = self
-            composer.setToRecipients([OfficialEmail])
-            composer.setSubject(emailTitleText)
-            composer.setMessageBody("", isHTML: false)
-            present(composer, animated: true)
+        guard MFMailComposeViewController.canSendMail() else{
+            let ac = UIAlertController(title: canNotSendEmailText, message: "", preferredStyle: .alert)
+            ac.addAction(UIAlertAction(title: okText, style: .default, handler: nil))
+            present(ac, animated: true, completion: nil)
+            return
         }
+        let composer = MFMailComposeViewController()
+        composer.mailComposeDelegate = self
+        composer.setToRecipients([OfficialEmail])
+        composer.setSubject(emailTitleText)
+        composer.setMessageBody("", isHTML: false)
+        present(composer, animated: true)
     }
 
 }

@@ -174,7 +174,7 @@
 "将在" = "will";
 
 /* No comment provided by engineer. */
-"会员功能" = "刷词PRO";
+"会员功能" = "PRO Benefits";
 
 /* No comment provided by engineer. */
 "兑换码" = "Redeem";
@@ -306,7 +306,10 @@
 "您还没有选择词库😅" = "You haven't choose a vocabulary list😅.";
 
 /* No comment provided by engineer. */
-"意见反馈" = "Feedback";
+"反馈公众号与交流群" = "Feedback & Wechat";
+
+/* No comment provided by engineer. */
+"已复制到剪切板" = "Copied!";
 
 /* No comment provided by engineer. */
 "感谢您的反馈！我们会认真阅读您的意见,并在1-3天内给您回复" = "Thanks for your feedback! We will read your comments carefully and reply to you within 1-3 days";
@@ -460,6 +463,18 @@
 "移出成功😊" = "Removed successfully😊";
 
 /* No comment provided by engineer. */
+"PRO会员" = "PRO Membership";
+
+/* No comment provided by engineer. */
+"PRO会员" = "VIP";
+
+/* No comment provided by engineer. */
+"有效期至:" = "PRO Until:";
+
+/* No comment provided by engineer. */
+"会员权益" = "Membership";
+
+/* No comment provided by engineer. */
 "人正在与你一起刷词" = " people are studying with you";
 
 /* No comment provided by engineer. */
@@ -467,12 +482,6 @@
 
 /* No comment provided by engineer. */
 "感谢您关注刷词，目前我们在内测阶段，需要邀请码方能注册。如您对内测感兴趣，可以关注微信公众号: 刷词+，来联系创始人获取" = "Thanks for using shuaci, we are currently in testing stage. Invitation code for registration is required. If you want to a invitation code, please follow Wechat Official Accounts: 刷词+";
-
-/* No comment provided by engineer. */
-"反馈方法" = "Feedback Method";
-
-/* No comment provided by engineer. */
-"想要反馈给开发者吗？关注公众号：刷词+，单击「我要反馈」并填写反馈内容，我们就可以看见啦😊" = "Wanna feedback to developer? Follow Wechat Official Accounts: 刷词+, and click「我要反馈」 and fill the feedback, we will know your voice then😊";
 
 /* No comment provided by engineer. */
 "邀请码不正确" = "Invitation code incorrect";

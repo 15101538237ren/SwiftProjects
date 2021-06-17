@@ -37,4 +37,5 @@ enum ShowMembershipReason{
     case PRO_THEME
     case PRO_COLLECTION
     case UNKNOWN
+    case NONE
 }

@@ -74,7 +74,6 @@ let everydayNotificationViewedKey: String = "everydayReminderAsked"
 let notificationAskedKey: String = "notificationAsked"
 let userGuideAskedKey: String = "userGuideAsked"
 let userIdentityKey: String = "userIdentityAsked"
-let productKey: String = "productID"
 
 
 let durationOfNotificationText: Double = 4.0

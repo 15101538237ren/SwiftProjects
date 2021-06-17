@@ -339,8 +339,8 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
                 }else{
                     setDefaultWallpaper(theme_category: theme_category)
                 }
+                getNextWallpaper(category: theme_category)
             }
-            getNextWallpaper(category: theme_category)
         }
     }
     
