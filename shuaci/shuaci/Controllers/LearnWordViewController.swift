@@ -22,7 +22,8 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
     let card_Y_constant:CGFloat = -30
     let animationDuration = 0.15
     let firstReviewDelayInMin = 30
-    let progressViewAnimationDuration = 2.0
+    let progressViewAnimationDuration = 1.5
+    let cardAppearAnimationDuration = 0.3
     var currentMode:Int! // 1: Learn, 2: Review
     var liveQuery: LiveQuery?
     var dispatchWork: DispatchWorkItem? = nil
@@ -647,7 +648,7 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
                 }) { (finished) in
                     card.ringView?.alpha = 0.0
                     
-                    UIView.animate(withDuration: 1.0, animations: {
+                    UIView.animate(withDuration: self.cardAppearAnimationDuration, animations: {
                         card.meaningLabel?.alpha = 1.0
                         card.memMethodLabel?.alpha = 1.0
                     }, completion: {_ in
@@ -995,6 +996,8 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     func saveRecordsFromLearning() {
+        let today_default:String = getTodayLearnOrReviewDefaultKey(learn: currentMode == 1 ? true : false)
+        UserDefaults.standard.set(true, forKey: today_default)
         global_records.append(currentRec!)
         if currentMode == 1{
             global_vocabs_records.append(contentsOf: vocabRecordsOfCurrent)
@@ -1122,7 +1125,7 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
                         // fade out
                         next_card.ringView?.alpha = 0.0
                         
-                        UIView.animate(withDuration: 1.0, animations: {
+                        UIView.animate(withDuration: self.cardAppearAnimationDuration, animations: {
                             next_card.meaningLabel!.alpha = 1.0
                             next_card.memMethodLabel!.alpha = 1.0
                         }, completion: {_ in
@@ -1144,7 +1147,7 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
                 }) { (finished) in
                     // fade out
                     next_card.ringView?.alpha = 0.0
-                    UIView.animate(withDuration: 1.0, animations: {
+                        UIView.animate(withDuration: self.cardAppearAnimationDuration, animations: {
                         next_card.wordLabel!.alpha = 1.0
                         next_card.memMethodLabel!.alpha = 1.0
                     }, completion: {_ in
@@ -1533,7 +1536,7 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
                             // fade out
                             lastCard.ringView?.alpha = 0.0
                             
-                            UIView.animate(withDuration: 1.0, animations: {
+                            UIView.animate(withDuration: self.cardAppearAnimationDuration, animations: {
                                 lastCard.meaningLabel!.alpha = 1.0
                                 lastCard.memMethodLabel!.alpha = 1.0
                             }, completion: {_ in
@@ -1554,7 +1557,7 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
                         }) { (finished) in
                             // fade out
                             lastCard.ringView?.alpha = 0.0
-                            UIView.animate(withDuration: 1.0, animations: {
+                            UIView.animate(withDuration: self.cardAppearAnimationDuration, animations: {
                                 lastCard.wordLabel!.alpha = 1.0
                                 lastCard.memMethodLabel!.alpha = 1.0
                             }, completion: {_ in
