@@ -14,9 +14,9 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "0E9476196A0AF8C157A1957006F90A02"
-               BuildableName = "UMPush"
-               BlueprintName = "UMPush"
+               BlueprintIdentifier = "914C00A85014D51C5BD9DC8C6E07C79F"
+               BuildableName = "Disk.framework"
+               BlueprintName = "Disk"
                ReferencedContainer = "container:Pods.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>

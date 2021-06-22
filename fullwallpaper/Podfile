@@ -23,7 +23,6 @@ target 'fullwallpaper' do
   pod 'UMCommon'
   pod 'UMAPM'
   pod 'UMCCommonLog'
-  pod 'UMPush'
   pod 'UMCSecurityPlugins'
   pod 'GBDeviceInfo'
   pod 'SwiftyStoreKit'
