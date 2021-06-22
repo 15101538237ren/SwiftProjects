@@ -23,7 +23,7 @@ class MainScreenViewController: UIViewController, UIGestureRecognizerDelegate {
             }
         }
     }
-    
+    var cardFlipped: Bool = false
     var audioPlayer: AVAudioPlayer?
     var mp3Player: AVAudioPlayer?
     var scaleOfSecondCard:CGFloat = 0.9
@@ -65,6 +65,11 @@ class MainScreenViewController: UIViewController, UIGestureRecognizerDelegate {
         else {
             load_DICT()
             initCards()
+            
+            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(backToCardFront(_:)) )
+            tapGesture.delegate = self
+            view.addGestureRecognizer(tapGesture)
+            
             let card = cards[0]
             let xshift:CGFloat = card.frame.size.width/8.0
             card.transform = CGAffineTransform(translationX: -xshift, y:0.0).rotated(by: -xshift*0.61/card.center.x)
@@ -141,11 +146,14 @@ class MainScreenViewController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     @IBAction func backToCardFront(_ sender: UITapGestureRecognizer) {
-        let card = cards[currentIndex % 2]
-        card.cardBackView!.isUserInteractionEnabled = false
-        card.cardBackView!.alpha = 0
-        card.dragable = true
-        UIView.transition(with: card, duration: 0.3, options: .transitionFlipFromLeft, animations: nil, completion: nil)
+        if cardFlipped{
+            let card = cards[currentIndex % 2]
+            card.cardBackView!.isUserInteractionEnabled = false
+            card.cardBackView!.alpha = 0
+            card.dragable = true
+            UIView.transition(with: card, duration: 0.3, options: .transitionFlipFromLeft, animations: nil, completion: nil)
+            cardFlipped = false
+        }
     }
     
     @IBAction func cardTapped(_ sender: UITapGestureRecognizer)
@@ -157,6 +165,7 @@ class MainScreenViewController: UIViewController, UIGestureRecognizerDelegate {
             let wordIndex: Int = indexItem[0]
             let hasValueInOalecd8: Int = indexItem[1]
             if hasValueInOalecd8 == 1{
+                cardFlipped = true
                 UIView.transition(with: card, duration: 0.3, options: .transitionFlipFromRight, animations: nil, completion: nil)
                 load_html(wordHead: current_word, wordIndex: wordIndex)
             }else{

@@ -93,9 +93,9 @@ class StatViewController: UIViewController{
         
         masteredAndLearnedCurveView.removeSubviews()
         
-        if sender.selectedSegmentIndex == 1{
+        if sender.selectedSegmentIndex == 0{
             initMasterChartView(dataType: .learnStatus)
-        }else if sender.selectedSegmentIndex == 0{
+        }else if sender.selectedSegmentIndex == 1{
             initMasterChartView(dataType: .ebbinhaus)
         }else{
             initMasterChartView(dataType: .lasting)
@@ -287,7 +287,7 @@ class StatViewController: UIViewController{
     }
     
     func initMasterChartView(dataType: DataType){
-        if dataTypeSegmentedControl.selectedSegmentIndex == 1{
+        if dataTypeSegmentedControl.selectedSegmentIndex == 0{
             learningStackView.alpha = 1
         }else{
             learningStackView.alpha = 0
@@ -347,7 +347,7 @@ class StatViewController: UIViewController{
         
         view.isOpaque = false
         setUpLearnStatusSelected(initial: true)
-        initMasterChartView(dataType: .ebbinhaus)
+        initMasterChartView(dataType: .learnStatus)
         getStatOfToday()
         super.viewDidLoad()
         // Do any additional setup after loading the view.

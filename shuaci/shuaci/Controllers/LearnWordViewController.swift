@@ -14,6 +14,7 @@ import SwiftTheme
 import Disk
 import Nuke
 import ANLongTapButton
+import KSGuideController
 
 class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
     
@@ -27,6 +28,7 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
     var dispatchWork: DispatchWorkItem? = nil
     
     // MARK: - Variables
+    var cardFlipped: Bool = false
     var thumbnailURLs:[URL] = []
     private var wordsQueue: Array<[Int]> = []
     private var wordsQArray: Array<[Int]> = []
@@ -60,6 +62,7 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
     
     let userPanelDefaultBgColor:UIColor = UIColor(red: 225, green: 226, blue: 228, alpha: 1.0)
     let userPanelBgColorWhenQuit:UIColor = UIColor(red: 80, green: 80, blue: 80, alpha: 1.0)
+    let guideTexts:[String] = [tapFlipGuideText, lastWordBtnGuideText, notFamiliarBtnGuideText, masteredBtnGuideText, rememberedBtnGuideText, collectBtnGuideText, threeRoundGuideText]
     var scaleOfSecondCard:CGFloat = 0.9
     var currentIndex:Int = 0
     var viewTranslation = CGPoint(x: 0, y: 0)
@@ -67,6 +70,7 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
     var totalCounter:Int = Int(countDownOfLoading + 1)
     
     // MARK: - Outlet Variables
+    @IBOutlet var viewsToGuide: [UIView]!
     @IBOutlet var learnUIView: LearnUIView!
     @IBOutlet var backBtn: UIButton!{
         didSet{
@@ -289,6 +293,9 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
         updateNumOfUsersOnline()
         updateOnlineUsersPhoto()
         updateUserPhoto()
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(backToCardFront(_:)) )
+        tapGesture.delegate = self
+        view.addGestureRecognizer(tapGesture)
         userNumUpdateTimer = Timer.scheduledTimer(timeInterval: numOfUerUpdateInterval, target: self, selector: #selector(updateNumOfUsersOnline), userInfo: nil, repeats: true)
         userPhotoUpdateTimer = Timer.scheduledTimer(timeInterval: userPhotoUpdateInterval, target: self, selector: #selector(updateUserPhotosOnline), userInfo: nil, repeats: true)
         let _ = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(tictoc), userInfo: nil, repeats: true)
@@ -320,6 +327,7 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
                 self?.loadingView.alpha = 0
             }, completion: { _ in
                 self.startLearning()
+                self.popUserGuide()
             })
         })
         DispatchQueue.main.asyncAfter(deadline: .now() + countDownOfLoading, execute: dispatchWork!)
@@ -652,6 +660,22 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
         startTimer()
     }
     
+    func popUserGuide(){
+        if !isKeyPresentInUserDefaults(key: learningViewShowedKey){
+            // Reset to show everytime.
+            var items = [KSGuideItem]()
+            for bid in 0..<viewsToGuide.count {
+                // Use default arrow image
+                let item = KSGuideItem(sourceView: viewsToGuide[bid], text: guideTexts[bid])
+                items.append(item)
+            }
+            let guideVC = KSGuideController(items: items, key: "LearnGuide")
+            
+            guideVC.show(from: self, completion: {
+                            UserDefaults.standard.set(true, forKey: learningViewShowedKey)
+            })
+        }
+    }
     
     @IBAction func close(sender: UIButton){
         dispatchWork?.cancel()
@@ -707,18 +731,6 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
             card.cardImageView?.image = UIImage(named: cardBackgrounds[preference.current_theme]!)
 //            card.cardImageView?.image = UIImage()
 //            card.cardImageView?.backgroundColor = UIColor.init(hex: getRandomColor())!
-        }
-    }
-    
-    @IBAction func flipCard(_ sender: Any) {
-        let card = cards[currentIndex % 2]
-        if isCardBack {
-            isCardBack = false
-            UIView.transition(with: card, duration: 0.3, options: .transitionFlipFromRight, animations: nil, completion: nil)
-        }else{
-            isCardBack = true
-            UIView.transition(with: card, duration: 0.3, options: .transitionFlipFromLeft, animations: nil, completion: nil)
-            
         }
     }
     
@@ -779,6 +791,7 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
             let wordIndex: Int = indexItem[0]
             let hasValueInOalecd8: Int = indexItem[1]
             if hasValueInOalecd8 == 1{
+                cardFlipped = true
                 UIView.transition(with: card, duration: 0.3, options: .transitionFlipFromRight, animations: nil, completion: nil)
                 load_html(wordHead: current_word, wordIndex: wordIndex)
             }else{
@@ -788,17 +801,14 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     @IBAction func backToCardFront(_ sender: UITapGestureRecognizer) {
-        let card = cards[currentIndex % 2]
-        card.cardBackView!.isUserInteractionEnabled = false
-        card.cardBackView!.alpha = 0
-        card.dragable = true
-        UIView.transition(with: card, duration: 0.3, options: .transitionFlipFromLeft, animations: nil, completion: nil)
-    }
-    
-    @IBAction func cardBackTapped(_ sender: UITapGestureRecognizer)
-    {
-        let card = cards[currentIndex % 2]
-        UIView.transition(with: card, duration: 0.3, options: .transitionFlipFromRight, animations: nil, completion: nil)
+        if cardFlipped{
+            let card = cards[currentIndex % 2]
+            card.cardBackView!.isUserInteractionEnabled = false
+            card.cardBackView!.alpha = 0
+            card.dragable = true
+            UIView.transition(with: card, duration: 0.3, options: .transitionFlipFromLeft, animations: nil, completion: nil)
+            cardFlipped = false
+        }
     }
     
     
@@ -985,8 +995,6 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     func saveRecordsFromLearning() {
-        let today_default:String = getTodayLearnOrReviewDefaultKey(learn: currentMode == 1 ? true : false)
-        UserDefaults.standard.set(true, forKey: today_default)
         global_records.append(currentRec!)
         if currentMode == 1{
             global_vocabs_records.append(contentsOf: vocabRecordsOfCurrent)

@@ -25,11 +25,6 @@
 /* No comment provided by engineer. */
 "「查单词」在这里🔍" = "Here to「Look up」";
 
-
-/* No comment provided by engineer. */
-"非会员每天只能背和复习一次哦😢" = "Non-Pro users can only learn and review once/day😢";
-
-
 /* No comment provided by engineer. */
 "「刷词」意见反馈" = "Feedback";
 
@@ -219,6 +214,30 @@
 
 /* No comment provided by engineer. */
 "您还不是PRO会员" = "You are not PRO yet";
+
+/* No comment provided by engineer. */
+"点击卡片翻面来查看用法👆📖" = "Flip cards by tapping👆📖";
+
+/* No comment provided by engineer. */
+"上一词卡◀️" = "Last card◀️";
+
+/* No comment provided by engineer. */
+"不记得⭕️，将增加复习次数" = "Forget⭕️, more reviews";
+
+/* No comment provided by engineer. */
+"已掌握😝，将不再复习" = "Mastered😝, won't show anymore";
+
+/* No comment provided by engineer. */
+"记得✅，将减少复习次数" = "Remember✅, less review";
+
+/* No comment provided by engineer. */
+"收藏🌟，将加入单词本" = "Collect🌟, add into collections";
+
+/* No comment provided by engineer. */
+"初印象，中译英，英译中，三项都完成才算真正记住哦😉" = "Three rounds to complete a word learning: first impression, EN->CN, CN->CN";
+
+/* No comment provided by engineer. */
+"非会员每天只能背和复习一次哦😢" = "Non-Pro users can only learn and review once/day😢";
 
 /* No comment provided by engineer. */
 "查词功能只有会员才能使用哦😝" = "Only PRO users can use look up function😝";

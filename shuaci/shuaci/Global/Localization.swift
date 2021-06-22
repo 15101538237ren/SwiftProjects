@@ -110,6 +110,13 @@ let mottoText:String = NSLocalizedString("伟大的作品不是靠力量，而�
 let saveReviewRecordText:String = NSLocalizedString("是否保存当前复习记录?", comment: "")
 var notification_content = NSLocalizedString("\(nicknameOfApp)提醒您，根据记忆规律，现在复习单词记忆效果翻倍哦！", comment: "")
 let interpLabelText:String = NSLocalizedString("双解释义", comment: "")
+let tapFlipGuideText:String = NSLocalizedString("点击卡片翻面来查看用法👆📖", comment: "")
+let lastWordBtnGuideText:String = NSLocalizedString("上一词卡◀️", comment: "")
+let notFamiliarBtnGuideText:String = NSLocalizedString("不记得⭕️，将增加复习次数", comment: "")
+let masteredBtnGuideText:String = NSLocalizedString("已掌握😝，将不再复习", comment: "")
+let rememberedBtnGuideText:String = NSLocalizedString("记得✅，将减少复习次数", comment: "")
+let collectBtnGuideText:String = NSLocalizedString("收藏🌟，将加入单词本", comment: "")
+let threeRoundGuideText:String = NSLocalizedString("初印象，中译英，英译中，三项都完成才算真正记住哦😉", comment: "")
 
 // Setting VC
 let autoPronounceText:String = NSLocalizedString("自动发音", comment: "")
@@ -226,9 +233,7 @@ let proWordListText:String = NSLocalizedString("只有会员才能使用此词�
 let proThemeText:String = NSLocalizedString("只有会员才能使用此主题哦😝", comment: "")
 let proDictText:String = NSLocalizedString("查词功能只有会员才能使用哦😝", comment: "")
 let proUnknownAccessText:String = NSLocalizedString("只有会员才能使用此功能哦😝", comment: "")
-
 let freeUseOverLimitText:String = NSLocalizedString("非会员每天只能背和复习一次哦😢", comment: "")
-
 let ProDurationText: String = NSLocalizedString("PRO会员", comment: "")
 let ValidUntilText: String = NSLocalizedString("有效期至:", comment: "")
 

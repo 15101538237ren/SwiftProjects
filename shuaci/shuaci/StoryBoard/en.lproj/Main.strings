@@ -59,10 +59,10 @@
 "9bk-00-dtD.normalTitle" = "No Reminder";
 
 /* Class = "UISegmentedControl"; 9Ml-IN-GDu.segmentTitles[0] = "记忆规律"; ObjectID = "9Ml-IN-GDu"; */
-"9Ml-IN-GDu.segmentTitles[0]" = "Memory Law";
+"9Ml-IN-GDu.segmentTitles[1]" = "Memory Law";
 
 /* Class = "UISegmentedControl"; 9Ml-IN-GDu.segmentTitles[1] = "学习情况"; ObjectID = "9Ml-IN-GDu"; */
-"9Ml-IN-GDu.segmentTitles[1]" = "Learning Statistics";
+"9Ml-IN-GDu.segmentTitles[0]" = "Learning Statistics";
 
 /* Class = "UISegmentedControl"; 9Ml-IN-GDu.segmentTitles[2] = "长期掌握度"; ObjectID = "9Ml-IN-GDu"; */
 "9Ml-IN-GDu.segmentTitles[2]" = "Long term memory";

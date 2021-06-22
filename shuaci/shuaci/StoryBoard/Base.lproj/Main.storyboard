@@ -1502,8 +1502,8 @@
                                     <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" apportionsSegmentWidthsByContent="YES" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="9Ml-IN-GDu">
                                         <rect key="frame" x="71.5" y="25" width="231" height="32"/>
                                         <segments>
-                                            <segment title="记忆规律"/>
                                             <segment title="学习情况"/>
+                                            <segment title="记忆规律"/>
                                             <segment title="长期掌握度"/>
                                         </segments>
                                         <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -2872,6 +2872,7 @@
                             <outlet property="introLabel" destination="Klp-bL-7Sj" id="5ce-hE-2z0"/>
                             <outlet property="loginButton" destination="fP9-DK-zf6" id="oEi-AA-GYG"/>
                             <outlet property="logoImageView" destination="d65-k0-fWP" id="zOi-aK-LJc"/>
+                            <outletCollection property="gestureRecognizers" destination="IMF-xD-uAD" appends="YES" id="RZM-jY-tgr"/>
                         </connections>
                     </view>
                     <connections>
@@ -2892,6 +2893,7 @@
                         <action selector="panCard:" destination="jWR-as-xvL" id="0Is-wo-2Et"/>
                     </connections>
                 </panGestureRecognizer>
+                <tapGestureRecognizer id="IMF-xD-uAD"/>
                 <tapGestureRecognizer id="LRU-qr-p4J">
                     <connections>
                         <action selector="backToCardFront:" destination="jWR-as-xvL" id="Kp2-Eu-Ajo"/>
@@ -3541,28 +3543,28 @@
                                                         <rect key="frame" x="0.0" y="33" width="300" height="45"/>
                                                         <subviews>
                                                             <stackView opaque="NO" contentMode="scaleToFill" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="BFs-hd-TKU">
-                                                                <rect key="frame" x="0.0" y="13.5" width="300" height="18"/>
+                                                                <rect key="frame" x="45" y="7.5" width="210" height="30"/>
                                                                 <subviews>
                                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Uf3-1L-BUC" customClass="CheckboxButton" customModule="MBRadioCheckboxButton">
-                                                                        <rect key="frame" x="0.0" y="0.0" width="53" height="18"/>
+                                                                        <rect key="frame" x="0.0" y="0.0" width="30" height="30"/>
                                                                         <state key="normal" title="0 次">
                                                                             <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                         </state>
                                                                     </button>
                                                                     <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ldk-Hh-BFG" customClass="CheckboxButton" customModule="MBRadioCheckboxButton">
-                                                                        <rect key="frame" x="83" y="0.0" width="51" height="18"/>
+                                                                        <rect key="frame" x="60" y="0.0" width="30" height="30"/>
                                                                         <state key="normal" title="1 次">
                                                                             <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                         </state>
                                                                     </button>
                                                                     <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="s7t-WN-d2I" customClass="CheckboxButton" customModule="MBRadioCheckboxButton">
-                                                                        <rect key="frame" x="164" y="0.0" width="53" height="18"/>
+                                                                        <rect key="frame" x="120" y="0.0" width="30" height="30"/>
                                                                         <state key="normal" title="2 次">
                                                                             <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                         </state>
                                                                     </button>
                                                                     <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Mnv-rr-To1" customClass="CheckboxButton" customModule="MBRadioCheckboxButton">
-                                                                        <rect key="frame" x="247" y="0.0" width="53" height="18"/>
+                                                                        <rect key="frame" x="180" y="0.0" width="30" height="30"/>
                                                                         <state key="normal" title="3 次">
                                                                             <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                         </state>
@@ -4666,6 +4668,7 @@
                             <outlet property="userPanelView" destination="pZQ-oH-sda" id="OHp-gI-piZ"/>
                             <outlet property="usersPanelView" destination="pZQ-oH-sda" id="D96-Xm-AYG"/>
                             <outlet property="yesBtn" destination="iEb-4d-JPz" id="pSh-qb-rGb"/>
+                            <outletCollection property="gestureRecognizers" destination="0k8-GZ-kpM" appends="YES" id="w0i-YP-qjw"/>
                         </connections>
                     </view>
                     <connections>
@@ -4702,6 +4705,13 @@
                         <outletCollection property="cards" destination="hMj-B9-ytd" collectionClass="NSMutableArray" id="GRj-dk-BwH"/>
                         <outletCollection property="gestureRecognizers" destination="Ne3-mi-PuL" collectionClass="NSMutableArray" id="FYa-n5-jvn"/>
                         <outletCollection property="gestureRecognizers" destination="2Wb-a3-fZ7" collectionClass="NSMutableArray" id="Wnz-a0-OHH"/>
+                        <outletCollection property="viewsToGuide" destination="eg4-ud-xdI" collectionClass="NSMutableArray" id="f2n-IP-N69"/>
+                        <outletCollection property="viewsToGuide" destination="XLO-Mh-SXZ" collectionClass="NSMutableArray" id="2yr-Ud-Prb"/>
+                        <outletCollection property="viewsToGuide" destination="kXF-hc-fkK" collectionClass="NSMutableArray" id="4ga-Gq-i3Y"/>
+                        <outletCollection property="viewsToGuide" destination="Nuy-G2-SW5" collectionClass="NSMutableArray" id="unr-fi-veG"/>
+                        <outletCollection property="viewsToGuide" destination="iEb-4d-JPz" collectionClass="NSMutableArray" id="nNk-pf-Ovy"/>
+                        <outletCollection property="viewsToGuide" destination="6YR-HP-u7W" collectionClass="NSMutableArray" id="LXl-7E-snh"/>
+                        <outletCollection property="viewsToGuide" destination="DSZ-zJ-39P" collectionClass="NSMutableArray" id="f1Z-WV-Irn"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XEz-6e-xil" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -4715,6 +4725,7 @@
                         <action selector="panCard:" destination="T80-Nm-Je0" id="L4l-qf-n9c"/>
                     </connections>
                 </panGestureRecognizer>
+                <tapGestureRecognizer id="0k8-GZ-kpM"/>
                 <tapGestureRecognizer id="cLa-Vb-1JQ">
                     <connections>
                         <action selector="cardTapped:" destination="T80-Nm-Je0" id="2Eo-Po-dCO"/>
@@ -5560,20 +5571,8 @@
         </scene>
     </scenes>
     <designables>
-        <designable name="Ldk-Hh-BFG">
-            <size key="intrinsicContentSize" width="51" height="18"/>
-        </designable>
-        <designable name="Mnv-rr-To1">
-            <size key="intrinsicContentSize" width="53" height="18"/>
-        </designable>
-        <designable name="Uf3-1L-BUC">
-            <size key="intrinsicContentSize" width="53" height="18"/>
-        </designable>
         <designable name="Wt0-D0-Xag">
             <size key="intrinsicContentSize" width="420" height="420"/>
-        </designable>
-        <designable name="s7t-WN-d2I">
-            <size key="intrinsicContentSize" width="53" height="18"/>
         </designable>
     </designables>
     <resources>
