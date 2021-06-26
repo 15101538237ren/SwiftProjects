@@ -20,6 +20,7 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
         SettingItem(symbol_name : "auto_pronunciation", name: autoPronounceText, value: onText),
         SettingItem(symbol_name : "english_american_pronunce", name: pronounceTypeText, value: usText),
         SettingItem(symbol_name : "dark_mode", name: darkModeText, value: offText),
+        SettingItem(symbol_name : "group", name: groupStudyText, value: onText),
         SettingItem(symbol_name : "membership", name: membershipText, value: ""),
         SettingItem(symbol_name : "scope", name: setLearningPlanText, value: defaultPlanText),
         SettingItem(symbol_name : "alarm", name: everyDayNotificationText, value: ""),
@@ -160,7 +161,7 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let row = indexPath.row
-        if  (row == 0 || row  == 2){
+        if  (row < 4){
             let cell = tableView.dequeueReusableCell(withIdentifier: "SettingToggleCell", for: indexPath) as! SettingToggleTableViewCell
             cell.backgroundColor = .clear
             cell.separatorInset = UIEdgeInsets(top: 0, left: cell.bounds.size.width, bottom: 0, right: 0)
@@ -168,15 +169,31 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
             cell.iconView.image = settingItem.icon
             cell.iconView.theme_tintColor = "Global.settingIconTintColor"
             cell.nameLabel.text = settingItem.name
-            cell.leftValueLabel.text = offText
-            cell.rightValueLabel.text = onText
+            if row  == 1{
+                cell.leftValueLabel.text = usText
+                cell.rightValueLabel.text = ukText
+            }else{
+                cell.leftValueLabel.text = offText
+                cell.rightValueLabel.text = onText
+            }
+            
+            var value:Bool = false
             if row == 0 {
                 cell.toggleSwitch.addTarget(self, action: #selector(autoPronunceSwitched), for: UIControl.Event.valueChanged)
-            }else{
+                value = preference.auto_pronunciation
+            }else if row == 1{
+                cell.toggleSwitch.addTarget(self, action: #selector(pronunceStyleSwitched), for: UIControl.Event.valueChanged)
+                value = preference.us_pronunciation
+            }
+            else if row == 2{
                 cell.toggleSwitch.addTarget(self, action: #selector(darkModeSwitched), for: UIControl.Event.valueChanged)
+                value = preference.dark_mode
+            }else{
+                cell.toggleSwitch.addTarget(self, action: #selector(studyOnlineSwitched), for: UIControl.Event.valueChanged)
+                value = preference.online_people
             }
-            let autoPronunce = row == 0 ? preference.auto_pronunciation : preference.dark_mode
-            if autoPronunce{
+            
+            if value{
                 cell.toggleSwitch.isOn = true
                 cell.leftValueLabel.theme_textColor = "TableView.switchOffTextColor"
                 cell.rightValueLabel.theme_textColor = "TableView.switchOnTextColor"
@@ -185,35 +202,11 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
                 cell.toggleSwitch.isOn = false
                 cell.leftValueLabel.theme_textColor = "TableView.switchOnTextColor"
                 cell.rightValueLabel.theme_textColor = "TableView.switchOffTextColor"
-            }
-            return cell
-        }
-        else if row == 1{
-            let cell = tableView.dequeueReusableCell(withIdentifier: "SettingToggleCell", for: indexPath) as! SettingToggleTableViewCell
-            cell.backgroundColor = .clear
-            cell.separatorInset = UIEdgeInsets(top: 0, left: cell.bounds.size.width, bottom: 0, right: 0);
-            let settingItem:SettingItem = settingItems[row]
-            cell.toggleSwitch.addTarget(self, action: #selector(pronunceStyleSwitched), for: UIControl.Event.valueChanged)
-            cell.iconView.image = settingItem.icon
-            cell.iconView.theme_tintColor = "Global.settingIconTintColor"
-            cell.nameLabel.text = settingItem.name
-            cell.leftValueLabel.text = usText
-            cell.rightValueLabel.text = ukText
-            let usPronunce = preference.us_pronunciation
-            if usPronunce{
-                cell.toggleSwitch.isOn = false
-                cell.leftValueLabel.theme_textColor = "TableView.switchOnTextColor"
-                cell.rightValueLabel.theme_textColor = "TableView.switchOffTextColor"
-            }
-            else{
-                cell.toggleSwitch.isOn = true
-                cell.leftValueLabel.theme_textColor = "TableView.switchOffTextColor"
-                cell.rightValueLabel.theme_textColor = "TableView.switchOnTextColor"
             }
             return cell
         }
         
-        else if row == 4{
+        else if row == 5{
             let cell = tableView.dequeueReusableCell(withIdentifier: "SettingCell", for: indexPath) as! SettingTableViewCell
             
             cell.backgroundColor = .clear
@@ -235,7 +228,7 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
             cell.iconView.image = settingItem.icon
             cell.iconView.theme_tintColor = "Global.settingIconTintColor"
             cell.nameLabel.text = settingItem.name
-            cell.valueLabel.text = row == 4 ? getStringOfReminderTime(reminderTime: preference.reminder_time) : settingItem.value
+            cell.valueLabel.text = row == 6 ? getStringOfReminderTime(reminderTime: preference.reminder_time) : settingItem.value
             return cell
         }
     }
@@ -265,14 +258,14 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     
     func updateMemOptionDisplay(){
-        let indexPath = IndexPath(row: 4, section: 0)
+        let indexPath = IndexPath(row: 5, section: 0)
         DispatchQueue.main.async {
             self.tableView.reloadRows(at: [indexPath], with: .automatic)
         }
     }
     
     func updateReminderTime(){
-        let indexPath = IndexPath(row: 5, section: 0)
+        let indexPath = IndexPath(row: 6, section: 0)
         DispatchQueue.main.async {
             self.tableView.reloadRows(at: [indexPath], with: .fade)
         }
@@ -307,11 +300,10 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        switch indexPath.row {
-        case 0:
+        let row = indexPath.row
+        if (row < 4){
             let cell = tableView.cellForRow(at: indexPath) as! SettingToggleTableViewCell
             cell.toggleSwitch.isOn = !cell.toggleSwitch.isOn
-            autoPronunceSwitched(uiSwitch: cell.toggleSwitch)
             if cell.toggleSwitch.isOn == true{
                 cell.leftValueLabel.theme_textColor = "TableView.switchOffTextColor"
                 cell.rightValueLabel.theme_textColor = "TableView.switchOnTextColor"
@@ -320,31 +312,16 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
                 cell.leftValueLabel.theme_textColor = "TableView.switchOnTextColor"
                 cell.rightValueLabel.theme_textColor = "TableView.switchOffTextColor"
             }
-        case 1:
-            let cell = tableView.cellForRow(at: indexPath) as! SettingToggleTableViewCell
-            cell.toggleSwitch.isOn = !cell.toggleSwitch.isOn
-            pronunceStyleSwitched(uiSwitch: cell.toggleSwitch)
-            if cell.toggleSwitch.isOn == true{
-                cell.leftValueLabel.theme_textColor = "TableView.switchOffTextColor"
-                cell.rightValueLabel.theme_textColor = "TableView.switchOnTextColor"
+            if row == 0{
+                autoPronunceSwitched(uiSwitch: cell.toggleSwitch)
+            }else if row == 1{
+                pronunceStyleSwitched(uiSwitch: cell.toggleSwitch)
+            }else if row == 2{
+                darkModeSwitched(uiSwitch: cell.toggleSwitch)
+            }else{
+                studyOnlineSwitched(uiSwitch: cell.toggleSwitch)
             }
-            else{
-                cell.leftValueLabel.theme_textColor = "TableView.switchOnTextColor"
-                cell.rightValueLabel.theme_textColor = "TableView.switchOffTextColor"
-            }
-        case 2:
-            let cell = tableView.cellForRow(at: indexPath) as! SettingToggleTableViewCell
-            cell.toggleSwitch.isOn = !cell.toggleSwitch.isOn
-            darkModeSwitched(uiSwitch: cell.toggleSwitch)
-            if cell.toggleSwitch.isOn == true{
-                cell.leftValueLabel.theme_textColor = "TableView.switchOffTextColor"
-                cell.rightValueLabel.theme_textColor = "TableView.switchOnTextColor"
-            }
-            else{
-                cell.leftValueLabel.theme_textColor = "TableView.switchOnTextColor"
-                cell.rightValueLabel.theme_textColor = "TableView.switchOffTextColor"
-            }
-        case 3:
+        }else if row == 4{
             initIndicator(view: self.view)
             
             checkIfVIPSubsciptionValid(successCompletion: { [self] in
@@ -357,7 +334,7 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
                     loadMembershipVC(hasTrialed: true, reason: reason, reasonToShow: .NONE)
                 }
             })
-        case 4:
+        }else if (row == 5){
             if let book = getCurrentBook(preference: preference) {
                 let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
                 let SetMemOptionVC = mainStoryBoard.instantiateViewController(withIdentifier: "SetMemOptionVC") as! SetMemOptionViewController
@@ -376,8 +353,7 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
             }else{
                 loadBooksVC()
             }
-            
-        case 5:
+        }else if (row == 6 ){
             let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
             let reminderTimePickerVC = mainStoryBoard.instantiateViewController(withIdentifier: "reminderTimePickerVC") as! ReminderTimePickerViewController
             reminderTimePickerVC.settingVC = self
@@ -388,15 +364,14 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
             DispatchQueue.main.async {
                 self.present(reminderTimePickerVC, animated: true, completion: nil)
             }
-        case 6:
+        }else if (row == 7){
             askUserExperienceBeforeReview()
-        case 7:
+        }else if (row == 8){
             showShareVC()
-        case 8:
+        }else if (row == 9){
             loadWechatVC()
-        default:
-            break
         }
+        
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
@@ -470,6 +445,28 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
         mainPanelViewController.update_preference()
         
         let indexPath = IndexPath(row: 0, section: 0)
+        let cell =  tableView.cellForRow(at: indexPath) as! SettingToggleTableViewCell
+        
+        if uiSwitch.isOn{
+            cell.leftValueLabel.theme_textColor = "TableView.switchOffTextColor"
+            cell.rightValueLabel.theme_textColor = "TableView.switchOnTextColor"
+        }
+        else{
+            cell.leftValueLabel.theme_textColor = "TableView.switchOnTextColor"
+            cell.rightValueLabel.theme_textColor = "TableView.switchOffTextColor"
+        }
+    }
+    
+    @objc func studyOnlineSwitched(uiSwitch: UISwitch) {
+        if uiSwitch.isOn{
+            preference.online_people = true
+        }else{
+            preference.online_people = false
+        }
+        savePreference(userId: currentUser.objectId!.stringValue!, preference: preference)
+        mainPanelViewController.update_preference()
+        
+        let indexPath = IndexPath(row: 3, section: 0)
         let cell =  tableView.cellForRow(at: indexPath) as! SettingToggleTableViewCell
         
         if uiSwitch.isOn{

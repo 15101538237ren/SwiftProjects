@@ -372,7 +372,7 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
                 let query = LCQuery(className: "_User")
                 query.whereKey("online", .greaterThanOrEqualTo(1))
                 let count = query.count().intValue
-                if count >= 3{
+                if count >= 3 && preference.online_people{
                     DispatchQueue.main.async {
                         self.userPanelView.alpha = 1.0
                         self.userNumLabel.text = "\(count)"

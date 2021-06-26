@@ -129,6 +129,7 @@ let wechatText:String = NSLocalizedString("反馈公众号与交流群", comment
 let serviceTermText:String = NSLocalizedString("服务条款", comment: "")
 let privacyText:String = NSLocalizedString("隐私政策", comment: "")
 let darkModeText:String = NSLocalizedString("黑夜模式", comment: "")
+let groupStudyText:String = NSLocalizedString("在线学习人数", comment: "")
 
 let membershipText:String = NSLocalizedString("会员权益", comment: "")
 let onText:String = NSLocalizedString("开", comment: "")
