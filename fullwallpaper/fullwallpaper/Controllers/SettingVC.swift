@@ -298,17 +298,6 @@ class SettingVC: UIViewController , UITableViewDataSource, UITableViewDelegate {
         }
     }
     
-    func loadPolicyVC(url: URL){
-        let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
-        let policyVC = mainStoryBoard.instantiateViewController(withIdentifier: "policyVC") as! PolicyVC
-        
-        policyVC.url = url
-        
-        DispatchQueue.main.async {
-            self.present(policyVC, animated: true, completion: nil)
-        }
-    }
-    
     override func viewWillAppear(_ animated: Bool) {
         let indexPath = IndexPath(row: 1, section: 2)
         self.tableView.reloadRows(at: [indexPath], with: .fade)

@@ -32,7 +32,6 @@
 		55F3F5B1263A382C00701A66 /* CustomizationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55F3F5B0263A382C00701A66 /* CustomizationVC.swift */; };
 		C300E4AD25E1B6630009BEFA /* VIP.swift in Sources */ = {isa = PBXBuildFile; fileRef = C300E4AC25E1B6630009BEFA /* VIP.swift */; };
 		C30B71F7258D2F76002A673D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C30B71F6258D2F76002A673D /* Main.storyboard */; };
-		C30B71FB258DB868002A673D /* PolicyVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C30B71FA258DB868002A673D /* PolicyVC.swift */; };
 		C311F9C3255E1124000FCED2 /* UploadWallpaperVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C311F9C2255E1124000FCED2 /* UploadWallpaperVC.swift */; };
 		C311F9C6255E14B5000FCED2 /* GlobalEnums.swift in Sources */ = {isa = PBXBuildFile; fileRef = C311F9C5255E14B5000FCED2 /* GlobalEnums.swift */; };
 		C32CB0CC2579F47C000DDCF1 /* SetUserProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C32CB0CB2579F47C000DDCF1 /* SetUserProfileVC.swift */; };
@@ -105,7 +104,6 @@
 		55F3F5B0263A382C00701A66 /* CustomizationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomizationVC.swift; sourceTree = "<group>"; };
 		C300E4AC25E1B6630009BEFA /* VIP.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VIP.swift; sourceTree = "<group>"; };
 		C30B71F6258D2F76002A673D /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
-		C30B71FA258DB868002A673D /* PolicyVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolicyVC.swift; sourceTree = "<group>"; };
 		C311F9C2255E1124000FCED2 /* UploadWallpaperVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadWallpaperVC.swift; sourceTree = "<group>"; };
 		C311F9C5255E14B5000FCED2 /* GlobalEnums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalEnums.swift; sourceTree = "<group>"; };
 		C32CB0CB2579F47C000DDCF1 /* SetUserProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetUserProfileVC.swift; sourceTree = "<group>"; };
@@ -264,7 +262,6 @@
 				C3D5D817257C5D3F006DA951 /* AuditVC.swift */,
 				C3D5D820257D74BA006DA951 /* UserProfileVC.swift */,
 				C3F737DA25833620008D0095 /* VIPBenefitsVC.swift */,
-				C30B71FA258DB868002A673D /* PolicyVC.swift */,
 				55F3F5B0263A382C00701A66 /* CustomizationVC.swift */,
 				5566BB4A26470A9B008DABB3 /* ClassicalStyleVC.swift */,
 			);
@@ -513,7 +510,6 @@
 				5577BE10254A88F0008A1F14 /* GlobalConstants.swift in Sources */,
 				55A94D67263A36730027D923 /* CustomizationCollectionViewCell.swift in Sources */,
 				5577BE0B254A8767008A1F14 /* WallpaperCollectionViewCell.swift in Sources */,
-				C30B71FB258DB868002A673D /* PolicyVC.swift in Sources */,
 				C3C48F25256A2E0A00507582 /* CollectionItemsVC.swift in Sources */,
 				55537E31254B341C005081CF /* TabBarController.swift in Sources */,
 				C3D5D821257D74BB006DA951 /* UserProfileVC.swift in Sources */,
@@ -695,7 +691,7 @@
 				CODE_SIGN_ENTITLEMENTS = fullwallpaper/fullwallpaper.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 13;
 				DEVELOPMENT_TEAM = WDA59C4558;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = fullwallpaper/Info.plist;
@@ -721,7 +717,7 @@
 				CODE_SIGN_ENTITLEMENTS = fullwallpaper/fullwallpaper.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 13;
 				DEVELOPMENT_TEAM = WDA59C4558;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = fullwallpaper/Info.plist;
