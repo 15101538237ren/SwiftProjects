@@ -46,7 +46,7 @@ class VIPBenefitsVC: UIViewController, UICollectionViewDelegate, UICollectionVie
                 if let expiryDate = expireDate
                 {
                     if english{
-                        ProDurationLabel.font = UIFont(name: "Copperplate", size: 18.0)
+                        ProDurationLabel.font = UIFont(name: "Copperplate", size: 16.0)
                     }
                     let dateFormatter = DateFormatter()
                     dateFormatter.dateFormat = "YYYY-MM-dd"

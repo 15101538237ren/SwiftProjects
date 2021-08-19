@@ -163,7 +163,13 @@ class UploadWallpaperVC: UIViewController, UITextFieldDelegate {
         captionTextField.delegate = self
         addGestureRecognizers()
         checkHint()
-        rowNamesInPickerView = english ? categories.map { $0.eng } : categories.map { $0.name }
+        if categories.count == 0{
+            loadCategories(completion: {
+                self.rowNamesInPickerView = english ? categories.map { $0.eng } : categories.map { $0.name }
+            })
+        }else{
+            rowNamesInPickerView = english ? categories.map { $0.eng } : categories.map { $0.name }
+        }
     }
     
     func checkHint(){
