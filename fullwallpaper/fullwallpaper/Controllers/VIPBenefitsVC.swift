@@ -302,12 +302,12 @@ class VIPBenefitsVC: UIViewController, UICollectionViewDelegate, UICollectionVie
     }
     
     @IBAction func loadPrivacyURL(_ sender: UIButton) {
-        let url = URL(string: "\(githubLink)/shuaci/privacy.html")!
+        let url = URL(string: "\(githubLink)/privacy.html")!
         loadURL(url: url)
     }
     
     @IBAction func loadTermOfUseURL(_ sender: UIButton) {
-        let url = URL(string: "\(githubLink)/shuaci/terms.html")!
+        let url = URL(string: "\(githubLink)/terms.html")!
         loadURL(url: url)
     }
     
