@@ -167,6 +167,7 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
                 self.present(searchVC, animated: true, completion: nil)
             }
         }, failedCompletion: { [self] reason in
+            stopIndicator()
             if reason == .notPurchasedNewUser{
                 loadMembershipVC(hasTrialed: false, reason: reason, reasonToShow: .PRO_DICTIONARY)
             }else{
@@ -743,6 +744,7 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
     }
     
     func completionForLearnNewWords(){
+        registerNotification()
         if let preference = preference{
             if let _ : String = preference.current_book_id{
                 loadLearnController()
@@ -768,6 +770,7 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
                 stopIndicator()
                 completionForLearnNewWords()
                 }, failedCompletion: { [self] reason in
+                    stopIndicator()
                     if reason == .notPurchasedNewUser{
                         loadMembershipVC(hasTrialed: false, reason: reason, reasonToShow: .OVER_LIMIT)
                     }else{
@@ -778,6 +781,7 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
     }
     
     func completionForReviewWords(reviewMode: ReviewMode){
+        registerNotification()
         if let preference = preference{
             if let _ : String = preference.current_book_id{
                 if reviewMode == .ReviewHistory{
@@ -822,12 +826,35 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
                 stopIndicator()
                 completionForReviewWords(reviewMode: reviewMode)
             }, failedCompletion: { [self] reason in
+                stopIndicator()
                 if reason == .notPurchasedNewUser{
                     loadMembershipVC(hasTrialed: false, reason: reason, reasonToShow: .OVER_LIMIT)
                 }else{
                     loadMembershipVC(hasTrialed: true, reason: reason, reasonToShow: .OVER_LIMIT)
                 }
             })
+        }
+    }
+    
+    func registerNotification(){
+        let center = UNUserNotificationCenter.current()
+        center.requestAuthorization(options: [.alert, .badge, .sound]) { [self] (granted, error) in
+            if granted {
+                center.removePendingNotificationRequests(withIdentifiers:[ nextDayReminderNotificationIdentifier])
+
+                let nextTriggerDate = Calendar.current.date(byAdding: .day, value: 1, to: Date())!
+                let comps = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute, .second], from: nextTriggerDate)
+                
+                let trigger = UNCalendarNotificationTrigger(dateMatching: comps, repeats: false)
+                
+                let content = UNMutableNotificationContent()
+                content.body = nextDayNotificationBodyText
+                content.categoryIdentifier = "nextDayReminder"
+                content.sound = UNNotificationSound.default
+                
+                let request = UNNotificationRequest(identifier: nextDayReminderNotificationIdentifier, content: content, trigger: trigger)
+                center.add(request)
+            }
         }
     }
     

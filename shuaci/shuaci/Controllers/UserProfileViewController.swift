@@ -157,6 +157,7 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
     }
     
     @IBAction func unwind(segue: UIStoryboardSegue) {
+        stopIndicator()
         self.dismiss(animated: true, completion: nil)
     }
     

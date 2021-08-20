@@ -14,7 +14,7 @@ import SwiftTheme
 
 class MembershipVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     var hasFreeTrialed:Bool!
-    var mainPanelViewController: MainPanelViewController!
+    var mainPanelViewController: MainPanelViewController?
     let cellSpacing:CGFloat = CGFloat(2)
     let numberOfItemsPerRow:CGFloat = CGFloat(3)
     var products:[SKProduct?] = []
@@ -206,8 +206,8 @@ class MembershipVC: UIViewController, UICollectionViewDelegate, UICollectionView
             reasonToShowText = proCollectionText
         case .PRO_DICTIONARY:
             reasonToShowText = proDictText
-        case .PRO_SELECT_TO_REVIEW:
-            reasonToShowText = proSelectToReviewText
+        case .PRO_MAX_WORD_PER_DAY:
+            reasonToShowText = proMaxWordPerDayText
         case .UNKNOWN:
             reasonToShowText = proUnknownAccessText
         case .NONE:
@@ -454,8 +454,11 @@ extension MembershipVC {
                 pref.dark_mode = false
             }
             savePreference(userId: currentUser.objectId!.stringValue!, preference: pref)
-            mainPanelViewController.update_preference()
-            mainPanelViewController.loadWallpaper(force: true)
+            if let mainVC = mainPanelViewController{
+                mainVC.update_preference()
+                mainVC.loadWallpaper(force: true)
+            }
+            
             if pref.dark_mode{
                 ThemeManager.setTheme(plistName: "Night", path: .mainBundle)
             } else {

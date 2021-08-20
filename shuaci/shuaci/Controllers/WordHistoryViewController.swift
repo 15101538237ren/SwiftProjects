@@ -145,17 +145,25 @@ class WordHistoryViewController: UIViewController, UIGestureRecognizerDelegate, 
             wordsTableView.setEditing(false, animated: true)
             if segmentedControl.selectedSegmentIndex != 2{
                 
-                initIndicator(view: self.view)
-                checkIfVIPSubsciptionValid(successCompletion: { [self] in
-                    stopIndicator()
+                let today_default:String = getTodayLearnOrReviewDefaultKey(learn: false)
+                
+                if !isKeyPresentInUserDefaults(key: today_default){
                     reviewSelected()
-                }, failedCompletion: { [self] reason in
-                    if reason == .notPurchasedNewUser{
-                        loadMembershipVC(hasTrialed: false, reason: reason, reasonToShow: .PRO_SELECT_TO_REVIEW)
-                    }else{
-                        loadMembershipVC(hasTrialed: true, reason: reason, reasonToShow: .PRO_SELECT_TO_REVIEW)
-                    }
-                })
+                }
+                else{
+                    initIndicator(view: self.view)
+                    checkIfVIPSubsciptionValid( successCompletion: { [self] in
+                        stopIndicator()
+                        reviewSelected()
+                    }, failedCompletion: { [self] reason in
+                        stopIndicator()
+                        if reason == .notPurchasedNewUser{
+                            loadMembershipVC(hasTrialed: false, reason: reason, reasonToShow: .OVER_LIMIT)
+                        }else{
+                            loadMembershipVC(hasTrialed: true, reason: reason, reasonToShow: .OVER_LIMIT)
+                        }
+                    })
+                }
                 
             }else{
                 
@@ -300,6 +308,7 @@ class WordHistoryViewController: UIViewController, UIGestureRecognizerDelegate, 
                 stopIndicator()
                 getGroupVocabs()
             }, failedCompletion: { [self] reason in
+                stopIndicator()
                 groupedVocabs = [:]
                 sortedKeys = []
                 tableISEditing = false

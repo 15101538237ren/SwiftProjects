@@ -32,7 +32,7 @@ enum FailedVerifyReason{
 enum ShowMembershipReason{
     case OVER_LIMIT
     case PRO_WORDLIST
-    case PRO_SELECT_TO_REVIEW
+    case PRO_MAX_WORD_PER_DAY
     case PRO_DICTIONARY
     case PRO_THEME
     case PRO_COLLECTION

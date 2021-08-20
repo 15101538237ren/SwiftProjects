@@ -178,6 +178,7 @@ let learningLabelText:String = NSLocalizedString("正在学习", comment: "")
 // Reminder VC
 let reminderFmtText:String = NSLocalizedString("MM月dd日 HH:mm", comment: "")
 let notificationBodyText:String = NSLocalizedString("你的努力，终将成就自己。开始今天的单词学习吧😊", comment: "")
+let nextDayNotificationBodyText:String = NSLocalizedString("昨天的你这时在好好用功哦，让今天超过昨天吧😁", comment: "")
 
 
 // SetMemOpt VC
@@ -228,7 +229,7 @@ let subscriptionDescription:String = NSLocalizedString("自动续费服务说明
 
 let failedExpairedText:String = NSLocalizedString("您的PRO会员已过期", comment: "")
 let failedNewUserText:String = NSLocalizedString("您还不是PRO会员", comment: "")
-let proSelectToReviewText:String = NSLocalizedString("只有会员才能[选词复习]或[筛选复习]哦😝", comment: "")
+let proMaxWordPerDayText:String = NSLocalizedString("非会员每日最多学习30个新词哦😝", comment: "")
 let proCollectionText:String = NSLocalizedString("只有会员才能使用单词本收藏功能哦😝", comment: "")
 let proWordListText:String = NSLocalizedString("只有会员才能使用此词库哦😝", comment: "")
 let proThemeText:String = NSLocalizedString("只有会员才能使用此主题哦😝", comment: "")

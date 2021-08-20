@@ -56,6 +56,7 @@ let userPhotoLoadingOptions = ImageLoadingOptions(
 )
 
 let everyDayLearningReminderNotificationIdentifier = "dailyLearningReminder"
+let nextDayReminderNotificationIdentifier = "nextDayReminder"
 
 let hud = JGProgressHUD(style: .light)
 
@@ -73,8 +74,8 @@ let privacyViewedKey: String = "privacyViewed"
 let everydayNotificationViewedKey: String = "everydayReminderAsked"
 let notificationAskedKey: String = "notificationAsked"
 let userGuideAskedKey: String = "userGuideAsked"
-let userIdentityKey: String = "userIdentityAsked"
 let learningViewShowedKey: String = "learningViewShowed"
 
 
 let durationOfNotificationText: Double = 4.0
+let max_npw_free_user: Int = 31

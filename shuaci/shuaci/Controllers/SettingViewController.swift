@@ -328,6 +328,7 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
                 stopIndicator()
                 loadMembershipVC(hasTrialed: false, reason: .success, reasonToShow: .NONE)
             }, failedCompletion: { [self] reason in
+                stopIndicator()
                 if reason == .notPurchasedNewUser{
                     loadMembershipVC(hasTrialed: false, reason: reason, reasonToShow: .NONE)
                 }else{

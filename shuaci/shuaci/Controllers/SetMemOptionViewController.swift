@@ -63,7 +63,7 @@ class SetMemOptionViewController: UIViewController, UIPickerViewDelegate, UIPick
     var preference:Preference!
     
     // MARK: - Constants
-    let number_of_words: [Int] = [5, 10, 20, 30, 40, 50, 100]
+    let number_of_words: [Int] = [5, 10, 20, 30, 40, 50, 60, 75, 100]
     let effectView = UIVisualEffectView(effect: UIBlurEffect(style: .regular))
     
     // MARK: - Outlet Actions
@@ -113,8 +113,7 @@ class SetMemOptionViewController: UIViewController, UIPickerViewDelegate, UIPick
         }
     }
     
-    @IBAction func setMemOption(_ sender: UIButton) {
-        let nwpg = number_of_words[dailyNumWordPickerView.selectedRow(inComponent: 0)]
+    func completeSettingMemOption(nwpg:Int){
         preference.memory_order = self.memOrd.rawValue
         
         preference.current_book_id = self.book.identifier
@@ -152,8 +151,39 @@ class SetMemOptionViewController: UIViewController, UIPickerViewDelegate, UIPick
         }
     }
     
+    @IBAction func setMemOption(_ sender: UIButton) {
+        let nwpg = number_of_words[dailyNumWordPickerView.selectedRow(inComponent: 0)]
+        if (nwpg > max_npw_free_user){
+            initIndicator(view: self.view)
+            checkIfVIPSubsciptionValid( successCompletion: { [self] in
+                stopIndicator()
+                completeSettingMemOption(nwpg: nwpg)
+            }, failedCompletion: { [self] reason in
+                stopIndicator()
+                if reason == .notPurchasedNewUser{
+                    loadMembershipVC(hasTrialed: false, reason: reason, reasonToShow: .PRO_MAX_WORD_PER_DAY)
+                }else{
+                    loadMembershipVC(hasTrialed: true, reason: reason, reasonToShow: .PRO_MAX_WORD_PER_DAY)
+                }
+            })
+        }else{
+            completeSettingMemOption(nwpg: nwpg)
+        }
+    }
     
-    
+    func loadMembershipVC(hasTrialed: Bool, reason: FailedVerifyReason, reasonToShow: ShowMembershipReason){
+        let mainStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+        let membershipVC = mainStoryBoard.instantiateViewController(withIdentifier: "membershipVC") as! MembershipVC
+        membershipVC.modalPresentationStyle = .overCurrentContext
+        membershipVC.currentUser = currentUser
+        membershipVC.hasFreeTrialed = hasTrialed
+        membershipVC.mainPanelViewController = mainPanelVC
+        membershipVC.FailedReason = reason
+        membershipVC.ReasonForShow = reasonToShow
+        DispatchQueue.main.async {
+            self.present(membershipVC, animated: true, completion: nil)
+        }
+    }
     
     func initActivityIndicator(text: String) {
         strLabel.removeFromSuperview()
@@ -391,7 +421,8 @@ class SetMemOptionViewController: UIViewController, UIPickerViewDelegate, UIPick
     }
     
     func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
-        var itemLabel:String = String(number_of_items[row])
+//        let suffixText:String = (number_of_items[row] < max_npw_free_user) ? "" : " ⭐️"
+        var itemLabel:String = String("\(number_of_items[row])")
         if component != 0{
             itemLabel = "\(num_days_to_complete[row])\(daysText)"
         }
@@ -447,6 +478,7 @@ class SetMemOptionViewController: UIViewController, UIPickerViewDelegate, UIPick
                                 _ = update_words(preference: preference)
                                 DispatchQueue.main.async {
                                     self.stopIndicator()
+                                    stopIndicator()
                                     self.dismiss(animated: true, completion: {
                                          () -> Void in
                                             if let bookVC = self.bookVC{

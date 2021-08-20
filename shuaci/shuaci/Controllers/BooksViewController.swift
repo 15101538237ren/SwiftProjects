@@ -12,7 +12,7 @@ import SwiftyJSON
 import Disk
 import SwiftTheme
 
-class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UICollectionViewDelegate, UICollectionViewDataSource, UIPickerViewDelegate, UIPickerViewDataSource{
+class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UICollectionViewDelegate, UICollectionViewDataSource{
     
     @IBOutlet weak var backBtn: UIButton!
     @IBOutlet weak var barTitleLabel: UILabel!
@@ -22,130 +22,19 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
     var indicator = UIActivityIndicatorView()
     var strLabel = UILabel()
     let effectView = UIVisualEffectView(effect: UIBlurEffect(style: .regular))
-    var firstQuestionAnswer:String = ""
-    var secondQuestionAnswer:String = ""
     var currentUser: LCUser!
     var preference:Preference!
     var userProfileVC: UserProfileViewController?
     var tempBooks:[Book] = []
     var tempItems:[LCObject] = []
-    var storedOffsets = [Int: CGFloat]()
-    @IBOutlet var identityAskView: UIView!
     @IBOutlet var tableView: UITableView!
-    @IBOutlet var firstQuestionLabel: UILabel!{
-        didSet{
-            firstQuestionLabel.text = youareText
-        }
-    }
-    @IBOutlet var secondQuestionLabel: UILabel!{
-        didSet{
-            secondQuestionLabel.text = youwantText
-        }
-    }
-    
-    @IBOutlet var titleLabel: UILabel!{
-        didSet{
-            titleLabel.text = betterServiceText
-        }
-    }
-    @IBOutlet var ensureBtn: UIButton!{
-        didSet{
-            ensureBtn.setTitle(ensureText, for: .normal)
-        }
-    }
-    @IBOutlet var cancelBtn: UIButton!{
-        didSet{
-            cancelBtn.setTitle(cancelText, for: .normal)
-        }
-    }
-    
-    @IBOutlet weak var firstPickerView: UIPickerView!
-    let engFirstItems:[String] = ["College","Graduate School","High School", "Ph.D", "Graduated", "Middle School", "Primary School", "Others"]
-    let cnFirstItems:[String] = ["大学生","研究生" , "高中生","博士生", "职场人", "初中生", "小学生", "其他"]
-    var firstViewItems: [String] = []
-    
-    @IBOutlet weak var secondPickerView: UIPickerView!
-    let engSecondItems:[String] = ["Go Aboard", "GRE/GCT", "NEMT", "CET4/6", "TEM4/8", "For high school", "Improve English", "Others"]
-    let cnSecondItems:[String] = ["出国", "考研", "高考", "四六级", "英专", "中考", "提高英语水平", "其他"]
-    var secondViewItems: [String] = []
-    
-    func performBookFiltering(){
-//        var selectedRows:[Int] = [0, 0]
-//        let secondRow:Int = secondPickerView.selectedRow(inComponent: 0)
-//        if secondRow == 0{
-//            selectedRows = [1, 0]
-//        }else if secondRow == 1{
-//            selectedRows = [3, 3]
-//        }else if secondRow == 2{
-//            selectedRows = [2, 0]
-//        }else if secondRow == 3{
-//            selectedRows = [3, 0]
-//        }else if secondRow == 4{
-//            selectedRows = [4, 0]
-//        }else if secondRow == 5{
-//            selectedRows = [5, 0]
-//        }
-        UserDefaults.standard.set(true, forKey: userIdentityKey)
-        
-//        let firstIndexPath:IndexPath = IndexPath(row: selectedRows[0], section: 0)
-//        let secondIndexPath:IndexPath = IndexPath(row: selectedRows[1], section: 0)
-        DispatchQueue.main.async { [self] in
-            self.identityAskView.alpha = 0
-//            collectionViews[0].selectItem(at: firstIndexPath, animated: true, scrollPosition: .centeredHorizontally)
-//            collectionViews[0].setNeedsDisplay()
-//            collectionViews[1].reloadData()
-//            collectionViews[1].selectItem(at: secondIndexPath, animated: true, scrollPosition: .centeredHorizontally)
-//            collectionViews[1].setNeedsDisplay()
-        }
-    }
     
     func setCollectionViewDataSourceDelegate() {
         for collectionView in collectionViews{
+            collectionView.width = view.width
             collectionView.delegate = self
             collectionView.dataSource = self
             collectionView.reloadData()
-        }
-    }
-    
-    func checkIdentity(){
-        if !isKeyPresentInUserDefaults(key: userIdentityKey){
-            DispatchQueue.main.async { [self] in
-                identityAskView.alpha = 1
-            }
-        }else{
-            DispatchQueue.main.async { [self] in
-                identityAskView.alpha = 0
-            }
-        }
-    }
-    
-    @IBAction func saveIdentity(sender: UIButton){
-        if firstQuestionAnswer.isEmpty{
-            pickerViewEmptyAlert(tag: 1)
-            return
-        }
-        if secondQuestionAnswer.isEmpty{
-            pickerViewEmptyAlert(tag: 2)
-            return
-        }
-        
-        performBookFiltering()
-        if let currentUser = LCApplication.default.currentUser
-        {
-            do {
-                try currentUser.set("identity", value: firstQuestionAnswer)
-                try currentUser.set("goal", value: secondQuestionAnswer)
-                _ = currentUser.save { result in
-                    switch result {
-                    case .success:
-                        print("updated user identity successful!")
-                    case .failure(error: let error):
-                        print(error.localizedDescription)
-                    }
-                }
-            } catch {
-                print(error)
-            }
         }
     }
     
@@ -344,35 +233,16 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
         }
         
         view.theme_backgroundColor = "Global.viewBackgroundColor"
-        identityAskView.theme_backgroundColor = "Global.viewBackgroundColor"
         backBtn.theme_tintColor = "Global.backBtnTintColor"
         barTitleLabel.theme_textColor = "Global.barTitleColor"
         
         tableView.theme_backgroundColor = "StatView.panelBgColor"
         tableView.theme_separatorColor = "TableView.separatorColor"
         
-        titleLabel.theme_textColor = "TableView.labelTextColor"
-        firstQuestionLabel.theme_textColor = "TableView.labelTextColor"
-        secondQuestionLabel.theme_textColor = "TableView.labelTextColor"
-        ensureBtn.theme_setTitleColor("TableView.labelTextColor", forState: .normal)
-        cancelBtn.theme_setTitleColor("TableView.labelTextColor", forState: .normal)
         tableView.separatorStyle = .singleLine
         tableView.delegate = self
         tableView.dataSource = self
         tableView.tableFooterView = UIView()
-        
-        if english{
-            firstViewItems = engFirstItems
-            secondViewItems = engSecondItems
-        }else{
-            firstViewItems = cnFirstItems
-            secondViewItems = cnSecondItems
-        }
-        
-        firstPickerView.delegate = self
-        firstPickerView.dataSource = self
-        secondPickerView.delegate = self
-        secondPickerView.dataSource = self
         
         category_items = [0:"全部"]
         currentSelectedCategory = 0
@@ -381,46 +251,6 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
         initActivityIndicator(text: dataLoadingText)
         setCollectionViewDataSourceDelegate()
         loadBooks()
-        checkIdentity()
-    }
-    
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 1
-    }
-    
-    // The number of rows of data
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        if pickerView.tag == 1{
-            return firstViewItems.count
-        }else{
-            return secondViewItems.count
-        }
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
-        var pickerLabel: UILabel? = (view as? UILabel)
-        if pickerLabel == nil {
-            pickerLabel = UILabel()
-            pickerLabel?.font = .systemFont(ofSize: 16)
-            pickerLabel?.textAlignment = .center
-            pickerLabel?.theme_textColor = "TableView.labelTextColor"
-        }
-
-     let itemName: String = pickerView.tag == 1 ? firstViewItems[row] : secondViewItems[row]
-        pickerLabel?.text = itemName
-      return pickerLabel!
-    }
-    
-    func pickerViewEmptyAlert(tag: Int){
-        view.makeToast("第\(tag)项您还没有选择🙁", duration: 1.2, position: .center)
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        if pickerView.tag == 1{
-            firstQuestionAnswer = cnFirstItems[row]
-        }else{
-            secondQuestionAnswer = cnSecondItems[row]
-        }
     }
     
     func stopSelfIndicator(){
@@ -618,6 +448,7 @@ class BooksViewController: UIViewController, UITableViewDelegate, UITableViewDat
                 stopIndicator()
                 loadSetMemOptionVC(book: book, bookIndex: indexPath.row)
             }, failedCompletion: { [self] reason in
+                stopIndicator()
                 if reason == .notPurchasedNewUser{
                     loadMembershipVC(hasTrialed: false, reason: reason, reasonToShow: .PRO_WORDLIST)
                 }else{

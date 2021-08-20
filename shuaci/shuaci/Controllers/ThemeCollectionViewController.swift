@@ -104,6 +104,7 @@ class ThemeCollectionViewController: UIViewController, UICollectionViewDelegate,
                 stopIndicator()
                 changeIntoTheme(theme: theme)
             }, failedCompletion: { [self] reason in
+                stopIndicator()
                 if reason == .notPurchasedNewUser{
                     loadMembershipVC(hasTrialed: false, reason: reason, reasonToShow: .PRO_THEME)
                 }else{

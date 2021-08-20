@@ -154,18 +154,7 @@ class FilterVocabHistoryVC: UIViewController {
         if periodSegCtrl.selectedSegmentIndex == 0 && statusSegCtrl.selectedSegmentIndex == 0 && numOfContinuousMemTimes.count == 0{
             view.makeToast(youDidNothingText, duration: 1.0, position: .center)
         }else{
-            
-            initIndicator(view: self.view)
-            checkIfVIPSubsciptionValid(successCompletion: { [self] in
-                stopIndicator()
-                performFilter()
-            }, failedCompletion: { [self] reason in
-                if reason == .notPurchasedNewUser{
-                    loadMembershipVC(hasTrialed: false, reason: reason, reasonToShow: .PRO_SELECT_TO_REVIEW)
-                }else{
-                    loadMembershipVC(hasTrialed: true, reason: reason, reasonToShow: .PRO_SELECT_TO_REVIEW)
-                }
-            })
+            performFilter()
         }
     }
     
