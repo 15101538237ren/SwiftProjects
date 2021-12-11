@@ -188,7 +188,7 @@ class UMAnalyticsSwift: NSObject {
      @return void
      */
     static func setLocation(location:CLLocation){
-        MobClick.setLocation(location);
+        MobClick.setLatitude(location.coordinate.latitude, longitude: location.coordinate.longitude);
     }
     
     ///---------------------------------------------------------------------------------------
