@@ -26,7 +26,7 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
         SettingItem(symbol_name : "alarm", name: everyDayNotificationText, value: ""),
         SettingItem(symbol_name : "rate_app", name: rateAppText, value: "v1.0.0"),
         SettingItem(symbol_name : "share", name: shareAppText, value: ""),
-        SettingItem(symbol_name : "wechat", name: wechatText, value: "")
+        SettingItem(symbol_name : "feedback", name: feedBackText, value: "")
     ]
     
     
@@ -170,8 +170,8 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
             cell.iconView.theme_tintColor = "Global.settingIconTintColor"
             cell.nameLabel.text = settingItem.name
             if row  == 1{
-                cell.leftValueLabel.text = usText
-                cell.rightValueLabel.text = ukText
+                cell.leftValueLabel.text = ukText
+                cell.rightValueLabel.text = usText
             }else{
                 cell.leftValueLabel.text = offText
                 cell.rightValueLabel.text = onText
@@ -370,7 +370,7 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
         }else if (row == 8){
             showShareVC()
         }else if (row == 9){
-            loadWechatVC()
+            showFeedBackMailComposer()
         }
         
         tableView.deselectRow(at: indexPath, animated: true)
@@ -515,9 +515,9 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
     
     @objc func pronunceStyleSwitched(uiSwitch: UISwitch) {
         if uiSwitch.isOn{
-            preference.us_pronunciation = false
-        }else{
             preference.us_pronunciation = true
+        }else{
+            preference.us_pronunciation = false
         }
         savePreference(userId: currentUser.objectId!.stringValue!, preference: preference)
         mainPanelViewController.update_preference()

@@ -182,6 +182,7 @@ func checkIfVIPSubsciptionValid(successCompletion: @escaping Completion, failedC
                     expireDate = expiryDate
                     return
                 case .expired(let expiryDate, let items):
+                    failedReason = .expired
                     expired = true
                     break
                 case .notPurchased:
