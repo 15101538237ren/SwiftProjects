@@ -229,8 +229,10 @@ analytics_init_warn27 = "此方法不生效，如果使用请将setAutoPageEnabl
 analytics_init_warn28 = "setAutoPageEnabled已调用过，此方法只能调用一次，建议在初始化之前使用";
 
 analytics_init_warn29 = "建议不要在初始化之前使用事件，在初始化之前调用的事件有可能会丢失";
+analytics_init_warn30 = "%@ 页面已设置跳过不做统计";
 
-
+analytics_init_warn31 = "您已设置UMCommon 不hook系统方法";
+analytics_init_warn32 = "您工程中已通过Aspecs hook系统方法，UMCommon将不hook系统方法";
 
 
 

@@ -35,6 +35,7 @@
     public var name: String?               //The name of the series as shown in the legend, tooltip etc.
     public var data: [Any]?                //An array of data points for the series
     public var color: Any?                 //The main color or the series. In line type series it applies to the line and the point markers unless otherwise specified. In bar type series it applies to the bars unless a color is specified per point. The default value is pulled from the options.colors array.
+    public var colors: [Any]?
     public var lineWidth: Float?           //The line width, It is only valid for line, spline, area, areaspline, arearange and arearangespline chart types
     public var borderWidth: Float?         //The border width, It is only valid for column, bar, pie, columnrange, pyramid and funnel chart types
     public var borderColor: String?        //The border color, It is only valid for column, bar, pie, columnrange, pyramid and funnel chart types
@@ -110,6 +111,12 @@
     @discardableResult
     public func color(_ prop: Any) -> AASeriesElement {
         color = prop
+        return self
+    }
+    
+    @discardableResult
+    public func colors(_ prop: [Any]) -> AASeriesElement {
+        colors = prop
         return self
     }
     
@@ -360,7 +367,8 @@ public class AAShadow: AAObject {
 
 public class AAZonesElement: AAObject {
     public var value: Double?
-    public var color: String?
+    public var color: Any?
+    public var fillColor: Any?
     public var dashStyle: String?
 
     @discardableResult
@@ -370,8 +378,14 @@ public class AAZonesElement: AAObject {
     }
     
     @discardableResult
-    public func color(_ prop: String) -> AAZonesElement {
+    public func color(_ prop: Any) -> AAZonesElement {
         color = prop
+        return self
+    }
+    
+    @discardableResult
+    public func fillColor(_ prop: Any) -> AAZonesElement {
+        fillColor = prop
         return self
     }
     

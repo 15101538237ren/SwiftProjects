@@ -1,2 +1,3 @@
 ${PODS_ROOT}/Target Support Files/Pods-shuaci/Pods-shuaci-resources.sh
 ${PODS_ROOT}/UMCCommonLog/UMCommonLog/UMCommonLog.bundle
+${PODS_ROOT}/UMCPush/UMPush/UMPushResource.bundle

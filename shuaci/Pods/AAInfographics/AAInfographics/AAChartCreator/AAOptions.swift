@@ -243,7 +243,7 @@ public class AAOptionsConstructor {
                 .symbol(aaChartModel.markerSymbol?.rawValue) //Curve connection point type: "circle", "square", "diamond", "triangle", "triangle-down", the default is "circle"
             if (aaChartModel.markerSymbolStyle == .innerBlank) {
                 aaMarker
-                    .fillColor("#ffffff") //The fill color of the point (used to set the fill color of the polyline connection point)
+                    .fillColor(AAColor.white) //The fill color of the point (used to set the fill color of the polyline connection point)
                     .lineWidth(0.4 * aaChartModel.markerRadius!) //The width of the outer line (used to set the width of the outline stroke of the polyline connection point)
                     .lineColor("") //The color of the outer edge (used to set the outline stroke color of the polyline connection point. When the value is an empty string, the color of the data point or data column is taken by default)
             } else if (aaChartModel.markerSymbolStyle == .borderBlank) {
@@ -276,7 +276,8 @@ public class AAOptionsConstructor {
                 .borderWidth(0)
                 .borderRadius(aaChartModel.borderRadius)
             if (aaChartModel.polar == true) {
-                aaColumn.pointPadding(0)
+                aaColumn
+                    .pointPadding(0)
                     .groupPadding(0.005)
             }
             aaPlotOptions.column(aaColumn)
@@ -285,24 +286,25 @@ public class AAOptionsConstructor {
                 .borderWidth(0)
                 .borderRadius(aaChartModel.borderRadius)
             if (aaChartModel.polar == true) {
-                aaBar.pointPadding(0)
+                aaBar
+                    .pointPadding(0)
                     .groupPadding(0.005)
             }
             aaPlotOptions.bar(aaBar)
         case .pie:
-            let aaPie = AAPie()
-                .allowPointSelect(true)
-                .cursor("pointer")
-                .showInLegend(true)
             if (aaChartModel.dataLabelsEnabled == true) {
                 aaDataLabels.format("<b>{point.name}</b>: {point.percentage:.1f} %")
             }
-            aaPlotOptions.pie(aaPie)
+            aaPlotOptions
+                .pie(AAPie()
+                         .allowPointSelect(true)
+                         .cursor("pointer")
+                         .showInLegend(true))
         case .columnrange:
             aaPlotOptions
                 .columnrange(AAColumnrange()
-                              .borderRadius(aaChartModel.borderRadius)
-                              .borderWidth(0))
+                                 .borderRadius(aaChartModel.borderRadius)
+                                 .borderWidth(0))
             
         default: break
         }

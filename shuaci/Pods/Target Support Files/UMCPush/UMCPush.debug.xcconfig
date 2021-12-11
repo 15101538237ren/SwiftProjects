@@ -1,5 +1,5 @@
 CONFIGURATION_BUILD_DIR = ${PODS_CONFIGURATION_BUILD_DIR}/UMCPush
-FRAMEWORK_SEARCH_PATHS = $(inherited) "${PODS_ROOT}/UMAPM/UMAPM_1.1.1" "${PODS_ROOT}/UMCCommon/UMCommon_7.2.5" "${PODS_ROOT}/UMCPush" "${PODS_ROOT}/UMDevice/UMDevice_1.1.0"
+FRAMEWORK_SEARCH_PATHS = $(inherited) "${PODS_ROOT}/UMAPM/UMAPM_1.5.5" "${PODS_ROOT}/UMCCommon/UMCommon_7.3.5" "${PODS_ROOT}/UMCPush/UMPush" "${PODS_ROOT}/UMDevice/UMDevice_2.0.5"
 GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
 OTHER_LDFLAGS = $(inherited) -framework "CoreTelephony" -framework "SystemConfiguration" -framework "UserNotifications"
 PODS_BUILD_DIR = ${BUILD_DIR}

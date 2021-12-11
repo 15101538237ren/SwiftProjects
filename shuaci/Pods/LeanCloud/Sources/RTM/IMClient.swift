@@ -868,6 +868,9 @@ extension IMClient {
             }
         }
         if let conversation = conversation as? T {
+            if (convMessage.hasExisting ? convMessage.existing : false) {
+                conversation.isOutdated = true
+            }
             self.convCollection[conversationID] = conversation
             return conversation
         } else {
@@ -2594,7 +2597,7 @@ public enum IMMessageEvent {
 }
 
 /// IM Client Delegate
-public protocol IMClientDelegate: class {
+public protocol IMClientDelegate: AnyObject {
     
     /// Delegate function of the event about the client.
     /// - Parameters:
@@ -2613,7 +2616,7 @@ public protocol IMClientDelegate: class {
 // MARK: - Signature
 
 /// IM Signature Delegate
-public protocol IMSignatureDelegate: class {
+public protocol IMSignatureDelegate: AnyObject {
     
     /// Delegate function of the signature action
     ///

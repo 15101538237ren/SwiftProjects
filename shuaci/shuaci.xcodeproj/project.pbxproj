@@ -884,7 +884,7 @@
 				MARKETING_VERSION = 1.1.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.honglei.shuaci;
 				PRODUCT_NAME = "刷词";
-				SWIFT_OBJC_BRIDGING_HEADER = "/Users/emmanueldollinger/SwiftProject/shuaci/shuaci-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "/Users/hongleir/Projects/SwiftProject/shuaci/shuaci-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -909,7 +909,7 @@
 				MARKETING_VERSION = 1.1.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.honglei.shuaci;
 				PRODUCT_NAME = "刷词";
-				SWIFT_OBJC_BRIDGING_HEADER = "/Users/emmanueldollinger/SwiftProject/shuaci/shuaci-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "/Users/hongleir/Projects/SwiftProject/shuaci/shuaci-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
