@@ -282,22 +282,22 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
         super.viewDidLoad()
         stopIndicator()
         
-        NotificationCenter.default.addObserver(self, selector: #selector(backToOnline), name: UIApplication.willEnterForegroundNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(goToOffline), name: UIApplication.willResignActiveNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(goToOffline), name: UIApplication.willTerminateNotification, object: nil)
+//        NotificationCenter.default.addObserver(self, selector: #selector(backToOnline), name: UIApplication.willEnterForegroundNotification, object: nil)
+//        NotificationCenter.default.addObserver(self, selector: #selector(goToOffline), name: UIApplication.willResignActiveNotification, object: nil)
+//        NotificationCenter.default.addObserver(self, selector: #selector(goToOffline), name: UIApplication.willTerminateNotification, object: nil)
         
         addBlurBackgroundView()
         updateNumOfLearn()
         startCountDown()
         initLearningRecord()
-        setOnlineStatus(status: currentMode == 1 ? .learning : .reviewing)
+//        setOnlineStatus(status: currentMode == 1 ? .learning : .reviewing)
         updateNumOfUsersOnline()
         updateOnlineUsersPhoto()
         updateUserPhoto()
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(backToCardFront(_:)) )
         tapGesture.delegate = self
         view.addGestureRecognizer(tapGesture)
-        userNumUpdateTimer = Timer.scheduledTimer(timeInterval: numOfUerUpdateInterval, target: self, selector: #selector(updateNumOfUsersOnline), userInfo: nil, repeats: true)
+//        userNumUpdateTimer = Timer.scheduledTimer(timeInterval: numOfUerUpdateInterval, target: self, selector: #selector(updateNumOfUsersOnline), userInfo: nil, repeats: true)
         userPhotoUpdateTimer = Timer.scheduledTimer(timeInterval: userPhotoUpdateInterval, target: self, selector: #selector(updateUserPhotosOnline), userInfo: nil, repeats: true)
         let _ = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(tictoc), userInfo: nil, repeats: true)
         getMotto()
@@ -366,6 +366,23 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     func updateNumber(){
+        let count = Int.random(in: 3..<100)
+        if count >= 3 && preference.online_people{
+            DispatchQueue.main.async {
+                self.userPanelView.alpha = 1.0
+                self.userNumLabel.text = "\(count)"
+                self.numText.text = "\(count)"
+            }
+        }else{
+            DispatchQueue.main.async {
+                self.userPanelView.alpha = 0.0
+                self.userNumLabel.text = "\(count)"
+                self.numText.text = "\(count)"
+            }
+        }
+    }
+    
+    func updateNumberOld(){
         if Reachability.isConnectedToNetwork(){
             DispatchQueue.global(qos: .background).async { [self] in
             do {
@@ -421,7 +438,7 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
     
     
     override func viewWillDisappear(_ animated: Bool) {
-        setOnlineStatus(status: .offline)
+//        setOnlineStatus(status: .offline)
         userNumUpdateTimer?.invalidate()
         userPhotoUpdateTimer?.invalidate()
         let pageName:String = currentMode == 1 ? "背单词" : "复习"
@@ -434,7 +451,7 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
         if Reachability.isConnectedToNetwork(){
             DispatchQueue.global(qos: .background).async { [self] in
                 let query = LCQuery(className: "_User")
-                query.whereKey("online", .greaterThanOrEqualTo(1))
+//                query.whereKey("online", .greaterThanOrEqualTo(1))
                 query.whereKey("avatar", .existed)
                 query.whereKey("avatar", .included)
                 query.limit = 10

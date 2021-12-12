@@ -131,15 +131,17 @@ func getThemeColor(key: String) -> String{
 
 func checkIfVIPSubsciptionValid(successCompletion: @escaping Completion, failedCompletion: @escaping FailedVerifySubscriptionHandler){
     
-    if let reason = failedReason{
-        stopIndicator()
-        switch reason {
-        case .success:
-            successCompletion()
-        default:
-            failedCompletion(reason)
+    if let _ = expireDate{
+        if let reason = failedReason{
+            stopIndicator()
+            switch reason {
+            case .success:
+                successCompletion()
+            default:
+                failedCompletion(reason)
+            }
+            return
         }
-        return
     }
     
     let appleValidator = AppleReceiptValidator(service: .production, sharedSecret: sharedSecret)

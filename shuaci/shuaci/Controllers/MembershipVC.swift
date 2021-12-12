@@ -363,7 +363,7 @@ class MembershipVC: UIViewController, UICollectionViewDelegate, UICollectionView
             switch result{
             case .success:
                 UMAnalyticsSwift.event(eventId: "Um_Event_VipSuc", attributes: userInfo)
-                failedReason = .success
+                failedReason = .success // remember to set global variable expireDate: Date?, failedReason: FailedVerifyReason
                 DispatchQueue.main.async {
                     self.dismiss(animated: true, completion: nil)
                 }

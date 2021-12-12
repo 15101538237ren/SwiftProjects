@@ -245,7 +245,7 @@ class LearnOrReviewFinishViewController: UIViewController {
     func loadQouteScene(){
         addBlurBackgroundView()
         initActivityIndicator(text: loadingDakaText)
-        setElements(enable: false)
+        setElements(enable: true)
         getQoute()
     }
     

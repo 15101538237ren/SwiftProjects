@@ -136,10 +136,10 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
             loadBooksNRecords()
             
             loadUserPhoto()
-            setOnlineStatus(status: .online)
-            NotificationCenter.default.addObserver(self, selector: #selector(backToOnline), name: UIApplication.willEnterForegroundNotification, object: nil)
-            NotificationCenter.default.addObserver(self, selector: #selector(goToOffline), name: UIApplication.willResignActiveNotification, object: nil)
-            NotificationCenter.default.addObserver(self, selector: #selector(goToOffline), name: UIApplication.willTerminateNotification, object: nil)
+//            setOnlineStatus(status: .online)
+//            NotificationCenter.default.addObserver(self, selector: #selector(backToOnline), name: UIApplication.willEnterForegroundNotification, object: nil)
+//            NotificationCenter.default.addObserver(self, selector: #selector(goToOffline), name: UIApplication.willResignActiveNotification, object: nil)
+//            NotificationCenter.default.addObserver(self, selector: #selector(goToOffline), name: UIApplication.willTerminateNotification, object: nil)
         }
         else{
             dismiss(animated: true, completion: nil)
@@ -147,7 +147,7 @@ class MainPanelViewController: UIViewController, CAAnimationDelegate {
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        setOnlineStatus(status: .offline)
+//        setOnlineStatus(status: .offline)
     }
     
     // MARK: - Outlet Actions
