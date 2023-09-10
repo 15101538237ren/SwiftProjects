@@ -30,24 +30,18 @@
  
  */
 
-#if os(iOS)
-import UIKit
-#elseif os(macOS)
-import AppKit
-#endif
 import WebKit
 
-let kUserContentMessageNameMouseOver = "mouseover"
-
-@available(iOS 9.0, macCatalyst 13.0, *)
+@available(iOS 10.0, macCatalyst 13.1, macOS 10.13, *)
 @objc public protocol AAChartViewDelegate: NSObjectProtocol {
-    @objc optional func aaChartViewDidFinishLoad (_ aaChartView: AAChartView)
-    @objc optional func aaChartViewDidFinishEvaluate (_ aaChartView: AAChartView)
+    @objc optional func aaChartViewDidFinishLoad(_ aaChartView: AAChartView)
+    @objc optional func aaChartViewDidFinishEvaluate(_ aaChartView: AAChartView)
+    @objc optional func aaChartView(_ aaChartView: AAChartView, clickEventMessage: AAClickEventMessageModel)
     @objc optional func aaChartView(_ aaChartView: AAChartView, moveOverEventMessage: AAMoveOverEventMessageModel)
 }
 
-@available(iOS 9.0, macCatalyst 13.0, *)
-public class AAMoveOverEventMessageModel: NSObject {
+@available(iOS 10.0, macCatalyst 13.1, macOS 10.13, *)
+public class AAEventMessageModel: NSObject {
     public var name: String?
     public var x: Float?
     public var y: Float?
@@ -56,17 +50,23 @@ public class AAMoveOverEventMessageModel: NSObject {
     public var index: Int?
 }
 
+@available(iOS 10.0, macCatalyst 13.1, macOS 10.13, *)
+public class AAClickEventMessageModel: AAEventMessageModel {}
+
+@available(iOS 10.0, macCatalyst 13.1, macOS 10.13, *)
+public class AAMoveOverEventMessageModel: AAEventMessageModel {}
+
 //Refer to: https://stackoverflow.com/questions/26383031/wkwebview-causes-my-view-controller-to-leak
-@available(iOS 9.0, macCatalyst 13.0, *)
-class AALeakAvoider : NSObject, WKScriptMessageHandler {
+@available(iOS 10.0, macCatalyst 13.1, macOS 10.13, *)
+public class AALeakAvoider : NSObject, WKScriptMessageHandler {
     weak var delegate : WKScriptMessageHandler?
     
-    init(delegate:WKScriptMessageHandler) {
+    public init(delegate:WKScriptMessageHandler) {
         self.delegate = delegate
         super.init()
     }
     
-    func userContentController(
+    public func userContentController(
         _ userContentController: WKUserContentController,
         didReceive message: WKScriptMessage
     ) {
@@ -74,20 +74,46 @@ class AALeakAvoider : NSObject, WKScriptMessageHandler {
     }
 }
 
-@available(iOS 9.0, macCatalyst 13.0, *)
+@available(iOS 10.0, macCatalyst 13.1, macOS 10.13, *)
 public class AAChartView: WKWebView {
-    public weak var delegate: AAChartViewDelegate?
+    let kUserContentMessageNameClick = "click"
+    let kUserContentMessageNameMouseOver = "mouseover"
+    
+    private var clickEventEnabled: Bool?
+    private var touchEventEnabled: Bool?
+    
+    private weak var _delegate: AAChartViewDelegate?
+    public weak var delegate: AAChartViewDelegate? {
+        set {
+            assert(optionsJson == nil, "You should set the delegate before drawing the chart")//To Make sure the clickEventEnabled and touchEventEnabled properties are working correctly
+
+            _delegate = newValue
+            if newValue?.responds(to: #selector(AAChartViewDelegate.aaChartView(_:clickEventMessage:))) == true {
+                clickEventEnabled = true
+                addClickEventMessageHandler()
+            }
+            if newValue?.responds(to: #selector(AAChartViewDelegate.aaChartView(_:moveOverEventMessage:))) == true {
+                touchEventEnabled = true
+                addMouseOverEventMessageHandler()
+            }
+        }
+        get {
+            _delegate
+        }
+        
+    }
   
     // MARK: - Setter Method
-    public var scrollEnabled: Bool? {
+    #if os(iOS)
+    @available(*, unavailable, message: "This property was renamed, please use isScrollEnabled instead of it")
+    public var scrollEnabled: Bool?
+    public var isScrollEnabled: Bool? {
         willSet {
-            #if os(iOS)
             scrollView.isScrollEnabled = newValue!
-            #elseif os(macOS)
-            scrollEnabled = newValue!
-            #endif
         }
     }
+    #endif
+
     
     public var isClearBackgroundColor: Bool? {
         willSet {
@@ -141,8 +167,6 @@ public class AAChartView: WKWebView {
     }
     
     private var optionsJson: String?
-    private var touchEventEnabled = false
-    
     
     // MARK: - Initialization
     override private init(frame: CGRect, configuration: WKWebViewConfiguration) {
@@ -169,6 +193,7 @@ public class AAChartView: WKWebView {
     }
     
     private func safeEvaluateJavaScriptString (_ jsString: String) {
+        
         if optionsJson == nil {
             #if DEBUG
             print("💀💀💀AAChartView did not finish loading!!!")
@@ -210,15 +235,32 @@ public class AAChartView: WKWebView {
         })
     }
     
+    private func configurePlotOptionsSeriesPointEvents(_ aaOptions: AAOptions) {
+        if aaOptions.plotOptions == nil {
+            aaOptions.plotOptions = AAPlotOptions().series(AASeries().point(AAPoint().events(AAPointEvents())))
+        } else if aaOptions.plotOptions?.series == nil {
+            aaOptions.plotOptions?.series = AASeries().point(AAPoint().events(AAPointEvents()))
+        } else if aaOptions.plotOptions?.series?.point == nil {
+            aaOptions.plotOptions?.series?.point = AAPoint().events(AAPointEvents())
+        } else if aaOptions.plotOptions?.series?.point?.events == nil {
+            aaOptions.plotOptions?.series?.point?.events = AAPointEvents()
+        }
+    }
+    
     private func configureOptionsJsonStringWithAAOptions(_ aaOptions: AAOptions) {
         if isClearBackgroundColor == true {
             aaOptions.chart?.backgroundColor = "rgba(0,0,0,0)"
         }
         
-        if     aaOptions.touchEventEnabled == true
-            && touchEventEnabled == false {
-            touchEventEnabled = true
-            configuration.userContentController.add(AALeakAvoider.init(delegate: self), name: kUserContentMessageNameMouseOver)
+        if clickEventEnabled == true {
+            aaOptions.clickEventEnabled = true
+            configurePlotOptionsSeriesPointEvents(aaOptions)
+        }
+        if touchEventEnabled == true {
+            aaOptions.touchEventEnabled = true
+            if clickEventEnabled != true {//避免重复调用配置方法
+                configurePlotOptionsSeriesPointEvents(aaOptions)
+            }
         }
         
         #if DEBUG
@@ -236,6 +278,14 @@ public class AAChartView: WKWebView {
         optionsJson = aaOptions.toJSON()!
     }
     
+    private func addClickEventMessageHandler() {
+        configuration.userContentController.add(AALeakAvoider.init(delegate: self), name: kUserContentMessageNameClick)
+    }
+    
+    private func addMouseOverEventMessageHandler() {
+        configuration.userContentController.add(AALeakAvoider.init(delegate: self), name: kUserContentMessageNameMouseOver)
+    }
+    
 
     deinit {
         configuration.userContentController.removeAllUserScripts()
@@ -249,7 +299,7 @@ public class AAChartView: WKWebView {
 
 
 // MARK: - Configure Chart View Content With AAChartModel
-@available(iOS 9.0, macCatalyst 13.0, *)
+@available(iOS 10.0, macCatalyst 13.1, macOS 10.13, *)
 extension AAChartView {
     /// Function of drawing chart view
     ///
@@ -261,14 +311,14 @@ extension AAChartView {
     
     /// Function of only refresh the chart data after the chart has been rendered
     ///
-    /// - Parameter chartModel: chart model series  array
+    /// - Parameter chartModelSeries: chart model series  array
     public func aa_onlyRefreshTheChartDataWithChartModelSeries(_ chartModelSeries: [AASeriesElement]) {
         aa_onlyRefreshTheChartDataWithChartOptionsSeries(chartModelSeries)
     }
     
     /// Function of only refresh the chart data after the chart has been rendered
     ///
-    /// - Parameter chartModel: chart model series  array
+    /// - Parameter chartModelSeries: chart model series  array
     /// - Parameter animation: enable animation effect or not
     public func aa_onlyRefreshTheChartDataWithChartModelSeries(_ chartModelSeries: [AASeriesElement], animation: Bool) {
         aa_onlyRefreshTheChartDataWithChartOptionsSeries(chartModelSeries, animation: animation)
@@ -284,7 +334,7 @@ extension AAChartView {
 }
 
 // MARK: - Configure Chart View Content With AAOptions
-@available(iOS 9.0, macCatalyst 13.0, *)
+@available(iOS 10.0, macCatalyst 13.1, macOS 10.13, *)
 extension AAChartView {
     /// Function of drawing chart view
     ///
@@ -336,11 +386,11 @@ extension AAChartView {
 }
 
 // MARK: - Addtional update Chart View Content methods
-@available(iOS 9.0, macCatalyst 13.0, *)
+@available(iOS 10.0, macCatalyst 13.1, macOS 10.13, *)
 extension AAChartView {
     /// A common chart update function
     /// (you can update any chart element) to open, close, delete, add, resize, reformat, etc. elements in the chart.
-    /// Refer to https://api.highcharts.com.cn/highcharts#Chart.update
+    /// Refer to https://api.highcharts.com/highcharts#Chart.update
     ///
     /// It should be noted that when updating the array configuration,
     /// for example, when updating configuration attributes including arrays such as xAxis, yAxis, series, etc., the updated data will find existing objects based on id and update them. If no id is configured or passed If the id does not find the corresponding object, the first element of the array is updated. Please refer to this example for details.
@@ -402,7 +452,7 @@ extension AAChartView {
     
     /// Add a new point to the data column after the chart has been rendered.
     /// The new point can be the last point, or it can be placed in the corresponding position given the X value (first, middle position, depending on the x value)
-    /// Refer to https://api.highcharts.com.cn/highcharts#Series.addPoint
+    /// Refer to https://api.highcharts.com/highcharts#Series.addPoint
     ///
     /// - Parameter elementIndex: The specific series element
     /// - Parameter options: The configuration of the data point can be a single value, indicating the y value of the data point; it can also be an array containing x and y values; it can also be an object containing detailed data point configuration. For detailed configuration, see series.data.
@@ -451,7 +501,7 @@ extension AAChartView {
     }
     
     /// Add a new series element to the chart after the chart has been rendered.
-    /// Refer to https://api.highcharts.com.cn/highcharts#Chart.addSeries
+    /// Refer to https://api.highcharts.com/highcharts#Chart.addSeries
     ///
     /// - Parameter element: chart series element
     public func aa_addElementToChartSeries(element: AASeriesElement) {
@@ -462,7 +512,7 @@ extension AAChartView {
     }
     
     /// Remove a specific series element from the chart after the chart has been rendered.
-    /// Refer to https://api.highcharts.com.cn/highcharts#Series.remove
+    /// Refer to https://api.highcharts.com/highcharts#Series.remove
     ///
     /// - Parameter elementIndex: chart series element index
     public func aa_removeElementFromChartSeries(elementIndex: Int) {
@@ -488,7 +538,7 @@ extension AAChartView {
     
     ///  Evaluate JavaScript string function body
     ///
-    /// - Parameter JSFunctionBodyString: valid JavaScript function body string
+    /// - Parameter JSFunctionString: valid JavaScript function body string
     public func aa_evaluateJavaScriptStringFunction(_ JSFunctionString: String) {
         if optionsJson != nil {
             let pureJSFunctionStr = JSFunctionString.aa_toPureJSString()
@@ -533,7 +583,7 @@ extension AAChartView {
     }
 
     /// Set the chart view content be adaptive to screen rotation with custom animation effect
-    /// Refer to https://api.highcharts.com.cn/highcharts#Chart.setSize
+    /// Refer to https://api.highcharts.com/highcharts#Chart.setSize
     ///
     /// - Parameter animation: The instance object of AAAnimation
     public func aa_adaptiveScreenRotationWithAnimation(_ animation: AAAnimation) {
@@ -541,8 +591,11 @@ extension AAChartView {
             forName: UIDevice.orientationDidChangeNotification,
             object: nil,
             queue: nil) { [weak self] _ in
-                self?.handleDeviceOrientationChangeEventWithAnimation(animation)
-        }
+                //Delay execution by 0.01 seconds to prevent incorrect screen width and height obtained when the screen is rotated
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.01) {
+                    self?.handleDeviceOrientationChangeEventWithAnimation(animation)
+                }
+            }
     }
     
     private func handleDeviceOrientationChangeEventWithAnimation(_ animation: AAAnimation) {
@@ -554,7 +607,7 @@ extension AAChartView {
 }
 
 // MARK: - WKUIDelegate
-@available(iOS 9.0, macCatalyst 13.0, *)
+@available(iOS 10.0, macCatalyst 13.1, macOS 10.13, *)
 extension AAChartView: WKUIDelegate {
     open func webView(
         _ webView: WKWebView,
@@ -595,7 +648,7 @@ extension AAChartView: WKUIDelegate {
 }
 
 // MARK: - WKNavigationDelegate
-@available(iOS 9.0, macCatalyst 13.0, *)
+@available(iOS 10.0, macCatalyst 13.1, macOS 10.13, *)
 extension AAChartView:  WKNavigationDelegate {
     open func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         drawChart()
@@ -604,21 +657,49 @@ extension AAChartView:  WKNavigationDelegate {
 }
 
 // MARK: - WKScriptMessageHandler
-@available(iOS 9.0, macCatalyst 13.0, *)
+@available(iOS 10.0, macCatalyst 13.1, macOS 10.13, *)
 extension AAChartView: WKScriptMessageHandler {
     open func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
-        if message.name == kUserContentMessageNameMouseOver {
+        if message.name == kUserContentMessageNameClick {
             let messageBody = message.body as! [String: Any]
-            let eventMessageModel = getEventMessageModel(messageBody: messageBody)
+            let eventMessageModel = getClickEventMessageModel(messageBody: messageBody)
+            delegate?.aaChartView?(self, clickEventMessage: eventMessageModel )
+        } else if message.name == kUserContentMessageNameMouseOver {
+            let messageBody = message.body as! [String: Any]
+            let eventMessageModel = getMoveOverEventMessageModel(messageBody: messageBody)
             delegate?.aaChartView?(self, moveOverEventMessage: eventMessageModel)
         }
     }
 }
 
-@available(iOS 9.0, macCatalyst 13.0, *)
+@available(iOS 10.0, macCatalyst 13.1, macOS 10.13, *)
 extension AAChartView {
-    private func getEventMessageModel(messageBody: [String: Any]) -> AAMoveOverEventMessageModel {
-        let eventMessageModel = AAMoveOverEventMessageModel()
+    private func getClickEventMessageModel(messageBody: [String: Any]) -> AAClickEventMessageModel {
+        let eventMessageModel = getEventMessageModel(messageBody: messageBody)
+        let clickMessageModel = AAClickEventMessageModel()
+        clickMessageModel.name = eventMessageModel.name
+        clickMessageModel.x = eventMessageModel.x
+        clickMessageModel.y = eventMessageModel.y
+        clickMessageModel.category = eventMessageModel.category
+        clickMessageModel.offset = eventMessageModel.offset
+        clickMessageModel.index = eventMessageModel.index
+        return clickMessageModel
+    }
+    
+    private func getMoveOverEventMessageModel(messageBody: [String: Any]) -> AAMoveOverEventMessageModel {
+        let eventMessageModel = getEventMessageModel(messageBody: messageBody)
+        let moveOverMessageModel = AAMoveOverEventMessageModel()
+        moveOverMessageModel.name = eventMessageModel.name
+        moveOverMessageModel.x = eventMessageModel.x
+        moveOverMessageModel.y = eventMessageModel.y
+        moveOverMessageModel.category = eventMessageModel.category
+        moveOverMessageModel.offset = eventMessageModel.offset
+        moveOverMessageModel.index = eventMessageModel.index
+        return moveOverMessageModel
+    }
+    
+    private func getEventMessageModel(messageBody: [String: Any]) -> AAEventMessageModel {
+        let eventMessageModel = AAEventMessageModel()
         eventMessageModel.name = messageBody["name"] as? String
         let x = messageBody["x"]
         if x is String {
@@ -649,10 +730,10 @@ extension AAChartView {
 }
 
 // MARK: - JSONSerialization
-@available(iOS 9.0, macCatalyst 13.0, *)
+@available(iOS 10.0, macCatalyst 13.1, macOS 10.13, *)
 extension AAChartView {
     
-     func getJSONStringFromDictionary(dictionary: [String: Any]) -> String {
+    func getJSONStringFromDictionary(dictionary: [String: Any]) -> String {
         if !JSONSerialization.isValidJSONObject(dictionary) {
             print("❌ String object is not valid Dictionary JSON String")
             return ""

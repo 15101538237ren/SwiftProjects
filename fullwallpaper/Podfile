@@ -27,7 +27,15 @@ target 'fullwallpaper' do
   pod 'GBDeviceInfo'
   pod 'SwiftyStoreKit'
   pod 'IGColorPicker'
-  pod 'Disk', :git => 'https://7mxaxlb@gitroyalty.com/saoudrizwan/Disk', :tag => '0.6.4'
+  pod 'Disk', '~> 0.6.4'
   # Pods for fullwallpaper
-
+  post_install do |installer|
+      installer.generated_projects.each do |project|
+            project.targets.each do |target|
+                target.build_configurations.each do |config|
+                    config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '13.0'
+                 end
+            end
+     end
+  end
 end

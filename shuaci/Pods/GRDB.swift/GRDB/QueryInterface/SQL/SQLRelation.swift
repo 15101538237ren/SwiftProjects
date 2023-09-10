@@ -107,15 +107,23 @@ struct SQLRelation {
         var condition: SQLAssociationCondition
         var relation: SQLRelation
         
-        /// Returns true iff this child can change the parent count.
+        /// Returns whether this child can change the parent count.
         ///
         /// Record.including(required: association) // true
         /// Record.including(all: association)      // false
         var impactsParentCount: Bool {
             switch kind {
-            case .oneOptional, .oneRequired:
+            case .oneRequired:
+                // INNER JOIN can clearly reduce the number of rows
+                return true
+            case .oneOptional:
+                // LEFT JOIN does not itself reduce the number of rows, but
+                // maybe the joined table is used somewhere in the relation, in
+                // a way that can reduce the number of rows.
                 return true
             case .all, .bridge:
+                // HasMany associations are prefetched in another SQL request:
+                // they have no impact on this relation.
                 return false
             }
         }
@@ -189,7 +197,7 @@ extension SQLRelation {
 }
 
 extension SQLRelation: Refinable {
-    func select(_ selection: @escaping (Database) throws -> [SQLSelection]) -> Self {
+    func selectWhenConnected(_ selection: @escaping (Database) throws -> [SQLSelection]) -> Self {
         with {
             $0.selectionPromise = DatabasePromise(selection)
         }
@@ -197,15 +205,15 @@ extension SQLRelation: Refinable {
     
     // Convenience
     func select(_ selection: [SQLSelection]) -> Self {
-        select { _ in selection }
+        selectWhenConnected { _ in selection }
     }
     
     // Convenience
     func select(_ expressions: SQLExpression...) -> Self {
-        select { _ in expressions.map { .expression($0) } }
+        select(expressions.map { .expression($0) })
     }
     
-    /// Sets the selection, removes all selections from chidren, and clears the
+    /// Sets the selection, removes all selections from children, and clears the
     /// `isDistinct` flag.
     func selectOnly(_ selection: [SQLSelection]) -> Self {
         self
@@ -220,7 +228,7 @@ extension SQLRelation: Refinable {
             }
     }
     
-    func annotated(with selection: @escaping (Database) throws -> [SQLSelection]) -> Self {
+    func annotatedWhenConnected(with selection: @escaping (Database) throws -> [SQLSelection]) -> Self {
         with {
             let old = $0.selectionPromise
             $0.selectionPromise = DatabasePromise { db in
@@ -231,10 +239,10 @@ extension SQLRelation: Refinable {
     
     // Convenience
     func annotated(with selection: [SQLSelection]) -> Self {
-        annotated(with: { _ in selection })
+        annotatedWhenConnected(with: { _ in selection })
     }
     
-    func filter(_ predicate: @escaping (Database) throws -> SQLExpression) -> Self {
+    func filterWhenConnected(_ predicate: @escaping (Database) throws -> SQLExpression) -> Self {
         with {
             if let old = $0.filterPromise {
                 $0.filterPromise = DatabasePromise { db in
@@ -248,10 +256,10 @@ extension SQLRelation: Refinable {
     
     // Convenience
     func filter(_ predicate: SQLExpression) -> Self {
-        filter { _ in predicate }
+        filterWhenConnected { _ in predicate }
     }
     
-    func order(_ orderings: @escaping (Database) throws -> [SQLOrdering]) -> Self {
+    func orderWhenConnected(_ orderings: @escaping (Database) throws -> [SQLOrdering]) -> Self {
         with {
             $0.ordering = SQLRelation.Ordering(orderings: orderings)
         }
@@ -274,13 +282,22 @@ extension SQLRelation: Refinable {
         }
     }
     
-    func group(_ expressions: @escaping (Database) throws -> [SQLExpression]) -> Self {
+    // Remove ordering iff relation has no LIMIT clause
+    func unorderedUnlessLimited() -> Self {
+        if limit != nil {
+            return self
+        } else {
+            return unordered()
+        }
+    }
+    
+    func groupWhenConnected(_ expressions: @escaping (Database) throws -> [SQLExpression]) -> Self {
         with {
             $0.groupPromise = DatabasePromise(expressions)
         }
     }
     
-    func having(_ predicate: @escaping (Database) throws -> SQLExpression) -> Self {
+    func havingWhenConnected(_ predicate: @escaping (Database) throws -> SQLExpression) -> Self {
         with {
             if let old = $0.havingExpressionPromise {
                 $0.havingExpressionPromise = DatabasePromise { db in
@@ -378,7 +395,7 @@ extension SQLRelation {
         // has-many-through associations, where we user the cardinality of
         // the association instead.
         //
-        // By prefering the cardinality of the child kind in general, we make it
+        // By preferring the cardinality of the child kind in general, we make it
         // possible to join to a plural association and decode it in a singular
         // key. In the example below, we have a singular kind `.oneRequired`,
         // a plural to-many association, and we use a singular key:
@@ -513,11 +530,18 @@ extension SQLRelation {
         }
     }
     
-    func removingChildrenForPrefetchedAssociations() -> Self {
-        filteringChildren {
-            switch $0.kind {
-            case .all, .bridge: return false
-            case .oneRequired, .oneOptional: return true
+    /// Return a relation without any `.all` and `.bridge` children, recursively.
+    func removingPrefetchedAssociations() -> Self {
+        with {
+            $0.children = $0.children.compactMapValues { child in
+                switch child.kind {
+                case .all, .bridge:
+                    return nil
+                case .oneRequired, .oneOptional:
+                    return child.with {
+                        $0.relation = $0.relation.removingPrefetchedAssociations()
+                    }
+                }
             }
         }
     }
@@ -588,7 +612,12 @@ extension SQLRelation {
             guard !isDistinct else {
                 return try fetchTrivialCount(db)
             }
-    
+            
+            // <https://github.com/groue/GRDB.swift/issues/1357>
+            guard selection.allSatisfy(\.isTriviallyCountable) else {
+                return try fetchTrivialCount(db)
+            }
+            
             // SELECT expr1, expr2, ... FROM tableName ...
             // ->
             // SELECT COUNT(*) FROM tableName ...
@@ -611,7 +640,7 @@ struct SQLLimit {
     let offset: Int?
     
     var sql: String {
-        if let offset = offset {
+        if let offset {
             return "\(limit) OFFSET \(offset)"
         } else {
             return "\(limit)"
@@ -884,7 +913,7 @@ extension JoinMapping {
             fatalError("Provide at least one left row, or this method can't generate SQL that can be observed.")
         }
         
-        let mappings: [(leftIndex: Rows.Element.ColumnIndex, rightColumn: Column)] = map { mapping in
+        let mappings = map { mapping in
             guard let leftIndex = firstLeftRow.index(forColumn: mapping.left) else {
                 fatalError("Missing column: \(mapping.left)")
             }

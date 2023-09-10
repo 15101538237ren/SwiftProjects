@@ -4,7 +4,7 @@
 // Licensed under Apache License v2.0 with Runtime Library Exception
 //
 // See LICENSE.txt for license information:
-// https://github.com/apple/swift-protobuf/blob/master/LICENSE.txt
+// https://github.com/apple/swift-protobuf/blob/main/LICENSE.txt
 //
 // -----------------------------------------------------------------------------
 ///
@@ -23,5 +23,9 @@ public enum BinaryEncodingError: Error {
   /// fields but the message being encoded did not include values for them. You
   /// must pass `partial: true` during encoding if you wish to explicitly ignore
   /// missing required fields.
+  ///
+  /// This is reused for when messages are over the limited of maximum of 2GB in
+  /// encoded size. The error is reused to avoid making a breaking change of
+  /// adding a new error code.
   case missingRequiredFields
 }

@@ -24,6 +24,8 @@
 
 import Foundation
 
+// TODO: `FieldType` and `FieldType.BaseType` should require `Sendable` but we cannot do so yet without possibly breaking compatibility.
+
 // Note: The protobuf- and JSON-specific methods here are defined
 // in ProtobufTypeAdditions.swift and JSONTypeAdditions.swift
 public protocol FieldType {
@@ -50,7 +52,7 @@ public protocol FieldType {
 /// Marker protocol for types that can be used as map keys
 ///
 public protocol MapKeyType: FieldType {
-    /// A comparision function for where order is needed.  Can't use `Comparable`
+    /// A comparison function for where order is needed.  Can't use `Comparable`
     /// because `Bool` doesn't conform, and since it is `public` there is no way
     /// to add a conformance internal to SwiftProtobuf.
     static func _lessThan(lhs: BaseType, rhs: BaseType) -> Bool

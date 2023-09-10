@@ -77,7 +77,7 @@
 		<key>Pods-fullwallpaper.xcscheme</key>
 		<dict>
 			<key>isShown</key>
-			<true/>
+			<false/>
 		</dict>
 		<key>Refreshable.xcscheme</key>
 		<dict>
@@ -155,11 +155,6 @@
 			<false/>
 		</dict>
 		<key>UMDevice.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
-		<key>UMPush.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>

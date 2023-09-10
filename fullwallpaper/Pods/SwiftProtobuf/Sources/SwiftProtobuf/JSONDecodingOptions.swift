@@ -4,7 +4,7 @@
 // Licensed under Apache License v2.0 with Runtime Library Exception
 //
 // See LICENSE.txt for license information:
-// https://github.com/apple/swift-protobuf/blob/master/LICENSE.txt
+// https://github.com/apple/swift-protobuf/blob/main/LICENSE.txt
 //
 // -----------------------------------------------------------------------------
 ///
@@ -22,7 +22,9 @@ public struct JSONDecodingOptions {
   public var messageDepthLimit: Int = 100
 
   /// If unknown fields in the JSON should be ignored. If they aren't
-  /// ignored, an error will be raised if one is encountered.
+  /// ignored, an error will be raised if one is encountered. This also
+  /// causes unknown enum values (especially string values) to be silently
+  /// ignored.
   public var ignoreUnknownFields: Bool = false
 
   public init() {}

@@ -1,19 +1,73 @@
 import Foundation
 
 extension FetchableRecord where Self: Decodable {
-    public init(row: Row) {
-        // Intended force-try. FetchableRecord is designed for records that
-        // reliably decode from rows.
-        self = try! RowDecoder().decode(from: row)
+    /// Creates a record from `row`, using the `Decodable` conformance.
+    public init(row: Row) throws {
+        self = try FetchableRecordDecoder().decode(Self.self, from: row)
     }
 }
 
-// For testability. Not intended to become public as long as FetchableRecord has
-// a non-throwing row initializer, since this would open an undesired door.
-class RowDecoder {
-    init() { }
+/// An object that decodes fetchable records from database rows.
+///
+/// The example below shows how to decode an instance of a simple `Player`
+/// type, that conforms to both ``FetchableRecord`` and `Decodable`, from a
+/// database row.
+///
+/// ```swift
+/// struct Player: FetchableRecord, Decodable {
+///     var id: Int64
+///     var name: String
+///     var score: Int
+/// }
+///
+/// try dbQueue.read { db in
+///     if let row = try Row.fetchOne(db, sql: "SELECT * FROM player WHERE id = 42") {
+///         let decoder = FetchableRecordDecoder()
+///         let player = try decoder.decode(Player.self, from: row)
+///         print(player.name)
+///     }
+/// }
+/// ```
+///
+/// You will generally not need to create an instance of
+/// `FetchableRecordDecoder`. The above sample code is correct, but you will
+/// generally write instead:
+///
+/// ```swift
+/// try dbQueue.read { db in
+///     // Prefer the init(row:) initializer:
+///     if let row = try Row.fetchOne(db, sql: "SELECT * FROM player WHERE id = 42") {
+///         let player = try Player(row: row)
+///         print(player.name)
+///     }
+///
+///     // OR just directly fetch a player:
+///     if let player = try Player.fetchOne(db, sql: "SELECT * FROM player WHERE id = 42") {
+///         print(player.name)
+///     }
+/// }
+/// ```
+///
+/// The behavior of the decoder depends on the decoded type. See:
+///
+/// - ``FetchableRecord/databaseColumnDecodingStrategy-6uefz``
+/// - ``FetchableRecord/databaseDateDecodingStrategy-78y03``
+/// - ``FetchableRecord/databaseDecodingUserInfo-77jim``
+/// - ``FetchableRecord/databaseJSONDecoder(for:)-7lmxd``
+public class FetchableRecordDecoder {
+    /// Creates a decoder for fetchable records.
+    public init() { }
     
-    func decode<T: FetchableRecord & Decodable>(_ type: T.Type = T.self, from row: Row) throws -> T {
+    /// Returns a record of the type you specify, decoded from a
+    /// database row.
+    ///
+    /// - Parameters:
+    ///   - type: The type of the record to decode from the supplied
+    ///     database row.
+    ///   - row: The database row to decode.
+    /// - Returns: An instance of the specified record type, if the decoder
+    ///   can parse the database row.
+    public func decode<T: FetchableRecord & Decodable>(_ type: T.Type, from row: Row) throws -> T {
         let decoder = _RowDecoder<T>(row: row, codingPath: [], columnDecodingStrategy: T.databaseColumnDecodingStrategy)
         return try T(from: decoder)
     }
@@ -99,7 +153,7 @@ private struct _RowDecoder<R: FetchableRecord>: Decoder {
         
         func contains(_ key: Key) -> Bool {
             let row = decoder.row
-            if let _columnForKey = _columnForKey {
+            if let _columnForKey {
                 if let column = _columnForKey[key.stringValue] {
                     assert(row.hasColumn(column))
                     return true
@@ -117,13 +171,14 @@ private struct _RowDecoder<R: FetchableRecord>: Decoder {
         }
         
         func decodeNil(forKey key: Key) throws -> Bool {
-            // Nil is only possible for columns and scopes (optional
-            // associations), not for prefetched rows.
             let row = decoder.row
             if let column = try? decodeColumn(forKey: key), row[column] != nil {
                 return false
             }
             if row.scopesTree[key.stringValue] != nil {
+                return false
+            }
+            if row.prefetchedRows[key.stringValue] != nil {
                 return false
             }
             return true
@@ -149,7 +204,7 @@ private struct _RowDecoder<R: FetchableRecord>: Decoder {
         // swiftlint:enable comma
         
         private func decodeColumn(forKey key: Key) throws -> String {
-            guard let _columnForKey = _columnForKey else {
+            guard let _columnForKey else {
                 return key.stringValue
             }
             
@@ -207,9 +262,9 @@ private struct _RowDecoder<R: FetchableRecord>: Decoder {
                     return try R.databaseDateDecodingStrategy.decodeIfPresent(
                         fromRow: row,
                         atUncheckedIndex: index) as! T?
-                } else if let type = T.self as? (DatabaseValueConvertible & StatementColumnConvertible).Type {
+                } else if let type = T.self as? any (DatabaseValueConvertible & StatementColumnConvertible).Type {
                     return try type.fastDecodeIfPresent(fromRow: row, atUncheckedIndex: index) as! T?
-                } else if let type = T.self as? DatabaseValueConvertible.Type {
+                } else if let type = T.self as? any DatabaseValueConvertible.Type {
                     return try type.decodeIfPresent(fromRow: row, atUncheckedIndex: index) as! T?
                 } else if row.impl.hasNull(atUncheckedIndex: index) {
                     return nil
@@ -218,9 +273,15 @@ private struct _RowDecoder<R: FetchableRecord>: Decoder {
                 }
             }
             
-            // Scope? (beware left joins: check if scoped row contains non-null values)
-            if let scopedRow = row.scopesTree[key.stringValue], scopedRow.containsNonNullValue {
-                return try decode(type, fromRow: scopedRow, codingPath: codingPath + [key])
+            // Scope?
+            if let scopedRow = row.scopesTree[key.stringValue] {
+                // Beware left joins: check if scoped row contains non-null
+                // values before decoding
+                if scopedRow.containsNonNullValue {
+                    return try decode(type, fromRow: scopedRow, codingPath: codingPath + [key])
+                } else {
+                    return nil
+                }
             }
             
             // Prefetched Rows?
@@ -229,7 +290,7 @@ private struct _RowDecoder<R: FetchableRecord>: Decoder {
                 return try T(from: decoder)
             }
             
-            // Key is not a column, and not a scope.
+            // Unknown key
             return nil
         }
         
@@ -244,9 +305,9 @@ private struct _RowDecoder<R: FetchableRecord>: Decoder {
                 // This allows decoding Date from String, or DatabaseValue from NULL.
                 if type == Date.self {
                     return try R.databaseDateDecodingStrategy.decode(fromRow: row, atUncheckedIndex: index) as! T
-                } else if let type = T.self as? (DatabaseValueConvertible & StatementColumnConvertible).Type {
+                } else if let type = T.self as? any (DatabaseValueConvertible & StatementColumnConvertible).Type {
                     return try type.fastDecode(fromRow: row, atUncheckedIndex: index) as! T
-                } else if let type = T.self as? DatabaseValueConvertible.Type {
+                } else if let type = T.self as? any DatabaseValueConvertible.Type {
                     return try type.decode(fromRow: row, atUncheckedIndex: index) as! T
                 } else {
                     return try decode(type, fromRow: row, columnAtIndex: index, key: key)
@@ -264,7 +325,7 @@ private struct _RowDecoder<R: FetchableRecord>: Decoder {
                 return try T(from: decoder)
             }
             
-            // Key is not a column, and not a scope.
+            // Unknown key
             //
             // Should be throw an error? Well... The use case is the following:
             //
@@ -291,8 +352,9 @@ private struct _RowDecoder<R: FetchableRecord>: Decoder {
             //
             // Our current strategy is to assume that a missing key (such as
             // "book", which is not the name of a column, and not the name of a
-            // scope) has to be decoded right from the base row.
-            if let decodedRootKey = decodedRootKey {
+            // scope) has to be decoded right from the base row. But this can
+            // happen only once.
+            if let decodedRootKey {
                 let keys = [decodedRootKey.stringValue, key.stringValue].sorted()
                 throw DecodingError.keyNotFound(key, DecodingError.Context(
                                                     codingPath: codingPath,
@@ -332,9 +394,9 @@ private struct _RowDecoder<R: FetchableRecord>: Decoder {
         throws -> T
         where T: Decodable
         {
-            if let type = T.self as? FetchableRecord.Type {
+            if let type = T.self as? any FetchableRecord.Type {
                 // Prefer FetchableRecord decoding over Decodable.
-                return type.init(row: row) as! T
+                return try type.init(row: row) as! T
             } else {
                 let decoder = _RowDecoder(row: row, codingPath: codingPath, columnDecodingStrategy: .useDefaultKeys)
                 return try T(from: decoder)
@@ -361,10 +423,16 @@ private struct _RowDecoder<R: FetchableRecord>: Decoder {
                 return try T(from: columnDecoder)
             } catch is JSONRequiredError {
                 // Decode from JSON
-                let data = try row.decodeDataNoCopy(atIndex: index)
-                return try R
-                    .databaseJSONDecoder(for: key.stringValue)
-                    .decode(type.self, from: data)
+                return try row.withUnsafeData(atIndex: index) { data in
+                    guard let data else {
+                        throw DecodingError.valueNotFound(Data.self, DecodingError.Context(
+                            codingPath: codingPath + [key],
+                            debugDescription: "Missing Data"))
+                    }
+                    return try R
+                        .databaseJSONDecoder(for: key.stringValue)
+                        .decode(type.self, from: data)
+                }
             }
         }
     }
@@ -406,7 +474,7 @@ extension PrefetchedRowsDecoder: UnkeyedDecodingContainer {
         defer { currentIndex += 1 }
         
         let columnDecodingStrategy: DatabaseColumnDecodingStrategy
-        if let type = T.self as? FetchableRecord.Type {
+        if let type = T.self as? any FetchableRecord.Type {
             columnDecodingStrategy = type.databaseColumnDecodingStrategy
         } else {
             columnDecodingStrategy = .useDefaultKeys
@@ -482,9 +550,9 @@ extension ColumnDecoder: SingleValueDecodingContainer {
         // This allows decoding Date from String, or DatabaseValue from NULL.
         if type == Date.self {
             return try R.databaseDateDecodingStrategy.decode(fromRow: row, atUncheckedIndex: columnIndex) as! T
-        } else if let type = T.self as? (DatabaseValueConvertible & StatementColumnConvertible).Type {
+        } else if let type = T.self as? any (DatabaseValueConvertible & StatementColumnConvertible).Type {
             return try type.fastDecode(fromRow: row, atUncheckedIndex: columnIndex) as! T
-        } else if let type = T.self as? DatabaseValueConvertible.Type {
+        } else if let type = T.self as? any DatabaseValueConvertible.Type {
             return try type.decode(fromRow: row, atUncheckedIndex: columnIndex) as! T
         } else {
             return try T(from: self)
@@ -492,8 +560,7 @@ extension ColumnDecoder: SingleValueDecodingContainer {
     }
 }
 
-@available(macOS 10.12, watchOS 3.0, tvOS 10.0, *)
-private var iso8601Formatter: ISO8601DateFormatter = {
+private let iso8601Formatter: ISO8601DateFormatter = {
     let formatter = ISO8601DateFormatter()
     formatter.formatOptions = .withInternetDateTime
     return formatter
@@ -504,7 +571,7 @@ extension DatabaseDateDecodingStrategy {
         if let sqliteStatement = row.sqliteStatement {
             return try decodeIfPresent(
                 fromStatement: sqliteStatement,
-                atUncheckedIndex: Int32(index),
+                atUncheckedIndex: CInt(index),
                 context: RowDecodingContext(row: row, key: .columnIndex(index)))
         } else {
             return try decodeIfPresent(
@@ -517,7 +584,7 @@ extension DatabaseDateDecodingStrategy {
         if let sqliteStatement = row.sqliteStatement {
             return try decode(
                 fromStatement: sqliteStatement,
-                atUncheckedIndex: Int32(index),
+                atUncheckedIndex: CInt(index),
                 context: RowDecodingContext(row: row, key: .columnIndex(index)))
         } else {
             return try decode(
@@ -526,12 +593,14 @@ extension DatabaseDateDecodingStrategy {
         }
     }
     
+    /// - precondition: value is not NULL
     fileprivate func decode(
         fromStatement sqliteStatement: SQLiteStatement,
-        atUncheckedIndex index: Int32,
+        atUncheckedIndex index: CInt,
         context: @autoclosure () -> RowDecodingContext)
     throws -> Date
     {
+        assert(sqlite3_column_type(sqliteStatement, index) != SQLITE_NULL, "unexpected NULL value")
         switch self {
         case .deferredToDate:
             guard let date = Date(sqliteStatement: sqliteStatement, index: index) else {
@@ -551,18 +620,14 @@ extension DatabaseDateDecodingStrategy {
             let timeInterval = TimeInterval(sqliteStatement: sqliteStatement, index: index)
             return Date(timeIntervalSince1970: timeInterval / 1000.0)
         case .iso8601:
-            if #available(macOS 10.12, watchOS 3.0, tvOS 10.0, *) {
-                let string = String(sqliteStatement: sqliteStatement, index: index)
-                guard let date = iso8601Formatter.date(from: string) else {
-                    throw RowDecodingError.valueMismatch(
-                        Date.self,
-                        context: context(),
-                        databaseValue: DatabaseValue(sqliteStatement: sqliteStatement, index: index))
-                }
-                return date
-            } else {
-                fatalError("ISO8601DateFormatter is unavailable on this platform.")
+            let string = String(sqliteStatement: sqliteStatement, index: index)
+            guard let date = iso8601Formatter.date(from: string) else {
+                throw RowDecodingError.valueMismatch(
+                    Date.self,
+                    context: context(),
+                    databaseValue: DatabaseValue(sqliteStatement: sqliteStatement, index: index))
             }
+            return date
         case .formatted(let formatter):
             let string = String(sqliteStatement: sqliteStatement, index: index)
             guard let date = formatter.date(from: string) else {
@@ -586,7 +651,7 @@ extension DatabaseDateDecodingStrategy {
     
     fileprivate func decodeIfPresent(
         fromStatement sqliteStatement: SQLiteStatement,
-        atUncheckedIndex index: Int32,
+        atUncheckedIndex index: CInt,
         context: @autoclosure () -> RowDecodingContext)
     throws -> Date?
     {
@@ -640,13 +705,9 @@ extension DatabaseDateDecodingStrategy {
                 .fromDatabaseValue(dbValue)
                 .map { Date(timeIntervalSince1970: $0 / 1000.0) }
         case .iso8601:
-            if #available(macOS 10.12, watchOS 3.0, tvOS 10.0, *) {
-                return String
-                    .fromDatabaseValue(dbValue)
-                    .flatMap { iso8601Formatter.date(from: $0) }
-            } else {
-                fatalError("ISO8601DateFormatter is unavailable on this platform.")
-            }
+            return String
+                .fromDatabaseValue(dbValue)
+                .flatMap { iso8601Formatter.date(from: $0) }
         case .formatted(let formatter):
             return String
                 .fromDatabaseValue(dbValue)

@@ -2,358 +2,658 @@ extension TableRecord {
     
     // MARK: Request Derivation
     
-    /// Creates a request which fetches all records.
+    static var relationForAll: SQLRelation {
+        .all(fromTable: databaseTableName, selection: { _ in databaseSelection.map(\.sqlSelection) })
+    }
+    
+    /// Returns a request for all records in the table.
     ///
+    /// The record selection is determined by
+    /// ``TableRecord/databaseSelection-7iphs``, which defaults to all columns.
+    ///
+    /// For example:
+    ///
+    /// ```swift
+    /// struct Player: TableRecord { }
+    ///
+    /// try dbQueue.read { db in
     ///     // SELECT * FROM player
     ///     let request = Player.all()
-    ///
-    /// The selection defaults to all columns. This default can be changed for
-    /// all requests by the `TableRecord.databaseSelection` property, or
-    /// for individual requests with the `TableRecord.select` method.
+    /// }
     public static func all() -> QueryInterfaceRequest<Self> {
-        let relation = SQLRelation(
-            source: .table(tableName: databaseTableName, alias: nil),
-            selection: databaseSelection)
-        return QueryInterfaceRequest(relation: relation)
+        QueryInterfaceRequest(relation: relationForAll)
     }
     
-    /// Creates a request which fetches no record.
+    /// Returns an empty request that fetches no record.
+    ///
+    /// For example:
+    ///
+    /// ```swift
+    /// struct Player: TableRecord, FetchableRecord { }
+    ///
+    /// try dbQueue.read { db in
+    ///     let request = Player.none()
+    ///     let players = try request.fetchAll(db) // empty array
+    /// }
     public static func none() -> QueryInterfaceRequest<Self> {
-        return all().none() // don't laugh
+        all().none() // don't laugh
     }
     
-    /// Creates a request which selects *selection*.
+    /// Returns a request that selects the provided result columns.
     ///
-    ///     // SELECT id, email FROM player
-    ///     let request = Player.select(Column("id"), Column("email"))
-    public static func select(_ selection: SQLSelectable...) -> QueryInterfaceRequest<Self> {
-        return all().select(selection)
+    /// For example:
+    ///
+    /// ```swift
+    /// struct Player: TableRecord { }
+    ///
+    /// // SELECT id, score FROM player
+    /// let request = Player.select(Column("id"), Column("score"))
+    /// ```
+    public static func select(_ selection: any SQLSelectable...) -> QueryInterfaceRequest<Self> {
+        all().select(selection)
     }
     
-    /// Creates a request which selects *selection*.
+    /// Returns a request that selects the provided result columns.
     ///
-    ///     // SELECT id, email FROM player
-    ///     let request = Player.select([Column("id"), Column("email")])
-    public static func select(_ selection: [SQLSelectable]) -> QueryInterfaceRequest<Self> {
-        return all().select(selection)
+    /// For example:
+    ///
+    /// ```swift
+    /// struct Player: TableRecord { }
+    ///
+    /// // SELECT id, score FROM player
+    /// let request = Player.select([Column("id"), Column("score")])
+    /// ```
+    public static func select(_ selection: [any SQLSelectable]) -> QueryInterfaceRequest<Self> {
+        all().select(selection)
     }
     
-    /// Creates a request which selects *sql*.
+    /// Returns a request that selects the provided SQL string.
     ///
-    ///     // SELECT id, email FROM player
-    ///     let request = Player.select(sql: "id, email")
+    /// For example:
+    ///
+    /// ```swift
+    /// struct Player: TableRecord { }
+    ///
+    /// // SELECT id, name FROM player
+    /// let request = Player.select(sql: "id, name")
+    ///
+    /// // SELECT id, IFNULL(name, 'Anonymous') FROM player
+    /// let defaultName = "Anonymous"
+    /// let request = Player.select(sql: "id, IFNULL(name, ?)", arguments: [defaultName])
+    /// ```
     public static func select(
         sql: String,
         arguments: StatementArguments = StatementArguments())
-        -> QueryInterfaceRequest<Self>
+    -> QueryInterfaceRequest<Self>
     {
-        return select(literal: SQLLiteral(sql: sql, arguments: arguments))
+        all().select(SQL(sql: sql, arguments: arguments))
     }
     
-    /// Creates a request which selects an SQL *literal*.
+    /// Returns a request that selects the provided ``SQL`` literal.
     ///
-    ///     // SELECT id, email FROM player
-    ///     let request = Player.select(literal: SQLLiteral(sql: "id, email"))
-    public static func select(literal sqlLiteral: SQLLiteral) -> QueryInterfaceRequest<Self> {
-        return all().select(literal: sqlLiteral)
+    /// ``SQL`` literals allow you to safely embed raw values in your SQL,
+    /// without any risk of syntax errors or SQL injection:
+    ///
+    /// ```swift
+    /// struct Player: TableRecord { }
+    ///
+    /// // SELECT id, IFNULL(name, 'Anonymous') FROM player
+    /// let defaultName = "Anonymous"
+    /// let request = Player.select(literal: "id, IFNULL(name, \(defaultName))")
+    /// ```
+    public static func select(literal sqlLiteral: SQL) -> QueryInterfaceRequest<Self> {
+        all().select(sqlLiteral)
     }
     
-    /// Creates a request which selects *selection*, and fetches values of
-    /// type *type*.
+    /// Returns a request that selects the provided result columns, and defines
+    /// the type of decoded rows.
     ///
-    ///     try dbQueue.read { db in
-    ///         // SELECT max(score) FROM player
-    ///         let request = Player.select([max(Column("score"))], as: Int.self)
-    ///         let maxScore: Int? = try request.fetchOne(db)
-    ///     }
+    /// For example:
+    ///
+    /// ```swift
+    /// struct Player: TableRecord { }
+    /// let minScore = min(Column("score"))
+    /// let maxScore = max(Column("score"))
+    ///
+    /// // SELECT MAX(score) FROM player
+    /// let request = Player.select([maxScore], as: Int.self)
+    /// let maxScore = try request.fetchOne(db) // Int?
+    ///
+    /// // SELECT MIN(score), MAX(score) FROM player
+    /// let request = Player.select([minScore, maxScore], as: Row.self)
+    /// if let row = try request.fetchOne(db) {
+    ///     let minScore: Int = row[0]
+    ///     let maxScore: Int = row[1]
+    /// }
+    /// ```
     public static func select<RowDecoder>(
-        _ selection: [SQLSelectable],
+        _ selection: [any SQLSelectable],
         as type: RowDecoder.Type = RowDecoder.self)
-        -> QueryInterfaceRequest<RowDecoder>
+    -> QueryInterfaceRequest<RowDecoder>
     {
-        return all().select(selection, as: type)
+        all().select(selection, as: type)
     }
     
-    /// Creates a request which selects *selection*, and fetches values of
-    /// type *type*.
+    /// Returns a request that selects the provided result columns, and defines
+    /// the type of decoded rows.
     ///
-    ///     try dbQueue.read { db in
-    ///         // SELECT max(score) FROM player
-    ///         let request = Player.select(max(Column("score")), as: Int.self)
-    ///         let maxScore: Int? = try request.fetchOne(db)
-    ///     }
+    /// For example:
+    ///
+    /// ```swift
+    /// struct Player: TableRecord { }
+    /// let minScore = min(Column("score"))
+    /// let maxScore = max(Column("score"))
+    ///
+    /// // SELECT MAX(score) FROM player
+    /// let request = Player.select(maxScore, as: Int.self)
+    /// let maxScore = try request.fetchOne(db) // Int?
+    ///
+    /// // SELECT MIN(score), MAX(score) FROM player
+    /// let request = Player.select(minScore, maxScore, as: Row.self)
+    /// if let row = try request.fetchOne(db) {
+    ///     let minScore: Int = row[0]
+    ///     let maxScore: Int = row[1]
+    /// }
+    /// ```
     public static func select<RowDecoder>(
-        _ selection: SQLSelectable...,
+        _ selection: any SQLSelectable...,
         as type: RowDecoder.Type = RowDecoder.self)
-        -> QueryInterfaceRequest<RowDecoder>
+    -> QueryInterfaceRequest<RowDecoder>
     {
-        return all().select(selection, as: type)
+        all().select(selection, as: type)
     }
     
-    /// Creates a request which selects *sql*, and fetches values of
-    /// type *type*.
+    /// Returns a request that selects the provided SQL string, and defines the
+    /// type of decoded rows.
     ///
-    ///     try dbQueue.read { db in
-    ///         // SELECT max(score) FROM player
-    ///         let request = Player.select(sql: "max(score)", as: Int.self)
-    ///         let maxScore: Int? = try request.fetchOne(db)
-    ///     }
+    /// For example:
+    ///
+    /// ```swift
+    /// struct Player: TableRecord { }
+    ///
+    /// // SELECT name FROM player
+    /// let request = Player.select(sql: "name", as: String.self)
+    /// let names = try request.fetchAll(db) // [String]
+    ///
+    /// // SELECT IFNULL(name, 'Anonymous') FROM player
+    /// let defaultName = "Anonymous"
+    /// let request = Player.select(sql: "IFNULL(name, ?)", arguments: [defaultName], as: String.self)
+    /// let names = try request.fetchAll(db) // [String]
+    /// ```
     public static func select<RowDecoder>(
         sql: String,
         arguments: StatementArguments = StatementArguments(),
         as type: RowDecoder.Type = RowDecoder.self)
-        -> QueryInterfaceRequest<RowDecoder>
+    -> QueryInterfaceRequest<RowDecoder>
     {
-        return all().select(literal: SQLLiteral(sql: sql, arguments: arguments), as: type)
+        all().select(SQL(sql: sql, arguments: arguments), as: type)
     }
     
-    /// Creates a request which selects an SQL *literal*, and fetches values of
-    /// type *type*.
+    /// Returns a request that selects the provided ``SQL`` literal, and defines
+    /// the type of decoded rows.
     ///
-    ///     try dbQueue.read { db in
-    ///         // SELECT max(score) FROM player
-    ///         let request = Player.select(literal: SQLLiteral(sql: "max(score)"), as: Int.self)
-    ///         let maxScore: Int? = try request.fetchOne(db)
-    ///     }
+    /// ``SQL`` literals allow you to safely embed raw values in your SQL,
+    /// without any risk of syntax errors or SQL injection:
+    ///
+    /// ```swift
+    /// struct Player: TableRecord { }
+    ///
+    /// // SELECT IFNULL(name, 'Anonymous') FROM player
+    /// let defaultName = "Anonymous"
+    /// let request = Player.select(literal: "IFNULL(name, \(defaultName))", as: String.self)
+    /// let names = try request.fetchAll(db) // [String]
+    /// ```
     public static func select<RowDecoder>(
-        literal sqlLiteral: SQLLiteral,
+        literal sqlLiteral: SQL,
         as type: RowDecoder.Type = RowDecoder.self)
-        -> QueryInterfaceRequest<RowDecoder>
+    -> QueryInterfaceRequest<RowDecoder>
     {
-        return all().select(literal: sqlLiteral, as: type)
+        all().select(sqlLiteral, as: type)
     }
     
-    /// Creates a request which appends *selection*.
+    /// Returns a request that selects the primary key.
     ///
-    ///     // SELECT id, email, name FROM player
-    ///     le request = Player
-    ///         .select([Column("id"), Column("email")])
-    ///         .annotated(with: [Column("name")])
-    public static func annotated(with selection: [SQLSelectable]) -> QueryInterfaceRequest<Self> {
-        return all().annotated(with: selection)
-    }
-    
-    /// Creates a request which appends *selection*.
+    /// All primary keys are supported:
     ///
-    ///     // SELECT id, email, name FROM player
-    ///     le request = Player
-    ///         .select([Column("id"), Column("email")])
-    ///         .annotated(with: Column("name"))
-    public static func annotated(with selection: SQLSelectable...) -> QueryInterfaceRequest<Self> {
-        return all().annotated(with: selection)
-    }
-    
-    /// Creates a request with the provided *predicate*.
+    /// ```swift
+    /// struct Player: TableRecord { }
+    /// struct Country: TableRecord { }
+    /// struct Citizenship: TableRecord { }
     ///
-    ///     // SELECT * FROM player WHERE email = 'arthur@example.com'
-    ///     let request = Player.filter(Column("email") == "arthur@example.com")
+    /// // SELECT id FROM player WHERE ...
+    /// let request = try Player.selectPrimaryKey(as: Int64.self)
+    /// let ids = try request.fetchAll(db) // [Int64]
     ///
-    /// The selection defaults to all columns. This default can be changed for
-    /// all requests by the `TableRecord.databaseSelection` property, or
-    /// for individual requests with the `TableRecord.select` method.
-    public static func filter(_ predicate: SQLExpressible) -> QueryInterfaceRequest<Self> {
-        return all().filter(predicate)
-    }
-    
-    /// Creates a request with the provided primary key *predicate*.
+    /// // SELECT code FROM country WHERE ...
+    /// let request = try Country.selectPrimaryKey(as: String.self)
+    /// let countryCodes = try request.fetchAll(db) // [String]
     ///
-    ///     // SELECT * FROM player WHERE id = 1
-    ///     let request = Player.filter(key: 1)
+    /// // SELECT citizenId, countryCode FROM citizenship WHERE ...
+    /// let request = try Citizenship.selectPrimaryKey(as: Row.self)
+    /// let rows = try request.fetchAll(db) // [Row]
+    /// ```
     ///
-    /// The selection defaults to all columns. This default can be changed for
-    /// all requests by the `TableRecord.databaseSelection` property, or
-    /// for individual requests with the `TableRecord.select` method.
-    public static func filter<PrimaryKeyType>(key: PrimaryKeyType?)
-        -> QueryInterfaceRequest<Self>
-        where PrimaryKeyType: DatabaseValueConvertible
+    /// For composite primary keys, you can define a ``FetchableRecord`` type:
+    ///
+    /// ```swift
+    /// extension Citizenship {
+    ///     struct ID: Decodable, FetchableRecord {
+    ///         var citizenId: Int64
+    ///         var countryCode: String
+    ///     }
+    /// }
+    /// let request = try Citizenship.selectPrimaryKey(as: Citizenship.ID.self)
+    /// let ids = try request.fetchAll(db) // [Citizenship.ID]
+    /// ```
+    public static func selectPrimaryKey<PrimaryKey>(as type: PrimaryKey.Type = PrimaryKey.self)
+    -> QueryInterfaceRequest<PrimaryKey>
     {
-        return all().filter(key: key)
+        all().selectPrimaryKey(as: type)
     }
     
-    /// Creates a request with the provided primary key *predicate*.
+    /// Returns a request with the provided result columns appended to the
+    /// record selection.
     ///
-    ///     // SELECT * FROM player WHERE id IN (1, 2, 3)
-    ///     let request = Player.filter(keys: [1, 2, 3])
+    /// The record selection is determined by
+    /// ``TableRecord/databaseSelection-7iphs``, which defaults to all columns.
     ///
-    /// The selection defaults to all columns. This default can be changed for
-    /// all requests by the `TableRecord.databaseSelection` property, or
-    /// for individual requests with the `TableRecord.select` method.
-    public static func filter<Sequence>(keys: Sequence)
-        -> QueryInterfaceRequest<Self>
-        where Sequence: Swift.Sequence, Sequence.Element: DatabaseValueConvertible
+    /// For example:
+    ///
+    /// ```swift
+    /// struct Player: TableRecord { }
+    ///
+    /// // SELECT *, score + bonus AS totalScore FROM player
+    /// let totalScore = (Column("score") + Column("bonus")).forKey("totalScore")
+    /// let request = Player.annotated(with: [totalScore])
+    /// ```
+    public static func annotated(with selection: [any SQLSelectable]) -> QueryInterfaceRequest<Self> {
+        all().annotated(with: selection)
+    }
+    
+    /// Returns a request with the provided result columns appended to the
+    /// record selection.
+    ///
+    /// The record selection is determined by
+    /// ``TableRecord/databaseSelection-7iphs``, which defaults to all columns.
+    ///
+    /// For example:
+    ///
+    /// ```swift
+    /// struct Player: TableRecord { }
+    ///
+    /// // SELECT *, score + bonus AS totalScore FROM player
+    /// let totalScore = (Column("score") + Column("bonus")).forKey("totalScore")
+    /// let request = Player.annotated(with: totalScore)
+    /// ```
+    public static func annotated(with selection: any SQLSelectable...) -> QueryInterfaceRequest<Self> {
+        all().annotated(with: selection)
+    }
+    
+    // Accept SQLSpecificExpressible instead of SQLExpressible, so that we
+    // prevent the `Player.filter(42)` misuse.
+    // See https://github.com/groue/GRDB.swift/pull/864
+    /// Returns a request filtered with a boolean SQL expression.
+    ///
+    /// For example:
+    ///
+    /// ```swift
+    /// struct Player: TableRecord { }
+    ///
+    /// // SELECT * FROM player WHERE name = 'O''Brien'
+    /// let name = "O'Brien"
+    /// let request = Player.filter(Column("name") == name)
+    /// ```
+    public static func filter(_ predicate: some SQLSpecificExpressible) -> QueryInterfaceRequest<Self> {
+        all().filter(predicate)
+    }
+    
+    /// Returns a request filtered by primary key.
+    ///
+    /// All single-column primary keys are supported:
+    ///
+    /// ```swift
+    /// struct Player: TableRecord { }
+    /// struct Country: TableRecord { }
+    ///
+    /// // SELECT * FROM player WHERE id = 1
+    /// let request = Player.filter(key: 1)
+    ///
+    /// // SELECT * FROM country WHERE code = 'FR'
+    /// let request = Country.filter(key: "FR")
+    /// ```
+    ///
+    /// - parameter key: A primary key
+    public static func filter(key: some DatabaseValueConvertible) -> QueryInterfaceRequest<Self> {
+        all().filter(key: key)
+    }
+    
+    /// Returns a request filtered by primary key.
+    ///
+    /// All single-column primary keys are supported:
+    ///
+    /// ```swift
+    /// struct Player: TableRecord { }
+    /// struct Country: TableRecord { }
+    ///
+    /// // SELECT * FROM player WHERE id = IN (1, 2, 3)
+    /// let request = Player.filter(keys: [1, 2, 3])
+    ///
+    /// // SELECT * FROM country WHERE code = IN ('FR', 'US')
+    /// let request = Country.filter(keys: ["FR", "US"])
+    /// ```
+    ///
+    /// - parameter keys: A collection of primary keys
+    public static func filter<Keys>(keys: Keys)
+    -> QueryInterfaceRequest<Self>
+    where Keys: Sequence, Keys.Element: DatabaseValueConvertible
     {
-        return all().filter(keys: keys)
+        all().filter(keys: keys)
     }
     
-    /// Creates a request with the provided primary key *predicate*.
+    /// Returns a request filtered by primary or unique key.
     ///
-    ///     // SELECT * FROM passport WHERE personId = 1 AND countryCode = 'FR'
-    ///     let request = Passport.filter(key: ["personId": 1, "countryCode": "FR"])
+    /// For example:
     ///
-    /// When executed, this request raises a fatal error if there is no unique
-    /// index on the key columns.
+    /// ```swift
+    /// struct Player: TableRecord { }
+    /// struct Citizenship: TableRecord { }
     ///
-    /// The selection defaults to all columns. This default can be changed for
-    /// all requests by the `TableRecord.databaseSelection` property, or
-    /// for individual requests with the `TableRecord.select` method.
-    public static func filter(key: [String: DatabaseValueConvertible?]?) -> QueryInterfaceRequest<Self> {
-        return all().filter(key: key)
+    /// // SELECT * FROM player WHERE id = 1
+    /// let request = Player.filter(key: ["id": 1])
+    ///
+    /// // SELECT * FROM player WHERE email = 'arthur@example.com'
+    /// let request = Player.filter(key: ["email": "arthur@example.com"])
+    ///
+    /// // SELECT * FROM citizenship WHERE citizenId = 1 AND countryCode = 'FR'
+    /// let request = Citizenship.filter(key: [
+    ///     "citizenId": 1,
+    ///     "countryCode": "FR",
+    /// ])
+    /// ```
+    ///
+    /// When executed, this request raises a fatal error if no unique index
+    /// exists on a subset of the key columns.
+    ///
+    /// - parameter key: A key dictionary.
+    public static func filter(key: [String: (any DatabaseValueConvertible)?]?) -> QueryInterfaceRequest<Self> {
+        all().filter(key: key)
     }
     
-    /// Creates a request with the provided primary key *predicate*.
+    /// Returns a request filtered by primary or unique key.
     ///
-    ///     // SELECT * FROM passport WHERE (personId = 1 AND countryCode = 'FR') OR ...
-    ///     let request = Passport.filter(keys: [["personId": 1, "countryCode": "FR"], ...])
+    /// For example:
     ///
-    /// When executed, this request raises a fatal error if there is no unique
-    /// index on the key columns.
+    /// ```swift
+    /// struct Player: TableRecord { }
+    /// struct Citizenship: TableRecord { }
     ///
-    /// The selection defaults to all columns. This default can be changed for
-    /// all requests by the `TableRecord.databaseSelection` property, or
-    /// for individual requests with the `TableRecord.select` method.
-    public static func filter(keys: [[String: DatabaseValueConvertible?]]) -> QueryInterfaceRequest<Self> {
-        return all().filter(keys: keys)
+    /// // SELECT * FROM player WHERE id = 1
+    /// let request = Player.filter(keys: [["id": 1]])
+    ///
+    /// // SELECT * FROM player WHERE email = 'arthur@example.com'
+    /// let request = Player.filter(keys: [["email": "arthur@example.com"]])
+    ///
+    /// // SELECT * FROM citizenship WHERE citizenId = 1 AND countryCode = 'FR'
+    /// let request = Citizenship.filter(keys: [
+    ///     ["citizenId": 1, "countryCode": "FR"],
+    /// ])
+    /// ```
+    ///
+    /// When executed, this request raises a fatal error if no unique index
+    /// exists on a subset of the key columns.
+    ///
+    /// - parameter keys: An array of key dictionaries.
+    public static func filter(keys: [[String: (any DatabaseValueConvertible)?]]) -> QueryInterfaceRequest<Self> {
+        all().filter(keys: keys)
     }
     
-    /// Creates a request with the provided *predicate*.
+    /// Returns a request filtered with an SQL string.
     ///
-    ///     // SELECT * FROM player WHERE email = 'arthur@example.com'
-    ///     let request = Player.filter(sql: "email = ?", arguments: ["arthur@example.com"])
+    /// For example:
     ///
-    /// The selection defaults to all columns. This default can be changed for
-    /// all requests by the `TableRecord.databaseSelection` property, or
-    /// for individual requests with the `TableRecord.select` method.
+    /// ```swift
+    /// struct Player: TableRecord { }
+    ///
+    /// // SELECT * FROM player WHERE name = 'O''Brien'
+    /// let name = "O'Brien"
+    /// let request = Player.filter(sql: "name = ?", arguments: [name])
+    /// ```
     public static func filter(
         sql: String,
         arguments: StatementArguments = StatementArguments())
-        -> QueryInterfaceRequest<Self>
+    -> QueryInterfaceRequest<Self>
     {
-        return filter(literal: SQLLiteral(sql: sql, arguments: arguments))
+        filter(SQL(sql: sql, arguments: arguments))
     }
     
-    /// Creates a request with the provided *predicate*.
+    /// Returns a request filtered with an ``SQL`` literal.
     ///
-    ///     // SELECT * FROM player WHERE email = 'arthur@example.com'
-    ///     let request = Player.filter(literal: SQLLiteral(sql: "email = ?", arguments: ["arthur@example.com"]))
-    ///
-    /// With Swift 5, you can safely embed raw values in your SQL queries,
+    /// ``SQL`` literals allow you to safely embed raw values in your SQL,
     /// without any risk of syntax errors or SQL injection:
     ///
-    ///     let request = Player.filter(literal: "name = \("O'Brien"))
+    /// ```swift
+    /// struct Player: TableRecord { }
     ///
-    /// The selection defaults to all columns. This default can be changed for
-    /// all requests by the `TableRecord.databaseSelection` property, or
-    /// for individual requests with the `TableRecord.select` method.
-    public static func filter(literal sqlLiteral: SQLLiteral) -> QueryInterfaceRequest<Self> {
+    /// // SELECT * FROM player WHERE name = 'O''Brien'
+    /// let name = "O'Brien"
+    /// let request = Player.filter(literal: "name = \(name)")
+    /// ```
+    public static func filter(literal sqlLiteral: SQL) -> QueryInterfaceRequest<Self> {
         // NOT TESTED
-        return all().filter(literal: sqlLiteral)
+        all().filter(sqlLiteral)
     }
     
-    /// Creates a request sorted according to the
-    /// provided *orderings*.
+    /// Returns a request sorted according to the given SQL ordering terms.
     ///
-    ///     // SELECT * FROM player ORDER BY name
-    ///     let request = Player.order(Column("name"))
+    /// For example:
     ///
-    /// The selection defaults to all columns. This default can be changed for
-    /// all requests by the `TableRecord.databaseSelection` property, or
-    /// for individual requests with the `TableRecord.select` method.
-    public static func order(_ orderings: SQLOrderingTerm...) -> QueryInterfaceRequest<Self> {
-        return all().order(orderings)
+    /// ```swift
+    /// struct Player: TableRecord { }
+    ///
+    /// // SELECT * FROM player ORDER BY score DESC, name
+    /// let request = Player.order(Column("score").desc, Column("name"))
+    /// ```
+    public static func order(_ orderings: any SQLOrderingTerm...) -> QueryInterfaceRequest<Self> {
+        all().order(orderings)
     }
     
-    /// Creates a request sorted according to the
-    /// provided *orderings*.
+    /// Returns a request sorted according to the given SQL ordering terms.
     ///
-    ///     // SELECT * FROM player ORDER BY name
-    ///     let request = Player.order([Column("name")])
+    /// For example:
     ///
-    /// The selection defaults to all columns. This default can be changed for
-    /// all requests by the `TableRecord.databaseSelection` property, or
-    /// for individual requests with the `TableRecord.select` method.
-    public static func order(_ orderings: [SQLOrderingTerm]) -> QueryInterfaceRequest<Self> {
-        return all().order(orderings)
+    /// ```swift
+    /// struct Player: TableRecord { }
+    ///
+    /// // SELECT * FROM player ORDER BY score DESC, name
+    /// let request = Player.order([Column("score").desc, Column("name")])
+    /// ```
+    public static func order(_ orderings: [any SQLOrderingTerm]) -> QueryInterfaceRequest<Self> {
+        all().order(orderings)
     }
     
-    /// Creates a request sorted by primary key.
+    /// Returns a request sorted by primary key.
     ///
-    ///     // SELECT * FROM player ORDER BY id
-    ///     let request = Player.orderByPrimaryKey()
+    /// All primary keys are supported:
     ///
-    ///     // SELECT * FROM country ORDER BY code
-    ///     let request = Country.orderByPrimaryKey()
+    /// ```swift
+    /// struct Player: TableRecord { }
+    /// struct Country: TableRecord { }
+    /// struct Citizenship: TableRecord { }
     ///
-    /// The selection defaults to all columns. This default can be changed for
-    /// all requests by the `TableRecord.databaseSelection` property, or
-    /// for individual requests with the `TableRecord.select` method.
+    /// // SELECT * FROM player ORDER BY id
+    /// let request = Player.orderByPrimaryKey()
+    ///
+    /// // SELECT * FROM country ORDER BY code
+    /// let request = Country.orderByPrimaryKey()
+    ///
+    /// // SELECT * FROM citizenship ORDER BY citizenId, countryCode
+    /// let request = Citizenship.orderByPrimaryKey()
+    /// ```
     public static func orderByPrimaryKey() -> QueryInterfaceRequest<Self> {
-        return all().orderByPrimaryKey()
+        all().orderByPrimaryKey()
     }
     
-    /// Creates a request sorted according to *sql*.
+    /// Returns a request sorted according to the given SQL string.
     ///
-    ///     // SELECT * FROM player ORDER BY name
-    ///     let request = Player.order(sql: "name")
+    /// For example:
     ///
-    /// The selection defaults to all columns. This default can be changed for
-    /// all requests by the `TableRecord.databaseSelection` property, or
-    /// for individual requests with the `TableRecord.select` method.
+    /// ```swift
+    /// struct Player: TableRecord { }
+    /// 
+    /// // SELECT * FROM player ORDER BY score DESC, name
+    /// let request = Player.order(sql: "score DESC, name")
+    /// ```
     public static func order(
         sql: String,
         arguments: StatementArguments = StatementArguments())
-        -> QueryInterfaceRequest<Self>
+    -> QueryInterfaceRequest<Self>
     {
-        return all().order(literal: SQLLiteral(sql: sql, arguments: arguments))
+        all().order(SQL(sql: sql, arguments: arguments))
     }
     
-    /// Creates a request sorted according to an SQL *literal*.
+    /// Returns a request sorted according to the given ``SQL`` literal.
     ///
-    ///     // SELECT * FROM player ORDER BY name
-    ///     let request = Player.order(literal: SQLLiteral(sql: "name"))
+    /// For example:
     ///
-    /// With Swift 5, you can safely embed raw values in your SQL queries,
-    /// without any risk of syntax errors or SQL injection:
+    /// ```swift
+    /// struct Player: TableRecord { }
     ///
-    ///     // SELECT * FROM player ORDER BY name
-    ///     let request = Player.order(literal: "name"))
-    ///
-    /// The selection defaults to all columns. This default can be changed for
-    /// all requests by the `TableRecord.databaseSelection` property, or
-    /// for individual requests with the `TableRecord.select` method.
-    public static func order(literal sqlLiteral: SQLLiteral) -> QueryInterfaceRequest<Self> {
-        return all().order(literal: sqlLiteral)
+    /// // SELECT * FROM player ORDER BY score DESC, name
+    /// let request = Player.order(literal: "score DESC, name")
+    /// ```
+    public static func order(literal sqlLiteral: SQL) -> QueryInterfaceRequest<Self> {
+        all().order(sqlLiteral)
     }
     
-    /// Creates a request which fetches *limit* rows, starting at
-    /// *offset*.
+    /// Returns a limited request.
     ///
-    ///     // SELECT * FROM player LIMIT 1
-    ///     let request = Player.limit(1)
+    /// The returned request fetches `limit` rows, starting at `offset`. For
+    /// example:
     ///
-    /// The selection defaults to all columns. This default can be changed for
-    /// all requests by the `TableRecord.databaseSelection` property, or
-    /// for individual requests with the `TableRecord.select` method.
+    /// ```swift
+    /// struct Player: TableRecord { }
+    ///
+    /// // SELECT * FROM player LIMIT 10
+    /// let request = Player.limit(10)
+    ///
+    /// // SELECT * FROM player LIMIT 10 OFFSET 20
+    /// let request = Player.limit(10, offset: 20)
+    /// ```
     public static func limit(_ limit: Int, offset: Int? = nil) -> QueryInterfaceRequest<Self> {
-        return all().limit(limit, offset: offset)
+        all().limit(limit, offset: offset)
     }
     
-    /// Creates a request that allows you to define expressions that target
-    /// a specific database table.
+    /// Returns a request that can be referred to with the provided alias.
     ///
-    /// In the example below, the "team.avgScore < player.score" condition in
-    /// the ON clause could be not achieved without table aliases.
+    /// Use this method when you need to refer to this table from
+    /// another request.
     ///
-    ///     struct Player: TableRecord {
-    ///         static let team = belongsTo(Team.self)
-    ///     }
+    /// For example, the request below fetches posthumous books:
     ///
-    ///     // SELECT player.*, team.*
-    ///     // JOIN team ON ... AND team.avgScore < player.score
-    ///     let playerAlias = TableAlias()
-    ///     let request = Player
-    ///         .aliased(playerAlias)
-    ///         .including(required: Player.team.filter(Column("avgScore") < playerAlias[Column("score")])
+    /// ```swift
+    /// struct Author: TableRecord { }
+    /// struct Book: TableRecord {
+    ///     static let author = belongsTo(Author.self)
+    /// }
+    ///
+    /// // SELECT book.*
+    /// // FROM book
+    /// // JOIN author ON author.id = book.authorId
+    /// //            AND author.deathDate <= book.publishDate
+    /// let bookAlias = TableAlias()
+    /// let request = Book
+    ///     .aliased(bookAlias)
+    ///     .joining(required: Book.author.filter(Column("deathDate") <= bookAlias[Column("publishDate")])
+    /// ```
+    ///
+    /// See ``TableRequest/aliased(_:)`` for more information.
     public static func aliased(_ alias: TableAlias) -> QueryInterfaceRequest<Self> {
-        return all().aliased(alias)
+        all().aliased(alias)
+    }
+    
+    /// Returns a request that embeds a common table expression.
+    ///
+    /// For example, you can build a request that fetches all chats with their
+    /// latest message:
+    ///
+    /// ```swift
+    /// let latestMessageRequest = Message
+    ///     .annotated(with: max(Column("date")))
+    ///     .group(Column("chatID"))
+    ///
+    /// let latestMessageCTE = CommonTableExpression(
+    ///     named: "latestMessage",
+    ///     request: latestMessageRequest)
+    ///
+    /// let latestMessageAssociation = Chat.association(
+    ///     to: latestMessageCTE,
+    ///     on: { chat, latestMessage in
+    ///         chat[Column("id")] == latestMessage[Column("chatID")]
+    ///     })
+    ///
+    /// // WITH latestMessage AS
+    /// //   (SELECT *, MAX(date) FROM message GROUP BY chatID)
+    /// // SELECT chat.*, latestMessage.*
+    /// // FROM chat
+    /// // LEFT JOIN latestMessage ON chat.id = latestMessage.chatID
+    /// let request = Chat
+    ///     .with(latestMessageCTE)
+    ///     .including(optional: latestMessageAssociation)
+    /// ```
+    public static func with<RowDecoder>(_ cte: CommonTableExpression<RowDecoder>) -> QueryInterfaceRequest<Self> {
+        all().with(cte)
+    }
+}
+
+@available(iOS 13, macOS 10.15, tvOS 13, watchOS 6, *)
+extension TableRecord where Self: Identifiable, ID: DatabaseValueConvertible {
+    /// Returns a request filtered by primary key.
+    ///
+    /// All single-column primary keys are supported:
+    ///
+    /// ```swift
+    /// struct Player: TableRecord, Identifiable {
+    ///     var id: Int64
+    /// }
+    /// struct Country: TableRecord, Identifiable {
+    ///     var id: String
+    /// }
+    ///
+    /// // SELECT * FROM player WHERE id = 1
+    /// let request = Player.filter(id: 1)
+    ///
+    /// // SELECT * FROM country WHERE code = 'FR'
+    /// let request = Country.filter(id: "FR")
+    /// ```
+    ///
+    /// - parameter id: A primary key
+    public static func filter(id: ID) -> QueryInterfaceRequest<Self> {
+        all().filter(id: id)
+    }
+    
+    /// Returns a request filtered by primary key.
+    ///
+    /// All single-column primary keys are supported:
+    ///
+    /// ```swift
+    /// struct Player: TableRecord, Identifiable {
+    ///     var id: Int64
+    /// }
+    /// struct Country: TableRecord, Identifiable {
+    ///     var id: String
+    /// }
+    ///
+    /// // SELECT * FROM player WHERE id = IN (1, 2, 3)
+    /// let request = Player.filter(ids: [1, 2, 3])
+    ///
+    /// // SELECT * FROM country WHERE code = IN ('FR', 'US')
+    /// let request = Country.filter(ids: ["FR", "US"])
+    /// ```
+    ///
+    /// - parameter ids: A collection of primary keys
+    public static func filter<IDS>(ids: IDS) -> QueryInterfaceRequest<Self>
+    where IDS: Collection, IDS.Element == ID
+    {
+        all().filter(ids: ids)
     }
 }

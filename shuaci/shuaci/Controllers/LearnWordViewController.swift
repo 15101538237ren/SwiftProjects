@@ -20,7 +20,7 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
     
     // MARK: - Constants
     let card_Y_constant:CGFloat = -30
-    let animationDuration = 0.15
+    let animationDuration = 0.1
     let firstReviewDelayInMin = 30
     let progressViewAnimationDuration = 1.5
     let cardAppearAnimationDuration = 0.3
@@ -1394,6 +1394,11 @@ class LearnWordViewController: UIViewController, UIGestureRecognizerDelegate {
                     downloadTask = URLSession.shared.downloadTask(with: url, completionHandler: { (urlhere, response, error) -> Void in
                         if let urlhere = urlhere{
                             do {
+                                try AVAudioSession.sharedInstance()
+                                    .setCategory(.playback, options: .mixWithOthers)
+                                try AVAudioSession.sharedInstance()
+                                        .setActive(true)
+                                
                                 self.mp3Player = try AVAudioPlayer(contentsOf: urlhere)
                                 self.mp3Player?.play()
                             } catch {

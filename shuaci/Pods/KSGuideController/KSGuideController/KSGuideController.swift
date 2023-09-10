@@ -46,7 +46,7 @@ public class KSGuideController: UIViewController {
     public var spacing: CGFloat = 20
     public var padding: CGFloat = 50
     public var maskInsets = UIEdgeInsets(top: -8, left: -8, bottom: -8, right: -8)
-    public var font = UIFont.systemFont(ofSize: 16)
+    public var font = UIFont.systemFont(ofSize: 14)
     public var textColor = UIColor.white
     public var arrowColor = UIColor.white
     // Global arrow image for all items
@@ -198,7 +198,7 @@ public class KSGuideController: UIViewController {
         maskLayer.fillColor = UIColor.black.cgColor
         var radius = maskCornerRadius
         let frame = hollowFrame
-        radius = min(frame.width / 2.0, frame.height / 2.0)
+        radius = min(radius, min(frame.width / 2.0, frame.height / 2.0))
         let highlightedPath = UIBezierPath(roundedRect: hollowFrame, cornerRadius: radius)
         let toPath = UIBezierPath(rect: view.bounds)
         toPath.append(highlightedPath)

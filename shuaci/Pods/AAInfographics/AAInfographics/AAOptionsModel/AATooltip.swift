@@ -33,7 +33,7 @@
 import Foundation 
 
 public class AATooltip: AAObject {
-    public var backgroundColor: String?
+    public var backgroundColor: Any?
     public var borderColor: String?
     public var borderRadius: Float?
     public var borderWidth: Float?
@@ -46,16 +46,19 @@ public class AATooltip: AAObject {
     public var footerFormat: String?
     public var valueDecimals: Int?
     public var shared: Bool?
+    public var valuePrefix: String?
     public var valueSuffix: String?
+    public var followPointer: Bool?
     public var followTouchMove: Bool?//https://api.highcharts.com.cn/highcharts#chart.panning
     public var shadow: Bool?
     public var padding: Float?
     public var pointFormatter: String?
     public var positioner: String?
     public var dateTimeLabelFormats: AADateTimeLabelFormats?
+    public var split: Bool?
     
     @discardableResult
-    public func backgroundColor(_ prop: String?) -> AATooltip {
+    public func backgroundColor(_ prop: Any?) -> AATooltip {
         backgroundColor = prop
         return self
     }
@@ -131,6 +134,12 @@ public class AATooltip: AAObject {
         shared = prop
         return self
     }
+
+    @discardableResult
+    public func valuePrefix(_ prop: String?) -> AATooltip {
+        valuePrefix = prop
+        return self
+    }
     
     @discardableResult
     public func valueSuffix(_ prop: String?) -> AATooltip {
@@ -173,6 +182,13 @@ public class AATooltip: AAObject {
         dateTimeLabelFormats = prop
         return self
     }
+
+    @discardableResult
+    public func split(_ prop: Bool?) -> AATooltip {
+        split = prop
+        return self
+    }
+
     
     public override init() {
         enabled = true

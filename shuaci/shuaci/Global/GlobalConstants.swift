@@ -34,7 +34,7 @@ let minimumReviewWorthyActionCount = 2
 let minNumToSaveReviewRecord = 5
 let LCAppId: String = "5uWh02cHlO4NIBMyM1rAaRRm-gzGzoHsz"
 let LCKey: String = "MbgqYXQna9aFYQq7GRqRWHkA"
-let LCServerURL: String = "https://api.shuaci.cc"
+let LCServerURL: String = "https://api.shuaci.online"
 let OfficialEmail = "shuaci@outlook.com"
 let DICT_URL: URL = Bundle.main.url(forResource: "DICT.json", withExtension: nil)!
 

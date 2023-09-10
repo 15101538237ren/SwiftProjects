@@ -4,7 +4,7 @@
 // Licensed under Apache License v2.0 with Runtime Library Exception
 //
 // See LICENSE.txt for license information:
-// https://github.com/apple/swift-protobuf/blob/master/LICENSE.txt
+// https://github.com/apple/swift-protobuf/blob/main/LICENSE.txt
 //
 // -----------------------------------------------------------------------------
 ///
@@ -152,7 +152,11 @@ extension Google_Protobuf_Value {
   ) throws {
     switch kind {
     case .nullValue?: encoder.putNullValue()
-    case .numberValue(let v)?: encoder.putDoubleValue(value: v)
+    case .numberValue(let v)?:
+      guard v.isFinite else {
+        throw JSONEncodingError.valueNumberNotFinite
+      }
+      encoder.putDoubleValue(value: v)
     case .stringValue(let v)?: encoder.putStringValue(value: v)
     case .boolValue(let v)?: encoder.putBoolValue(value: v)
     case .structValue(let v)?: encoder.append(text: try v.jsonString(options: options))

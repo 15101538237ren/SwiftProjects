@@ -13,7 +13,7 @@ import SwiftyStoreKit
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
     var restrictRotation:UIInterfaceOrientationMask = .portrait
-    
+    var window: UIWindow?
     func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask
     {
         return self.restrictRotation
@@ -31,12 +31,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         }
         
         setTheme()
-        
         self.setupUmeng(launchOptions: launchOptions)
         self.setupStoreKit()
         checkIfEnglishEnv()
         return true
     }
+    
     
     func setupStoreKit(){
         // see notes below for the meaning of Atomic / Non-Atomic

@@ -129,6 +129,9 @@ public class LCApplication {
         /// RTM Custom Server URL, default is `nil`.
         public var RTMCustomServerURL: URL?
         
+        /// Make the access to the raw data of the object is atomic, default is `false`.
+        public var isObjectRawDataAtomic: Bool = false
+        
         public init(
             customizedServers: [ServerCustomizableModule] = [],
             environment: Environment = .default,
@@ -231,7 +234,7 @@ public class LCApplication {
     }
     var _currentInstallation: LCInstallation?
     
-    var currentInstallationFileURL: URL? {
+    public var currentInstallationFileURL: URL? {
         do {
             return try self.localStorageContext?.fileURL(
                 place: .systemCaches,
@@ -260,7 +263,7 @@ public class LCApplication {
     }
     var _currentUser: LCUser?
     
-    var currentUserFileURL: URL? {
+    public var currentUserFileURL: URL? {
         do {
             return try self.localStorageContext?.fileURL(
                 place: .persistentData,

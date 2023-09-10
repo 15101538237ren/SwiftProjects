@@ -165,7 +165,7 @@ class RTMConnectionManager {
     }
 }
 
-protocol RTMConnectionDelegate: class {
+protocol RTMConnectionDelegate: AnyObject {
     
     func connection(inConnecting connection: RTMConnection)
     
@@ -952,7 +952,9 @@ extension RTMConnection {
             return
         }
         if let defaultPeerID = self.defaultInstantMessagingPeerID {
-            self.needPeerIDForEveryCommandOfInstantMessaging = (defaultPeerID != peerID)
+            if !self.needPeerIDForEveryCommandOfInstantMessaging {
+                self.needPeerIDForEveryCommandOfInstantMessaging = (defaultPeerID != peerID)
+            }
         } else {
             self.defaultInstantMessagingPeerID = peerID
         }

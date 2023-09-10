@@ -4,7 +4,7 @@
 // Licensed under Apache License v2.0 with Runtime Library Exception
 //
 // See LICENSE.txt for license information:
-// https://github.com/apple/swift-protobuf/blob/master/LICENSE.txt
+// https://github.com/apple/swift-protobuf/blob/main/LICENSE.txt
 //
 // -----------------------------------------------------------------------------
 ///
@@ -476,7 +476,10 @@ internal struct JSONDecoder: Decoder {
       value = nil
       return
     }
-    value = try scanner.nextEnumValue() as E
+    // Only change the value if a value was read.
+    if let e: E = try scanner.nextEnumValue() {
+      value = e
+    }
   }
 
   mutating func decodeSingularEnumField<E: Enum>(value: inout E) throws
@@ -489,7 +492,10 @@ internal struct JSONDecoder: Decoder {
       value = E()
       return
     }
-    value = try scanner.nextEnumValue()
+    if let e: E = try scanner.nextEnumValue() {
+      value = e
+    }
+
   }
 
   mutating func decodeRepeatedEnumField<E: Enum>(value: inout [E]) throws
@@ -511,8 +517,9 @@ internal struct JSONDecoder: Decoder {
           throw JSONDecodingError.illegalNull
         }
       } else {
-        let e: E = try scanner.nextEnumValue()
-        value.append(e)
+        if let e: E = try scanner.nextEnumValue() {
+          value.append(e)
+        }
       }
       if scanner.skipOptionalArrayEnd() {
         return
@@ -661,16 +668,21 @@ internal struct JSONDecoder: Decoder {
         throw JSONDecodingError.unquotedMapKey
       }
       isMapKey = true
-      var keyField: KeyType.BaseType?
-      try KeyType.decodeSingular(value: &keyField, from: &self)
+      var keyFieldOpt: KeyType.BaseType?
+      try KeyType.decodeSingular(value: &keyFieldOpt, from: &self)
+      guard let keyField = keyFieldOpt else {
+        throw JSONDecodingError.malformedMap
+      }
       isMapKey = false
       try scanner.skipRequiredColon()
       var valueField: ValueType?
       try decodeSingularEnumField(value: &valueField)
-      if let keyField = keyField, let valueField = valueField {
+      if let valueField = valueField {
         value[keyField] = valueField
       } else {
-        throw JSONDecodingError.malformedMap
+        // Nothing, the only way ``decodeSingularEnumField(value:)`` leaves
+        // it as nil is if ignoreUnknownFields option is enabled which also
+        // means to ignore unknown enum values.
       }
       if scanner.skipOptionalObjectEnd() {
         return
@@ -724,12 +736,12 @@ internal struct JSONDecoder: Decoder {
     // Force-unwrap: we can only get here if the extension exists.
     let ext = scanner.extensions[messageType, fieldNumber]!
 
-    var fieldValue = values[fieldNumber]
-    if fieldValue != nil {
-      try fieldValue!.decodeExtensionField(decoder: &self)
-    } else {
-      fieldValue = try ext._protobuf_newField(decoder: &self)
+    try values.modify(index: fieldNumber) { fieldValue in
+      if fieldValue != nil {
+        try fieldValue!.decodeExtensionField(decoder: &self)
+      } else {
+        fieldValue = try ext._protobuf_newField(decoder: &self)
+      }
     }
-    values[fieldNumber] = fieldValue!
   }
 }

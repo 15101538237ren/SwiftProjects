@@ -1,24 +1,17 @@
 #if SQLITE_ENABLE_FTS5
 import Foundation
-#if SWIFT_PACKAGE
-import CSQLite
-#elseif GRDBCIPHER
-import SQLCipher
-#elseif !GRDBCUSTOMSQLITE && !GRDBCIPHER
-import SQLite3
-#endif
 
 /// Flags that tell SQLite how to register a token.
 ///
-/// See https://www.sqlite.org/fts5.html#custom_tokenizers
+/// See the `FTS5_TOKEN_*` constants in <https://www.sqlite.org/fts5.html#custom_tokenizers>.
 public struct FTS5TokenFlags: OptionSet {
-    public let rawValue: Int32
+    public let rawValue: CInt
     
-    public init(rawValue: Int32) {
+    public init(rawValue: CInt) {
         self.rawValue = rawValue
     }
     
-    /// FTS5_TOKEN_COLOCATED
+    /// `FTS5_TOKEN_COLOCATED`
     public static let colocated = FTS5TokenFlags(rawValue: FTS5_TOKEN_COLOCATED)
 }
 
@@ -27,53 +20,38 @@ public struct FTS5TokenFlags: OptionSet {
 /// See FTS5WrapperTokenizer.accept(token:flags:tokenCallback:)
 public typealias FTS5WrapperTokenCallback = (_ token: String, _ flags: FTS5TokenFlags) throws -> Void
 
-/// The protocol for custom FTS5 tokenizers that wrap another tokenizer.
+/// A type that implements a custom tokenizer for the ``FTS5`` full-text engine
+/// by wrapping another tokenizer.
 ///
-/// Types that adopt FTS5WrapperTokenizer don't have to implement the
-/// low-level FTS5Tokenizer.tokenize(context:flags:pText:nText:tokenCallback:).
+/// See [FTS5 Tokenizers](https://github.com/groue/GRDB.swift/blob/master/Documentation/FTS5Tokenizers.md)
+/// for more information.
 ///
-/// Instead, they process regular Swift strings.
+/// ## Topics
 ///
-/// Here is the implementation for a trivial tokenizer that wraps the
-/// built-in ascii tokenizer without any custom processing:
+/// ### Tokenizing Text
 ///
-///     class TrivialAsciiTokenizer : FTS5WrapperTokenizer {
-///         static let name = "trivial"
-///         let wrappedTokenizer: FTS5Tokenizer
-///
-///         init(db: Database, arguments: [String]) throws {
-///             wrappedTokenizer = try db.makeTokenizer(.ascii())
-///         }
-///
-///         func accept(
-///             token: String,
-///             flags: FTS5TokenFlags,
-///             for tokenization: FTS5Tokenization,
-///             tokenCallback: FTS5WrapperTokenCallback)
-///             throws
-///         {
-///             try tokenCallback(token, flags)
-///         }
-///     }
+/// - ``accept(token:flags:for:tokenCallback:)``
+/// - ``FTS5WrapperTokenCallback``
 public protocol FTS5WrapperTokenizer: FTS5CustomTokenizer {
     /// The wrapped tokenizer
-    var wrappedTokenizer: FTS5Tokenizer { get }
+    var wrappedTokenizer: any FTS5Tokenizer { get }
     
     /// Given a token produced by the wrapped tokenizer, notifies customized
     /// tokens to the `tokenCallback` function.
     ///
     /// For example:
     ///
-    ///     func accept(
-    ///         token: String,
-    ///         flags: FTS5TokenFlags,
-    ///         for tokenization: FTS5Tokenization,
-    ///         tokenCallback: FTS5WrapperTokenCallback)
-    ///         throws
-    ///     {
-    ///         // pass through:
-    ///         try tokenCallback(token, flags)
-    ///     }
+    /// ```swift
+    /// func accept(
+    ///     token: String,
+    ///     flags: FTS5TokenFlags,
+    ///     for tokenization: FTS5Tokenization,
+    ///     tokenCallback: FTS5WrapperTokenCallback
+    /// ) throws {
+    ///     // pass through:
+    ///     try tokenCallback(token, flags)
+    /// }
+    /// ```
     ///
     /// When implementing the accept method, there are a two rules
     /// to observe:
@@ -81,9 +59,9 @@ public protocol FTS5WrapperTokenizer: FTS5CustomTokenizer {
     /// 1. Errors thrown by the tokenCallback function must not be caught.
     ///
     /// 2. The input `flags` should be given unmodified to the tokenCallback
-    /// function, unless you union it with the .colocated flag when the
-    /// tokenizer produces synonyms (see
-    /// https://www.sqlite.org/fts5.html#synonym_support).
+    /// function, unless you union it with the ``FTS5TokenFlags/colocated`` flag
+    /// when the tokenizer produces synonyms (see
+    /// <https://www.sqlite.org/fts5.html#synonym_support>).
     ///
     /// - parameters:
     ///     - token: A token produced by the wrapped tokenizer
@@ -99,21 +77,20 @@ public protocol FTS5WrapperTokenizer: FTS5CustomTokenizer {
 }
 
 private struct FTS5WrapperContext {
-    let tokenizer: FTS5WrapperTokenizer
+    let tokenizer: any FTS5WrapperTokenizer
     let context: UnsafeMutableRawPointer?
     let tokenization: FTS5Tokenization
     let tokenCallback: FTS5TokenCallback
 }
 
 extension FTS5WrapperTokenizer {
-    /// Default implementation
     public func tokenize(
         context: UnsafeMutableRawPointer?,
         tokenization: FTS5Tokenization,
         pText: UnsafePointer<Int8>?,
-        nText: Int32,
+        nText: CInt,
         tokenCallback: @escaping FTS5TokenCallback)
-        -> Int32
+    -> CInt
     {
         // `tokenCallback` is @convention(c). This requires a little setup
         // in order to transfer context.
@@ -129,57 +106,55 @@ extension FTS5WrapperTokenizer {
                 tokenization: tokenization,
                 pText: pText,
                 nText: nText) { (customContextPointer, tokenFlags, pToken, nToken, iStart, iEnd) in
-                    
-                    // Extract token produced by wrapped tokenizer
-                    guard
-                        let token = pToken.flatMap({
-                            String(
-                                data: Data(
-                                    bytesNoCopy: UnsafeMutableRawPointer(mutating: $0),
-                                    count: Int(nToken),
-                                    deallocator: .none),
-                                encoding: .utf8) })
-                        else {
-                            return SQLITE_OK // 0 // SQLITE_OK
-                    }
-                    
-                    // Extract context
-                    let customContext = customContextPointer!.assumingMemoryBound(to: FTS5WrapperContext.self).pointee
-                    let tokenizer = customContext.tokenizer
-                    let context = customContext.context
-                    let tokenization = customContext.tokenization
-                    let tokenCallback = customContext.tokenCallback
-                    
-                    // Process token produced by wrapped tokenizer
-                    do {
-                        try tokenizer.accept(
-                            token: token,
-                            flags: FTS5TokenFlags(rawValue: tokenFlags),
-                            for: tokenization,
-                            tokenCallback: { (token, flags) in
-                                // Turn token into bytes
-                                return try ContiguousArray(token.utf8).withUnsafeBufferPointer { buffer in
-                                    guard let addr = buffer.baseAddress else {
-                                        return
-                                    }
-                                    let pToken = UnsafeMutableRawPointer(mutating: addr)
-                                        .assumingMemoryBound(to: Int8.self)
-                                    let nToken = Int32(buffer.count)
-                                    
-                                    // Inject token bytes into SQLite
-                                    let code = tokenCallback(context, flags.rawValue, pToken, nToken, iStart, iEnd)
-                                    guard code == SQLITE_OK else {
-                                        throw DatabaseError(resultCode: code, message: "token callback failed")
-                                    }
+                
+                // Extract token produced by wrapped tokenizer
+                guard let token = pToken.flatMap({ String(
+                                                    data: Data(
+                                                        bytesNoCopy: UnsafeMutableRawPointer(mutating: $0),
+                                                        count: Int(nToken),
+                                                        deallocator: .none),
+                                                    encoding: .utf8) })
+                else {
+                    return SQLITE_OK // 0 // SQLITE_OK
+                }
+                
+                // Extract context
+                let customContext = customContextPointer!.assumingMemoryBound(to: FTS5WrapperContext.self).pointee
+                let tokenizer = customContext.tokenizer
+                let context = customContext.context
+                let tokenization = customContext.tokenization
+                let tokenCallback = customContext.tokenCallback
+                
+                // Process token produced by wrapped tokenizer
+                do {
+                    try tokenizer.accept(
+                        token: token,
+                        flags: FTS5TokenFlags(rawValue: tokenFlags),
+                        for: tokenization,
+                        tokenCallback: { (token, flags) in
+                            // Turn token into bytes
+                            return try ContiguousArray(token.utf8).withUnsafeBufferPointer { buffer in
+                                guard let addr = buffer.baseAddress else {
+                                    return
                                 }
+                                let pToken = UnsafeMutableRawPointer(mutating: addr)
+                                    .assumingMemoryBound(to: Int8.self)
+                                let nToken = CInt(buffer.count)
+                                
+                                // Inject token bytes into SQLite
+                                let code = tokenCallback(context, flags.rawValue, pToken, nToken, iStart, iEnd)
+                                guard code == SQLITE_OK else {
+                                    throw DatabaseError(resultCode: code, message: "token callback failed")
+                                }
+                            }
                         })
-                        
-                        return SQLITE_OK
-                    } catch let error as DatabaseError {
-                        return error.extendedResultCode.rawValue
-                    } catch {
-                        return SQLITE_ERROR
-                    }
+                    
+                    return SQLITE_OK
+                } catch let error as DatabaseError {
+                    return error.extendedResultCode.rawValue
+                } catch {
+                    return SQLITE_ERROR
+                }
             }
         }
     }

@@ -1,28 +1,28 @@
 import Foundation
 
-/// A class that serializes accesses to a database.
+/// A class that serializes accesses to an SQLite connection.
 final class SerializedDatabase {
     /// The database connection
     private let db: Database
     
     /// The database configuration
-    var configuration: Configuration {
-        return db.configuration
-    }
+    var configuration: Configuration { db.configuration }
     
     /// The path to the database file
-    var path: String
+    let path: String
     
     /// The dispatch queue
     private let queue: DispatchQueue
     
+    /// If true, overrides `configuration.allowsUnsafeTransactions`.
+    private var allowsUnsafeTransactions = false
+    
     init(
         path: String,
         configuration: Configuration = Configuration(),
-        schemaCache: DatabaseSchemaCache,
         defaultLabel: String,
         purpose: String? = nil)
-        throws
+    throws
     {
         // According to https://www.sqlite.org/threadsafe.html
         //
@@ -45,14 +45,28 @@ final class SerializedDatabase {
         config.threadingMode = .multiThread
         
         self.path = path
-        self.db = try Database(path: path, configuration: config, schemaCache: schemaCache)
-        self.queue = configuration.makeDispatchQueue(defaultLabel: defaultLabel, purpose: purpose)
+        let identifier = configuration.identifier(defaultLabel: defaultLabel, purpose: purpose)
+        self.db = try Database(
+            path: path,
+            description: identifier,
+            configuration: config)
+        if config.readonly {
+            self.queue = configuration.makeReaderDispatchQueue(label: identifier)
+        } else {
+            self.queue = configuration.makeWriterDispatchQueue(label: identifier)
+        }
         SchedulingWatchdog.allowDatabase(db, onQueue: queue)
         try queue.sync {
             do {
-                try db.setup()
+                try db.setUp()
             } catch {
-                db.close()
+                // Recent versions of the Swift compiler will call the
+                // deinitializer. Older ones won't.
+                // See https://bugs.swift.org/browse/SR-13746 for details.
+                //
+                // So let's close the database now. The deinitializer
+                // will only close the database if needed.
+                db.close_v2()
                 throw error
             }
         }
@@ -61,14 +75,29 @@ final class SerializedDatabase {
     deinit {
         // Database may be deallocated in its own queue: allow reentrancy
         reentrantSync { db in
-            db.close()
+            db.close_v2()
         }
     }
     
-    /// Synchronously executes a block the serialized dispatch queue, and
-    /// returns its result.
+    /// Executes database operations, returns their result after they have
+    /// finished executing, and allows or forbids long-lived transactions.
     ///
-    /// This method is *not* reentrant.
+    /// This method is not reentrant.
+    ///
+    /// - parameter allowingLongLivedTransaction: When true, the
+    ///   ``Configuration/allowsUnsafeTransactions`` configuration flag is
+    ///   ignored until this method is called again with false.
+    func sync<T>(allowingLongLivedTransaction: Bool, _ body: (Database) throws -> T) rethrows -> T {
+        try sync { db in
+            self.allowsUnsafeTransactions = allowingLongLivedTransaction
+            return try body(db)
+        }
+    }
+    
+    /// Executes database operations, and returns their result after they
+    /// have finished executing.
+    ///
+    /// This method is not reentrant.
     func sync<T>(_ block: (Database) throws -> T) rethrows -> T {
         // Three different cases:
         //
@@ -111,8 +140,23 @@ final class SerializedDatabase {
         }
     }
     
-    /// Synchronously executes a block the serialized dispatch queue, and
-    /// returns its result.
+    /// Executes database operations, returns their result after they have
+    /// finished executing, and allows or forbids long-lived transactions.
+    ///
+    /// This method is reentrant.
+    ///
+    /// - parameter allowingLongLivedTransaction: When true, the
+    ///   ``Configuration/allowsUnsafeTransactions`` configuration flag is
+    ///   ignored until this method is called again with false.
+    func reentrantSync<T>(allowingLongLivedTransaction: Bool, _ body: (Database) throws -> T) rethrows -> T {
+        try reentrantSync { db in
+            self.allowsUnsafeTransactions = allowingLongLivedTransaction
+            return try body(db)
+        }
+    }
+    
+    /// Executes database operations, and returns their result after they
+    /// have finished executing.
     ///
     /// This method is reentrant.
     func reentrantSync<T>(_ block: (Database) throws -> T) rethrows -> T {
@@ -178,7 +222,7 @@ final class SerializedDatabase {
         }
     }
     
-    /// Asynchronously executes a block in the serialized dispatch queue.
+    /// Schedules database operations for execution, and returns immediately.
     func async(_ block: @escaping (Database) -> Void) {
         queue.async {
             block(self.db)
@@ -188,7 +232,7 @@ final class SerializedDatabase {
     
     /// Returns true if any only if the current dispatch queue is valid.
     var onValidQueue: Bool {
-        return SchedulingWatchdog.current?.allows(db) ?? false
+        SchedulingWatchdog.current?.allows(db) ?? false
     }
     
     /// Executes the block in the current queue.
@@ -231,9 +275,14 @@ final class SerializedDatabase {
         line: UInt = #line)
     {
         GRDBPrecondition(
-            configuration.allowsUnsafeTransactions || !db.isInsideTransaction,
+            allowsUnsafeTransactions || configuration.allowsUnsafeTransactions || !db.isInsideTransaction,
             message(),
             file: file,
             line: line)
     }
 }
+
+// @unchecked because the wrapped `Database` itself is not Sendable.
+// It happens the job of SerializedDatabase is precisely to provide thread-safe
+// access to `Database`.
+extension SerializedDatabase: @unchecked Sendable { }

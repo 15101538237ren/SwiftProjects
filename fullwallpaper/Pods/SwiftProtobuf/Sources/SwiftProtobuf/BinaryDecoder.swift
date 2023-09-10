@@ -4,7 +4,7 @@
 // Licensed under Apache License v2.0 with Runtime Library Exception
 //
 // See LICENSE.txt for license information:
-// https://github.com/apple/swift-protobuf/blob/master/LICENSE.txt
+// https://github.com/apple/swift-protobuf/blob/main/LICENSE.txt
 //
 // -----------------------------------------------------------------------------
 ///
@@ -235,7 +235,7 @@ internal struct BinaryDecoder: Decoder {
             if bodyBytes > 0 {
                 let itemSize = UInt64(MemoryLayout<Float>.size)
                 let itemCount = bodyBytes / itemSize
-                if bodyBytes % itemSize != 0 || itemCount > UInt64(Int.max) {
+                if bodyBytes % itemSize != 0 || bodyBytes > available {
                     throw BinaryDecodingError.truncated
                 }
                 value.reserveCapacity(value.count + Int(truncatingIfNeeded: itemCount))
@@ -276,7 +276,7 @@ internal struct BinaryDecoder: Decoder {
             if bodyBytes > 0 {
                 let itemSize = UInt64(MemoryLayout<Double>.size)
                 let itemCount = bodyBytes / itemSize
-                if bodyBytes % itemSize != 0 || itemCount > UInt64(Int.max) {
+                if bodyBytes % itemSize != 0 || bodyBytes > available {
                     throw BinaryDecodingError.truncated
                 }
                 value.reserveCapacity(value.count + Int(truncatingIfNeeded: itemCount))
@@ -919,6 +919,7 @@ internal struct BinaryDecoder: Decoder {
     }
 
     internal mutating func decodeFullMessage<M: Message>(message: inout M) throws {
+      assert(unknownData == nil)
       try incrementRecursionDepth()
       try message.decodeMessage(decoder: &self)
       decrementRecursionDepth()
@@ -950,8 +951,6 @@ internal struct BinaryDecoder: Decoder {
         guard fieldWireFormat == WireFormat.startGroup else {
             return false
         }
-        assert(unknownData == nil)
-
         try incrementRecursionDepth()
 
         // This works by making a clone of the current decoder state and
@@ -965,6 +964,9 @@ internal struct BinaryDecoder: Decoder {
         // startGroup was read, so current tag/data is done (otherwise the
         // startTag will end up in the unknowns of the first thing decoded).
         subDecoder.consumed = true
+        // The group (message) doesn't get any existing unknown fields from
+        // the parent.
+        subDecoder.unknownData = nil
         try group.decodeMessage(decoder: &subDecoder)
         guard subDecoder.fieldNumber == fieldNumber && subDecoder.fieldWireFormat == .endGroup else {
             throw BinaryDecodingError.truncated
@@ -1108,18 +1110,16 @@ internal struct BinaryDecoder: Decoder {
     ) throws {
         assert(!consumed)
         assert(fieldNumber == ext.fieldNumber)
-        var fieldValue = values[fieldNumber]
-        // Message/Group extensions both will call back into the matching
-        // decode methods, so the recursion depth will be tracked there.
-        if fieldValue != nil {
-            try fieldValue!.decodeExtensionField(decoder: &self)
-        } else {
-            fieldValue = try ext._protobuf_newField(decoder: &self)
-        }
-        if consumed {
+
+        try values.modify(index: fieldNumber) { fieldValue in
+            // Message/Group extensions both will call back into the matching
+            // decode methods, so the recursion depth will be tracked there.
             if fieldValue != nil {
-                values[fieldNumber] = fieldValue
+                try fieldValue!.decodeExtensionField(decoder: &self)
             } else {
+                fieldValue = try ext._protobuf_newField(decoder: &self)
+            }
+            if consumed && fieldValue == nil {
                 // Really things should never get here, if the decoder says
                 // the bytes were consumed, then there should have been a
                 // field that consumed them (existing or created). This
@@ -1288,20 +1288,8 @@ internal struct BinaryDecoder: Decoder {
     private mutating func skipOver(tag: FieldTag) throws {
         switch tag.wireFormat {
         case .varint:
-            if available < 1 {
-                throw BinaryDecodingError.truncated
-            }
-            var c = p.load(fromByteOffset: 0, as: UInt8.self)
-            while (c & 0x80) != 0 {
-                p += 1
-                available -= 1
-                if available < 1 {
-                    throw BinaryDecodingError.truncated
-                }
-                c = p.load(fromByteOffset: 0, as: UInt8.self)
-            }
-            p += 1
-            available -= 1
+            // Don't need the value, just ensuring it is validly encoded.
+            let _ = try decodeVarint()
         case .fixed64:
             if available < 8 {
                 throw BinaryDecodingError.truncated
@@ -1479,15 +1467,31 @@ internal struct BinaryDecoder: Decoder {
     }
 
     /// Private: Get the start and length for the body of
-    // a length-delimited field.
+    /// a length-delimited field.
     private mutating func getFieldBodyBytes(count: inout Int) throws -> UnsafeRawPointer {
         let length = try decodeVarint()
-        if length <= UInt64(available) {
-            count = Int(length)
-            let body = p
-            consume(length: count)
-            return body
+
+        // Bytes and Strings have a max size of 2GB. And since messages are on
+        // the wire as bytes/length delimited, they also have a 2GB size limit.
+        // The upstream C++ does the same sort of enforcement (see
+        // parse_context, delimited_message_util, message_lite, etc.).
+        // https://protobuf.dev/programming-guides/encoding/#cheat-sheet
+        //
+        // This function does get called in some package decode handling, but
+        // that is length delimited on the wire, so the spec would imply
+        // the limit still applies.
+        guard length < 0x7fffffff else {
+          // Reuse existing error to breaking change of adding new error.
+          throw BinaryDecodingError.malformedProtobuf
         }
-        throw BinaryDecodingError.truncated
+
+        guard length <= UInt64(available) else {
+          throw BinaryDecodingError.truncated
+        }
+
+        count = Int(length)
+        let body = p
+        consume(length: count)
+        return body
     }
 }

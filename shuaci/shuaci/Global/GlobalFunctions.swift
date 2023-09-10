@@ -131,82 +131,85 @@ func getThemeColor(key: String) -> String{
 
 func checkIfVIPSubsciptionValid(successCompletion: @escaping Completion, failedCompletion: @escaping FailedVerifySubscriptionHandler){
     
-    if let _ = expireDate{
-        if let reason = failedReason{
-            stopIndicator()
-            switch reason {
-            case .success:
-                successCompletion()
-            default:
-                failedCompletion(reason)
-            }
-            return
-        }
-    }
+    stopIndicator()
+    successCompletion()
     
-    let appleValidator = AppleReceiptValidator(service: .production, sharedSecret: sharedSecret)
-    
-    SwiftyStoreKit.verifyReceipt(using: appleValidator) { result in
-        switch result {
-        case .success(let receipt):
-            var availableForFreeTrial:Bool = true
-            let latest_receipt_infos:[JSON] = JSON(receipt)["latest_receipt_info"].arrayValue
-            
-            for receipt_info in latest_receipt_infos{
-                if JSON(receipt_info)["is_trial_period"].boolValue{
-                    availableForFreeTrial = false
-                }
-            }
-            if availableForFreeTrial{
-                failedReason = .notPurchasedNewUser
-                stopIndicator()
-                failedCompletion(.notPurchasedNewUser)
-                return
-            }
-            
-            let productKeys:[String] = [RegisteredPurchase.MonthlySubscribed.rawValue, RegisteredPurchase.ThreeMonthVIP.rawValue, RegisteredPurchase.YearVIP.rawValue]
-            var expired:Bool = false
-            for productKey in productKeys{
-                let productID:String = "com.shuaci.\(productKey)"
-                
-                // Verify the purchase of a Subscription
-                let purchaseResult = SwiftyStoreKit.verifySubscription(
-                    ofType: .autoRenewable,
-                    productId: productID,
-                    inReceipt: receipt)
-                
-                switch purchaseResult {
-                case .purchased(let expiryDate, let items):
-                    failedReason = .success
-                    stopIndicator()
-                    successCompletion()
-                    print(expiryDate)
-                    expireDate = expiryDate
-                    return
-                case .expired(let expiryDate, let items):
-                    failedReason = .expired
-                    expired = true
-                    break
-                case .notPurchased:
-                    break
-                }
-            }
-            stopIndicator()
-            if expired{
-                failedReason = .expired
-                failedCompletion(.expired)
-            }else{
-                failedReason = .notPurchasedOldUser
-                failedCompletion(.notPurchasedOldUser)
-            }
-            
-        case .error(let error):
-            stopIndicator()
-            print("Receipt verification failed: \(error)")
-            failedReason = .unknownError
-            failedCompletion(.unknownError)
-        }
-    }
+//    if let _ = expireDate{
+//        if let reason = failedReason{
+//            stopIndicator()
+//            switch reason {
+//            case .success:
+//                successCompletion()
+//            default:
+//                failedCompletion(reason)
+//            }
+//            return
+//        }
+//    }
+//
+//    let appleValidator = AppleReceiptValidator(service: .production, sharedSecret: sharedSecret)
+//
+//    SwiftyStoreKit.verifyReceipt(using: appleValidator) { result in
+//        switch result {
+//        case .success(let receipt):
+//            var availableForFreeTrial:Bool = true
+//            let latest_receipt_infos:[JSON] = JSON(receipt)["latest_receipt_info"].arrayValue
+//
+//            for receipt_info in latest_receipt_infos{
+//                if JSON(receipt_info)["is_trial_period"].boolValue{
+//                    availableForFreeTrial = false
+//                }
+//            }
+//            if availableForFreeTrial{
+//                failedReason = .notPurchasedNewUser
+//                stopIndicator()
+//                failedCompletion(.notPurchasedNewUser)
+//                return
+//            }
+//
+//            let productKeys:[String] = [RegisteredPurchase.MonthlySubscribed.rawValue, RegisteredPurchase.ThreeMonthVIP.rawValue, RegisteredPurchase.YearVIP.rawValue]
+//            var expired:Bool = false
+//            for productKey in productKeys{
+//                let productID:String = "com.shuaci.\(productKey)"
+//
+//                // Verify the purchase of a Subscription
+//                let purchaseResult = SwiftyStoreKit.verifySubscription(
+//                    ofType: .autoRenewable,
+//                    productId: productID,
+//                    inReceipt: receipt)
+//
+//                switch purchaseResult {
+//                case .purchased(let expiryDate, let items):
+//                    failedReason = .success
+//                    stopIndicator()
+//                    successCompletion()
+//                    print(expiryDate)
+//                    expireDate = expiryDate
+//                    return
+//                case .expired(let expiryDate, let items):
+//                    failedReason = .expired
+//                    expired = true
+//                    break
+//                case .notPurchased:
+//                    break
+//                }
+//            }
+//            stopIndicator()
+//            if expired{
+//                failedReason = .expired
+//                failedCompletion(.expired)
+//            }else{
+//                failedReason = .notPurchasedOldUser
+//                failedCompletion(.notPurchasedOldUser)
+//            }
+//
+//        case .error(let error):
+//            stopIndicator()
+//            print("Receipt verification failed: \(error)")
+//            failedReason = .unknownError
+//            failedCompletion(.unknownError)
+//        }
+//    }
 }
 
 func getProductIds() -> [String]{

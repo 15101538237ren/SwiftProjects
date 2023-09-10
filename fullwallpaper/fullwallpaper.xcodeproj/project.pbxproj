@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		347F50FE7725D399E70DD317 /* Pods_fullwallpaper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 10DD94CFAF8E4BE4C42864FA /* Pods_fullwallpaper.framework */; };
 		55005065264CA92200EBD9FD /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 55005063264CA92200EBD9FD /* InfoPlist.strings */; };
 		55005068264CA92200EBD9FD /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 55005066264CA92200EBD9FD /* Localizable.strings */; };
 		5500506B264CB6AF00EBD9FD /* ClickerScript-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5500506A264CB6AF00EBD9FD /* ClickerScript-Regular.ttf */; };
@@ -69,12 +68,10 @@
 		C3FC6231257DCC2F00E1A547 /* UIImage+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3FC6230257DCC2F00E1A547 /* UIImage+Ext.swift */; };
 		C3FEE1DB2589D785009D1DCE /* AppStoreReviewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3FEE1DA2589D785009D1DCE /* AppStoreReviewManager.swift */; };
 		C3FEE1DE2589D80A009D1DCE /* UserDefaults+Key.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3FEE1DD2589D80A009D1DCE /* UserDefaults+Key.swift */; };
+		CEEA9F2FB721E2F7BE2B242D /* Pods_fullwallpaper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 81A8710BBDE3EA6616D6BE70 /* Pods_fullwallpaper.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		0C7D111B56BE41451438404E /* Pods-fullwallpaper.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-fullwallpaper.debug.xcconfig"; path = "Target Support Files/Pods-fullwallpaper/Pods-fullwallpaper.debug.xcconfig"; sourceTree = "<group>"; };
-		10DD94CFAF8E4BE4C42864FA /* Pods_fullwallpaper.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_fullwallpaper.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		393206362709D374CF5A3AF9 /* Pods-fullwallpaper.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-fullwallpaper.release.xcconfig"; path = "Target Support Files/Pods-fullwallpaper/Pods-fullwallpaper.release.xcconfig"; sourceTree = "<group>"; };
 		55005064264CA92200EBD9FD /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		55005067264CA92200EBD9FD /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		55005069264CA93000EBD9FD /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
@@ -102,6 +99,8 @@
 		55F39932254A624D0094A477 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		55F39934254A624D0094A477 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		55F3F5B0263A382C00701A66 /* CustomizationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomizationVC.swift; sourceTree = "<group>"; };
+		81A8710BBDE3EA6616D6BE70 /* Pods_fullwallpaper.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_fullwallpaper.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8DC1F676CA6635AE98A414DA /* Pods-fullwallpaper.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-fullwallpaper.debug.xcconfig"; path = "Target Support Files/Pods-fullwallpaper/Pods-fullwallpaper.debug.xcconfig"; sourceTree = "<group>"; };
 		C300E4AC25E1B6630009BEFA /* VIP.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VIP.swift; sourceTree = "<group>"; };
 		C30B71F6258D2F76002A673D /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		C311F9C2255E1124000FCED2 /* UploadWallpaperVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadWallpaperVC.swift; sourceTree = "<group>"; };
@@ -141,6 +140,7 @@
 		C3FC6230257DCC2F00E1A547 /* UIImage+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Ext.swift"; sourceTree = "<group>"; };
 		C3FEE1DA2589D785009D1DCE /* AppStoreReviewManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStoreReviewManager.swift; sourceTree = "<group>"; };
 		C3FEE1DD2589D80A009D1DCE /* UserDefaults+Key.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+Key.swift"; sourceTree = "<group>"; };
+		E32F3613071C13C30E43F690 /* Pods-fullwallpaper.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-fullwallpaper.release.xcconfig"; path = "Target Support Files/Pods-fullwallpaper/Pods-fullwallpaper.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -148,8 +148,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				347F50FE7725D399E70DD317 /* Pods_fullwallpaper.framework in Frameworks */,
 				C3B33253259BBF82001D5C5C /* StoreKit.framework in Frameworks */,
+				CEEA9F2FB721E2F7BE2B242D /* Pods_fullwallpaper.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -159,8 +159,8 @@
 		1CC78923427563132D934FFC /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				0C7D111B56BE41451438404E /* Pods-fullwallpaper.debug.xcconfig */,
-				393206362709D374CF5A3AF9 /* Pods-fullwallpaper.release.xcconfig */,
+				8DC1F676CA6635AE98A414DA /* Pods-fullwallpaper.debug.xcconfig */,
+				E32F3613071C13C30E43F690 /* Pods-fullwallpaper.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -298,7 +298,7 @@
 			isa = PBXGroup;
 			children = (
 				C3B33252259BBF82001D5C5C /* StoreKit.framework */,
-				10DD94CFAF8E4BE4C42864FA /* Pods_fullwallpaper.framework */,
+				81A8710BBDE3EA6616D6BE70 /* Pods_fullwallpaper.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -349,12 +349,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 55F39937254A624D0094A477 /* Build configuration list for PBXNativeTarget "fullwallpaper" */;
 			buildPhases = (
-				DB32B64519C5981620ECB276 /* [CP] Check Pods Manifest.lock */,
+				F1D1B6693B72B2BFDD2840E6 /* [CP] Check Pods Manifest.lock */,
 				55F3991F254A624D0094A477 /* Sources */,
 				55F39920254A624D0094A477 /* Frameworks */,
 				55F39921254A624D0094A477 /* Resources */,
-				8DDB3117ADC3BA9F4BC5F44C /* [CP] Embed Pods Frameworks */,
-				5B0213BEAF4EEBD92B394A4E /* [CP] Copy Pods Resources */,
+				9BAEB538568B542EE1DA10C2 /* [CP] Embed Pods Frameworks */,
+				7BB9A6ED4862AE99B1D3C754 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -420,7 +420,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		5B0213BEAF4EEBD92B394A4E /* [CP] Copy Pods Resources */ = {
+		7BB9A6ED4862AE99B1D3C754 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -437,7 +437,7 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-fullwallpaper/Pods-fullwallpaper-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		8DDB3117ADC3BA9F4BC5F44C /* [CP] Embed Pods Frameworks */ = {
+		9BAEB538568B542EE1DA10C2 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -454,7 +454,7 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-fullwallpaper/Pods-fullwallpaper-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		DB32B64519C5981620ECB276 /* [CP] Check Pods Manifest.lock */ = {
+		F1D1B6693B72B2BFDD2840E6 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -684,25 +684,30 @@
 		};
 		55F39938254A624D0094A477 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0C7D111B56BE41451438404E /* Pods-fullwallpaper.debug.xcconfig */;
+			baseConfigurationReference = 8DC1F676CA6635AE98A414DA /* Pods-fullwallpaper.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = fullwallpaper/fullwallpaper.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 15;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = WDA59C4558;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = fullwallpaper/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.hongleir.fullwallpaper.cn;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_OBJC_BRIDGING_HEADER = "/Users/emmanueldollinger/SwiftProject/fullwallpaper/fullwallpaper/fullwallpaper-Bridging-Header.h";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_OBJC_BRIDGING_HEADER = "/Users/hongleir/Projects/SwiftProject/fullwallpaper/fullwallpaper/fullwallpaper-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -710,25 +715,30 @@
 		};
 		55F39939254A624D0094A477 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 393206362709D374CF5A3AF9 /* Pods-fullwallpaper.release.xcconfig */;
+			baseConfigurationReference = E32F3613071C13C30E43F690 /* Pods-fullwallpaper.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = fullwallpaper/fullwallpaper.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 15;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = WDA59C4558;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = fullwallpaper/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.hongleir.fullwallpaper.cn;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_OBJC_BRIDGING_HEADER = "/Users/emmanueldollinger/SwiftProject/fullwallpaper/fullwallpaper/fullwallpaper-Bridging-Header.h";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_OBJC_BRIDGING_HEADER = "/Users/hongleir/Projects/SwiftProject/fullwallpaper/fullwallpaper/fullwallpaper-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};

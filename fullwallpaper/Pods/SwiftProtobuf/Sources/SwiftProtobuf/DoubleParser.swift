@@ -4,7 +4,7 @@
 // Licensed under Apache License v2.0 with Runtime Library Exception
 //
 // See LICENSE.txt for license information:
-// https://github.com/apple/swift-protobuf/blob/master/LICENSE.txt
+// https://github.com/apple/swift-protobuf/blob/main/LICENSE.txt
 //
 // -----------------------------------------------------------------------------
 ///
@@ -17,11 +17,11 @@ import Foundation
 /// Support parsing float/double values from UTF-8
 internal class DoubleParser {
     // Temporary buffer so we can null-terminate the UTF-8 string
-    // before calling the C standard libray to parse it.
+    // before calling the C standard library to parse it.
     // In theory, JSON writers should be able to represent any IEEE Double
     // in at most 25 bytes, but many writers will emit more digits than
     // necessary, so we size this generously.
-    private var work = 
+    private var work =
       UnsafeMutableBufferPointer<Int8>.allocate(capacity: 128)
 
     deinit {

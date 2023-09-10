@@ -23,8 +23,8 @@ public class ANLongTapButton: UIButton
     /// Invokes when either time period has elapsed or when user cancels touch.
     public var didFinishBlock : (() -> Void) = { () -> Void in }
     
+    var timePeriodTimer: Timer?
     var circleLayer: CAShapeLayer?
-    var dispatchWork: DispatchWorkItem? = nil
     var isFinished = true
     
     public override func prepareForInterfaceBuilder()
@@ -33,8 +33,8 @@ public class ANLongTapButton: UIButton
         let radius = self.radius()
         
         if let context = UIGraphicsGetCurrentContext() {
-            drawBackground(context: context, center: center, radius: radius)
-            drawBackgroundCircle(context: context, center: center, radius: radius)
+            drawBackground(context:context, center: center, radius: radius)
+            drawBackgroundCircle(context:  context, center: center, radius: radius)
             drawTrackBar(context: context, center: center, radius: radius)
             drawProgressBar(context: context, center: center, radius: radius)
         }
@@ -44,11 +44,11 @@ public class ANLongTapButton: UIButton
     {
         super.awakeFromNib()
         
-        self.addTarget(self, action: #selector(start(sender:forEvent:)), for: .touchDown)
-        self.addTarget(self, action: #selector(cancel(sender:forEvent:)), for: .touchUpInside)
-        self.addTarget(self, action: #selector(cancel(sender:forEvent:)), for: .touchCancel)
-        self.addTarget(self, action: #selector(cancel(sender:forEvent:)), for: .touchDragExit)
-        self.addTarget(self, action: #selector(cancel(sender:forEvent:)), for: .touchDragOutside)
+        addTarget(self, action: #selector(start), for: .touchDown)
+        addTarget(self, action: #selector(cancel), for: .touchUpInside)
+        addTarget(self, action: #selector(cancel), for: .touchCancel)
+        addTarget(self, action: #selector(cancel), for: .touchDragExit)
+        addTarget(self, action: #selector(cancel), for: .touchDragOutside)
     }
     
     public override func draw(_ rect: CGRect)
@@ -68,17 +68,21 @@ public class ANLongTapButton: UIButton
     
     // MARK: - Internal
     
+    @objc func myPerformeCode(){
+        self.timePeriodTimer?.invalidate()
+        self.timePeriodTimer = nil
+        self.isFinished = true
+        self.didFinishBlock()
+        self.didTimePeriodElapseBlock()
+    }
+    
     @objc func start(sender: AnyObject, forEvent event: UIEvent)
     {
         isFinished = false
         reset()
         
-        dispatchWork = DispatchWorkItem(block: {
-            self.isFinished = true
-            self.didFinishBlock()
-            self.didTimePeriodElapseBlock()
-        })
-        DispatchQueue.main.asyncAfter(deadline: .now() + timePeriod, execute: dispatchWork!)
+        timePeriodTimer = Timer.scheduledTimer(timeInterval: timePeriod, target: self, selector: #selector(myPerformeCode), userInfo: nil, repeats: false)
+        
         
         let center = self.center()
         var radius = self.radius()
@@ -102,7 +106,6 @@ public class ANLongTapButton: UIButton
     
     @objc func cancel(sender: AnyObject, forEvent event: UIEvent)
     {
-        dispatchWork?.cancel()
         if !isFinished {
             isFinished = true
             didFinishBlock()
@@ -113,6 +116,8 @@ public class ANLongTapButton: UIButton
     
     @objc func reset()
     {
+        timePeriodTimer?.invalidate()
+        timePeriodTimer = nil
         circleLayer?.removeAllAnimations()
         circleLayer?.removeFromSuperlayer()
         circleLayer = nil
@@ -130,7 +135,7 @@ public class ANLongTapButton: UIButton
     {
         context.setFillColor(bgCircleColor.cgColor)
         context.beginPath()
-        context.addArc(center: center, radius: radius, startAngle: 0, endAngle: 360, clockwise: true)
+        context.addArc(center: center, radius: radius, startAngle: 0, endAngle: 360, clockwise: false)
         context.closePath()
         context.fillPath()
     }
@@ -143,9 +148,8 @@ public class ANLongTapButton: UIButton
         
         context.setFillColor(barTrackColor.cgColor)
         context.beginPath()
-        context.addArc(center: center, radius: radius, startAngle: degreesToRadians(value: startAngle), endAngle: degreesToRadians(value: startAngle + 360), clockwise: false)
-        
-        context.addArc(center: center, radius: radius - barWidth, startAngle: degreesToRadians(value: startAngle + 360), endAngle: degreesToRadians(value: startAngle), clockwise: true)
+        context.addArc(center: center, radius: radius, startAngle: degreesToRadians(value: startAngle), endAngle: degreesToRadians(value: startAngle + 360), clockwise: false);
+        context.addArc(center: center, radius: radius - barWidth, startAngle: degreesToRadians(value: startAngle + 360), endAngle: degreesToRadians(value: startAngle), clockwise: true);
         context.closePath()
         context.fillPath()
     }
@@ -158,8 +162,9 @@ public class ANLongTapButton: UIButton
         
         context.setFillColor(barColor.cgColor)
         context.beginPath()
-        context.addArc(center: center, radius: radius, startAngle: degreesToRadians(value: startAngle), endAngle: degreesToRadians(value: startAngle + 90), clockwise: false)
-        context.addArc(center: center, radius: radius - barWidth, startAngle: degreesToRadians(value: startAngle + 90), endAngle: degreesToRadians(value: startAngle), clockwise: true)
+        context.addArc(center: center, radius: radius, startAngle: degreesToRadians(value: startAngle), endAngle: degreesToRadians(value: startAngle + 90), clockwise: false);
+        
+        context.addArc(center: center, radius: radius - barWidth, startAngle: degreesToRadians(value: startAngle + 90), endAngle: degreesToRadians(value: startAngle), clockwise: true);
         context.closePath()
         context.fillPath()
     }
@@ -168,7 +173,7 @@ public class ANLongTapButton: UIButton
     
     private func center() -> CGPoint
     {
-        return CGPoint(x: bounds.size.width / 2, y: bounds.size.height / 2)
+        return CGPointMake(bounds.size.width / 2, bounds.size.height / 2)
     }
     
     private func radius() -> CGFloat
@@ -178,5 +183,5 @@ public class ANLongTapButton: UIButton
         return min(center.x, center.y)
     }
     
-    private func degreesToRadians (value: CGFloat) -> CGFloat { return value * CGFloat(Float.pi) / CGFloat(180.0) }
+    private func degreesToRadians (value: CGFloat) -> CGFloat { return value * CGFloat(Double.pi) / CGFloat(180.0) }
 }

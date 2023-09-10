@@ -1,66 +1,66 @@
 PODS:
-  - AAInfographics (6.0.0)
-  - Alamofire (5.4.4)
+  - AAInfographics (7.3.0)
+  - Alamofire (5.8.0)
   - ANLongTapButton (1.2.0)
-  - CropViewController (2.6.0)
+  - CropViewController (2.6.1)
   - Disk (0.6.4)
-  - GRDB.swift (5.16.0):
-    - GRDB.swift/standard (= 5.16.0)
-  - GRDB.swift/standard (5.16.0)
+  - GRDB.swift (6.15.1):
+    - GRDB.swift/standard (= 6.15.1)
+  - GRDB.swift/standard (6.15.1)
   - JGProgressHUD (2.2)
   - KSGuideController (0.1.2)
-  - LeanCloud (17.10.1):
-    - LeanCloud/RTM (= 17.10.1)
-  - LeanCloud/Foundation (17.10.1):
-    - Alamofire (~> 5.4)
-  - LeanCloud/RTM (17.10.1):
-    - GRDB.swift (~> 5.12)
-    - LeanCloud/Foundation (= 17.10.1)
-    - SwiftProtobuf (~> 1.18)
+  - LeanCloud (17.11.0):
+    - LeanCloud/RTM (= 17.11.0)
+  - LeanCloud/Foundation (17.11.0):
+    - Alamofire (~> 5.7)
+  - LeanCloud/RTM (17.11.0):
+    - GRDB.swift (~> 6.15.0)
+    - LeanCloud/Foundation (= 17.11.0)
+    - SwiftProtobuf (~> 1.22)
   - MBRadioCheckboxButton (2.0)
   - MKRingProgressView (2.3.0)
   - NewPopMenu (2.1.2)
-  - Nuke (10.5.2)
-  - PhoneNumberKit (3.3.3):
-    - PhoneNumberKit/PhoneNumberKitCore (= 3.3.3)
-    - PhoneNumberKit/UIKit (= 3.3.3)
-  - PhoneNumberKit/PhoneNumberKitCore (3.3.3)
-  - PhoneNumberKit/UIKit (3.3.3):
+  - Nuke (10.7.1)
+  - PhoneNumberKit (3.6.8):
+    - PhoneNumberKit/PhoneNumberKitCore (= 3.6.8)
+    - PhoneNumberKit/UIKit (= 3.6.8)
+  - PhoneNumberKit/PhoneNumberKitCore (3.6.8)
+  - PhoneNumberKit/UIKit (3.6.8):
     - PhoneNumberKit/PhoneNumberKitCore
   - SwifterSwift/Foundation (5.2.0)
   - SwifterSwift/UIKit (5.2.0)
-  - SwiftMessages (9.0.5):
-    - SwiftMessages/App (= 9.0.5)
-  - SwiftMessages/App (9.0.5)
-  - SwiftProtobuf (1.18.0)
-  - SwiftTheme (0.6.3)
+  - SwiftMessages (9.0.6):
+    - SwiftMessages/App (= 9.0.6)
+  - SwiftMessages/App (9.0.6)
+  - SwiftProtobuf (1.23.0)
+  - SwiftTheme (0.6.4)
   - SwiftValidators (9.0.3)
   - SwiftyJSON (5.0.1)
   - SwiftyStoreKit (0.16.1)
   - Toast-Swift (5.0.1)
   - UIEmptyState (5.0.0)
-  - UMAPM (1.5.5)
-  - UMCCommon (7.3.5):
+  - UMAPM (1.8.4)
+  - UMCCommon (7.3.7):
     - UMAPM
     - UMDevice
   - UMCCommonLog (2.0.2)
-  - UMCPush (4.0.0):
+  - UMCPush (4.0.2):
     - UMCCommon
   - UMCSecurityPlugins (1.0.6)
-  - UMDevice (2.0.5)
+  - UMDevice (3.1.0)
 
 DEPENDENCIES:
   - AAInfographics (from `https://github.com/AAChartModel/AAChartKit-Swift.git`)
   - ANLongTapButton
   - CropViewController
-  - "Disk (from `https://7mxaxlb@gitroyalty.com/saoudrizwan/Disk`, tag `0.6.4`)"
+  - Disk (~> 0.6.4)
   - JGProgressHUD
   - KSGuideController
   - LeanCloud
   - MBRadioCheckboxButton
   - MKRingProgressView
   - NewPopMenu (~> 2.0)
-  - Nuke
+  - Nuke (~> 10.0)
   - PhoneNumberKit
   - SwifterSwift/Foundation
   - SwifterSwift/UIKit
@@ -82,6 +82,7 @@ SPEC REPOS:
     - Alamofire
     - ANLongTapButton
     - CropViewController
+    - Disk
     - GRDB.swift
     - JGProgressHUD
     - KSGuideController
@@ -110,49 +111,43 @@ SPEC REPOS:
 EXTERNAL SOURCES:
   AAInfographics:
     :git: https://github.com/AAChartModel/AAChartKit-Swift.git
-  Disk:
-    :git: "https://7mxaxlb@gitroyalty.com/saoudrizwan/Disk"
-    :tag: 0.6.4
 
 CHECKOUT OPTIONS:
   AAInfographics:
-    :commit: ef9e6ebdcb71fa513fb0702535be63a56d0e5f97
+    :commit: 4abae1f1ce961d420f5a8658ccfbcc9b9580b0dd
     :git: https://github.com/AAChartModel/AAChartKit-Swift.git
-  Disk:
-    :git: "https://7mxaxlb@gitroyalty.com/saoudrizwan/Disk"
-    :tag: 0.6.4
 
 SPEC CHECKSUMS:
-  AAInfographics: e57c6cc15ddc17df3555db6f586fb0e1b911a0b7
-  Alamofire: f3b09a368f1582ab751b3fff5460276e0d2cf5c9
+  AAInfographics: ee2a7959acdd0a00243b7f5a3f03a1fa2bdf0781
+  Alamofire: 0e92e751b3e9e66d7982db43919d01f313b8eb91
   ANLongTapButton: 1b0edc339585913a04de2ca2d1d641b79eb68845
-  CropViewController: 7093b39ec3cb508531b22d35773e06cecd7378d8
-  Disk: 8ebb79575e81f13c3665e6ab2b9d31f29aec92bb
-  GRDB.swift: 180e55fec683c77c917dc80db33e1e4d472ec83d
+  CropViewController: 58fb440f30dac788b129d2a1f24cffdcb102669c
+  Disk: dcee5c2e98fb72f9a924cde8da8435b08244a80e
+  GRDB.swift: a6b7e9900aa300d0cbf1f1c5f47b8f32ae51e30c
   JGProgressHUD: d83d7a981b85d11205e19ff8ad5bb9c40571c847
   KSGuideController: a3829b33b65ca56eacd530c7b4917e973f756ee5
-  LeanCloud: e6de4b8129ab68be7f70a9b77c4304f71c5a1a2c
+  LeanCloud: 808532530fae85682b1747bf248bb3dc64a37f13
   MBRadioCheckboxButton: 6e2a2cdc441e292e45b64c4e65eb8fc1fc05eef2
   MKRingProgressView: f534209b9a1edc0beb2ea613e6b953ea2195b565
   NewPopMenu: c6129e08e8192f6257ceb5f9a4357e1b59c6e2e7
-  Nuke: 62d6d401e2b3ce553151a6f5e2f9332878710fbd
-  PhoneNumberKit: 4ce83273551c4d2ae10b7361162f4283dd02835f
+  Nuke: 279f17a599fd1c83cf51de5e0e1f2db143a287b0
+  PhoneNumberKit: 962cb725d664c7d4ac5f3e6f93e2de5f543f0d05
   SwifterSwift: 334181863c416882d97b7a60c05054d9e4d799e2
-  SwiftMessages: 9cca50659fa22bb523b4dd2a958d4442e843a354
-  SwiftProtobuf: c3c12645230d9b09c72267e0de89468c5543bd86
-  SwiftTheme: 50ef58071aa18f55f455a8f9ed8caa02d19e3e4e
+  SwiftMessages: f0c7ef4705a570ad6c5e208b611f4333e660ed92
+  SwiftProtobuf: b70d65f419fbfe61a2d58003456ca5da58e337d6
+  SwiftTheme: 007cbaf1f9e171caf6448a4657533e54c682b285
   SwiftValidators: b1cb650ce02ef6ad894f1d471f970b249c794342
   SwiftyJSON: 2f33a42c6fbc52764d96f13368585094bfd8aa5e
   SwiftyStoreKit: 6b9c08810269f030586dac1fae8e75871a82e84a
   Toast-Swift: 9b6a70f28b3bf0b96c40d46c0c4b9d6639846711
   UIEmptyState: 69a89a434a6609365f6adcf691458936c70f6d00
-  UMAPM: 1ab13287a2b05c1d491009321270daddf5659a74
-  UMCCommon: 3c535e9e3958f72df075cc6fe4776fb5e403c8bc
+  UMAPM: f3d56b9a9c445af10a74f0cdbf5417045d2ab4f2
+  UMCCommon: aac337052f23b0e08c0f3cf021d3bb209f2c49bd
   UMCCommonLog: bea707e50c85cef4b0eb47cc5c7226bb843245ca
-  UMCPush: 7993dd1bffcbd4abeee82ec70cb051958fbd5536
+  UMCPush: 3b84dd1698d2f46bcd50f1005cb2e38032475168
   UMCSecurityPlugins: 0831a08f3988f3cea9f1d3a7626cd9bee4fef150
-  UMDevice: c13bbb2e8ca6c67d1e23e03162553e3ec5a8b5b0
+  UMDevice: 9ef8045b59e0479cff7062915c879a1af46fa094
 
-PODFILE CHECKSUM: d530d116afbc094b22ea09815e19b69cda6e4555
+PODFILE CHECKSUM: b7a4f4bf17feb8b58c9652344baca78caf0207ff
 
-COCOAPODS: 1.9.3
+COCOAPODS: 1.12.1

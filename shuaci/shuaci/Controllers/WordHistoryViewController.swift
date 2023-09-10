@@ -24,6 +24,7 @@ class WordHistoryViewController: UIViewController, UIGestureRecognizerDelegate, 
     let redColor:UIColor = UIColor(red: 168, green: 0, blue: 0, alpha: 1)
     let darkGreen:UIColor = UIColor(red: 2, green: 108, blue: 69, alpha: 1)
     let headerViewHeight:CGFloat = 30
+    var viewTranslation = CGPoint(x: 0, y: 0)
     
     var vocabDatePeriod: VocabDatePeriod = .Unlimited
     var memConstraint: MemConstraint = .Unlimited
@@ -104,6 +105,8 @@ class WordHistoryViewController: UIViewController, UIGestureRecognizerDelegate, 
     @IBAction func selectAllCells(_ sender: UIButton) {
         allSelected.toggle()
     }
+    
+    
     
     func reviewSelected(){
         var vocab_rec_need_to_be_review: [VocabularyRecord] = []
@@ -358,6 +361,7 @@ class WordHistoryViewController: UIViewController, UIGestureRecognizerDelegate, 
         wordsTableView.allowsMultipleSelectionDuringEditing = true
         emptyStateDataSource = self
         emptyStateDelegate = self
+        view.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(handleDismiss)))
         
         load_DICT()
         getGroupVocabs()
@@ -366,6 +370,28 @@ class WordHistoryViewController: UIViewController, UIGestureRecognizerDelegate, 
         segmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor(hex: getSegmentedCtrlUnselectedTextColor()) ?? .darkGray], for: .normal)
         segmentedControl.theme_backgroundColor = "WordHistory.segCtrlTintColor"
         segmentedControl.theme_selectedSegmentTintColor = "WordHistory.segmentedCtrlSelectedTintColor"
+    }
+    
+    @objc func handleDismiss(sender: UIPanGestureRecognizer) {
+        switch sender.state {
+        case .changed:
+            viewTranslation = sender.translation(in: view)
+            if viewTranslation.y > 0 {
+                UIView.animate(withDuration: 0.2, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+                    self.view.transform = CGAffineTransform(translationX: 0, y: self.viewTranslation.y)
+                })
+            }
+        case .ended:
+            if viewTranslation.y < 200 {
+                UIView.animate(withDuration: 0.2, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+                    self.view.transform = .identity
+                })
+            } else {
+                dismiss(animated: true, completion: nil)
+            }
+        default:
+            break
+        }
     }
     
     

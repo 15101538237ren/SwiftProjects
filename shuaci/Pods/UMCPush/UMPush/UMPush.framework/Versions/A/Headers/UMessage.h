@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 #import <UserNotifications/UserNotifications.h>
+#import "UMPushAdSdk.h"
 /** String type for alias
  */
 //新浪微博
@@ -65,26 +66,6 @@ typedef void (^UMPlaunchFinishBlock)();
 @property (nonatomic, assign) NSInteger types;
 
 @property (nonatomic, strong) NSSet * __nullable categories;
-@end
-
-@protocol UMUnionAdBannerDelegate <NSObject>
-
-/// 请求广告数据成功回调
-- (void)uadBannerDidLoad;
-
-/// 请求广告数据失败回调
-/// @param error 失败信息
-- (void)uadBannerDidLoadFailWithError:(NSError *_Nullable)error;
-
-/// 广告显示回调
-- (void)uadBannerExposeSuccess;
-
-/// 广告点击回调
-- (void)uadBannerClicked;
-
-/// 广告关闭回调
-- (void)uadBannerClose;
-
 @end
 
 /**
@@ -270,11 +251,11 @@ typedef void (^UMPlaunchFinishBlock)();
 /**
  手动加载并展示广告
  */
-+ (void)loadAdAndShowWithDelegate:(id<UMUnionAdBannerDelegate> __nullable)delegate viewController:(UIViewController * __nonnull)viewController;
++ (void)loadAdAndShowWithDelegate:(id<UMPushAdBannerDelegate> __nullable)delegate viewController:(UIViewController * __nonnull)viewController;
 /**
  自动加载广告
  */
-+ (void)autoLoadAdAndShowWithDelegate:(id<UMUnionAdBannerDelegate> __nullable)delegate;
++ (void)autoLoadAdAndShowWithDelegate:(id<UMPushAdBannerDelegate> __nullable)delegate;
 /**
  关闭自动加载广告
  */

@@ -1,78 +1,150 @@
-// MARK: - SQLOrderingTerm
-
-/// [**Experimental**](http://github.com/groue/GRDB.swift#what-are-experimental-features)
+/// An SQL ordering term.
 ///
-/// The protocol for all types that can be used as an SQL ordering term, as
-/// described at https://www.sqlite.org/syntax/ordering-term.html
+/// `SQLOrdering` is an opaque representation of an SQL ordering term.
+/// You generally build `SQLOrdering` from other expressions. For example:
 ///
-/// :nodoc:
-public protocol SQLOrderingTerm {
-    /// [**Experimental**](http://github.com/groue/GRDB.swift#what-are-experimental-features)
-    ///
-    /// The ordering term, reversed
-    var reversed: SQLOrderingTerm { get }
+/// ```swift
+/// Column("score").desc
+/// SQL("score DESC").sqlOrdering
+/// ```
+///
+/// `SQLOrdering` is better used as the return type of a function. For
+/// function arguments, prefer the ``SQLOrderingTerm`` protocol.
+///
+/// Related SQLite documentation: <https://www.sqlite.org/syntax/ordering-term.html>
+public struct SQLOrdering {
+    private var impl: Impl
     
-    /// [**Experimental**](http://github.com/groue/GRDB.swift#what-are-experimental-features)
-    ///
-    /// Returns an SQL string that represents the ordering term.
-    func orderingTermSQL(_ context: inout SQLGenerationContext) -> String
+    private enum Impl {
+        /// An expression
+        ///
+        ///     ORDER BY score
+        case expression(SQLExpression)
+        
+        /// An ascending expression
+        ///
+        ///     ORDER BY score ASC
+        case asc(SQLExpression)
+        
+        /// An descending expression
+        ///
+        ///     ORDER BY score DESC
+        case desc(SQLExpression)
+        
+        /// Only available from SQLite 3.30.0
+        case ascNullsLast(SQLExpression)
+        
+        /// Only available from SQLite 3.30.0
+        case descNullsFirst(SQLExpression)
+        
+        /// A literal SQL ordering
+        case literal(SQL)
+    }
     
-    /// [**Experimental**](http://github.com/groue/GRDB.swift#what-are-experimental-features)
-    func qualifiedOrdering(with alias: TableAlias) -> SQLOrderingTerm
+    static func expression(_ expression: SQLExpression) -> SQLOrdering {
+        self.init(impl: .expression(expression))
+    }
+    
+    static func asc(_ expression: SQLExpression) -> SQLOrdering {
+        self.init(impl: .asc(expression))
+    }
+    
+    static func desc(_ expression: SQLExpression) -> SQLOrdering {
+        self.init(impl: .desc(expression))
+    }
+    
+    static func ascNullsLast(_ expression: SQLExpression) -> SQLOrdering {
+        self.init(impl: .ascNullsLast(expression))
+    }
+    
+    static func descNullsFirst(_ expression: SQLExpression) -> SQLOrdering {
+        self.init(impl: .descNullsFirst(expression))
+    }
+    
+    static func literal(_ sqlLiteral: SQL) -> SQLOrdering {
+        self.init(impl: .literal(sqlLiteral))
+    }
 }
 
-// MARK: - SQLOrdering
+extension SQLOrdering {
+    func sql(_ context: SQLGenerationContext) throws -> String {
+        switch impl {
+        case .expression(let expression):
+            return try expression.sql(context)
+        case .asc(let expression):
+            return try expression.sql(context) + " ASC"
+        case .desc(let expression):
+            return try expression.sql(context) + " DESC"
+        case .ascNullsLast(let expression):
+            return try expression.sql(context) + " ASC NULLS LAST"
+        case .descNullsFirst(let expression):
+            return try expression.sql(context) + " DESC NULLS FIRST"
+        case .literal(let literal):
+            return try literal.sql(context)
+        }
+    }
+}
 
-enum SQLOrdering: SQLOrderingTerm {
-    case asc(SQLExpression)
-    case desc(SQLExpression)
-    #if GRDBCUSTOMSQLITE
-    case ascNullsLast(SQLExpression)
-    case descNullsFirst(SQLExpression)
-    #endif
-    
-    var reversed: SQLOrderingTerm {
-        switch self {
+extension SQLOrdering {
+    func qualified(with alias: TableAlias) -> SQLOrdering {
+        switch impl {
+        case .expression(let expression):
+            return .expression(expression.qualified(with: alias))
         case .asc(let expression):
-            return SQLOrdering.desc(expression)
+            return .asc(expression.qualified(with: alias))
         case .desc(let expression):
-            return SQLOrdering.asc(expression)
-            #if GRDBCUSTOMSQLITE
+            return .desc(expression.qualified(with: alias))
         case .ascNullsLast(let expression):
-            return SQLOrdering.descNullsFirst(expression)
+            return .ascNullsLast(expression.qualified(with: alias))
         case .descNullsFirst(let expression):
-            return SQLOrdering.ascNullsLast(expression)
-            #endif
+            return .descNullsFirst(expression.qualified(with: alias))
+        case .literal(let literal):
+            return .literal(literal.qualified(with: alias))
         }
     }
-    
-    func orderingTermSQL(_ context: inout SQLGenerationContext) -> String {
-        switch self {
+}
+
+extension SQLOrdering {
+    var reversed: SQLOrdering {
+        switch impl {
+        case .expression(let expression):
+            return .desc(expression)
         case .asc(let expression):
-            return expression.expressionSQL(&context, wrappedInParenthesis: false) + " ASC"
+            return .desc(expression)
         case .desc(let expression):
-            return expression.expressionSQL(&context, wrappedInParenthesis: false) + " DESC"
-            #if GRDBCUSTOMSQLITE
+            return .asc(expression)
         case .ascNullsLast(let expression):
-            return expression.expressionSQL(&context, wrappedInParenthesis: false) + " ASC NULLS LAST"
+            return .descNullsFirst(expression)
         case .descNullsFirst(let expression):
-            return expression.expressionSQL(&context, wrappedInParenthesis: false) + " DESC NULLS FIRST"
-            #endif
+            return .ascNullsLast(expression)
+        case .literal:
+            fatalError("""
+                Ordering literals can't be reversed. \
+                To resolve this error, order by expression literals instead. \
+                For example: order(SQL("(score + bonus)").sqlExpression)
+                """)
         }
     }
-    
-    func qualifiedOrdering(with alias: TableAlias) -> SQLOrderingTerm {
-        switch self {
-        case .asc(let expression):
-            return SQLOrdering.asc(expression.qualifiedExpression(with: alias))
-        case .desc(let expression):
-            return SQLOrdering.desc(expression.qualifiedExpression(with: alias))
-            #if GRDBCUSTOMSQLITE
-        case .ascNullsLast(let expression):
-            return SQLOrdering.ascNullsLast(expression.qualifiedExpression(with: alias))
-        case .descNullsFirst(let expression):
-            return SQLOrdering.descNullsFirst(expression.qualifiedExpression(with: alias))
-            #endif
-        }
-    }
+}
+
+// MARK: - SQLOrderingTerm
+
+/// A type that can be used as an SQL ordering term.
+///
+/// Related SQLite documentation <https://www.sqlite.org/syntax/ordering-term.html>
+///
+/// ## Topics
+///
+/// ### Supporting Type
+///
+/// - ``SQLOrdering``
+public protocol SQLOrderingTerm {
+    /// Returns an SQL ordering.
+    var sqlOrdering: SQLOrdering { get }
+}
+
+extension SQLOrdering: SQLOrderingTerm {
+    // Not a real deprecation, just a usage warning
+    @available(*, deprecated, message: "Already QLOrdering:")
+    public var sqlOrdering: SQLOrdering { self }
 }

@@ -4,7 +4,7 @@
 // Licensed under Apache License v2.0 with Runtime Library Exception
 //
 // See LICENSE.txt for license information:
-// https://github.com/apple/swift-protobuf/blob/master/LICENSE.txt
+// https://github.com/apple/swift-protobuf/blob/main/LICENSE.txt
 //
 // -----------------------------------------------------------------------------
 ///
@@ -32,4 +32,7 @@ public enum JSONEncodingError: Error {
     /// valid `kind` (that is, they represent a null value, number, boolean,
     /// string, struct, or list).
     case missingValue
+    /// google.protobuf.Value cannot encode double values for infinity or nan,
+    /// because they would be parsed as a string.
+    case valueNumberNotFinite
 }

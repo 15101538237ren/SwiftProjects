@@ -72,19 +72,18 @@ open class LCUser: LCObject {
     
     static func saveCurrentUser(application: LCApplication, user: LCUser?) {
         guard let context = application.localStorageContext,
-            let fileURL = application.currentUserFileURL else {
-                return
+              let fileURL = application.currentUserFileURL else {
+            return
         }
         do {
             if let user = user {
-                try context.save(
-                    table: CacheTable(
-                        jsonString: user.jsonString,
-                        applicationID: application.id),
-                    to: fileURL)
+                if let userJSONValue = user.jsonValue as? [String: Any],
+                   let userJSONString = try userJSONValue.jsonString() {
+                    let table = CacheTable(jsonString: userJSONString, applicationID: application.id)
+                    try context.save(table: table, to: fileURL)
+                }
             } else {
-                try context.clear(
-                    file: fileURL)
+                try context.clear(file: fileURL)
             }
         } catch {
             Logger.shared.error(error)
@@ -94,12 +93,12 @@ open class LCUser: LCObject {
     static func currentUser(application: LCApplication) -> LCUser? {
         do {
             guard let fileURL = application.currentUserFileURL,
-                let context = application.localStorageContext,
-                let table: CacheTable = try context.table(from: fileURL),
-                table.applicationID == application.id,
-                let data = table.jsonString.data(using: .utf8),
-                let jsonObject = try JSONSerialization.jsonObject(with: data) as? [String: Any] else {
-                    return nil
+                  let context = application.localStorageContext,
+                  let table: CacheTable = try context.table(from: fileURL),
+                  table.applicationID == application.id,
+                  let data = table.jsonString.data(using: .utf8),
+                  let jsonObject = try JSONSerialization.jsonObject(with: data) as? [String: Any] else {
+                return nil
             }
             let dictionary = try LCDictionary(
                 application: application,
@@ -184,18 +183,18 @@ open class LCUser: LCObject {
         username: String,
         password: String,
         completionQueue: DispatchQueue = .main,
-        completion: @escaping (LCValueResult<User>) -> Void)
-        -> LCRequest
+        completion: @escaping (LCValueResult<User>) -> Void) -> LCRequest
     {
+        let completionInBackground: (LCValueResult<User>) -> Void = { result in
+            completionQueue.async {
+                completion(result)
+            }
+        }
         return self.logIn(
             application: application,
             username: username,
             password: password,
-            completionInBackground: { result in
-                completionQueue.async {
-                    completion(result)
-                }
-        })
+            completionInBackground: completionInBackground)
     }
 
     @discardableResult
@@ -246,18 +245,18 @@ open class LCUser: LCObject {
         email: String,
         password: String,
         completionQueue: DispatchQueue = .main,
-        completion: @escaping (LCValueResult<User>) -> Void)
-        -> LCRequest
+        completion: @escaping (LCValueResult<User>) -> Void) -> LCRequest
     {
+        let completionInBackground: (LCValueResult<User>) -> Void = { (result) in
+            completionQueue.async {
+                completion(result)
+            }
+        }
         return self.logIn(
             application: application,
             email: email,
             password: password,
-            completionInBackground: { (result) in
-                completionQueue.async {
-                    completion(result)
-                }
-        })
+            completionInBackground: completionInBackground)
     }
     
     @discardableResult
@@ -308,18 +307,18 @@ open class LCUser: LCObject {
         mobilePhoneNumber: String,
         password: String,
         completionQueue: DispatchQueue = .main,
-        completion: @escaping (LCValueResult<User>) -> Void)
-        -> LCRequest
+        completion: @escaping (LCValueResult<User>) -> Void) -> LCRequest
     {
+        let completionInBackground: (LCValueResult<User>) -> Void = { result in
+            completionQueue.async {
+                completion(result)
+            }
+        }
         return self.logIn(
             application: application,
             mobilePhoneNumber: mobilePhoneNumber,
             password: password,
-            completionInBackground: { result in
-                completionQueue.async {
-                    completion(result)
-                }
-        })
+            completionInBackground: completionInBackground)
     }
 
     @discardableResult
@@ -370,18 +369,18 @@ open class LCUser: LCObject {
         mobilePhoneNumber: String,
         verificationCode: String,
         completionQueue: DispatchQueue = .main,
-        completion: @escaping (LCValueResult<User>) -> Void)
-        -> LCRequest
+        completion: @escaping (LCValueResult<User>) -> Void) -> LCRequest
     {
+        let completionInBackground: (LCValueResult<User>) -> Void = { result in
+            completionQueue.async {
+                completion(result)
+            }
+        }
         return self.logIn(
             application: application,
             mobilePhoneNumber: mobilePhoneNumber,
             verificationCode: verificationCode,
-            completionInBackground: { result in
-                completionQueue.async {
-                    completion(result)
-                }
-        })
+            completionInBackground: completionInBackground)
     }
 
     @discardableResult
@@ -452,17 +451,17 @@ open class LCUser: LCObject {
         application: LCApplication = .default,
         sessionToken: String,
         completionQueue: DispatchQueue = .main,
-        completion: @escaping (LCValueResult<User>) -> Void)
-        -> LCRequest
+        completion: @escaping (LCValueResult<User>) -> Void) -> LCRequest
     {
+        let completionInBackground: (LCValueResult<User>) -> Void = { result in
+            completionQueue.async {
+                completion(result)
+            }
+        }
         return self.logIn(
             application: application,
             sessionToken: sessionToken,
-            completionInBackground: { result in
-                completionQueue.async {
-                    completion(result)
-                }
-        })
+            completionInBackground: completionInBackground)
     }
     
     @discardableResult
@@ -519,18 +518,18 @@ open class LCUser: LCObject {
         mobilePhoneNumber: String,
         verificationCode: String,
         completionQueue: DispatchQueue = .main,
-        completion: @escaping (LCValueResult<User>) -> Void)
-        -> LCRequest
+        completion: @escaping (LCValueResult<User>) -> Void) -> LCRequest
     {
+        let completionInBackground: (LCValueResult<User>) -> Void = { result in
+            completionQueue.async {
+                completion(result)
+            }
+        }
         return self.signUpOrLogIn(
             application: application,
             mobilePhoneNumber: mobilePhoneNumber,
             verificationCode: verificationCode,
-            completionInBackground: { result in
-                completionQueue.async {
-                    completion(result)
-                }
-        })
+            completionInBackground: completionInBackground)
     }
 
     @discardableResult

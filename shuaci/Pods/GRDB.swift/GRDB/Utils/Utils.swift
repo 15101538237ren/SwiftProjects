@@ -20,19 +20,6 @@ public func databaseQuestionMarks(count: Int) -> String {
     repeatElement("?", count: count).joined(separator: ",")
 }
 
-/// This protocol is an implementation detail of GRDB. Don't use it.
-///
-/// :nodoc:
-public protocol _OptionalProtocol {
-    associatedtype Wrapped
-}
-
-/// This conformance is an implementation detail of GRDB. Don't rely on it.
-///
-/// :nodoc:
-extension Optional: _OptionalProtocol { }
-
-
 // MARK: - Internal
 
 /// Reserved for GRDB: do not use.
@@ -44,9 +31,9 @@ func GRDBPrecondition(
     file: StaticString = #file,
     line: UInt = #line)
 {
-    /// Custom precondition function which aims at solving
-    /// <https://bugs.swift.org/browse/SR-905> and
-    /// <https://github.com/groue/GRDB.swift/issues/37>
+    // Custom precondition function which aims at solving
+    // <https://bugs.swift.org/browse/SR-905> and
+    // <https://github.com/groue/GRDB.swift/issues/37>
     if !condition() {
         fatalError(message(), file: file, line: line)
     }
@@ -125,7 +112,7 @@ func throwingFirstError<T>(execute: () throws -> T, finally: () throws -> Void) 
             firstError = error
         }
     }
-    if let firstError = firstError {
+    if let firstError {
         throw firstError
     }
     return result!
@@ -167,7 +154,7 @@ func concat<T>(_ rhs: ((T) -> Void)?, _ lhs: ((T) -> Void)?) -> ((T) -> Void)? {
     }
 }
 
-extension NSRecursiveLock {
+extension NSLocking {
     func synchronized<T>(
         _ message: @autoclosure () -> String = #function,
         _ block: () throws -> T)

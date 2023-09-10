@@ -4,7 +4,7 @@
 // Licensed under Apache License v2.0 with Runtime Library Exception
 //
 // See LICENSE.txt for license information:
-// https://github.com/apple/swift-protobuf/blob/master/LICENSE.txt
+// https://github.com/apple/swift-protobuf/blob/main/LICENSE.txt
 //
 // -----------------------------------------------------------------------------
 ///
@@ -82,7 +82,7 @@ internal enum Varint {
   }
 
   /// Computes the number of bytes that would be needed to store an unsigned 64-bit varint, if it
-  /// were treated as a signed integer witht he same bit pattern.
+  /// were treated as a signed integer with the same bit pattern.
   ///
   /// - Parameter value: The number whose varint size should be calculated.
   /// - Returns: The size, in bytes, of the 64-bit varint.

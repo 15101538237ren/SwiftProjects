@@ -1,215 +1,385 @@
+#if canImport(Combine)
+import Combine
+#endif
 import Dispatch
 
-/// The protocol for all types that can update a database.
+/// A type that writes into an SQLite database.
 ///
-/// It is adopted by DatabaseQueue and DatabasePool.
+/// Do not declare new conformances to `DatabaseWriter`. Only the built-in
+/// conforming types are valid.
 ///
-/// The protocol comes with isolation guarantees that describe the behavior of
-/// adopting types in a multithreaded application.
+/// A database writer creates one single SQLite connection dedicated to database
+/// updates. All updates are executed in a serial **writer dispatch queue**.
 ///
-/// Types that adopt the protocol can in practice provide stronger guarantees.
-/// For example, DatabaseQueue provides a stronger isolation level
-/// than DatabasePool.
+/// Read accesses are defined by ``DatabaseReader``, the protocol all database
+/// writers conform to.
 ///
-/// **Warning**: Isolation guarantees stand as long as there is no external
-/// connection to the database. Should you have to cope with external
-/// connections, protect yourself with transactions, and be ready to setup a
-/// [busy handler](https://www.sqlite.org/c3ref/busy_handler.html).
+/// See <doc:Concurrency> for more information about the behavior of conforming
+/// types in a multithreaded application.
+///
+/// ## Topics
+///
+/// ### Writing into the Database
+///
+/// - ``write(_:)-76inz``
+/// - ``write(_:)-88g7e``
+/// - ``writePublisher(receiveOn:updates:)``
+/// - ``writePublisher(receiveOn:updates:thenRead:)``
+/// - ``writeWithoutTransaction(_:)-4qh1w``
+/// - ``writeWithoutTransaction(_:)-tckw``
+/// - ``asyncWrite(_:completion:)``
+/// - ``asyncWriteWithoutTransaction(_:)``
+///
+/// ### Exclusive Access to the Database
+///
+/// - ``barrierWriteWithoutTransaction(_:)-280j1``
+/// - ``barrierWriteWithoutTransaction(_:)-7u4xw``
+/// - ``asyncBarrierWriteWithoutTransaction(_:)``
+///
+/// ### Reading from the Latest Committed Database State
+///
+/// - ``concurrentRead(_:)``
+/// - ``spawnConcurrentRead(_:)``
+/// - ``DatabaseFuture``
+///
+/// ### Unsafe Methods
+///
+/// - ``unsafeReentrantWrite(_:)``
+///
+/// ### Observing Database Transactions
+///
+/// - ``add(transactionObserver:extent:)``
+/// - ``remove(transactionObserver:)``
+///
+/// ### Other Database Operations
+///
+/// - ``erase()-w5n7``
+/// - ``erase()-7jv3d``
+/// - ``vacuum()-310uw``
+/// - ``vacuum()-9inj0``
+/// - ``vacuum(into:)-5lo41``
+/// - ``vacuum(into:)-9c5mb``
+///
+/// ### Supporting Types
+///
+/// - ``AnyDatabaseWriter``
 public protocol DatabaseWriter: DatabaseReader {
     
     // MARK: - Writing in Database
     
-    /// Synchronously executes database updates in a protected dispatch queue,
-    /// wrapped inside a transaction, and returns the result.
+    /// Executes database operations, and returns their result after they have
+    /// finished executing.
     ///
-    /// If the updates throw an error, the transaction is rollbacked and the
-    /// error is rethrown.
+    /// For example:
     ///
-    /// Eventual concurrent database updates are postponed until the transaction
-    /// has completed.
+    /// ```swift
+    /// let newPlayerCount = try writer.writeWithoutTransaction { db in
+    ///     try Player(name: "Arthur").insert(db)
+    ///     return try Player.fetchCount(db)
+    /// }
+    /// ```
     ///
-    /// Eventual concurrent reads are guaranteed to not see any partial updates
-    /// of the database until the transaction has completed.
+    /// Database operations run in the writer dispatch queue, serialized
+    /// with all database updates performed by this `DatabaseWriter`.
     ///
-    /// This method is *not* reentrant.
+    /// The ``Database`` argument to `updates` is valid only during the
+    /// execution of the closure. Do not store or return the database connection
+    /// for later use.
     ///
-    /// - parameter updates: The updates to the database.
-    /// - throws: The error thrown by the updates, or by the
-    ///   wrapping transaction.
-    func write<T>(_ updates: (Database) throws -> T) throws -> T
-    
-    /// Synchronously executes database updates in a protected dispatch queue,
-    /// outside of any transaction, and returns the result.
+    /// It is a programmer error to call this method from another database
+    /// access method. Doing so raises a "Database methods are not reentrant"
+    /// fatal error at runtime.
     ///
-    /// Eventual concurrent database updates are postponed until the updates
-    /// are completed.
+    /// - warning: Database operations are not wrapped in a transaction. They
+    ///   can see changes performed by concurrent writes or writes performed by
+    ///   other processes: two identical requests performed by the `updates`
+    ///   closure may not return the same value. Concurrent database accesses
+    ///   can see partial updates performed by the `updates` closure. See
+    ///   <doc:Concurrency#Rule-2:-Mind-your-transactions> for more information.
     ///
-    /// Eventual concurrent reads may see partial updates unless you wrap them
-    /// in a transaction.
-    ///
-    /// This method is *not* reentrant.
-    ///
-    /// - parameter updates: The updates to the database.
-    /// - throws: The error thrown by the updates.
+    /// - parameter updates: A closure which accesses the database.
+    /// - throws: The error thrown by `updates`.
+    @_disfavoredOverload // SR-15150 Async overloading in protocol implementation fails
     func writeWithoutTransaction<T>(_ updates: (Database) throws -> T) rethrows -> T
     
-    /// Synchronously executes database updates in a protected dispatch queue,
-    /// outside of any transaction, and returns the result.
+    /// Executes database operations, and returns their result after they have
+    /// finished executing.
     ///
-    /// Updates are guaranteed an exclusive access to the database. They wait
-    /// until all pending writes and reads are completed. They postpone all
-    /// other writes and reads until they are completed.
+    /// This method waits until all currently executing database accesses
+    /// performed by the database writer finish executing (reads and writes).
+    /// At that point, database operations are executed. Once they finish, the
+    /// database writer can proceed with other database accesses.
     ///
-    /// This method is *not* reentrant.
+    /// For example:
     ///
-    /// - parameter updates: The updates to the database.
-    /// - throws: The error thrown by the updates.
-    func barrierWriteWithoutTransaction<T>(_ updates: (Database) throws -> T) rethrows -> T
+    /// ```swift
+    /// let newPlayerCount = try writer.barrierWriteWithoutTransaction { db in
+    ///     try Player(name: "Arthur").insert(db)
+    ///     return try Player.fetchCount(db)
+    /// }
+    /// ```
+    ///
+    /// Database operations run in the writer dispatch queue, serialized
+    /// with all database updates performed by this `DatabaseWriter`.
+    ///
+    /// The ``Database`` argument to `updates` is valid only during the
+    /// execution of the closure. Do not store or return the database connection
+    /// for later use.
+    ///
+    /// It is a programmer error to call this method from another database
+    /// access method. Doing so raises a "Database methods are not reentrant"
+    /// fatal error at runtime.
+    ///
+    /// - warning: Database operations are not wrapped in a transaction. They
+    ///   can see changes performed by concurrent writes or writes performed by
+    ///   other processes: two identical requests performed by the `updates`
+    ///   closure may not return the same value. Concurrent database accesses
+    ///   can see partial updates performed by the `updates` closure. See
+    ///   <doc:Concurrency#Rule-2:-Mind-your-transactions> for more information.
+    ///
+    /// - parameter updates: A closure which accesses the database.
+    /// - throws: The error thrown by `updates`.
+    @_disfavoredOverload // SR-15150 Async overloading in protocol implementation fails
+    func barrierWriteWithoutTransaction<T>(_ updates: (Database) throws -> T) throws -> T
     
-    #if compiler(>=5.0)
-    /// Asynchronously executes database updates in a protected dispatch queue,
-    /// wrapped inside a transaction.
+    /// Schedules database operations for execution, and returns immediately.
     ///
-    /// If the updates throw an error, the transaction is rollbacked.
+    /// Database operations are not executed until all currently executing
+    /// database accesses performed by the database writer finish executing
+    /// (reads and writes). At that point, database operations are executed.
+    /// Once they finish, the database writer can proceed with other
+    /// database accesses.
     ///
-    /// The *completion* closure is always called with the result of the
-    /// database updates. Its arguments are a database connection and the
-    /// result of the transaction. This result is a failure if the transaction
-    /// could not be committed.
+    /// For example:
     ///
-    /// Eventual concurrent database updates are postponed until the transaction
-    /// and the *completion* closure have completed.
+    /// ```swift
+    /// writer.asyncBarrierWriteWithoutTransaction { dbResult in
+    ///     do {
+    ///         let db = try dbResult.get()
+    ///         try Player(name: "Arthur").insert(db)
+    ///         let newPlayerCount = try Player.fetchCount(db)
+    ///     } catch {
+    ///         // Handle error
+    ///     }
+    /// }
+    /// ```
     ///
-    /// Eventual concurrent reads are guaranteed to not see any partial updates
-    /// of the database until the transaction has completed.
+    /// Database operations run in the writer dispatch queue, serialized
+    /// with all database updates performed by this `DatabaseWriter`.
     ///
-    /// This method is *not* reentrant.
+    /// The ``Database`` argument to `updates` is valid only during the
+    /// execution of the closure. Do not store or return the database connection
+    /// for later use.
     ///
-    /// - parameter updates: The updates to the database.
-    /// - parameter completion: A closure that is called with the eventual
-    ///   transaction error.
-    /// - throws: The error thrown by the updates, or by the wrapping transaction.
-    func asyncWrite<T>(
-        _ updates: @escaping (Database) throws -> T,
-        completion: @escaping (Database, Result<T, Error>) -> Void)
-    #endif
+    /// - warning: Database operations are not wrapped in a transaction. They
+    ///   can see changes performed by concurrent writes or writes performed by
+    ///   other processes: two identical requests performed by the `updates`
+    ///   closure may not return the same value. Concurrent database accesses
+    ///   can see partial updates performed by the `updates` closure. See
+    ///   <doc:Concurrency#Rule-2:-Mind-your-transactions> for more information.
+    ///
+    /// - parameter updates: A closure which accesses the database. Its argument
+    ///   is a `Result` that provides the database connection, or the failure
+    ///   that would prevent establishing the barrier access to the database.
+    func asyncBarrierWriteWithoutTransaction(_ updates: @escaping (Result<Database, Error>) -> Void)
     
-    /// Asynchronously executes database updates in a protected dispatch queue,
-    /// outside of any transaction.
+    /// Schedules database operations for execution, and returns immediately.
     ///
-    /// Eventual concurrent reads may see partial updates unless you wrap them
-    /// in a transaction.
+    /// For example:
+    ///
+    /// ```swift
+    /// writer.asyncWriteWithoutTransaction { db in
+    ///     do {
+    ///         try Player(name: "Arthur").insert(db)
+    ///         let newPlayerCount = try Player.fetchCount(db)
+    ///     } catch {
+    ///         // Handle error
+    ///     }
+    /// }
+    /// ```
+    ///
+    /// Database operations run in the writer dispatch queue, serialized
+    /// with all database updates performed by this `DatabaseWriter`.
+    ///
+    /// The ``Database`` argument to `updates` is valid only during the
+    /// execution of the closure. Do not store or return the database connection
+    /// for later use.
+    ///
+    /// - warning: Database operations are not wrapped in a transaction. They
+    ///   can see changes performed by concurrent writes or writes performed by
+    ///   other processes: two identical requests performed by the `updates`
+    ///   closure may not return the same value. Concurrent database accesses
+    ///   can see partial updates performed by the `updates` closure. See
+    ///   <doc:Concurrency#Rule-2:-Mind-your-transactions> for more information.
+    ///
+    /// - parameter updates: A closure which accesses the database.
     func asyncWriteWithoutTransaction(_ updates: @escaping (Database) -> Void)
     
-    /// Synchronously executes database updates in a protected dispatch queue,
-    /// outside of any transaction, and returns the result.
+    /// Executes database operations, and returns their result after they have
+    /// finished executing.
     ///
-    /// Eventual concurrent database updates are postponed until the updates
-    /// are completed.
+    /// This method can be called from other database access methods. Reentrant
+    /// database accesses are discouraged because they muddle transaction
+    /// boundaries. See <doc:Concurrency#Rule-2:-Mind-your-transactions> for
+    /// more information. 
     ///
-    /// Eventual concurrent reads may see partial updates unless you wrap them
-    /// in a transaction.
+    /// For example:
     ///
-    /// This method is reentrant. It should be avoided because it fosters
-    /// dangerous concurrency practices.
+    /// ```swift
+    /// let newPlayerCount = try writer.unsafeReentrantWrite { db in
+    ///     try Player(name: "Arthur").insert(db)
+    ///     return try Player.fetchCount(db)
+    /// }
+    /// ```
+    ///
+    /// Database operations run in the writer dispatch queue, serialized
+    /// with all database updates performed by this `DatabaseWriter`.
+    ///
+    /// The ``Database`` argument to `updates` is valid only during the
+    /// execution of the closure. Do not store or return the database connection
+    /// for later use.
+    ///
+    /// - warning: Database operations are not wrapped in a transaction. They
+    ///   can see changes performed by concurrent writes or writes performed by
+    ///   other processes: two identical requests performed by the `updates`
+    ///   closure may not return the same value. Concurrent database accesses
+    ///   can see partial updates performed by the `updates` closure.
+    ///
+    /// - parameter updates: A closure which accesses the database.
+    /// - throws: The error thrown by `updates`.
     func unsafeReentrantWrite<T>(_ updates: (Database) throws -> T) rethrows -> T
     
     // MARK: - Reading from Database
     
-    /// Concurrently executes a read-only block in a protected dispatch queue.
+    /// Schedules read-only database operations for execution, and returns a
+    /// future value.
     ///
-    /// This method must be called from a writing dispatch queue, outside of any
-    /// transaction. You'll get a fatal error otherwise.
+    /// This method must be called from the writer dispatch queue, outside of
+    /// any transaction. You'll get a fatal error otherwise.
     ///
-    /// The *block* argument is guaranteed to see the database in the last
-    /// committed state at the moment this method is called. Eventual concurrent
-    /// database updates are *not visible* inside the block.
+    /// Database operations performed by the `value` closure are isolated in a
+    /// transaction: they do not see changes performed by eventual concurrent
+    /// writes (even writes performed by other processes).
     ///
-    /// To access the fetched results, you call the wait() method of the
-    /// returned future, on any dispatch queue.
+    /// They see the database in the state left by the last updates performed
+    /// by the database writer.
+    ///
+    /// To access the fetched results, you call the ``DatabaseFuture/wait()``
+    /// method of the returned future, on any dispatch queue.
     ///
     /// In the example below, the number of players is fetched concurrently with
     /// the player insertion. Yet the future is guaranteed to return zero:
     ///
-    ///     try writer.writeWithoutTransaction { db in
-    ///         // Delete all players
-    ///         try Player.deleteAll()
+    /// ```swift
+    /// try writer.writeWithoutTransaction { db in
+    ///     // Delete all players
+    ///     try Player.deleteAll()
     ///
-    ///         // Count players concurrently
-    ///         let future = writer.concurrentRead { db in
-    ///             return try Player.fetchCount()
-    ///         }
-    ///
-    ///         // Insert a player
-    ///         try Player(...).insert(db)
-    ///
-    ///         // Guaranteed to be zero
-    ///         let count = try future.wait()
+    ///     // Count players concurrently
+    ///     let future = writer.concurrentRead { db in
+    ///         return try Player.fetchCount()
     ///     }
-    func concurrentRead<T>(_ block: @escaping (Database) throws -> T) -> DatabaseFuture<T>
+    ///
+    ///     // Insert a player
+    ///     try Player(...).insert(db)
+    ///
+    ///     // Guaranteed to be zero
+    ///     let count = try future.wait()
+    /// }
+    /// ```
+    ///
+    /// - note: Usage of this method is discouraged, because waiting on the
+    ///   returned ``DatabaseFuture`` blocks a thread. You may prefer
+    ///   ``spawnConcurrentRead(_:)`` instead.
+    /// - parameter value: A closure which accesses the database.
+    func concurrentRead<T>(_ value: @escaping (Database) throws -> T) -> DatabaseFuture<T>
     
-    #if compiler(>=5.0)
     // Exposed for RxGRDB and GRBCombine. Naming is not stabilized.
-    /// [**Experimental**](http://github.com/groue/GRDB.swift#what-are-experimental-features)
+    /// Schedules read-only database operations for execution.
     ///
-    /// Concurrently executes a read-only block in a protected dispatch queue.
+    /// - note: [**🔥 EXPERIMENTAL**](https://github.com/groue/GRDB.swift/blob/master/README.md#what-are-experimental-features)
     ///
-    /// This method must be called from a writing dispatch queue, outside of any
-    /// transaction. You'll get a fatal error otherwise.
+    /// This method must be called from the writer dispatch queue, outside of
+    /// any transaction. You'll get a fatal error otherwise.
     ///
-    /// The *block* argument is guaranteed to see the database in the last
-    /// committed state at the moment this method is called. Eventual concurrent
-    /// database updates are *not visible* inside the block.
+    /// Database operations performed by the `value` closure are isolated in a
+    /// transaction: they do not see changes performed by eventual concurrent
+    /// writes (even writes performed by other processes).
+    ///
+    /// They see the database in the state left by the last updates performed
+    /// by the database writer.
     ///
     /// In the example below, the number of players is fetched concurrently with
-    /// the player insertion. Yet the future is guaranteed to return zero:
+    /// the player insertion. Yet it is guaranteed to return zero:
     ///
-    ///     try writer.asyncWriteWithoutTransaction { db in
-    ///         // Delete all players
-    ///         try Player.deleteAll()
+    /// ```swift
+    /// try writer.writeWithoutTransaction { db in
+    ///     // Delete all players
+    ///     try Player.deleteAll()
     ///
-    ///         // Count players concurrently
-    ///         writer.asyncConcurrentRead { result in
-    ///             do {
-    ///                 let db = try result.get()
-    ///                 // Guaranteed to be zero
-    ///                 let count = try Player.fetchCount(db)
-    ///             } catch {
-    ///                 // Handle error
-    ///             }
+    ///     // Count players concurrently
+    ///     writer.spawnConcurrentRead { db in
+    ///         do {
+    ///             let db = try dbResult.get()
+    ///             // Guaranteed to be zero
+    ///             let count = try Player.fetchCount(db)
+    ///         } catch {
+    ///             // Handle error
     ///         }
-    ///
-    ///         // Insert a player
-    ///         try Player(...).insert(db)
     ///     }
     ///
-    /// - parameter block: A block that accesses the database.
-    /// :nodoc:
-    func spawnConcurrentRead(_ block: @escaping (Result<Database, Error>) -> Void)
-    #endif
+    ///     // Insert a player
+    ///     try Player(...).insert(db)
+    /// }
+    /// ```
+    ///
+    /// - important: The database operations are executed immediately,
+    ///   or asynchronously, depending on the actual class
+    ///   of `DatabaseWriter`.
+    ///
+    /// - parameter value: A closure which accesses the database. Its argument
+    ///   is a `Result` that provides the database connection, or the failure
+    ///   that would prevent establishing the read access to the database.
+    func spawnConcurrentRead(_ value: @escaping (Result<Database, Error>) -> Void)
 }
 
 extension DatabaseWriter {
-    
-    /// Synchronously executes database updates in a protected dispatch queue,
-    /// wrapped inside a transaction, and returns the result.
+    /// Executes database operations, and returns their result after they have
+    /// finished executing.
     ///
-    /// If the updates throw an error, the transaction is rollbacked and the
-    /// error is rethrown.
+    /// For example:
     ///
-    /// Eventual concurrent database updates are postponed until the transaction
-    /// has completed.
+    /// ```swift
+    /// let newPlayerCount = try writer.write { db in
+    ///     try Player(name: "Arthur").insert(db)
+    ///     return try Player.fetchCount(db)
+    /// }
+    /// ```
     ///
-    /// Eventual concurrent reads are guaranteed to not see any partial updates
-    /// of the database until the transaction has completed.
+    /// Database operations are wrapped in a transaction. If they throw an
+    /// error, the transaction is rollbacked and the error is rethrown.
     ///
-    /// This method is *not* reentrant.
+    /// Concurrent database accesses can not see partial database updates (even
+    /// when performed by other processes).
     ///
-    /// - parameter updates: The updates to the database.
-    /// - throws: The error thrown by the updates, or by the
-    ///   wrapping transaction.
+    /// Database operations run in the writer dispatch queue, serialized
+    /// with all database updates performed by this `DatabaseWriter`.
+    ///
+    /// The ``Database`` argument to `updates` is valid only during the
+    /// execution of the closure. Do not store or return the database connection
+    /// for later use.
+    ///
+    /// It is a programmer error to call this method from another database
+    /// access method. Doing so raises a "Database methods are not reentrant"
+    /// fatal error at runtime.
+    ///
+    /// - parameter updates: A closure which accesses the database.
+    /// - throws: The error thrown by `updates`, or any ``DatabaseError`` that
+    ///   would happen while establishing the database access or committing
+    ///   the transaction.
+    @_disfavoredOverload // SR-15150 Async overloading in protocol implementation fails
     public func write<T>(_ updates: (Database) throws -> T) throws -> T {
-        return try writeWithoutTransaction { db in
+        try writeWithoutTransaction { db in
             var result: T?
             try db.inTransaction {
                 result = try updates(db)
@@ -219,30 +389,42 @@ extension DatabaseWriter {
         }
     }
     
-    #if compiler(>=5.0)
-    /// Asynchronously executes database updates in a protected dispatch queue,
-    /// wrapped inside a transaction.
+    /// Schedules database operations for execution, and returns immediately.
     ///
-    /// If the updates throw an error, the transaction is rollbacked.
+    /// For example:
     ///
-    /// The *completion* closure is always called with the result of the
-    /// database updates. Its arguments are a database connection and the
-    /// result of the transaction. This result is a failure if the transaction
-    /// could not be committed. The completion closure is executed in a
-    /// protected dispatch queue, outside of any transaction.
+    /// ```swift
+    /// writer.asyncWrite { db -> Int in
+    ///     try Player(name: "Arthur").insert(db)
+    ///     return try Player.fetchCount(db)
+    /// } completion: { db, result in
+    ///     switch result {
+    ///     case let .success(newPlayerCount):
+    ///         // Handle success
+    ///     case let .failure(error):
+    ///         // Handle error
+    /// }
+    /// ```
     ///
-    /// Eventual concurrent database updates are postponed until the transaction
-    /// and the *completion* closure have completed.
+    /// Database operations run by the `updates` closure are wrapped in
+    /// a transaction. If they throw an error, the transaction is rollbacked.
     ///
-    /// Eventual concurrent reads are guaranteed to not see any partial updates
-    /// of the database until the transaction has completed.
+    /// The `completion` closure has two arguments: a database connection, and
+    /// the result of the transaction. This result is a failure if the
+    /// transaction could not be committed or if `updates` has thrown an error.
     ///
-    /// This method is *not* reentrant.
+    /// Concurrent database accesses can not see partial database updates
+    /// performed by `updates` (even when performed by other processes).
     ///
-    /// - parameter updates: The updates to the database.
-    /// - parameter completion: A closure that is called with the eventual
-    ///   transaction error.
-    /// - throws: The error thrown by the updates, or by the wrapping transaction.
+    /// Database operations run in the writer dispatch queue, serialized
+    /// with all database updates performed by this `DatabaseWriter`.
+    ///
+    /// The ``Database`` argument to `updates` and `completion` is valid only
+    /// during the execution of those closures. Do not store or return the
+    /// database connection for later use.
+    ///
+    /// - parameter updates: A closure which accesses the database.
+    /// - parameter completion: A closure called with the transaction result.
     public func asyncWrite<T>(
         _ updates: @escaping (Database) throws -> T,
         completion: @escaping (Database, Result<T, Error>) -> Void)
@@ -260,40 +442,36 @@ extension DatabaseWriter {
             }
         }
     }
-    #endif
     
     // MARK: - Transaction Observers
     
-    /// Add a transaction observer, so that it gets notified of
-    /// database changes.
+    /// Adds a transaction observer, so that it gets notified of
+    /// database changes and transactions.
     ///
-    /// To remove the observer, use `DatabaseReader.remove(transactionObserver:)`.
+    /// This method has no effect on read-only database connections.
     ///
     /// - parameter transactionObserver: A transaction observer.
     /// - parameter extent: The duration of the observation. The default is
     ///   the observer lifetime (observation lasts until observer
     ///   is deallocated).
     public func add(
-        transactionObserver: TransactionObserver,
+        transactionObserver: some TransactionObserver,
         extent: Database.TransactionObservationExtent = .observerLifetime)
     {
         writeWithoutTransaction { $0.add(transactionObserver: transactionObserver, extent: extent) }
     }
     
-    /// Default implementation for the DatabaseReader requirement.
-    /// :nodoc:
-    public func remove(transactionObserver: TransactionObserver) {
+    /// Removes a transaction observer.
+    public func remove(transactionObserver: some TransactionObserver) {
         writeWithoutTransaction { $0.remove(transactionObserver: transactionObserver) }
     }
     
     // MARK: - Erasing the content of the database
     
-    /// Erases the content of the database.
-    ///
-    /// - precondition: database is not accessed concurrently during the
-    ///   execution of this method.
+    /// Erase the database: delete all content, drop all tables, etc.
+    @_disfavoredOverload // SR-15150 Async overloading in protocol implementation fails
     public func erase() throws {
-        try writeWithoutTransaction { try $0.erase() }
+        try barrierWriteWithoutTransaction { try $0.erase() }
     }
     
     // MARK: - Claiming Disk Space
@@ -301,239 +479,446 @@ extension DatabaseWriter {
     /// Rebuilds the database file, repacking it into a minimal amount of
     /// disk space.
     ///
-    /// See https://www.sqlite.org/lang_vacuum.html for more information.
+    /// Related SQLite documentation: <https://www.sqlite.org/lang_vacuum.html>
+    @_disfavoredOverload // SR-15150 Async overloading in protocol implementation fails
     public func vacuum() throws {
         try writeWithoutTransaction { try $0.execute(sql: "VACUUM") }
     }
     
-    // MARK: - Value Observation
-    
-    /// Default implementation for the DatabaseReader requirement.
-    /// :nodoc:
-    public func add<Reducer: ValueReducer>(
-        observation: ValueObservation<Reducer>,
-        onError: @escaping (Error) -> Void,
-        onChange: @escaping (Reducer.Value) -> Void)
-        -> TransactionObserver
-    {
-        let requiresWriteAccess = observation.requiresWriteAccess
-        let observer = ValueObserver<Reducer>(
-            requiresWriteAccess: requiresWriteAccess,
-            observesSelectedRegion: observation.observesSelectedRegion,
-            writer: self,
-            reduceQueue: configuration.makeDispatchQueue(defaultLabel: "GRDB", purpose: "ValueObservation.reducer"),
-            onError: onError,
-            onChange: onChange)
-        
-        switch observation.scheduling {
-        case .mainQueue:
-            if DispatchQueue.isMain {
-                // Use case: observation starts on the main queue and wants
-                // a synchronous initial fetch. Typically, this helps avoiding
-                // flashes of missing content.
-                var startValue: Reducer.Value? = nil
-                defer {
-                    if let startValue = startValue {
-                        onChange(startValue)
-                    }
-                }
-                
-                do {
-                    try unsafeReentrantWrite { db in
-                        observer.notificationQueue = DispatchQueue.main
-                        observer.baseRegion = try observation.baseRegion(db).ignoringViews(db)
-                        observer.reducer = try observation.makeReducer(db)
-                        
-                        // Initial value & selected region
-                        let fetchedValue: Reducer.Fetched
-                        if observation.observesSelectedRegion {
-                            (fetchedValue, observer.selectedRegion) = try db.recordingSelectedRegion {
-                                try observer.reducer.fetch(db, requiringWriteAccess: requiresWriteAccess)
-                            }
-                        } else {
-                            fetchedValue = try observer.reducer.fetch(db, requiringWriteAccess: requiresWriteAccess)
-                        }
-                        if let value = observer.reducer.value(fetchedValue) {
-                            startValue = value
-                        }
-                        
-                        db.add(transactionObserver: observer, extent: .observerLifetime)
-                    }
-                } catch {
-                    onError(error)
-                }
-            } else {
-                // Use case: observation does not start on the main queue, but
-                // has the default scheduling .mainQueue
-                asyncWriteWithoutTransaction { db in
-                    do {
-                        observer.notificationQueue = DispatchQueue.main
-                        observer.baseRegion = try observation.baseRegion(db).ignoringViews(db)
-                        observer.reducer = try observation.makeReducer(db)
-                        
-                        // Initial value & selected region
-                        let fetchedValue: Reducer.Fetched
-                        if observation.observesSelectedRegion {
-                            (fetchedValue, observer.selectedRegion) = try db.recordingSelectedRegion {
-                                try observer.reducer.fetch(db, requiringWriteAccess: requiresWriteAccess)
-                            }
-                        } else {
-                            fetchedValue = try observer.reducer.fetch(db, requiringWriteAccess: requiresWriteAccess)
-                        }
-                        if let value = observer.reducer.value(fetchedValue) {
-                            DispatchQueue.main.async {
-                                onChange(value)
-                            }
-                        }
-                        
-                        db.add(transactionObserver: observer, extent: .observerLifetime)
-                    } catch {
-                        DispatchQueue.main.async {
-                            onError(error)
-                        }
-                    }
-                }
-            }
-            
-        case let .async(onQueue: queue, startImmediately: startImmediately):
-            // Use case: observation must not block the target queue
-            asyncWriteWithoutTransaction { db in
-                do {
-                    observer.notificationQueue = queue
-                    observer.baseRegion = try observation.baseRegion(db).ignoringViews(db)
-                    observer.reducer = try observation.makeReducer(db)
-                    
-                    // Initial value & selected region
-                    if startImmediately {
-                        let fetchedValue: Reducer.Fetched
-                        if observation.observesSelectedRegion {
-                            (fetchedValue, observer.selectedRegion) = try db.recordingSelectedRegion {
-                                try observer.reducer.fetch(db, requiringWriteAccess: requiresWriteAccess)
-                            }
-                        } else {
-                            fetchedValue = try observer.reducer.fetch(db, requiringWriteAccess: requiresWriteAccess)
-                        }
-                        if let value = observer.reducer.value(fetchedValue) {
-                            queue.async {
-                                onChange(value)
-                            }
-                        }
-                    } else if observation.observesSelectedRegion {
-                        (_, observer.selectedRegion) = try db.recordingSelectedRegion {
-                            try observer.reducer.fetch(db, requiringWriteAccess: requiresWriteAccess)
-                        }
-                    }
-                    
-                    db.add(transactionObserver: observer, extent: .observerLifetime)
-                } catch {
-                    queue.async {
-                        onError(error)
-                    }
-                }
-            }
-            
-        case let .unsafe(startImmediately: startImmediately):
-            if startImmediately {
-                // Use case: third-party integration (RxSwift, Combine, ...) that
-                // need a synchronous initial fetch.
-                //
-                // This is really super extra unsafe.
-                //
-                // If the observation is started on one dispatch queue, then
-                // the onChange and onError callbacks must be asynchronously
-                // dispatched on the *same* queue.
-                //
-                // A failure to follow this rule may mess with the ordering of
-                // initial values.
-                var startValue: Reducer.Value? = nil
-                defer {
-                    if let startValue = startValue {
-                        onChange(startValue)
-                    }
-                }
-                
-                do {
-                    try unsafeReentrantWrite { db in
-                        observer.notificationQueue = nil
-                        observer.baseRegion = try observation.baseRegion(db).ignoringViews(db)
-                        observer.reducer = try observation.makeReducer(db)
-                        
-                        // Initial value & selected region
-                        if startImmediately {
-                            let fetchedValue: Reducer.Fetched
-                            if observation.observesSelectedRegion {
-                                (fetchedValue, observer.selectedRegion) = try db.recordingSelectedRegion {
-                                    try observer.reducer.fetch(db, requiringWriteAccess: requiresWriteAccess)
-                                }
-                            } else {
-                                fetchedValue = try observer.reducer.fetch(db, requiringWriteAccess: requiresWriteAccess)
-                            }
-                            if let value = observer.reducer.value(fetchedValue) {
-                                startValue = value
-                            }
-                        } else if observation.observesSelectedRegion {
-                            (_, observer.selectedRegion) = try db.recordingSelectedRegion {
-                                try observer.reducer.fetch(db, requiringWriteAccess: requiresWriteAccess)
-                            }
-                        }
-                        
-                        db.add(transactionObserver: observer, extent: .observerLifetime)
-                    }
-                } catch {
-                    onError(error)
-                }
-            } else {
-                // Use case: ?
-                //
-                // This is unsafe because no promise is made on the dispatch
-                // queue on which the onChange and onError callbacks are called.
-                asyncWriteWithoutTransaction { db in
-                    do {
-                        observer.notificationQueue = nil
-                        observer.baseRegion = try observation.baseRegion(db).ignoringViews(db)
-                        observer.reducer = try observation.makeReducer(db)
-                        
-                        // Selected region
-                        if observation.observesSelectedRegion {
-                            (_, observer.selectedRegion) = try db.recordingSelectedRegion {
-                                try observer.reducer.fetch(db, requiringWriteAccess: requiresWriteAccess)
-                            }
-                        }
-                        
-                        db.add(transactionObserver: observer, extent: .observerLifetime)
-                    } catch {
-                        onError(error)
-                    }
-                }
-            }
+    // VACUUM INTO was introduced in SQLite 3.27.0:
+    // https://www.sqlite.org/releaselog/3_27_0.html
+    //
+    // Old versions of SQLCipher won't have it, but I don't know how to perform
+    // availability checks that depend on the version of the SQLCipher CocoaPod
+    // chosen by the application. So let's just have the method fail at runtime.
+    //
+    // This method is declared on DatabaseWriter instead of DatabaseReader,
+    // so that it is not available on DatabaseSnaphot. VACUUM INTO is not
+    // available inside the transaction that is kept open by DatabaseSnaphot.
+#if GRDBCUSTOMSQLITE || GRDBCIPHER
+    /// Creates a new database file at the specified path with a minimum
+    /// amount of disk space.
+    ///
+    /// Databases encrypted with SQLCipher are copied with the same password
+    /// and configuration as the original database.
+    ///
+    /// Related SQLite documentation: <https://www.sqlite.org/lang_vacuum.html#vacuuminto>
+    ///
+    /// - Parameter filePath: file path for new database
+    @_disfavoredOverload // SR-15150 Async overloading in protocol implementation fails
+    public func vacuum(into filePath: String) throws {
+        try writeWithoutTransaction {
+            try $0.execute(sql: "VACUUM INTO ?", arguments: [filePath])
         }
-        
-        // TODO
-        //
-        // We promise that observation stops when the returned observer is
-        // deallocated. But the real observer may have not started observing
-        // the database, because some observations start asynchronously.
-        // Well... This forces us to return a "token" that cancels any
-        // observation started asynchronously.
-        //
-        // We'll eventually return a proper Cancellable. In GRDB 5?
-        return ValueObserverToken(writer: self, observer: observer)
+    }
+#else
+    /// Creates a new database file at the specified path with a minimum
+    /// amount of disk space.
+    ///
+    /// Related SQLite documentation: <https://www.sqlite.org/lang_vacuum.html#vacuuminto>
+    ///
+    /// - Parameter filePath: file path for new database
+    @_disfavoredOverload // SR-15150 Async overloading in protocol implementation fails
+    @available(iOS 14, macOS 10.16, tvOS 14, watchOS 7, *)
+    public func vacuum(into filePath: String) throws {
+        try writeWithoutTransaction {
+            try $0.execute(sql: "VACUUM INTO ?", arguments: [filePath])
+        }
+    }
+#endif
+    
+    // MARK: - Database Observation
+    
+    /// Starts an observation that fetches fresh database values synchronously,
+    /// from the writer database connection, right after the database
+    /// was modified.
+    func _addWriteOnly<Reducer: ValueReducer>(
+        observation: ValueObservation<Reducer>,
+        scheduling scheduler: some ValueObservationScheduler,
+        onChange: @escaping (Reducer.Value) -> Void)
+    -> AnyDatabaseCancellable
+    {
+        assert(!configuration.readonly, "Use _addReadOnly(observation:) instead")
+        let observer = ValueWriteOnlyObserver(
+            writer: self,
+            scheduler: scheduler,
+            readOnly: !observation.requiresWriteAccess,
+            trackingMode: observation.trackingMode,
+            reducer: observation.makeReducer(),
+            events: observation.events,
+            onChange: onChange)
+        return observer.start()
     }
 }
 
-/// A future database value, returned by the DatabaseWriter.concurrentRead(_:)
-/// method.
+extension DatabaseWriter {
+    // MARK: - Asynchronous Database Access
+    
+    /// Executes database operations, and returns their result after they have
+    /// finished executing.
+    ///
+    /// - note: [**🔥 EXPERIMENTAL**](https://github.com/groue/GRDB.swift/blob/master/README.md#what-are-experimental-features)
+    ///
+    /// For example:
+    ///
+    /// ```swift
+    /// let newPlayerCount = try await writer.write { db in
+    ///     try Player(name: "Arthur").insert(db)
+    ///     return try Player.fetchCount(db)
+    /// }
+    /// ```
+    ///
+    /// Database operations are wrapped in a transaction. If they throw an
+    /// error, the transaction is rollbacked and the error is rethrown.
+    ///
+    /// Concurrent database accesses can not see partial database updates (even
+    /// when performed by other processes).
+    ///
+    /// Database operations run in the writer dispatch queue, serialized
+    /// with all database updates performed by this `DatabaseWriter`.
+    ///
+    /// The ``Database`` argument to `updates` is valid only during the
+    /// execution of the closure. Do not store or return the database connection
+    /// for later use.
+    ///
+    /// - parameter updates: A closure which accesses the database.
+    /// - throws: The error thrown by `updates`, or any ``DatabaseError`` that
+    ///   would happen while establishing the database access or committing
+    ///   the transaction.
+    @available(iOS 13, macOS 10.15, tvOS 13, watchOS 6, *)
+    public func write<T>(_ updates: @Sendable @escaping (Database) throws -> T) async throws -> T {
+        try await withUnsafeThrowingContinuation { continuation in
+            asyncWrite(updates, completion: { _, result in
+                continuation.resume(with: result)
+            })
+        }
+    }
+    
+    /// Executes database operations, and returns their result after they have
+    /// finished executing.
+    ///
+    /// - note: [**🔥 EXPERIMENTAL**](https://github.com/groue/GRDB.swift/blob/master/README.md#what-are-experimental-features)
+    ///
+    /// For example:
+    ///
+    /// ```swift
+    /// let newPlayerCount = try await writer.writeWithoutTransaction { db in
+    ///     try Player(name: "Arthur").insert(db)
+    ///     return try Player.fetchCount(db)
+    /// }
+    /// ```
+    ///
+    /// Database operations run in the writer dispatch queue, serialized
+    /// with all database updates performed by this `DatabaseWriter`.
+    ///
+    /// The ``Database`` argument to `updates` is valid only during the
+    /// execution of the closure. Do not store or return the database connection
+    /// for later use.
+    ///
+    /// - warning: Database operations are not wrapped in a transaction. They
+    ///   can see changes performed by concurrent writes or writes performed by
+    ///   other processes: two identical requests performed by the `updates`
+    ///   closure may not return the same value. Concurrent database accesses
+    ///   can see partial updates performed by the `updates` closure.
+    ///
+    /// - parameter updates: A closure which accesses the database.
+    /// - throws: The error thrown by `updates`.
+    @available(iOS 13, macOS 10.15, tvOS 13, watchOS 6, *)
+    public func writeWithoutTransaction<T>(_ updates: @Sendable @escaping (Database) throws -> T) async throws -> T {
+        try await withUnsafeThrowingContinuation { continuation in
+            asyncWriteWithoutTransaction { db in
+                do {
+                    try continuation.resume(returning: updates(db))
+                } catch {
+                    continuation.resume(throwing: error)
+                }
+            }
+        }
+    }
+    
+    /// Executes database operations, and returns their result after they have
+    /// finished executing.
+    ///
+    /// - note: [**🔥 EXPERIMENTAL**](https://github.com/groue/GRDB.swift/blob/master/README.md#what-are-experimental-features)
+    ///
+    /// Database operations are not executed until all currently executing
+    /// database accesses performed by the database writer finish executing
+    /// (both reads and writes). At that point, database operations are
+    /// executed. Once they finish, the database writer can proceed with other
+    /// database accesses.
+    ///
+    /// For example:
+    ///
+    /// ```swift
+    /// let newPlayerCount = try await writer.barrierWriteWithoutTransaction { db in
+    ///     try Player(name: "Arthur").insert(db)
+    ///     return try Player.fetchCount(db)
+    /// }
+    /// ```
+    ///
+    /// Database operations run in the writer dispatch queue, serialized
+    /// with all database updates performed by this `DatabaseWriter`.
+    ///
+    /// The ``Database`` argument to `updates` is valid only during the
+    /// execution of the closure. Do not store or return the database connection
+    /// for later use.
+    ///
+    /// It is a programmer error to call this method from another database
+    /// access method. Doing so raises a "Database methods are not reentrant"
+    /// fatal error at runtime.
+    ///
+    /// - warning: Database operations are not wrapped in a transaction. They
+    ///   can see changes performed by concurrent writes or writes performed by
+    ///   other processes: two identical requests performed by the `updates`
+    ///   closure may not return the same value. Concurrent database accesses
+    ///   can see partial updates performed by the `updates` closure.
+    ///
+    /// - parameter updates: A closure which accesses the database.
+    /// - throws: The error thrown by `updates`.
+    @available(iOS 13, macOS 10.15, tvOS 13, watchOS 6, *)
+    public func barrierWriteWithoutTransaction<T>(
+        _ updates: @Sendable @escaping (Database) throws -> T)
+    async throws -> T
+    {
+        try await withUnsafeThrowingContinuation { continuation in
+            asyncBarrierWriteWithoutTransaction { dbResult in
+                continuation.resume(with: dbResult.flatMap { db in Result { try updates(db) } })
+            }
+        }
+    }
+    
+    /// Erase the database: delete all content, drop all tables, etc.
+    ///
+    /// - note: [**🔥 EXPERIMENTAL**](https://github.com/groue/GRDB.swift/blob/master/README.md#what-are-experimental-features)
+    @available(iOS 13, macOS 10.15, tvOS 13, watchOS 6, *)
+    public func erase() async throws {
+        try await writeWithoutTransaction { try $0.erase() }
+    }
+    
+    /// Rebuilds the database file, repacking it into a minimal amount of
+    /// disk space.
+    ///
+    /// - note: [**🔥 EXPERIMENTAL**](https://github.com/groue/GRDB.swift/blob/master/README.md#what-are-experimental-features)
+    ///
+    /// Related SQLite documentation: <https://www.sqlite.org/lang_vacuum.html>
+    @available(iOS 13, macOS 10.15, tvOS 13, watchOS 6, *)
+    public func vacuum() async throws {
+        try await writeWithoutTransaction { try $0.execute(sql: "VACUUM") }
+    }
+    
+#if GRDBCUSTOMSQLITE || GRDBCIPHER
+    /// Creates a new database file at the specified path with a minimum
+    /// amount of disk space.
+    ///
+    /// - note: [**🔥 EXPERIMENTAL**](https://github.com/groue/GRDB.swift/blob/master/README.md#what-are-experimental-features)
+    ///
+    /// Databases encrypted with SQLCipher are copied with the same password
+    /// and configuration as the original database.
+    ///
+    /// Related SQLite documentation: <https://www.sqlite.org/lang_vacuum.html#vacuuminto>
+    ///
+    /// - Parameter filePath: file path for new database
+    @available(iOS 13, macOS 10.15, tvOS 13, watchOS 6, *)
+    public func vacuum(into filePath: String) async throws {
+        try await writeWithoutTransaction {
+            try $0.execute(sql: "VACUUM INTO ?", arguments: [filePath])
+        }
+    }
+#else
+    /// Creates a new database file at the specified path with a minimum
+    /// amount of disk space.
+    ///
+    /// - note: [**🔥 EXPERIMENTAL**](https://github.com/groue/GRDB.swift/blob/master/README.md#what-are-experimental-features)
+    ///
+    /// Related SQLite documentation: <https://www.sqlite.org/lang_vacuum.html#vacuuminto>
+    ///
+    /// - Parameter filePath: file path for new database
+    @available(iOS 13, macOS 10.15, tvOS 13, watchOS 6, *)
+    public func vacuum(into filePath: String) async throws {
+        try await writeWithoutTransaction {
+            try $0.execute(sql: "VACUUM INTO ?", arguments: [filePath])
+        }
+    }
+#endif
+}
+
+#if canImport(Combine)
+extension DatabaseWriter {
+    // MARK: - Publishing Database Updates
+    
+    /// Returns a publisher that publishes one value and completes.
+    ///
+    /// The database is not accessed until subscription. Value and completion
+    /// are published on `scheduler` (the main dispatch queue by default).
+    ///
+    /// For example:
+    ///
+    /// ```swift
+    /// // DatabasePublishers.Write<Int>
+    /// let newPlayerCountPublisher = writer.writePublisher { db in
+    ///     try Player(name: "Arthur").insert(db)
+    ///     return try Player.fetchCount(db)
+    /// }
+    /// ```
+    ///
+    /// Database operations are wrapped in a transaction. If they throw an
+    /// error, the transaction is rollbacked and the error completes
+    /// the publisher.
+    ///
+    /// Concurrent database accesses can not see partial database updates (even
+    /// when performed by other processes).
+    ///
+    /// Database operations are asynchronously dispatched in the writer dispatch
+    /// queue, serialized with all database updates performed by
+    /// this `DatabaseWriter`.
+    ///
+    /// The ``Database`` argument to `updates` is valid only during the
+    /// execution of the closure. Do not store or return the database connection
+    /// for later use.
+    ///
+    /// - parameter scheduler: A Combine Scheduler.
+    /// - parameter updates: A closure which accesses the database.
+    @available(iOS 13, macOS 10.15, tvOS 13, watchOS 6, *)
+    public func writePublisher<Output>(
+        receiveOn scheduler: some Combine.Scheduler = DispatchQueue.main,
+        updates: @escaping (Database) throws -> Output)
+    -> DatabasePublishers.Write<Output>
+    {
+        OnDemandFuture { fulfill in
+            self.asyncWrite(updates, completion: { _, result in
+                fulfill(result)
+            })
+        }
+        // We don't want users to process emitted values on a
+        // database dispatch queue.
+        .receiveValues(on: scheduler)
+        .eraseToWritePublisher()
+    }
+    
+    /// Returns a publisher that publishes one value and completes.
+    ///
+    /// The database is not accessed until subscription. Value and completion
+    /// are published on `scheduler` (the main dispatch queue by default).
+    ///
+    /// For example:
+    ///
+    /// ```swift
+    /// // DatabasePublishers.Write<Int>
+    /// let newPlayerCountPublisher = writer.writePublisher { db in
+    ///     try Player(name: "Arthur").insert(db)
+    /// } thenRead: { db, _ in
+    ///     try Player.fetchCount(db)
+    /// }
+    /// ```
+    ///
+    /// The returned publisher publishes exactly the same value as
+    /// ``writePublisher(receiveOn:updates:)``:
+    ///
+    /// ```swift
+    /// // DatabasePublishers.Write<Int>
+    /// let newPlayerCountPublisher = writer.writePublisher { db in
+    ///     try Player(name: "Arthur").insert(db)
+    ///     return try Player.fetchCount(db)
+    /// }
+    /// ```
+    ///
+    /// The difference is that the last fetches are performed in the `thenRead`
+    /// closure. This closure accepts two arguments: a read-only database
+    /// connection, and the result of the `updates` function. This allows you to
+    /// pass information from a function to the other (it is ignored in the
+    /// sample code above).
+    ///
+    /// When you use a ``DatabasePool``, this method applies a scheduling
+    /// optimization: the `thenRead` closure sees the database in the state left
+    /// by the `updates` closure, but it does not block any concurrent writes.
+    /// This can reduce database write contention.
+    ///
+    /// When you use a ``DatabaseQueue``, the results are guaranteed to be
+    /// identical, but no scheduling optimization is applied.
+    ///
+    /// The ``Database`` argument to `updates` and `value` is valid only during
+    /// the execution of those closures. Do not store or return the database
+    /// connection for later use.
+    ///
+    /// - parameter scheduler: A Combine Scheduler.
+    /// - parameter updates: A closure which writes in the database.
+    /// - parameter value: A closure which reads from the database.
+    @available(iOS 13, macOS 10.15, tvOS 13, watchOS 6, *)
+    public func writePublisher<S, T, Output>(
+        receiveOn scheduler: S = DispatchQueue.main,
+        updates: @escaping (Database) throws -> T,
+        thenRead value: @escaping (Database, T) throws -> Output)
+    -> DatabasePublishers.Write<Output>
+    where S: Scheduler
+    {
+        OnDemandFuture { fulfill in
+            self.asyncWriteWithoutTransaction { db in
+                var updatesValue: T?
+                do {
+                    try db.inTransaction {
+                        updatesValue = try updates(db)
+                        return .commit
+                    }
+                } catch {
+                    fulfill(.failure(error))
+                    return
+                }
+                self.spawnConcurrentRead { dbResult in
+                    fulfill(dbResult.flatMap { db in Result { try value(db, updatesValue!) } })
+                }
+            }
+        }
+        // We don't want users to process emitted values on a
+        // database dispatch queue.
+        .receiveValues(on: scheduler)
+        .eraseToWritePublisher()
+    }
+}
+
+@available(iOS 13, macOS 10.15, tvOS 13, watchOS 6, *)
+extension DatabasePublishers {
+    /// A publisher that writes into the database.
+    ///
+    /// `Write` publishes exactly one element, or an error.
+    ///
+    /// You build such a publisher from ``DatabaseWriter``.
+    public struct Write<Output>: Publisher {
+        public typealias Output = Output
+        public typealias Failure = Error
+        
+        fileprivate let upstream: AnyPublisher<Output, Error>
+        
+        public func receive<S>(subscriber: S) where S: Subscriber, Self.Failure == S.Failure, Self.Output == S.Input {
+            upstream.receive(subscriber: subscriber)
+        }
+    }
+}
+
+@available(iOS 13, macOS 10.15, tvOS 13, watchOS 6, *)
+extension Publisher where Failure == Error {
+    fileprivate func eraseToWritePublisher() -> DatabasePublishers.Write<Output> {
+        .init(upstream: self.eraseToAnyPublisher())
+    }
+}
+#endif
+
+/// A future database value.
 ///
-///     let futureCount: Future<Int> = try writer.writeWithoutTransaction { db in
-///         try Player(...).insert()
+/// You get instances of `DatabaseFuture` from the `DatabaseWriter`
+/// ``DatabaseWriter/concurrentRead(_:)`` method. For example:
 ///
-///         // Count players concurrently
-///         return writer.concurrentRead { db in
-///             return try Player.fetchCount()
-///         }
+/// ```swift
+/// let futureCount: Future<Int> = try writer.writeWithoutTransaction { db in
+///     try Player(...).insert()
+///
+///     // Count players concurrently
+///     return writer.concurrentRead { db in
+///         return try Player.fetchCount()
 ///     }
+/// }
 ///
-///     let count: Int = try futureCount.wait()
+/// let count: Int = try futureCount.wait()
+/// ```
 public class DatabaseFuture<Value> {
     private var consumed = false
     private let _wait: () throws -> Value
@@ -542,7 +927,7 @@ public class DatabaseFuture<Value> {
         _wait = wait
     }
     
-    init(_ result: DatabaseResult<Value>) {
+    init(_ result: Result<Value, Error>) {
         _wait = result.get
     }
     
@@ -560,124 +945,96 @@ public class DatabaseFuture<Value> {
     }
 }
 
-/// A type-erased DatabaseWriter
+/// A type-erased database writer.
 ///
-/// Instances of AnyDatabaseWriter forward their methods to an arbitrary
-/// underlying database writer.
-public final class AnyDatabaseWriter: DatabaseWriter {
-    private let base: DatabaseWriter
+/// An instance of `AnyDatabaseWriter` forwards its operations to an underlying
+/// base database writer.
+public final class AnyDatabaseWriter {
+    private let base: any DatabaseWriter
     
-    /// Creates a database writer that wraps a base database writer.
-    public init(_ base: DatabaseWriter) {
+    /// Creates a new database reader that wraps and forwards operations
+    /// to `base`.
+    public init(_ base: some DatabaseWriter) {
         self.base = base
     }
-    
-    /// :nodoc:
+}
+
+extension AnyDatabaseWriter: DatabaseReader {
     public var configuration: Configuration {
-        return base.configuration
+        base.configuration
     }
     
-    // MARK: - Interrupting Database Operations
+    public func close() throws {
+        try base.close()
+    }
     
-    /// :nodoc:
     public func interrupt() {
         base.interrupt()
     }
     
-    // MARK: - Reading from Database
-    
-    /// :nodoc:
-    public func read<T>(_ block: (Database) throws -> T) throws -> T {
-        return try base.read(block)
+    @_disfavoredOverload // SR-15150 Async overloading in protocol implementation fails
+    public func read<T>(_ value: (Database) throws -> T) throws -> T {
+        try base.read(value)
     }
     
-    #if compiler(>=5.0)
-    /// :nodoc:
-    public func asyncRead(_ block: @escaping (Result<Database, Error>) -> Void) {
-        base.asyncRead(block)
-    }
-    #endif
-    
-    /// :nodoc:
-    public func unsafeRead<T>(_ block: (Database) throws -> T) throws -> T {
-        return try base.unsafeRead(block)
+    public func asyncRead(_ value: @escaping (Result<Database, Error>) -> Void) {
+        base.asyncRead(value)
     }
     
-    /// :nodoc:
-    public func unsafeReentrantRead<T>(_ block: (Database) throws -> T) throws -> T {
-        return try base.unsafeReentrantRead(block)
+    @_disfavoredOverload // SR-15150 Async overloading in protocol implementation fails
+    public func unsafeRead<T>(_ value: (Database) throws -> T) throws -> T {
+        try base.unsafeRead(value)
     }
     
-    /// :nodoc:
-    public func concurrentRead<T>(_ block: @escaping (Database) throws -> T) -> DatabaseFuture<T> {
-        return base.concurrentRead(block)
+    public func asyncUnsafeRead(_ value: @escaping (Result<Database, Error>) -> Void) {
+        base.asyncUnsafeRead(value)
     }
     
-    #if compiler(>=5.0)
-    /// :nodoc:
-    public func spawnConcurrentRead(_ block: @escaping (Result<Database, Error>) -> Void) {
-        base.spawnConcurrentRead(block)
-    }
-    #endif
-    
-    // MARK: - Writing in Database
-    
-    /// :nodoc:
-    public func write<T>(_ updates: (Database) throws -> T) throws -> T {
-        return try base.write(updates)
+    public func unsafeReentrantRead<T>(_ value: (Database) throws -> T) throws -> T {
+        try base.unsafeReentrantRead(value)
     }
     
-    /// :nodoc:
-    public func writeWithoutTransaction<T>(_ updates: (Database) throws -> T) rethrows -> T {
-        return try base.writeWithoutTransaction(updates)
-    }
-    
-    /// :nodoc:
-    public func barrierWriteWithoutTransaction<T>(_ updates: (Database) throws -> T) rethrows -> T {
-        return try base.barrierWriteWithoutTransaction(updates)
-    }
-    
-    #if compiler(>=5.0)
-    /// :nodoc:
-    public func asyncWrite<T>(
-        _ updates: @escaping (Database) throws -> T,
-        completion: @escaping (Database, Result<T, Error>) -> Void)
+    public func _add<Reducer: ValueReducer>(
+        observation: ValueObservation<Reducer>,
+        scheduling scheduler: some ValueObservationScheduler,
+        onChange: @escaping (Reducer.Value) -> Void)
+    -> AnyDatabaseCancellable
     {
-        base.asyncWrite(updates, completion: completion)
+        base._add(
+            observation: observation,
+            scheduling: scheduler,
+            onChange: onChange)
     }
-    #endif
+}
+
+extension AnyDatabaseWriter: DatabaseWriter {
+    @_disfavoredOverload // SR-15150 Async overloading in protocol implementation fails
+    public func writeWithoutTransaction<T>(_ updates: (Database) throws -> T) rethrows -> T {
+        try base.writeWithoutTransaction(updates)
+    }
     
-    /// :nodoc:
+    @_disfavoredOverload // SR-15150 Async overloading in protocol implementation fails
+    public func barrierWriteWithoutTransaction<T>(_ updates: (Database) throws -> T) throws -> T {
+        try base.barrierWriteWithoutTransaction(updates)
+    }
+    
+    public func asyncBarrierWriteWithoutTransaction(_ updates: @escaping (Result<Database, Error>) -> Void) {
+        base.asyncBarrierWriteWithoutTransaction(updates)
+    }
+    
     public func asyncWriteWithoutTransaction(_ updates: @escaping (Database) -> Void) {
         base.asyncWriteWithoutTransaction(updates)
     }
     
-    /// :nodoc:
     public func unsafeReentrantWrite<T>(_ updates: (Database) throws -> T) rethrows -> T {
-        return try base.unsafeReentrantWrite(updates)
+        try base.unsafeReentrantWrite(updates)
     }
     
-    // MARK: - Functions
-    
-    /// :nodoc:
-    public func add(function: DatabaseFunction) {
-        base.add(function: function)
+    public func concurrentRead<T>(_ value: @escaping (Database) throws -> T) -> DatabaseFuture<T> {
+        base.concurrentRead(value)
     }
     
-    /// :nodoc:
-    public func remove(function: DatabaseFunction) {
-        base.remove(function: function)
-    }
-    
-    // MARK: - Collations
-    
-    /// :nodoc:
-    public func add(collation: DatabaseCollation) {
-        base.add(collation: collation)
-    }
-    
-    /// :nodoc:
-    public func remove(collation: DatabaseCollation) {
-        base.remove(collation: collation)
+    public func spawnConcurrentRead(_ value: @escaping (Result<Database, Error>) -> Void) {
+        base.spawnConcurrentRead(value)
     }
 }

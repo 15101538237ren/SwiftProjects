@@ -323,6 +323,7 @@ func loadCategories(completion: @escaping () -> Void)
                         let pro = res.get("pro")?.boolValue ?? false
                         
                         if let file = res.get("cover") as? LCFile {
+                            print("URL:\(file.url!.stringValue!)");
                             let category = Category(name: name, eng: eng, coverUrl: file.url!.stringValue!, pro: pro)
                             categories.append(category)
                         }

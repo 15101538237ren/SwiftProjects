@@ -20,6 +20,8 @@ class SearchViewController: UIViewController {
     var mainPanelViewController: MainPanelViewController!
     let maxNumOfResult = 50
     var isSearchTextAscii = true
+    var viewTranslation = CGPoint(x: 0, y: 0)
+    
     @IBOutlet weak var backBtn: UIButton!
     @IBOutlet weak var searchBar: UISearchBar!{
         didSet{
@@ -47,6 +49,7 @@ class SearchViewController: UIViewController {
         
         tblView.separatorColor = .clear
         
+        view.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(handleDismiss)))
         let panGestRec: UIPanGestureRecognizer = UIPanGestureRecognizer(target: self, action:#selector(dismissKeyboard))
         panGestRec.delegate = self
         tblView.addGestureRecognizer(panGestRec)
@@ -57,6 +60,12 @@ class SearchViewController: UIViewController {
         load_DICT()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        DispatchQueue.main.async {
+            self.searchBar.becomeFirstResponder()
+        }
+    }
+    
     @objc func swipedCells(sender: UITapGestureRecognizer) {
         dismiss(animated: true, completion: nil)
     }
@@ -65,11 +74,28 @@ class SearchViewController: UIViewController {
         view.endEditing(true)
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        DispatchQueue.main.async {
-            self.searchBar.becomeFirstResponder()
+    @objc func handleDismiss(sender: UIPanGestureRecognizer) {
+        switch sender.state {
+        case .changed:
+            viewTranslation = sender.translation(in: view)
+            if viewTranslation.y > 0 {
+                UIView.animate(withDuration: 0.2, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+                    self.view.transform = CGAffineTransform(translationX: 0, y: self.viewTranslation.y)
+                })
+            }
+        case .ended:
+            if viewTranslation.y < 200 {
+                UIView.animate(withDuration: 0.2, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+                    self.view.transform = .identity
+                })
+            } else {
+                dismiss(animated: true, completion: nil)
+            }
+        default:
+            break
         }
     }
+    
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

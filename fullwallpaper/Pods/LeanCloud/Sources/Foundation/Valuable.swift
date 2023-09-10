@@ -20,11 +20,6 @@ public protocol LCValue: NSObjectProtocol, NSCoding, NSCopying, LCValueConvertib
     var jsonValue: Any { get }
 
     /**
-     The pretty description.
-     */
-    var jsonString: String { get }
-
-    /**
      The raw value of current value.
 
      For JSON-compatible objects, such as string, array, etc., raw value is the value of corresponding Swift built-in type.
@@ -211,16 +206,6 @@ protocol LCValueExtension: LCValue {
      - returns: The difference result.
      */
     func differ(_ other: LCValue) throws -> LCValue
-
-    /**
-     Get formatted JSON string with indent.
-
-     - parameter indentLevel: The indent level.
-     - parameter numberOfSpacesForOneIndentLevel: The number of spaces for one indent level.
-
-     - returns: The JSON string.
-     */
-    func formattedJSONString(indentLevel: Int, numberOfSpacesForOneIndentLevel: Int) -> String
 }
 
 /**
@@ -381,6 +366,10 @@ extension Int: LCNumberConvertible {
     public var lcNumber: LCNumber {
         return LCNumber(Double(self))
     }
+    
+    public var stringValue: String? {
+        return "\(self)"
+    }
 }
 
 extension UInt: LCNumberConvertible {
@@ -390,6 +379,10 @@ extension UInt: LCNumberConvertible {
 
     public var lcNumber: LCNumber {
         return LCNumber(Double(self))
+    }
+    
+    public var stringValue: String? {
+        return "\(self)"
     }
 }
 
@@ -401,6 +394,10 @@ extension Int8: LCNumberConvertible {
     public var lcNumber: LCNumber {
         return LCNumber(Double(self))
     }
+    
+    public var stringValue: String? {
+        return "\(self)"
+    }
 }
 
 extension UInt8: LCNumberConvertible {
@@ -410,6 +407,10 @@ extension UInt8: LCNumberConvertible {
 
     public var lcNumber: LCNumber {
         return LCNumber(Double(self))
+    }
+    
+    public var stringValue: String? {
+        return "\(self)"
     }
 }
 
@@ -421,6 +422,10 @@ extension Int16: LCNumberConvertible {
     public var lcNumber: LCNumber {
         return LCNumber(Double(self))
     }
+    
+    public var stringValue: String? {
+        return "\(self)"
+    }
 }
 
 extension UInt16: LCNumberConvertible {
@@ -430,6 +435,10 @@ extension UInt16: LCNumberConvertible {
 
     public var lcNumber: LCNumber {
         return LCNumber(Double(self))
+    }
+    
+    public var stringValue: String? {
+        return "\(self)"
     }
 }
 
@@ -441,6 +450,10 @@ extension Int32: LCNumberConvertible {
     public var lcNumber: LCNumber {
         return LCNumber(Double(self))
     }
+    
+    public var stringValue: String? {
+        return "\(self)"
+    }
 }
 
 extension UInt32: LCNumberConvertible {
@@ -450,6 +463,10 @@ extension UInt32: LCNumberConvertible {
 
     public var lcNumber: LCNumber {
         return LCNumber(Double(self))
+    }
+    
+    public var stringValue: String? {
+        return "\(self)"
     }
 }
 
@@ -461,6 +478,10 @@ extension Int64: LCNumberConvertible {
     public var lcNumber: LCNumber {
         return LCNumber(Double(self))
     }
+    
+    public var stringValue: String? {
+        return "\(self)"
+    }
 }
 
 extension UInt64: LCNumberConvertible {
@@ -470,6 +491,10 @@ extension UInt64: LCNumberConvertible {
 
     public var lcNumber: LCNumber {
         return LCNumber(Double(self))
+    }
+    
+    public var stringValue: String? {
+        return "\(self)"
     }
 }
 
@@ -481,6 +506,10 @@ extension Float: LCNumberConvertible {
     public var lcNumber: LCNumber {
         return LCNumber(Double(self))
     }
+    
+    public var stringValue: String? {
+        return "\(self)"
+    }
 }
 
 extension Double: LCNumberConvertible {
@@ -490,6 +519,10 @@ extension Double: LCNumberConvertible {
 
     public var lcNumber: LCNumber {
         return LCNumber(Double(self))
+    }
+    
+    public var stringValue: String? {
+        return "\(self)"
     }
 }
 
@@ -514,6 +547,10 @@ extension NSNumber: LCNumberConvertible, LCBoolConvertible {
 
     public var lcBool: LCBool {
         return LCBool(boolValue)
+    }
+    
+    public var stringValue: String? {
+        return description(withLocale: nil)
     }
 }
 

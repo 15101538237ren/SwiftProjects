@@ -6,6 +6,8 @@
             <script src="AAHighcharts-More.js"></script>
             <script src="AAFunnel.js"></script>
             <script src="AAEasing.js"></script>
+            <script src="AARounded-Corners.js"></script>
+
 <!--            <script src="https://code.highcharts.com/highcharts.js"></script>-->
 <!--            <script src="https://code.highcharts.com/highcharts-more.js"></script>-->
 <!--            <script src="https://code.highcharts.com/modules/funnel.js"></script>-->
@@ -64,34 +66,46 @@
                 animation.easing = configureTheChartAnimationEasingType(animationEasingType);
             }
             
-            if (aaOptions.touchEventEnabled == true && aaPlotOptions.series) {
+            if (aaOptions.clickEventEnabled == true) {
+                configureChartClickEvent(aaPlotOptions);
+            }
+            
+            if (aaOptions.touchEventEnabled == true) {
                 configureChartTouchEvent(aaPlotOptions);
             }
         }
         
+        function configureEventMessageBody(selectedPoint) {
+            let messageBody = {
+                name: selectedPoint.series.name,
+                y: selectedPoint.y,
+                x: selectedPoint.x,
+                category:selectedPoint.category,
+                offset: {
+                    plotX: selectedPoint.plotX,
+                    plotY: selectedPoint.plotY
+                },
+                index: selectedPoint.index,
+            };
+            return messageBody;
+        }
+            
+        function configureChartClickEvent(aaPlotOptions) {
+            let clickEventFunc = function() {
+                let message = configureEventMessageBody(this);
+                window.webkit.messageHandlers.click.postMessage(message);
+            };
+            
+            aaPlotOptions.series.point.events.click = clickEventFunc;
+        }
+        
         function configureChartTouchEvent(aaPlotOptions) {
-            let mouseOverFunc = function () {
-                let message = {
-                    name: this.series.name,
-                    y: this.y,
-                    x: this.x,
-                    category: this.category,
-                    offset: {plotX: this.plotX, plotY: this.plotY},
-                    index: this.index,
-                };
+            let mouseOverEventFunc = function() {
+                let message = configureEventMessageBody(this);
                 window.webkit.messageHandlers.mouseover.postMessage(message);
             };
-
-            if (aaPlotOptions.series.point) {// set property directly for series point
-                aaPlotOptions.series.point.events.mouseOver = mouseOverFunc;
-            } else {// creat a new series point object instance
-                let seriesPoint = {
-                    events: {
-                        mouseOver: mouseOverFunc,
-                    }
-                };
-                aaPlotOptions.series.point = seriesPoint;
-            }
+            
+            aaPlotOptions.series.point.events.mouseOver = mouseOverEventFunc;
         }
         
         function onlyRefreshTheChartDataWithSeries(receivedSeries, animation) {

@@ -1,431 +1,888 @@
+#if canImport(Combine)
+import Combine
+#endif
 import Dispatch
+import Foundation
 
-// MARK: - ValueScheduling
-
-/// ValueScheduling controls how ValueObservation schedules the notifications
-/// of fresh values to your application.
-public enum ValueScheduling {
-    /// All values are notified on the main queue.
-    ///
-    /// If the observation starts on the main queue, an initial value is
-    /// notified right upon subscription, synchronously:
-    ///
-    ///     // On main queue
-    ///     let observation = Player.observationForAll()
-    ///     let observer = try observation.start(in: dbQueue) { players: [Player] in
-    ///         print("fresh players: \(players)")
-    ///     }
-    ///     // <- here "fresh players" is already printed.
-    ///
-    /// If the observation does not start on the main queue, an initial value
-    /// is also notified on the main queue, but asynchronously:
-    ///
-    ///     // Not on the main queue: "fresh players" is eventually printed
-    ///     // on the main queue.
-    ///     let observation = Player.observationForAll()
-    ///     let observer = try observation.start(in: dbQueue) { players: [Player] in
-    ///         print("fresh players: \(players)")
-    ///     }
-    ///
-    /// When the database changes, fresh values are asynchronously notified on
-    /// the main queue:
-    ///
-    ///     // Eventually prints "fresh players" on the main queue
-    ///     try dbQueue.write { db in
-    ///         try Player(...).insert(db)
-    ///     }
-    case mainQueue
+public struct ValueObservation<Reducer: _ValueReducer> {
+    var events = ValueObservationEvents()
     
-    /// All values are asychronously notified on the specified queue.
+    /// A boolean value indicating whether the observation requires write access
+    /// when it fetches fresh values.
     ///
-    /// An initial value is fetched and notified if `startImmediately`
-    /// is true.
-    case async(onQueue: DispatchQueue, startImmediately: Bool)
+    /// The `requiresWriteAccess` property is false by default. When true, a
+    /// `ValueObservation` has a write access to the database, and its fetches
+    /// are automatically wrapped in a savepoint:
+    ///
+    /// ```swift
+    /// var observation = ValueObservation.tracking { db in
+    ///     // write access allowed
+    ///     ...
+    /// }
+    /// observation.requiresWriteAccess = true
+    /// ```
+    ///
+    /// Setting the `requiresWriteAccess` flag can disable scheduling
+    /// optimizations when the observation is started in a ``DatabasePool``.
+    public var requiresWriteAccess = false
     
-    /// Values are not all notified on the same dispatch queue.
-    ///
-    /// If `startImmediately` is true, an initial value is notified right upon
-    /// subscription, synchronously, on the dispatch queue which starts
-    /// the observation.
-    ///
-    ///     // On any queue
-    ///     var observation = Player.observationForAll()
-    ///     observation.scheduling = .unsafe(startImmediately: true)
-    ///     let observer = try observation.start(in: dbQueue) { players: [Player] in
-    ///         print("fresh players: \(players)")
-    ///     }
-    ///     // <- here "fresh players" is already printed.
-    ///
-    /// When the database changes, other values are notified on
-    /// unspecified queues.
-    case unsafe(startImmediately: Bool)
-}
-
-// MARK: - ValueObservation
-
-/// ValueObservation tracks changes in the results of database requests, and
-/// notifies fresh values whenever the database changes.
-///
-/// For example:
-///
-///     let observation = Player.observationForAll()
-///     let observer = try observation.start(in: dbQueue) { players: [Player] in
-///         print("Players have changed.")
-///     }
-public struct ValueObservation<Reducer> {
-    /// A closure that is evaluated when the observation starts, and returns
-    /// a "base" observed database region.
-    ///
-    /// See also `observesSelectedRegion`
-    var baseRegion: (Database) throws -> DatabaseRegion
+    var trackingMode: ValueObservationTrackingMode
     
-    /// If true, the region selected by the reducer is observed as well
-    /// as `baseRegion`.
-    var observesSelectedRegion: Bool
-
     /// The reducer is created when observation starts, and is triggered upon
-    /// each database change in *observedRegion*.
-    var makeReducer: (Database) throws -> Reducer
+    /// each database change.
+    var makeReducer: () -> Reducer
     
-    /// Default is false. Set this property to true when the observation
-    /// requires write access in order to fetch fresh values. Fetches are then
-    /// wrapped inside a savepoint.
-    ///
-    /// Don't set this flag to true unless you really need it. A read/write
-    /// observation is less efficient than a read-only observation.
-    public var requiresWriteAccess: Bool
-    
-    /// `scheduling` controls how fresh values are notified. Default
-    /// is `.mainQueue`.
-    ///
-    /// - `.mainQueue`: all values are notified on the main queue.
-    ///
-    ///     If the observation starts on the main queue, an initial value is
-    ///     notified right upon subscription, synchronously::
-    ///
-    ///         // On main queue
-    ///         let observation = Player.observationForAll()
-    ///         let observer = try observation.start(in: dbQueue) { players: [Player] in
-    ///             print("fresh players: \(players)")
-    ///         }
-    ///         // <- here "fresh players" is already printed.
-    ///
-    ///     If the observation does not start on the main queue, an initial
-    ///     value is also notified on the main queue, but asynchronously:
-    ///
-    ///         // Not on the main queue: "fresh players" is eventually printed
-    ///         // on the main queue.
-    ///         let observation = Player.observationForAll()
-    ///         let observer = try observation.start(in: dbQueue) { players: [Player] in
-    ///             print("fresh players: \(players)")
-    ///         }
-    ///
-    ///     When the database changes, fresh values are asynchronously notified:
-    ///
-    ///         // Eventually prints "fresh players" on the main queue
-    ///         try dbQueue.write { db in
-    ///             try Player(...).insert(db)
-    ///         }
-    ///
-    /// - `.onQueue(_:startImmediately:)`: all values are asychronously notified
-    /// on the specified queue.
-    ///
-    ///     An initial value is fetched and notified if `startImmediately`
-    ///     is true.
-    ///
-    /// - `unsafe(startImmediately:)`: values are not all notified on the same
-    /// dispatch queue.
-    ///
-    ///     If `startImmediately` is true, an initial value is notified right
-    ///     upon subscription, synchronously, on the dispatch queue which starts
-    ///     the observation.
-    ///
-    ///         // On any queue
-    ///         var observation = Player.observationForAll()
-    ///         observation.scheduling = .unsafe(startImmediately: true)
-    ///         let observer = try observation.start(in: dbQueue) { players: [Player] in
-    ///             print("fresh players: \(players)")
-    ///         }
-    ///         // <- here "fresh players" is already printed.
-    ///
-    ///     When the database changes, other values are notified on
-    ///     unspecified queues.
-    public var scheduling: ValueScheduling
+    /// Returns a ValueObservation with a transformed reducer.
+    func mapReducer<R>(_ transform: @escaping (Reducer) -> R) -> ValueObservation<R> {
+        let makeReducer = self.makeReducer
+        return ValueObservation<R>(
+            events: events,
+            requiresWriteAccess: requiresWriteAccess,
+            trackingMode: trackingMode,
+            makeReducer: { transform(makeReducer()) })
+    }
 }
 
-extension ValueObservation where Reducer: ValueReducer {
+/// Configures the tracked region
+enum ValueObservationTrackingMode {
+    /// The tracked region is constant and explicit.
+    ///
+    /// Use case:
+    ///
+    ///     // Tracked Region is always the full player table
+    ///     ValueObservation.trackingConstantRegion(Player.all()) { db in ... }
+    case constantRegion([any DatabaseRegionConvertible])
+    
+    /// The tracked region is constant and inferred from the fetched values.
+    ///
+    /// Use case:
+    ///
+    ///     // Tracked Region is always the full player table
+    ///     ValueObservation.trackingConstantRegion { db in Player.fetchAll(db) }
+    case constantRegionRecordedFromSelection
+    
+    /// The tracked region is not constant, and inferred from the fetched values.
+    ///
+    /// Use case:
+    ///
+    ///     // Tracked Region is the one row of the table, and it changes on
+    ///     // each fetch.
+    ///     ValueObservation.tracking { db in
+    ///         try Player.fetchOne(db, id: Int.random(in: 1.1000))
+    ///     }
+    case nonConstantRegionRecordedFromSelection
+}
+
+struct ValueObservationEvents: Refinable {
+    var willStart: (() -> Void)?
+    var willTrackRegion: ((DatabaseRegion) -> Void)?
+    var databaseDidChange: (() -> Void)?
+    var didFail: ((Error) -> Void)?
+    var didCancel: (() -> Void)?
+}
+
+typealias ValueObservationStart<T> = (
+    _ onError: @escaping (Error) -> Void,
+    _ onChange: @escaping (T) -> Void)
+-> AnyDatabaseCancellable
+
+extension ValueObservation: Refinable {
     
     // MARK: - Starting Observation
     
-    /// Starts the value observation in the provided database reader (such as
-    /// a database queue or database pool), and returns a transaction observer.
+    /// Starts observing the database.
+    ///
+    /// The observation lasts until the returned cancellable is cancelled
+    /// or deallocated.
+    ///
+    /// For example:
+    ///
+    /// ```swift
+    /// let observation = ValueObservation.tracking { db in
+    ///     try Player.fetchAll(db)
+    /// }
+    ///
+    /// let cancellable = try observation.start(in: dbQueue) { error in
+    ///     // handle error
+    /// } onChange: { (players: [Player]) in
+    ///     print("Fresh players: \(players)")
+    /// }
+    /// ```
+    ///
+    /// By default, fresh values are dispatched asynchronously on the
+    /// main dispatch queue. You can change this behavior by providing a
+    /// scheduler.
+    ///
+    /// For example, the ``ValueObservationScheduler/immediate`` scheduler
+    /// notifies all values on the main dispatch queue, and notifies the first
+    /// one immediately when the observation starts. The `immediate` scheduling
+    /// requires that the observation starts from the main dispatch queue (a
+    /// fatal error is raised otherwise):
+    ///
+    /// ```swift
+    /// let cancellable = try observation.start(in: dbQueue, scheduling: .immediate) { error in
+    ///     // handle error
+    /// } onChange: { (players: [Player]) in
+    ///     print("Fresh players: \(players)")
+    /// }
+    /// // <- here "Fresh players" is already printed.
+    /// ```
     ///
     /// - parameter reader: A DatabaseReader.
-    /// - parameter onChange: A closure that is provided fresh values
-    /// - returns: a TransactionObserver
+    /// - parameter scheduler: A ValueObservationScheduler. By default, fresh
+    ///   values are dispatched asynchronously on the main queue.
+    /// - parameter onError: The closure to execute when the observation fails.
+    /// - parameter onChange: The closure to execute on receipt of a
+    ///   fresh value.
+    /// - returns: A DatabaseCancellable that can stop the observation.
     public func start(
-        in reader: DatabaseReader,
-        onChange: @escaping (Reducer.Value) -> Void) throws -> TransactionObserver
+        in reader: some DatabaseReader,
+        scheduling scheduler: some ValueObservationScheduler = .async(onQueue: .main),
+        onError: @escaping (Error) -> Void,
+        onChange: @escaping (Reducer.Value) -> Void)
+    -> AnyDatabaseCancellable
+    where Reducer: ValueReducer
     {
-        // ErrorCatcher is a workaround this aging API.
-        // We catch the eventual error synchronously sent to the onError
-        // handler and rethrow it.
-        let errorCatcher = ErrorCatcher()
-        let observer = reader.add(
-            observation: self,
-            onError: { [weak errorCatcher] in errorCatcher?.error = $0 },
-            onChange: onChange)
-        if let error = errorCatcher.error {
-            throw error
+        let observation = self.with {
+            $0.events.didFail = concat($0.events.didFail, onError)
         }
-        return observer
+        observation.events.willStart?()
+        return reader._add(
+            observation: observation,
+            scheduling: scheduler,
+            onChange: onChange)
     }
     
-    /// Starts the value observation in the provided database reader (such as
-    /// a database queue or database pool), and returns a transaction observer.
+    // MARK: - Debugging
+    
+    /// Performs the specified closures when observation events occur.
     ///
-    /// - parameter reader: A DatabaseReader.
-    /// - parameter onError: A closure that is provided eventual errors that
-    /// happen during observation
-    /// - parameter onChange: A closure that is provided fresh values
-    /// - returns: a TransactionObserver
-    public func start(
-        in reader: DatabaseReader,
-        onError: @escaping (Error) -> Void,
-        onChange: @escaping (Reducer.Value) -> Void) -> TransactionObserver
+    /// All closures run on unspecified dispatch queues: don't make
+    /// any assumption.
+    ///
+    /// - parameters:
+    ///     - willStart: The closure to execute when the observation starts.
+    ///     - willFetch: The closure to execute when the observed value is
+    ///       about to be fetched.
+    ///     - willTrackRegion: The closure to execute when the observation
+    ///       starts tracking a database region.
+    ///     - databaseDidChange: The closure to execute after the observation
+    ///       was impacted by a database change.
+    ///     - didReceiveValue: The closure to execute on fresh values.
+    ///     - didFail: The closure to execute when the observation fails.
+    ///     - didCancel: The closure to execute when the observation is
+    ///       cancelled.
+    /// - returns: A `ValueObservation` that performs the specified closures
+    ///   when ValueObservation events occur.
+    public func handleEvents(
+        willStart: (() -> Void)? = nil,
+        willFetch: (() -> Void)? = nil,
+        willTrackRegion: ((DatabaseRegion) -> Void)? = nil,
+        databaseDidChange: (() -> Void)? = nil,
+        didReceiveValue: ((Reducer.Value) -> Void)? = nil,
+        didFail: ((Error) -> Void)? = nil,
+        didCancel: (() -> Void)? = nil)
+    -> ValueObservation<ValueReducers.Trace<Reducer>>
     {
-        return reader.add(observation: self, onError: onError, onChange: onChange)
+        self
+            .mapReducer { reducer in
+                ValueReducers.Trace(
+                    base: reducer,
+                    // Adding the willFetch handler to the reducer is handy: we
+                    // are sure not to miss any fetch.
+                    willFetch: willFetch ?? { },
+                    // Adding the didReceiveValue handler to the reducer is necessary:
+                    // the type of the value may change with the `map` operator.
+                    didReceiveValue: didReceiveValue ?? { _ in })
+            }
+            .with {
+                $0.events.willStart = concat($0.events.willStart, willStart)
+                $0.events.willTrackRegion = concat($0.events.willTrackRegion, willTrackRegion)
+                $0.events.databaseDidChange = concat($0.events.databaseDidChange, databaseDidChange)
+                $0.events.didFail = concat($0.events.didFail, didFail)
+                $0.events.didCancel = concat($0.events.didCancel, didCancel)
+            }
+    }
+    
+    /// Prints log messages for all observation events.
+    ///
+    /// For example:
+    ///
+    /// ```swift
+    /// let cancellable = ValueObservation
+    ///     .tracking(Player.fetchCount)
+    ///     .print("Observe player count")
+    ///     .start(in: dbQueue, onError: { _ in }, onChange: { _ in })
+    ///
+    /// // Prints:
+    /// // Observe player count: start
+    /// // Observe player count: fetch
+    /// // Observe player count: tracked region: player(*)
+    /// // Observe player count: value: 0
+    /// // Observe player count: database did change
+    /// // Observe player count: fetch
+    /// // Observe player count: value: 1
+    /// ```
+    ///
+    /// - parameter prefix: A string —- which defaults to empty -— with which to
+    ///   prefix all log messages.
+    /// - parameter stream: A stream for text output that receives messages, and
+    ///   which directs output to the console by default. A custom stream can be
+    ///   used to log messages to other destinations.
+    public func print(
+        _ prefix: String = "",
+        to stream: TextOutputStream? = nil)
+    -> ValueObservation<ValueReducers.Trace<Reducer>>
+    {
+        let lock = NSLock()
+        let prefix = prefix.isEmpty ? "" : "\(prefix): "
+        var stream = stream ?? PrintOutputStream()
+        return handleEvents(
+            willStart: {
+                lock.lock(); defer { lock.unlock() }
+                stream.write("\(prefix)start") },
+            willFetch: {
+                lock.lock(); defer { lock.unlock() }
+                stream.write("\(prefix)fetch") },
+            willTrackRegion: {
+                lock.lock(); defer { lock.unlock() }
+                stream.write("\(prefix)tracked region: \($0)") },
+            databaseDidChange: {
+                lock.lock(); defer { lock.unlock() }
+                stream.write("\(prefix)database did change") },
+            didReceiveValue: {
+                lock.lock(); defer { lock.unlock() }
+                stream.write("\(prefix)value: \($0)") },
+            didFail: {
+                lock.lock(); defer { lock.unlock() }
+                stream.write("\(prefix)failure: \($0)") },
+            didCancel: {
+                lock.lock(); defer { lock.unlock() }
+                stream.write("\(prefix)cancel") })
     }
     
     // MARK: - Fetching Values
     
-    /// Returns the observed value.
-    ///
-    /// This method returns nil if observation would not notify any
-    /// initial value.
-    ///
-    /// For example, the observation below notifies changes to a player if and
-    /// only if it exists:
-    ///
-    ///     let observation = Player.filter(key: 42)
-    ///         .observationForFirst()
-    ///         .compactMap { $0 } // filters out missing player
-    ///
-    /// The `fetchFirst` method thus returns nil if player does not exist:
-    ///
-    ///     let player: Player? = try dbQueue.read { db in
-    ///         try observation.fetchFirst(db)
-    ///     }
-    func fetchFirst(_ db: Database) throws -> Reducer.Value? {
-        var reducer = try makeReducer(db)
-        return try reducer.value(reducer.fetch(db, requiringWriteAccess: requiresWriteAccess))
-    }
-}
-
-// TODO: remove when not needed any longer
-private class ErrorCatcher {
-    var error: Error?
-}
-
-extension ValueObservation where Reducer: ValueReducer {
-    
-    // MARK: - Creating ValueObservation from ValueReducer
-    
-    /// Returns a ValueObservation which observes *regions*, and notifies the
-    /// values returned by the *reducer* whenever one of the observed
-    /// regions is modified by a database transaction.
-    ///
-    /// This method is the most fundamental way to create a ValueObservation.
-    ///
-    /// For example, this observation counts the number of a times the player
-    /// table is modified:
-    ///
-    ///     var count = 0
-    ///     let reducer = AnyValueReducer(
-    ///         fetch: { _ in /* don't fetch anything */ },
-    ///         value: { _ -> Int? in
-    ///             defer { count += 1 }
-    ///             return count })
-    ///     let observation = ValueObservation.tracking(Player.all(), reducer: { db in reducer })
-    ///     let observer = observation.start(in: dbQueue) { count: Int in
-    ///         print("Players have been modified \(count) times.")
-    ///     }
-    ///
-    /// The returned observation has the default configuration:
-    ///
-    /// - When started with the `start(in:onError:onChange:)` method, a fresh
-    /// value is immediately notified on the main queue.
-    /// - Upon subsequent database changes, fresh values are notified on the
-    /// main queue.
-    /// - The observation lasts until the observer returned by
-    /// `start` is deallocated.
-    ///
-    /// - parameter regions: A list of observed regions.
-    /// - parameter reducer: A reducer that turns database changes in the
-    /// modified regions into fresh values. Currently only reducers that adopt
-    /// the ValueReducer protocol are supported.
-    public static func tracking(
-        _ regions: DatabaseRegionConvertible...,
-        reducer: @escaping (Database) throws -> Reducer)
-        -> ValueObservation
+    /// Fetches the initial value.
+    func fetchInitialValue(_ db: Database) throws -> Reducer.Value
+    where Reducer: ValueReducer
     {
-        return ValueObservation.tracking(regions, reducer: reducer)
-    }
-    
-    /// Returns a ValueObservation which observes *regions*, and notifies the
-    /// values returned by the *reducer* whenever one of the observed
-    /// regions is modified by a database transaction.
-    ///
-    /// This method is the most fundamental way to create a ValueObservation.
-    ///
-    /// For example, this observation counts the number of a times the player
-    /// table is modified:
-    ///
-    ///     var count = 0
-    ///     let reducer = AnyValueReducer(
-    ///         fetch: { _ in /* don't fetch anything */ },
-    ///         value: { _ -> Int? in
-    ///             defer { count += 1 }
-    ///             return count })
-    ///     let observation = ValueObservation.tracking([Player.all()], reducer: { db in reducer })
-    ///     let observer = observation.start(in: dbQueue) { count: Int in
-    ///         print("Players have been modified \(count) times.")
-    ///     }
-    ///
-    /// The returned observation has the default configuration:
-    ///
-    /// - When started with the `start(in:onError:onChange:)` method, a fresh
-    /// value is immediately notified on the main queue.
-    /// - Upon subsequent database changes, fresh values are notified on the
-    /// main queue.
-    /// - The observation lasts until the observer returned by
-    /// `start` is deallocated.
-    ///
-    /// - parameter regions: A list of observed regions.
-    /// - parameter reducer: A reducer that turns database changes in the
-    /// modified regions into fresh values. Currently only reducers that adopt
-    /// the ValueReducer protocol are supported.
-    public static func tracking(
-        _ regions: [DatabaseRegionConvertible],
-        reducer: @escaping (Database) throws -> Reducer)
-        -> ValueObservation
-    {
-        return ValueObservation(
-            baseRegion: DatabaseRegion.union(regions),
-            observesSelectedRegion: false,
-            makeReducer: reducer,
-            requiresWriteAccess: false,
-            scheduling: .mainQueue)
+        var reducer = makeReducer()
+        guard let value = try reducer._value(reducer._fetch(db)) else {
+            fatalError("Broken contract: reducer has no initial value")
+        }
+        return value
     }
 }
 
-extension ValueObservation where Reducer == Void {
-    
-    // MARK: - Creating ValueObservation from Fetch Closures
-    
-    /// Creates a ValueObservation which notifies the values returned by the
-    /// *fetch* closure whenever a database transaction changes them.
+extension ValueObservation {
+    // MARK: - Asynchronous Observation
+    /// Returns an asynchronous sequence of observed values.
+    ///
+    /// - note: [**🔥 EXPERIMENTAL**](https://github.com/groue/GRDB.swift/blob/master/README.md#what-are-experimental-features)
     ///
     /// For example:
     ///
-    ///     let observation = ValueObservation.tracking { db in
-    ///         try Player.fetchAll(db)
-    ///     }
+    /// ```swift
+    /// let observation = ValueObservation.tracking { db in
+    ///     try Player.fetchAll(db)
+    /// }
     ///
-    ///     let observer = try observation.start(in: dbQueue) { players: [Player] in
-    ///         print("Players have changed")
-    ///     }
+    /// for try await players in observation.values(in: dbQueue) {
+    ///     print("Fresh players: \(players)")
+    /// }
+    /// ```
     ///
-    /// The returned observation has the default configuration:
-    ///
-    /// - When started with the `start(in:onError:onChange:)` method, a fresh
-    /// value is immediately notified on the main queue.
-    /// - Upon subsequent database changes, fresh values are notified on the
-    /// main queue.
-    /// - The observation lasts until the observer returned by
-    /// `start` is deallocated.
-    ///
-    /// - parameter value: A closure that fetches a value.
-    public static func tracking<Value>(
-        value: @escaping (Database) throws -> Value)
-        -> ValueObservation<ValueReducers.Fetch<Value>>
+    /// - parameter reader: A DatabaseReader.
+    /// - parameter scheduler: A ValueObservationScheduler. By default, fresh
+    ///   values are dispatched asynchronously on the main dispatch queue.
+    @available(iOS 13, macOS 10.15, tvOS 13, watchOS 6, *)
+    public func values(
+        in reader: some DatabaseReader,
+        scheduling scheduler: some ValueObservationScheduler = .async(onQueue: .main),
+        bufferingPolicy: AsyncValueObservation<Reducer.Value>.BufferingPolicy = .unbounded)
+    -> AsyncValueObservation<Reducer.Value>
+    where Reducer: ValueReducer
     {
-        return ValueObservation<ValueReducers.Fetch<Value>>(
-            baseRegion: { _ in DatabaseRegion() },
-            observesSelectedRegion: true,
-            makeReducer: { _ in ValueReducers.Fetch(value) },
-            requiresWriteAccess: false,
-            scheduling: .mainQueue)
+        AsyncValueObservation(bufferingPolicy: bufferingPolicy) { onError, onChange in
+            self.start(in: reader, scheduling: scheduler, onError: onError, onChange: onChange)
+        }
+    }
+}
+
+/// An asynchronous sequence of values observed by a ``ValueObservation``.
+///
+/// - note: [**🔥 EXPERIMENTAL**](https://github.com/groue/GRDB.swift/blob/master/README.md#what-are-experimental-features)
+///
+/// An `AsyncValueObservation` sequence produces a fresh value whenever the
+/// results of database requests change.
+///
+/// For example:
+///
+/// ```swift
+/// let observation = ValueObservation.tracking { db in
+///     try Player.fetchAll(db)
+/// }
+///
+/// for try await players in observation.values(in: dbQueue) {
+///     print("Fresh players: \(players)")
+/// }
+/// ```
+///
+/// You build an `AsyncValueObservation` from ``ValueObservation`` or
+/// ``SharedValueObservation``.
+@available(iOS 13, macOS 10.15, tvOS 13, watchOS 6, *)
+public struct AsyncValueObservation<Element>: AsyncSequence {
+    public typealias BufferingPolicy = AsyncThrowingStream<Element, Error>.Continuation.BufferingPolicy
+    public typealias AsyncIterator = Iterator
+    
+    var bufferingPolicy: BufferingPolicy
+    var start: ValueObservationStart<Element>
+    
+    public func makeAsyncIterator() -> Iterator {
+        // This cancellable will be retained by the Iterator, which itself will
+        // be retained by the Swift async runtime.
+        //
+        // We must not retain this cancellable in any other way, in order to
+        // cancel the observation when the Swift async runtime releases
+        // the iterator.
+        var cancellable: AnyDatabaseCancellable?
+        let stream = AsyncThrowingStream(Element.self, bufferingPolicy: bufferingPolicy) { continuation in
+            cancellable = start(
+                // onError
+                { error in
+                    continuation.finish(throwing: error)
+                },
+                // onChange
+                { [weak cancellable] element in
+                    if case .terminated = continuation.yield(element) {
+                        // TODO: I could never see this code running. Is it needed?
+                        cancellable?.cancel()
+                    }
+                })
+            continuation.onTermination = { @Sendable [weak cancellable] _ in
+                cancellable?.cancel()
+            }
+        }
+        
+        let iterator = stream.makeAsyncIterator()
+        if let cancellable {
+            return Iterator(
+                iterator: iterator,
+                cancellable: cancellable)
+        } else {
+            // GRDB bug: there is no point throwing any error.
+            fatalError("Expected AsyncThrowingStream to have started the observation already")
+        }
     }
     
-    /// Creates a ValueObservation which observes *regions*, and notifies the
-    /// values returned by the *fetch* closure whenever one of the observed
-    /// regions is modified by a database transaction.
+    public struct Iterator: AsyncIteratorProtocol {
+        var iterator: AsyncThrowingStream<Element, Error>.AsyncIterator
+        let cancellable: AnyDatabaseCancellable
+        
+        public mutating func next() async throws -> Element? {
+            try await iterator.next()
+        }
+    }
+}
+
+#if canImport(Combine)
+extension ValueObservation {
+    // MARK: - Publishing Observed Values
+    
+    /// Returns a publisher of observed values.
     ///
     /// For example:
     ///
-    ///     let observation = ValueObservation.tracking(
-    ///         Player.all(),
-    ///         fetch: { db in return try Player.fetchAll(db) })
+    /// ```swift
+    /// let observation = ValueObservation.tracking { db in
+    ///     try Player.fetchAll(db)
+    /// }
     ///
-    ///     let observer = try observation.start(in: dbQueue) { players: [Player] in
-    ///         print("Players have changed")
+    /// let publisher = observation.publisher(in: dbQueue)
+    ///
+    /// let cancellable = publisher.sink { completion in
+    ///     // handle completion
+    /// } receiveValue: { (players: [Player]) in
+    ///     print("Fresh players: \(players)")
+    /// }
+    /// ```
+    ///
+    /// By default, fresh values are dispatched asynchronously on the
+    /// main dispatch queue. You can change this behavior by providing a
+    /// scheduler.
+    ///
+    /// For example, the ``ValueObservationScheduler/immediate`` scheduler
+    /// notifies all values on the main dispatch queue, and notifies the first
+    /// one immediately when the observation starts. The `immediate` scheduling
+    /// requires that the observation starts from the main dispatch queue (a
+    /// fatal error is raised otherwise):
+    ///
+    /// ```swift
+    /// let publisher = observation.publisher(in: dbQueue, scheduling: .immediate)
+    ///
+    /// let cancellable = publisher.sink { completion in
+    ///     // handle completion
+    /// } receiveValue: { (players: [Player]) in
+    ///     print("Fresh players: \(players)")
+    /// }
+    /// // <- here "Fresh players" is already printed.
+    /// ```
+    ///
+    /// - parameter reader: A DatabaseReader.
+    /// - parameter scheduler: A ValueObservationScheduler. By default, fresh
+    ///   values are dispatched asynchronously on the main dispatch queue.
+    /// - returns: A Combine publisher
+    @available(iOS 13, macOS 10.15, tvOS 13, watchOS 6, *)
+    public func publisher(
+        in reader: some DatabaseReader,
+        scheduling scheduler: some ValueObservationScheduler = .async(onQueue: .main))
+    -> DatabasePublishers.Value<Reducer.Value>
+    where Reducer: ValueReducer
+    {
+        DatabasePublishers.Value { (onError, onChange) in
+            self.start(
+                in: reader,
+                scheduling: scheduler,
+                onError: onError,
+                onChange: onChange)
+        }
+    }
+}
+
+@available(iOS 13, macOS 10.15, tvOS 13, watchOS 6, *)
+extension DatabasePublishers {
+    /// A publisher that publishes the values of a ``ValueObservation``.
+    ///
+    /// You build such a publisher from ``ValueObservation``
+    /// or ``SharedValueObservation``.
+    public struct Value<Output>: Publisher {
+        public typealias Failure = Error
+        private let start: ValueObservationStart<Output>
+        
+        init(start: @escaping ValueObservationStart<Output>) {
+            self.start = start
+        }
+        
+        public func receive<S>(subscriber: S) where S: Subscriber, Failure == S.Failure, Output == S.Input {
+            let subscription = ValueSubscription(
+                start: start,
+                downstream: subscriber)
+            subscriber.receive(subscription: subscription)
+        }
+    }
+    
+    private class ValueSubscription<Downstream: Subscriber>: Subscription
+    where Downstream.Failure == Error
+    {
+        private struct WaitingForDemand {
+            let downstream: Downstream
+            let start: ValueObservationStart<Downstream.Input>
+        }
+        
+        private struct Observing {
+            let downstream: Downstream
+            var remainingDemand: Subscribers.Demand
+        }
+        
+        private enum State {
+            /// Waiting for demand, not observing the database.
+            case waitingForDemand(WaitingForDemand)
+            
+            /// Observing the database. Self.observer is not nil.
+            case observing(Observing)
+            
+            /// Completed or cancelled, not observing the database.
+            case finished
+        }
+        
+        // Cancellable is not stored in self.state because we must enter the
+        // .observing state *before* the observation starts, so that the user
+        // can change the state even before the cancellable is known.
+        private var cancellable: AnyDatabaseCancellable?
+        private var state: State
+        private var lock = NSRecursiveLock() // Allow re-entrancy
+        
+        init(
+            start: @escaping ValueObservationStart<Downstream.Input>,
+            downstream: Downstream)
+        {
+            state = .waitingForDemand(WaitingForDemand(
+                downstream: downstream,
+                start: start))
+        }
+        
+        func request(_ demand: Subscribers.Demand) {
+            lock.synchronized {
+                switch state {
+                case let .waitingForDemand(info):
+                    guard demand > 0 else {
+                        return
+                    }
+                    state = .observing(Observing(
+                        downstream: info.downstream,
+                        remainingDemand: demand))
+                    let cancellable = info.start(
+                        { [weak self] error in self?.receiveCompletion(.failure(error)) },
+                        { [weak self] value in self?.receive(value) })
+                    
+                    // State may have been altered (error or cancellation)
+                    switch state {
+                    case .waitingForDemand:
+                        preconditionFailure()
+                    case .observing:
+                        self.cancellable = cancellable
+                    case .finished:
+                        cancellable.cancel()
+                    }
+                    
+                case var .observing(info):
+                    info.remainingDemand += demand
+                    state = .observing(info)
+                    
+                case .finished:
+                    break
+                }
+            }
+        }
+        
+        func cancel() {
+            lock.synchronized { sideEffect in
+                let cancellable = self.cancellable
+                self.cancellable = nil
+                self.state = .finished
+                sideEffect = {
+                    cancellable?.cancel()
+                }
+            }
+        }
+        
+        private func receive(_ value: Downstream.Input) {
+            lock.synchronized {
+                if case let .observing(info) = state,
+                   info.remainingDemand > .none
+                {
+                    let additionalDemand = info.downstream.receive(value)
+                    if case var .observing(info) = state {
+                        info.remainingDemand += additionalDemand
+                        info.remainingDemand -= 1
+                        state = .observing(info)
+                    }
+                }
+            }
+        }
+        
+        private func receiveCompletion(_ completion: Subscribers.Completion<Error>) {
+            lock.synchronized { sideEffect in
+                if case let .observing(info) = state {
+                    cancellable = nil
+                    state = .finished
+                    sideEffect = {
+                        info.downstream.receive(completion: completion)
+                    }
+                }
+            }
+        }
+    }
+}
+#endif
+
+extension ValueObservation {
+    
+    // MARK: - Creating ValueObservation
+    
+    /// Creates an optimized `ValueObservation` that notifies the fetched value
+    /// whenever it changes.
+    ///
+    /// The optimization reduces database contention by not blocking database
+    /// writes when the fresh value is fetched.
+    ///
+    /// The optimization is only applied when the observation is started from a
+    /// ``DatabasePool``. You can start such an observation from a
+    /// ``DatabaseQueue``, but the optimization will not be applied.
+    ///
+    /// **Precondition**: The `fetch` function must perform requests that fetch
+    /// from a single and constant database region. This region is made of
+    /// tables, columns, and rowids of individual rows. All changes that happen
+    /// outside of this region are not notified.
+    ///
+    /// For example, the observations below track a constant region and can
+    /// be optimized:
+    ///
+    /// ```swift
+    /// // Tracks the full 'player' table
+    /// let observation = ValueObservation.trackingConstantRegion { db -> [Player] in
+    ///     try Player.fetchAll(db)
+    /// }
+    ///
+    /// // Tracks the row with id 42 in the 'player' table
+    /// let observation = ValueObservation.trackingConstantRegion { db -> Player? in
+    ///     try Player.fetchOne(db, key: 42)
+    /// }
+    ///
+    /// // Tracks the 'score' column in the 'player' table
+    /// let observation = ValueObservation.trackingConstantRegion { db -> Int? in
+    ///     try Player.select(max(Column("score"))).fetchOne(db)
+    /// }
+    ///
+    /// // Tracks both the 'player' and 'team' tables
+    /// let observation = ValueObservation.trackingConstantRegion { db -> ([Team], [Player]) in
+    ///     let teams = try Team.fetchAll(db)
+    ///     let players = try Player.fetchAll(db)
+    ///     return (teams, players)
+    /// }
+    /// ```
+    ///
+    /// Observations that do not track a constant region must not use this
+    /// method. Use ``tracking(_:)`` instead, or else some changes will not
+    /// be notified.
+    ///
+    /// For example, the observations below do not track a constant region, and
+    /// must not be optimized:
+    ///
+    /// ```swift
+    /// // Does not always track the same row in the player table.
+    /// let observation = ValueObservation.tracking { db -> Player? in
+    ///     let pref = try Preference.fetchOne(db) ?? .default
+    ///     return try Player.fetchOne(db, id: pref.favoritePlayerId)
+    /// }
+    ///
+    /// // Does not always track the 'user' table.
+    /// let observation = ValueObservation.tracking { db -> [User] in
+    ///     let pref = try Preference.fetchOne(db) ?? .default
+    ///     let playerIds: [Int64] = pref.favoritePlayerIds // may be empty
+    ///     return try Player.fetchAll(db, ids: playerIds)
+    /// }
+    ///
+    /// // Sometimes tracks the 'food' table, and sometimes the 'beverage' table.
+    /// let observation = ValueObservation.tracking { db -> Int in
+    ///     let pref = try Preference.fetchOne(db) ?? .default
+    ///     switch pref.selection {
+    ///     case .food: return try Food.fetchCount(db)
+    ///     case .beverage: return try Beverage.fetchCount(db)
     ///     }
+    /// }
+    /// ```
     ///
-    /// The returned observation has the default configuration:
+    /// You can turn them into optimized observations of a constant region with
+    /// the ``Database/registerAccess(to:)`` method:
     ///
-    /// - When started with the `start(in:onError:onChange:)` method, a fresh
-    /// value is immediately notified on the main queue.
-    /// - Upon subsequent database changes, fresh values are notified on the
-    /// main queue.
-    /// - The observation lasts until the observer returned by
-    /// `start` is deallocated.
+    /// ```swift
+    /// let observation = ValueObservation.trackingConstantRegion { db -> Player? in
+    ///     // Track all players so that the observed region does not depend on
+    ///     // the rowid of the favorite player.
+    ///     try db.registerAccess(to: Player.all())
     ///
-    /// - parameter regions: A list of observed regions.
-    /// - parameter fetch: A closure that fetches a value.
+    ///     let pref = try Preference.fetchOne(db) ?? .default
+    ///     return try Player.fetchOne(db, id: pref.favoritePlayerId)
+    /// }
+    ///
+    /// let observation = ValueObservation.trackingConstantRegion { db -> [User] in
+    ///     // Track all players so that the observed region does not change
+    ///     // even if there is no favorite player at all.
+    ///     try db.registerAccess(to: Player.all())
+    ///
+    ///     let pref = try Preference.fetchOne(db) ?? .default
+    ///     let playerIds: [Int64] = pref.favoritePlayerIds // may be empty
+    ///     return try Player.fetchAll(db, ids: playerIds)
+    /// }
+    ///
+    /// let observation = ValueObservation.trackingConstantRegion { db -> Int in
+    ///     // Track foods and beverages so that the observed region does not
+    ///     // depend on preferences.
+    ///     try db.registerAccess(to: Food.all())
+    ///     try db.registerAccess(to: Beverage.all())
+    ///
+    ///     let pref = try Preference.fetchOne(db) ?? .default
+    ///     switch pref.selection {
+    ///     case .food: return try Food.fetchCount(db)
+    ///     case .beverage: return try Beverage.fetchCount(db)
+    ///     }
+    /// }
+    /// ```
+    ///
+    /// - parameter fetch: The closure that fetches the observed value.
+    public static func trackingConstantRegion<Value>(
+        _ fetch: @escaping (Database) throws -> Value)
+    -> Self
+    where Reducer == ValueReducers.Fetch<Value>
+    {
+        .init(
+            trackingMode: .constantRegionRecordedFromSelection,
+            makeReducer: { ValueReducers.Fetch(fetch: fetch) })
+    }
+    
+    /// Creates a `ValueObservation` that notifies the fetched value whenever
+    /// the provided regions are modified.
+    ///
+    /// Only database transactions that impact the provided regions trigger the
+    /// notification of fresh values.
+    ///
+    /// For example:
+    ///
+    /// ```swift
+    /// // Tracks the full database
+    /// let observation = ValueObservation.tracking(
+    ///     region: .fullDatabase,
+    ///     fetch: { db in ... })
+    ///
+    /// // Tracks the full 'player' table
+    /// let observation = ValueObservation.tracking(
+    ///     region: Player.all(),
+    ///     fetch: { db in ... })
+    ///
+    /// // Tracks the full 'player' table
+    /// let observation = ValueObservation.tracking(
+    ///     region: Table("player"),
+    ///     fetch: { db in ... })
+    ///
+    /// // Tracks the row with id 42 in the 'player' table
+    /// let observation = ValueObservation.tracking(
+    ///     region: Player.filter(id: 42),
+    ///     fetch: { db in ... })
+    ///
+    /// // Tracks the 'score' column in the 'player' table
+    /// let observation = ValueObservation.tracking(
+    ///     region: Player.select(Column("score"),
+    ///     fetch: { db in ... })
+    ///
+    /// // Tracks the 'score' column in the 'player' table
+    /// let observation = ValueObservation.tracking(
+    ///     region: SQLRequest("SELECT score FROM player"),
+    ///     fetch: { db in ... })
+    ///
+    /// // Tracks both the 'player' and 'team' tables
+    /// let observation = ValueObservation.tracking(
+    ///     region: Player.all(), Team.all(),
+    ///     fetch: { db in ... })
+    /// ```
+    ///
+    /// - parameter region: A region to observe.
+    /// - parameter otherRegions: A list of supplementary regions
+    ///   to observe.
+    /// - parameter fetch: The closure that fetches the observed value.
     public static func tracking<Value>(
-        _ regions: DatabaseRegionConvertible...,
+        region: any DatabaseRegionConvertible,
+        _ otherRegions: any DatabaseRegionConvertible...,
         fetch: @escaping (Database) throws -> Value)
-        -> ValueObservation<ValueReducers.Fetch<Value>>
+    -> Self
+    where Reducer == ValueReducers.Fetch<Value>
     {
-        return ValueObservation.tracking(regions, fetch: fetch)
+        tracking(regions: [region] + otherRegions, fetch: fetch)
     }
     
-    /// Creates a ValueObservation which observes *regions*, and notifies the
-    /// values returned by the *fetch* closure whenever one of the observed
-    /// regions is modified by a database transaction.
+    /// Creates a `ValueObservation` that notifies the fetched value whenever
+    /// the provided regions are modified.
+    ///
+    /// Only database transactions that impact the provided regions trigger the
+    /// notification of fresh values.
     ///
     /// For example:
     ///
-    ///     let observation = ValueObservation.tracking(
-    ///         [Player.all()],
-    ///         fetch: { db in return try Player.fetchAll(db) })
+    /// ```swift
+    /// // Tracks the full database
+    /// let observation = ValueObservation.tracking(
+    ///     regions: [.fullDatabase],
+    ///     fetch: { db in ... })
     ///
-    ///     let observer = try observation.start(in: dbQueue) { players: [Player] in
-    ///         print("Players have changed")
-    ///     }
+    /// // Tracks the full 'player' table
+    /// let observation = ValueObservation.tracking(
+    ///     regions: [Player.all()],
+    ///     fetch: { db in ... })
     ///
-    /// The returned observation has the default configuration:
+    /// // Tracks the full 'player' table
+    /// let observation = ValueObservation.tracking(
+    ///     regions: [Table("player")],
+    ///     fetch: { db in ... })
     ///
-    /// - When started with the `start(in:onError:onChange:)` method, a fresh
-    /// value is immediately notified on the main queue.
-    /// - Upon subsequent database changes, fresh values are notified on the
-    /// main queue.
-    /// - The observation lasts until the observer returned by
-    /// `start` is deallocated.
+    /// // Tracks the row with id 42 in the 'player' table
+    /// let observation = ValueObservation.tracking(
+    ///     regions: [Player.filter(id: 42)],
+    ///     fetch: { db in ... })
     ///
-    /// - parameter regions: A list of observed regions.
-    /// - parameter fetch: A closure that fetches a value.
+    /// // Tracks the 'score' column in the 'player' table
+    /// let observation = ValueObservation.tracking(
+    ///     regions: [Player.select(Column("score")],
+    ///     fetch: { db in ... })
+    ///
+    /// // Tracks the 'score' column in the 'player' table
+    /// let observation = ValueObservation.tracking(
+    ///     regions: [SQLRequest("SELECT score FROM player")],
+    ///     fetch: { db in ... })
+    ///
+    /// // Tracks both the 'player' and 'team' tables
+    /// let observation = ValueObservation.tracking(
+    ///     regions: [Player.all(), Team.all()],
+    ///     fetch: { db in ... })
+    /// ```
+    ///
+    /// - parameter regions: An array of observed regions.
+    /// - parameter fetch: The closure that fetches the observed value.
     public static func tracking<Value>(
-        _ regions: [DatabaseRegionConvertible],
+        regions: [any DatabaseRegionConvertible],
         fetch: @escaping (Database) throws -> Value)
-        -> ValueObservation<ValueReducers.Fetch<Value>>
+    -> Self
+    where Reducer == ValueReducers.Fetch<Value>
     {
-        return ValueObservation<ValueReducers.Fetch<Value>>(
-            baseRegion: DatabaseRegion.union(regions),
-            observesSelectedRegion: false,
-            makeReducer: { _ in ValueReducers.Fetch(fetch) },
-            requiresWriteAccess: false,
-            scheduling: .mainQueue)
+        .init(
+            trackingMode: .constantRegion(regions),
+            makeReducer: { ValueReducers.Fetch(fetch: fetch) })
+    }
+    
+    /// Creates a `ValueObservation` that notifies the fetched values whenever
+    /// it changes.
+    ///
+    /// For example:
+    ///
+    /// ```swift
+    /// let observation = ValueObservation.tracking { db in
+    ///     try Player.fetchAll(db)
+    /// }
+    ///
+    /// let cancellable = try observation.start(in: dbQueue) { error in
+    ///     // handle error
+    /// } onChange: { (players: [Player]) in
+    ///     print("Players have changed")
+    /// }
+    /// ```
+    ///
+    /// An observation can perform multiple requests, from multiple database
+    /// tables, and even use raw SQL:
+    ///
+    /// ```swift
+    /// struct HallOfFame {
+    ///     var totalPlayerCount: Int
+    ///     var bestPlayers: [Player]
+    /// }
+    ///
+    /// // An observation of HallOfFame
+    /// let observation = ValueObservation.tracking { db -> HallOfFame in
+    ///     let totalPlayerCount = try Player.fetchCount(db)
+    ///
+    ///     let bestPlayers = try Player
+    ///         .order(Column("score").desc)
+    ///         .limit(10)
+    ///         .fetchAll(db)
+    ///
+    ///     return HallOfFame(
+    ///         totalPlayerCount: totalPlayerCount,
+    ///         bestPlayers: bestPlayers)
+    /// }
+    ///
+    /// // An observation of the maximum score
+    /// let observation = ValueObservation.tracking { db in
+    ///     try Int.fetchOne(db, sql: "SELECT MAX(score) FROM player")
+    /// }
+    /// ```
+    ///
+    /// - parameter fetch: The closure that fetches the observed value.
+    public static func tracking<Value>(
+        _ fetch: @escaping (Database) throws -> Value)
+    -> Self
+    where Reducer == ValueReducers.Fetch<Value>
+    {
+        .init(
+            trackingMode: .nonConstantRegionRecordedFromSelection,
+            makeReducer: { ValueReducers.Fetch(fetch: fetch) })
     }
 }

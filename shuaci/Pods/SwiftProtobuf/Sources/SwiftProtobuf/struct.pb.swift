@@ -52,7 +52,7 @@ fileprivate struct _GeneratedWithProtocGenSwiftVersion: SwiftProtobuf.ProtobufAP
 /// `NullValue` is a singleton enumeration to represent the null value for the
 /// `Value` type union.
 ///
-///  The JSON representation for `NullValue` is JSON `null`.
+/// The JSON representation for `NullValue` is JSON `null`.
 public enum Google_Protobuf_NullValue: SwiftProtobuf.Enum {
   public typealias RawValue = Int
 
@@ -84,7 +84,7 @@ public enum Google_Protobuf_NullValue: SwiftProtobuf.Enum {
 
 extension Google_Protobuf_NullValue: CaseIterable {
   // The compiler won't synthesize support with the UNRECOGNIZED case.
-  public static var allCases: [Google_Protobuf_NullValue] = [
+  public static let allCases: [Google_Protobuf_NullValue] = [
     .nullValue,
   ]
 }
@@ -251,6 +251,14 @@ public struct Google_Protobuf_ListValue {
 
   public init() {}
 }
+
+#if swift(>=5.5) && canImport(_Concurrency)
+extension Google_Protobuf_NullValue: @unchecked Sendable {}
+extension Google_Protobuf_Struct: @unchecked Sendable {}
+extension Google_Protobuf_Value: @unchecked Sendable {}
+extension Google_Protobuf_Value.OneOf_Kind: @unchecked Sendable {}
+extension Google_Protobuf_ListValue: @unchecked Sendable {}
+#endif  // swift(>=5.5) && canImport(_Concurrency)
 
 // MARK: - Code below here is support for the SwiftProtobuf runtime.
 

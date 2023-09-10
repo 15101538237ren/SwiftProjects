@@ -58,6 +58,9 @@ public enum Google_Protobuf_Syntax: SwiftProtobuf.Enum {
 
   /// Syntax `proto3`.
   case proto3 // = 1
+
+  /// Syntax `editions`.
+  case editions // = 2
   case UNRECOGNIZED(Int)
 
   public init() {
@@ -68,6 +71,7 @@ public enum Google_Protobuf_Syntax: SwiftProtobuf.Enum {
     switch rawValue {
     case 0: self = .proto2
     case 1: self = .proto3
+    case 2: self = .editions
     default: self = .UNRECOGNIZED(rawValue)
     }
   }
@@ -76,6 +80,7 @@ public enum Google_Protobuf_Syntax: SwiftProtobuf.Enum {
     switch self {
     case .proto2: return 0
     case .proto3: return 1
+    case .editions: return 2
     case .UNRECOGNIZED(let i): return i
     }
   }
@@ -86,9 +91,10 @@ public enum Google_Protobuf_Syntax: SwiftProtobuf.Enum {
 
 extension Google_Protobuf_Syntax: CaseIterable {
   // The compiler won't synthesize support with the UNRECOGNIZED case.
-  public static var allCases: [Google_Protobuf_Syntax] = [
+  public static let allCases: [Google_Protobuf_Syntax] = [
     .proto2,
     .proto3,
+    .editions,
   ]
 }
 
@@ -124,6 +130,9 @@ public struct Google_Protobuf_Type {
 
   /// The source syntax.
   public var syntax: Google_Protobuf_Syntax = .proto2
+
+  /// The source edition string, only valid when syntax is SYNTAX_EDITIONS.
+  public var edition: String = String()
 
   public var unknownFields = SwiftProtobuf.UnknownStorage()
 
@@ -340,7 +349,7 @@ public struct Google_Protobuf_Field {
 
 extension Google_Protobuf_Field.Kind: CaseIterable {
   // The compiler won't synthesize support with the UNRECOGNIZED case.
-  public static var allCases: [Google_Protobuf_Field.Kind] = [
+  public static let allCases: [Google_Protobuf_Field.Kind] = [
     .typeUnknown,
     .typeDouble,
     .typeFloat,
@@ -365,7 +374,7 @@ extension Google_Protobuf_Field.Kind: CaseIterable {
 
 extension Google_Protobuf_Field.Cardinality: CaseIterable {
   // The compiler won't synthesize support with the UNRECOGNIZED case.
-  public static var allCases: [Google_Protobuf_Field.Cardinality] = [
+  public static let allCases: [Google_Protobuf_Field.Cardinality] = [
     .unknown,
     .optional,
     .required,
@@ -402,6 +411,9 @@ public struct Google_Protobuf_Enum {
 
   /// The source syntax.
   public var syntax: Google_Protobuf_Syntax = .proto2
+
+  /// The source edition string, only valid when syntax is SYNTAX_EDITIONS.
+  public var edition: String = String()
 
   public var unknownFields = SwiftProtobuf.UnknownStorage()
 
@@ -463,6 +475,17 @@ public struct Google_Protobuf_Option {
   fileprivate var _value: Google_Protobuf_Any? = nil
 }
 
+#if swift(>=5.5) && canImport(_Concurrency)
+extension Google_Protobuf_Syntax: @unchecked Sendable {}
+extension Google_Protobuf_Type: @unchecked Sendable {}
+extension Google_Protobuf_Field: @unchecked Sendable {}
+extension Google_Protobuf_Field.Kind: @unchecked Sendable {}
+extension Google_Protobuf_Field.Cardinality: @unchecked Sendable {}
+extension Google_Protobuf_Enum: @unchecked Sendable {}
+extension Google_Protobuf_EnumValue: @unchecked Sendable {}
+extension Google_Protobuf_Option: @unchecked Sendable {}
+#endif  // swift(>=5.5) && canImport(_Concurrency)
+
 // MARK: - Code below here is support for the SwiftProtobuf runtime.
 
 fileprivate let _protobuf_package = "google.protobuf"
@@ -471,6 +494,7 @@ extension Google_Protobuf_Syntax: SwiftProtobuf._ProtoNameProviding {
   public static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     0: .same(proto: "SYNTAX_PROTO2"),
     1: .same(proto: "SYNTAX_PROTO3"),
+    2: .same(proto: "SYNTAX_EDITIONS"),
   ]
 }
 
@@ -483,6 +507,7 @@ extension Google_Protobuf_Type: SwiftProtobuf.Message, SwiftProtobuf._MessageImp
     4: .same(proto: "options"),
     5: .standard(proto: "source_context"),
     6: .same(proto: "syntax"),
+    7: .same(proto: "edition"),
   ]
 
   public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -497,12 +522,17 @@ extension Google_Protobuf_Type: SwiftProtobuf.Message, SwiftProtobuf._MessageImp
       case 4: try { try decoder.decodeRepeatedMessageField(value: &self.options) }()
       case 5: try { try decoder.decodeSingularMessageField(value: &self._sourceContext) }()
       case 6: try { try decoder.decodeSingularEnumField(value: &self.syntax) }()
+      case 7: try { try decoder.decodeSingularStringField(value: &self.edition) }()
       default: break
       }
     }
   }
 
   public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    // The use of inline closures is to circumvent an issue where the compiler
+    // allocates stack space for every if/case branch local when no optimizations
+    // are enabled. https://github.com/apple/swift-protobuf/issues/1034 and
+    // https://github.com/apple/swift-protobuf/issues/1182
     if !self.name.isEmpty {
       try visitor.visitSingularStringField(value: self.name, fieldNumber: 1)
     }
@@ -515,11 +545,14 @@ extension Google_Protobuf_Type: SwiftProtobuf.Message, SwiftProtobuf._MessageImp
     if !self.options.isEmpty {
       try visitor.visitRepeatedMessageField(value: self.options, fieldNumber: 4)
     }
-    if let v = self._sourceContext {
+    try { if let v = self._sourceContext {
       try visitor.visitSingularMessageField(value: v, fieldNumber: 5)
-    }
+    } }()
     if self.syntax != .proto2 {
       try visitor.visitSingularEnumField(value: self.syntax, fieldNumber: 6)
+    }
+    if !self.edition.isEmpty {
+      try visitor.visitSingularStringField(value: self.edition, fieldNumber: 7)
     }
     try unknownFields.traverse(visitor: &visitor)
   }
@@ -531,6 +564,7 @@ extension Google_Protobuf_Type: SwiftProtobuf.Message, SwiftProtobuf._MessageImp
     if lhs.options != rhs.options {return false}
     if lhs._sourceContext != rhs._sourceContext {return false}
     if lhs.syntax != rhs.syntax {return false}
+    if lhs.edition != rhs.edition {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
   }
@@ -663,6 +697,7 @@ extension Google_Protobuf_Enum: SwiftProtobuf.Message, SwiftProtobuf._MessageImp
     3: .same(proto: "options"),
     4: .standard(proto: "source_context"),
     5: .same(proto: "syntax"),
+    6: .same(proto: "edition"),
   ]
 
   public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -676,12 +711,17 @@ extension Google_Protobuf_Enum: SwiftProtobuf.Message, SwiftProtobuf._MessageImp
       case 3: try { try decoder.decodeRepeatedMessageField(value: &self.options) }()
       case 4: try { try decoder.decodeSingularMessageField(value: &self._sourceContext) }()
       case 5: try { try decoder.decodeSingularEnumField(value: &self.syntax) }()
+      case 6: try { try decoder.decodeSingularStringField(value: &self.edition) }()
       default: break
       }
     }
   }
 
   public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    // The use of inline closures is to circumvent an issue where the compiler
+    // allocates stack space for every if/case branch local when no optimizations
+    // are enabled. https://github.com/apple/swift-protobuf/issues/1034 and
+    // https://github.com/apple/swift-protobuf/issues/1182
     if !self.name.isEmpty {
       try visitor.visitSingularStringField(value: self.name, fieldNumber: 1)
     }
@@ -691,11 +731,14 @@ extension Google_Protobuf_Enum: SwiftProtobuf.Message, SwiftProtobuf._MessageImp
     if !self.options.isEmpty {
       try visitor.visitRepeatedMessageField(value: self.options, fieldNumber: 3)
     }
-    if let v = self._sourceContext {
+    try { if let v = self._sourceContext {
       try visitor.visitSingularMessageField(value: v, fieldNumber: 4)
-    }
+    } }()
     if self.syntax != .proto2 {
       try visitor.visitSingularEnumField(value: self.syntax, fieldNumber: 5)
+    }
+    if !self.edition.isEmpty {
+      try visitor.visitSingularStringField(value: self.edition, fieldNumber: 6)
     }
     try unknownFields.traverse(visitor: &visitor)
   }
@@ -706,6 +749,7 @@ extension Google_Protobuf_Enum: SwiftProtobuf.Message, SwiftProtobuf._MessageImp
     if lhs.options != rhs.options {return false}
     if lhs._sourceContext != rhs._sourceContext {return false}
     if lhs.syntax != rhs.syntax {return false}
+    if lhs.edition != rhs.edition {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
   }
@@ -776,12 +820,16 @@ extension Google_Protobuf_Option: SwiftProtobuf.Message, SwiftProtobuf._MessageI
   }
 
   public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    // The use of inline closures is to circumvent an issue where the compiler
+    // allocates stack space for every if/case branch local when no optimizations
+    // are enabled. https://github.com/apple/swift-protobuf/issues/1034 and
+    // https://github.com/apple/swift-protobuf/issues/1182
     if !self.name.isEmpty {
       try visitor.visitSingularStringField(value: self.name, fieldNumber: 1)
     }
-    if let v = self._value {
+    try { if let v = self._value {
       try visitor.visitSingularMessageField(value: v, fieldNumber: 2)
-    }
+    } }()
     try unknownFields.traverse(visitor: &visitor)
   }
 

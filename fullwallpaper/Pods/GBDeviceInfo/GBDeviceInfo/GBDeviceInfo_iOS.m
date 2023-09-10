@@ -19,7 +19,7 @@
 
 #include <TargetConditionals.h>
 
-#if TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
+#if TARGET_OS_IPHONE
 
 #import "GBDeviceInfo_iOS.h"
 
@@ -33,7 +33,6 @@
 
 @interface GBDeviceInfo ()
 
-@property (assign, atomic, readwrite) GBDeviceVersion       deviceVersion;
 @property (strong, atomic, readwrite) NSString              *modelString;
 @property (assign, atomic, readwrite) GBDeviceModel         model;
 @property (assign, atomic, readwrite) GBDisplayInfo         displayInfo;
@@ -49,7 +48,7 @@
 }
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"%@\nrawSystemInfoString: %@\nmodel: %ld\nfamily: %ld\ndisplay: %ld\nppi: %ld\ndeviceVersion.major: %ld\ndeviceVersion.minor: %ld\nosVersion.major: %ld\nosVersion.minor: %ld\nosVersion.patch: %ld\ncpuInfo.frequency: %.3f\ncpuInfo.numberOfCores: %ld\ncpuInfo.l2CacheSize: %.3f\npysicalMemory: %.3f",
+    return [NSString stringWithFormat:@"%@\nrawSystemInfoString: %@\nmodel: %ld\nfamily: %ld\ndisplay: %ld\nppi: %ld\ndeviceVersion.major: %ld\ndeviceVersion.minor: %ld\nosVersion.major: %ld\nosVersion.minor: %ld\nosVersion.patch: %ld\ncpuInfo.frequency: %.3f\ncpuInfo.numberOfCores: %ld\ncpuInfo.l2CacheSize: %.3f\nphysicalMemory: %.3f",
             [super description],
             self.rawSystemInfoString,
             (long)self.model,
@@ -134,17 +133,15 @@
     GBDeviceDisplay display = GBDeviceDisplayUnknown;
     CGFloat pixelsPerInch = 0;
     
-    // Simulator
-    if (TARGET_IPHONE_SIMULATOR) {
+    #if TARGET_OS_SIMULATOR
         family = GBDeviceFamilySimulator;
         BOOL iPadScreen = UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad;
         model = iPadScreen ? GBDeviceModelSimulatoriPad : GBDeviceModelSimulatoriPhone;
         modelString = iPadScreen ? @"iPad Simulator": @"iPhone Simulator";
         display = GBDeviceDisplayUnknown;
         pixelsPerInch = 0;
-    }
-    // Actual device
-    else {
+    #else
+        // Actual device
         GBDeviceVersion deviceVersion = [self _deviceVersion];
         NSString *systemInfoString = [self _rawSystemInfoString];
         
@@ -254,6 +251,33 @@
 
                 // 12 Pro Max
                 @[@13, @4]: @[@(GBDeviceModeliPhone12ProMax), @"iPhone 12 Pro Max", @(GBDeviceDisplay6p7Inch), @458],
+                
+                // 13 mini
+                @[@14, @4]: @[@(GBDeviceModeliPhone13Mini), @"iPhone 13 mini", @(GBDeviceDisplay5p4Inch), @476],
+
+                // 13
+                @[@14, @5]: @[@(GBDeviceModeliPhone13), @"iPhone 13", @(GBDeviceDisplay6p1Inch), @460],
+
+                // 13 Pro
+                @[@14, @2]: @[@(GBDeviceModeliPhone13Pro), @"iPhone 13 Pro", @(GBDeviceDisplay6p1Inch), @460],
+
+                // 13 Pro Max
+                @[@14, @3]: @[@(GBDeviceModeliPhone13ProMax), @"iPhone 13 Pro Max", @(GBDeviceDisplay6p7Inch), @458],
+
+                // SE 3rd Gen
+                @[@14, @6]: @[@(GBDeviceModeliPhoneSE3), @"iPhone SE 3rd Gen", @(GBDeviceDisplay4p7Inch), @326],
+
+                // 14
+                @[@14, @7]: @[@(GBDeviceModeliPhone14), @"iPhone 14", @(GBDeviceDisplay6p1Inch), @460],
+
+                // 14 Plus
+                @[@14, @8]: @[@(GBDeviceModeliPhone14Plus), @"iPhone 14 Plus", @(GBDeviceDisplay6p7Inch), @458],
+
+                // 14 Pro
+                @[@15, @2]: @[@(GBDeviceModeliPhone14Pro), @"iPhone 14 Pro", @(GBDeviceDisplay6p1Inch), @460],
+
+                // 14 Pro Max
+                @[@15, @3]: @[@(GBDeviceModeliPhone14ProMax), @"iPhone 14 Pro Max", @(GBDeviceDisplay6p7Inch), @460],
             },
             @"iPad": @{
                 // 1
@@ -331,29 +355,29 @@
                 @[@7, @11]: @[@(GBDeviceModeliPad7), @"iPad 2019", @(GBDeviceDisplay10p2Inch), @264],
                 @[@7, @12]: @[@(GBDeviceModeliPad7), @"iPad 2019", @(GBDeviceDisplay10p2Inch), @264],
 
-                // iPad Pro 3rd Gen 11-inch, 2018
-                @[@8, @1]: @[@(GBDeviceModeliPadPro11p), @"iPad Pro 3rd Gen (11 inch, WiFi)", @(GBDeviceDisplay11pInch), @264],
-                @[@8, @3]: @[@(GBDeviceModeliPadPro11p), @"iPad Pro 3rd Gen (11 inch, WiFi+Cellular)", @(GBDeviceDisplay11pInch), @264],
+                // iPad Pro 11-inch, 2018
+                @[@8, @1]: @[@(GBDeviceModeliPadPro11Inch), @"iPad Pro (11 inch, WiFi)", @(GBDeviceDisplay11Inch), @264],
+                @[@8, @3]: @[@(GBDeviceModeliPadPro11Inch), @"iPad Pro (11 inch, WiFi+Cellular)", @(GBDeviceDisplay11Inch), @264],
 
-                // iPad Pro 3rd Gen 11-inch 1TB, 2018
-                @[@8, @2]: @[@(GBDeviceModeliPadPro11p1TB), @"iPad Pro 3rd Gen (11 inch, 1TB, WiFi)", @(GBDeviceDisplay11pInch), @264],
-                @[@8, @4]: @[@(GBDeviceModeliPadPro11p1TB), @"iPad Pro 3rd Gen (11 inch, 1TB, WiFi+Cellular)", @(GBDeviceDisplay11pInch), @264],
+                // iPad Pro 11-inch 1TB, 2018
+                @[@8, @2]: @[@(GBDeviceModeliPadPro11Inch), @"iPad Pro (11 inch, 1TB, WiFi)", @(GBDeviceDisplay11Inch), @264],
+                @[@8, @4]: @[@(GBDeviceModeliPadPro11Inch), @"iPad Pro (11 inch, 1TB, WiFi+Cellular)", @(GBDeviceDisplay11Inch), @264],
 
                 // iPad Pro 3rd Gen 12.9-inch, 2018
                 @[@8, @5]: @[@(GBDeviceModeliPadPro12p9Inch3), @"iPad Pro 3rd Gen (12.9 inch, WiFi)", @(GBDeviceDisplay12p9Inch), @264],
                 @[@8, @7]: @[@(GBDeviceModeliPadPro12p9Inch3), @"iPad Pro 3rd Gen (12.9 inch, WiFi+Cellular)", @(GBDeviceDisplay12p9Inch), @264],
 
                 // iPad Pro 3rd Gen 12.9-inch 1TB, 2018
-                @[@8, @6]: @[@(GBDeviceModeliPadPro12p9Inch31TB), @"iPad Pro 3rd Gen (12.9 inch, 1TB, WiFi)", @(GBDeviceDisplay12p9Inch), @264],
-                @[@8, @8]: @[@(GBDeviceModeliPadPro12p9Inch31TB), @"iPad Pro 3rd Gen (12.9 inch, 1TB, WiFi+Cellular)", @(GBDeviceDisplay12p9Inch), @264],
+                @[@8, @6]: @[@(GBDeviceModeliPadPro12p9Inch3), @"iPad Pro 3rd Gen (12.9 inch, 1TB, WiFi)", @(GBDeviceDisplay12p9Inch), @264],
+                @[@8, @8]: @[@(GBDeviceModeliPadPro12p9Inch3), @"iPad Pro 3rd Gen (12.9 inch, 1TB, WiFi+Cellular)", @(GBDeviceDisplay12p9Inch), @264],
                 
-                // iPad Pro 4rd Gen 11-inch, 2020
-                @[@8, @9]: @[@(GBDeviceModeliPadPro11pInch4), @"iPad Pro 4rd Gen (11 inch, WiFi)", @(GBDeviceDisplay11pInch), @264],
-                @[@8, @10]: @[@(GBDeviceModeliPadPro11pInch4), @"iPad Pro 4rd Gen (11 inch, WiFi+Cellular)", @(GBDeviceDisplay11pInch), @264],
+                // iPad Pro 2nd Gen 11-inch, 2020
+                @[@8, @9]: @[@(GBDeviceModeliPadPro11Inch2), @"iPad Pro 2nd Gen (11 inch, WiFi)", @(GBDeviceDisplay11Inch), @264],
+                @[@8, @10]: @[@(GBDeviceModeliPadPro11Inch2), @"iPad Pro 2nd Gen (11 inch, WiFi+Cellular)", @(GBDeviceDisplay11Inch), @264],
 
-                // iPad Pro 4rd Gen 12.9-inch, 2020
-                @[@8, @11]: @[@(GBDeviceModeliPadPro12p9Inch4), @"iPad Pro 4rd Gen (12.9 inch, WiFi)", @(GBDeviceDisplay12p9Inch), @264],
-                @[@8, @12]: @[@(GBDeviceModeliPadPro12p9Inch4), @"iPad Pro 4rd Gen (12.9 inch, WiFi+Cellular)", @(GBDeviceDisplay12p9Inch), @264],
+                // iPad Pro 4th Gen 12.9-inch, 2020
+                @[@8, @11]: @[@(GBDeviceModeliPadPro12p9Inch4), @"iPad Pro 4th Gen (12.9 inch, WiFi)", @(GBDeviceDisplay12p9Inch), @264],
+                @[@8, @12]: @[@(GBDeviceModeliPadPro12p9Inch4), @"iPad Pro 4th Gen (12.9 inch, WiFi+Cellular)", @(GBDeviceDisplay12p9Inch), @264],
 
                 // mini 5
                 @[@11, @1]: @[@(GBDeviceModeliPadMini5), @"iPad mini 5", @(GBDeviceDisplay7p9Inch), @326],
@@ -370,6 +394,58 @@
                 // Air 4
                 @[@13, @1]: @[@(GBDeviceModeliPadAir4), @"iPad Air 4", @(GBDeviceDisplay10p9Inch), @264],
                 @[@13, @2]: @[@(GBDeviceModeliPadAir4), @"iPad Air 4", @(GBDeviceDisplay10p9Inch), @264],
+
+                // iPad Pro 3rd Gen 11-inch, 2021
+                @[@13, @4]: @[@(GBDeviceModeliPadPro11Inch3), @"iPad Pro 3rd Gen (11 inch, WiFi)", @(GBDeviceDisplay11Inch), @264],
+                @[@13, @5]: @[@(GBDeviceModeliPadPro11Inch3), @"iPad Pro 3rd Gen (11 inch, WiFi+Cellular)", @(GBDeviceDisplay11Inch), @264],
+                @[@13, @6]: @[@(GBDeviceModeliPadPro11Inch3), @"iPad Pro 3rd Gen (11 inch, WiFi+Cellular)", @(GBDeviceDisplay11Inch), @264],
+                @[@13, @7]: @[@(GBDeviceModeliPadPro11Inch3), @"iPad Pro 3rd Gen (11 inch, WiFi+Cellular)", @(GBDeviceDisplay11Inch), @264],
+
+                // iPad Pro 5th Gen 12.9-inch, 2021
+                @[@13, @8]: @[@(GBDeviceModeliPadPro12p9Inch5), @"iPad Pro 5th Gen (12.9 inch, WiFi)", @(GBDeviceDisplay12p9Inch), @264],
+                @[@13, @9]: @[@(GBDeviceModeliPadPro12p9Inch5), @"iPad Pro 5th Gen (12.9 inch, WiFi+Cellular)", @(GBDeviceDisplay12p9Inch), @264],
+                @[@13, @10]: @[@(GBDeviceModeliPadPro12p9Inch5), @"iPad Pro 5th Gen (12.9 inch, WiFi+Cellular)", @(GBDeviceDisplay12p9Inch), @264],
+                @[@13, @11]: @[@(GBDeviceModeliPadPro12p9Inch5), @"iPad Pro 5th Gen (12.9 inch, WiFi+Cellular)", @(GBDeviceDisplay12p9Inch), @264],
+
+                // Air 5, 2022
+                @[@13, @16]: @[@(GBDeviceModeliPadAir5), @"iPad Air 5th Gen (WiFi)", @(GBDeviceDisplay10p9Inch), @264],
+                @[@13, @17]: @[@(GBDeviceModeliPadAir5), @"iPad Air 5th Gen (WiFi+Cellular)", @(GBDeviceDisplay10p9Inch), @264],
+                
+                // iPad Pro 3rd Gen 11-inch, 2021
+                @[@13, @4]: @[@(GBDeviceModeliPadPro11Inch3), @"iPad Pro 3rd Gen (11 inch, WiFi)", @(GBDeviceDisplay11Inch), @264],
+                @[@13, @5]: @[@(GBDeviceModeliPadPro11Inch3), @"iPad Pro 3rd Gen (11 inch, WiFi+Cellular)", @(GBDeviceDisplay11Inch), @264],
+                @[@13, @6]: @[@(GBDeviceModeliPadPro11Inch3), @"iPad Pro 3rd Gen (11 inch, WiFi+Cellular)", @(GBDeviceDisplay11Inch), @264],
+                @[@13, @7]: @[@(GBDeviceModeliPadPro11Inch3), @"iPad Pro 3rd Gen (11 inch, WiFi+Cellular)", @(GBDeviceDisplay11Inch), @264],
+                
+                // iPad Pro 5th Gen 12.9-inch, 2021
+                @[@13, @8]: @[@(GBDeviceModeliPadPro12p9Inch5), @"iPad Pro 5th Gen (12.9 inch, WiFi)", @(GBDeviceDisplay12p9Inch), @264],
+                @[@13, @9]: @[@(GBDeviceModeliPadPro12p9Inch5), @"iPad Pro 5th Gen (12.9 inch, WiFi+Cellular)", @(GBDeviceDisplay12p9Inch), @264],
+                @[@13, @10]: @[@(GBDeviceModeliPadPro12p9Inch5), @"iPad Pro 5th Gen (12.9 inch, WiFi+Cellular)", @(GBDeviceDisplay12p9Inch), @264],
+                @[@13, @11]: @[@(GBDeviceModeliPadPro12p9Inch5), @"iPad Pro 5th Gen (12.9 inch, WiFi+Cellular)", @(GBDeviceDisplay12p9Inch), @264],
+                                
+                // Air 5, 2022
+                @[@13, @16]: @[@(GBDeviceModeliPadAir5), @"iPad Air 5th Gen (WiFi)", @(GBDeviceDisplay10p9Inch), @264],
+                @[@13, @17]: @[@(GBDeviceModeliPadAir5), @"iPad Air 5th Gen (WiFi+Cellular)", @(GBDeviceDisplay10p9Inch), @264],
+                
+                // mini 6
+                @[@14, @1]: @[@(GBDeviceModeliPadMini6), @"iPad mini 6", @(GBDeviceDisplay8p3Inch), @326],
+                @[@14, @2]: @[@(GBDeviceModeliPadMini6), @"iPad mini 6", @(GBDeviceDisplay8p3Inch), @326],
+                
+                // iPad 9th Gen, 2021
+                @[@12, @1]: @[@(GBDeviceModeliPad9), @"iPad 2021", @(GBDeviceDisplay10p2Inch), @264],
+                @[@12, @2]: @[@(GBDeviceModeliPad9), @"iPad 2021", @(GBDeviceDisplay10p2Inch), @264],
+
+                // iPad 10th Gen, 2022
+                @[@13, @18]: @[@(GBDeviceModeliPad10), @"iPad 2022", @(GBDeviceDisplay10p9Inch), @264],
+                @[@13, @19]: @[@(GBDeviceModeliPad10), @"iPad 2022", @(GBDeviceDisplay10p9Inch), @264],
+
+                // iPad Pro 4th Gen 11-inch, 2022
+                @[@14, @3]: @[@(GBDeviceModeliPadPro11Inch4), @"iPad Pro 4th Gen (11 inch, WiFi)", @(GBDeviceDisplay11Inch), @264],
+                @[@14, @4]: @[@(GBDeviceModeliPadPro11Inch4), @"iPad Pro 4th Gen (11 inch, WiFi+Cellular)", @(GBDeviceDisplay11Inch), @264],
+                
+                // iPad Pro 6th Gen 12.9-inch, 2022
+                @[@14, @5]: @[@(GBDeviceModeliPadPro12p9Inch6), @"iPad Pro 6th Gen (12.9 inch, WiFi)", @(GBDeviceDisplay12p9Inch), @264],
+                @[@14, @6]: @[@(GBDeviceModeliPadPro12p9Inch6), @"iPad Pro 6th Gen (12.9 inch, WiFi+Cellular)", @(GBDeviceDisplay12p9Inch), @264],
             },
             @"iPod": @{
                 // 1st Gen
@@ -409,7 +485,7 @@
                 break;
             }
         }
-    }
+    #endif
     
     return @[@(family), @(model), modelString, @(display), @(pixelsPerInch)];
 }

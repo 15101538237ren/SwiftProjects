@@ -183,13 +183,6 @@ class UMAnalyticsSwift: NSObject {
         MobClick.setLatitude(latitude, longitude: longitude);
     }
     
-    /** 设置经纬度信息
-     @param location CLLocation 经纬度信息
-     @return void
-     */
-    static func setLocation(location:CLLocation){
-        MobClick.setLocation(location);
-    }
     
     ///---------------------------------------------------------------------------------------
     /// @name Utility函数

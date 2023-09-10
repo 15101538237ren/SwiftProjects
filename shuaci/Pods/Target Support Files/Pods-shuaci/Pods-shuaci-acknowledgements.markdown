@@ -51,7 +51,7 @@ THE SOFTWARE.
 
 ## Alamofire
 
-Copyright (c) 2014-2021 Alamofire Software Foundation (http://alamofire.org/)
+Copyright (c) 2014-2022 Alamofire Software Foundation (http://alamofire.org/)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -76,7 +76,7 @@ THE SOFTWARE.
 
 The MIT License (MIT)
 
-Copyright (c) 2015-2019 Tim Oliver
+Copyright (c) 2015-2022 Tim Oliver
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -124,7 +124,7 @@ THE SOFTWARE.
 
 ## GRDB.swift
 
-Copyright (C) 2015-2020 Gwendal Roué
+Copyright (C) 2015-2023 Gwendal Roué
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
@@ -467,7 +467,7 @@ SOFTWARE.
 
 The MIT License (MIT)
 
-Copyright (c) 2015-2021 Alexander Grebenyuk
+Copyright (c) 2015-2022 Alexander Grebenyuk
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

@@ -1,58 +1,58 @@
 PODS:
-  - Alamofire (5.4.1)
+  - Alamofire (5.8.0)
   - AYPopupPickerView (1.2)
-  - CropViewController (2.5.5)
+  - CropViewController (2.6.1)
   - Disk (0.6.4)
-  - GBDeviceInfo (6.6.0):
-    - GBDeviceInfo/Core (= 6.6.0)
-  - GBDeviceInfo/Core (6.6.0)
-  - GRDB.swift (4.14.0):
-    - GRDB.swift/standard (= 4.14.0)
-  - GRDB.swift/standard (4.14.0)
+  - GBDeviceInfo (7.2.0):
+    - GBDeviceInfo/Core (= 7.2.0)
+  - GBDeviceInfo/Core (7.2.0)
+  - GRDB.swift (6.15.1):
+    - GRDB.swift/standard (= 6.15.1)
+  - GRDB.swift/standard (6.15.1)
   - IGColorPicker (0.4.3):
     - M13Checkbox
   - JGProgressHUD (2.2)
-  - LeanCloud (17.6.6):
-    - LeanCloud/RTM (= 17.6.6)
-  - LeanCloud/Foundation (17.6.6):
-    - Alamofire (~> 5.3)
-  - LeanCloud/RTM (17.6.6):
-    - GRDB.swift (~> 4.14)
-    - LeanCloud/Foundation (= 17.6.6)
-    - SwiftProtobuf (~> 1.13)
+  - LeanCloud (17.11.0):
+    - LeanCloud/RTM (= 17.11.0)
+  - LeanCloud/Foundation (17.11.0):
+    - Alamofire (~> 5.7)
+  - LeanCloud/RTM (17.11.0):
+    - GRDB.swift (~> 6.15.0)
+    - LeanCloud/Foundation (= 17.11.0)
+    - SwiftProtobuf (~> 1.22)
   - M13Checkbox (3.4.0)
   - NewPopMenu (2.1.2)
-  - Nuke (9.2.2)
-  - PhoneNumberKit (3.3.1):
-    - PhoneNumberKit/PhoneNumberKitCore (= 3.3.1)
-    - PhoneNumberKit/UIKit (= 3.3.1)
-  - PhoneNumberKit/PhoneNumberKitCore (3.3.1)
-  - PhoneNumberKit/UIKit (3.3.1):
+  - Nuke (9.5.0)
+  - PhoneNumberKit (3.6.8):
+    - PhoneNumberKit/PhoneNumberKitCore (= 3.6.8)
+    - PhoneNumberKit/UIKit (= 3.6.8)
+  - PhoneNumberKit/PhoneNumberKitCore (3.6.8)
+  - PhoneNumberKit/UIKit (3.6.8):
     - PhoneNumberKit/PhoneNumberKitCore
   - Refreshable (1.2.0)
   - SwifterSwift/Foundation (5.2.0)
   - SwifterSwift/UIKit (5.2.0)
-  - SwiftMessages (8.0.5):
-    - SwiftMessages/App (= 8.0.5)
-  - SwiftMessages/App (8.0.5)
-  - SwiftProtobuf (1.14.0)
-  - SwiftTheme (0.5.5)
+  - SwiftMessages (9.0.6):
+    - SwiftMessages/App (= 9.0.6)
+  - SwiftMessages/App (9.0.6)
+  - SwiftProtobuf (1.23.0)
+  - SwiftTheme (0.6.4)
   - SwiftValidators (9.0.3)
   - SwiftyJSON (4.3.0)
   - SwiftyStoreKit (0.16.1)
   - Toast-Swift (5.0.1)
-  - UIEmptyState (4.0.1)
-  - UMAPM (1.1.0)
-  - UMCCommonLog (2.0.0)
-  - UMCommon (7.2.5):
+  - UIEmptyState (5.0.0)
+  - UMAPM (1.8.4)
+  - UMCCommonLog (2.0.2)
+  - UMCommon (7.4.2):
     - UMDevice
   - UMCSecurityPlugins (1.0.6)
-  - UMDevice (1.1.0)
+  - UMDevice (3.1.0)
 
 DEPENDENCIES:
   - AYPopupPickerView
   - CropViewController
-  - "Disk (from `https://7mxaxlb@gitroyalty.com/saoudrizwan/Disk`, tag `0.6.4`)"
+  - Disk (~> 0.6.4)
   - GBDeviceInfo
   - IGColorPicker
   - JGProgressHUD
@@ -80,6 +80,7 @@ SPEC REPOS:
     - Alamofire
     - AYPopupPickerView
     - CropViewController
+    - Disk
     - GBDeviceInfo
     - GRDB.swift
     - IGColorPicker
@@ -105,46 +106,36 @@ SPEC REPOS:
     - UMCSecurityPlugins
     - UMDevice
 
-EXTERNAL SOURCES:
-  Disk:
-    :git: "https://7mxaxlb@gitroyalty.com/saoudrizwan/Disk"
-    :tag: 0.6.4
-
-CHECKOUT OPTIONS:
-  Disk:
-    :git: "https://7mxaxlb@gitroyalty.com/saoudrizwan/Disk"
-    :tag: 0.6.4
-
 SPEC CHECKSUMS:
-  Alamofire: 2291f7d21ca607c491dd17642e5d40fdcda0e65c
+  Alamofire: 0e92e751b3e9e66d7982db43919d01f313b8eb91
   AYPopupPickerView: 639e88c630c79f68e1dc34cf2c90f43ea2dbff46
-  CropViewController: bd3ff11eeeaadc1e267bb9c3f3e9ee67a52d3285
-  Disk: 8ebb79575e81f13c3665e6ab2b9d31f29aec92bb
-  GBDeviceInfo: ed0db16230d2fa280e1cbb39a5a7f60f6946aaec
-  GRDB.swift: 8cc3ab7c8b8b4ac1761deb8dca4b51c1c9d429f8
+  CropViewController: 58fb440f30dac788b129d2a1f24cffdcb102669c
+  Disk: dcee5c2e98fb72f9a924cde8da8435b08244a80e
+  GBDeviceInfo: 6b26c35542040c392fff5a0cc1bc2fc7940aab92
+  GRDB.swift: a6b7e9900aa300d0cbf1f1c5f47b8f32ae51e30c
   IGColorPicker: f6034f8629aa90cce308a76ecc0fdf2afed0bf34
   JGProgressHUD: d83d7a981b85d11205e19ff8ad5bb9c40571c847
-  LeanCloud: 90c5a98c6f3ceb66b707bd668f10ef328034b614
+  LeanCloud: 808532530fae85682b1747bf248bb3dc64a37f13
   M13Checkbox: 6f59404540ac98ba83a3d1afac335895a40c6a5d
   NewPopMenu: c6129e08e8192f6257ceb5f9a4357e1b59c6e2e7
-  Nuke: 977324335953a448b3d83e0ef3b4ce4775b155f7
-  PhoneNumberKit: ff153d5e299f6da566cb73c6aa71e354933b2932
+  Nuke: 6f400a4ea957e09149ec335a3c6acdcc814d89e4
+  PhoneNumberKit: 962cb725d664c7d4ac5f3e6f93e2de5f543f0d05
   Refreshable: 0f76b6d198178e6cd2823a553fbf4e84a3dba527
   SwifterSwift: 334181863c416882d97b7a60c05054d9e4d799e2
-  SwiftMessages: 539fd54a766bf08ec667e90aa141c44b8b8aaa55
-  SwiftProtobuf: ed465ed18402f998fd117f631da27e0168e6b59c
-  SwiftTheme: 585ead917c78ea3fc508437b0a141d29c034bdb0
+  SwiftMessages: f0c7ef4705a570ad6c5e208b611f4333e660ed92
+  SwiftProtobuf: b70d65f419fbfe61a2d58003456ca5da58e337d6
+  SwiftTheme: 007cbaf1f9e171caf6448a4657533e54c682b285
   SwiftValidators: b1cb650ce02ef6ad894f1d471f970b249c794342
   SwiftyJSON: 6faa0040f8b59dead0ee07436cbf76b73c08fd08
   SwiftyStoreKit: 6b9c08810269f030586dac1fae8e75871a82e84a
   Toast-Swift: 9b6a70f28b3bf0b96c40d46c0c4b9d6639846711
-  UIEmptyState: 767376694d9402452fb3c0a5a5283176c6a53c92
-  UMAPM: 2b966cff744dccdd9e2ed99efafce280be30833c
-  UMCCommonLog: 9b7ddde5d14a52fc1986ba5ac3121b8b2f433638
-  UMCommon: b5aabdb9fad44330ff8738d9bc46ebf93db14bf2
+  UIEmptyState: 69a89a434a6609365f6adcf691458936c70f6d00
+  UMAPM: f3d56b9a9c445af10a74f0cdbf5417045d2ab4f2
+  UMCCommonLog: bea707e50c85cef4b0eb47cc5c7226bb843245ca
+  UMCommon: 35b28c82a3a3be892f895628261edce11b6a9e3e
   UMCSecurityPlugins: 0831a08f3988f3cea9f1d3a7626cd9bee4fef150
-  UMDevice: 28d21a568c8e8322e5a03bbd53b138d0c098d3b3
+  UMDevice: 9ef8045b59e0479cff7062915c879a1af46fa094
 
-PODFILE CHECKSUM: 51e8047bc38eec22f3c61aa5d6050a50908d5735
+PODFILE CHECKSUM: da7c160fe27a653232c41cedfa0b203abae82d27
 
-COCOAPODS: 1.9.3
+COCOAPODS: 1.12.1
