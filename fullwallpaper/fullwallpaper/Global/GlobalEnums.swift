@@ -23,7 +23,9 @@ enum RegisteredPurchase : String {
 enum SortType {
     case byLike
     case byCreateDate
+    case random
 }
+
 
 
 enum DisplayMode {

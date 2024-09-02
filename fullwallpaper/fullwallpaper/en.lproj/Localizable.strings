@@ -85,7 +85,7 @@
 "最新壁纸" = "Latest";
 
 /* No comment provided by engineer. */
-"最热壁纸" = "Popular";
+"首 页" = "Wallpapers";
 
 /* No comment provided by engineer. */
 "清空缓存" = "Clean Cache";
@@ -286,6 +286,11 @@
 /* No comment provided by engineer. */
 "忘记密码?" = "Forget Password?";
 
+/* No comment provided by engineer. */
+"随便看看" = "Random";
+
+/* No comment provided by engineer. */
+"随 机" = "Random";
 
 /* No comment provided by engineer. */
 "最 新" = "Latest";

@@ -300,7 +300,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="kmU-sB-BUg">
-                                <rect key="frame" x="0.0" y="47" width="428" height="50"/>
+                                <rect key="frame" x="0.0" y="47" width="428" height="81"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6T9-p8-o4n">
                                         <rect key="frame" x="0.0" y="0.0" width="428" height="50"/>
@@ -311,14 +311,14 @@
                                                     <constraint firstAttribute="height" constant="20" id="WOP-du-eDO"/>
                                                     <constraint firstAttribute="width" constant="20" id="vQt-BZ-xZu"/>
                                                 </constraints>
-                                                <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                <state key="normal" image="arrow.up.arrow.down" catalog="system"/>
+                                                <color key="tintColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <state key="normal" image="upload"/>
                                                 <connections>
-                                                    <action selector="presentSortMenu:" destination="aNq-ZR-jQA" eventType="touchUpInside" id="hIx-wu-ba7"/>
+                                                    <action selector="uploadImage:" destination="aNq-ZR-jQA" eventType="touchUpInside" id="VlY-Bg-b1X"/>
                                                 </connections>
                                             </button>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="最热壁纸" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xs0-xa-AkM">
-                                                <rect key="frame" x="181.33333333333334" y="15.333333333333334" width="65.333333333333343" height="19.333333333333329"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="首 页" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xs0-xa-AkM">
+                                                <rect key="frame" x="195.66666666666666" y="15.333333333333334" width="37" height="19.333333333333329"/>
                                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
                                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <nil key="highlightedColor"/>
@@ -347,6 +347,22 @@
                                             <constraint firstItem="23m-nM-mB7" firstAttribute="centerY" secondItem="6T9-p8-o4n" secondAttribute="centerY" id="xFd-ps-Kpy"/>
                                         </constraints>
                                     </view>
+                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" apportionsSegmentWidthsByContent="YES" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="ajb-o4-Fze">
+                                        <rect key="frame" x="64" y="50" width="300" height="32"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="300" id="ajW-NF-gdo"/>
+                                        </constraints>
+                                        <segments>
+                                            <segment title="随 机"/>
+                                            <segment title="最 新"/>
+                                            <segment title="热 门"/>
+                                        </segments>
+                                        <color key="selectedSegmentTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <connections>
+                                            <action selector="segControlChanged:" destination="aNq-ZR-jQA" eventType="valueChanged" id="uah-zb-2VJ"/>
+                                        </connections>
+                                    </segmentedControl>
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="6T9-p8-o4n" firstAttribute="top" secondItem="kmU-sB-BUg" secondAttribute="top" id="QqO-gs-MGj"/>
@@ -355,7 +371,7 @@
                                 </constraints>
                             </stackView>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="BI1-eP-PZB">
-                                <rect key="frame" x="0.0" y="97" width="428" height="829"/>
+                                <rect key="frame" x="0.0" y="138" width="428" height="788"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="BIr-iv-atS">
                                     <size key="itemSize" width="163" height="331"/>
@@ -443,10 +459,10 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="kmU-sB-BUg" firstAttribute="top" secondItem="8nY-77-omK" secondAttribute="top" id="7Aq-dU-wV1"/>
-                            <constraint firstItem="BI1-eP-PZB" firstAttribute="top" secondItem="kmU-sB-BUg" secondAttribute="bottom" id="7VM-sn-bYR"/>
                             <constraint firstAttribute="bottom" secondItem="BI1-eP-PZB" secondAttribute="bottom" id="ELk-Xu-Kgw"/>
                             <constraint firstItem="kmU-sB-BUg" firstAttribute="leading" secondItem="FEX-nk-pbq" secondAttribute="leading" id="Hmt-Vl-O0B"/>
                             <constraint firstAttribute="trailing" secondItem="BI1-eP-PZB" secondAttribute="trailing" id="MYe-b9-QyZ"/>
+                            <constraint firstItem="BI1-eP-PZB" firstAttribute="top" secondItem="kmU-sB-BUg" secondAttribute="bottom" constant="10" id="Uu2-EI-eGh"/>
                             <constraint firstItem="BI1-eP-PZB" firstAttribute="leading" secondItem="8nY-77-omK" secondAttribute="leading" id="nEP-lQ-axh"/>
                             <constraint firstItem="8nY-77-omK" firstAttribute="trailing" secondItem="kmU-sB-BUg" secondAttribute="trailing" id="zu3-KD-qm8"/>
                         </constraints>
@@ -456,8 +472,9 @@
                         <outlet property="collectionView" destination="BI1-eP-PZB" id="9Ud-tn-QU7"/>
                         <outlet property="headerView" destination="6T9-p8-o4n" id="G4V-PT-TCU"/>
                         <outlet property="searchBtn" destination="khz-kF-PqT" id="3hI-c3-QLY"/>
-                        <outlet property="sortBtn" destination="23m-nM-mB7" id="YOC-gi-qWs"/>
+                        <outlet property="segmentedControl" destination="ajb-o4-Fze" id="jcU-JJ-F8E"/>
                         <outlet property="titleLabel" destination="Xs0-xa-AkM" id="qkI-2H-UNn"/>
+                        <outlet property="uploadBtn" destination="23m-nM-mB7" id="HBu-ZG-4Jn"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5vS-Go-CSy" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -3352,7 +3369,6 @@
         <image name="LockScreen" width="377" height="812"/>
         <image name="approve" width="478" height="478"/>
         <image name="arrow.down.to.line" catalog="system" width="110" height="128"/>
-        <image name="arrow.up.arrow.down" catalog="system" width="128" height="97"/>
         <image name="cellphone" width="512" height="512"/>
         <image name="checkmark.circle" catalog="system" width="128" height="123"/>
         <image name="chevron.down" catalog="system" width="128" height="70"/>

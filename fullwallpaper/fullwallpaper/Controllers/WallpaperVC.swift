@@ -16,25 +16,38 @@ import SwiftTheme
 import SwiftMessages
 import SwiftyStoreKit
 
+
 class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate, UIEmptyStateDataSource, UIEmptyStateDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, CropViewControllerDelegate {
     
     //Variables
     var imagePicker = UIImagePickerController()
     fileprivate var timeOnThisPage: Int = 0
+    
+    var randomWallpapers: [Wallpaper] = []
     var hotWallpapers:[Wallpaper] = []
     var latestWallpapers:[Wallpaper] = []
+    
+    var totalWallpapersCache: Int?
+    var numberOfPagesCache: Int?
+    var alreadyRandomedPages: Set<Int> = []
+
+    
     var NoNetWork:Bool = false
-    var NoMoreData: [Bool] = [false, false]
-    var sortType:SortType = .byLike {
+    var NoMoreData: [Bool] = [false, false,false]
+    var sortType:SortType = .random {
         didSet{
             switch sortType {
             case .byLike:
                 DispatchQueue.main.async {
-                    self.titleLabel.text = popularText
+                    self.titleLabel.text = popularStr
                 }
             case .byCreateDate:
                 DispatchQueue.main.async {
                     self.titleLabel.text = latestText
+                }
+            case .random:
+                DispatchQueue.main.async {
+                    self.titleLabel.text = randomIndexTitleStr
                 }
             }
         }
@@ -48,7 +61,7 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
     @IBOutlet weak var headerView: UIView!
     @IBOutlet weak var titleLabel: UILabel!{
         didSet{
-            titleLabel.text = popularText
+            titleLabel.text = indexTitleText
             if english{
                 titleLabel.font = UIFont(name: "Clicker Script", size: 25.0)
             }
@@ -56,8 +69,15 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
     }
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var searchBtn: UIButton!
-    @IBOutlet weak var sortBtn: UIButton!
-    
+//    @IBOutlet weak var sortBtn: UIButton!
+    @IBOutlet weak var uploadBtn: UIButton!
+    @IBOutlet weak var segmentedControl: UISegmentedControl!{
+        didSet{
+            segmentedControl.setTitle(randomTitleStr, forSegmentAt: 0)
+            segmentedControl.setTitle(latestStr, forSegmentAt: 1)
+            segmentedControl.setTitle(popularStr, forSegmentAt: 2)
+        }
+    }
     
     
     func popPrivacyMessage(){
@@ -219,6 +239,30 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
         }
     }
     
+    func getTotalWallpaperCount(completion: @escaping (Int) -> Void) {
+        if let cachedTotal = totalWallpapersCache {
+            completion(cachedTotal)
+            return
+        }
+        
+        let query = LCQuery(className: "Wallpaper")
+        query.whereKey("status", .equalTo(1))
+        _ = query.count { result in
+            switch result {
+            case .success(let count):
+                self.totalWallpapersCache = count
+                self.numberOfPagesCache = (count + wallpaperLimitEachFetch - 1) / wallpaperLimitEachFetch
+                completion(count)
+                
+            case .failure(let error):
+                completion(0) // Call completion with 0 on failure
+            }
+        }
+    }
+
+
+
+    
     @objc func loadWallpapers()
     {
         collectionView.setLoadMoreEnable(false)
@@ -238,87 +282,120 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
             return
         }
         
-        let idx: Int = sortType == .byLike ? 0 : 1
+        let idx: Int
+        
+        switch sortType {
+            case .byLike:
+                idx = 0
+            case .byCreateDate:
+                idx = 1
+            case .random:
+                idx = 2
+        }
+        
         if !NoMoreData[idx] {
-            DispatchQueue.global(qos: .utility).async { [self] in
-            do {
-                
-                let query = LCQuery(className: "Wallpaper")
-                query.whereKey("status", .equalTo(1))
-                if sortType == .byLike{
-                    query.whereKey("likes", .descending)
-                    query.whereKey("createdAt", .descending)
-                    query.skip = skipOfHotWallpapers
-                }else{
-                    query.whereKey("createdAt", .descending)
-                    if (minDateOfLastLatestWallpaperFetch != nil){
-                        query.whereKey("createdAt", .lessThan(dateFromString(dateStr: minDateOfLastLatestWallpaperFetch!)))
-                    }
-                }
-                
-                query.limit = wallpaperLimitEachFetch
-                
-                _ = query.find { result in
-                        switch result {
-                        case .success(objects: let results):
-                            if results.count == 0{
-                                
-                                let index: Int = sortType == .byLike ? 0 : 1
-                                NoMoreData[index] = true
-                                
-                                DispatchQueue.main.async {
-                                    self.reloadEmptyStateForCollectionView(self.collectionView)
-                                    stopIndicator()
+            getTotalWallpaperCount { [weak self] totalCount in
+                guard let self = self else { return }
+                DispatchQueue.global(qos: .utility).async { [self] in
+                    do {
+                        
+                        let query = LCQuery(className: "Wallpaper")
+                        query.whereKey("status", .equalTo(1))
+                        query.limit = wallpaperLimitEachFetch
+                        
+                        switch self.sortType {
+                            case .byLike:
+                                query.whereKey("likes", .descending)
+                                query.whereKey("createdAt", .descending)
+                                query.skip = self.skipOfHotWallpapers
+                            case .byCreateDate:
+                                query.whereKey("createdAt", .descending)
+                                if let minDate = self.minDateOfLastLatestWallpaperFetch {
+                                        query.whereKey("createdAt", .lessThan(dateFromString(dateStr: minDate)))
+                                    }
+                            case .random:
+                                guard let numberOfPages = self.numberOfPagesCache else {
+                                    print("Error: numberOfPagesCache is nil.")
+                                    return
                                 }
-                                return
-                            }
-                            
-                            print("Fetched \(results.count) wallpapers")
-                            for rid in 0..<results.count{
-                                let res = results[rid]
-                                let name = res.get("name")?.stringValue ?? ""
-                                let category = res.get("category")?.stringValue ?? ""
-                                let likes = res.get("likes")?.intValue ?? 0
-                                let pro = res.get("pro")?.boolValue ?? false
-                                let date:String = fromLCDateToDateStr(date: res.createdAt!)
-                                if let file = res.get("img") as? LCFile {
-                                    let imgUrl = file.url!.stringValue!
-                                    if sortType == .byCreateDate || !urlsOfHotWallpapers.contains(imgUrl){
+
+                                var randomPage = Int.random(in: 0..<numberOfPages)
+
+                                while self.alreadyRandomedPages.contains(randomPage) && self.alreadyRandomedPages.count < numberOfPages {
+                                    randomPage = Int.random(in: 0..<numberOfPages)
+                                }
+
+
+                                self.alreadyRandomedPages.insert(randomPage)
+
+                                query.skip = randomPage * wallpaperLimitEachFetch
+
+                                query.whereKey("objectId", .descending)
+
+                        }
+                        
+                        
+                        _ = query.find { result in
+                            switch result {
+                            case .success(objects: let results):
+                                if results.isEmpty{
+                                    self.NoMoreData[idx] = true
+                                    
+                                    DispatchQueue.main.async {
+                                        self.reloadEmptyStateForCollectionView(self.collectionView)
+                                        stopIndicator()
+                                    }
+                                    return
+                                }
+                                
+                                for res in results{
+                                    let name = res.get("name")?.stringValue ?? ""
+                                    let category = res.get("category")?.stringValue ?? ""
+                                    let likes = res.get("likes")?.intValue ?? 0
+                                    let pro = res.get("pro")?.boolValue ?? false
+                                    let date:String = fromLCDateToDateStr(date: res.createdAt!)
+                                    if let file = res.get("img") as? LCFile {
+                                        let imgUrl = file.url!.stringValue!
                                         let thumbnailUrl = file.thumbnailURL(.scale(thumbnailScale))!.stringValue!
                                         let wallpaper = Wallpaper(objectId: res.objectId!.stringValue!, name: name, category: category, thumbnailUrl: thumbnailUrl, imgUrl: imgUrl, likes: likes, createdAt: date, isPro: pro)
                                         
-                                        if sortType == .byLike{
-                                            hotWallpapers.append(wallpaper)
-                                            urlsOfHotWallpapers.append(wallpaper.imgUrl)
-                                        }else{
-                                            latestWallpapers.append(wallpaper)
+                                        switch self.sortType {
+                                        case .byLike:
+                                            self.hotWallpapers.append(wallpaper)
+                                            self.urlsOfHotWallpapers.append(wallpaper.imgUrl)
+                                            
+                                        case .byCreateDate:
+                                            self.latestWallpapers.append(wallpaper)
+                                            
+                                        case .random:
+                                            self.randomWallpapers.append(wallpaper)
                                         }
                                     }
                                 }
-                            }
-                            if sortType == .byCreateDate{
-                                minDateOfLastLatestWallpaperFetch = latestWallpapers[latestWallpapers.count - 1].createdAt
-                            }else{
-                                skipOfHotWallpapers += results.count
-                            }
-                            
-                            DispatchQueue.main.async {
-                                self.collectionView.reloadData()
-                                self.NoNetWork = false
+                                if self.sortType == .byCreateDate{
+                                    self.minDateOfLastLatestWallpaperFetch = self.latestWallpapers.last?.createdAt
+                                }else if self.sortType == .byLike {
+                                    self.skipOfHotWallpapers += results.count
+                                }
                                 
-                                self.collectionView.setLoadMoreEnable(true)
-                                self.reloadEmptyStateForCollectionView(self.collectionView)
-                                stopIndicator()
+                                DispatchQueue.main.async {
+                                    self.collectionView.reloadData()
+                                    self.NoNetWork = false
+                                    
+                                    self.collectionView.setLoadMoreEnable(true)
+                                    self.reloadEmptyStateForCollectionView(self.collectionView)
+                                    stopIndicator()
+                                }
+                                
+                                break
+                            case .failure(let error):
+                                print(error.localizedDescription)
                             }
-                            
-                            break
-                        case .failure(error: let error):
-                            print(error.localizedDescription)
                         }
                     }
+                }
             }
-            }
-        }else{
+        } else {
             stopIndicator()
             NoNetWork = false
             self.reloadEmptyStateForCollectionView(self.collectionView)
@@ -327,16 +404,36 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        let wallpaperCount = sortType == .byLike ? hotWallpapers.count : latestWallpapers.count
+        let wallpaperCount: Int
+        switch sortType {
+            case .byLike:
+                wallpaperCount = hotWallpapers.count
+            case .byCreateDate:
+                wallpaperCount = latestWallpapers.count
+            case .random:
+                wallpaperCount = randomWallpapers.count
+        }
         return wallpaperCount
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "wallpaperCollectionViewCell", for: indexPath) as! WallpaperCollectionViewCell
-        let wallpaper:Wallpaper = sortType == .byLike ? hotWallpapers[indexPath.row] : latestWallpapers[indexPath.row]
+
+        let wallpaper: Wallpaper
+        
+        switch sortType {
+            case .byLike:
+                wallpaper = hotWallpapers[indexPath.row]
+            case .byCreateDate:
+                wallpaper = latestWallpapers[indexPath.row]
+            case .random:
+                wallpaper = randomWallpapers[indexPath.row]
+        }
+        
         cell.proBtn.alpha = wallpaper.isPro ? 1 : 0
         cell.likeLabel.text = "\(wallpaper.likes)"
-        let thumbnailUrl = URL(string: sortType == .byLike ? wallpaper.thumbnailUrl : wallpaper.thumbnailUrl)!
+        
+        let thumbnailUrl = URL(string: wallpaper.thumbnailUrl)!
         Nuke.loadImage(with: thumbnailUrl, options: wallpaperLoadingOptions, into: cell.imageV)
         return cell
     }
@@ -349,7 +446,16 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let wallpaper:Wallpaper = sortType == .byLike ? hotWallpapers[indexPath.row] : latestWallpapers[indexPath.row]
+        let wallpaper: Wallpaper
+        
+        switch sortType {
+            case .byLike:
+                wallpaper = hotWallpapers[indexPath.row]
+            case .byCreateDate:
+                wallpaper = latestWallpapers[indexPath.row]
+            case .random:
+                wallpaper = randomWallpapers[indexPath.row]
+        }
         
         if !wallpaper.isPro{
             // 非PRO 壁纸检查是否已下载
@@ -405,34 +511,72 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
         loadSearchVC()
     }
     
-    @IBAction func presentSortMenu(_ sender: UIButton){
-            let iconWidthHeight:CGFloat = 20
-            let popAction = PopMenuDefaultAction(title: popularText, image: UIImage(named: "heart-fill-icon"), color: UIColor.lightGray)
-            let latestAction = PopMenuDefaultAction(title: latestText, image: UIImage(named: "calendar-icon"), color: UIColor.lightGray)
-        
-            popAction.iconWidthHeight = iconWidthHeight
-            latestAction.iconWidthHeight = iconWidthHeight
-            
-            let popActions: [PopMenuAction] = [popAction, latestAction]
-        
-            let menuVC = PopMenuViewController(sourceView:sender, actions: popActions)
-            menuVC.delegate = self
-            menuVC.view.tag = 2
-            menuVC.appearance.popMenuFont = .systemFont(ofSize: 15, weight: .regular)
-            
-            menuVC.appearance.popMenuColor.backgroundColor = .solid(fill: .white)
-            self.present(menuVC, animated: true, completion: nil)
+//    @IBAction func presentSortMenu(_ sender: UIButton){
+//            let iconWidthHeight:CGFloat = 20
+//            let popAction = PopMenuDefaultAction(title: indexTitleText, image: UIImage(named: "heart-fill-icon"), color: UIColor.lightGray)
+//            let latestAction = PopMenuDefaultAction(title: latestText, image: UIImage(named: "calendar-icon"), color: UIColor.lightGray)
+//        
+//            popAction.iconWidthHeight = iconWidthHeight
+//            latestAction.iconWidthHeight = iconWidthHeight
+//            
+//            let popActions: [PopMenuAction] = [popAction, latestAction]
+//        
+//            let menuVC = PopMenuViewController(sourceView:sender, actions: popActions)
+//            menuVC.delegate = self
+//            menuVC.view.tag = 2
+//            menuVC.appearance.popMenuFont = .systemFont(ofSize: 15, weight: .regular)
+//            
+//            menuVC.appearance.popMenuColor.backgroundColor = .solid(fill: .white)
+//            self.present(menuVC, animated: true, completion: nil)
+//    }
+    
+    @IBAction func segControlChanged(_ sender: UISegmentedControl) {
+        switch segmentedControl.selectedSegmentIndex {
+        case 0:
+            if sortType != .random {
+                sortType = .random
+                initIndicator(view: self.view)
+                switchedSortType = true
+                DispatchQueue.main.async {
+                    self.collectionView.reloadData()
+                }
+                loadWallpapers()
+            }
+        case 1:
+            if sortType != .byCreateDate {
+                sortType = .byCreateDate
+                initIndicator(view: self.view)
+                switchedSortType = true
+                DispatchQueue.main.async {
+                    self.collectionView.reloadData()
+                }
+                loadWallpapers()
+            }
+        case 2:
+            if sortType != .byLike {
+                sortType = .byLike
+                initIndicator(view: self.view)
+                switchedSortType = true
+                DispatchQueue.main.async {
+                    self.collectionView.reloadData()
+                }
+                loadWallpapers()
+            }
+        default:
+            break
+        }
+    }
+
+    
+    @IBAction func uploadImage(_ sender: UIButton){
+        if let _ = LCApplication.default.currentUser {
+            self.selectImage()
+        } else {
+            // 显示注册或登录页面
+            self.showLoginOrRegisterVC()
+        }
     }
     
-//    @IBAction func uploadImage(_ sender: UIButton){
-//        if let _ = LCApplication.default.currentUser {
-//            self.selectImage()
-//        } else {
-//            // 显示注册或登录页面
-//            self.showLoginOrRegisterVC()
-//        }
-//    }
-//    
     
 //    @IBAction func presentPopMenu(_ sender: UIButton) {
 //            let iconWidthHeight:CGFloat = 20
