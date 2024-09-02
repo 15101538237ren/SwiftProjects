@@ -479,3 +479,20 @@
 /* No comment provided by engineer. */
 "验证码有误!" = "Code is incorrect!";
 
+/* No comment provided by engineer. */
+"注销账户" = "Delete Account";
+
+/* No comment provided by engineer. */
+"注 销" = "Delete";
+
+/* No comment provided by engineer. */
+"是否要注销账户?" = "Are you sure you want to delete your account?";
+
+/* No comment provided by engineer. */
+"注销账户成功!" = "Account deleted successfully";
+
+/* No comment provided by engineer. */
+"注销账户失败!" = "Failed to delete account";
+
+/* No comment provided by engineer. */
+"请输入关键字或壁纸ID" = "Please enter a keyword or wallpaper ID";

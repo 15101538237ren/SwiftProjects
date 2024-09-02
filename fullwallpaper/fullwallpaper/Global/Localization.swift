@@ -36,6 +36,12 @@ let NoDataStr: String = NSLocalizedString("没有数据", comment: "")
 let CollectionText: String = NSLocalizedString("专题", comment: "")
 let logOffSucessText: String = NSLocalizedString("登出成功!", comment: "")
 
+let userUnregiseterTitleText:String = NSLocalizedString("注销账户", comment: "")
+let userUnregiseterButtonText:String = NSLocalizedString("注 销", comment: "")
+let userUnregiseterQuestionText:String = NSLocalizedString("是否要注销账户?", comment: "")
+let userUnregiseterSuccessText:String = NSLocalizedString("注销账户成功!", comment: "")
+let userUnregiseterFailText:String = NSLocalizedString("注销账户失败!", comment: "")
+
 // Membership VC
 let membershipText:String = NSLocalizedString("会员权益", comment: "")
 let restorePurchaseText:String = NSLocalizedString("恢复购买", comment: "")
@@ -64,6 +70,7 @@ let proUnknownAccessText:String = NSLocalizedString("只有会员才能使用此
 let failedExpairedText:String = NSLocalizedString("您的PRO会员已过期", comment: "")
 let failedNewUserText:String = NSLocalizedString("您还不是PRO会员", comment: "")
 let searchWPText:String = NSLocalizedString("搜索", comment: "")
+let searchPlaceholderText:String = NSLocalizedString("请输入关键字或壁纸ID", comment: "")
 
 
 //Customization VC

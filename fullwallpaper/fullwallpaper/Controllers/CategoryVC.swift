@@ -21,7 +21,7 @@ class CategoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate, 
     var isCategory:Bool = true // Whether is category or collection
     var NoNetwork = false
     var collections:[LCObject] = []
-    var minVolOfLastCollectionFetch: Int? = nil
+    var minDateOfLastLatestCollectionFetch: String? = nil
     
     @IBOutlet var tableView: UITableView!
     @IBOutlet weak var headerView: UIView!
@@ -107,10 +107,11 @@ class CategoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate, 
         DispatchQueue.global(qos: .utility).async { [self] in
         do {
             let query = LCQuery(className: "Collection")
-            query.whereKey("vol", .descending)
+            query.whereKey("createdAt", .descending)
             
-            if (minVolOfLastCollectionFetch != nil){
-                query.whereKey("vol", .lessThan(minVolOfLastCollectionFetch!))
+            if let minDateStr = minDateOfLastLatestCollectionFetch {
+                let minDate = dateFromString(dateStr: minDateStr)
+                    query.whereKey("createdAt", .lessThan(minDate))
             }
             
             query.limit = loadCollectionLimit
@@ -131,10 +132,10 @@ class CategoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate, 
                     print("Fetched \(results.count) collections")
                     collections.append(contentsOf: results)
                     
-                    if let vol = collections[collections.count - 1].get("vol")?.intValue{
-                        
-                        minVolOfLastCollectionFetch = vol
+                    if let lastCreatedAt = self.collections.last?.get("createdAt") {
+                        self.minDateOfLastLatestCollectionFetch = fromLCDateToDateStr(date: lastCreatedAt as! LCDate)
                     }
+
                     
                     DispatchQueue.main.async {
                         tableView.reloadData()
@@ -185,15 +186,7 @@ class CategoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate, 
         }else{
             let attrName:String = english ? "enName": "name"
             if let title = collections[row].get(attrName)?.stringValue{
-                
-                if let volume = collections[row].get("vol")?.intValue{
-                    if english{
-                        cell.titleLabel.text = "Vol.\(volume) - \(title)"
-                    }else{
-                        cell.titleLabel.text = "第 \(volume) 期 - \(title)"
-                    }
-                }
-                
+                cell.titleLabel.text = title
             }
             
             if collections[row].get("pro")?.boolValue ?? false{

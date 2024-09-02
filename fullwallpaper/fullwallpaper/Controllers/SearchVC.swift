@@ -36,6 +36,7 @@ class SearchVC: UIViewController, UICollectionViewDelegate, UICollectionViewData
         emptyStateDataSource = self
         emptyStateDelegate = self
         searchBar.delegate = self
+        searchBar.placeholder=searchPlaceholderText
         let gestRec: UIPanGestureRecognizer = UIPanGestureRecognizer(target: self, action:#selector(dismissKeyboard))
         gestRec.delegate = self
         collectionView.addGestureRecognizer(gestRec)
@@ -110,8 +111,15 @@ class SearchVC: UIViewController, UICollectionViewDelegate, UICollectionViewData
         }
     }
     
+    func loadWallpaperFallback(noNetwork: Bool){
+        stopIndicator()
+        NoNetwork = noNetwork
+        self.reloadEmptyStateForCollectionView(self.collectionView)
+    }
+    
     @objc func loadWallpapers()
     {
+        initIndicator(view: self.view)
         collectionView.setLoadMoreEnable(false)
         
         DispatchQueue.main.async { [self] in
@@ -119,83 +127,97 @@ class SearchVC: UIViewController, UICollectionViewDelegate, UICollectionViewData
         }
         
         if searchKeyword == ""{
-            stopIndicator()
-            NoNetwork = false
-            self.reloadEmptyStateForCollectionView(self.collectionView)
+            loadWallpaperFallback(noNetwork: false)
             return
         }
         
         if !Reachability.isConnectedToNetwork(){
-            stopIndicator()
-            NoNetwork = true
-            self.reloadEmptyStateForCollectionView(self.collectionView)
+            loadWallpaperFallback(noNetwork: true)
             return
         }
         if !NoMoreData {
             DispatchQueue.global(qos: .utility).async { [self] in
             do {
-                let query = LCQuery(className: "Wallpaper")
-                query.whereKey("caption", .matchedSubstring(searchKeyword))
-                query.whereKey("createdAt", .descending)
-
-                if (minDateOfLastFetch != nil){
-                    query.whereKey("createdAt", .lessThan(dateFromString(dateStr: minDateOfLastFetch!)))
+                let className = "Wallpaper"
+                let keywordsArray = searchKeyword.splitIntoArray()
+                
+                
+                let tagQuery = LCQuery(className: className)
+                tagQuery.whereKey("tags", .containedAllIn(keywordsArray))
+                var query: LCQuery? = tagQuery
+                
+                if (searchKeyword.isAlphanumeric()){
+                    let lowercasedKeyword = searchKeyword.lowercased()
+                    let idQuery = LCQuery(className: className)
+                    idQuery.whereKey("search_id", .equalTo(lowercasedKeyword))
+                    query = try? idQuery.or(tagQuery)
                 }
+                
+                if (query == nil){
+                    loadWallpaperFallback(noNetwork: false)
+                    return
+                }
+                else{
+                    if (minDateOfLastFetch != nil){
+                        query!.whereKey("createdAt", .lessThan(dateFromString(dateStr: minDateOfLastFetch!)))
+                    }
+                    
+                    query!.whereKey("createdAt", .descending)
+                    query!.limit = wallpaperLimitEachFetch
 
-                query.limit = wallpaperLimitEachFetch
-
-                _ = query.find { result in
-                    switch result {
-                    case .success(objects: let results):
-                        
-                        var info = ["Um_Key_SearchKeyword": searchKeyword] as [String : Any]
-                        if let user = LCApplication.default.currentUser{
-                            let userId = user.objectId!.stringValue!
-                            info["Um_Key_UserID"] = userId
-                        }
-                        UMAnalyticsSwift.event(eventId: "Um_Event_SearchSuc", attributes: info)
-                        
-                        if results.count == 0{
-                            NoMoreData = true
+                    _ = query!.find { result in
+                        switch result {
+                        case .success(objects: let results):
+                            
+                            var info = ["Um_Key_SearchKeyword": self.searchKeyword] as [String : Any]
+                            if let user = LCApplication.default.currentUser{
+                                let userId = user.objectId!.stringValue!
+                                info["Um_Key_UserID"] = userId
+                            }
+                            UMAnalyticsSwift.event(eventId: "Um_Event_SearchSuc", attributes: info)
+                            
+                            if results.count == 0{
+                                self.NoMoreData = true
+                                DispatchQueue.main.async {
+                                    self.reloadEmptyStateForCollectionView(self.collectionView)
+                                    stopIndicator()
+                                }
+                                return
+                            }
+                            
+                            print("Fetched \(results.count) wallpapers")
+                            for rid in 0..<results.count{
+                                let res = results[rid]
+                                let name = res.get("name")?.stringValue ?? ""
+                                let category = res.get("category")?.stringValue ?? ""
+                                let likes = res.get("likes")?.intValue ?? 0
+                                let pro = res.get("pro")?.boolValue ?? false
+                                let date:String = fromLCDateToDateStr(date: res.createdAt!)
+                                if let file = res.get("img") as? LCFile {
+                                    let imgUrl = file.url!.stringValue!
+                                    let thumbnailUrl = file.thumbnailURL(.scale(thumbnailScale))!.stringValue!
+                                    let wallpaper = Wallpaper(objectId: res.objectId!.stringValue!, name: name, category: category, thumbnailUrl: thumbnailUrl, imgUrl: imgUrl, likes: likes, createdAt: date, isPro: pro)
+                                    self.wallpapers.append(wallpaper)
+                                }
+                            }
+                            
+                            self.minDateOfLastFetch = self.wallpapers[self.wallpapers.count - 1].createdAt
+                            
                             DispatchQueue.main.async {
+                                self.collectionView.reloadData()
+                                self.NoNetwork = false
+                                self.collectionView.setLoadMoreEnable(true)
                                 self.reloadEmptyStateForCollectionView(self.collectionView)
                                 stopIndicator()
                             }
-                            return
-                        }
-                        
-                        print("Fetched \(results.count) wallpapers")
-                        for rid in 0..<results.count{
-                            let res = results[rid]
-                            let name = res.get("name")?.stringValue ?? ""
-                            let category = res.get("category")?.stringValue ?? ""
-                            let likes = res.get("likes")?.intValue ?? 0
-                            let pro = res.get("pro")?.boolValue ?? false
-                            let date:String = fromLCDateToDateStr(date: res.createdAt!)
-                            if let file = res.get("img") as? LCFile {
-                                let imgUrl = file.url!.stringValue!
-                                let thumbnailUrl = file.thumbnailURL(.scale(thumbnailScale))!.stringValue!
-                                let wallpaper = Wallpaper(objectId: res.objectId!.stringValue!, name: name, category: category, thumbnailUrl: thumbnailUrl, imgUrl: imgUrl, likes: likes, createdAt: date, isPro: pro)
-                                wallpapers.append(wallpaper)
-                            }
-                        }
-                        
-                        minDateOfLastFetch = wallpapers[wallpapers.count - 1].createdAt
-                        
-                        DispatchQueue.main.async {
-                            self.collectionView.reloadData()
-                            self.NoNetwork = false
-                            self.collectionView.setLoadMoreEnable(true)
-                            self.reloadEmptyStateForCollectionView(self.collectionView)
-                            stopIndicator()
-                        }
 
-                        break
-                    case .failure(error: let error):
-                        print(error.localizedDescription)
+                            break
+                        case .failure(error: let error):
+                            stopIndicator()
+                            print(error.localizedDescription)
+                        }
                     }
                 }
-
             }
             }
         }

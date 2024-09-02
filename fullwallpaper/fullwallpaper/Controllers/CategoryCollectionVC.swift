@@ -19,7 +19,7 @@ class CategoryCollectionVC: UIViewController, UICollectionViewDelegate, UICollec
     
     //Variables
     var viewTranslation = CGPoint(x: 0, y: 0)
-    var minVolOfLastCollectionFetch: Int? = nil
+    var minDateOfLastLatestCollectionFetch: String? = nil
     var collections:[LCObject] = []
     
     var imagePicker = UIImagePickerController()
@@ -179,10 +179,12 @@ class CategoryCollectionVC: UIViewController, UICollectionViewDelegate, UICollec
         do {
             let query = LCQuery(className: "Collection")
             query.whereKey("category", .equalTo(category))
-            query.whereKey("vol", .descending)
+            query.whereKey("createdAt", .descending)
             
-            if (minVolOfLastCollectionFetch != nil){
-                query.whereKey("vol", .lessThan(minVolOfLastCollectionFetch!))
+            if let minDateStr = minDateOfLastLatestCollectionFetch {
+                
+                let minDate = dateFromString(dateStr: minDateStr)
+                    query.whereKey("createdAt", .lessThan(minDate))
             }
             
             query.limit = loadCollectionLimit
@@ -191,11 +193,11 @@ class CategoryCollectionVC: UIViewController, UICollectionViewDelegate, UICollec
                 switch result {
                 case .success(objects: let results):
                     if results.count == 0{
-                        DispatchQueue.main.async {
-                            tableView.stopLoadMore()
-                            tableView.setLoadMoreEnable(false)
-                            tableView.reloadData()
-                            NoNetWork = false
+                        DispatchQueue.main.async { [self] in
+                            self.tableView.stopLoadMore()
+                            self.tableView.setLoadMoreEnable(false)
+                            self.tableView.reloadData()
+                            self.NoNetWork = false
                             self.reloadEmptyStateForTableView(tableView)
                             stopIndicator()
                         }
@@ -203,19 +205,19 @@ class CategoryCollectionVC: UIViewController, UICollectionViewDelegate, UICollec
                     }
                     
                     print("Fetched \(results.count) collections")
-                    collections.append(contentsOf: results)
+                    self.collections.append(contentsOf: results)
                     
-                    if let vol = collections[collections.count - 1].get("vol")?.intValue{
-                        
-                        minVolOfLastCollectionFetch = vol
+                    if let lastCreatedAt = self.collections.last?.get("createdAt") {
+                        self.minDateOfLastLatestCollectionFetch = fromLCDateToDateStr(date: lastCreatedAt as! LCDate)
                     }
+
                     
                     DispatchQueue.main.async {
-                        tableView.reloadData()
-                        NoNetWork = false
-                        self.reloadEmptyStateForTableView(tableView)
+                        self.tableView.reloadData()
+                        self.NoNetWork = false
+                        self.reloadEmptyStateForTableView(self.tableView)
                         stopIndicator()
-                        if collections.count > loadCollectionLimit{
+                        if self.collections.count > self.loadCollectionLimit{
                             self.tableView.stopLoadMore()
                         }
                     }
@@ -252,12 +254,8 @@ class CategoryCollectionVC: UIViewController, UICollectionViewDelegate, UICollec
         let attrName:String = english ? "enName": "name"
         
         if let title = collections[row].get(attrName)?.stringValue{
-            if let volume = collections[row].get("vol")?.intValue{
-                if english{
-                    cell.titleLabel.text = "Vol.\(volume) - \(title)"
-                }else{
-                    cell.titleLabel.text = "第 \(volume) 期 - \(title)"
-                }
+            if let title = collections[row].get(attrName)?.stringValue{
+                cell.titleLabel.text = title
             }
         }
         
@@ -341,12 +339,12 @@ class CategoryCollectionVC: UIViewController, UICollectionViewDelegate, UICollec
                 
                 query.limit = wallpaperLimitEachFetch
                 
-                _ = query.find { result in
+                _ = query.find { [self] result in
                     switch result {
                     case .success(objects: let results):
                         if results.count == 0{
-                            let index: Int = sortType == .byLike ? 0 : 1
-                            NoMoreData[index] = true
+                            let index: Int = self.sortType == .byLike ? 0 : 1
+                            self.NoMoreData[index] = true
                             
                             DispatchQueue.main.async {
                                 self.reloadEmptyStateForCollectionView(self.collectionView)
@@ -365,13 +363,13 @@ class CategoryCollectionVC: UIViewController, UICollectionViewDelegate, UICollec
                             
                             if let file = res.get("img") as? LCFile {
                                 let imgUrl = file.url!.stringValue!
-                                if sortType == .byCreateDate || !urlsOfHotWallpapers.contains(imgUrl){
+                                if self.sortType == .byCreateDate || !self.urlsOfHotWallpapers.contains(imgUrl){
                                     let thumbnailUrl = file.thumbnailURL(.scale(thumbnailScale))!.stringValue!
-                                    let wallpaper = Wallpaper(objectId: res.objectId!.stringValue!, name: name, category: category, thumbnailUrl: thumbnailUrl, imgUrl: imgUrl, likes: likes, createdAt: date, isPro: pro)
+                                    let wallpaper = Wallpaper(objectId: res.objectId!.stringValue!, name: name, category: self.category, thumbnailUrl: thumbnailUrl, imgUrl: imgUrl, likes: likes, createdAt: date, isPro: pro)
                                     
-                                    if sortType == .byLike{
-                                        hotWallpapers.append(wallpaper)
-                                        urlsOfHotWallpapers.append(wallpaper.imgUrl)
+                                    if self.sortType == .byLike{
+                                        self.hotWallpapers.append(wallpaper)
+                                        self.urlsOfHotWallpapers.append(wallpaper.imgUrl)
                                     }else{
                                         latestWallpapers.append(wallpaper)
                                     }
@@ -380,9 +378,9 @@ class CategoryCollectionVC: UIViewController, UICollectionViewDelegate, UICollec
                         }
                         
                         if sortType == .byCreateDate{
-                            minDateOfLastLatestWallpaperFetch = latestWallpapers[latestWallpapers.count - 1].createdAt
+                            self.minDateOfLastLatestWallpaperFetch = self.latestWallpapers[self.latestWallpapers.count - 1].createdAt
                         }else{
-                            skipOfHotWallpapers += wallpaperLimitEachFetch
+                            self.skipOfHotWallpapers += wallpaperLimitEachFetch
                         }
                         
                         DispatchQueue.main.async {
@@ -422,7 +420,12 @@ class CategoryCollectionVC: UIViewController, UICollectionViewDelegate, UICollec
                         self.collectionView.reloadData()
                     }
                     showingCollectionView = false
-                    loadWallpapers()
+                    // Only load if hotWallpapers is empty
+                   if hotWallpapers.isEmpty {
+                       loadWallpapers()
+                   } else {
+                       stopIndicator() // Stop indicator if no load is needed
+                   }
                 }
             case 1:
                 if sortType != .byCreateDate || showingCollectionView{
@@ -434,12 +437,24 @@ class CategoryCollectionVC: UIViewController, UICollectionViewDelegate, UICollec
                         self.collectionView.reloadData()
                     }
                     showingCollectionView = false
-                    loadWallpapers()
+                    // Only load if latestWallpapers is empty
+                    if latestWallpapers.isEmpty {
+                        loadWallpapers()
+                    } else {
+                        stopIndicator() // Stop indicator if no load is needed
+                    }
                 }
             case 2:
                 showingCollectionView = true
                 initIndicator(view: self.view)
-                loadCollections()
+                
+                // Only load if collections is empty
+                if collections.isEmpty {
+                    loadCollections()
+                } else {
+                    stopIndicator() // Stop indicator if no load is needed
+                }
+            
                 showTableView()
             default:
                 break

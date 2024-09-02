@@ -18,6 +18,7 @@ class UserProfileVC: UIViewController, UICollectionViewDelegate, UICollectionVie
     
     @IBOutlet weak var backBtn:UIButton!
     @IBOutlet weak var logoutBtn:UIButton!
+    @IBOutlet weak var unregisterBtn:UIButton!
     @IBOutlet weak var segmentedControl: UISegmentedControl!{
         didSet{
             segmentedControl.setTitle(likedText, forSegmentAt: 0)
@@ -622,6 +623,65 @@ class UserProfileVC: UIViewController, UICollectionViewDelegate, UICollectionVie
         emptyView.contentView.layer.borderColor = UIColor.clear.cgColor
         emptyView.contentView.layer.backgroundColor = UIColor.clear.cgColor
     }
+    
+    @IBAction func deleteUser(_ sender: UIButton) {
+        guard let currentUser = LCApplication.default.currentUser else {
+            return
+        }
+        print("Current user is logged in with ID: \(currentUser.objectId!)")
+
+        let alertController = UIAlertController(title: userUnregiseterTitleText, message: userUnregiseterQuestionText, preferredStyle: .alert)
+        
+        let deleteAction = UIAlertAction(title: userUnregiseterButtonText, style: .destructive) { _ in
+            print("User confirmed account deletion.")
+            let user = LCObject(className: "_User", objectId: currentUser.objectId!)
+            let deleteSuccessful = LCUser.delete([user])
+            
+            if deleteSuccessful.isSuccess {
+                print("Account deleted successfully.")
+                self.dismiss(animated: true, completion: {
+                    LCUser.logOut()
+                    self.settingVC.setDisplayNameAndUpdate(name: "")
+                    self.settingVC.view.makeToast(userUnregiseterSuccessText, duration: 1.0, position: .center)
+                })
+            } else {
+                print("Failed to delete account: \(String(describing: deleteSuccessful.error?.localizedDescription))")
+                self.dismiss(animated: true, completion: {
+                    LCUser.logOut()
+                    self.settingVC.setDisplayNameAndUpdate(name: "")
+                    self.view.makeToast(userUnregiseterFailText, duration: 1.5, position: .center)
+                })
+            }
+        }
+        
+        let cancelAction = UIAlertAction(title: cancelText, style: .cancel, handler: nil)
+        
+        alertController.addAction(deleteAction)
+        alertController.addAction(cancelAction)
+        
+        if let topViewController = getTopMostViewController() {
+                topViewController.present(alertController, animated: true, completion: nil)
+            }
+    }
+    
+    func getTopMostViewController() -> UIViewController? {
+        guard let window = UIApplication.shared.connectedScenes
+                .filter({ $0.activationState == .foregroundActive })
+                .compactMap({ $0 as? UIWindowScene })
+                .first?.windows
+                .filter({ $0.isKeyWindow }).first else {
+            return nil
+        }
+
+        var topController: UIViewController? = window.rootViewController
+
+        while let presentedViewController = topController?.presentedViewController {
+            topController = presentedViewController
+        }
+
+        return topController
+    }
+
     
     
     @IBAction func logout(_ sender: UIButton) {

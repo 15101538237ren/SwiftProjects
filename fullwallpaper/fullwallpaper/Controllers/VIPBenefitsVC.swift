@@ -281,7 +281,7 @@ class VIPBenefitsVC: UIViewController, UICollectionViewDelegate, UICollectionVie
     // Functions Related too CollectionView
     func setupCollectionView() {
         vips = [
-            VIP(duration: failedReason == .notPurchasedNewUser ? freetrialText: oneYearText, purchase: .YearVIP, price: failedReason == .notPurchasedNewUser ? 0: 28, pastPrice: failedReason == .notPurchasedNewUser ? 28: 56, numOfMonth: 12),
+            VIP(duration: oneYearText, purchase: .YearVIP, price: 28, pastPrice: 56, numOfMonth: 12),
             VIP(duration: threeMonthText, purchase: .ThreeMonthVIP, price: 12, pastPrice: 24, numOfMonth: 3),
             VIP(duration: oneMonthText, purchase: .OneMonthVIP, price: 6, pastPrice: 12, numOfMonth: 1)]
         
@@ -335,7 +335,7 @@ class VIPBenefitsVC: UIViewController, UICollectionViewDelegate, UICollectionVie
         attributeString.addAttribute(NSAttributedString.Key.strikethroughStyle, value: 2, range: NSMakeRange(0, attributeString.length))
         cell.pastPriceLabel.attributedText = attributeString
         
-        if price == 0{
+        if row == 0{
             if english{
                 cell.amountSavedLabel.text = "1 Month Free"
                 cell.avgPriceLabel.text = "then ¥28.00/Year"
@@ -375,11 +375,7 @@ class VIPBenefitsVC: UIViewController, UICollectionViewDelegate, UICollectionVie
     
     func changeBtnTextOrTextBoxAlpha(){
         if vips.count > selectedIndex{
-            if vips[selectedIndex].price == 0{
-                subscribeBtn.setTitle(tryNowText, for: .normal)
-            }else{
-                subscribeBtn.setTitle(beVIPText, for: .normal)
-            }
+            subscribeBtn.setTitle(beVIPText, for: .normal)
         }
     }
     

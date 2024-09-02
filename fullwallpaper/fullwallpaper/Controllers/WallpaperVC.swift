@@ -55,8 +55,9 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
         }
     }
     @IBOutlet weak var collectionView: UICollectionView!
-    @IBOutlet weak var menuBtn: UIButton!
+    @IBOutlet weak var searchBtn: UIButton!
     @IBOutlet weak var sortBtn: UIButton!
+    
     
     
     func popPrivacyMessage(){
@@ -396,6 +397,11 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
         emptyView.contentView.layer.backgroundColor = UIColor.clear.cgColor
     }
     
+    
+    @IBAction func presentSearchVC( _ sender: UIButton){
+        loadSearchVC()
+    }
+    
     @IBAction func presentSortMenu(_ sender: UIButton){
             let iconWidthHeight:CGFloat = 20
             let popAction = PopMenuDefaultAction(title: popularText, image: UIImage(named: "heart-fill-icon"), color: UIColor.lightGray)
@@ -415,41 +421,41 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
             self.present(menuVC, animated: true, completion: nil)
     }
     
-    @IBAction func uploadImage(_ sender: UIButton){
-        if let _ = LCApplication.default.currentUser {
-            self.selectImage()
-        } else {
-            // 显示注册或登录页面
-            self.showLoginOrRegisterVC()
-        }
-    }
+//    @IBAction func uploadImage(_ sender: UIButton){
+//        if let _ = LCApplication.default.currentUser {
+//            self.selectImage()
+//        } else {
+//            // 显示注册或登录页面
+//            self.showLoginOrRegisterVC()
+//        }
+//    }
+//    
     
-    
-    @IBAction func presentPopMenu(_ sender: UIButton) {
-            let iconWidthHeight:CGFloat = 20
-            let searchAction = PopMenuDefaultAction(title: searchWPText, image: UIImage(named: "search"), color: UIColor.lightGray)
-            let uploadAction = PopMenuDefaultAction(title: uploadShortText, image: UIImage(named: "upload"), color: UIColor.lightGray)
-        
-            searchAction.iconWidthHeight = iconWidthHeight
-            uploadAction.iconWidthHeight = iconWidthHeight
-            
-            var popActions: [PopMenuAction] = [searchAction, uploadAction]
-            
-            if isAdmin{
-                let auditAction = PopMenuDefaultAction(title: auditWPText, image: UIImage(named: "audit"), color: UIColor.lightGray)
-                
-                auditAction.iconWidthHeight = iconWidthHeight
-                popActions.append(auditAction)
-            }
-        
-            let menuVC = PopMenuViewController(sourceView:sender, actions: popActions)
-            menuVC.delegate = self
-            menuVC.view.tag = 1
-            menuVC.appearance.popMenuFont = .systemFont(ofSize: 15, weight: .regular)
-            
-            menuVC.appearance.popMenuColor.backgroundColor = .solid(fill: .white)
-            self.present(menuVC, animated: true, completion: nil)
-        }
+//    @IBAction func presentPopMenu(_ sender: UIButton) {
+//            let iconWidthHeight:CGFloat = 20
+//            let searchAction = PopMenuDefaultAction(title: searchWPText, image: UIImage(named: "search"), color: UIColor.lightGray)
+//            let uploadAction = PopMenuDefaultAction(title: uploadShortText, image: UIImage(named: "upload"), color: UIColor.lightGray)
+//        
+//            searchAction.iconWidthHeight = iconWidthHeight
+//            uploadAction.iconWidthHeight = iconWidthHeight
+//            
+//            var popActions: [PopMenuAction] = [searchAction, uploadAction]
+//            
+//            if isAdmin{
+//                let auditAction = PopMenuDefaultAction(title: auditWPText, image: UIImage(named: "audit"), color: UIColor.lightGray)
+//                
+//                auditAction.iconWidthHeight = iconWidthHeight
+//                popActions.append(auditAction)
+//            }
+//        
+//            let menuVC = PopMenuViewController(sourceView:sender, actions: popActions)
+//            menuVC.delegate = self
+//            menuVC.view.tag = 1
+//            menuVC.appearance.popMenuFont = .systemFont(ofSize: 15, weight: .regular)
+//            
+//            menuVC.appearance.popMenuColor.backgroundColor = .solid(fill: .white)
+//            self.present(menuVC, animated: true, completion: nil)
+//        }
     
     func showLoginOrRegisterVC() {
         let LoginRegStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
@@ -511,31 +517,31 @@ extension WallpaperVC: PopMenuViewControllerDelegate {
 
     // This will be called when a pop menu action was selected
     func popMenuDidSelectItem(_ popMenuViewController: PopMenuViewController, at index: Int) {
-        if popMenuViewController.view.tag == 1{
-            if index == 0{
-                initIndicator(view: self.view)
-                checkIfVIPSubsciptionValid(successCompletion: { [self] in
-                        loadSearchVC()
-                    }
-                    , failedCompletion: { [self] reason in
-                        showVIPBenefitsVC(failedReason: reason, showReason: .PRO_SEARCH)
-                    })
-            }
-            else if index == 1{
-                self.dismiss(animated: false, completion: {
-                    if let _ = LCApplication.default.currentUser {
-                        self.selectImage()
-                    } else {
-                        // 显示注册或登录页面
-                        self.showLoginOrRegisterVC()
-                    }
-                })
-            }else if index == 2{
-                if isAdmin{
-                    loadAuditVC()
-                }
-            }
-        }else{
+//        if popMenuViewController.view.tag == 1{
+//            if index == 0{
+//                initIndicator(view: self.view)
+//                checkIfVIPSubsciptionValid(successCompletion: { [self] in
+//                        loadSearchVC()
+//                    }
+//                    , failedCompletion: { [self] reason in
+//                        showVIPBenefitsVC(failedReason: reason, showReason: .PRO_SEARCH)
+//                    })
+//            }
+//            else if index == 1{
+//                self.dismiss(animated: false, completion: {
+//                    if let _ = LCApplication.default.currentUser {
+//                        self.selectImage()
+//                    } else {
+//                        // 显示注册或登录页面
+//                        self.showLoginOrRegisterVC()
+//                    }
+//                })
+//            }else if index == 2{
+//                if isAdmin{
+//                    loadAuditVC()
+//                }
+//            }
+//        }else{
             if index == 0{
                 if sortType != .byLike{
                     sortType = .byLike
@@ -557,7 +563,7 @@ extension WallpaperVC: PopMenuViewControllerDelegate {
                     loadWallpapers()
                 }
             }
-        }
+//        }
         
     }
 }
