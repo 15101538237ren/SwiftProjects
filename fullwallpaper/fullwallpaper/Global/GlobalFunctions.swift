@@ -309,6 +309,7 @@ func loadCategories(completion: @escaping () -> Void)
     DispatchQueue.global(qos: .utility).async {
     do {
         let query = LCQuery(className: "Category")
+        query.whereKey("popularity", .descending)
         let updated_count = query.count()
         print("Fetched \(updated_count.intValue) categories")
         if categories.count != updated_count.intValue{

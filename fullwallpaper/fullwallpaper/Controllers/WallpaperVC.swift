@@ -376,6 +376,9 @@ class WallpaperVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
             stopIndicator()
             showVIPBenefitsVC(failedReason: reason, showReason: wallpaper.isPro ? .PRO_WALLPAPER : .DOWNLOAD_FREE_WALLPAPER_OVER_LIMIT)
         })
+//        if let imgUrl = URL(string: wallpaper.imgUrl){
+//            loadDetailVC(imageUrl: imgUrl, wallpaperObjectId: wallpaper.objectId, pro:wallpaper.isPro)
+//        }
     }
     
     private func handleLoadMore() {

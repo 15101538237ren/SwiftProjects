@@ -213,78 +213,139 @@ class WallpaperDetailVC: UIViewController {
         }
     }
     
-    func downloadImage(){
-        if let user = LCApplication.default.currentUser {
-            initIndicator(view: view)
-            if let image = imageView.image{
-                do{
-                    let wallpaper = LCObject(className: "Wallpaper", objectId: wallpaperObjectId!)
-                    try wallpaper.increase("likes", by: 1)
-                    wallpaper.save { (result) in
-                            switch result {
-                            case .success:
-                                DispatchQueue.main.async {
-                                    do {
-                                        try user.append("likedWPs", element: self.wallpaperObjectId!, unique: true)
-                                        
-                                        user.save{ [self] (result) in
-                                            switch result {
-                                            case .success:
-                                                
-                                                var info = ["Um_Key_ContentID": wallpaper.objectId!.stringValue!] as [String : Any]
-                                                
-                                                if let caption = wallpaper.get("caption"){
-                                                    info["Um_Key_ContentName"] = caption.stringValue
-                                                }
-                                                
-                                                if let category = wallpaper.get("category"){
-                                                    info["Um_Key_ContentCategory"] = category.stringValue
-                                                }
-                                                
-                                                if let uploader = wallpaper.get("uploader") as? LCObject {
-                                                    info["Um_Key_PublisherID"] = uploader.objectId!.stringValue!
-                                                }
-                                                
-                                                if let user = LCApplication.default.currentUser{
-                                                    let userId = user.objectId!.stringValue!
-                                                    info["Um_Key_UserID"] = userId
-                                                }
-                                                UMAnalyticsSwift.event(eventId: "Um_Event_ContentFavorite", attributes: info)
-                                                
-                                                userLikedWPs.append(self.wallpaperObjectId!)
-                                                stopIndicator()
-                                                
-                                                UIImageWriteToSavedPhotosAlbum(image, self, #selector(image(_:didFinishSavingWithError:contextInfo:)), nil)
-                                                
-                                            case .failure:
-                                                stopIndicator()
-                                                self.view.makeToast(downloadFailedPlsRetryText, duration: 1.0, position: .center)
-                                            }
-                                        }
-                                    } catch {
-                                        stopIndicator()
-                                        self.view.makeToast(downloadFailedPlsRetryText, duration: 1.0, position: .center)
-                                    }
-                                }
-                            case .failure:
-                                stopIndicator()
-                                self.view.makeToast(downloadFailedPlsRetryText, duration: 1.0, position: .center)
-                            }
-                        }
-                } catch {
-                    stopIndicator()
-                    self.view.makeToast(downloadFailedPlsRetryText, duration: 1.0, position: .center)
-                }
-            }else{
-                stopIndicator()
-                self.view.makeToast(downloadFailedPlsRetryText, duration: 1.0, position: .center)
+    func downloadImage() {
+        // First, save the image to the photo album
+        if let image = imageView.image {
+            DispatchQueue.main.async {
+                UIImageWriteToSavedPhotosAlbum(image, self, #selector(self.image(_:didFinishSavingWithError:contextInfo:)), nil)
             }
         } else {
-            if let image = imageView.image{
-                UIImageWriteToSavedPhotosAlbum(image, self, #selector(image(_:didFinishSavingWithError:contextInfo:)), nil)
+            stopIndicator()
+            self.view.makeToast(downloadFailedPlsRetryText, duration: 1.0, position: .center)
+            return // Exit early if there's no image to save
+        }
+        
+        // Proceed with the statistics and other operations quietly
+        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+            guard let self = self else { return }
+            let wallpaperQuery = LCQuery(className: "Wallpaper")
+            
+            wallpaperQuery.get(self.wallpaperObjectId) { result in
+                switch result {
+                case .success(object: let wallpaper):
+                    self.handleWallpaperQuietly(wallpaper)
+                case .failure(let error):
+                    print("Failed to retrieve wallpaper: \(error.localizedDescription)")
+                }
             }
         }
     }
+
+    // MARK: - Helper Methods
+
+    private func handleWallpaperQuietly(_ wallpaper: LCObject) {
+        print("Handling wallpaper quietly. Wallpaper ID: \(wallpaper.objectId?.stringValue ?? "Unknown")")
+        
+        // Fetch the category associated with the wallpaper
+        if let categoryName = wallpaper.get("category")?.stringValue {
+            DispatchQueue.global(qos: .userInitiated).async {
+                let categoryQuery = LCQuery(className: "Category")
+                categoryQuery.whereKey("eng", .equalTo(categoryName))
+                categoryQuery.getFirst { result in
+                    switch result {
+                    case .success(object: let category):
+                        do {
+                            try category.increase("popularity", by: 1)
+                            DispatchQueue.global(qos: .userInitiated).async {
+                                category.save { saveResult in
+                                    if case .failure(let error) = saveResult {
+                                        print("Failed to increase popularity for category: \(categoryName). Error: \(error.localizedDescription)")
+                                    }
+                                }
+                            }
+                        } catch {
+                            print("Error while attempting to increase popularity for category: \(categoryName). Error: \(error.localizedDescription)")
+                        }
+                    case .failure(let error):
+                        print("Failed to find category with name: \(categoryName). Error: \(error.localizedDescription)")
+                    }
+                }
+            }
+        } else {
+            print("No category name found for wallpaper with objectId: \(wallpaper.objectId?.stringValue ?? "Unknown")")
+        }
+        
+        // Increase the likes of the wallpaper quietly
+        DispatchQueue.global(qos: .userInitiated).async {
+            do {
+                try wallpaper.increase("likes", by: 1)
+                wallpaper.save { [weak self] result in
+                    switch result {
+                    case .success:
+                        self?.updateUserLikedWallpapers(wallpaper: wallpaper)
+                    case .failure(let error):
+                        print("Failed to save wallpaper like increment. Error: \(error.localizedDescription)")
+                    }
+                }
+            } catch {
+                print("Failed to increment likes for wallpaper with ID: \(wallpaper.objectId?.stringValue ?? "Unknown"). Error: \(error.localizedDescription)")
+            }
+        }
+    }
+
+    private func updateUserLikedWallpapers(wallpaper: LCObject) {
+        guard let user = LCApplication.default.currentUser else {
+            return // Exit if no user is logged in
+        }
+        
+        DispatchQueue.global(qos: .userInitiated).async {
+            do {
+                try user.append("likedWPs", element: self.wallpaperObjectId!, unique: true)
+                user.save { result in
+                    if case .success = result {
+                        self.logAnalytics(wallpaper: wallpaper)
+                        userLikedWPs.append(self.wallpaperObjectId!)
+                    }
+                }
+            } catch {
+                print("Failed to append liked wallpaper to user: \(error.localizedDescription)")
+            }
+        }
+    }
+
+    private func logAnalytics(wallpaper: LCObject) {
+        // Ensure this runs on the main thread
+        DispatchQueue.global(qos: .utility).async {
+            var info = [String: Any]()
+            
+            if let objectId = wallpaper.objectId?.stringValue {
+                info["Um_Key_ContentID"] = objectId
+            } else {
+                print("Warning: wallpaper.objectId is nil")
+            }
+            
+            if let caption = wallpaper.get("caption")?.stringValue {
+                info["Um_Key_ContentName"] = caption
+            }
+            
+            if let category = wallpaper.get("category")?.stringValue {
+                info["Um_Key_ContentCategory"] = category
+            }
+            
+            if let uploader = wallpaper.get("uploader") as? LCObject, let uploaderId = uploader.objectId?.stringValue {
+                info["Um_Key_PublisherID"] = uploaderId
+            }
+            
+            if let user = LCApplication.default.currentUser, let userId = user.objectId?.stringValue {
+                info["Um_Key_UserID"] = userId
+            }
+            
+            // Log the event
+            UMAnalyticsSwift.event(eventId: "Um_Event_ContentFavorite", attributes: info)
+        }
+    }
+
+
     
     func showLoginOrRegisterVC(action: String) {
         let LoginRegStoryBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
